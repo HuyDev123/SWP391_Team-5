@@ -22,7 +22,7 @@
 - [ ] Giao diện cập nhật trạng thái từng đơn xét nghiệm (đã nhận mẫu, đang xét nghiệm, hoàn tất, đã trả kết quả)
 - [ ] Form nhập kết quả xét nghiệm, upload file PDF kết quả
 - [ ] Giao diện chỉnh sửa thông tin khách hẹn (nếu cần)
-- [ ] Thông báo nhắc nhở các đơn chưa hoàn thành
+- [ ] Thông báo nhắc nhở có đơn mới
 
 ## Thành viên 4: Quản lý (Manager) & Quản trị viên (Admin)
 - [ ] Dashboard tổng hợp: số lịch hẹn, trạng thái, doanh thu, thống kê feedback
