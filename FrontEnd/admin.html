@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DNA Testing Admin System</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="assets/css/manager.css" />
+  </head>
+  <body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="logo">
+          <img src="https://via.placeholder.com/40" alt="Logo" />
+          <h1>Xét Nghiệm DNA</h1>
+        </div>
+        <div class="user-info">
+          <div class="user-avatar">A</div>
+          <div>
+            <div class="user-name">Admin Hoàng</div>
+            <div class="user-role">Admin</div>
+          </div>
+        </div>
+      </div>
+      <div class="sidebar-menu">
+        <div class="menu-title">Menu Chính</div>
+        <ul class="menu-items">
+          <li class="menu-item">
+            <a href="#" class="menu-link active" data-page="dashboard">
+              <i class="fas fa-tachometer-alt"></i>
+              <span>Bảng điều khiển</span>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="#" class="menu-link" data-page="user-management">
+              <i class="fas fa-users-cog"></i>
+              <span>Quản lý người dùng</span>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="#" class="menu-link" data-page="staff-management">
+              <i class="fas fa-user-md"></i>
+              <span>Quản lý nhân viên</span>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="#" class="menu-link" data-page="service-management">
+              <i class="fas fa-clipboard-list"></i>
+              <span>Quản lý dịch vụ</span>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="#" class="menu-link" data-page="test-management">
+              <i class="fas fa-flask"></i>
+              <span>Quản lý xét nghiệm</span>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="#" class="menu-link" data-page="system-logs">
+              <i class="fas fa-file-alt"></i>
+              <span>Nhật ký hệ thống</span>
+            </a>
+          </li>
+        </ul>
+
+        <div class="menu-title" style="margin-top: 30px">Quản trị hệ thống</div>
+        <ul class="menu-items">
+          <li class="menu-item">
+            <a href="#" class="menu-link" data-page="settings">
+              <i class="fas fa-cog"></i>
+              <span>Cài đặt hệ thống</span>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="#" class="menu-link" data-page="backups">
+              <i class="fas fa-database"></i>
+              <span>Sao lưu & Phục hồi</span>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="#" class="menu-link" data-page="permissions">
+              <i class="fas fa-lock"></i>
+              <span>Phân quyền</span>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="#" class="menu-link" data-page="integrations">
+              <i class="fas fa-plug"></i>
+              <span>Tích hợp</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </aside>
+    <!-- Main Content -->
+    <div class="main-content">
+      <!-- Header -->
+      <header class="header">
+        <button class="toggle-sidebar">
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="search-box">
+          <i class="fas fa-search"></i>
+          <input type="text" placeholder="Tìm kiếm..." />
+        </div>
+        <div class="notifications">
+          <div style="position: relative">
+            <i class="fas fa-bell notification-icon"></i>
+            <span class="notification-badge">5</span>
+          </div>
+          <div style="position: relative">
+            <i class="fas fa-envelope notification-icon"></i>
+            <span class="notification-badge">3</span>
+          </div>
+        </div>
+      </header>
+      <!-- Dashboard Content -->
+      <div class="dashboard">
+        <h2 class="page-title">Bảng điều khiển Admin</h2>
+        <!-- Stats Cards -->
+        <div class="stats-container">
+          <div class="stat-card">
+            <div class="stat-header">
+              <div class="stat-title">Tổng người dùng</div>
+              <div class="stat-icon patients">
+                <i class="fas fa-users"></i>
+              </div>
+            </div>
+            <div class="stat-value">3,785</div>
+            <div class="stat-description">
+              <span class="positive">+8%</span> so với tháng trước
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-header">
+              <div class="stat-title">Nhân viên</div>
+              <div class="stat-icon appointments">
+                <i class="fas fa-user-md"></i>
+              </div>
+            </div>
+            <div class="stat-value">45</div>
+            <div class="stat-description">
+              <span class="positive">+2</span> nhân viên mới
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-header">
+              <div class="stat-title">Tổng doanh thu</div>
+              <div class="stat-icon revenue">
+                <i class="fas fa-dollar-sign"></i>
+              </div>
+            </div>
+            <div class="stat-value">245,8 triệu</div>
+            <div class="stat-description">
+              <span class="positive">+12%</span> so với tháng trước
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-header">
+              <div class="stat-title">Dịch vụ hoạt động</div>
+              <div class="stat-icon" style="background-color: #8bc34a">
+                <i class="fas fa-clipboard-check"></i>
+              </div>
+            </div>
+            <div class="stat-value">12</div>
+            <div class="stat-description">
+              <span class="positive">+2</span> dịch vụ mới
+            </div>
+          </div>
+        </div>
+        <!-- Grid Layout for Charts and Tables -->
+        <div class="grid-container">
+          <!-- User Statistics Chart -->
+          <div class="chart-container">
+            <div class="section-header">
+              <h3 class="section-title">Thống kê người dùng</h3>
+              <div class="section-actions">
+                <select id="userStatsTimeRange">
+                  <option>7 ngày qua</option>
+                  <option>30 ngày qua</option>
+                  <option>90 ngày qua</option>
+                  <option>Năm qua</option>
+                </select>
+              </div>
+            </div>
+            <div class="chart">
+              <canvas id="userStatsChart"></canvas>
+            </div>
+          </div>
+          <!-- Recent Activities -->
+          <div class="appointments-container">
+            <div class="section-header">
+              <h3 class="section-title">Hoạt động gần đây</h3>
+              <div class="section-actions">
+                <button id="viewAllActivities">Xem tất cả</button>
+              </div>
+            </div>
+            <div class="appointments-list" id="recentActivitiesList">
+              <div class="appointment-item">
+                <div class="appointment-avatar">
+                  <i class="fas fa-user-plus"></i>
+                </div>
+                <div class="appointment-details">
+                  <div class="appointment-name">Tài khoản mới được tạo</div>
+                  <div class="appointment-info">
+                    <span
+                      ><i class="fas fa-calendar"></i> Hôm nay, 10:15 AM</span
+                    >
+                    <span><i class="fas fa-user"></i> Nguyễn Văn A</span>
+                  </div>
+                </div>
+                <div class="appointment-status status-scheduled">
+                  Đã xác minh
+                </div>
+              </div>
+              <div class="appointment-item">
+                <div class="appointment-avatar">
+                  <i class="fas fa-cog"></i>
+                </div>
+                <div class="appointment-details">
+                  <div class="appointment-name">Thay đổi cài đặt hệ thống</div>
+                  <div class="appointment-info">
+                    <span
+                      ><i class="fas fa-calendar"></i> Hôm nay, 9:30 AM</span
+                    >
+                    <span><i class="fas fa-user"></i> Admin Trần</span>
+                  </div>
+                </div>
+                <div class="appointment-status status-scheduled">
+                  Hoàn thành
+                </div>
+              </div>
+              <div class="appointment-item">
+                <div class="appointment-avatar">
+                  <i class="fas fa-database"></i>
+                </div>
+                <div class="appointment-details">
+                  <div class="appointment-name">Sao lưu dữ liệu tự động</div>
+                  <div class="appointment-info">
+                    <span
+                      ><i class="fas fa-calendar"></i> Hôm nay, 2:00 AM</span
+                    >
+                    <span><i class="fas fa-hdd"></i> Hệ thống</span>
+                  </div>
+                </div>
+                <div class="appointment-status status-scheduled">
+                  Thành công
+                </div>
+              </div>
+              <div class="appointment-item">
+                <div class="appointment-avatar">
+                  <i class="fas fa-user-edit"></i>
+                </div>
+                <div class="appointment-details">
+                  <div class="appointment-name">Cập nhật quyền người dùng</div>
+                  <div class="appointment-info">
+                    <span
+                      ><i class="fas fa-calendar"></i> Hôm qua, 4:45 PM</span
+                    >
+                    <span><i class="fas fa-user"></i> Admin Hoàng</span>
+                  </div>
+                </div>
+                <div class="appointment-status status-scheduled">
+                  Hoàn thành
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- System Health -->
+        <div class="table-container">
+          <div class="section-header">
+            <h3 class="section-title">Tình trạng hệ thống</h3>
+            <div class="section-actions">
+              <button id="refreshSystemHealth">Làm mới</button>
+            </div>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Dịch vụ</th>
+                <th>Trạng thái</th>
+                <th>Thời gian hoạt động</th>
+                <th>Tải hiện tại</th>
+                <th>Bảo trì</th>
+              </tr>
+            </thead>
+            <tbody id="systemHealthTable">
+              <tr>
+                <td>Máy chủ web</td>
+                <td>
+                  <span
+                    class="badge"
+                    style="
+                      background-color: #4caf50;
+                      color: white;
+                      padding: 3px 8px;
+                      border-radius: 3px;
+                    "
+                    >Hoạt động</span
+                  >
+                </td>
+                <td>45 ngày, 7 giờ</td>
+                <td>
+                  <div
+                    class="progress-bar"
+                    style="width: 65%; background-color: #4caf50"
+                  >
+                    65%
+                  </div>
+                </td>
+                <td>Không có</td>
+              </tr>
+              <tr>
+                <td>Máy chủ cơ sở dữ liệu</td>
+                <td>
+                  <span
+                    class="badge"
+                    style="
+                      background-color: #4caf50;
+                      color: white;
+                      padding: 3px 8px;
+                      border-radius: 3px;
+                    "
+                    >Hoạt động</span
+                  >
+                </td>
+                <td>45 ngày, 7 giờ</td>
+                <td>
+                  <div
+                    class="progress-bar"
+                    style="width: 78%; background-color: #ff9800"
+                  >
+                    78%
+                  </div>
+                </td>
+                <td>Không có</td>
+              </tr>
+              <tr>
+                <td>Hệ thống sao lưu</td>
+                <td>
+                  <span
+                    class="badge"
+                    style="
+                      background-color: #4caf50;
+                      color: white;
+                      padding: 3px 8px;
+                      border-radius: 3px;
+                    "
+                    >Hoạt động</span
+                  >
+                </td>
+                <td>45 ngày, 6 giờ</td>
+                <td>
+                  <div
+                    class="progress-bar"
+                    style="width: 25%; background-color: #4caf50"
+                  >
+                    25%
+                  </div>
+                </td>
+                <td>Không có</td>
+              </tr>
+              <tr>
+                <td>API Gateway</td>
+                <td>
+                  <span
+                    class="badge"
+                    style="
+                      background-color: #4caf50;
+                      color: white;
+                      padding: 3px 8px;
+                      border-radius: 3px;
+                    "
+                    >Hoạt động</span
+                  >
+                </td>
+                <td>10 ngày, 3 giờ</td>
+                <td>
+                  <div
+                    class="progress-bar"
+                    style="width: 42%; background-color: #4caf50"
+                  >
+                    42%
+                  </div>
+                </td>
+                <td>20/06/2025</td>
+              </tr>
+              <tr>
+                <td>Hệ thống email</td>
+                <td>
+                  <span
+                    class="badge"
+                    style="
+                      background-color: #ff9800;
+                      color: white;
+                      padding: 3px 8px;
+                      border-radius: 3px;
+                    "
+                    >Cảnh báo</span
+                  >
+                </td>
+                <td>45 ngày, 7 giờ</td>
+                <td>
+                  <div
+                    class="progress-bar"
+                    style="width: 92%; background-color: #f44336"
+                  >
+                    92%
+                  </div>
+                </td>
+                <td>Kiểm tra ngay</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- Recent Logs Table -->
+        <div class="table-container">
+          <div class="section-header">
+            <h3 class="section-title">Nhật ký hệ thống gần đây</h3>
+            <div class="section-actions">
+              <button id="viewAllLogs">Xem tất cả</button>
+            </div>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Mã nhật ký</th>
+                <th>Thời gian</th>
+                <th>Người dùng</th>
+                <th>Hoạt động</th>
+                <th>IP</th>
+                <th>Mức độ</th>
+                <th>Thao tác</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>LOG-2345</td>
+                <td>21/05/2025 10:15:22</td>
+                <td>Nguyễn Văn A</td>
+                <td>Đăng nhập thành công</td>
+                <td>192.168.1.45</td>
+                <td>
+                  <span
+                    class="badge"
+                    style="
+                      background-color: #4caf50;
+                      color: white;
+                      padding: 3px 8px;
+                      border-radius: 3px;
+                    "
+                    >Info</span
+                  >
+                </td>
+                <td>
+                  <a href="#" class="action-btn view-btn">Chi tiết</a>
+                </td>
+              </tr>
+              <tr>
+                <td>LOG-2344</td>
+                <td>21/05/2025 10:10:05</td>
+                <td>Admin Trần</td>
+                <td>Thay đổi cài đặt hệ thống</td>
+                <td>192.168.1.10</td>
+                <td>
+                  <span
+                    class="badge"
+                    style="
+                      background-color: #ff9800;
+                      color: white;
+                      padding: 3px 8px;
+                      border-radius: 3px;
+                    "
+                    >Warning</span
+                  >
+                </td>
+                <td>
+                  <a href="#" class="action-btn view-btn">Chi tiết</a>
+                </td>
+              </tr>
+              <tr>
+                <td>LOG-2343</td>
+                <td>21/05/2025 09:47:33</td>
+                <td>Hệ thống</td>
+                <td>Sao lưu dữ liệu tự động hoàn thành</td>
+                <td>127.0.0.1</td>
+                <td>
+                  <span
+                    class="badge"
+                    style="
+                      background-color: #4caf50;
+                      color: white;
+                      padding: 3px 8px;
+                      border-radius: 3px;
+                    "
+                    >Info</span
+                  >
+                </td>
+                <td>
+                  <a href="#" class="action-btn view-btn">Chi tiết</a>
+                </td>
+              </tr>
+              <tr>
+                <td>LOG-2342</td>
+                <td>21/05/2025 09:22:17</td>
+                <td>Hệ thống email</td>
+                <td>Cảnh báo tải cao</td>
+                <td>127.0.0.1</td>
+                <td>
+                  <span
+                    class="badge"
+                    style="
+                      background-color: #f44336;
+                      color: white;
+                      padding: 3px 8px;
+                      border-radius: 3px;
+                    "
+                    >Error</span
+                  >
+                </td>
+                <td>
+                  <a href="#" class="action-btn view-btn">Chi tiết</a>
+                </td>
+              </tr>
+              <tr>
+                <td>LOG-2341</td>
+                <td>21/05/2025 08:56:41</td>
+                <td>Admin Hoàng</td>
+                <td>Cập nhật quyền người dùng</td>
+                <td>192.168.1.15</td>
+                <td>
+                  <span
+                    class="badge"
+                    style="
+                      background-color: #4caf50;
+                      color: white;
+                      padding: 3px 8px;
+                      border-radius: 3px;
+                    "
+                    >Info</span
+                  >
+                </td>
+                <td>
+                  <a href="#" class="action-btn view-btn">Chi tiết</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <!-- User Management Page -->
+    <div
+      class="main-content page-content"
+      id="user-management-page"
+      style="display: none"
+    >
+      <h2 class="page-title">Quản lý người dùng</h2>
+      <!-- User Management Content Will Be Here -->
+    </div>
+
+    <!-- Staff Management Page -->
+    <div
+      class="main-content page-content"
+      id="staff-management-page"
+      style="display: none"
+    >
+      <h2 class="page-title">Quản lý nhân viên</h2>
+      <!-- Staff Management Content Will Be Here -->
+    </div>
+
+    <!-- Service Management Page -->
+    <div
+      class="main-content page-content"
+      id="service-management-page"
+      style="display: none"
+    >
+      <h2 class="page-title">Quản lý dịch vụ</h2>
+      <!-- Service Management Content Will Be Here -->
+    </div>
+
+    <!-- Test Management Page -->
+    <div
+      class="main-content page-content"
+      id="test-management-page"
+      style="display: none"
+    >
+      <h2 class="page-title">Quản lý xét nghiệm</h2>
+      <!-- Test Management Content Will Be Here -->
+    </div>
+
+    <!-- System Logs Page -->
+    <div
+      class="main-content page-content"
+      id="system-logs-page"
+      style="display: none"
+    >
+      <h2 class="page-title">Nhật ký hệ thống</h2>
+      <!-- System Logs Content Will Be Here -->
+    </div>
+
+    <!-- Settings Page -->
+    <div
+      class="main-content page-content"
+      id="settings-page"
+      style="display: none"
+    >
+      <h2 class="page-title">Cài đặt hệ thống</h2>
+      <!-- Settings Content Will Be Here -->
+    </div>
+
+    <!-- Backups Page -->
+    <div
+      class="main-content page-content"
+      id="backups-page"
+      style="display: none"
+    >
+      <h2 class="page-title">Sao lưu & Phục hồi</h2>
+      <!-- Backups Content Will Be Here -->
+    </div>
+
+    <!-- Permissions Page -->
+    <div
+      class="main-content page-content"
+      id="permissions-page"
+      style="display: none"
+    >
+      <h2 class="page-title">Phân quyền</h2>
+      <!-- Permissions Content Will Be Here -->
+    </div>
+
+    <!-- Integrations Page -->
+    <div
+      class="main-content page-content"
+      id="integrations-page"
+      style="display: none"
+    >
+      <h2 class="page-title">Tích hợp</h2>
+      <!-- Integrations Content Will Be Here -->
+    </div>
+    <!-- Chart.js Library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Custom JavaScript -->
+    <script src="assets/js/manager.js"></script>
+    <!-- Admin specific JS file -->
+    <script src="assets/js/admin.js"></script>
+  </body>
+</html>
