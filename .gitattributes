@@ -1,0 +1,36 @@
+# Git attributes file
+# Cấu hình mặc định: normalize line endings khi commit
+* text=auto
+
+# JavaScript files
+*.js text eol=lf
+*.jsx text eol=lf
+*.json text eol=lf
+*.ts text eol=lf
+*.tsx text eol=lf
+
+# Web files
+*.css text eol=lf
+*.scss text eol=lf
+*.html text eol=lf
+
+# Config files
+*.yml text eol=lf
+*.yaml text eol=lf
+*.config text eol=lf
+*.md text eol=lf
+
+# Package files
+package.json text eol=lf
+package-lock.json text eol=lf
+
+# Binary files - không chuyển đổi
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.eot binary
