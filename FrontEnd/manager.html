@@ -8,6 +8,7 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
     />
+    <link rel="stylesheet" href="assets/css/common.css" />
     <link rel="stylesheet" href="assets/css/manager.css" />
   </head>
   <body>
@@ -21,7 +22,7 @@
         <div class="user-info">
           <div class="user-avatar">M</div>
           <div>
-            <div class="user-name">BS. Huy</div>
+            <div class="user-name">Manager Tuấn</div>
             <div class="user-role">Quản lý</div>
           </div>
         </div>
@@ -38,7 +39,7 @@
           <li class="menu-item">
             <a href="#" class="menu-link" data-page="doctors">
               <i class="fas fa-user-md"></i>
-              <span>Bác sĩ</span>
+              <span>Nhân viên</span>
             </a>
           </li>
           <li class="menu-item">
@@ -73,30 +74,18 @@
           </li> -->
         </ul>
 
-        <div class="menu-title" style="margin-top: 30px">Quản trị</div>
+        <div class="menu-title" style="margin-top: 30px">Hệ thống</div>
         <ul class="menu-items">
-          <li class="menu-item">
-            <a href="#" class="menu-link">
-              <i class="fas fa-hospital"></i>
-              <span>Khoa</span>
-            </a>
-          </li>
-          <li class="menu-item">
-            <a href="#" class="menu-link">
-              <i class="fas fa-pills"></i>
-              <span>Thuốc</span>
-            </a>
-          </li>
-          <li class="menu-item">
-            <a href="#" class="menu-link">
-              <i class="fas fa-file-invoice-dollar"></i>
-              <span>Thanh toán</span>
-            </a>
-          </li>
-          <li class="menu-item">
+          <!-- <li class="menu-item">
             <a href="#" class="menu-link">
               <i class="fas fa-cog"></i>
               <span>Cài đặt</span>
+            </a>
+          </li> -->
+          <li class="menu-item">
+            <a href="#" class="menu-link">
+              <i class="fas fa-sign-out-alt"></i>
+              <span>Đăng xuất</span>
             </a>
           </li>
         </ul>
@@ -112,16 +101,6 @@
         <div class="search-box">
           <i class="fas fa-search"></i>
           <input type="text" placeholder="Tìm kiếm..." />
-        </div>
-        <div class="notifications">
-          <div style="position: relative">
-            <i class="fas fa-bell notification-icon"></i>
-            <span class="notification-badge">3</span>
-          </div>
-          <div style="position: relative">
-            <i class="fas fa-envelope notification-icon"></i>
-            <span class="notification-badge">5</span>
-          </div>
         </div>
       </header>
       <!-- Dashboard Content -->
@@ -391,7 +370,7 @@
           </table>
         </div>
         <!-- Recent Patients Table -->
-        <div class="table-container">
+        <div class="table-container" style="display: none">
           <div class="section-header">
             <h3 class="section-title">Bệnh nhân gần đây</h3>
             <div class="section-actions">
@@ -494,12 +473,31 @@
           align-items: center;
         "
       >
-        <div class="search-box" style="width: 400px">
-          <i class="fas fa-search"></i>
+        <div class="search-box" style="width: 400px; position: relative">
+          <i
+            class="fas fa-search"
+            style="
+              position: absolute;
+              left: 24px;
+              top: 2px;
+              bottom: 0;
+              margin: auto 0;
+              height: 20px;
+              display: flex;
+              align-items: center;
+              color: #888;
+            "
+          ></i>
           <input
             type="text"
             id="testHistorySearch"
             placeholder="Tìm kiếm theo tên hoặc mã bệnh nhân..."
+            style="
+              border: 2px solid #2196f3;
+              box-shadow: 0 1px 4px #2196f322;
+              padding-left: 38px;
+              height: 40px;
+            "
           />
         </div>
         <select
@@ -1506,9 +1504,529 @@
     >
       <!-- Phần div này sẽ chứa nội dung bảng điều khiển -->
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Chart.js Library -->
+    <!-- Doctors Page -->
+    <div
+      class="main-content page-content"
+      id="doctors-page"
+      style="display: none"
+    >
+      <h2 class="page-title">Danh sách nhân viên & bác sĩ</h2>
+      <div
+        style="
+          display: flex;
+          gap: 16px;
+          margin-bottom: 18px;
+          align-items: center;
+        "
+      >
+        <div style="position: relative; width: 320px">
+          <i
+            class="fas fa-search"
+            style="
+              position: absolute;
+              left: 12px;
+              top: 0;
+              bottom: 0;
+              margin: auto 0;
+              height: 20px;
+              display: flex;
+              align-items: center;
+              color: #aaa;
+            "
+          ></i>
+          <input
+            type="text"
+            id="staffSearch"
+            placeholder="Tìm kiếm theo tên, vai trò..."
+            style="
+              width: 100%;
+              height: 40px;
+              line-height: 40px;
+              padding: 0 12px 0 40px;
+              border-radius: 5px;
+              border: 1px solid #ddd;
+              font-size: 16px;
+            "
+          />
+        </div>
+        <select
+          id="staffRoleFilter"
+          style="padding: 8px 12px; border-radius: 5px; border: 1px solid #ddd"
+        >
+          <option value="">Tất cả vai trò</option>
+          <option value="Bác sĩ">Bác sĩ</option>
+          <option value="Điều dưỡng">Điều dưỡng</option>
+          <option value="Nhân viên tư vấn">Nhân viên tư vấn</option>
+          <option value="Nhân viên lấy mẫu">Nhân viên lấy mẫu</option>
+        </select>
+        <input
+          type="date"
+          id="staffDateFilter"
+          style="padding: 8px 12px; border-radius: 5px; border: 1px solid #ddd"
+        />
+      </div>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Mã NV</th>
+              <th>Họ tên</th>
+              <th>Vai trò</th>
+              <th>Số điện thoại</th>
+              <th>Email</th>
+              <th>Ngày làm việc</th>
+              <th>Trạng thái</th>
+              <th>Thao tác</th>
+            </tr>
+          </thead>
+          <tbody id="staffTableBody">
+            <tr>
+              <td>NV-001</td>
+              <td>Nguyễn Văn Tuấn</td>
+              <td>Bác sĩ</td>
+              <td>0901234567</td>
+              <td>tuan.nguyen@dnatest.com</td>
+              <td>22/05/2025</td>
+              <td>
+                <span class="badge" style="background: #4caf50; color: #fff"
+                  >Làm việc</span
+                >
+              </td>
+              <td>
+                <a href="#" class="action-btn sort-room-btn"
+                  >Sắp xếp lịch hẹn</a
+                >
+              </td>
+            </tr>
+            <tr>
+              <td>NV-002</td>
+              <td>Trần Thị Hương</td>
+              <td>Điều dưỡng</td>
+              <td>0912345678</td>
+              <td>huong.tran@dnatest.com</td>
+              <td>22/05/2025</td>
+              <td>
+                <span class="badge" style="background: #4caf50; color: #fff"
+                  >Làm việc</span
+                >
+              </td>
+              <td>
+                <a href="#" class="action-btn sort-room-btn"
+                  >Sắp xếp lịch hẹn</a
+                >
+              </td>
+            </tr>
+            <tr>
+              <td>NV-003</td>
+              <td>Lê Văn Minh</td>
+              <td>Nhân viên tư vấn</td>
+              <td>0923456789</td>
+              <td>minh.le@dnatest.com</td>
+              <td>22/05/2025</td>
+              <td>
+                <span class="badge" style="background: #4caf50; color: #fff"
+                  >Làm việc</span
+                >
+              </td>
+              <td>
+                <a href="#" class="action-btn sort-room-btn"
+                  >Sắp xếp lịch hẹn</a
+                >
+              </td>
+            </tr>
+            <tr>
+              <td>NV-004</td>
+              <td>Phạm Thị Lan</td>
+              <td>Nhân viên lấy mẫu</td>
+              <td>0934567890</td>
+              <td>lan.pham@dnatest.com</td>
+              <td>22/05/2025</td>
+              <td>
+                <span class="badge" style="background: #4caf50; color: #fff"
+                  >Làm việc</span
+                >
+              </td>
+              <td>
+                <a href="#" class="action-btn sort-room-btn"
+                  >Sắp xếp lịch hẹn</a
+                >
+              </td>
+            </tr>
+            <tr>
+              <td>NV-005</td>
+              <td>Hoàng Văn Dũng</td>
+              <td>Bác sĩ</td>
+              <td>0945678901</td>
+              <td>dung.hoang@dnatest.com</td>
+              <td>23/05/2025</td>
+              <td>
+                <span class="badge" style="background: #ff9800; color: #fff"
+                  >Nghỉ phép</span
+                >
+              </td>
+              <td>
+                <a href="#" class="action-btn sort-room-btn"
+                  >Sắp xếp lịch hẹn</a
+                >
+              </td>
+            </tr>
+            <tr>
+              <td>NV-006</td>
+              <td>Ngô Thị Mai</td>
+              <td>Điều dưỡng</td>
+              <td>0956789012</td>
+              <td>mai.ngo@dnatest.com</td>
+              <td>23/05/2025</td>
+              <td>
+                <span class="badge" style="background: #4caf50; color: #fff"
+                  >Làm việc</span
+                >
+              </td>
+              <td>
+                <a href="#" class="action-btn sort-room-btn"
+                  >Sắp xếp lịch hẹn</a
+                >
+              </td>
+            </tr>
+            <tr>
+              <td>NV-007</td>
+              <td>Phạm Văn Bình</td>
+              <td>Nhân viên tư vấn</td>
+              <td>0967890123</td>
+              <td>binh.pham@dnatest.com</td>
+              <td>23/05/2025</td>
+              <td>
+                <span class="badge" style="background: #f44336; color: #fff"
+                  >Đã nghỉ việc</span
+                >
+              </td>
+              <td>
+                <a href="#" class="action-btn sort-room-btn"
+                  >Sắp xếp lịch hẹn</a
+                >
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!-- Patients Page -->
+    <div
+      class="main-content page-content"
+      id="patients-page"
+      style="display: none"
+    >
+      <h2 class="page-title">Danh sách bệnh nhân đi xét nghiệm ADN</h2>
+      <div
+        style="
+          display: flex;
+          gap: 16px;
+          margin-bottom: 18px;
+          align-items: center;
+        "
+      >
+        <div style="position: relative; width: 320px">
+          <i
+            class="fas fa-search"
+            style="
+              position: absolute;
+              left: 12px;
+              top: 0;
+              bottom: 0;
+              margin: auto 0;
+              height: 20px;
+              display: flex;
+              align-items: center;
+              color: #aaa;
+            "
+          ></i>
+          <input
+            type="text"
+            id="patientSearch"
+            placeholder="Tìm kiếm theo tên, mã BN..."
+            style="
+              width: 100%;
+              height: 40px;
+              line-height: 40px;
+              padding: 0 12px 0 40px;
+              border-radius: 5px;
+              border: 1px solid #ddd;
+              font-size: 16px;
+            "
+          />
+        </div>
+        <input
+          type="date"
+          id="patientDateFilter"
+          style="padding: 8px 12px; border-radius: 5px; border: 1px solid #ddd"
+        />
+      </div>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Mã BN</th>
+              <th>Họ tên</th>
+              <th>Tuổi</th>
+              <th>Giới tính</th>
+              <th>Số điện thoại</th>
+              <th>Email</th>
+              <th>Ngày xét nghiệm</th>
+              <th>Trạng thái</th>
+              <th>Thao tác</th>
+            </tr>
+          </thead>
+          <tbody id="patientsTableBody">
+            <tr>
+              <td>BN-1001</td>
+              <td>Nguyễn Thị Hoa</td>
+              <td>32</td>
+              <td>Nữ</td>
+              <td>0911111111</td>
+              <td>hoa.nguyen@gmail.com</td>
+              <td>22/05/2025</td>
+              <td>
+                <span class="badge" style="background: #1e88e5; color: #fff"
+                  >Chờ lấy mẫu</span
+                >
+              </td>
+              <td><a href="#" class="action-btn view-btn">Xem</a></td>
+            </tr>
+            <tr>
+              <td>BN-1002</td>
+              <td>Trần Văn Nam</td>
+              <td>40</td>
+              <td>Nam</td>
+              <td>0922222222</td>
+              <td>nam.tran@gmail.com</td>
+              <td>22/05/2025</td>
+              <td>
+                <span class="badge" style="background: #ff9800; color: #fff"
+                  >Đang xử lý</span
+                >
+              </td>
+              <td><a href="#" class="action-btn view-btn">Xem</a></td>
+            </tr>
+            <tr>
+              <td>BN-1003</td>
+              <td>Lê Thị Hạnh</td>
+              <td>28</td>
+              <td>Nữ</td>
+              <td>0933333333</td>
+              <td>hanh.le@gmail.com</td>
+              <td>21/05/2025</td>
+              <td>
+                <span class="badge" style="background: #4caf50; color: #fff"
+                  >Hoàn thành</span
+                >
+              </td>
+              <td><a href="#" class="action-btn view-btn">Xem</a></td>
+            </tr>
+            <tr>
+              <td>BN-1004</td>
+              <td>Phạm Văn Bình</td>
+              <td>35</td>
+              <td>Nam</td>
+              <td>0944444444</td>
+              <td>binh.pham@gmail.com</td>
+              <td>20/05/2025</td>
+              <td>
+                <span class="badge" style="background: #f44336; color: #fff"
+                  >Hủy</span
+                >
+              </td>
+              <td><a href="#" class="action-btn view-btn">Xem</a></td>
+            </tr>
+            <tr>
+              <td>BN-1005</td>
+              <td>Đỗ Thị Mai</td>
+              <td>24</td>
+              <td>Nữ</td>
+              <td>0955555555</td>
+              <td>mai.do@gmail.com</td>
+              <td>19/05/2025</td>
+              <td>
+                <span class="badge" style="background: #ff9800; color: #fff"
+                  >Đang xử lý</span
+                >
+              </td>
+              <td><a href="#" class="action-btn view-btn">Xem</a></td>
+            </tr>
+            <tr>
+              <td>BN-1006</td>
+              <td>Ngô Văn Dũng</td>
+              <td>38</td>
+              <td>Nam</td>
+              <td>0966666666</td>
+              <td>dung.ngo@gmail.com</td>
+              <td>18/05/2025</td>
+              <td>
+                <span class="badge" style="background: #4caf50; color: #fff"
+                  >Hoàn thành</span
+                >
+              </td>
+              <td><a href="#" class="action-btn view-btn">Xem</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!-- Appointments Page -->
+    <div
+      class="main-content page-content"
+      id="appointments-page"
+      style="display: none"
+    >
+      <h2 class="page-title">Danh sách lịch hẹn xét nghiệm ADN</h2>
+      <div
+        style="
+          display: flex;
+          gap: 16px;
+          margin-bottom: 18px;
+          align-items: center;
+        "
+      >
+        <div style="position: relative; width: 320px">
+          <i
+            class="fas fa-search"
+            style="
+              position: absolute;
+              left: 12px;
+              top: 0;
+              bottom: 0;
+              margin: auto 0;
+              height: 20px;
+              display: flex;
+              align-items: center;
+              color: #aaa;
+            "
+          ></i>
+          <input
+            type="text"
+            id="appointmentSearch"
+            placeholder="Tìm kiếm theo tên, mã BN..."
+            style="
+              width: 100%;
+              height: 40px;
+              line-height: 40px;
+              padding: 0 12px 0 40px;
+              border-radius: 5px;
+              border: 1px solid #ddd;
+              font-size: 16px;
+            "
+          />
+        </div>
+        <input
+          type="date"
+          id="appointmentDateFilter"
+          style="padding: 8px 12px; border-radius: 5px; border: 1px solid #ddd"
+        />
+        <select
+          id="appointmentStatusFilter"
+          style="padding: 8px 12px; border-radius: 5px; border: 1px solid #ddd"
+        >
+          <option value="">Tất cả trạng thái</option>
+          <option value="scheduled">Đã lên lịch</option>
+          <option value="completed">Hoàn thành</option>
+          <option value="cancelled">Đã hủy</option>
+        </select>
+      </div>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Mã lịch hẹn</th>
+              <th>Bệnh nhân</th>
+              <th>Bác sĩ</th>
+              <th>Ngày</th>
+              <th>Giờ</th>
+              <th>Trạng thái</th>
+              <th>Thao tác</th>
+            </tr>
+          </thead>
+          <tbody id="appointmentsTableBody">
+            <tr>
+              <td>LH-001</td>
+              <td>Nguyễn Thị Hoa (BN-1001)</td>
+              <td>BS. Tuấn</td>
+              <td>22/05/2025</td>
+              <td>09:00</td>
+              <td>
+                <span class="badge" style="background: #1e88e5; color: #fff"
+                  >Đã lên lịch</span
+                >
+              </td>
+              <td><a href="#" class="action-btn view-btn">Xem</a></td>
+            </tr>
+            <tr>
+              <td>LH-002</td>
+              <td>Trần Văn Nam (BN-1002)</td>
+              <td>BS. Hương</td>
+              <td>22/05/2025</td>
+              <td>10:30</td>
+              <td>
+                <span class="badge" style="background: #1e88e5; color: #fff"
+                  >Đã lên lịch</span
+                >
+              </td>
+              <td><a href="#" class="action-btn view-btn">Xem</a></td>
+            </tr>
+            <tr>
+              <td>LH-003</td>
+              <td>Lê Thị Hạnh (BN-1003)</td>
+              <td>BS. Minh</td>
+              <td>21/05/2025</td>
+              <td>14:00</td>
+              <td>
+                <span class="badge" style="background: #4caf50; color: #fff"
+                  >Hoàn thành</span
+                >
+              </td>
+              <td><a href="#" class="action-btn view-btn">Xem</a></td>
+            </tr>
+            <tr>
+              <td>LH-004</td>
+              <td>Phạm Văn Bình (BN-1004)</td>
+              <td>BS. Thành</td>
+              <td>20/05/2025</td>
+              <td>15:30</td>
+              <td>
+                <span class="badge" style="background: #f44336; color: #fff"
+                  >Đã hủy</span
+                >
+              </td>
+              <td><a href="#" class="action-btn view-btn">Xem</a></td>
+            </tr>
+            <tr>
+              <td>LH-005</td>
+              <td>Đỗ Thị Mai (BN-1005)</td>
+              <td>BS. Tuấn</td>
+              <td>19/05/2025</td>
+              <td>08:30</td>
+              <td>
+                <span class="badge" style="background: #4caf50; color: #fff"
+                  >Hoàn thành</span
+                >
+              </td>
+              <td><a href="#" class="action-btn view-btn">Xem</a></td>
+            </tr>
+            <tr>
+              <td>LH-006</td>
+              <td>Ngô Văn Dũng (BN-1006)</td>
+              <td>BS. Hương</td>
+              <td>18/05/2025</td>
+              <td>11:00</td>
+              <td>
+                <span class="badge" style="background: #4caf50; color: #fff"
+                  >Hoàn thành</span
+                >
+              </td>
+              <td><a href="#" class="action-btn view-btn">Xem</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Custom JavaScript -->
     <script src="assets/js/manager.js"></script>

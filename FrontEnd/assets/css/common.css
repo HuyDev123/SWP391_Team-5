@@ -1,0 +1,624 @@
+/* Common CSS for both Admin and Manager interfaces */
+
+/* Loading overlay */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.85);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999; /* Tăng z-index để đảm bảo hiển thị trên cùng */
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+  pointer-events: none; /* Tránh chặn click khi ẩn */
+}
+
+.loading-overlay.active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: all; /* Bật lại pointer events khi active */
+}
+
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid rgba(33, 150, 243, 0.2);
+  border-radius: 50%;
+  border-top-color: #2196f3;
+  animation: spin 1s ease-in-out infinite;
+}
+
+.loading-message {
+  margin-top: 15px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Notifications - Hiển thị ở góc phải dưới */
+.notification {
+  position: fixed;
+  bottom: 20px; /* Hiển thị ở dưới màn hình */
+  right: 20px;
+  padding: 15px 25px;
+  background-color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  z-index: 10000;
+  opacity: 0;
+  transform: translateY(20px); /* Hiệu ứng trượt lên từ dưới khi xuất hiện */
+  transition: opacity 0.3s, transform 0.3s;
+  display: flex;
+  align-items: center;
+  max-width: 400px;
+}
+
+.notification.success {
+  border-left: 4px solid #4caf50;
+}
+
+.notification.error {
+  border-left: 4px solid #f44336;
+}
+
+.notification.info {
+  border-left: 4px solid #2196f3;
+}
+
+.notification.warning {
+  border-left: 4px solid #ff9800;
+}
+
+.notification-icon {
+  margin-right: 15px;
+  font-size: 20px;
+}
+
+.notification.success .notification-icon {
+  color: #4caf50;
+}
+
+.notification.error .notification-icon {
+  color: #f44336;
+}
+
+.notification.info .notification-icon {
+  color: #2196f3;
+}
+
+.notification.warning .notification-icon {
+  color: #ff9800;
+}
+
+.notification-content {
+  flex-grow: 1;
+}
+
+.notification-title {
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.notification-message {
+  font-size: 14px;
+  color: #555;
+}
+
+.notification-close {
+  font-size: 18px;
+  color: #999;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.notification-close:hover {
+  color: #333;
+}
+
+.notification.show {
+  opacity: 1;
+  transform: translateY(
+    0
+  ); /* Thông báo đã hiển thị hoàn toàn ở vị trí cuối cùng */
+}
+
+/* Progress bar */
+.progress-bar {
+  height: 20px;
+  border-radius: 3px;
+  text-align: center;
+  line-height: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  color: white;
+  transition: width 0.5s ease, background-color 0.5s ease;
+}
+
+/* Animation for badges */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Filter containers and forms */
+.filter-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 20px;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #f9f9f9;
+  padding: 15px;
+  border-radius: 5px;
+}
+
+.search-filter {
+  display: flex;
+  min-width: 300px;
+}
+
+.search-filter input {
+  flex-grow: 1;
+  padding: 8px 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px 0 0 4px;
+  outline: none;
+}
+
+.search-filter .search-btn {
+  background-color: #2196f3;
+  color: white;
+  border: none;
+  padding: 0 15px;
+  border-radius: 0 4px 4px 0;
+  cursor: pointer;
+}
+
+.filters {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.filters select {
+  padding: 8px 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  outline: none;
+  min-width: 150px;
+}
+
+/* Action buttons */
+.action-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.primary-btn {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.secondary-btn {
+  background-color: #2196f3;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #555;
+  font-size: 16px;
+  padding: 5px;
+  border-radius: 3px;
+}
+
+.icon-btn:hover {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+/* Common table styling */
+.table-container {
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+th {
+  background-color: #f9f9f9;
+  font-weight: 600;
+}
+
+tbody tr:hover {
+  background-color: #f5f8ff;
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  margin-top: 20px;
+  align-items: center;
+}
+
+.pagination-btn {
+  border: 1px solid #ddd;
+  background: none;
+  padding: 5px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.pagination-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.pagination-numbers {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.pagination-number {
+  border: 1px solid #ddd;
+  background: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 3px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pagination-number.active {
+  background-color: #2196f3;
+  color: white;
+  border-color: #2196f3;
+}
+
+/* Notification box */
+.notification-box {
+  background-color: #e3f2fd;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 20px 0;
+  border-left: 4px solid #2196f3;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.notification-content {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease forwards;
+}
+
+/* Animation for dropdown */
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Dropdown Notification Styles - Facebook style */
+.notification-container {
+  position: relative;
+}
+
+.notification-icon-container {
+  position: relative;
+  cursor: pointer;
+}
+
+.notification-dropdown {
+  position: absolute;
+  top: 40px;
+  right: 0;
+  width: 360px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  display: none;
+  max-height: calc(100vh - 100px);
+  overflow-y: auto;
+  animation: fadeInDown 0.3s ease-out;
+}
+
+.notification-dropdown.active {
+  display: block;
+}
+
+.notification-header {
+  padding: 15px;
+  border-bottom: 1px solid #f0f0f0;
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  background-color: white;
+  z-index: 2;
+}
+
+.notification-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  width: 100%;
+  text-align: left;
+}
+
+.notification-tabs {
+  display: flex;
+  margin: 10px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.notification-tab {
+  background: none;
+  border: none;
+  padding: 10px 15px;
+  font-size: 14px;
+  cursor: pointer;
+  position: relative;
+  color: #65676b;
+}
+
+.notification-tab.active {
+  color: #1877f2;
+  font-weight: 600;
+}
+
+.notification-tab.active::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  height: 3px;
+  width: 100%;
+  background-color: #1877f2;
+  border-radius: 3px 3px 0 0;
+}
+
+.notification-actions {
+  margin-left: auto;
+}
+
+.notification-list {
+  overflow-y: auto;
+  max-height: 400px;
+  margin-top: 0;
+  padding-top: 5px;
+}
+
+.notification-item {
+  display: flex;
+  align-items: flex-start;
+  padding: 12px 15px;
+  border-bottom: 1px solid #f0f0f0;
+  transition: background-color 0.2s;
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  cursor: pointer;
+  position: relative;
+}
+
+.notification-item:hover {
+  background-color: #f0f2f5;
+}
+
+.notification-item.new {
+  background-color: #e7f3ff;
+}
+
+.notification-item.new:hover {
+  background-color: #dbe7f2;
+}
+
+.notification-item-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 12px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #e4e6eb;
+}
+
+.notification-item-avatar.system {
+  background-color: #1877f2;
+  color: white;
+  font-size: 18px;
+}
+
+.notification-item-avatar.user {
+  background-color: #4c84ff;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  text-transform: uppercase;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.notification-item-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.notification-item-content {
+  flex-grow: 1;
+  margin-right: 10px;
+}
+
+.notification-item-content p {
+  margin: 0 0 5px;
+  color: #050505;
+  font-size: 14px;
+  line-height: 1.3;
+}
+
+.notification-time {
+  color: #65676b;
+  font-size: 12px;
+}
+
+.notification-item-status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  background-color: #1877f2;
+  border-radius: 50%;
+  display: block;
+}
+
+.notification-footer {
+  padding: 10px;
+  text-align: center;
+  border-top: 1px solid #f0f0f0;
+  background-color: white;
+  position: sticky;
+  bottom: 0;
+}
+
+.notification-footer a {
+  color: #1877f2;
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.notification-footer a:hover {
+  text-decoration: underline;
+}
+
+/* Improve notification badge appearance */
+.notification-badge {
+  animation: pulse 1s infinite;
+  transition: all 0.3s ease;
+}
+
+/* Custom scrollbar for notification dropdown */
+.notification-dropdown::-webkit-scrollbar {
+  width: 6px;
+}
+
+.notification-dropdown::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 8px;
+}
+
+.notification-dropdown::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 8px;
+}
+
+.notification-dropdown::-webkit-scrollbar-thumb:hover {
+  background: #a1a1a1;
+}
+
+/* Add hover effect to notification icons */
+.notification-icon {
+  transition: transform 0.2s ease;
+}
+
+.notification-icon:hover {
+  transform: scale(1.1);
+}
+
+/* Notification item user and time styling */
+.notification-item-user {
+  font-weight: 600;
+  margin-bottom: 2px;
+  color: #050505;
+}
+
+.notification-item-text {
+  font-size: 14px;
+  color: #65676b;
+  margin-bottom: 3px;
+}

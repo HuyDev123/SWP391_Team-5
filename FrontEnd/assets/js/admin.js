@@ -4,79 +4,152 @@
  * Description: Xử lý các chức năng đặc thù của trang Admin
  */
 
+/**
+ * Tải trước các tài nguyên cần thiết cho trang
+ */
+function preloadResources() {
+  return new Promise((resolve) => {
+    console.log("Đang tải trước tài nguyên...");
+
+    // Giả lập tải tài nguyên
+    setTimeout(() => {
+      console.log("Đã tải xong tài nguyên");
+      resolve();
+    }, 300);
+  });
+}
+
 document.addEventListener("DOMContentLoaded", function () {
-  // Khởi tạo biểu đồ thống kê người dùng
-  initUserStatsChart();
+  // Hiển thị loading ban đầu
+  showLoading("Đang khởi tạo hệ thống...");
 
-  // Khởi tạo sự kiện cho các nút trong trang Admin
-  initAdminEvents();
-
-  // Khởi tạo hiệu ứng loading cho trang khi chuyển menu
+  // Khởi tạo hiệu ứng loading cho trang khi chuyển menu (phải khởi tạo trước)
   initPageLoading();
 
-  // Tạo hiệu ứng thông báo thời gian thực
-  initRealTimeNotifications();
+  // Tải trước các tài nguyên cần thiết
+  preloadResources().then(() => {
+    // Khởi tạo biểu đồ thống kê người dùng
+    initUserStatsChart(); // Khởi tạo sự kiện cho các nút trong trang Admin
+    initAdminEvents();
 
-  // Xử lý chuyển đổi trang khi click vào các menu item
-  handleMenuNavigation();
+    // Xử lý chuyển đổi trang khi click vào các menu item
+    handleMenuNavigation();
 
-  // Cài đặt giao diện người dùng tùy chọn (nếu có)
-  loadUserPreferences();
+    // Cài đặt giao diện người dùng tùy chọn (nếu có)
+    loadUserPreferences();
+
+    // Ẩn loading ban đầu
+    hideLoading();
+  });
+
+  // Đảm bảo loading overlay không bị treo khi người dùng F5
+  window.addEventListener("beforeunload", function () {
+    hideLoading();
+  });
+
+  // Thêm phím tắt để tắt loading overlay nếu bị treo
+  document.addEventListener("keydown", function (e) {
+    // ESC key
+    if (e.key === "Escape" || e.keyCode === 27) {
+      hideLoading();
+      console.log("Đã ẩn loading bằng phím ESC");
+      showNotification("Đã hủy tải trang", "info");
+    }
+  });
+
+  // Thêm sự kiện click cho overlay để có thể tắt nó nếu bị treo
+  const loadingOverlay = document.querySelector(".loading-overlay");
+  if (loadingOverlay) {
+    loadingOverlay.addEventListener("click", function (e) {
+      // Chỉ cho phép click vào phần nền để tắt, không phải vào spinner
+      if (e.target === loadingOverlay) {
+        hideLoading();
+        console.log("Đã ẩn loading bằng cách click vào overlay");
+        showNotification("Đã hủy tải trang", "info");
+      }
+    });
+  }
+
+  // Double-check để đảm bảo loading screen được ẩn sau khi trang đã tải xong
+  setTimeout(hideLoading, 2000);
 });
 
 /**
  * Khởi tạo biểu đồ thống kê người dùng
  */
 function initUserStatsChart() {
-  const ctx = document.getElementById("userStatsChart");
-  if (!ctx) return;
+  try {
+    const ctx = document.getElementById("userStatsChart");
+    if (!ctx) {
+      console.warn("Không tìm thấy phần tử userStatsChart");
+      return;
+    }
 
-  const userStatsChart = new Chart(ctx, {
-    type: "line",
-    data: {
-      labels: ["T2", "T3", "T4", "T5", "T6", "T7", "CN"],
-      datasets: [
-        {
-          label: "Người dùng mới",
-          data: [15, 25, 18, 30, 25, 35, 20],
-          borderColor: "#4caf50",
-          backgroundColor: "rgba(76, 175, 80, 0.1)",
-          borderWidth: 2,
-          tension: 0.4,
-          fill: true,
+    // Kiểm tra xem thư viện Chart có tồn tại không
+    if (typeof Chart === "undefined") {
+      console.error("Thư viện Chart.js chưa được tải");
+      showNotification("Có lỗi khi tải biểu đồ", "error");
+      return;
+    }
+
+    // Hủy biểu đồ cũ nếu đã tồn tại
+    if (window.userStatsChart instanceof Chart) {
+      window.userStatsChart.destroy();
+    }
+
+    window.userStatsChart = new Chart(ctx, {
+      type: "line",
+      data: {
+        labels: ["T2", "T3", "T4", "T5", "T6", "T7", "CN"],
+        datasets: [
+          {
+            label: "Người dùng mới",
+            data: [15, 25, 18, 30, 25, 35, 20],
+            borderColor: "#4caf50",
+            backgroundColor: "rgba(76, 175, 80, 0.1)",
+            borderWidth: 2,
+            tension: 0.4,
+            fill: true,
+          },
+          {
+            label: "Người dùng hoạt động",
+            data: [65, 59, 80, 81, 56, 85, 90],
+            borderColor: "#2196f3",
+            backgroundColor: "rgba(33, 150, 243, 0.1)",
+            borderWidth: 2,
+            tension: 0.4,
+            fill: true,
+          },
+        ],
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+          },
         },
-        {
-          label: "Người dùng hoạt động",
-          data: [65, 59, 80, 81, 56, 85, 90],
-          borderColor: "#2196f3",
-          backgroundColor: "rgba(33, 150, 243, 0.1)",
-          borderWidth: 2,
-          tension: 0.4,
-          fill: true,
-        },
-      ],
-    },
-    options: {
-      scales: {
-        y: {
-          beginAtZero: true,
+        responsive: true,
+        plugins: {
+          legend: {
+            position: "top",
+          },
         },
       },
-      responsive: true,
-      plugins: {
-        legend: {
-          position: "top",
-        },
-      },
-    },
-  });
-
-  // Xử lý thay đổi khoảng thời gian cho biểu đồ
-  document
-    .getElementById("userStatsTimeRange")
-    .addEventListener("change", function () {
-      updateUserStatsChart(this.value, userStatsChart);
     });
+
+    // Xử lý thay đổi khoảng thời gian cho biểu đồ
+    const timeRangeSelect = document.getElementById("userStatsTimeRange");
+    if (timeRangeSelect) {
+      timeRangeSelect.addEventListener("change", function () {
+        updateUserStatsChart(this.value, window.userStatsChart);
+      });
+    } else {
+      console.warn("Không tìm thấy phần tử userStatsTimeRange");
+    }
+  } catch (error) {
+    console.error("Lỗi khi khởi tạo biểu đồ:", error);
+    showNotification("Có lỗi khi tạo biểu đồ thống kê", "error");
+  }
 }
 
 /**
@@ -177,6 +250,72 @@ function initAdminEvents() {
 
   // Thêm sự kiện cho các nút khác khi cần
 }
+
+// --- Tìm kiếm và lọc danh sách admin user ---
+document.addEventListener("DOMContentLoaded", function () {
+  const searchInput = document.getElementById("adminUserSearch");
+  const statusFilter = document.getElementById("adminUserStatusFilter");
+  const userTable = document.querySelector("#user-management-page table tbody");
+
+  if (searchInput && statusFilter && userTable) {
+    function filterAdminUsers() {
+      const search = searchInput.value.trim().toLowerCase();
+      const status = statusFilter.value;
+      const rows = userTable.querySelectorAll("tr");
+      rows.forEach((row) => {
+        const name = row.children[1].textContent.toLowerCase();
+        const email = row.children[2].textContent.toLowerCase();
+        const statusText = row.children[5].textContent.trim();
+        let match = true;
+        if (search && !(name.includes(search) || email.includes(search)))
+          match = false;
+        if (status) {
+          if (status === "active" && statusText !== "Đang hoạt động")
+            match = false;
+          if (status === "inactive" && statusText !== "Không hoạt động")
+            match = false;
+          if (status === "suspended" && statusText !== "Tạm khóa")
+            match = false;
+        }
+        row.style.display = match ? "" : "none";
+      });
+    }
+    searchInput.addEventListener("input", filterAdminUsers);
+    statusFilter.addEventListener("change", filterAdminUsers);
+  }
+
+  // --- Tìm kiếm và lọc danh sách nhân viên ---
+  const staffSearchInput = document.getElementById("staffSearch");
+  const staffStatusFilter = document.getElementById("staffStatusFilter");
+  const staffTable = document.querySelector(
+    "#staff-management-page table tbody"
+  );
+
+  if (staffSearchInput && staffStatusFilter && staffTable) {
+    function filterStaff() {
+      const search = staffSearchInput.value.trim().toLowerCase();
+      const status = staffStatusFilter.value;
+      const rows = staffTable.querySelectorAll("tr");
+      rows.forEach((row) => {
+        const name = row.children[1].textContent.toLowerCase();
+        const email = row.children[2].textContent.toLowerCase();
+        const statusText = row.children[6].textContent.trim();
+        let match = true;
+        if (search && !(name.includes(search) || email.includes(search)))
+          match = false;
+        if (status) {
+          if (status === "active" && statusText !== "Đang làm việc")
+            match = false;
+          if (status === "leave" && statusText !== "Nghỉ phép") match = false;
+          if (status === "quit" && statusText !== "Đã nghỉ việc") match = false;
+        }
+        row.style.display = match ? "" : "none";
+      });
+    }
+    staffSearchInput.addEventListener("input", filterStaff);
+    staffStatusFilter.addEventListener("change", filterStaff);
+  }
+});
 
 /**
  * Cập nhật dữ liệu tình trạng hệ thống
@@ -320,158 +459,21 @@ function loadAllActivities() {
  * Khởi tạo hiệu ứng loading cho trang khi chuyển menu
  */
 function initPageLoading() {
-  // Tạo phần tử loading
+  // Xóa loading overlay cũ nếu có
+  const existingOverlay = document.querySelector(".loading-overlay");
+  if (existingOverlay) {
+    existingOverlay.remove();
+  }
+
+  // Tạo phần tử loading mới
   const loadingOverlay = document.createElement("div");
   loadingOverlay.className = "loading-overlay";
+  loadingOverlay.id = "loadingOverlay";
   loadingOverlay.innerHTML = `
     <div class="loading-spinner"></div>
     <div class="loading-message">Đang tải...</div>
   `;
-  document.body.appendChild(loadingOverlay);
-
-  // Thêm CSS cho loading overlay
-  const style = document.createElement("style");
-  style.textContent = `
-    .loading-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(255, 255, 255, 0.8);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      z-index: 9999;
-      opacity: 0;
-      visibility: hidden;
-      transition: opacity 0.3s, visibility 0.3s;
-    }
-    
-    .loading-overlay.active {
-      opacity: 1;
-      visibility: visible;
-    }
-    
-    .loading-spinner {
-      width: 50px;
-      height: 50px;
-      border: 5px solid rgba(33, 150, 243, 0.2);
-      border-radius: 50%;
-      border-top-color: #2196f3;
-      animation: spin 1s ease-in-out infinite;
-    }
-    
-    .loading-message {
-      margin-top: 15px;
-      font-size: 16px;
-      font-weight: 500;
-      color: #333;
-    }
-    
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-    
-    /* Hiệu ứng nhấp nháy cho thông báo */
-    .notification {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      padding: 15px 25px;
-      background-color: white;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      border-radius: 5px;
-      z-index: 10000;
-      opacity: 0;
-      transform: translateY(-20px);
-      transition: opacity 0.3s, transform 0.3s;
-      display: flex;
-      align-items: center;
-      max-width: 400px;
-    }
-    
-    .notification.success {
-      border-left: 4px solid #4caf50;
-    }
-    
-    .notification.error {
-      border-left: 4px solid #f44336;
-    }
-    
-    .notification.info {
-      border-left: 4px solid #2196f3;
-    }
-    
-    .notification.warning {
-      border-left: 4px solid #ff9800;
-    }
-    
-    .notification-icon {
-      margin-right: 15px;
-      font-size: 20px;
-    }
-    
-    .notification.success .notification-icon {
-      color: #4caf50;
-    }
-    
-    .notification.error .notification-icon {
-      color: #f44336;
-    }
-    
-    .notification.info .notification-icon {
-      color: #2196f3;
-    }
-    
-    .notification.warning .notification-icon {
-      color: #ff9800;
-    }
-    
-    .notification-content {
-      flex-grow: 1;
-    }
-    
-    .notification-title {
-      font-weight: 600;
-      margin-bottom: 5px;
-    }
-    
-    .notification-message {
-      font-size: 14px;
-      color: #555;
-    }
-    
-    .notification-close {
-      font-size: 18px;
-      color: #999;
-      cursor: pointer;
-      margin-left: 10px;
-    }
-    
-    .notification-close:hover {
-      color: #333;
-    }
-    
-    .notification.show {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    
-    /* CSS cho các progress bar */
-    .progress-bar {
-      height: 20px;
-      border-radius: 3px;
-      text-align: center;
-      line-height: 20px;
-      font-size: 12px;
-      font-weight: 600;
-      color: white;
-      transition: width 0.5s ease, background-color 0.5s ease;
-    }
-  `;
-  document.head.appendChild(style);
+  document.body.appendChild(loadingOverlay); // CSS đã được chuyển vào file common.css
 }
 
 /**
@@ -483,8 +485,27 @@ function showLoading(message = "Đang tải...") {
   const loadingMessage = document.querySelector(".loading-message");
 
   if (loadingOverlay && loadingMessage) {
+    // Reset các style có thể đã bị thay đổi
+    loadingOverlay.style.opacity = "";
+    loadingOverlay.style.visibility = "";
+
+    // Cập nhật nội dung
     loadingMessage.textContent = message;
     loadingOverlay.classList.add("active");
+
+    // Đặt timeout để tự động ẩn loading sau thời gian chờ
+    clearTimeout(window.loadingTimeout);
+    window.loadingTimeout = setTimeout(() => {
+      if (loadingOverlay.classList.contains("active")) {
+        console.warn("Loading timeout - auto hiding");
+        hideLoading();
+        showNotification("Đã hoàn thành tải trang", "info");
+      }
+    }, 5000); // Tự động ẩn sau 5 giây nếu bị treo
+
+    console.log("Hiển thị loading overlay:", message);
+  } else {
+    console.error("Không tìm thấy loading overlay");
   }
 }
 
@@ -495,6 +516,12 @@ function hideLoading() {
   const loadingOverlay = document.querySelector(".loading-overlay");
   if (loadingOverlay) {
     loadingOverlay.classList.remove("active");
+
+    // Đảm bảo loading không kẹt vì vấn đề CSS
+    loadingOverlay.style.opacity = "0";
+    loadingOverlay.style.visibility = "hidden";
+
+    console.log("Đã ẩn loading overlay");
   }
 }
 
@@ -503,8 +530,14 @@ function hideLoading() {
  * @param {string} message - Nội dung thông báo
  * @param {string} type - Loại thông báo (success, error, info, warning)
  * @param {string} title - Tiêu đề thông báo (tùy chọn)
+ * @param {Object} position - Vị trí hiển thị thông báo (tùy chọn)
  */
-function showNotification(message, type = "info", title = "") {
+function showNotification(
+  message,
+  type = "info",
+  title = "",
+  position = { bottom: "20px", right: "20px" }
+) {
   // Xóa thông báo cũ nếu có
   const oldNotification = document.querySelector(".notification");
   if (oldNotification) {
@@ -563,6 +596,13 @@ function showNotification(message, type = "info", title = "") {
     </div>
     <div class="notification-close">&times;</div>
   `;
+  // Áp dụng vị trí
+  if (position) {
+    if (position.top) notification.style.top = position.top;
+    if (position.bottom) notification.style.bottom = position.bottom;
+    if (position.left) notification.style.left = position.left;
+    if (position.right) notification.style.right = position.right;
+  }
 
   document.body.appendChild(notification);
 
@@ -581,9 +621,8 @@ function showNotification(message, type = "info", title = "") {
       }, 300);
     });
   }
-
   // Tự động đóng sau 5 giây
-  setTimeout(() => {
+  const notificationTimeout = setTimeout(() => {
     if (document.body.contains(notification)) {
       notification.classList.remove("show");
       setTimeout(() => {
@@ -593,83 +632,60 @@ function showNotification(message, type = "info", title = "") {
       }, 300);
     }
   }, 5000);
-}
 
-/**
- * Tạo hiệu ứng thông báo thời gian thực
- */
-function initRealTimeNotifications() {
-  // Giả lập nhận thông báo theo thời gian
-  const notifications = [
-    {
-      message: "Có 3 tài khoản người dùng mới đăng ký",
-      type: "info",
-      delay: 30000, // 30 giây
-    },
-    {
-      message: "Cảnh báo: Hệ thống email đang hoạt động với tải cao",
-      type: "warning",
-      delay: 60000, // 60 giây
-    },
-    {
-      message: "Sao lưu tự động đã hoàn thành",
-      type: "success",
-      delay: 120000, // 120 giây
-    },
-  ];
-
-  notifications.forEach((notification) => {
-    setTimeout(() => {
-      showNotification(notification.message, notification.type);
-    }, notification.delay);
+  // Tạm dừng đếm ngược khi hover vào thông báo
+  notification.addEventListener("mouseenter", () => {
+    clearTimeout(notificationTimeout);
   });
 
-  // Cập nhật số lượng thông báo chưa đọc
-  setTimeout(() => {
-    updateNotificationBadges();
-  }, 45000); // 45 giây
+  // Tiếp tục đếm ngược khi không hover nữa
+  notification.addEventListener("mouseleave", () => {
+    setTimeout(() => {
+      if (document.body.contains(notification)) {
+        notification.classList.remove("show");
+        setTimeout(() => {
+          if (document.body.contains(notification)) {
+            notification.remove();
+          }
+        }, 300);
+      }
+    }, 2000); // Tự động đóng sau 2 giây khi rời chuột
+  });
 }
 
 /**
- * Cập nhật số lượng thông báo chưa đọc
+ * Empty function to maintain compatibility with existing code
+ */
+function initRealTimeNotifications() {
+  // Function removed as notifications feature has been disabled
+  console.log("Notification functionality has been disabled");
+}
+
+/**
+ * Empty function to maintain compatibility with existing code
  */
 function updateNotificationBadges() {
-  const bellBadge = document.querySelector(".fa-bell").nextElementSibling;
-  const messageBadge =
-    document.querySelector(".fa-envelope").nextElementSibling;
+  // Function removed as notifications feature has been disabled
+}
 
-  if (bellBadge) {
-    const currentCount = parseInt(bellBadge.textContent);
-    bellBadge.textContent = currentCount + 2;
+/**
+ * Empty function to maintain compatibility with existing code
+ */
+function setupNotificationSystem() {
+  // Function removed as notifications feature has been disabled
+}
 
-    // Hiệu ứng nhấp nháy cho badge
-    bellBadge.style.animation = "none";
-    setTimeout(() => {
-      bellBadge.style.animation = "pulse 1s infinite";
-    }, 10);
-  }
-
-  if (messageBadge) {
-    const currentCount = parseInt(messageBadge.textContent);
-    messageBadge.textContent = currentCount + 1;
-
-    // Hiệu ứng nhấp nháy cho badge
-    messageBadge.style.animation = "none";
-    setTimeout(() => {
-      messageBadge.style.animation = "pulse 1s infinite";
-    }, 10);
-  }
-
-  // Thêm CSS cho hiệu ứng nhấp nháy
-  const style = document.createElement("style");
-  style.textContent = `
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.2); }
-      100% { transform: scale(1); }
-    }
-  `;
-  document.head.appendChild(style);
+/**
+ * Empty function to maintain compatibility with existing code
+ */
+function addNotificationToDropdown({
+  userName,
+  content,
+  time,
+  isNew,
+  isSystem,
+}) {
+  // Do nothing - notifications feature is disabled
 }
 
 /**
@@ -677,60 +693,78 @@ function updateNotificationBadges() {
  */
 function handleMenuNavigation() {
   const menuLinks = document.querySelectorAll(".menu-link");
+  const pages = document.querySelectorAll(".page-content");
+  const dashboard = document.querySelector(".dashboard");
+
+  // Khởi tạo biến để lưu trạng thái trang hiện tại
+  let currentPage = "dashboard";
 
   menuLinks.forEach((link) => {
     link.addEventListener("click", function (e) {
       e.preventDefault();
 
-      const pageName = this.getAttribute("data-page");
-      if (!pageName) return;
+      // Xóa class active từ tất cả các liên kết menu
+      menuLinks.forEach((item) => {
+        item.classList.remove("active");
+      });
 
-      // Kích hoạt trạng thái active cho menu item
-      menuLinks.forEach((item) => item.classList.remove("active"));
+      // Thêm class active cho liên kết được click
       this.classList.add("active");
 
-      showLoading(`Đang tải ${this.querySelector("span").textContent}...`);
-
-      // Ẩn tất cả các trang
-      const allPages = document.querySelectorAll(".page-content");
-      allPages.forEach((page) => (page.style.display = "none"));
-
-      setTimeout(() => {
-        // Hiển thị trang được chọn
-        const selectedPage = document.getElementById(`${pageName}-page`);
-        if (selectedPage) {
-          selectedPage.style.display = "block";
-        }
-
-        hideLoading();
-      }, 500); // Giả lập thời gian tải trang
+      const pageId = this.getAttribute("data-page");
+      if (pageId) {
+        showAdminPage(pageId);
+      }
     });
   });
 
-  // Xử lý cho toggle sidebar
-  const toggleBtn = document.querySelector(".toggle-sidebar");
-  const sidebar = document.querySelector(".sidebar");
-  const mainContent = document.querySelector(".main-content");
-
-  if (toggleBtn && sidebar && mainContent) {
-    toggleBtn.addEventListener("click", function () {
-      sidebar.classList.toggle("collapsed");
-      mainContent.classList.toggle("expanded");
+  // Thêm sự kiện cho các nút xem tất cả log
+  const viewAllLogsBtn = document.getElementById("viewAllLogs");
+  if (viewAllLogsBtn) {
+    viewAllLogsBtn.addEventListener("click", function () {
+      showAdminPage("system-logs");
     });
   }
 }
 
 /**
- * Cài đặt giao diện người dùng tùy chọn
+ * Hiển thị trang dựa trên ID
+ * @param {string} pageId - ID của trang cần hiển thị (không bao gồm suffix "-page")
  */
-function loadUserPreferences() {
-  // Kiểm tra nếu có lưu trữ tùy chọn trong localStorage
-  const savedTheme = localStorage.getItem("adminTheme");
-  if (savedTheme) {
-    document.body.classList.add(savedTheme);
+function showAdminPage(pageId) {
+  // Ẩn tất cả các trang
+  const allPages = document.querySelectorAll(".page-content");
+  const dashboard = document.querySelector(".dashboard");
+
+  // Ẩn dashboard và tất cả các trang
+  if (dashboard) {
+    dashboard.style.display = "none";
   }
 
-  // Thêm các tùy chọn khác theo nhu cầu
-}
+  allPages.forEach((page) => {
+    page.style.display = "none";
+  });
 
-// Các hàm phụ trợ khác có thể được thêm vào sau này khi phát triển thêm các tính năng
+  // Hiển thị trang yêu cầu
+  const targetPageId = pageId === "dashboard" ? "dashboard" : pageId + "-page";
+
+  if (pageId === "dashboard") {
+    if (dashboard) {
+      dashboard.style.display = "block";
+    }
+  } else {
+    const targetPage = document.getElementById(targetPageId);
+    if (targetPage) {
+      targetPage.style.display = "block";
+    } else {
+      console.error("Không tìm thấy trang:", targetPageId);
+      // Fallback to dashboard if page not found
+      if (dashboard) {
+        dashboard.style.display = "block";
+      }
+    }
+  }
+
+  // Cập nhật URL (tùy chọn)
+  history.pushState({ page: pageId }, "", "#" + pageId);
+}
