@@ -1,63 +1,101 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import { AppBar, Toolbar, Button, Container } from '@mui/material';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { AnimatePresence } from 'framer-motion';
+import { Container } from '@mui/material';
+import Header from './components/Header';
 import HomePage from './pages/HomePage';
 import ContactPage from './pages/ContactPage';
+import RegisterPage from './pages/RegisterPage';
+import LoginPage from './pages/LoginPage';
+import KnowledgeDetailPage from './pages/KnowledgeDetailPage';
 import BookingForm from './components/BookingForm';
 import SuccessDialog from './components/SuccessDialog';
-import RegisterPage from './pages/RegisterPage';
-import logo from './assets/logo.png';
-import Header from './components/Header'; // hoặc './Header' nếu bạn để ở src
+import PageTransition from './components/PageTransition';
 
-function App() {
+// Wrapper component để sử dụng AnimatePresence với Routes
+function AnimatedRoutes() {
+  const location = useLocation();
   const [openBooking, setOpenBooking] = useState(false);
   const [openSuccess, setOpenSuccess] = useState(false);
 
   const handleOpenBooking = () => setOpenBooking(true);
   const handleCloseBooking = () => setOpenBooking(false);
-
+  
   const handleSuccess = () => {
     setOpenBooking(false);
     setOpenSuccess(true);
   };
-  const handleCloseSuccess = () => setOpenSuccess(false);
+
+  const handleCloseSuccess = () => {
+    setOpenSuccess(false);
+  };
 
   return (
-    <Router>
-      <Header position="static">
-  <Toolbar>
-    <img src={logo} alt="Logo" style={{ height: 40, marginRight: 16, borderRadius: 8 }} />
-    <Button color="inherit" component={Link} to="/">
-      Trang chủ
-    </Button>
-    <Button color="inherit" component={Link} to="/contact">
-      Liên hệ
-    </Button>
-    <Button color="inherit" component={Link} to="/register">
-      Đăng ký
-    </Button>
-  </Toolbar>
-</Header>
-      <Container>
-        <Routes>
-          <Route
-            path="/"
+    <>
+      <AnimatePresence mode="wait">
+        <Routes location={location} key={location.pathname}>
+          <Route 
+            path="/" 
             element={
-              <HomePage onOpenBooking={handleOpenBooking} />
-            }
+              <PageTransition>
+                <HomePage onOpenBooking={handleOpenBooking} />
+              </PageTransition>
+            } 
           />
-          <Route path="/contact" element={<ContactPage />} />
-          <Route path="/register" element={<RegisterPage />} />
+          <Route 
+            path="/contact" 
+            element={
+              <PageTransition>
+                <ContactPage />
+              </PageTransition>
+            } 
+          />
+          <Route 
+            path="/register" 
+            element={
+              <PageTransition>
+                <RegisterPage />
+              </PageTransition>
+            } 
+          />
+          <Route 
+            path="/login" 
+            element={
+              <PageTransition>
+                <LoginPage />
+              </PageTransition>
+            } 
+          />
+          <Route 
+            path="/knowledge/:id" 
+            element={
+              <PageTransition>
+                <KnowledgeDetailPage />
+              </PageTransition>
+            } 
+          />
         </Routes>
-        <BookingForm
-          open={openBooking}
-          onClose={handleCloseBooking}
-          onSuccess={handleSuccess}
-        />
-        <SuccessDialog
-          open={openSuccess}
-          onClose={handleCloseSuccess}
-        />
+      </AnimatePresence>
+
+      <BookingForm
+        open={openBooking}
+        onClose={handleCloseBooking}
+        onSuccess={handleSuccess}
+      />
+      <SuccessDialog
+        open={openSuccess}
+        onClose={handleCloseSuccess}
+      />
+    </>
+  );
+}
+
+function App() {
+  return (
+    <Router>
+      <Header />
+      <Container>
+        <AnimatedRoutes />
       </Container>
     </Router>
   );

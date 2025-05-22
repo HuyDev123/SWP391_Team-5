@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, MenuItem } from '@mui/material';
 
 const services = [
-  { value: 'cha-con', label: 'Xét nghiệm cha - con' },
-  { value: 'anh-em', label: 'Xét nghiệm anh - em' },
-  { value: 'huyet-thong', label: 'Xét nghiệm huyết thống khác' },
+  { value: 'huyet-thong', label: 'Xét nghiệm quan hệ Huyết thống' },
+  { value: 'benh-tat', label: 'Xét nghiệm Tầm soát bệnh di truyền' },
+  { value: 'truoc-sinh', label: 'Xét nghiệm trước sinh' },
 ];
 
 function BookingForm({ open, onClose, onSuccess }) {

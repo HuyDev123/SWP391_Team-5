@@ -16,18 +16,29 @@ function RegisterPage() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Ở đây bạn có thể gọi API đăng ký, hiện tại chỉ demo
-    setSuccess(true);
-    setForm({
-      email: '',
-      password: '',
-      name: '',
-      address: '',
-      phone: '',
-    });
-  };
+const handleSubmit = (e) => {
+  e.preventDefault();
+  // Lấy danh sách tài khoản đã có (nếu chưa có thì là mảng rỗng)
+  const users = JSON.parse(localStorage.getItem('users') || '[]');
+  // Kiểm tra email đã tồn tại chưa
+  const existed = users.find(u => u.email === form.email);
+  if (existed) {
+    alert('Email này đã được đăng ký!');
+    return;
+  }
+  // Thêm tài khoản mới
+  users.push(form);
+  // Lưu lại vào localStorage
+  localStorage.setItem('users', JSON.stringify(users));
+  setSuccess(true);
+  setForm({
+    email: '',
+    password: '',
+    name: '',
+    address: '',
+    phone: '',
+  });
+};
 
   return (
     <Container maxWidth="sm">
