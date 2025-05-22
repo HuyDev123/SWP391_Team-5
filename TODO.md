@@ -4,11 +4,10 @@
 - [ ] Thiết kế giao diện trang chủ: giới thiệu dịch vụ, chia sẻ kiến thức ADN, hướng dẫn lấy mẫu
 - [ ] Trang tư vấn liên hệ qua Facebook/Zalo/Hotline (hỗ trợ nhúng link, button)
 - [ ] Form đặt lịch xét nghiệm cho khách chưa có tài khoản (cần nhập: họ tên, số điện thoại, loại dịch vụ)
-- [ ] Giao diện đăng ký tài khoản (form: gmail, password, họ tên, địa chỉ, số điện thoại)
+- [ ] Giao diện đăng ký tài khoản/ đăng nhập (form: gmail, password, họ tên, địa chỉ, số điện thoại)
 - [ ] Thông báo xác nhận đặt lịch thành công
 
 ## Thành viên 2: Khách hàng chính thức (Customer)
-- [ ] Giao diện đăng nhập, đăng xuất, quên mật khẩu
 - [ ] Trang quản lý thông tin cá nhân (cập nhật, đổi mật khẩu)
 - [ ] Trang đặt lịch xét nghiệm dành cho khách đã đăng nhập
 - [ ] Theo dõi tiến trình xét nghiệm ADN (timeline, trạng thái)
@@ -30,7 +29,6 @@
 - [ ] Xem lịch sử xét nghiệm của từng khách hàng
 - [ ] Quản lý tài khoản (thêm, xóa, phân quyền nhân viên/quản lý)
 - [ ] Quản lý dịch vụ, cập nhật bảng giá, thông tin dịch vụ
-- [ ] Phân quyền, cấp quyền và thu hồi quyền cho tài khoản
 - [ ] Quản trị nội dung tài liệu chia sẻ (blog, hướng dẫn)
 
 ---
