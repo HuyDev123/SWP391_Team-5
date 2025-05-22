@@ -1,13 +1,13 @@
 # TODO - Công việc Frontend cho 4 thành viên (Dự án quản lý dịch vụ xét nghiệm ADN)
 
-## Thành viên 1: Giao diện khách (Guest) & Trang chủ
+## Thành viên 1 (Duy): Giao diện khách (Guest) & Trang chủ
 - [ ] Thiết kế giao diện trang chủ: giới thiệu dịch vụ, chia sẻ kiến thức ADN, hướng dẫn lấy mẫu
 - [ ] Trang tư vấn liên hệ qua Facebook/Zalo/Hotline (hỗ trợ nhúng link, button)
 - [ ] Form đặt lịch xét nghiệm cho khách chưa có tài khoản (cần nhập: họ tên, số điện thoại, loại dịch vụ)
 - [ ] Giao diện đăng ký tài khoản (form: gmail, password, họ tên, địa chỉ, số điện thoại)
 - [ ] Thông báo xác nhận đặt lịch thành công
 
-## Thành viên 2: Khách hàng chính thức (Customer)
+## Thành viên 2 (Đăng): Khách hàng chính thức (Customer)
 - [ ] Giao diện đăng nhập, đăng xuất, quên mật khẩu
 - [ ] Trang quản lý thông tin cá nhân (cập nhật, đổi mật khẩu)
 - [ ] Trang đặt lịch xét nghiệm dành cho khách đã đăng nhập
@@ -16,18 +16,18 @@
 - [ ] Tra cứu & tải kết quả xét nghiệm (file PDF, bảo mật)
 - [ ] Đánh giá & gửi feedback cho từng dịch vụ đã dùng
 
-## Thành viên 3: Nhân viên (Staff)
+## Thành viên 3(Ý): Nhân viên (Staff)
 - [ ] Đăng nhập với quyền nhân viên
 - [ ] Trang xem danh sách lịch hẹn cần xử lý
 - [ ] Giao diện cập nhật trạng thái từng đơn xét nghiệm (đã nhận mẫu, đang xét nghiệm, hoàn tất, đã trả kết quả)
 - [ ] Form nhập kết quả xét nghiệm, upload file PDF kết quả
 - [ ] Giao diện chỉnh sửa thông tin khách hẹn (nếu cần)
-- [ ] Thông báo nhắc nhở các đơn chưa hoàn thành
+- [ ] Thông báo nhắc nhở có đơn mới
 
-## Thành viên 4: Quản lý (Manager) & Quản trị viên (Admin)
-- [ ] Dashboard tổng hợp: số lịch hẹn, trạng thái, doanh thu, thống kê feedback
-- [ ] Trang quản lý feedback, rating của khách hàng (duyệt, trả lời)
-- [ ] Xem lịch sử xét nghiệm của từng khách hàng
+## Thành viên 4(Huy): Quản lý (Manager) & Quản trị viên (Admin)
+- [x] Dashboard tổng hợp: số lịch hẹn, trạng thái, doanh thu, thống kê feedback
+- [x] Trang quản lý feedback, rating của khách hàng (duyệt, trả lời)
+- [x] Xem lịch sử xét nghiệm của từng khách hàng
 - [ ] Quản lý tài khoản (thêm, xóa, phân quyền nhân viên/quản lý)
 - [ ] Quản lý dịch vụ, cập nhật bảng giá, thông tin dịch vụ
 - [ ] Phân quyền, cấp quyền và thu hồi quyền cho tài khoản
