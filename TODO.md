@@ -27,7 +27,7 @@
 - [ ] Dashboard tổng hợp: số lịch hẹn, trạng thái, doanh thu, thống kê feedback
 - [ ] Trang quản lý feedback, rating của khách hàng (duyệt, trả lời)
 - [ ] Xem lịch sử xét nghiệm của từng khách hàng
-- [ ] Quản lý tài khoản (thêm, xóa, phân quyền nhân viên/quản lý)
+- [ ] Quản lý tài khoản (thêm, xóa, sửa tài khoản nhân viên/quản lý)
 - [ ] Quản lý dịch vụ, cập nhật bảng giá, thông tin dịch vụ
 - [ ] Quản trị nội dung tài liệu chia sẻ (blog, hướng dẫn)
 
