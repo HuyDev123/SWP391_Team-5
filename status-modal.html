@@ -1,0 +1,44 @@
+<!-- Modal cập nhật trạng thái -->
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Cập nhật trạng thái</title>
+  <link rel="stylesheet" href="modal.css">
+</head>
+<body>
+<div class="modal" id="statusUpdateModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3 class="modal-title">Cập nhật trạng thái</h3>
+      <span class="close-modal">&times;</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <div class="modal-info-block">
+        <p><strong>Mã cuộc hẹn:</strong> <span id="status-appointment-id">DNA-1234</span></p>
+        <p><strong>Tên khách hàng:</strong> <span id="status-patient-name">Nguyễn Văn An</span></p>
+        <p><strong>Loại dịch vụ:</strong> <span id="status-service-type">Xét nghiệm ADN huyết thống</span></p>
+      </div>
+      <div class="modal-form-block">
+        <label for="appointment-status" class="modal-label">Cập nhật trạng thái:</label>
+        <select id="appointment-status" class="modal-input">
+          <option value="received">Đã nhận mẫu</option>
+          <option value="testing">Đang xét nghiệm</option>
+          <option value="completed">Hoàn thành</option>
+          <option value="returned">Đã trả kết quả</option>
+        </select>
+      </div>
+      <div class="modal-form-block">
+        <label for="status-notes" class="modal-label">Ghi chú:</label>
+        <textarea id="status-notes" class="modal-input" placeholder="Nhập ghi chú về việc cập nhật trạng thái..."></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <hr style="width:100%;margin-bottom:16px;">
+      <button class="action-btn save-btn" id="saveStatusBtn">Lưu thay đổi</button>
+      <button class="action-btn cancel-btn">Hủy bỏ</button>
+    </div>
+  </div>
+</div>
+</body>
+</html>

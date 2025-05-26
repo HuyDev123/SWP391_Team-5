@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DNA Testing Staff Portal</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+  <link rel="stylesheet" href="main.css" />
+  <link rel="stylesheet" href="menu.css" />
+  <link rel="stylesheet" href="dashboard.css" />
+  <link rel="stylesheet" href="modal.css">
+</head>
+<body>
+  <div id="menu-container"></div>
+  <div id="main-content">
+    <div class="header">
+      <form class="search-box">
+        <i class="fa fa-search"></i>
+        <input type="text" placeholder="Tìm kiếm cuộc hẹn..." />
+      </form>
+      <div class="notifications">
+        <div class="notifications-dropdown-container">
+          <span class="notification-icon">
+            <i class="fa fa-bell"></i>
+            <span class="notification-badge">5</span>
+          </span>
+          <!-- Dropdown sẽ được JS xử lý -->
+        </div>
+        <div class="header-avatar">S</div>
+      </div>
+    </div>    <div id="main-content"></div>
+    <!-- Modal sẽ luôn được load động vào body, không để sẵn modal trong bất kỳ file HTML nào ngoài index.html/body -->
+  </div>  <script src="menu.js"></script>
+  <script src="main.js"></script>
+  <script>
+    // Load menu.html vào menu-container
+    fetch('menu.html').then(res => res.text()).then(html => {
+      document.getElementById('menu-container').innerHTML = html;
+      // Gắn sự kiện chuyển trang cho menu
+      document.querySelectorAll('.menu-link[data-page]').forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          document.querySelectorAll('.menu-link').forEach(l => l.classList.remove('active'));
+          this.classList.add('active');
+          let page = this.getAttribute('data-page');
+          let url = page === 'dashboard' ? 'dashboard.html' : page + '.html';
+          loadPage(url);
+        });
+      });
+    });
+    // Load nội dung động vào main-content
+    function loadPage(url) {
+      fetch(url).then(res => res.text()).then(html => {
+        document.getElementById('main-content').innerHTML = html;
+      });
+    }
+    // Load dashboard mặc định
+    loadPage('dashboard.html');
+  </script>
+</body>
+</html>

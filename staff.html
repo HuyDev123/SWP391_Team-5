@@ -1,0 +1,3480 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DNA Testing Staff Portal</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <style>
+      :root {
+        --primary-color: #3f51b5;
+        --secondary-color: #4caf50;
+        --accent-color: #ff5722;
+        --text-color: #333;
+        --light-text: #777;
+        --light-bg: #f5f8ff;
+        --white: #fff;
+        --border-color: #e0e0e0;
+        --sidebar-width: 250px;
+        --header-height: 60px;
+        --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+      
+      body {
+        background-color: var(--light-bg);
+        color: var(--text-color);
+        min-height: 100vh;
+        width: 100%;
+        overflow-x: hidden;
+        position: relative;
+      }
+      
+      /* Sidebar */
+      .sidebar {
+        width: var(--sidebar-width);
+        background-color: var(--white);
+        box-shadow: var(--shadow);
+        padding: 20px 0;
+        position: fixed;
+        height: 100vh;
+        overflow-y: auto;
+        transition: all 0.3s ease;
+        z-index: 100;
+        left: 0;
+        top: 0;
+      }
+
+      .sidebar-header {
+        padding: 0 20px 20px;
+        border-bottom: 1px solid var(--border-color);
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 10px;
+      }
+
+      .logo img {
+        width: 40px;
+        height: 40px;
+      }
+
+      .logo h1 {
+        font-size: 1.5rem;
+        color: var(--primary-color);
+      }
+
+      .user-info {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .user-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: var(--primary-color);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--white);
+        font-weight: bold;
+      }
+
+      .user-name {
+        font-weight: 600;
+      }
+
+      .user-role {
+        font-size: 0.8rem;
+        color: var(--light-text);
+      }
+
+      /* CSS cho trang kết quả xét nghiệm */
+      .file-attachment {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        border-radius: 5px;
+        background-color: var(--light-bg);
+        margin-bottom: 5px;
+      }
+
+      .file-attachment a {
+        color: var(--primary-color);
+        text-decoration: none;
+      }
+
+      .file-attachment a:hover {
+        text-decoration: underline;
+      }
+
+      /* Status badges cho kết quả xét nghiệm */
+      .status-pending {
+        background-color: #e0e0e0;
+        color: #616161;
+      }
+
+      .status-inprogress {
+        background-color: #e3f2fd;
+        color: #2196F3;
+      }
+
+      .status-completed {
+        background-color: #e8f5e9;
+        color: #4caf50;
+      }
+
+      .status-verified {
+        background-color: #e8eaf6;
+        color: #3f51b5;
+      }
+
+      .status-delivered {
+        background-color: #e1f5fe;
+        color: #03a9f4;
+      }
+
+      /* Notification Dropdown Styles */
+      .notifications-dropdown-container {
+        position: relative;
+      }
+
+      .notifications-dropdown {
+        position: absolute;
+        top: 45px;
+        right: 0;
+        width: 350px;
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+        z-index: 1000;
+        display: none;
+        max-height: 500px;
+        overflow-y: auto;
+      }
+
+      .notifications-dropdown:before {
+        content: '';
+        position: absolute;
+        top: -8px;
+        right: 12px;
+        width: 16px;
+        height: 16px;
+        background-color: white;
+        transform: rotate(45deg);
+        border-top: 1px solid rgba(0, 0, 0, 0.05);
+        border-left: 1px solid rgba(0, 0, 0, 0.05);
+      }
+
+      .notifications-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px;
+        border-bottom: 1px solid var(--border-color);
+      }
+
+      .notifications-header h3 {
+        margin: 0;
+        font-size: 1.1rem;
+      }
+
+      .mark-all-read {
+        background: none;
+        border: none;
+        color: var(--primary-color);
+        font-size: 0.8rem;
+        cursor: pointer;
+        padding: 5px;
+      }
+
+      .notifications-list {
+        max-height: 400px;
+        overflow-y: auto;
+      }
+
+      .notification-item {
+        display: flex;
+        padding: 15px;
+        border-bottom: 1px solid #f0f0f0;
+        position: relative;
+        transition: background-color 0.2s;
+        cursor: pointer;
+      }
+
+      .notification-item:hover {
+        background-color: #f5f8ff;
+      }
+
+      .notification-item.new {
+        background-color: rgba(63, 81, 181, 0.05);
+      }
+
+      .notification-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 15px;
+      }
+
+      .notification-icon.info {
+        background-color: rgba(33, 150, 243, 0.15);
+        color: #2196F3;
+      }
+
+      .notification-icon.success {
+        background-color: rgba(76, 175, 80, 0.15);
+        color: var(--secondary-color);
+      }
+
+      .notification-icon.warning {
+        background-color: rgba(255, 152, 0, 0.15);
+        color: #ff9800;
+      }
+
+      .notification-icon.error {
+        background-color: rgba(244, 67, 54, 0.15);
+        color: #f44336;
+      }
+
+      .notification-content {
+        flex: 1;
+      }
+
+      .notification-title {
+        margin: 0;
+        font-weight: 600;
+        font-size: 0.9rem;
+        margin-bottom: 3px;
+      }
+
+      .notification-message {
+        margin: 0;
+        font-size: 0.8rem;
+        color: var(--light-text);
+        margin-bottom: 5px;
+      }
+
+      .notification-time {
+        margin: 0;
+        font-size: 0.75rem;
+        color: #999;
+      }
+
+      .notification-dot {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background-color: var(--primary-color);
+      }
+
+      .notifications-footer {
+        padding: 15px;
+        text-align: center;
+        border-top: 1px solid var(--border-color);
+      }
+
+      .notifications-footer a {
+        color: var(--primary-color);
+        text-decoration: none;
+        font-size: 0.9rem;
+      }
+
+      .notifications-footer a:hover {
+        text-decoration: underline;
+      }
+
+      .show-dropdown {
+        display: block;
+        animation: fadeIn 0.2s ease-in-out;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.1);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      .pulse {
+        animation: pulse 2s infinite;
+      }
+      
+      .sidebar-menu {
+        padding: 20px;
+      }
+
+      .menu-title {
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: var(--light-text);
+        margin-bottom: 15px;
+      }
+
+      .menu-items {
+        list-style: none;
+      }
+
+      .menu-item {
+        margin-bottom: 5px;
+      }
+
+      .menu-link {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 15px;
+        border-radius: 5px;
+        text-decoration: none;
+        color: var(--text-color);
+        transition: all 0.3s ease;
+      }
+
+      .menu-link:hover,
+      .menu-link.active {
+        background-color: var(--light-bg);
+        color: var(--primary-color);
+      }
+
+      .menu-link i {
+        width: 20px;
+      }
+      
+      /* Main Content */
+      .main-content {
+        margin-left: var(--sidebar-width);
+        padding: var(--header-height) 20px 20px;
+        box-sizing: border-box;
+        overflow-x: hidden;
+        width: calc(100% - var(--sidebar-width));
+        position: relative;
+      }
+
+      .main-content > div {
+          width: 100%;
+          padding-top: 20px;
+        }
+        
+        /* Đảm bảo trang appointments hiển thị đúng */
+        .appointments-page {
+          width: 100%;
+          min-height: calc(100vh - var(--header-height));
+        }
+        
+        /* Đảm bảo bảng hiển thị trên các kích thước màn hình */
+        @media screen and (max-width: 992px) {
+          #appointmentsTable {
+            display: block;
+            overflow-x: auto;
+          }
+        }
+        
+        /* Đảm bảo không có padding đè lên nhau */
+        .main-content > div:not(.header) {
+          padding: 20px;
+        }
+
+      .header {
+        position: fixed;
+        top: 0;
+        left: var(--sidebar-width);
+        right: 0;
+        height: var(--header-height);
+        background-color: var(--white);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 20px;
+        box-shadow: var(--shadow);
+        z-index: 99;
+      }
+
+      .toggle-sidebar {
+        display: none;
+        background: none;
+        border: none;
+        font-size: 1.2rem;
+        cursor: pointer;
+        color: var(--text-color);
+      }
+
+      .search-box {
+        display: flex;
+        align-items: center;
+        background-color: var(--light-bg);
+        border-radius: 50px;
+        padding: 5px 15px;
+        width: 300px;
+      }
+
+      .search-box input {
+        flex: 1;
+        border: none;
+        background: none;
+        outline: none;
+        padding: 8px;
+        font-size: 0.9rem;
+      }
+
+      .search-box i {
+        color: var(--light-text);
+      }
+
+      .notifications {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+
+      .notification-icon {
+        font-size: 1.2rem;
+        color: var(--text-color);
+        cursor: pointer;
+      }
+
+      .notification-badge {
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        background-color: var(--accent-color);
+        color: var(--white);
+        border-radius: 50%;
+        width: 15px;
+        height: 15px;
+        font-size: 0.7rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* Dashboard Contents */
+      .dashboard {
+        padding: 20px 0;
+      }
+
+      .page-title {
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+      }
+
+      .stats-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+        margin-bottom: 30px;
+      }
+
+      .stat-card {
+        background-color: var(--white);
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: var(--shadow);
+        display: flex;
+        flex-direction: column;
+      }
+
+      .stat-header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 15px;
+      }
+
+      .stat-title {
+        font-weight: 600;
+        color: var(--light-text);
+      }
+
+      .stat-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--white);
+      }
+
+      .stat-value {
+        font-size: 1.8rem;
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+
+      .stat-description {
+        font-size: 0.8rem;
+        color: var(--light-text);
+      }
+
+      .positive {
+        color: var(--secondary-color);
+      }
+
+      .negative {
+        color: var(--accent-color);
+      }
+      
+      .alert-box {
+        background-color: #fff3e0;
+        border-left: 4px solid #ff9800;
+        padding: 15px;
+        margin-bottom: 20px;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      
+      .alert-icon {
+        font-size: 1.5rem;
+        color: #ff9800;
+      }
+      
+      .alert-content {
+        flex: 1;
+      }
+      
+      .alert-title {
+        font-weight: 600;
+        margin-bottom: 5px;
+      }
+      
+      .table-container {
+        background-color: var(--white);
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: var(--shadow);
+        margin-bottom: 20px;
+      }
+
+      .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .section-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+      }
+
+      .section-actions {
+        display: flex;
+        gap: 10px;
+      }
+
+      .section-actions select,
+      .section-actions button {
+        padding: 8px 15px;
+        border: 1px solid var(--border-color);
+        border-radius: 5px;
+        background-color: var(--white);
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .section-actions button {
+        background-color: var(--primary-color);
+        color: var(--white);
+        border: none;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      thead th {
+        padding: 10px;
+        text-align: left;
+        border-bottom: 2px solid var(--border-color);
+        font-weight: 600;
+      }
+
+      tbody td {
+        padding: 10px;
+        border-bottom: 1px solid var(--border-color);
+      }
+
+      tbody tr:hover {
+        background-color: var(--light-bg);
+      }
+
+      .action-btn {
+        padding: 5px 10px;
+        border-radius: 5px;
+        text-decoration: none;
+        color: var(--white);
+        font-size: 0.8rem;
+        margin-right: 5px;
+        display: inline-block;
+        cursor: pointer;
+      }
+
+      .view-btn {
+        background-color: var(--primary-color);
+      }
+
+      .edit-btn {
+        background-color: var(--secondary-color);
+      }
+
+      .delete-btn {
+        background-color: var(--accent-color);
+      }
+      
+      /* Status badges */
+      .status-badge {
+        padding: 5px 10px;
+        border-radius: 50px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        display: inline-block;
+      }
+
+      .status-requested {
+        background-color: #e3f2fd;
+        color: #2196F3;
+      }
+
+      .status-received {
+        background-color: #fff8e1;
+        color: #ffc107;
+      }
+
+      .status-testing {
+        background-color: #f9fbe7;
+        color: #8bc34a;
+      }
+
+      .status-completed {
+        background-color: #e8f5e9;
+        color: var(--secondary-color);
+      }
+
+      .status-returned {
+        background-color: #e1f5fe;
+        color: #03a9f4;
+      }
+
+      .status-urgent {
+        background-color: #ffebee;
+        color: #f44336;
+      }
+      
+      /* Modal styles */
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.4);
+      }
+
+      .modal-content {
+        background-color: var(--white);
+        margin: 5% auto;
+        padding: 20px;
+        border-radius: 10px;
+        width: 70%;
+        max-width: 900px;
+        box-shadow: var(--shadow);
+        position: relative;
+      }
+
+      .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid var(--border-color);
+        padding-bottom: 15px;
+        margin-bottom: 20px;
+      }
+
+      .modal-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+      }
+
+      .close-modal {
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: var(--light-text);
+      }
+
+      .modal-body {
+        margin-bottom: 20px;
+      }
+
+      .modal-footer {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        border-top: 1px solid var(--border-color);
+        padding-top: 15px;
+      }
+
+      /* Notification styles */
+      .notification-container {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 1000;
+      }
+
+      .notification {
+        background-color: var(--white);
+        box-shadow: var(--shadow);
+        border-radius: 5px;
+        padding: 15px;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        max-width: 300px;
+        animation: slideIn 0.3s ease-out forwards;
+      }
+
+      @keyframes slideIn {
+        from {
+          transform: translateX(100%);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+
+      .notification-icon {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--white);
+      }
+
+      .notification-info {
+        color: #2196F3;
+      }
+
+      .notification-success {
+        color: var(--secondary-color);
+      }
+
+      .notification-warning {
+        color: #ff9800;
+      }
+
+      .notification-error {
+        color: #f44336;
+      }
+
+      .notification-content {
+        flex: 1;
+      }
+
+      .notification-title {
+        font-weight: 600;
+        margin-bottom: 5px;
+      }
+
+      .notification-message {
+        font-size: 0.8rem;
+        color: var(--light-text);
+      }
+
+      .notification-close {
+        color: var(--light-text);
+        cursor: pointer;
+      }
+      
+      /* Notification page styles */
+      .notification-container-full {
+        width: 100%;
+      }
+      
+      .notification-container-full .notification-item {
+        margin-bottom: 10px;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        background-color: var(--white);
+        padding: 15px;
+        cursor: pointer;
+        display: flex;
+        align-items: flex-start;
+      }
+      
+      .notification-container-full .notification-item:hover {
+        background-color: #f5f8ff;
+      }
+      
+      .notification-container-full .notification-item.new {
+        background-color: rgba(63, 81, 181, 0.05);
+        border-left: 3px solid var(--primary-color);
+      }
+      
+      .notification-container-full .notification-icon {
+        margin-right: 15px;
+        flex-shrink: 0;
+      }
+      
+      .notification-container-full .notification-content {
+        flex: 1;
+      }
+      
+      #backToDashboard {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      
+      /* Responsive styles */
+      @media screen and (max-width: 992px) {
+        .form-row {
+          flex-direction: column;
+          gap: 15px;
+        }
+      }
+
+      @media screen and (max-width: 768px) {
+        .toggle-sidebar {
+          display: block;
+        }
+
+        .sidebar {
+          transform: translateX(-100%);
+        }
+
+        .sidebar.active {
+          transform: translateX(0);
+        }
+
+        .main-content,
+        .header {
+          margin-left: 0;
+          left: 0;
+          width: 100%;
+        }
+
+        .search-box {
+          width: 200px;
+        }
+
+        .stats-container {
+          grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="logo">
+          <img src="https://via.placeholder.com/40" alt="Logo" />
+          <h1>Xét nghiệm DNA</h1>
+        </div>
+        <div class="user-info">
+          <div class="user-avatar">S</div>
+          <div>
+            <div class="user-name">Trần Thị Hoa</div>
+            <div class="user-role">Nhân viên xét nghiệm</div>
+          </div>
+        </div>
+      </div>
+      <div class="sidebar-menu">
+        <div class="menu-title">Menu chính</div>
+        <ul class="menu-items">
+          <li class="menu-item">
+            <a href="#" class="menu-link active" data-page="dashboard">
+              <i class="fas fa-tachometer-alt"></i>
+              <span>Tổng quan</span>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="#" class="menu-link" data-page="appointments">
+              <i class="fas fa-calendar-check"></i>
+              <span>Cuộc hẹn</span>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="#" class="menu-link" data-page="test-results">
+              <i class="fas fa-flask"></i>
+              <span>Kết quả xét nghiệm</span>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="#" class="menu-link" data-page="samples">
+              <i class="fas fa-vial"></i>
+              <span>Quản lý mẫu</span>
+            </a>
+          </li>
+        </ul>
+
+        <div class="menu-title" style="margin-top: 30px">Công cụ</div>
+        <ul class="menu-items">
+          <li class="menu-item">
+            <a href="#" class="menu-link">
+              <i class="fas fa-file-pdf"></i>
+              <span>Mẫu báo cáo</span>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="#" class="menu-link">
+              <i class="fas fa-cog"></i>
+              <span>Cài đặt</span>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="#" class="menu-link">
+              <i class="fas fa-sign-out-alt"></i>
+              <span>Đăng xuất</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <!-- Header -->
+      <header class="header">
+        <button class="toggle-sidebar">
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="search-box">
+          <i class="fas fa-search"></i>
+          <input type="text" placeholder="Tìm kiếm cuộc hẹn..." />
+        </div>
+        <div class="notifications-dropdown-container">
+          <div style="position: relative">
+            <div style="width: 30px; height: 30px; background: linear-gradient(135deg, #3f51b5, #9c27b0); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer;" id="notificationBell">
+              <i class="fas fa-bell" style="color: white; font-size: 14px;"></i>
+            </div>
+            <span class="notification-badge pulse" id="notificationCount">5</span>
+          </div>
+          
+          <!-- Dropdown content -->
+          <div class="notifications-dropdown" id="notificationsDropdown">
+            <div class="notifications-header">
+              <h3>Thông báo</h3>
+              <button class="mark-all-read">Đánh dấu đã đọc</button>
+            </div>
+            <div class="notifications-list">
+              <!-- Sample notifications -->
+              <div class="notification-item new">
+                <div class="notification-icon warning">
+                  <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <div class="notification-content">
+                  <p class="notification-title">Mẫu khẩn cấp</p>
+                  <p class="notification-message">Mẫu xét nghiệm ADN huyết thống cần được xử lý gấp</p>
+                  <p class="notification-time">5 phút trước</p>
+                </div>
+                <div class="notification-dot"></div>
+              </div>
+              <div class="notification-item new">
+                <div class="notification-icon info">
+                  <i class="fas fa-info-circle"></i>
+                </div>
+                <div class="notification-content">
+                  <p class="notification-title">Đơn hàng mới</p>
+                  <p class="notification-message">Có một cuộc hẹn mới (DNA-1245) đã được đặt</p>
+                  <p class="notification-time">30 phút trước</p>
+                </div>
+                <div class="notification-dot"></div>
+              </div>
+              <div class="notification-item">
+                <div class="notification-icon success">
+                  <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="notification-content">
+                  <p class="notification-title">Kết quả xét nghiệm</p>
+                  <p class="notification-message">Kết quả xét nghiệm mẫu DNA-1230 đã hoàn thành</p>
+                  <p class="notification-time">2 giờ trước</p>
+                </div>
+              </div>
+              <div class="notification-item">
+                <div class="notification-icon error">
+                  <i class="fas fa-exclamation-circle"></i>
+                </div>
+                <div class="notification-content">
+                  <p class="notification-title">Lỗi hệ thống</p>
+                  <p class="notification-message">Hệ thống đã gặp lỗi khi xử lý mẫu DNA-1220</p>
+                  <p class="notification-time">1 ngày trước</p>
+                </div>
+              </div>
+              <div class="notification-item">
+                <div class="notification-icon info">
+                  <i class="fas fa-info-circle"></i>
+                </div>
+                <div class="notification-content">
+                  <p class="notification-title">Cập nhật hệ thống</p>
+                  <p class="notification-message">Hệ thống sẽ bảo trì vào ngày 25/05 từ 22:00-23:00</p>
+                  <p class="notification-time">2 ngày trước</p>
+                </div>
+                <div class="notification-dot"></div>
+              </div>
+            </div>
+            <div class="notifications-footer">
+              <a href="javascript:void(0)" class="view-all-notifications">Xem tất cả thông báo</a>
+            </div>
+          </div>
+        </div>
+        
+      </header>
+
+      <!-- Dashboard Content - Chuyển tất cả nội dung vào main-content -->
+      <div class="dashboard" id="dashboard-page">
+        <h2 class="page-title">Bảng điều khiển nhân viên</h2>
+        
+        <!-- Alert for new orders -->
+        <div class="alert-box">
+          <div class="alert-icon">
+            <i class="fas fa-bell"></i>
+          </div>
+          <div class="alert-content">
+            <div class="alert-title">Thông báo quan trọng</div>
+            <p>Có <strong>3 cuộc hẹn khẩn cấp</strong> đang chờ xử lý và <strong>2 kết quả xét nghiệm</strong> cần được xem xét.</p>
+          </div>
+        </div>
+        
+        <!-- Stats Cards -->
+        <div class="stats-container">
+          <div class="stat-card">
+            <div class="stat-header">
+              <div class="stat-title">Mẫu mới</div>
+              <div class="stat-icon" style="background-color: var(--primary-color)">
+                <i class="fas fa-vial"></i>
+              </div>
+            </div>
+            <div class="stat-value">8</div>
+            <div class="stat-description">
+              Nhận hôm nay
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-header">
+              <div class="stat-title">Đang xét nghiệm</div>
+              <div class="stat-icon" style="background-color: var(--secondary-color)">
+                <i class="fas fa-flask"></i>
+              </div>
+            </div>
+            <div class="stat-value">12</div>
+            <div class="stat-description">
+              <span class="negative">3 khẩn cấp</span>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-header">
+              <div class="stat-title">Hoàn thành</div>
+              <div class="stat-icon" style="background-color: var(--accent-color)">
+                <i class="fas fa-check-circle"></i>
+              </div>
+            </div>
+            <div class="stat-value">23</div>
+            <div class="stat-description">
+              <span class="positive">Tuần này</span>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-header">
+              <div class="stat-title">Đang chờ kết quả</div>
+              <div class="stat-icon" style="background-color: #9c27b0">
+                <i class="fas fa-clipboard-list"></i>
+              </div>
+            </div>
+            <div class="stat-value">5</div>
+            <div class="stat-description">
+              Cần nhập kết quả
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Appointments Table -->
+        <div class="table-container">
+          <div class="section-header">
+            <h3 class="section-title">Cuộc hẹn gần đây</h3>
+            <div class="section-actions">
+              <button id="viewAllAppointments">Xem tất cả</button>
+            </div>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Mã</th>
+                <th>Tên khách hàng</th>
+                <th>Số điện thoại</th>
+                <th>Loại dịch vụ</th>
+                <th>Địa chỉ</th>
+                <th>Trạng thái</th>
+                <th>Thao tác</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>DNA-1234</td>
+                <td>Nguyễn Văn An</td>
+                <td>0912345678</td>
+                <td>Xét nghiệm ADN huyết thống</td>
+                <td>234 Nguyễn Trãi, Q.1, TP.HCM</td>
+                <td><span class="status-badge status-received">Đã nhận mẫu</span></td>
+                <td>
+                  <button class="action-btn view-btn" data-id="DNA-1234">Xem</button>
+                  <button class="action-btn edit-btn" data-id="DNA-1234">Cập nhật</button>
+                </td>
+              </tr>
+              <tr>
+                <td>DNA-1235</td>
+                <td>Trần Thị Bình</td>
+                <td>0923456789</td>
+                <td>Xét nghiệm ADN tổ tiên</td>
+                <td>56 Lê Lợi, Q.1, TP.HCM</td>
+                <td><span class="status-badge status-testing">Đang xét nghiệm</span></td>
+                <td>
+                  <button class="action-btn view-btn" data-id="DNA-1235">Xem</button>
+                  <button class="action-btn edit-btn" data-id="DNA-1235">Cập nhật</button>
+                </td>
+              </tr>
+              <tr>
+                <td>DNA-1236</td>
+                <td>Lê Văn Công</td>
+                <td>0934567890</td>
+                <td>Xét nghiệm sức khỏe gene</td>
+                <td>78 Đinh Tiên Hoàng, Q.3, TP.HCM</td>
+                <td><span class="status-badge status-completed">Hoàn thành</span></td>
+                <td>
+                  <button class="action-btn view-btn" data-id="DNA-1236">Xem</button>
+                  <button class="action-btn edit-btn" data-id="DNA-1236" data-action="results">Kết quả</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      
+      <!-- Notifications Page - Trang hiển thị tất cả các thông báo -->
+      <div class="notifications-page" id="notifications-page" style="display: none;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+          <h2 class="page-title">Tất cả thông báo</h2>
+          <button id="backToDashboard" class="action-btn view-btn" style="height: 35px;"><i class="fas fa-arrow-left"></i> Trở về bảng điều khiển</button>
+        </div>
+        
+        <div class="notifications-list-container">
+          <div class="section-header">
+            <h3 class="section-title">Danh sách thông báo</h3>
+            <div class="section-actions">
+              <select id="notificationFilter" style="padding: 8px 15px; border: 1px solid var(--border-color); border-radius: 5px; margin-right: 10px;">
+                <option value="all">Tất cả thông báo</option>
+                <option value="unread">Chưa đọc</option>
+                <option value="read">Đã đọc</option>
+              </select>
+              <button id="markAllReadBtn" class="action-btn edit-btn" style="background-color: var(--primary-color);">Đánh dấu tất cả đã đọc</button>
+            </div>
+          </div>
+          <div class="notification-container-full" id="notification-container-full" style="display: flex; flex-direction: column; gap: 16px; padding: 16px 0;">
+            <!-- Notifications will be rendered here by JavaScript -->
+          </div>
+        </div>
+      </div>
+      
+      <!-- Appointments Page - Chuyển vào main-content -->
+      <div class="appointments-page" id="appointments-page" style="display: none;">
+        <h2 class="page-title">Quản lý cuộc hẹn</h2>
+        
+        <div class="table-container">
+          <div class="section-header">
+            <h3 class="section-title">Danh sách cuộc hẹn</h3>
+            <div class="section-actions">
+              <select id="appointmentFilterStatus">
+                <option value="all">Tất cả trạng thái</option>
+                <option value="requested">Đã đặt lịch</option>
+                <option value="received">Đã nhận mẫu</option>
+                <option value="testing">Đang xét nghiệm</option>
+                <option value="completed">Hoàn thành</option>
+                <option value="returned">Đã trả kết quả</option>
+              </select>
+              <button id="refreshAppointments" style="margin-right: 10px;">Làm mới</button>
+              <button id="addNewAppointment" class="action-btn view-btn" style="background-color: var(--primary-color);">Thêm mới</button>
+            </div>
+          </div>
+          <table id="appointmentsTable">
+            <thead>
+              <tr>
+                <th>Mã</th>
+                <th>Tên khách hàng</th>
+                <th>Số điện thoại</th>
+                <th>Loại dịch vụ</th>
+                <th>Địa chỉ</th>
+                <th>Trạng thái</th>
+                <th>Thao tác</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Appointment rows will be loaded here -->
+            </tbody>
+          </table>
+          <div id="appointmentsEmptyState" style="display: none; text-align: center; padding: 20px; color: var(--light-text);">
+            <i class="fas fa-calendar-times" style="font-size: 3rem; margin-bottom: 10px;"></i>
+            <p>Không tìm thấy cuộc hẹn nào phù hợp với bộ lọc.</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Cập nhật trang Kết quả xét nghiệm -->
+      <div class="test-results-page" id="test-results-page" style="display: none;">
+        <h2 class="page-title">Kết quả xét nghiệm</h2>
+        
+        <div class="table-container">
+          <div class="section-header">
+            <h3 class="section-title">Danh sách kết quả xét nghiệm</h3>
+            <div class="section-actions">
+              <select id="testResultFilterStatus">
+                <option value="all">Tất cả trạng thái</option>
+                <option value="pending">Chờ xử lý</option>
+                <option value="inprogress">Đang phân tích</option>
+                <option value="completed">Đã hoàn thành</option>
+                <option value="verified">Đã xác minh</option>
+                <option value="delivered">Đã gửi cho khách hàng</option>
+              </select>
+              <select id="testResultFilterType">
+                <option value="all">Tất cả loại xét nghiệm</option>
+                <option value="dna-paternity">ADN Huyết thống</option>
+                <option value="dna-ancestry">ADN Tổ tiên</option>
+                <option value="gene-health">Sức khỏe gene</option>
+                <option value="dna-health">ADN Sức khỏe</option>
+              </select>
+              <button id="refreshTestResults">Làm mới</button>
+            </div>
+          </div>
+          <table id="testResultsTable">
+            <thead>
+              <tr>
+                <th>Mã xét nghiệm</th>
+                <th>Tên khách hàng</th>
+                <th>Loại xét nghiệm</th>
+                <th>Ngày nhận mẫu</th>
+                <th>Ngày hoàn thành</th>
+                <th>Trạng thái</th>
+                <th>Thao tác</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Test results will be loaded here by JavaScript -->
+            </tbody>
+          </table>
+          <div id="testResultsEmptyState" style="display: none; text-align: center; padding: 20px; color: var(--light-text);">
+            <i class="fas fa-flask" style="font-size: 3rem; margin-bottom: 10px;"></i>
+            <p>Không tìm thấy kết quả xét nghiệm nào phù hợp với bộ lọc.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal xem chi tiết kết quả xét nghiệm -->
+      <div class="modal" id="testResultDetailModal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3 class="modal-title">Chi tiết kết quả xét nghiệm</h3>
+            <span class="close-modal">&times;</span>
+          </div>
+          <div class="modal-body">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+              <div>
+                <h4 style="margin-bottom: 10px;">Thông tin mẫu</h4>
+                <p><strong>Mã xét nghiệm:</strong> <span id="view-test-id">TR-5678</span></p>
+                <p><strong>Loại xét nghiệm:</strong> <span id="view-test-type">Xét nghiệm ADN huyết thống</span></p>
+                <p><strong>Mã cuộc hẹn:</strong> <span id="view-test-appointment-id">DNA-1234</span></p>
+                <p><strong>Ngày nhận mẫu:</strong> <span id="view-test-received-date">22/05/2025</span></p>
+                <p><strong>Ngày hoàn thành:</strong> <span id="view-test-completed-date">25/05/2025</span></p>
+              </div>
+              <div>
+                <h4 style="margin-bottom: 10px;">Thông tin khách hàng</h4>
+                <p><strong>Tên khách hàng:</strong> <span id="view-test-patient-name">Nguyễn Văn An</span></p>
+                <p><strong>Số điện thoại:</strong> <span id="view-test-patient-phone">0912345678</span></p>
+                <p><strong>Email:</strong> <span id="view-test-patient-email">nguyenvanan@email.com</span></p>
+                <p><strong>Địa chỉ:</strong> <span id="view-test-patient-address">234 Nguyễn Trãi, Q.1, TP.HCM</span></p>
+                <p><strong>Trạng thái:</strong> <span id="view-test-status" class="status-badge status-completed">Đã hoàn thành</span></p>
+              </div>
+            </div>
+            <div style="margin-bottom: 15px;">
+              <h4 style="margin-bottom: 10px;">Tóm tắt kết quả</h4>
+              <div id="view-test-summary" style="padding: 10px; background-color: var(--light-bg); border-radius: 5px;">
+                Kết quả xét nghiệm ADN huyết thống cho thấy xác suất quan hệ cha con là 99.99%.
+              </div>
+            </div>
+            <div style="margin-bottom: 15px;">
+              <h4 style="margin-bottom: 10px;">Chi tiết kết quả</h4>
+              <div id="view-test-details" style="padding: 10px; background-color: var(--light-bg); border-radius: 5px; max-height: 200px; overflow-y: auto;">
+                <p>Xét nghiệm ADN huyết thống so sánh 23 marker di truyền giữa hai mẫu. Dựa vào kết quả phân tích, chỉ số quan hệ (PI) đạt 99.99%, khẳng định mối quan hệ huyết thống giữa hai người.</p>
+                <p>Các marker được phân tích: D3S1358, vWA, FGA, D8S1179, D21S11, D18S51, D5S818, D13S317, D7S820, D16S539, THO1, TPOX, CSF1PO, D19S433, D2S1338, D10S1248, D1S1656, D22S1045, D2S441, D12S391, D8S1132.</p>
+                <p>Kết quả cho thấy sự tương đồng cao giữa hai người trong tất cả các marker.</p>
+              </div>
+            </div>
+            <div>
+              <h4 style="margin-bottom: 10px;">Tệp kết quả</h4>
+              <div id="view-test-files" style="display: flex; gap: 10px;">
+                <div class="file-attachment">
+                  <i class="fas fa-file-pdf" style="color: #f44336; margin-right: 5px;"></i>
+                  <a href="#" id="download-report">Báo cáo kết quả xét nghiệm.pdf</a>
+                </div>
+                <div class="file-attachment">
+                  <i class="fas fa-file-excel" style="color: #4caf50; margin-right: 5px;"></i>
+                  <a href="#" id="download-data">Dữ liệu phân tích chi tiết.xlsx</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="action-btn view-btn" id="downloadAllResults">Tải về tất cả</button>
+            <button class="action-btn edit-btn" id="updateTestStatus">Cập nhật trạng thái</button>
+            <button style="background-color: #999; color: white; padding: 8px 15px; border: none; border-radius: 5px; cursor: pointer;" onclick="closeModal('testResultDetailModal')">Đóng</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal cập nhật trạng thái kết quả -->
+      <div class="modal" id="testStatusUpdateModal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3 class="modal-title">Cập nhật trạng thái kết quả</h3>
+            <span class="close-modal">&times;</span>
+          </div>
+          <div class="modal-body">
+            <div style="margin-bottom: 20px;">
+              <p><strong>Mã xét nghiệm:</strong> <span id="status-test-id">TR-5678</span></p>
+              <p><strong>Tên khách hàng:</strong> <span id="status-test-patient-name">Nguyễn Văn An</span></p>
+              <p><strong>Loại xét nghiệm:</strong> <span id="status-test-type">Xét nghiệm ADN huyết thống</span></p>
+            </div>
+            <div style="margin-bottom: 15px;">
+              <label for="test-status" style="display: block; margin-bottom: 5px; font-weight: bold;">Cập nhật trạng thái:</label>
+              <select id="test-status" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid var(--border-color);">
+                <option value="pending">Chờ xử lý</option>
+                <option value="inprogress">Đang phân tích</option>
+                <option value="completed">Đã hoàn thành</option>
+                <option value="verified">Đã xác minh</option>
+                <option value="delivered">Đã gửi cho khách hàng</option>
+              </select>
+            </div>
+            <div>
+              <label for="test-status-notes" style="display: block; margin-bottom: 5px; font-weight: bold;">Ghi chú:</label>
+              <textarea id="test-status-notes" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid var(--border-color); min-height: 100px;" placeholder="Nhập ghi chú về việc cập nhật trạng thái..."></textarea>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="action-btn view-btn" onclick="saveTestStatusUpdate(); closeModal('testStatusUpdateModal')">Lưu thay đổi</button>
+            <button style="background-color: #999; color: white; padding: 8px 15px; border: none; border-radius: 5px; cursor: pointer;" onclick="closeModal('testStatusUpdateModal')">Hủy bỏ</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Test Results Page -->
+      <div class="test-results-page" id="test-results-page" style="display: none;">
+        <h2 class="page-title">Kết quả xét nghiệm</h2>
+        <!-- Nội dung trang kết quả -->
+      </div>
+      
+      <!-- Samples Management Page -->
+      <div class="samples-page" id="samples-page" style="display: none;">
+        <h2 class="page-title">Quản lý mẫu</h2>
+        <!-- Nội dung trang mẫu -->
+      </div>
+    </div>
+
+    <!-- Appointment View Modal -->
+    <div class="modal" id="appointmentViewModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title">Chi tiết cuộc hẹn</h3>
+          <span class="close-modal">&times;</span>
+        </div>
+        <div class="modal-body">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+            <div>
+              <h4 style="margin-bottom: 10px;">Thông tin khách hàng</h4>
+              <p><strong>Mã cuộc hẹn:</strong> <span id="view-appointment-id">DNA-1234</span></p>
+              <p><strong>Tên khách hàng:</strong> <span id="view-patient-name">Nguyễn Văn An</span></p>
+              <p><strong>Số điện thoại:</strong> <span id="view-patient-phone">0912345678</span></p>
+              <p><strong>Email:</strong> <span id="view-patient-email">nguyenvanan@email.com</span></p>
+              <p><strong>Địa chỉ:</strong> <span id="view-patient-address">234 Nguyễn Trãi, Q.1, TP.HCM</span></p>
+            </div>
+            <div>
+              <h4 style="margin-bottom: 10px;">Thông tin dịch vụ</h4>
+              <p><strong>Loại dịch vụ:</strong> <span id="view-service-type">Xét nghiệm ADN huyết thống</span></p>
+              <p><strong>Ngày đặt lịch:</strong> <span id="view-scheduled-date">20/05/2025</span></p>
+              <p><strong>Ngày nhận mẫu:</strong> <span id="view-received-date">22/05/2025</span></p>
+              <p><strong>Trạng thái:</strong> <span id="view-appointment-status" class="status-badge status-received">Đã nhận mẫu</span></p>
+              <p><strong>Mức độ ưu tiên:</strong> <span id="view-appointment-priority">Thông thường</span></p>
+            </div>
+          </div>
+          <div>
+            <h4 style="margin-bottom: 10px;">Ghi chú</h4>
+            <p id="view-notes">Khách hàng yêu cầu xét nghiệm nhanh.</p>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="action-btn view-btn" id="modalUpdateStatusBtn">Cập nhật trạng thái</button>
+          <button class="action-btn edit-btn" id="modalEditBtn">Chỉnh sửa</button>
+          <button style="background-color: #999; color: white; padding: 8px 15px; border: none; border-radius: 5px; cursor: pointer;" id="modalCloseBtn">Đóng</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Update Status Modal -->
+    <div class="modal" id="statusUpdateModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title">Cập nhật trạng thái</h3>
+          <span class="close-modal">&times;</span>
+        </div>
+        <div class="modal-body">
+          <div style="margin-bottom: 20px;">
+            <p><strong>Mã cuộc hẹn:</strong> <span id="status-appointment-id">DNA-1234</span></p>
+            <p><strong>Tên khách hàng:</strong> <span id="status-patient-name">Nguyễn Văn An</span></p>
+            <p><strong>Loại dịch vụ:</strong> <span id="status-service-type">Xét nghiệm ADN huyết thống</span></p>
+          </div>
+          <div style="margin-bottom: 15px;">
+            <label for="appointment-status" style="display: block; margin-bottom: 5px; font-weight: bold;">Cập nhật trạng thái:</label>
+            <select id="appointment-status" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid var(--border-color);">
+              <option value="requested">Đã đặt lịch</option>
+              <option value="received">Đã nhận mẫu</option>
+              <option value="testing">Đang xét nghiệm</option>
+              <option value="completed">Hoàn thành</option>
+              <option value="returned">Đã trả kết quả</option>
+            </select>
+          </div>
+          <div>
+            <label for="status-notes" style="display: block; margin-bottom: 5px; font-weight: bold;">Ghi chú:</label>
+            <textarea id="status-notes" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid var(--border-color); min-height: 100px;" placeholder="Nhập ghi chú về việc cập nhật trạng thái..."></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="action-btn view-btn" id="saveStatusBtn">Lưu thay đổi</button>
+          <button style="background-color: #999; color: white; padding: 8px 15px; border: none; border-radius: 5px; cursor: pointer;" id="cancelStatusBtn">Hủy bỏ</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Test Result Entry Modal -->
+    <div class="modal" id="resultEntryModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title">Nhập kết quả xét nghiệm</h3>
+          <span class="close-modal">&times;</span>
+        </div>
+        <div class="modal-body">
+          <div style="margin-bottom: 20px;">
+            <p><strong>Mã cuộc hẹn:</strong> <span id="result-appointment-id">DNA-1236</span></p>
+            <p><strong>Tên khách hàng:</strong> <span id="result-patient-name">Lê Văn Công</span></p>
+            <p><strong>Loại dịch vụ:</strong> <span id="result-service-type">Xét nghiệm sức khỏe gene</span></p>
+          </div>
+          <div style="margin-bottom: 15px;">
+            <label for="result-summary" style="display: block; margin-bottom: 5px; font-weight: bold;">Tóm tắt kết quả:</label>
+            <input type="text" id="result-summary" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid var(--border-color);" placeholder="Tóm tắt ngắn gọn kết quả">
+          </div>
+          <div style="margin-bottom: 15px;">
+            <label for="result-details" style="display: block; margin-bottom: 5px; font-weight: bold;">Chi tiết kết quả:</label>
+            <textarea id="result-details" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid var(--border-color); min-height: 150px;" placeholder="Nhập chi tiết kết quả xét nghiệm..."></textarea>
+          </div>
+          <div>
+            <label style="display: block; margin-bottom: 5px; font-weight: bold;">Tải lên tệp PDF:</label>
+            <div id="pdf-upload-area" style="border: 2px dashed var(--border-color); padding: 20px; text-align: center; border-radius: 5px; cursor: pointer;">
+              <i class="fas fa-file-upload" style="font-size: 2rem; color: var(--light-text); margin-bottom: 10px;"></i>
+              <p>Nhấp để tải lên hoặc kéo tệp PDF vào đây</p>
+              <input type="file" id="pdf-file-input" style="display: none;" accept=".pdf">
+            </div>
+            <p id="selected-file" style="margin-top: 10px;"></p>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="action-btn view-btn" onclick="saveTestResults()">Lưu kết quả</button>
+          <button style="background-color: #999; color: white; padding: 8px 15px; border: none; border-radius: 5px; cursor: pointer;" onclick="closeModal('resultEntryModal')">Hủy bỏ</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Edit Appointment Modal -->
+    <div class="modal" id="editAppointmentModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title">Chỉnh sửa thông tin cuộc hẹn</h3>
+          <span class="close-modal">&times;</span>
+        </div>
+        <div class="modal-body">
+          <div style="margin-bottom: 20px;">
+            <p><strong>Mã cuộc hẹn:</strong> <span id="edit-appointment-id">DNA-1234</span></p>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <div style="margin-bottom: 15px;">
+              <label for="edit-patient-name" style="display: block; margin-bottom: 5px; font-weight: bold;">Tên khách hàng:</label>
+              <input type="text" id="edit-patient-name" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid var(--border-color);" placeholder="Nhập tên khách hàng">
+            </div>
+            <div style="margin-bottom: 15px;">
+              <label for="edit-patient-phone" style="display: block; margin-bottom: 5px; font-weight: bold;">Số điện thoại:</label>
+              <input type="text" id="edit-patient-phone" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid var(--border-color);" placeholder="Nhập số điện thoại">
+            </div>
+            <div style="margin-bottom: 15px;">
+              <label for="edit-patient-email" style="display: block; margin-bottom: 5px; font-weight: bold;">Email:</label>
+              <input type="email" id="edit-patient-email" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid var(--border-color);" placeholder="Nhập email">
+            </div>
+            <div style="margin-bottom: 15px;">
+              <label for="edit-service-type" style="display: block; margin-bottom: 5px; font-weight: bold;">Loại dịch vụ:</label>
+              <select id="edit-service-type" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid var(--border-color);">
+                <option value="Xét nghiệm ADN huyết thống">Xét nghiệm ADN huyết thống</option>
+                <option value="Xét nghiệm ADN tổ tiên">Xét nghiệm ADN tổ tiên</option>
+                <option value="Xét nghiệm sức khỏe gene">Xét nghiệm sức khỏe gene</option>
+                <option value="Xét nghiệm ADN sức khỏe">Xét nghiệm ADN sức khỏe</option>
+              </select>
+            </div>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <div style="margin-bottom: 15px;">
+              <label for="edit-patient-address" style="display: block; margin-bottom: 5px; font-weight: bold;">Địa chỉ:</label>
+              <input type="text" id="edit-patient-address" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid var(--border-color);" placeholder="Nhập địa chỉ">
+            </div>
+            <div style="margin-bottom: 15px;">
+              <label for="edit-scheduled-date" style="display: block; margin-bottom: 5px; font-weight: bold;">Ngày đến cơ sở y tế:</label>
+              <input type="date" id="edit-scheduled-date" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid var(--border-color);" placeholder="Chọn ngày">
+            </div>
+          </div>
+          <div>
+            <label for="edit-notes" style="display: block; margin-bottom: 5px; font-weight: bold;">Ghi chú:</label>
+            <textarea id="edit-notes" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid var(--border-color); min-height: 100px;" placeholder="Nhập ghi chú nếu có"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="action-btn view-btn" onclick="saveAppointmentEdit()">Lưu thay đổi</button>
+          <button style="background-color: #999; color: white; padding: 8px 15px; border: none; border-radius: 5px; cursor: pointer;" onclick="closeModal('editAppointmentModal')">Hủy bỏ</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- New Appointment Modal -->
+    <div class="modal" id="newAppointmentModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title">Thêm cuộc hẹn mới</h3>
+          <span class="close-modal">&times;</span>
+        </div>
+        <div class="modal-body">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <div style="margin-bottom: 15px;">
+              <label for="new-patient-name" style="display: block; margin-bottom: 5px; font-weight: bold;">Tên khách hàng:</label>
+              <input type="text" id="new-patient-name" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid var(--border-color);" placeholder="Nhập tên khách hàng" required>
+            </div>
+            <div style="margin-bottom: 15px;">
+              <label for="new-patient-phone" style="display: block; margin-bottom: 5px; font-weight: bold;">Số điện thoại:</label>
+              <input type="text" id="new-patient-phone" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid var(--border-color);" placeholder="Nhập số điện thoại" required>
+            </div>
+            <div style="margin-bottom: 15px;">
+              <label for="new-patient-email" style="display: block; margin-bottom: 5px; font-weight: bold;">Email:</label>
+              <input type="email" id="new-patient-email" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid var(--border-color);" placeholder="Nhập email">
+            </div>
+            <div style="margin-bottom: 15px;">
+              <label for="new-service-type" style="display: block; margin-bottom: 5px; font-weight: bold;">Loại dịch vụ:</label>
+              <select id="new-service-type" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid var(--border-color);" required>
+                <option value="Xét nghiệm ADN huyết thống">Xét nghiệm ADN huyết thống</option>
+                <option value="Xét nghiệm ADN tổ tiên">Xét nghiệm ADN tổ tiên</option>
+                <option value="Xét nghiệm sức khỏe gene">Xét nghiệm sức khỏe gene</option>
+                <option value="Xét nghiệm ADN sức khỏe">Xét nghiệm ADN sức khỏe</option>
+              </select>
+            </div>
+            <div style="margin-bottom: 15px;">
+              <label for="new-patient-address" style="display: block; margin-bottom: 5px; font-weight: bold;">Địa chỉ:</label>
+              <input type="text" id="new-patient-address" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid var(--border-color);" placeholder="Nhập địa chỉ" required>
+            </div>
+            <div style="margin-bottom: 15px;">
+              <label for="new-scheduled-date" style="display: block; margin-bottom: 5px; font-weight: bold;">Ngày đến cơ sở y tế:</label>
+              <input type="date" id="new-scheduled-date" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid var(--border-color);" required>
+            </div>
+            <div style="margin-bottom: 15px;">
+              <label for="new-appointment-priority" style="display: block; margin-bottom: 5px; font-weight: bold;">Mức độ ưu tiên:</label>
+              <select id="new-appointment-priority" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid var(--border-color);">
+                <option value="Thông thường">Thông thường</option>
+                <option value="Ưu tiên">Ưu tiên</option>
+                <option value="Khẩn cấp">Khẩn cấp</option>
+              </select>
+            </div>
+          </div>
+          <div>
+            <label for="new-notes" style="display: block; margin-bottom: 5px; font-weight: bold;">Ghi chú:</label>
+            <textarea id="new-notes" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid var(--border-color); min-height: 100px;" placeholder="Nhập ghi chú nếu có"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="action-btn view-btn" onclick="saveNewAppointment()">Lưu</button>
+          <button style="background-color: #999; color: white; padding: 8px 15px; border: none; border-radius: 5px; cursor: pointer;" onclick="closeModal('newAppointmentModal')">Hủy bỏ</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Notification container -->
+    <div class="notification-container" id="notification-container"></div>
+
+    <script>
+      // Global variables
+      let currentAppointmentId = null;
+      
+      // Thêm vào phần script
+      document.addEventListener('DOMContentLoaded', function() {
+        // Xử lý hiển thị trang kết quả xét nghiệm
+        if (pageName === 'test-results') {
+          loadTestResults();
+        }
+
+        // Handle test result filter change
+        const testResultFilterStatus = document.getElementById('testResultFilterStatus');
+        const testResultFilterType = document.getElementById('testResultFilterType');
+        if (testResultFilterStatus) {
+          testResultFilterStatus.addEventListener('change', loadTestResults);
+        }
+        if (testResultFilterType) {
+          testResultFilterType.addEventListener('change', loadTestResults);
+        }
+
+        // Handle refresh test results button
+        const refreshTestResults = document.getElementById('refreshTestResults');
+        if (refreshTestResults) {
+          refreshTestResults.addEventListener('click', function() {
+            loadTestResults();
+            showNotification('Làm mới', 'Danh sách kết quả xét nghiệm đã được làm mới', 'info');
+          });
+        }
+      });
+
+      // Tải danh sách kết quả xét nghiệm
+      function loadTestResults() {
+        console.log('Loading test results...');
+        const filterStatus = document.getElementById('testResultFilterStatus')?.value || 'all';
+        const filterType = document.getElementById('testResultFilterType')?.value || 'all';
+        const testResultsTable = document.getElementById('testResultsTable');
+        const tbody = testResultsTable.querySelector('tbody');
+        const emptyState = document.getElementById('testResultsEmptyState');
+        
+        // Xóa các hàng hiện tại
+        tbody.innerHTML = '';
+        
+        // Dữ liệu mẫu - trong ứng dụng thực, dữ liệu này sẽ được lấy từ server
+        const testResults = [
+          {
+            id: 'TR-5678',
+            patientName: 'Nguyễn Văn An',
+            appointmentId: 'DNA-1234',
+            testType: 'Xét nghiệm ADN huyết thống',
+            testTypeCode: 'dna-paternity',
+            receivedDate: '22/05/2025',
+            completedDate: '25/05/2025',
+            status: 'completed',
+            statusLabel: 'Đã hoàn thành',
+            summary: 'Kết quả xét nghiệm ADN huyết thống cho thấy xác suất quan hệ cha con là 99.99%.'
+          },
+          {
+            id: 'TR-5679',
+            patientName: 'Trần Thị Bình',
+            appointmentId: 'DNA-1235',
+            testType: 'Xét nghiệm ADN tổ tiên',
+            testTypeCode: 'dna-ancestry',
+            receivedDate: '21/05/2025',
+            completedDate: '',
+            status: 'inprogress',
+            statusLabel: 'Đang phân tích',
+            summary: ''
+          },
+          {
+            id: 'TR-5680',
+            patientName: 'Lê Văn Công',
+            appointmentId: 'DNA-1236',
+            testType: 'Xét nghiệm sức khỏe gene',
+            testTypeCode: 'gene-health',
+            receivedDate: '18/05/2025',
+            completedDate: '23/05/2025',
+            status: 'verified',
+            statusLabel: 'Đã xác minh',
+            summary: 'Kết quả xét nghiệm sức khỏe gene cho thấy một số rủi ro bệnh tim mạch cần được theo dõi.'
+          },
+          {
+            id: 'TR-5681',
+            patientName: 'Phạm Thị Dung',
+            appointmentId: 'DNA-1237',
+            testType: 'Xét nghiệm ADN huyết thống',
+            testTypeCode: 'dna-paternity',
+            receivedDate: '17/05/2025',
+            completedDate: '20/05/2025',
+            status: 'delivered',
+            statusLabel: 'Đã gửi cho khách hàng',
+            summary: 'Kết quả xét nghiệm ADN huyết thống cho thấy xác suất quan hệ anh chị em ruột là 99.98%.'
+          },
+          {
+            id: 'TR-5682',
+            patientName: 'Hoàng Văn Em',
+            appointmentId: 'DNA-1238',
+            testType: 'Xét nghiệm ADN sức khỏe',
+            testTypeCode: 'dna-health',
+            receivedDate: '16/05/2025',
+            completedDate: '',
+            status: 'pending',
+            statusLabel: 'Chờ xử lý',
+            summary: ''
+          },
+          {
+            id: 'TR-5683',
+            patientName: 'Mai Anh Tuấn',
+            appointmentId: 'DNA-1239',
+            testType: 'Xét nghiệm ADN huyết thống',
+            testTypeCode: 'dna-paternity',
+            receivedDate: '15/05/2025',
+            completedDate: '',
+            status: 'pending',
+            statusLabel: 'Chờ xử lý',
+            summary: ''
+          },
+          {
+            id: 'TR-5684',
+            patientName: 'Vũ Thị Ngọc',
+            appointmentId: 'DNA-1240',
+            testType: 'Xét nghiệm ADN tổ tiên',
+            testTypeCode: 'dna-ancestry',
+            receivedDate: '14/05/2025',
+            completedDate: '19/05/2025',
+            status: 'completed',
+            statusLabel: 'Đã hoàn thành',
+            summary: 'Kết quả xét nghiệm ADN tổ tiên cho thấy nguồn gốc chủ yếu từ Đông Nam Á (78%), Đông Á (18%), và Nam Á (4%).'
+          }
+        ];
+        
+        // Lọc kết quả xét nghiệm theo trạng thái và loại
+        const filteredResults = testResults.filter(result => {
+          const statusMatch = filterStatus === 'all' || result.status === filterStatus;
+          const typeMatch = filterType === 'all' || result.testTypeCode === filterType;
+          return statusMatch && typeMatch;
+        });
+        
+        // Hiển thị hoặc ẩn thông báo trống
+        if (filteredResults.length === 0) {
+          if (emptyState) emptyState.style.display = 'block';
+          return;
+        } else {
+          if (emptyState) emptyState.style.display = 'none';
+        }
+        
+        // Hiển thị danh sách
+        filteredResults.forEach(result => {
+          const row = document.createElement('tr');
+          
+          row.innerHTML = `
+            <td>${result.id}</td>
+            <td>${result.patientName}</td>
+            <td>${result.testType}</td>
+            <td>${result.receivedDate}</td>
+            <td>${result.completedDate || 'Chưa hoàn thành'}</td>
+            <td><span class="status-badge status-${result.status}">${result.statusLabel}</span></td>
+            <td>
+              <button class="action-btn view-btn" data-id="${result.id}">Xem</button>
+              <button class="action-btn edit-btn" data-id="${result.id}">Cập nhật</button>
+            </td>
+          `;
+          
+          tbody.appendChild(row);
+        });
+        
+        // Gắn sự kiện cho các nút trong bảng
+        setTimeout(() => {
+          setupTestResultsActionButtons();
+        }, 100);
+      }
+
+      // Thiết lập các nút thao tác cho kết quả xét nghiệm
+      function setupTestResultsActionButtons() {
+        // Setup view buttons
+        const viewButtons = document.querySelectorAll('#testResultsTable .action-btn.view-btn');
+        viewButtons.forEach(button => {
+          const id = button.getAttribute('data-id');
+          button.onclick = function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            viewTestResult(id);
+          };
+        });
+        
+        // Setup update buttons
+        const editButtons = document.querySelectorAll('#testResultsTable .action-btn.edit-btn');
+        editButtons.forEach(button => {
+          const id = button.getAttribute('data-id');
+          button.onclick = function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            updateTestStatus(id);
+          };
+        });
+      }
+
+      // Xem chi tiết kết quả xét nghiệm
+      function viewTestResult(testId) {
+        console.log('Viewing test result:', testId);
+        
+        // Đóng tất cả các modal khác
+        document.querySelectorAll('.modal').forEach(modal => {
+          if (modal.id !== 'testResultDetailModal') {
+            modal.style.display = 'none';
+          }
+        });
+        
+        // Trong ứng dụng thực, bạn sẽ lấy dữ liệu từ server
+        // Cho demo, sử dụng dữ liệu cứng dựa trên ID
+        if (testId === 'TR-5678') {
+          document.getElementById('view-test-id').textContent = 'TR-5678';
+          document.getElementById('view-test-appointment-id').textContent = 'DNA-1234';
+          document.getElementById('view-test-type').textContent = 'Xét nghiệm ADN huyết thống';
+          document.getElementById('view-test-received-date').textContent = '22/05/2025';
+          document.getElementById('view-test-completed-date').textContent = '25/05/2025';
+          document.getElementById('view-test-patient-name').textContent = 'Nguyễn Văn An';
+          document.getElementById('view-test-patient-phone').textContent = '0912345678';
+          document.getElementById('view-test-patient-email').textContent = 'nguyenvanan@email.com';
+          document.getElementById('view-test-patient-address').textContent = '234 Nguyễn Trãi, Q.1, TP.HCM';
+          document.getElementById('view-test-status').textContent = 'Đã hoàn thành';
+          document.getElementById('view-test-status').className = 'status-badge status-completed';
+          document.getElementById('view-test-summary').textContent = 'Kết quả xét nghiệm ADN huyết thống cho thấy xác suất quan hệ cha con là 99.99%.';
+          document.getElementById('view-test-details').innerHTML = `
+            <p>Xét nghiệm ADN huyết thống so sánh 23 marker di truyền giữa hai mẫu. Dựa vào kết quả phân tích, chỉ số quan hệ (PI) đạt 99.99%, khẳng định mối quan hệ huyết thống giữa hai người.</p>
+            <p>Các marker được phân tích: D3S1358, vWA, FGA, D8S1179, D21S11, D18S51, D5S818, D13S317, D7S820, D16S539, THO1, TPOX, CSF1PO, D19S433, D2S1338, D10S1248, D1S1656, D22S1045, D2S441, D12S391, D8S1132.</p>
+            <p>Kết quả cho thấy sự tương đồng cao giữa hai người trong tất cả các marker.</p>
+          `;
+        } else if (testId === 'TR-5680') {
+          document.getElementById('view-test-id').textContent = 'TR-5680';
+          document.getElementById('view-test-appointment-id').textContent = 'DNA-1236';
+          document.getElementById('view-test-type').textContent = 'Xét nghiệm sức khỏe gene';
+          document.getElementById('view-test-received-date').textContent = '18/05/2025';
+          document.getElementById('view-test-completed-date').textContent = '23/05/2025';
+          document.getElementById('view-test-patient-name').textContent = 'Lê Văn Công';
+          document.getElementById('view-test-patient-phone').textContent = '0934567890';
+          document.getElementById('view-test-patient-email').textContent = 'levanc@email.com';
+          document.getElementById('view-test-patient-address').textContent = '78 Đinh Tiên Hoàng, Q.3, TP.HCM';
+          document.getElementById('view-test-status').textContent = 'Đã xác minh';
+          document.getElementById('view-test-status').className = 'status-badge status-verified';
+          document.getElementById('view-test-summary').textContent = 'Kết quả xét nghiệm sức khỏe gene cho thấy một số rủi ro bệnh tim mạch cần được theo dõi.';
+          document.getElementById('view-test-details').innerHTML = `
+            <p>Xét nghiệm phân tích 500 biến thể gene liên quan đến các bệnh di truyền và rủi ro sức khỏe.</p>
+            <p>Phát hiện chính:</p>
+            <ul>
+              <li>Rủi ro cao hơn 30% so với trung bình dân số về bệnh tim mạch</li>
+              <li>Rủi ro thấp hơn 15% về bệnh tiểu đường type 2</li>
+              <li>Phản ứng thuốc: Khả năng chuyển hóa chậm với một số loại thuốc giảm đau</li>
+              <li>Di truyền tổ tiên: 85% Đông Á, 12% Đông Nam Á, 3% khác</li>
+            </ul>
+            <p>Khuyến nghị: Kiểm tra sức khỏe tim mạch định kỳ, duy trì chế độ ăn ít muối, tham khảo ý kiến bác sĩ trước khi dùng thuốc giảm đau nhóm NSAID.</p>
+          `;
+        } else {
+          // Thông tin mặc định cho các ID khác
+          document.getElementById('view-test-id').textContent = testId;
+          document.getElementById('view-test-appointment-id').textContent = 'DNA-XXXX';
+          document.getElementById('view-test-type').textContent = 'Thông tin không có sẵn';
+          document.getElementById('view-test-received-date').textContent = 'N/A';
+          document.getElementById('view-test-completed-date').textContent = 'N/A';
+          document.getElementById('view-test-patient-name').textContent = 'N/A';
+          document.getElementById('view-test-patient-phone').textContent = 'N/A';
+          document.getElementById('view-test-patient-email').textContent = 'N/A';
+          document.getElementById('view-test-patient-address').textContent = 'N/A';
+          document.getElementById('view-test-status').textContent = 'Không xác định';
+          document.getElementById('view-test-status').className = 'status-badge';
+          document.getElementById('view-test-summary').textContent = 'Không có dữ liệu';
+          document.getElementById('view-test-details').innerHTML = '<p>Không có dữ liệu chi tiết</p>';
+        }
+        
+        // Thiết lập nút trong modal
+        const updateTestStatusBtn = document.getElementById('updateTestStatus');
+        if (updateTestStatusBtn) {
+          updateTestStatusBtn.onclick = function(e) {
+            e.preventDefault();
+            closeModal('testResultDetailModal');
+            updateTestStatus(testId);
+          };
+        }
+        
+        const downloadAllResultsBtn = document.getElementById('downloadAllResults');
+        if (downloadAllResultsBtn) {
+          downloadAllResultsBtn.onclick = function(e) {
+            e.preventDefault();
+            showNotification('Tải xuống', 'Đang tải xuống tất cả tệp kết quả...', 'info');
+            setTimeout(() => {
+              showNotification('Hoàn thành', 'Tải xuống hoàn tất', 'success');
+            }, 2000);
+          };
+        }
+        
+        // Thiết lập links tải xuống
+        const downloadReportLink = document.getElementById('download-report');
+        if (downloadReportLink) {
+          downloadReportLink.onclick = function(e) {
+            e.preventDefault();
+            showNotification('Tải xuống', 'Đang tải xuống báo cáo...', 'info');
+            setTimeout(() => {
+              showNotification('Hoàn thành', 'Tải xuống báo cáo hoàn tất', 'success');
+            }, 1500);
+          };
+        }
+        
+        const downloadDataLink = document.getElementById('download-data');
+        if (downloadDataLink) {
+          downloadDataLink.onclick = function(e) {
+            e.preventDefault();
+            showNotification('Tải xuống', 'Đang tải xuống dữ liệu phân tích...', 'info');
+            setTimeout(() => {
+              showNotification('Hoàn thành', 'Tải xuống dữ liệu phân tích hoàn tất', 'success');
+            }, 1500);
+          };
+        }
+        
+        // Hiển thị modal
+        document.getElementById('testResultDetailModal').style.display = 'block';
+      }
+
+      // Cập nhật trạng thái kết quả xét nghiệm
+      function updateTestStatus(testId) {
+        console.log('Updating test status:', testId);
+        
+        // Đóng tất cả các modal khác
+        document.querySelectorAll('.modal').forEach(modal => {
+          if (modal.id !== 'testStatusUpdateModal') {
+            modal.style.display = 'none';
+          }
+        });
+        
+        // Set test ID trong modal
+        document.getElementById('status-test-id').textContent = testId;
+        
+        // Set different data based on the test ID
+        if (testId === 'TR-5678') {
+          document.getElementById('status-test-patient-name').textContent = 'Nguyễn Văn An';
+          document.getElementById('status-test-type').textContent = 'Xét nghiệm ADN huyết thống';
+          document.getElementById('test-status').value = 'completed';
+        } else if (testId === 'TR-5679') {
+          document.getElementById('status-test-patient-name').textContent = 'Trần Thị Bình';
+          document.getElementById('status-test-type').textContent = 'Xét nghiệm ADN tổ tiên';
+          document.getElementById('test-status').value = 'inprogress';
+        } else if (testId === 'TR-5680') {
+          document.getElementById('status-test-patient-name').textContent = 'Lê Văn Công';
+          document.getElementById('status-test-type').textContent = 'Xét nghiệm sức khỏe gene';
+          document.getElementById('test-status').value = 'verified';
+        } else {
+          document.getElementById('status-test-patient-name').textContent = 'Không xác định';
+          document.getElementById('status-test-type').textContent = 'Không xác định';
+          document.getElementById('test-status').value = 'pending';
+        }
+        
+        // Hiển thị modal
+        document.getElementById('testStatusUpdateModal').style.display = 'block';
+      }
+
+      // Lưu cập nhật trạng thái
+      function saveTestStatusUpdate() {
+        const testId = document.getElementById('status-test-id').textContent;
+        const newStatus = document.getElementById('test-status').value;
+        const notes = document.getElementById('test-status-notes').value;
+        
+        // Log data in console (in a real app, you would send this to the server)
+        console.log('Updating test status:', {
+          testId,
+          newStatus,
+          notes,
+          timestamp: new Date().toISOString()
+        });
+        
+        // Show notification
+        showNotification('Đã cập nhật', `Trạng thái kết quả xét nghiệm ${testId} đã được cập nhật thành công`, 'success');
+      }
+
+      // DOM Elements
+      document.addEventListener('DOMContentLoaded', function() {
+        // Page Navigation
+        const menuLinks = document.querySelectorAll('.menu-link[data-page]');
+        const toggleSidebar = document.querySelector('.toggle-sidebar');
+        const sidebar = document.querySelector('.sidebar');
+        const notificationBell = document.getElementById('notificationBell');
+        
+        // View all appointments button
+        const viewAllAppointmentsBtn = document.getElementById('viewAllAppointments');
+        if (viewAllAppointmentsBtn) {
+          viewAllAppointmentsBtn.addEventListener('click', function() {
+            // Activate appointments page
+            const appointmentsLink = document.querySelector('.menu-link[data-page="appointments"]');
+            if (appointmentsLink) {
+              appointmentsLink.click();
+            }
+          });
+        }
+
+        // Define pages with correct IDs
+        const pages = {
+          'dashboard': document.getElementById('dashboard-page'),
+          'appointments': document.getElementById('appointments-page'),
+          'test-results': document.getElementById('test-results-page'), 
+          'samples': document.getElementById('samples-page'),
+          'notifications': document.getElementById('notifications-page')
+        };
+        
+        // Back to dashboard button
+        const backToDashboardBtn = document.getElementById('backToDashboard');
+        if (backToDashboardBtn) {
+          backToDashboardBtn.addEventListener('click', function(e) {
+            // Ngăn chặn sự lan truyền của sự kiện
+            e.preventDefault();
+            e.stopPropagation();
+            
+            // Đảm bảo đóng tất cả modal trước khi chuyển trang
+            document.querySelectorAll('.modal').forEach(modal => {
+              modal.style.display = 'none';
+            });
+            
+            // Sau đó mới chuyển trang
+            setTimeout(() => {
+              showPage('dashboard');
+            }, 10);
+          });
+        }
+        
+        // View all notifications link
+        const viewAllNotificationsLink = document.querySelector('.view-all-notifications');
+        if (viewAllNotificationsLink) {
+          viewAllNotificationsLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Đảm bảo trang thông báo được hiển thị
+            const notificationsPage = document.getElementById('notifications-page');
+            if (notificationsPage) {
+              notificationsPage.style.display = 'block';
+            }
+            
+            // Ẩn các trang khác
+            const dashboardPage = document.getElementById('dashboard-page');
+            if (dashboardPage) dashboardPage.style.display = 'none';
+            
+            const appointmentsPage = document.getElementById('appointments-page');
+            if (appointmentsPage) appointmentsPage.style.display = 'none';
+            
+            const testResultsPage = document.getElementById('test-results-page');
+            if (testResultsPage) testResultsPage.style.display = 'none';
+            
+            const samplesPage = document.getElementById('samples-page');
+            if (samplesPage) samplesPage.style.display = 'none';
+            
+            // Hiển thị thông báo
+            renderAllNotifications();
+            
+            // Close dropdown
+            const dropdown = document.getElementById('notificationsDropdown');
+            if (dropdown) {
+              dropdown.classList.remove('show-dropdown');
+            }
+          });
+        }
+        
+        // Mark all notifications as read in the full notifications page
+        const markAllReadBtn = document.getElementById('markAllReadBtn');
+        if (markAllReadBtn) {
+          markAllReadBtn.addEventListener('click', function(e) {
+            // Ngăn chặn sự lan truyền của sự kiện
+            e.preventDefault();
+            e.stopPropagation();
+            
+            // Đánh dấu thông báo trong trang đầy đủ là đã đọc
+            const fullNotifications = document.querySelectorAll('#notification-container-full .notification-item.new');
+            fullNotifications.forEach(item => {
+              item.classList.remove('new');
+              const dot = item.querySelector('.notification-dot');
+              if (dot) dot.remove();
+            });
+            
+            // Đánh dấu thông báo trong dropdown là đã đọc
+            const dropdownNotifications = document.querySelectorAll('#notificationsDropdown .notification-item.new');
+            dropdownNotifications.forEach(item => {
+              item.classList.remove('new');
+              const dot = item.querySelector('.notification-dot');
+              if (dot) dot.remove();
+            });
+            
+            // Cập nhật badge thông báo
+            const notificationCount = document.getElementById('notificationCount');
+            if (notificationCount) {
+              notificationCount.textContent = "0";
+              notificationCount.classList.remove('pulse');
+            }
+            
+            showNotification('Thông báo', 'Đã đánh dấu tất cả thông báo là đã đọc', 'success');
+          });
+        }
+        
+        // Filter notifications on the full notifications page
+        const notificationFilter = document.getElementById('notificationFilter');
+        if (notificationFilter) {
+          notificationFilter.addEventListener('change', function() {
+            const filterValue = this.value;
+            const notifications = document.querySelectorAll('#notification-container-full .notification-item');
+            
+            notifications.forEach(notification => {
+              switch(filterValue) {
+                case 'all':
+                  notification.style.display = 'flex';
+                  break;
+                case 'unread':
+                  notification.style.display = notification.classList.contains('new') ? 'flex' : 'none';
+                  break;
+                case 'read':
+                  notification.style.display = !notification.classList.contains('new') ? 'flex' : 'none';
+                  break;
+              }
+            });
+          });
+        }
+        
+        // Helper function to show a specific page
+        function showPage(pageName) {
+          // Hide all pages
+          Object.keys(pages).forEach(key => {
+            if (pages[key]) {
+              pages[key].style.display = 'none';
+            }
+          });
+          
+          // Show target page
+          if (pages[pageName]) {
+            pages[pageName].style.display = 'block';
+            
+            // If appointments page is selected, load appointment data
+            if (pageName === 'appointments') {
+              setTimeout(() => {
+                loadAppointments();
+              }, 100);
+            }
+            
+            // If notifications page is selected, render all notifications
+            if (pageName === 'notifications') {
+              renderAllNotifications();
+            }
+            
+            // Nếu quay lại bảng điều khiển (từ trang thông báo), đảm bảo các sự kiện click được thiết lập chính xác
+            if (pageName === 'dashboard') {
+              addClickEventsToDropdownNotifications();
+              // Reapply event listeners to dashboard buttons when returning to the dashboard
+              setupDashboardActionButtons();
+            }
+          }
+          
+          // Update active menu if applicable (notifications page doesn't have a menu item)
+          if (pageName !== 'notifications') {
+            menuLinks.forEach(menuLink => {
+              menuLink.classList.remove('active');
+              if (menuLink.getAttribute('data-page') === pageName) {
+                menuLink.classList.add('active');
+              }
+            });
+          }
+        }
+        
+        // Show notifications page
+        function showNotificationsPage() {
+          // Đảm bảo trang thông báo được hiển thị
+          const notificationsPage = document.getElementById('notifications-page');
+          if (notificationsPage) {
+            notificationsPage.style.display = 'block';
+          }
+          
+          // Ẩn các trang khác
+          const dashboardPage = document.getElementById('dashboard-page');
+          if (dashboardPage) dashboardPage.style.display = 'none';
+          
+          const appointmentsPage = document.getElementById('appointments-page');
+          if (appointmentsPage) appointmentsPage.style.display = 'none';
+          
+          const testResultsPage = document.getElementById('test-results-page');
+          if (testResultsPage) testResultsPage.style.display = 'none';
+          
+          const samplesPage = document.getElementById('samples-page');
+          if (samplesPage) samplesPage.style.display = 'none';
+          
+          // Hiển thị thông báo
+          renderAllNotifications();
+        }
+        
+        // Render all notifications in the full notifications page
+        function renderAllNotifications() {
+          const container = document.getElementById('notification-container-full');
+          if (!container) return;
+          
+          // Xóa bất kỳ nội dung nào hiện tại trong container
+          container.innerHTML = '';
+          
+          // Tạo một mảng các thông báo mẫu
+          const sampleNotifications = [
+            {
+              title: 'Mẫu khẩn cấp',
+              message: 'Mẫu xét nghiệm ADN huyết thống cần được xử lý gấp',
+              time: '5 phút trước',
+              type: 'warning',
+              isNew: true
+            },
+            {
+              title: 'Đơn hàng mới',
+              message: 'Có một cuộc hẹn mới (DNA-1245) đã được đặt',
+              time: '30 phút trước',
+              type: 'info',
+              isNew: true
+            },
+            {
+              title: 'Kết quả xét nghiệm',
+              message: 'Kết quả xét nghiệm mẫu DNA-1230 đã hoàn thành',
+              time: '2 giờ trước',
+              type: 'success',
+              isNew: false
+            },
+            {
+              title: 'Lỗi hệ thống',
+              message: 'Hệ thống đã gặp lỗi khi xử lý mẫu DNA-1220',
+              time: '1 ngày trước',
+              type: 'error',
+              isNew: false
+            },
+            {
+              title: 'Cập nhật hệ thống',
+              message: 'Hệ thống sẽ bảo trì vào ngày 25/05 từ 22:00-23:00',
+              time: '2 ngày trước',
+              type: 'info',
+              isNew: false
+            }
+          ];
+          
+          // Tạo các phần tử thông báo và thêm vào container
+          sampleNotifications.forEach((notification, index) => {
+            const notificationItem = document.createElement('div');
+            notificationItem.className = `notification-item${notification.isNew ? ' new' : ''}`;
+            notificationItem.setAttribute('data-index', index);
+            
+            notificationItem.innerHTML = `
+              <div class="notification-icon ${notification.type}">
+                <i class="fas ${getNotificationTypeIcon(notification.type)}"></i>
+              </div>
+              <div class="notification-content">
+                <p class="notification-title">${notification.title}</p>
+                <p class="notification-message">${notification.message}</p>
+                <p class="notification-time">${notification.time}</p>
+              </div>
+              ${notification.isNew ? '<div class="notification-dot"></div>' : ''}
+            `;
+            
+            // Thêm vào container
+            container.appendChild(notificationItem);
+            
+            // Thêm sự kiện click để đánh dấu thông báo đã đọc
+            notificationItem.addEventListener('click', function() {
+              markNotificationAsRead(this, index);
+            });
+          });
+          
+          // Thêm sự kiện click cho các thông báo trong dropdown nếu chưa có
+          addClickEventsToDropdownNotifications();
+        }
+        
+        // Thêm sự kiện click cho các thông báo trong dropdown
+        function addClickEventsToDropdownNotifications() {
+          const dropdownNotifications = document.querySelectorAll('#notificationsDropdown .notification-item');
+          
+          dropdownNotifications.forEach((notification, index) => {
+            // Kiểm tra xem đã có sự kiện click chưa bằng cách kiểm tra data-has-click
+            if (!notification.hasAttribute('data-has-click')) {
+              notification.setAttribute('data-index', index);
+              notification.setAttribute('data-has-click', 'true');
+              
+              notification.addEventListener('click', function() {
+                markNotificationAsRead(this, index);
+              });
+            }
+          });
+        }          // Đánh dấu một thông báo cụ thể là đã đọc
+        function markNotificationAsRead(notificationElement, index) {
+          // Chỉ xử lý nếu thông báo là mới (chưa đọc)
+          if (notificationElement.classList.contains('new')) {
+            // Đánh dấu thông báo hiện tại là đã đọc
+            notificationElement.classList.remove('new');
+            const dot = notificationElement.querySelector('.notification-dot');
+            if (dot) dot.remove();
+            
+            // Hiển thị thông báo
+            showNotification('Thông báo', 'Đã đánh dấu thông báo đã đọc', 'success');
+            
+            // Cập nhật số thông báo chưa đọc
+            updateNotificationCount();
+          }
+        }
+        
+        // Cập nhật số lượng thông báo chưa đọc
+        function updateNotificationCount() {
+          const unreadNotifications = document.querySelectorAll('#notificationsDropdown .notification-item.new').length;
+          const notificationCount = document.getElementById('notificationCount');
+          
+          if (notificationCount) {
+            notificationCount.textContent = unreadNotifications;
+            
+            if (unreadNotifications > 0) {
+              notificationCount.classList.add('pulse');
+            } else {
+              notificationCount.classList.remove('pulse');
+            }
+          }
+        }
+        
+        // Helper function to get icon class based on notification type
+        function getNotificationTypeIcon(type) {
+          switch(type) {
+            case 'info': return 'fa-info-circle';
+            case 'success': return 'fa-check-circle';
+            case 'warning': return 'fa-exclamation-triangle';
+            case 'error': return 'fa-exclamation-circle';
+            default: return 'fa-bell';
+          }
+        }
+        
+        // Handle page navigation
+        menuLinks.forEach(link => {
+          link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetPage = this.getAttribute('data-page');
+            showPage(targetPage);
+          });
+        });
+      
+      // PDF upload handling
+      const pdfUploadArea = document.getElementById('pdf-upload-area');
+      const pdfFileInput = document.getElementById('pdf-file-input');
+      const selectedFileText = document.getElementById('selected-file');
+      
+      if (pdfUploadArea && pdfFileInput) {
+        pdfUploadArea.addEventListener('click', () => {
+          pdfFileInput.click();
+        });
+        
+        pdfFileInput.addEventListener('change', () => {
+          if (pdfFileInput.files.length > 0) {
+            selectedFileText.textContent = `Đã chọn: ${pdfFileInput.files[0].name}`;
+          } else {
+            selectedFileText.textContent = '';
+          }
+        });
+        
+        // Handle drag and drop
+        pdfUploadArea.addEventListener('dragover', (e) => {
+          e.preventDefault();
+          pdfUploadArea.style.borderColor = 'var(--primary-color)';
+          pdfUploadArea.style.backgroundColor = 'rgba(63, 81, 181, 0.05)';
+        });
+        
+        pdfUploadArea.addEventListener('dragleave', () => {
+          pdfUploadArea.style.borderColor = 'var(--border-color)';
+          pdfUploadArea.style.backgroundColor = '';
+        });
+        
+        pdfUploadArea.addEventListener('drop', (e) => {
+          e.preventDefault();
+          pdfUploadArea.style.borderColor = 'var(--border-color)';
+          pdfUploadArea.style.backgroundColor = '';
+          
+          if (e.dataTransfer.files.length > 0 && e.dataTransfer.files[0].type === 'application/pdf') {
+            pdfFileInput.files = e.dataTransfer.files;
+            selectedFileText.textContent = `Đã chọn: ${e.dataTransfer.files[0].name}`;
+          }
+        });
+      }
+      
+      // Toggle sidebar on mobile
+      if (toggleSidebar) {
+        toggleSidebar.addEventListener('click', function() {
+          sidebar.classList.toggle('active');
+        });
+      }
+      
+      // Notification bell click
+      if (notificationBell) {
+        notificationBell.addEventListener('click', function(e) {
+          e.stopPropagation(); // Ngăn chặn sự kiện click lan ra document
+          const dropdown = document.getElementById('notificationsDropdown');
+          dropdown.classList.toggle('show-dropdown');
+          
+          // Nếu dropdown đang hiện, xóa số thông báo và dừng animation pulse
+          if (dropdown.classList.contains('show-dropdown')) {
+            const notificationCount = document.getElementById('notificationCount');
+            notificationCount.textContent = "0";
+            notificationCount.classList.remove('pulse');
+          }
+        });
+        
+        // Đóng dropdown khi click ra ngoài
+        document.addEventListener('click', function(e) {
+          const dropdown = document.getElementById('notificationsDropdown');
+          if (dropdown && dropdown.classList.contains('show-dropdown')) {
+            if (!dropdown.contains(e.target) && e.target !== notificationBell) {
+              dropdown.classList.remove('show-dropdown');
+            }
+          }
+        });
+        
+        // Ngăn chặn sự kiện click trong dropdown lan ra document
+        const dropdown = document.getElementById('notificationsDropdown');
+        if (dropdown) {
+          dropdown.addEventListener('click', function(e) {
+            e.stopPropagation();
+          });
+        }
+        
+        // Xử lý sự kiện đánh dấu tất cả là đã đọc trên dropdown
+        const markAllReadBtn = document.querySelector('.mark-all-read');
+        if (markAllReadBtn) {
+          markAllReadBtn.addEventListener('click', function() {
+            // Đánh dấu thông báo trong dropdown là đã đọc
+            const dropdownNotifications = document.querySelectorAll('#notificationsDropdown .notification-item.new');
+            dropdownNotifications.forEach(item => {
+              item.classList.remove('new');
+              const dot = item.querySelector('.notification-dot');
+              if (dot) dot.remove();
+            });
+            
+            // Đánh dấu thông báo trong trang đầy đủ là đã đọc (nếu đang được hiển thị)
+            const fullPageNotifications = document.querySelectorAll('#notification-container-full .notification-item.new');
+            fullPageNotifications.forEach(item => {
+              item.classList.remove('new');
+              const dot = item.querySelector('.notification-dot');
+              if (dot) dot.remove();
+            });
+            
+            // Cập nhật badge thông báo
+            const notificationCount = document.getElementById('notificationCount');
+            if (notificationCount) {
+              notificationCount.textContent = "0";
+              notificationCount.classList.remove('pulse');
+            }
+            
+            showNotification('Thông báo', 'Đã đánh dấu tất cả thông báo là đã đọc', 'success');
+          });
+        }
+      }
+      
+      // Handle appointment filter change if it exists
+      const appointmentFilterStatus = document.getElementById('appointmentFilterStatus');
+      if (appointmentFilterStatus) {
+        appointmentFilterStatus.addEventListener('change', loadAppointments);
+      }
+      
+      // Handle refresh appointments button if it exists
+      const refreshAppointments = document.getElementById('refreshAppointments');
+      if (refreshAppointments) {
+        refreshAppointments.addEventListener('click', function() {
+          loadAppointments();
+          showNotification('Làm mới', 'Danh sách cuộc hẹn đã được làm mới', 'info');
+        });
+      }
+      
+      // Handle Add New Appointment button
+      const addNewAppointmentBtn = document.getElementById('addNewAppointment');
+      if (addNewAppointmentBtn) {
+        addNewAppointmentBtn.addEventListener('click', function() {
+          addNewAppointment();
+        });
+      }
+      
+      // Close modal buttons
+      // Set up modal close event handlers
+      setupModalCloseEvents();
+      
+      // Set up dashboard action buttons
+      setupDashboardActionButtons();
+      
+      // Show initial notification
+      setTimeout(() => {
+        showNotification('Đơn hàng mới', 'Có một cuộc hẹn mới (DNA-1245) đã được đặt', 'info');
+      }, 3000);
+      
+      setTimeout(() => {
+        showNotification('Mẫu khẩn cấp', 'Mẫu xét nghiệm ADN huyết thống cần được xử lý gấp', 'warning');
+      }, 6000);
+      
+      // End of DOMContentLoaded event listener
+      });
+      
+      // Do not add event listeners here as they will be assigned in viewAppointment function
+      
+      // View appointment details
+      function viewAppointment(appointmentId, e) {
+        // Make sure we handle the event properly
+        if (e && typeof e.preventDefault === 'function') {
+          e.preventDefault();
+          e.stopPropagation(); // Ngăn chặn sự kiện lan tỏa
+        }
+        
+        console.log('viewAppointment called with ID:', appointmentId, 'Event type:', e ? e.type : 'No event');
+        currentAppointmentId = appointmentId;
+        
+        // Đóng tất cả các modal hiện có
+        // Đảm bảo đóng các modal khác mà không làm ảnh hưởng đến việc mở modal mới
+        document.querySelectorAll('.modal').forEach(modal => {
+          if (modal.id !== 'appointmentViewModal') {
+            modal.style.display = 'none';
+          }
+        });
+        
+        try {
+          // In a real application, you would fetch the appointment data from the server
+          // For this demo, we'll just show the modal with some hardcoded data
+          document.getElementById('view-appointment-id').textContent = appointmentId;
+          
+          // Set different data based on the appointment ID
+          if (appointmentId === 'DNA-1234') {
+            document.getElementById('view-patient-name').textContent = 'Nguyễn Văn An';
+            document.getElementById('view-patient-phone').textContent = '0912345678';
+            document.getElementById('view-patient-email').textContent = 'nguyenvanan@email.com';
+            document.getElementById('view-patient-address').textContent = '234 Nguyễn Trãi, Q.1, TP.HCM';
+            document.getElementById('view-service-type').textContent = 'Xét nghiệm ADN huyết thống';
+            document.getElementById('view-scheduled-date').textContent = '20/05/2025';
+            document.getElementById('view-received-date').textContent = '22/05/2025';
+            document.getElementById('view-appointment-status').textContent = 'Đã nhận mẫu';
+            document.getElementById('view-appointment-status').className = 'status-badge status-received';
+            document.getElementById('view-appointment-priority').textContent = 'Thông thường';
+            document.getElementById('view-notes').textContent = 'Khách hàng yêu cầu xét nghiệm nhanh.';
+          } else if (appointmentId === 'DNA-1235') {
+            document.getElementById('view-patient-name').textContent = 'Trần Thị Bình';
+            document.getElementById('view-patient-phone').textContent = '0923456789';
+            document.getElementById('view-patient-email').textContent = 'tranthib@email.com';
+            document.getElementById('view-patient-address').textContent = '56 Lê Lợi, Q.1, TP.HCM';
+            document.getElementById('view-service-type').textContent = 'Xét nghiệm ADN tổ tiên';
+            document.getElementById('view-scheduled-date').textContent = '19/05/2025';
+            document.getElementById('view-received-date').textContent = '21/05/2025';
+            document.getElementById('view-appointment-status').textContent = 'Đang xét nghiệm';
+            document.getElementById('view-appointment-status').className = 'status-badge status-testing';
+            document.getElementById('view-appointment-priority').textContent = 'Thông thường';
+            document.getElementById('view-notes').textContent = 'Không có ghi chú đặc biệt.';
+          } else if (appointmentId === 'DNA-1236') {
+            document.getElementById('view-patient-name').textContent = 'Lê Văn Công';
+            document.getElementById('view-patient-phone').textContent = '0934567890';
+            document.getElementById('view-patient-email').textContent = 'levanc@email.com';
+            document.getElementById('view-patient-address').textContent = '78 Đinh Tiên Hoàng, Q.3, TP.HCM';
+            document.getElementById('view-service-type').textContent = 'Xét nghiệm sức khỏe gene';
+            document.getElementById('view-scheduled-date').textContent = '18/05/2025';
+            document.getElementById('view-received-date').textContent = '18/05/2025';
+            document.getElementById('view-appointment-status').textContent = 'Hoàn thành';
+            document.getElementById('view-appointment-status').className = 'status-badge status-completed';
+            document.getElementById('view-appointment-priority').textContent = 'Thông thường';
+            document.getElementById('view-notes').textContent = 'Khách hàng có tiền sử bệnh tim mạch trong gia đình.';
+          } else if (appointmentId === 'DNA-1237') {
+            document.getElementById('view-patient-name').textContent = 'Phạm Thị Dung';
+            document.getElementById('view-patient-phone').textContent = '0945678901';
+            document.getElementById('view-patient-email').textContent = 'phamthid@email.com';
+            document.getElementById('view-patient-address').textContent = '123 Nam Kỳ Khởi Nghĩa, Q.3, TP.HCM';
+            document.getElementById('view-service-type').textContent = 'Xét nghiệm ADN huyết thống';
+            document.getElementById('view-scheduled-date').textContent = '17/05/2025';
+            document.getElementById('view-received-date').textContent = '17/05/2025';
+            document.getElementById('view-appointment-status').textContent = 'Đã trả kết quả';
+            document.getElementById('view-appointment-status').className = 'status-badge status-returned';
+            document.getElementById('view-appointment-priority').textContent = 'Thông thường';
+            document.getElementById('view-notes').textContent = 'Kết quả đã được gửi qua email và bản cứng cho khách hàng.';
+          } else if (appointmentId === 'DNA-1238') {
+            document.getElementById('view-patient-name').textContent = 'Hoàng Văn Em';
+            document.getElementById('view-patient-phone').textContent = '0956789012';
+            document.getElementById('view-patient-email').textContent = 'hoangvane@email.com';
+            document.getElementById('view-patient-address').textContent = '45 Đồng Khởi, Q.1, TP.HCM';
+            document.getElementById('view-service-type').textContent = 'Xét nghiệm ADN sức khỏe';
+            document.getElementById('view-scheduled-date').textContent = '16/05/2025';
+            document.getElementById('view-received-date').textContent = 'Chưa nhận mẫu';
+            document.getElementById('view-appointment-status').textContent = 'Đã đặt lịch';
+            document.getElementById('view-appointment-status').className = 'status-badge status-requested';
+            document.getElementById('view-appointment-priority').textContent = 'Thông thường';
+            document.getElementById('view-notes').textContent = 'Khách hàng sẽ đến lấy mẫu tại phòng khám vào ngày 23/05.';
+          }
+          
+          // Thiết lập lại các nút chức năng trong modal
+          const modalUpdateStatusBtn = document.getElementById('modalUpdateStatusBtn');
+          const modalEditBtn = document.getElementById('modalEditBtn');
+          const modalCloseBtn = document.getElementById('modalCloseBtn');
+          
+          // Tạo bản sao các nút và thay thế để loại bỏ tất cả các event hiện có
+          // Nút Cập nhật trạng thái
+          if (modalUpdateStatusBtn) {
+            const newUpdateBtn = modalUpdateStatusBtn.cloneNode(true);
+            modalUpdateStatusBtn.parentNode.replaceChild(newUpdateBtn, modalUpdateStatusBtn);
+            
+            // Gán trực tiếp handler mới
+            newUpdateBtn.onclick = function(e) {
+              if (e) {
+                e.preventDefault();
+                e.stopPropagation();
+              }
+              console.log('Modal update status button clicked for ID:', appointmentId);
+              updateStatus(appointmentId, e);
+              return false; // Ngăn chặn hành vi mặc định
+            };
+          }
+          
+          // Nút Chỉnh sửa
+          if (modalEditBtn) {
+            const newEditBtn = modalEditBtn.cloneNode(true);
+            modalEditBtn.parentNode.replaceChild(newEditBtn, modalEditBtn);
+            
+            // Gán trực tiếp handler mới
+            newEditBtn.onclick = function(e) {
+              if (e) {
+                e.preventDefault();
+                e.stopPropagation();
+              }
+              console.log('Modal edit button clicked for ID:', appointmentId);
+              editAppointment(appointmentId, e);
+              return false; // Ngăn chặn hành vi mặc định
+            };
+          }
+          
+          // Nút Đóng
+          if (modalCloseBtn) {
+            const newCloseBtn = modalCloseBtn.cloneNode(true);
+            modalCloseBtn.parentNode.replaceChild(newCloseBtn, modalCloseBtn);
+            
+            // Gán trực tiếp handler mới
+            newCloseBtn.onclick = function(e) {
+              if (e) {
+                e.preventDefault();
+                e.stopPropagation();
+              }
+              console.log('Modal close button clicked');
+              closeModal('appointmentViewModal');
+              return false; // Ngăn chặn hành vi mặc định
+            };
+          }
+          
+          // Đảm bảo nút X đóng modal cũng được gán handler đúng
+          const closeModalBtn = document.querySelector('#appointmentViewModal .close-modal');
+          if (closeModalBtn) {
+            const newXBtn = closeModalBtn.cloneNode(true);
+            closeModalBtn.parentNode.replaceChild(newXBtn, closeModalBtn);
+            
+            // Gán trực tiếp handler mới
+            newXBtn.onclick = function(e) {
+              if (e) {
+                e.preventDefault();
+                e.stopPropagation();
+              }
+              console.log('Modal X button clicked');
+              closeModal('appointmentViewModal');
+              return false;
+            };
+          }
+          
+          // Show the modal
+          document.getElementById('appointmentViewModal').style.display = 'block';
+          console.log('Appointment view modal opened for ID:', appointmentId);
+        } catch (error) {
+          console.error('Error in viewAppointment function:', error);
+          showNotification('Lỗi', 'Đã xảy ra lỗi khi hiển thị thông tin cuộc hẹn', 'error');
+        }
+      }
+      
+      // Edit appointment details
+      function editAppointment(appointmentId, e) {
+        // Xử lý sự kiện chuẩn
+        if (e && typeof e.preventDefault === 'function') {
+          e.preventDefault();
+          e.stopPropagation(); // Ngăn chặn sự kiện lan tỏa
+        } else if (window.event && window.event.preventDefault) {
+          window.event.preventDefault();
+        }
+        
+        console.log('Edit appointment called for ID:', appointmentId);
+        currentAppointmentId = appointmentId;
+        
+        // Đóng tất cả các modal khác nhưng không gọi closeModal để tránh gán lại event handlers
+        document.querySelectorAll('.modal').forEach(modal => {
+          if (modal.id !== 'editAppointmentModal') {
+            modal.style.display = 'none';
+          }
+        });
+  
+        // In a real app, you would fetch the appointment data from the server
+        // For now, we'll use hardcoded data based on the ID
+        document.getElementById('edit-appointment-id').textContent = appointmentId;
+        
+        // Set different initial values based on the appointment ID
+        if (appointmentId === 'DNA-1234') {
+          document.getElementById('edit-patient-name').value = 'Nguyễn Văn An';
+          document.getElementById('edit-patient-phone').value = '0912345678';
+          document.getElementById('edit-patient-email').value = 'nguyenvanan@email.com';
+          document.getElementById('edit-patient-address').value = '234 Nguyễn Trãi, Q.1, TP.HCM';
+          document.getElementById('edit-service-type').value = 'Xét nghiệm ADN huyết thống';
+          document.getElementById('edit-scheduled-date').value = '2025-05-20'; // Format YYYY-MM-DD for date input
+          document.getElementById('edit-notes').value = 'Khách hàng yêu cầu xét nghiệm nhanh.';
+        } else if (appointmentId === 'DNA-1235') {
+          document.getElementById('edit-patient-name').value = 'Trần Thị Bình';
+          document.getElementById('edit-patient-phone').value = '0923456789';
+          document.getElementById('edit-patient-email').value = 'tranthib@email.com';
+          document.getElementById('edit-patient-address').value = '56 Lê Lợi, Q.1, TP.HCM';
+          document.getElementById('edit-service-type').value = 'Xét nghiệm ADN tổ tiên';
+          document.getElementById('edit-scheduled-date').value = '2025-05-19';
+          document.getElementById('edit-notes').value = 'Không có ghi chú đặc biệt.';
+        } else if (appointmentId === 'DNA-1236') {
+          document.getElementById('edit-patient-name').value = 'Lê Văn Công';
+          document.getElementById('edit-patient-phone').value = '0934567890';
+          document.getElementById('edit-patient-email').value = 'levanc@email.com';
+          document.getElementById('edit-patient-address').value = '78 Đinh Tiên Hoàng, Q.3, TP.HCM';
+          document.getElementById('edit-service-type').value = 'Xét nghiệm sức khỏe gene';
+          document.getElementById('edit-scheduled-date').value = '2025-05-18';
+          document.getElementById('edit-notes').value = 'Khách hàng có tiền sử bệnh tim mạch trong gia đình.';
+        } else if (appointmentId === 'DNA-1237') {
+          document.getElementById('edit-patient-name').value = 'Phạm Thị Dung';
+          document.getElementById('edit-patient-phone').value = '0945678901';
+          document.getElementById('edit-patient-email').value = 'phamthid@email.com';
+          document.getElementById('edit-patient-address').value = '123 Nam Kỳ Khởi Nghĩa, Q.3, TP.HCM';
+          document.getElementById('edit-service-type').value = 'Xét nghiệm ADN huyết thống';
+          document.getElementById('edit-scheduled-date').value = '2025-05-17';
+          document.getElementById('edit-notes').value = 'Kết quả đã được gửi qua email và bản cứng cho khách hàng.';
+        } else if (appointmentId === 'DNA-1238') {
+          document.getElementById('edit-patient-name').value = 'Hoàng Văn Em';
+          document.getElementById('edit-patient-phone').value = '0956789012';
+          document.getElementById('edit-patient-email').value = 'hoangvane@email.com';
+          document.getElementById('edit-patient-address').value = '45 Đồng Khởi, Q.1, TP.HCM';
+          document.getElementById('edit-service-type').value = 'Xét nghiệm ADN sức khỏe';
+          document.getElementById('edit-scheduled-date').value = '2025-05-16';
+          document.getElementById('edit-notes').value = 'Khách hàng sẽ đến lấy mẫu tại phòng khám vào ngày 23/05.';
+        }
+        
+        // Show the edit modal
+        document.getElementById('editAppointmentModal').style.display = 'block';
+        
+        // Thiết lập lại các nút trong modal
+        setupModalCloseEvents();
+      }
+      
+      // Save edited appointment details
+      function saveAppointmentEdit() {
+        const appointmentId = document.getElementById('edit-appointment-id').textContent;
+        const patientName = document.getElementById('edit-patient-name').value;
+        const patientPhone = document.getElementById('edit-patient-phone').value;
+        const patientEmail = document.getElementById('edit-patient-email').value;
+        const patientAddress = document.getElementById('edit-patient-address').value;
+        const serviceType = document.getElementById('edit-service-type').value;
+        const scheduledDate = document.getElementById('edit-scheduled-date').value;
+        const notes = document.getElementById('edit-notes').value;
+        
+        // Validate inputs
+        if (!patientName || !patientPhone || !patientAddress || !serviceType || !scheduledDate) {
+          showNotification('Lỗi', 'Vui lòng điền đầy đủ thông tin bắt buộc', 'error');
+          return;
+        }
+        
+        // Format the date for logging (from YYYY-MM-DD to DD/MM/YYYY)
+        const formattedDate = formatDate(scheduledDate);
+        
+        // Tạo đối tượng dữ liệu sẽ gửi đến server
+        const dataToSend = {
+          appointmentId,
+          patientName,
+          patientPhone,
+          patientEmail,
+          patientAddress,
+          serviceType,
+          scheduledDate,
+          formattedDate,
+          notes,
+          timestamp: new Date().toISOString()
+        };
+        
+        // Log dữ liệu mô phỏng việc gửi lên server
+        console.log('Sending appointment edit to server:', dataToSend);
+        
+        // QUAN TRỌNG: Sửa đoạn này - Sử dụng hàm closeModal thay vì thao tác trực tiếp với style
+        closeModal('editAppointmentModal');
+        
+        // Hiển thị thông báo AFTER đóng modal
+        setTimeout(() => {
+          showNotification('Đã gửi', `Dữ liệu chỉnh sửa cuộc hẹn đã được gửi đến server`, 'success');
+        }, 100);
+      }
+      
+      // Update appointment status
+      function updateStatus(appointmentId, e) {
+        // Đảm bảo xử lý sự kiện đúng cách
+        if (e && typeof e.preventDefault === 'function') {
+          e.preventDefault();
+          e.stopPropagation(); // Ngăn chặn sự kiện lan tỏa
+        }
+        
+        console.log('Update status for appointment:', appointmentId, 'Event type:', e ? e.type : 'No event');
+        currentAppointmentId = appointmentId;
+        
+        // Đóng tất cả các modal khác nhưng không gọi closeModal để tránh gán lại event handlers
+        document.querySelectorAll('.modal').forEach(modal => {
+          if (modal.id !== 'statusUpdateModal') {
+            modal.style.display = 'none';
+          }
+        });
+        
+        // Set the appointment ID in the modal
+        document.getElementById('status-appointment-id').textContent = appointmentId;
+        
+        // Set different data based on the appointment ID
+        if (appointmentId === 'DNA-1234') {
+          document.getElementById('status-patient-name').textContent = 'Nguyễn Văn An';
+          document.getElementById('status-service-type').textContent = 'Xét nghiệm ADN huyết thống';
+          document.getElementById('appointment-status').value = 'received';
+        } else if (appointmentId === 'DNA-1235') {
+          document.getElementById('status-patient-name').textContent = 'Trần Thị Bình';
+          document.getElementById('status-service-type').textContent = 'Xét nghiệm ADN tổ tiên';
+          document.getElementById('appointment-status').value = 'testing';
+        } else if (appointmentId === 'DNA-1236') {
+          document.getElementById('status-patient-name').textContent = 'Lê Văn Công';
+          document.getElementById('status-service-type').textContent = 'Xét nghiệm sức khỏe gene';
+          document.getElementById('appointment-status').value = 'completed';
+        } else if (appointmentId === 'DNA-1237') {
+          document.getElementById('status-patient-name').textContent = 'Phạm Thị Dung';
+          document.getElementById('status-service-type').textContent = 'Xét nghiệm ADN huyết thống';
+          document.getElementById('appointment-status').value = 'returned';
+        } else if (appointmentId === 'DNA-1238') {
+          document.getElementById('status-patient-name').textContent = 'Hoàng Văn Em';
+          document.getElementById('status-service-type').textContent = 'Xét nghiệm ADN sức khỏe';
+          document.getElementById('appointment-status').value = 'requested';
+        }
+        
+        // Show modal
+        // Hiển thị modal cập nhật trạng thái
+        document.getElementById('statusUpdateModal').style.display = 'block';
+        
+        // Khởi tạo event handlers cho các nút trong modal - sử dụng clone node để loại bỏ handlers cũ
+        const saveStatusBtn = document.getElementById('saveStatusBtn');
+        if (saveStatusBtn) {
+          const newSaveBtn = saveStatusBtn.cloneNode(true);
+          saveStatusBtn.parentNode.replaceChild(newSaveBtn, saveStatusBtn);
+          
+          newSaveBtn.onclick = function(e) {
+            if (e) {
+              e.preventDefault();
+              e.stopPropagation();
+            }
+            console.log('Save status button clicked');
+            saveStatusUpdate();
+            return false;
+          };
+        }
+        
+        const cancelStatusBtn = document.getElementById('cancelStatusBtn');
+        if (cancelStatusBtn) {
+          const newCancelBtn = cancelStatusBtn.cloneNode(true);
+          cancelStatusBtn.parentNode.replaceChild(newCancelBtn, cancelStatusBtn);
+          
+          newCancelBtn.onclick = function(e) {
+            if (e) {
+              e.preventDefault();
+              e.stopPropagation();
+            }
+            console.log('Cancel status button clicked');
+            closeModal('statusUpdateModal');
+            return false;
+          };
+        }
+        
+        // Đảm bảo nút X đóng modal cũng được gán handler đúng
+        const closeModalBtn = document.querySelector('#statusUpdateModal .close-modal');
+        if (closeModalBtn) {
+          const newXBtn = closeModalBtn.cloneNode(true);
+          closeModalBtn.parentNode.replaceChild(newXBtn, closeModalBtn);
+          
+          newXBtn.onclick = function(e) {
+            if (e) {
+              e.preventDefault();
+              e.stopPropagation();
+            }
+            console.log('Status modal X button clicked');
+            closeModal('statusUpdateModal');
+            return false;
+          };
+        }
+      }
+      
+      // Save status update
+      function saveStatusUpdate() {
+        const appointmentId = document.getElementById('status-appointment-id').textContent;
+        const newStatus = document.getElementById('appointment-status').value;
+        const notes = document.getElementById('status-notes').value;
+        
+        // Tạo đối tượng dữ liệu sẽ gửi đến server
+        const dataToSend = {
+          appointmentId,
+          newStatus,
+          notes,
+          timestamp: new Date().toISOString()
+        };
+        
+        // Log dữ liệu mô phỏng việc gửi lên server
+        console.log('Sending status update to server:', dataToSend);
+        
+        // Đóng modal và hiển thị thông báo
+        const modal = document.getElementById('statusUpdateModal');
+        if (modal) {
+          console.log("Closing statusUpdateModal...");
+          modal.style.display = 'none';
+          
+          // Kiểm tra xem modal thực sự đóng chưa
+          setTimeout(() => {
+            if (modal.style.display !== 'none') {
+              console.warn("Modal didn't close, forcing...");
+              modal.style.display = 'none';
+            }
+            
+            // Hiển thị thông báo sau khi đóng modal
+            showNotification('Đã gửi', `Dữ liệu cập nhật trạng thái đã được gửi đến server`, 'success');
+          }, 50);
+        } else {
+          showNotification('Đã gửi', `Dữ liệu cập nhật trạng thái đã được gửi đến server`, 'success');
+        }
+      }
+      
+      // Enter test results
+      function enterResults(appointmentId, e) {
+        if (e && typeof e.preventDefault === 'function') {
+          e.preventDefault();
+          e.stopPropagation(); // Ngăn chặn sự kiện lan tỏa
+        }
+        
+        console.log('Enter results for appointment:', appointmentId, 'Event:', e ? e.type : 'No event');
+        currentAppointmentId = appointmentId;
+        
+        // Đóng tất cả các modal khác nhưng không gọi closeModal để tránh gán lại event handlers
+        document.querySelectorAll('.modal').forEach(modal => {
+          if (modal.id !== 'resultEntryModal') {
+            modal.style.display = 'none';
+          }
+        });
+        
+        document.getElementById('result-appointment-id').textContent = appointmentId;
+        
+        // Set patient info based on ID
+        if (appointmentId === 'DNA-1234') {
+          document.getElementById('result-patient-name').textContent = 'Nguyễn Văn An';
+          document.getElementById('result-service-type').textContent = 'Xét nghiệm ADN huyết thống';
+        } else if (appointmentId === 'DNA-1235') {
+          document.getElementById('result-patient-name').textContent = 'Trần Thị Bình';
+          document.getElementById('result-service-type').textContent = 'Xét nghiệm ADN tổ tiên';
+        } else if (appointmentId === 'DNA-1236') {
+          document.getElementById('result-patient-name').textContent = 'Lê Văn Công';
+          document.getElementById('result-service-type').textContent = 'Xét nghiệm sức khỏe gene';
+        } else if (appointmentId === 'DNA-1237') {
+          document.getElementById('result-patient-name').textContent = 'Phạm Thị Dung';
+          document.getElementById('result-service-type').textContent = 'Xét nghiệm ADN huyết thống';
+        } else if (appointmentId === 'DNA-1238') {
+          document.getElementById('result-patient-name').textContent = 'Hoàng Văn Em';
+          document.getElementById('result-service-type').textContent = 'Xét nghiệm ADN sức khỏe';
+        }
+        
+        // Show modal
+        document.getElementById('resultEntryModal').style.display = 'block';
+      }
+      
+      // Save test results
+      function saveTestResults() {
+        const appointmentId = document.getElementById('result-appointment-id').textContent;
+        const resultSummary = document.getElementById('result-summary').value;
+        const resultDetails = document.getElementById('result-details').value;
+        const fileInput = document.getElementById('pdf-file-input');
+        
+        // Validate
+        if (!resultSummary || !resultDetails) {
+          showNotification('Lỗi', 'Vui lòng điền đầy đủ thông tin kết quả', 'error');
+          return;
+        }
+        
+        // Tạo đối tượng dữ liệu sẽ gửi đến server
+        const dataToSend = {
+          appointmentId,
+          resultSummary,
+          resultDetails,
+          hasAttachment: fileInput.files.length > 0,
+          attachmentName: fileInput.files.length > 0 ? fileInput.files[0].name : null,
+          timestamp: new Date().toISOString()
+        };
+        
+        // Log dữ liệu mô phỏng việc gửi lên server
+        console.log('Sending test results to server:', dataToSend);
+        
+        // Reset form fields for next use
+        document.getElementById('result-summary').value = '';
+        document.getElementById('result-details').value = '';
+        document.getElementById('selected-file').textContent = '';
+        fileInput.value = '';
+        
+        // QUAN TRỌNG: Đóng modal TRƯỚC, hiển thị thông báo SAU
+        closeModal('resultEntryModal');
+        
+        // Hiển thị thông báo sau khi đóng modal
+        setTimeout(() => {
+          showNotification('Đã gửi', `Kết quả xét nghiệm đã được gửi đến server`, 'success');
+        }, 100);
+      }
+      
+      // Add New Appointment
+      function addNewAppointment() {
+        console.log('Add new appointment function called');
+        
+        // Reset form fields
+        document.getElementById('new-patient-name').value = '';
+        document.getElementById('new-patient-phone').value = '';
+        document.getElementById('new-patient-email').value = '';
+        document.getElementById('new-patient-address').value = '';
+        document.getElementById('new-service-type').value = 'Xét nghiệm ADN huyết thống';
+        // Set default date to current date + 1 day
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        const formattedDate = tomorrow.toISOString().split('T')[0]; // Format as YYYY-MM-DD
+        document.getElementById('new-scheduled-date').value = formattedDate;
+        document.getElementById('new-appointment-priority').value = 'Thông thường';
+        document.getElementById('new-notes').value = '';
+        
+        // Show the modal
+        document.getElementById('newAppointmentModal').style.display = 'block';
+        setupModalCloseEvents();
+      }
+      
+      // Save New Appointment
+      function saveNewAppointment() {
+        const patientName = document.getElementById('new-patient-name').value;
+        const patientPhone = document.getElementById('new-patient-phone').value;
+        const patientEmail = document.getElementById('new-patient-email').value || '';
+        const patientAddress = document.getElementById('new-patient-address').value;
+        const serviceType = document.getElementById('new-service-type').value;
+        const scheduledDate = document.getElementById('new-scheduled-date').value;
+        const priority = document.getElementById('new-appointment-priority').value;
+        const notes = document.getElementById('new-notes').value || '';
+        
+        // Validate inputs
+        if (!patientName || !patientPhone || !patientAddress || !serviceType || !scheduledDate) {
+          showNotification('Lỗi', 'Vui lòng điền đầy đủ thông tin bắt buộc', 'error');
+          return;
+        }
+        
+        // Generate a new appointment ID (in a real app, this would be done by the server)
+        const appointmentId = generateAppointmentId();
+        
+        // Format the date for display (from YYYY-MM-DD to DD/MM/YYYY)
+        const formattedDate = formatDate(scheduledDate);
+        
+        // Tạo đối tượng dữ liệu sẽ gửi đến server
+        const dataToSend = {
+          appointmentId,
+          patientName,
+          patientPhone,
+          patientEmail,
+          patientAddress,
+          serviceType,
+          scheduledDate,
+          formattedDate,
+          priority,
+          notes,
+          status: 'requested',
+          statusLabel: 'Đã đặt lịch',
+          timestamp: new Date().toISOString()
+        };
+        
+        // Log dữ liệu mô phỏng việc gửi lên server
+        console.log('Sending new appointment to server:', dataToSend);
+        
+        // Hiển thị thông báo
+        showNotification('Đã gửi', `Cuộc hẹn mới đã được gửi đến server`, 'success');
+        
+        // Đóng modal sau khi "gửi"
+        closeModal('newAppointmentModal');
+      }
+      
+      // Helper function to generate a new appointment ID
+      function generateAppointmentId() {
+        // In a real app, this would be done by the server
+        // For demo purposes, we'll generate a random ID with a specific format
+        const randomNum = Math.floor(1000 + Math.random() * 9000);
+        return `DNA-${randomNum}`;
+      }
+      
+      // Tải danh sách cuộc hẹn
+      function loadAppointments() {
+        console.log('Loading appointments...');
+        const filterStatus = document.getElementById('appointmentFilterStatus').value;
+        const appointmentsTable = document.getElementById('appointmentsTable');
+        const tbody = appointmentsTable.querySelector('tbody');
+        const emptyState = document.getElementById('appointmentsEmptyState');
+        
+        // Xóa các hàng hiện tại
+        tbody.innerHTML = '';
+        
+        // Dữ liệu mẫu - trong ứng dụng thực, dữ liệu này sẽ được lấy từ server
+        const appointments = [
+          {
+            id: 'DNA-1234',
+            patientName: 'Nguyễn Văn An',
+            phone: '0912345678',
+            service: 'Xét nghiệm ADN huyết thống',
+            address: '234 Nguyễn Trãi, Q.1, TP.HCM',
+            status: 'received',
+            statusLabel: 'Đã nhận mẫu'
+          },
+          {
+            id: 'DNA-1235',
+            patientName: 'Trần Thị Bình',
+            phone: '0923456789',
+            service: 'Xét nghiệm ADN tổ tiên',
+            address: '56 Lê Lợi, Q.1, TP.HCM',
+            status: 'testing',
+            statusLabel: 'Đang xét nghiệm'
+          },
+          {
+            id: 'DNA-1236',
+            patientName: 'Lê Văn Công',
+            phone: '0934567890',
+            service: 'Xét nghiệm sức khỏe gene',
+            address: '78 Đinh Tiên Hoàng, Q.3, TP.HCM',
+            status: 'completed',
+            statusLabel: 'Hoàn thành'
+          },
+          {
+            id: 'DNA-1237',
+            patientName: 'Phạm Thị Dung',
+            phone: '0945678901',
+            service: 'Xét nghiệm ADN huyết thống',
+            address: '123 Nam Kỳ Khởi Nghĩa, Q.3, TP.HCM',
+            status: 'returned',
+            statusLabel: 'Đã trả kết quả'
+          },
+          {
+            id: 'DNA-1238',
+            patientName: 'Hoàng Văn Em',
+            phone: '0956789012',
+            service: 'Xét nghiệm ADN sức khỏe',
+            address: '45 Đồng Khởi, Q.1, TP.HCM',
+            status: 'requested',
+            statusLabel: 'Đã đặt lịch'
+          },
+          // Thêm dữ liệu mẫu
+          {
+            id: 'DNA-1239',
+            patientName: 'Mai Anh Tuấn',
+            phone: '0967890123',
+            service: 'Xét nghiệm ADN huyết thống',
+            address: '22 Lý Tự Trọng, Q.1, TP.HCM',
+            status: 'testing',
+            statusLabel: 'Đang xét nghiệm'
+          },
+          {
+            id: 'DNA-1240',
+            patientName: 'Vũ Thị Ngọc',
+            phone: '0978901234',
+            service: 'Xét nghiệm ADN tổ tiên',
+            address: '110 Nguyễn Huệ, Q.1, TP.HCM',
+            status: 'received',
+            statusLabel: 'Đã nhận mẫu'
+          }
+        ];
+        
+        // Lọc cuộc hẹn theo trạng thái
+        const filteredAppointments = filterStatus === 'all' 
+          ? appointments 
+          : appointments.filter(appointment => appointment.status === filterStatus);
+        
+        // Hiển thị hoặc ẩn thông báo trống
+        if (filteredAppointments.length === 0) {
+          if (emptyState) emptyState.style.display = 'block';
+          return;
+        } else {
+          if (emptyState) emptyState.style.display = 'none';
+        }
+        
+        // Hiển thị danh sách
+        filteredAppointments.forEach(appointment => {
+          const row = document.createElement('tr');
+          const hasResults = appointment.status === 'completed' || appointment.status === 'returned';
+          
+          row.innerHTML = `
+            <td>${appointment.id}</td>
+            <td>${appointment.patientName}</td>
+            <td>${appointment.phone}</td>
+            <td>${appointment.service}</td>
+            <td>${appointment.address}</td>
+            <td><span class="status-badge status-${appointment.status}">${appointment.statusLabel}</span></td>
+            <td>
+              <button class="action-btn view-btn" data-id="${appointment.id}">Xem</button>
+              <button class="action-btn edit-btn" data-id="${appointment.id}" ${hasResults ? 'data-action="results"' : ''}>${hasResults ? 'Kết quả' : 'Cập nhật'}</button>
+              <button class="action-btn delete-btn" data-id="${appointment.id}">Xóa</button>
+            </td>
+          `;
+          
+          tbody.appendChild(row);
+        });
+        
+        // Gắn sự kiện cho các nút trong bảng
+        setTimeout(() => {
+          setupDashboardActionButtons();
+          console.log('Event listeners attached to appointment buttons');
+        }, 100);
+      }
+
+      // Thiết lập hàm setupDashboardActionButtons() nếu chưa có hoặc cải tiến nếu cần
+      function setupDashboardActionButtons() {
+        console.log('Setting up dashboard action buttons');
+        
+        // Chỉ chọn các nút trong bảng điều khiển và trang appointments
+        const dashboardButtons = document.querySelectorAll('#dashboard-page .action-btn, #appointments-page .action-btn');
+        
+        // Xóa tất cả sự kiện click hiện tại
+        dashboardButtons.forEach(button => {
+          button.onclick = null;
+        });
+        
+        // Thiết lập lại sự kiện cho từng loại nút
+        const viewButtons = document.querySelectorAll('#dashboard-page .action-btn.view-btn, #appointments-page .action-btn.view-btn');
+        viewButtons.forEach(button => {
+          const id = button.getAttribute('data-id');
+          button.onclick = function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('View button clicked for ID:', id);
+            viewAppointment(id, e);
+          };
+        });
+        
+        // Setup edit/update/results buttons
+        const editButtons = document.querySelectorAll('#dashboard-page .action-btn.edit-btn, #appointments-page .action-btn.edit-btn');
+        editButtons.forEach(button => {
+          const id = button.getAttribute('data-id');
+          const action = button.getAttribute('data-action');
+          button.onclick = function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            if (action === 'results') {
+              console.log('Results button clicked for ID:', id);
+              enterResults(id, e);
+            } else {
+              console.log('Update button clicked for ID:', id);
+              updateStatus(id, e);
+            }
+          };
+        });
+        
+        // Setup delete buttons
+        const deleteButtons = document.querySelectorAll('#dashboard-page .action-btn.delete-btn, #appointments-page .action-btn.delete-btn');
+        deleteButtons.forEach(button => {
+          const id = button.getAttribute('data-id');
+          button.onclick = function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            deleteAppointment(id, e);
+          };
+        });
+      }
+
+      // Thêm hàm xóa cuộc hẹn
+      function deleteAppointment(appointmentId, e) {
+        if (e) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+        
+        if (confirm(`Bạn có chắc chắn muốn xóa cuộc hẹn ${appointmentId} không?`)) {
+          // Tìm và xóa dòng khỏi bảng
+          const tableRows = document.querySelectorAll('table tr');
+          tableRows.forEach(row => {
+            const idCell = row.querySelector('td:first-child');
+            if (idCell && idCell.textContent === appointmentId) {
+              row.remove();
+            }
+          });
+          
+          showNotification('Đã xóa', `Cuộc hẹn ${appointmentId} đã được xóa thành công`, 'success');
+        }
+      }
+
+      // Helper function to add an appointment to the table
+      function addAppointmentToTable(appointment) {
+        const appointmentsTable = document.getElementById('appointmentsTable');
+        if (!appointmentsTable) return;
+        
+        const tbody = appointmentsTable.querySelector('tbody');
+        
+        // Create new row
+        const row = document.createElement('tr');
+        
+        // Set row HTML
+        row.innerHTML = `
+          <td>${appointment.id}</td>
+          <td>${appointment.patientName}</td>
+          <td>${appointment.phone}</td>
+          <td>${appointment.service}</td>
+          <td>${appointment.address}</td>
+          <td><span class="status-badge status-${appointment.status}">${appointment.statusLabel}</span></td>
+          <td>
+            <button class="action-btn view-btn" data-id="${appointment.id}">Xem</button>
+            <button class="action-btn edit-btn" data-id="${appointment.id}">Cập nhật</button>
+          </td>
+        `;
+        
+        // Add to table
+        tbody.prepend(row); // Add to the top of the table
+        
+        // Hide empty state if it's visible
+        const emptyState = document.getElementById('appointmentsEmptyState');
+        if (emptyState) emptyState.style.display = 'none';
+        
+        // Attach event handlers to the new buttons
+        setTimeout(() => {
+          const viewBtn = row.querySelector('.action-btn.view-btn');
+          if (viewBtn) {
+            viewBtn.onclick = function(e) {
+              if (e) {
+                e.preventDefault();
+                e.stopPropagation();
+              }
+              const appointmentId = this.getAttribute('data-id');
+              setTimeout(() => viewAppointment(appointmentId, e), 10);
+              return false;
+            };
+          }
+          
+          const actionBtn = row.querySelector('.action-btn.edit-btn');
+          if (actionBtn) {
+            actionBtn.onclick = function(e) {
+              if (e) {
+                e.preventDefault();
+                e.stopPropagation();
+              }
+              const appointmentId = this.getAttribute('data-id');
+              setTimeout(() => updateStatus(appointmentId, e), 10);
+              return false;
+            };
+          }
+        }, 10);
+      }
+      
+      // Thêm hàm closeModal
+      function closeModal(modalId) {
+        console.log(`Closing modal: ${modalId}`);
+        
+        // Lấy modal element
+        const modal = document.getElementById(modalId);
+        
+        if (modal) {
+          // Ẩn modal
+          modal.style.display = 'none';
+          console.log(`Modal ${modalId} closed successfully`);
+          
+          // Đảm bảo modal thực sự đóng
+          if (modal.style.display !== 'none') {
+            console.warn(`Failed to close ${modalId}, forcing...`);
+            setTimeout(() => {
+              modal.style.display = 'none';
+            }, 0);
+          }
+          
+          // Nếu có form, reset form
+          const form = modal.querySelector('form');
+          if (form) form.reset();
+          
+          // Setup lại các nút sau khi đóng modal
+          setTimeout(() => {
+            setupDashboardActionButtons();
+          }, 100);
+        } else {
+          console.error(`Modal with ID ${modalId} not found!`);
+        }
+      }
+
+      // Set up modal close event handlers for all modals
+      function setupModalCloseEvents() {
+        console.log('Setting up modal close events');
+        
+        // Xử lý các nút X đóng modal
+        document.querySelectorAll('.modal .close-modal').forEach(button => {
+          const modalId = button.closest('.modal').id;
+          button.onclick = function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log(`Close X button clicked for modal ${modalId}`);
+            closeModal(modalId);
+          };
+        });
+        
+        // Xử lý nút lưu trong modal saveAppointmentEdit
+        const saveAppointmentEditBtn = document.querySelector('#editAppointmentModal .action-btn.view-btn');
+        if (saveAppointmentEditBtn) {
+          saveAppointmentEditBtn.onclick = function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('Save appointment edit button clicked');
+            saveAppointmentEdit();
+          };
+        }
+        
+        // Xử lý nút lưu trong modal saveTestResults
+        const saveTestResultsBtn = document.querySelector('#resultEntryModal .action-btn.view-btn');
+        if (saveTestResultsBtn) {
+          saveTestResultsBtn.onclick = function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('Save test results button clicked');
+            saveTestResults();
+          };
+        }
+        
+        // Xử lý các nút hủy bỏ/đóng trong các modal
+        document.querySelectorAll('.modal button[style*="background-color: #999"]').forEach(button => {
+          const modalId = button.closest('.modal').id;
+          button.onclick = function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log(`Cancel button clicked for modal ${modalId}`);
+            closeModal(modalId);
+          };
+        });
+      }
+    </script>
+  </body>
+</html>

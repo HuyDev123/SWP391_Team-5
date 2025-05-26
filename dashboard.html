@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bảng điều khiển nhân viên</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+  <link rel="stylesheet" href="dashboard.css" />
+</head>
+<body>
+  <div class="dashboard">
+    <div class="page-title">Bảng điều khiển nhân viên</div>
+    <div class="alert-box">
+      <span class="alert-icon"><i class="fa fa-bell"></i></span>
+      <div class="alert-content">
+        <span class="alert-title">Thông báo <b>quan trọng</b></span><br>
+        Có <b>3 cuộc hẹn khẩn cấp</b> đang chờ xử lý và <b>2 kết quả xét nghiệm</b> cần được xem xét.
+      </div>
+    </div>
+    <div class="stats-container">
+      <div class="stat-card">
+        <div class="stat-header">
+          <span class="stat-title">Mẫu mới</span>
+          <span class="stat-icon blue"><i class="fa fa-vial"></i></span>
+        </div>
+        <div class="stat-value">8</div>
+        <div class="stat-description">Nhận hôm nay</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-header">
+          <span class="stat-title">Đang xét nghiệm</span>
+          <span class="stat-icon green"><i class="fa fa-flask"></i></span>
+        </div>
+        <div class="stat-value">12 <span class="stat-badge">3 khẩn cấp</span></div>
+        <div class="stat-description">&nbsp;</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-header">
+          <span class="stat-title">Hoàn thành</span>
+          <span class="stat-icon orange"><i class="fa fa-check-circle"></i></span>
+        </div>
+        <div class="stat-value">23</div>
+        <div class="stat-description">Tuần này</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-header">
+          <span class="stat-title">Đang chờ kết quả</span>
+          <span class="stat-icon purple"><i class="fa fa-calendar"></i></span>
+        </div>
+        <div class="stat-value">5</div>
+        <div class="stat-description">Cần nhập kết quả</div>
+      </div>
+    </div>
+    <div class="table-container">
+      <div class="section-header">
+        <span class="section-title">Cuộc hẹn gần đây</span>
+        <div class="section-actions">
+          <button>Xem tất cả</button>
+        </div>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Mã</th>
+            <th>Tên khách hàng</th>
+            <th>Số điện thoại</th>
+            <th>Loại dịch vụ</th>
+            <th>Địa chỉ</th>
+            <th>Trạng thái</th>
+            <th>Thao tác</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>DNA-1234</td>
+            <td>Nguyễn Văn An</td>
+            <td>0912345678</td>
+            <td>Xét nghiệm ADN huyết thống</td>
+            <td>234 Nguyễn Trãi, Q.1, TP.HCM</td>
+            <td><span class="status-badge status-received">Đã nhận mẫu</span></td>
+            <td>
+              <button class="action-btn view-btn">Xem</button>
+              <button class="action-btn update-status-btn">Cập nhật</button>
+            </td>
+          </tr>
+          <tr>
+            <td>DNA-1235</td>
+            <td>Trần Thị Bình</td>
+            <td>0923456789</td>
+            <td>Xét nghiệm ADN tổ tiên</td>
+            <td>56 Lê Lợi, Q.1, TP.HCM</td>
+            <td><span class="status-badge status-testing">Đang xét nghiệm</span></td>
+            <td>
+              <button class="action-btn view-btn">Xem</button>
+              <button class="action-btn update-status-btn">Cập nhật</button>
+            </td>
+          </tr>
+          <tr>
+            <td>DNA-1236</td>
+            <td>Lê Văn Công</td>
+            <td>0934567890</td>
+            <td>Xét nghiệm sức khỏe gene</td>
+            <td>78 Đinh Tiên Hoàng, Q.3, TP.HCM</td>
+            <td><span class="status-badge status-completed">Hoàn thành</span></td>
+            <td>
+              <button class="action-btn view-btn">Xem</button>
+              <button class="action-btn result-btn">Kết quả</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <script src="dashboard.js"></script>
+</body>
+</html>

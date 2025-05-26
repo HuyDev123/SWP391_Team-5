@@ -1,0 +1,49 @@
+<!-- Modal xem chi tiết cuộc hẹn -->
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Chi tiết cuộc hẹn</title>
+  <link rel="stylesheet" href="modal.css">
+</head>
+<body>
+<div class="modal" id="appointmentViewModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3 class="modal-title">Chi tiết cuộc hẹn</h3>
+      <span class="close-modal" style="font-size:1.5rem;cursor:pointer;user-select:none">&times;</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <div class="modal-info-grid">
+        <div>
+          <h4 class="modal-section-title">Thông tin khách hàng</h4>
+          <p><strong>Mã cuộc hẹn:</strong> <span id="view-appointment-id">DNA-1234</span></p>
+          <p><strong>Tên khách hàng:</strong> <span id="view-patient-name">Nguyễn Văn An</span></p>
+          <p><strong>Số điện thoại:</strong> <span id="view-patient-phone">0912345678</span></p>
+          <p><strong>Email:</strong> <span id="view-patient-email">nguyenvanan@email.com</span></p>
+          <p><strong>Địa chỉ:</strong> <span id="view-patient-address">234 Nguyễn Trãi, Q.1, TP.HCM</span></p>
+        </div>
+        <div>
+          <h4 class="modal-section-title">Thông tin dịch vụ</h4>
+          <p><strong>Loại dịch vụ:</strong> <span id="view-service-type">Xét nghiệm ADN huyết thống</span></p>
+          <p><strong>Ngày đặt lịch:</strong> <span id="view-scheduled-date">20/05/2025</span></p>
+          <p><strong>Ngày nhận mẫu:</strong> <span id="view-received-date">22/05/2025</span></p>
+          <p><strong>Trạng thái:</strong> <span id="view-appointment-status" class="status-badge status-received">Đã nhận mẫu</span></p>
+          <p><strong>Mức độ ưu tiên:</strong> <span id="view-appointment-priority">Thông thường</span></p>
+        </div>
+      </div>
+      <div>
+        <h4 class="modal-section-title">Ghi chú</h4>
+        <p id="view-notes">Khách hàng yêu cầu xét nghiệm nhanh.</p>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <hr style="width:100%;margin-bottom:16px;">
+      <button class="action-btn update-status-btn">Cập nhật trạng thái</button>
+      <button class="action-btn edit-appointment-btn">Chỉnh sửa</button>
+      <button class="action-btn cancel-btn">Đóng</button>
+    </div>
+  </div>
+</div>
+</body>
+</html>

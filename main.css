@@ -1,0 +1,97 @@
+/* main.css - chứa style chung */
+body {
+  background-color: #f5f8ff;
+  color: #333;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Header Styles */
+.header {
+  position: fixed;
+  top: 0;
+  left: var(--sidebar-width);
+  right: 0;
+  height: var(--header-height);
+  background-color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  box-shadow: var(--shadow);
+  z-index: 99;
+}
+.search-box {
+  display: flex;
+  align-items: center;
+  background-color: var(--light-bg);
+  border-radius: 50px;
+  padding: 7px 20px;
+  width: 340px;
+  font-size: 1rem;
+}
+.search-box input {
+  flex: 1;
+  border: none;
+  background: none;
+  outline: none;
+  padding: 8px 0 8px 8px;
+  font-size: 1rem;
+}
+.search-box i {
+  color: var(--light-text);
+  font-size: 1.1rem;
+}
+.notifications {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+.notification-icon {
+  font-size: 1.4rem;
+  color: var(--primary-color);
+  cursor: pointer;
+  position: relative;
+}
+.notification-badge {
+  position: absolute;
+  top: -7px;
+  right: -7px;
+  background-color: var(--accent-color);
+  color: var(--white);
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  border: 2px solid var(--white);
+}
+.header-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--primary-color);
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin-left: 10px;
+}
+
+.action-btn {
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 6px 18px;
+  margin-right: 6px;
+  border: none;
+  color: #fff !important;
+  transition: background 0.2s;
+  box-shadow: 0 1px 4px rgba(63,81,181,0.07);
+}
+.action-btn:last-child { margin-right: 0; }
