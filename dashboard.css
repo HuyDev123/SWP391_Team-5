@@ -1,5 +1,3 @@
-@import url('main.css');
-
 /* dashboard.css - style cho dashboard */
 body, .dashboard {
   background: #f5f8ff;
@@ -15,7 +13,7 @@ body, .dashboard {
 
 /* Dashboard Styles */
 .page-title {
-  font-size: 2rem;
+  font-size: 1.4rem;
   font-weight: 700;
   margin: 24px 0 18px 0;
   color: #222;
@@ -64,13 +62,16 @@ body, .dashboard {
   box-shadow: 0 4px 18px rgba(63,81,181,0.13);
 }
 .stat-header {
+  width: 100%;
   display: flex;
-  justify-content: space-between;
+  flex-direction: row;
   align-items: center;
-  margin-bottom: 10px;
+  justify-content: flex-start;
+  margin-bottom: 8px;
 }
 .stat-title {
-  font-size: 1.08rem;
+  flex: 1;
+  font-size: 0.98rem;
   font-weight: 600;
   color: #444;
 }
@@ -90,7 +91,7 @@ body, .dashboard {
 .stat-icon.purple { background: #9c27b0; }
 
 .stat-value {
-  font-size: 2.1rem;
+  font-size: 1.3rem;
   font-weight: 700;
   color: #222;
   margin-bottom: 2px;
@@ -98,7 +99,7 @@ body, .dashboard {
 .stat-badge {
   background: #ffe0b2;
   color: #ff9800;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   border-radius: 8px;
   padding: 2px 8px;
   margin-left: 6px;
@@ -114,28 +115,32 @@ body, .dashboard {
   box-shadow: 0 2px 12px rgba(63,81,181,0.07);
   border: 1.5px solid #e6eaf3;
   margin-top: 32px;
-  padding: 24px 24px 18px 24px;
+  padding: 12px 12px 8px 12px;
+  overflow-x: auto;
 }
 .section-header {
+  width: 100%;
   display: flex;
-  justify-content: space-between;
+  flex-direction: row;
   align-items: center;
-  margin-bottom: 18px;
+  justify-content: flex-start;
+  margin-bottom: 8px;
 }
 .section-title {
+  flex: 1;
   font-size: 1.25rem;
   font-weight: 700;
   color: #222;
+  margin: 0;
+}
+.section-actions {
+  display: flex;
+  align-items: center;
 }
 .section-actions button {
+  margin: 0;
   background: #3f51b5;
-  color: #fff;
-  border-radius: 8px;
-  border: none;
-  font-size: 1rem;
-  padding: 8px 22px;
-  font-weight: 500;
-  transition: background 0.2s;
+  margin-right: 0;
 }
 .section-actions button:hover {
   background: #283593;
@@ -146,18 +151,21 @@ table {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
-  font-size: 1.05rem;
+  font-size: 0.97rem;
   background: #fff;
+  min-width: 950px;
 }
 thead th {
   background: #f5f8ff;
   color: #222;
   font-weight: 700;
-  padding: 12px 8px;
+  padding: 8px 6px;
   border-bottom: 2px solid #e6eaf3;
+  white-space: nowrap;
+  text-align: left;
 }
 tbody td {
-  padding: 12px 8px;
+  padding: 8px 6px;
   border-bottom: 1.5px solid #f0f2f7;
 }
 tbody tr:last-child td {
@@ -166,13 +174,57 @@ tbody tr:last-child td {
 tbody tr:hover {
   background: #f5f8ff;
 }
+td, th {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+td {
+  /* Đảm bảo các ô đủ cao để chứa nội dung, căn giữa dọc */
+  height: 48px;
+  vertical-align: middle;
+}
+td .status-badge {
+  white-space: nowrap;
+}
+td .action-btn {
+  white-space: nowrap;
+  margin-bottom: 0;
+  display: inline-block;
+}
+td:last-child {
+  min-width: 140px;
+}
+td:nth-child(1) {
+  min-width: 90px;
+}
+td:nth-child(2) {
+  min-width: 140px;
+}
+td:nth-child(3) {
+  min-width: 120px;
+}
+td:nth-child(4),
+th:nth-child(4) {
+  min-width: 110px;
+  max-width: 160px;
+}
+td:nth-child(5) {
+  min-width: 170px;
+}
+td:nth-child(6) {
+  min-width: 120px;
+}
+td:nth-child(7) {
+  min-width: 140px;
+}
 
 /* Badge trạng thái */
 .status-badge {
   border-radius: 8px;
-  font-size: 1rem;
+  font-size: 0.92rem;
   font-weight: 600;
-  padding: 4px 16px;
+  padding: 3px 12px;
   display: inline-block;
 }
 .status-received {

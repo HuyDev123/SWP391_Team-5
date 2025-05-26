@@ -1,3 +1,5 @@
+@import url(main.css);
+
 /* menu.css - style cho sidebar/menu */
 .sidebar {
   width: var(--sidebar-width);

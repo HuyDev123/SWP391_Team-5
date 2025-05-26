@@ -6,33 +6,21 @@
   <title>DNA Testing Staff Portal</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
   <link rel="stylesheet" href="main.css" />
-  <link rel="stylesheet" href="menu.css" />
-  <link rel="stylesheet" href="dashboard.css" />
-  <link rel="stylesheet" href="modal.css">
 </head>
 <body>
-  <div id="menu-container"></div>
+  <div id="header-container"></div>
+  <div id="menu-container" style="margin-top: 60px;"></div>
   <div id="main-content">
-    <div class="header">
-      <form class="search-box">
-        <i class="fa fa-search"></i>
-        <input type="text" placeholder="Tìm kiếm cuộc hẹn..." />
-      </form>
-      <div class="notifications">
-        <div class="notifications-dropdown-container">
-          <span class="notification-icon">
-            <i class="fa fa-bell"></i>
-            <span class="notification-badge">5</span>
-          </span>
-          <!-- Dropdown sẽ được JS xử lý -->
-        </div>
-        <div class="header-avatar">S</div>
-      </div>
-    </div>    <div id="main-content"></div>
+    <!-- Nội dung chính sẽ được load động vào đây -->
     <!-- Modal sẽ luôn được load động vào body, không để sẵn modal trong bất kỳ file HTML nào ngoài index.html/body -->
-  </div>  <script src="menu.js"></script>
+  </div>
+  <script src="menu.js"></script>
   <script src="main.js"></script>
   <script>
+    // Load header.html vào header-container
+    fetch('header.html').then(res => res.text()).then(html => {
+      document.getElementById('header-container').innerHTML = html;
+    });
     // Load menu.html vào menu-container
     fetch('menu.html').then(res => res.text()).then(html => {
       document.getElementById('menu-container').innerHTML = html;
@@ -44,18 +32,31 @@
           this.classList.add('active');
           let page = this.getAttribute('data-page');
           let url = page === 'dashboard' ? 'dashboard.html' : page + '.html';
-          loadPage(url);
+          loadPage(url, page);
         });
       });
     });
     // Load nội dung động vào main-content
-    function loadPage(url) {
+    function loadPage(url, page) {
       fetch(url).then(res => res.text()).then(html => {
         document.getElementById('main-content').innerHTML = html;
+        // Nếu là dashboard thì chỉ nạp dashboard.js khi cần
+        if ((page === 'dashboard' || url === 'dashboard.html' || url.endsWith('/dashboard.html'))) {
+          if (typeof setupDashboardActionButtons === 'function') {
+            setupDashboardActionButtons();
+          } else {
+            var script = document.createElement('script');
+            script.src = 'dashboard.js';
+            script.onload = function() {
+              if (typeof setupDashboardActionButtons === 'function') setupDashboardActionButtons();
+            };
+            document.body.appendChild(script);
+          }
+        }
       });
     }
     // Load dashboard mặc định
-    loadPage('dashboard.html');
+    loadPage('dashboard.html', 'dashboard');
   </script>
 </body>
 </html>

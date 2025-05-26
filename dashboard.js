@@ -69,7 +69,7 @@ function showModal(modalFile) {
     .catch(error => console.error('Error loading modal:', error));
 }
 
-document.addEventListener('DOMContentLoaded', function() {
+function setupDashboardActionButtons() {
   // Nút Xem tất cả
   const viewAllBtn = document.querySelector('.section-actions button');
   if (viewAllBtn) {
@@ -96,4 +96,8 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     }
   });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  setupDashboardActionButtons();
 });

@@ -4,6 +4,10 @@ function loadPage(page) {
     .then(res => res.text())
     .then(html => {
       document.getElementById('main-content').innerHTML = html;
+      // Nếu là dashboard thì gắn lại sự kiện
+      if (page === 'dashboard' && typeof setupDashboardActionButtons === 'function') {
+        setupDashboardActionButtons();
+      }
     });
 }
 
