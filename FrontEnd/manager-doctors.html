@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Danh sách nhân viên & bác sĩ</title>
+    <link rel="stylesheet" href="assets/css/common.css" />
+    <link rel="stylesheet" href="assets/css/manager.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <style>
+      /* Ensure the table takes full width of the viewport */
+      body,
+      html {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: hidden;
+      }
+
+      .main-content.page-content {
+        padding: 0;
+        margin: 0;
+        background-color: #fff;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        overflow-x: hidden;
+      }
+
+      .page-title {
+        margin: 0;
+        padding: 15px 20px;
+        background-color: #fff;
+        border-bottom: 1px solid #eee;
+        font-size: 1.4rem;
+      }
+
+      .filter-container {
+        display: flex;
+        gap: 16px;
+        margin: 0;
+        padding: 15px 20px;
+        background-color: #f5f8ff;
+        align-items: center;
+        border-bottom: 1px solid #eee;
+      }
+
+      .search-input {
+        position: relative;
+        width: 320px;
+      }
+
+      .search-input i {
+        position: absolute;
+        left: 12px;
+        top: 0;
+        bottom: 0;
+        margin: auto 0;
+        height: 20px;
+        display: flex;
+        align-items: center;
+        color: #aaa;
+      }
+
+      .search-input input {
+        width: 100%;
+        height: 40px;
+        line-height: 40px;
+        padding: 0 12px 0 40px;
+        border-radius: 5px;
+        border: 1px solid #ddd;
+        font-size: 16px;
+      }
+
+      .filter-select,
+      .filter-date {
+        padding: 8px 12px;
+        border-radius: 5px;
+        border: 1px solid #ddd;
+        height: 40px;
+      }
+      .table-container {
+        margin: 0;
+        border-radius: 0;
+        box-shadow: none;
+        padding: 0 20px;
+        width: 100%;
+        max-width: 100%;
+        overflow-x: hidden;
+        box-sizing: border-box;
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        table-layout: fixed;
+      }
+
+      thead th,
+      tbody td {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      thead th {
+        background-color: #f9f9f9;
+        padding: 12px 15px;
+        text-align: left;
+        border-bottom: 1px solid #eee;
+        font-weight: 600;
+        color: #333;
+      }
+
+      tbody td {
+        padding: 12px 15px;
+        text-align: left;
+        border-bottom: 1px solid #eee;
+        color: #444;
+      }
+      .action-btn.sort-room-btn {
+        background: linear-gradient(45deg, #2196f3, #1565c0);
+        color: white;
+        padding: 6px 14px;
+        border-radius: 4px;
+        display: inline-block;
+        font-size: 0.85rem;
+        white-space: nowrap;
+        text-decoration: none;
+        width: fit-content;
+      }
+
+      .badge {
+        display: inline-block;
+        padding: 3px 8px;
+        border-radius: 3px;
+        font-size: 0.85rem;
+        white-space: nowrap;
+        text-align: center;
+      } /* Add this to ensure the table columns adapt properly */ /* Add this to ensure the table columns adapt properly */
+      @media screen and (min-width: 1201px) {
+        /* More space for wider screens */
+        th:nth-child(1),
+        td:nth-child(1) {
+          width: 7%;
+        } /* Mã NV */
+        th:nth-child(2),
+        td:nth-child(2) {
+          width: 16%;
+        } /* Họ tên */
+        th:nth-child(3),
+        td:nth-child(3) {
+          width: 12%;
+        } /* Vai trò */
+        th:nth-child(4),
+        td:nth-child(4) {
+          width: 12%;
+        } /* Số điện thoại */
+        th:nth-child(5),
+        td:nth-child(5) {
+          width: 20%;
+        } /* Email */
+        th:nth-child(6),
+        td:nth-child(6) {
+          width: 10%;
+        } /* Ngày làm việc */
+        th:nth-child(7),
+        td:nth-child(7) {
+          width: 8%;
+        } /* Trạng thái */
+        th:nth-child(8),
+        td:nth-child(8) {
+          width: 15%;
+        } /* Thao tác */
+      }
+
+      @media screen and (max-width: 1200px) {
+        th,
+        td {
+          padding: 10px 8px;
+        }
+
+        th:nth-child(1),
+        td:nth-child(1) {
+          width: 7%;
+        }
+        th:nth-child(2),
+        td:nth-child(2) {
+          width: 14%;
+        }
+        th:nth-child(3),
+        td:nth-child(3) {
+          width: 12%;
+        }
+        th:nth-child(4),
+        td:nth-child(4) {
+          width: 12%;
+        }
+        th:nth-child(5),
+        td:nth-child(5) {
+          width: 16%;
+        }
+        th:nth-child(6),
+        td:nth-child(6) {
+          width: 12%;
+        }
+        th:nth-child(7),
+        td:nth-child(7) {
+          width: 10%;
+        }
+        th:nth-child(8),
+        td:nth-child(8) {
+          width: 17%;
+        }
+      }
+
+      /* Force table to take 100% width even if sidebar is present */
+      .main-content.page-content .table-container,
+      .main-content.page-content table {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box;
+      }
+
+      tbody tr:hover {
+        background-color: #f5f8ff;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      class="main-content page-content"
+      style="
+        display: block;
+        width: 100%;
+        margin-left: 0;
+        padding-right: 0;
+        overflow-x: hidden;
+      "
+    >
+      <h2 class="page-title">Danh sách nhân viên & bác sĩ</h2>
+      <div class="filter-container">
+        <div class="search-input">
+          <i class="fas fa-search"></i>
+          <input
+            type="text"
+            id="staffSearch"
+            placeholder="Tìm kiếm theo tên, vai trò..."
+          />
+        </div>
+        <select id="staffRoleFilter" class="filter-select">
+          <option value="">Tất cả vai trò</option>
+          <option value="Bác sĩ">Bác sĩ</option>
+          <option value="Điều dưỡng">Điều dưỡng</option>
+          <option value="Nhân viên tư vấn">Nhân viên tư vấn</option>
+          <option value="Nhân viên lấy mẫu">Nhân viên lấy mẫu</option>
+        </select>
+        <input type="date" id="staffDateFilter" class="filter-date" />
+      </div>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Mã NV</th>
+              <th>Họ tên</th>
+              <th>Vai trò</th>
+              <th>Số điện thoại</th>
+              <th>Email</th>
+              <th>Ngày làm việc</th>
+              <th>Trạng thái</th>
+              <th>Thao tác</th>
+            </tr>
+          </thead>
+          <tbody id="staffTableBody">
+            <tr>
+              <td>NV-001</td>
+              <td>Nguyễn Văn Tuấn</td>
+              <td>Bác sĩ</td>
+              <td>0901234567</td>
+              <td>tuan.nguyen@dnatest.com</td>
+              <td>22/05/2025</td>
+              <td>
+                <span class="badge" style="background: #4caf50; color: #fff"
+                  >Làm việc</span
+                >
+              </td>
+              <td>
+                <a href="#" class="action-btn sort-room-btn"
+                  >Sắp xếp lịch hẹn</a
+                >
+              </td>
+            </tr>
+            <tr>
+              <td>NV-002</td>
+              <td>Trần Thị Hương</td>
+              <td>Điều dưỡng</td>
+              <td>0912345678</td>
+              <td>huong.tran@dnatest.com</td>
+              <td>22/05/2025</td>
+              <td>
+                <span class="badge" style="background: #4caf50; color: #fff"
+                  >Làm việc</span
+                >
+              </td>
+              <td>
+                <a href="#" class="action-btn sort-room-btn"
+                  >Sắp xếp lịch hẹn</a
+                >
+              </td>
+            </tr>
+            <tr>
+              <td>NV-003</td>
+              <td>Lê Văn Minh</td>
+              <td>Nhân viên tư vấn</td>
+              <td>0923456789</td>
+              <td>minh.le@dnatest.com</td>
+              <td>22/05/2025</td>
+              <td>
+                <span class="badge" style="background: #4caf50; color: #fff"
+                  >Làm việc</span
+                >
+              </td>
+              <td>
+                <a href="#" class="action-btn sort-room-btn"
+                  >Sắp xếp lịch hẹn</a
+                >
+              </td>
+            </tr>
+            <tr>
+              <td>NV-004</td>
+              <td>Phạm Thị Lan</td>
+              <td>Nhân viên lấy mẫu</td>
+              <td>0934567890</td>
+              <td>lan.pham@dnatest.com</td>
+              <td>22/05/2025</td>
+              <td>
+                <span class="badge" style="background: #4caf50; color: #fff"
+                  >Làm việc</span
+                >
+              </td>
+              <td>
+                <a href="#" class="action-btn sort-room-btn"
+                  >Sắp xếp lịch hẹn</a
+                >
+              </td>
+            </tr>
+            <tr>
+              <td>NV-005</td>
+              <td>Hoàng Văn Dũng</td>
+              <td>Bác sĩ</td>
+              <td>0945678901</td>
+              <td>dung.hoang@dnatest.com</td>
+              <td>23/05/2025</td>
+              <td>
+                <span class="badge" style="background: #ff9800; color: #fff"
+                  >Nghỉ phép</span
+                >
+              </td>
+              <td>
+                <a href="#" class="action-btn sort-room-btn"
+                  >Sắp xếp lịch hẹn</a
+                >
+              </td>
+            </tr>
+            <tr>
+              <td>NV-006</td>
+              <td>Ngô Thị Mai</td>
+              <td>Điều dưỡng</td>
+              <td>0956789012</td>
+              <td>mai.ngo@dnatest.com</td>
+              <td>23/05/2025</td>
+              <td>
+                <span class="badge" style="background: #4caf50; color: #fff"
+                  >Làm việc</span
+                >
+              </td>
+              <td>
+                <a href="#" class="action-btn sort-room-btn"
+                  >Sắp xếp lịch hẹn</a
+                >
+              </td>
+            </tr>
+            <tr>
+              <td>NV-007</td>
+              <td>Phạm Văn Bình</td>
+              <td>Nhân viên tư vấn</td>
+              <td>0967890123</td>
+              <td>binh.pham@dnatest.com</td>
+              <td>23/05/2025</td>
+              <td>
+                <span class="badge" style="background: #f44336; color: #fff"
+                  >Đã nghỉ việc</span
+                >
+              </td>
+              <td>
+                <a href="#" class="action-btn sort-room-btn"
+                  >Sắp xếp lịch hẹn</a
+                >
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <script src="assets/js/manager.js"></script>
+  </body>
+</html>

@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cài đặt hệ thống - DNA Testing Admin System</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="assets/css/common.css" />
+    <link rel="stylesheet" href="assets/css/manager.css" />
+    <style>
+      body {
+        background: #f5f8ff;
+        margin: 0;
+        padding: 0;
+      }
+      .main-content.page-content {
+        max-width: calc(100vw - 270px);
+        margin: 40px 0 0 310px;
+        padding: 32px 24px 24px 24px;
+        background: #f7fafd;
+        min-height: 100vh;
+        box-sizing: border-box;
+      }
+      .page-title {
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 18px;
+        color: #1a237e;
+        letter-spacing: 0.5px;
+        text-align: left;
+      }
+      .settings-tabs {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 18px;
+      }
+      .settings-tab-btn {
+        background: #f5f5f5;
+        border: none;
+        padding: 8px 18px;
+        border-radius: 5px 5px 0 0;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background 0.2s, color 0.2s;
+      }
+      .settings-tab-btn.active {
+        background: #2196f3;
+        color: #fff;
+      }
+      .settings-tab-content {
+        background: #fff;
+        border-radius: 0 0 8px 8px;
+        box-shadow: 0 2px 8px #0001;
+        padding: 18px 30px 12px 12px;
+      }
+      .settings-toolbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 16px;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+      .settings-toolbar .action-btn.add-btn {
+        background: #2196f3;
+        color: #fff;
+        font-weight: 500;
+        padding: 8px 18px;
+        border-radius: 5px;
+        border: none;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        box-shadow: 0 2px 8px #2196f322;
+        transition: background 0.2s;
+      }
+      .settings-toolbar .action-btn.add-btn:hover {
+        background: #1769aa;
+      }
+      .search-box {
+        position: relative;
+        width: 260px;
+        max-width: 100%;
+        background-color: #fff;
+      }
+      .search-box input {
+        width: 100%;
+        height: 36px;
+        padding: 0 36px 0 14px;
+        border-radius: 5px;
+        border: 1px solid #ddd;
+        font-size: 15px;
+        box-shadow: 0 2px 8px #0001;
+        outline: none;
+        transition: border 0.2s;
+      }
+      .search-box input:focus {
+        border: 1.5px solid #2196f3;
+      }
+      .search-box .fa-search {
+        position: absolute;
+        right: 24px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #b0b0b0;
+        font-size: 16px;
+        pointer-events: none;
+      }
+      .table-container {
+        width: 100%;
+        overflow-x: auto;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px #0001;
+        margin-bottom: 18px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 700px;
+        background: #fff;
+      }
+      th,
+      td {
+        padding: 10px 12px;
+        text-align: left;
+        border-bottom: 1px solid #f0f0f0;
+        font-size: 15px;
+      }
+      th {
+        background: #f5f7fa;
+        font-weight: 600;
+      }
+      tr:last-child td {
+        border-bottom: none;
+      }
+      .action-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+        margin-right: 6px;
+        padding: 4px 7px;
+        border-radius: 4px;
+        transition: background 0.2s;
+      }
+      .action-btn.edit-btn {
+        color: #2196f3;
+      }
+      .action-btn.edit-btn:hover {
+        background: #e3f2fd;
+      }
+      .action-btn.delete-btn {
+        color: #f44336;
+      }
+      .action-btn.delete-btn:hover {
+        background: #ffebee;
+      }
+      @media (max-width: 900px) {
+        .main-content.page-content {
+          margin-left: 0;
+          max-width: 100vw;
+          padding: 18px 4vw 18px 4vw;
+        }
+        .settings-tab-content {
+          padding: 12px 2vw 8px 2vw;
+        }
+        .table-container {
+          border-radius: 0;
+        }
+      }
+      @media (max-width: 600px) {
+        .settings-toolbar {
+          flex-direction: column;
+          align-items: stretch;
+          gap: 8px;
+        }
+        .search-box {
+          width: 100%;
+        }
+        table {
+          min-width: 520px;
+        }
+      }
+      .modal {
+        position: fixed;
+        z-index: 9999;
+        left: 0;
+        top: 0;
+        width: 100vw;
+        height: 100vh;
+        background: #0005;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .modal-content {
+        background: #fff;
+        border-radius: 8px;
+        padding: 24px 18px 18px 18px;
+        position: relative;
+      }
+      .close {
+        position: absolute;
+        right: 16px;
+        top: 10px;
+        font-size: 22px;
+        cursor: pointer;
+        color: #888;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="main-content page-content">
+      <h2 class="page-title">Cài đặt hệ thống</h2>
+      <div class="settings-tabs">
+        <button class="settings-tab-btn active" data-tab="blog">
+          Quản lý Blog
+        </button>
+        <button class="settings-tab-btn" data-tab="guide">
+          Hướng dẫn xét nghiệm
+        </button>
+      </div>
+      <div class="settings-tab-content" id="blog-tab" style="display: block">
+        <div class="settings-toolbar">
+          <button class="action-btn add-btn" id="addBlogBtn">
+            <i class="fas fa-plus"></i> Thêm blog
+          </button>
+          <div class="search-box">
+            <input type="text" id="blogSearch" placeholder="Tìm kiếm blog..." />
+            <i class="fas fa-search"></i>
+          </div>
+        </div>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Tiêu đề</th>
+                <th>Ảnh blog</th>
+                <th>Banner</th>
+                <th>Ngày đăng</th>
+                <th>Thao tác</th>
+              </tr>
+            </thead>
+            <tbody id="blogTableBody">
+              <tr>
+                <td>Giới thiệu về xét nghiệm ADN</td>
+                <td>
+                  <img
+                    src="https://via.placeholder.com/60x40"
+                    style="height: 40px; border-radius: 4px"
+                  />
+                </td>
+                <td>
+                  <img
+                    src="https://via.placeholder.com/100x40"
+                    style="height: 40px; border-radius: 4px"
+                  />
+                </td>
+                <td>20/05/2025</td>
+                <td>
+                  <button
+                    class="action-btn edit-btn"
+                    onclick="openEditBlogModal()"
+                  >
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  <button
+                    class="action-btn delete-btn"
+                    style="color: #fff"
+                    onclick="deleteBlog()"
+                  >
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <td>Lợi ích của xét nghiệm huyết thống</td>
+                <td>
+                  <img
+                    src="https://via.placeholder.com/60x40"
+                    style="height: 40px; border-radius: 4px"
+                  />
+                </td>
+                <td>
+                  <img
+                    src="https://via.placeholder.com/100x40"
+                    style="height: 40px; border-radius: 4px"
+                  />
+                </td>
+                <td>18/05/2025</td>
+                <td>
+                  <button
+                    class="action-btn edit-btn"
+                    onclick="openEditBlogModal()"
+                  >
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  <button
+                    class="action-btn delete-btn"
+                    style="color: #fff"
+                    onclick="deleteBlog()"
+                  >
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="settings-tab-content" id="guide-tab" style="display: none">
+        <div class="settings-toolbar">
+          <button class="action-btn add-btn" id="addGuideBtn">
+            <i class="fas fa-plus"></i> Thêm hướng dẫn
+          </button>
+          <div class="search-box">
+            <input
+              type="text"
+              id="guideSearch"
+              placeholder="Tìm kiếm hướng dẫn..."
+            />
+            <i class="fas fa-search"></i>
+          </div>
+        </div>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Tiêu đề</th>
+                <th>Ảnh minh họa</th>
+                <th>Ngày cập nhật</th>
+                <th>Thao tác</th>
+              </tr>
+            </thead>
+            <tbody id="guideTableBody">
+              <tr>
+                <td>Quy trình lấy mẫu xét nghiệm</td>
+                <td>
+                  <img
+                    src="https://via.placeholder.com/60x40"
+                    style="height: 40px; border-radius: 4px"
+                  />
+                </td>
+                <td>19/05/2025</td>
+                <td>
+                  <button
+                    class="action-btn edit-btn"
+                    onclick="openEditGuideModal()"
+                  >
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  <button
+                    class="action-btn delete-btn"
+                    style="color: #fff"
+                    onclick="deleteGuide()"
+                  >
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <td>Hướng dẫn bảo quản mẫu</td>
+                <td>
+                  <img
+                    src="https://via.placeholder.com/60x40"
+                    style="height: 40px; border-radius: 4px"
+                  />
+                </td>
+                <td>15/05/2025</td>
+                <td>
+                  <button
+                    class="action-btn edit-btn"
+                    onclick="openEditGuideModal()"
+                  >
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  <button
+                    class="action-btn delete-btn"
+                    style="color: #fff"
+                    onclick="deleteGuide()"
+                  >
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!-- Modal Blog -->
+      <div id="blogModal" class="modal" style="display: none">
+        <div class="modal-content" style="max-width: 480px">
+          <span class="close" onclick="closeBlogModal()">&times;</span>
+          <h3 id="blogModalTitle">Thêm/Sửa Blog</h3>
+          <form id="blogForm">
+            <label>Tiêu đề</label>
+            <input
+              type="text"
+              name="title"
+              required
+              style="width: 100%; margin-bottom: 10px"
+            />
+            <label>Ảnh blog</label>
+            <input
+              type="file"
+              name="blogImage"
+              accept="image/*"
+              style="margin-bottom: 10px"
+            />
+            <label>Banner</label>
+            <input
+              type="file"
+              name="bannerImage"
+              accept="image/*"
+              style="margin-bottom: 10px"
+            />
+            <label>Nội dung</label>
+            <textarea
+              name="content"
+              rows="4"
+              style="width: 100%; margin-bottom: 10px"
+            ></textarea>
+            <button
+              type="submit"
+              class="action-btn add-btn"
+              style="width: 100%; background: #2196f3; color: #fff"
+            >
+              Lưu
+            </button>
+          </form>
+        </div>
+      </div>
+      <!-- Modal Guide -->
+      <div id="guideModal" class="modal" style="display: none">
+        <div class="modal-content" style="max-width: 480px">
+          <span class="close" onclick="closeGuideModal()">&times;</span>
+          <h3 id="guideModalTitle">Thêm/Sửa Hướng dẫn</h3>
+          <form id="guideForm">
+            <label>Tiêu đề</label>
+            <input
+              type="text"
+              name="title"
+              required
+              style="width: 100%; margin-bottom: 10px"
+            />
+            <label>Ảnh minh họa</label>
+            <input
+              type="file"
+              name="guideImage"
+              accept="image/*"
+              style="margin-bottom: 10px"
+            />
+            <label>Nội dung</label>
+            <textarea
+              name="content"
+              rows="4"
+              style="width: 100%; margin-bottom: 10px"
+            ></textarea>
+            <button
+              type="submit"
+              class="action-btn add-btn"
+              style="width: 100%; background: #2196f3; color: #fff"
+            >
+              Lưu
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Tab switching
+      const tabBtns = document.querySelectorAll(".settings-tab-btn");
+      tabBtns.forEach(
+        (btn) =>
+          (btn.onclick = function () {
+            tabBtns.forEach((b) => b.classList.remove("active"));
+            this.classList.add("active");
+            document.getElementById("blog-tab").style.display =
+              this.dataset.tab === "blog" ? "block" : "none";
+            document.getElementById("guide-tab").style.display =
+              this.dataset.tab === "guide" ? "block" : "none";
+          })
+      );
+      // Modal Blog
+      function openEditBlogModal() {
+        document.getElementById("blogModal").style.display = "flex";
+      }
+      function closeBlogModal() {
+        document.getElementById("blogModal").style.display = "none";
+      }
+      document.getElementById("addBlogBtn").onclick = openEditBlogModal;
+      document.querySelector("#blogModal .close").onclick = closeBlogModal;
+      // Modal Guide
+      function openEditGuideModal() {
+        document.getElementById("guideModal").style.display = "flex";
+      }
+      function closeGuideModal() {
+        document.getElementById("guideModal").style.display = "none";
+      }
+      document.getElementById("addGuideBtn").onclick = openEditGuideModal;
+      document.querySelector("#guideModal .close").onclick = closeGuideModal;
+      // Đóng modal khi click ngoài
+      window.onclick = function (e) {
+        if (e.target === document.getElementById("blogModal")) closeBlogModal();
+        if (e.target === document.getElementById("guideModal"))
+          closeGuideModal();
+      };
+      // Fake delete
+      function deleteBlog() {
+        alert("Xóa blog (fake)");
+      }
+      function deleteGuide() {
+        alert("Xóa hướng dẫn (fake)");
+      }
+      // Simple search (fake)
+      document.getElementById("blogSearch").oninput = function () {
+        const val = this.value.toLowerCase();
+        document.querySelectorAll("#blogTableBody tr").forEach((tr) => {
+          tr.style.display = tr.innerText.toLowerCase().includes(val)
+            ? ""
+            : "none";
+        });
+      };
+      document.getElementById("guideSearch").oninput = function () {
+        const val = this.value.toLowerCase();
+        document.querySelectorAll("#guideTableBody tr").forEach((tr) => {
+          tr.style.display = tr.innerText.toLowerCase().includes(val)
+            ? ""
+            : "none";
+        });
+      };
+    </script>
+  </body>
+</html>

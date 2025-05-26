@@ -10,8 +10,9 @@
     />
     <link rel="stylesheet" href="assets/css/common.css" />
     <link rel="stylesheet" href="assets/css/manager.css" />
+    <link rel="stylesheet" href="assets/css/admin.css" />
   </head>
-  <body>
+  <body class="admin-layout">
     <!-- Sidebar -->
     <aside class="sidebar">
       <div class="sidebar-header">
@@ -42,12 +43,12 @@
               <span>Quản lý người dùng</span>
             </a>
           </li>
-          <li class="menu-item">
+          <!-- <li class="menu-item">
             <a href="#" class="menu-link" data-page="staff-management">
               <i class="fas fa-user-md"></i>
               <span>Quản lý nhân viên</span>
             </a>
-          </li>
+          </li> -->
           <li class="menu-item">
             <a href="#" class="menu-link" data-page="service-management">
               <i class="fas fa-clipboard-list"></i>
@@ -85,1478 +86,150 @@
           <input type="text" placeholder="Tìm kiếm..." />
         </div>
       </header>
-      <!-- Dashboard Content -->
-      <div class="dashboard">
-        <h2 class="page-title">Bảng điều khiển Admin</h2>
-        <!-- Stats Cards -->
-        <div class="stats-container">
-          <div class="stat-card">
-            <div class="stat-header">
-              <div class="stat-title">Tổng người dùng</div>
-              <div class="stat-icon patients">
-                <i class="fas fa-users"></i>
-              </div>
-            </div>
-            <div class="stat-value">3,785</div>
-            <div class="stat-description">
-              <span class="positive">+35</span> người so với tháng trước
-            </div>
-          </div>
-
-          <div class="stat-card">
-            <div class="stat-header">
-              <div class="stat-title">Nhân viên</div>
-              <div class="stat-icon appointments">
-                <i class="fas fa-user-md"></i>
-              </div>
-            </div>
-            <div class="stat-value">45</div>
-            <div class="stat-description">
-              <span class="positive">+2</span> nhân viên mới
-            </div>
-          </div>
-
-          <div class="stat-card">
-            <div class="stat-header">
-              <div class="stat-title">Tổng doanh thu</div>
-              <div class="stat-icon revenue">
-                <i class="fas fa-dollar-sign"></i>
-              </div>
-            </div>
-            <div class="stat-value">245,8 triệu</div>
-            <div class="stat-description">
-              <span class="positive">+12%</span> so với tháng trước
-            </div>
-          </div>
-
-          <div class="stat-card">
-            <div class="stat-header">
-              <div class="stat-title">Dịch vụ hoạt động</div>
-              <div class="stat-icon" style="background-color: #8bc34a">
-                <i class="fas fa-clipboard-check"></i>
-              </div>
-            </div>
-            <div class="stat-value">12</div>
-            <div class="stat-description">
-              <span class="positive">+2</span> dịch vụ mới
-            </div>
-          </div>
-        </div>
-        <!-- Grid Layout for Charts and Tables -->
-        <div class="grid-container">
-          <!-- User Statistics Chart -->
-          <div class="chart-container">
-            <div class="section-header">
-              <h3 class="section-title">Thống kê người dùng</h3>
-              <div class="section-actions">
-                <select id="userStatsTimeRange">
-                  <option>7 ngày qua</option>
-                  <option>30 ngày qua</option>
-                  <option>90 ngày qua</option>
-                  <option>Năm qua</option>
-                </select>
-              </div>
-            </div>
-            <div class="chart">
-              <canvas id="userStatsChart"></canvas>
-            </div>
-          </div>
-          <!-- Recent Activities -->
-          <div class="appointments-container">
-            <div class="section-header">
-              <h3 class="section-title">Hoạt động gần đây</h3>
-              <div class="section-actions">
-                <button id="viewAllActivities">Xem tất cả</button>
-              </div>
-            </div>
-            <div class="appointments-list" id="recentActivitiesList">
-              <div class="appointment-item">
-                <div class="appointment-avatar">
-                  <i class="fas fa-user-plus"></i>
-                </div>
-                <div class="appointment-details">
-                  <div class="appointment-name">Tài khoản mới được tạo</div>
-                  <div class="appointment-info">
-                    <span
-                      ><i class="fas fa-calendar"></i> Hôm nay, 10:15 AM</span
-                    >
-                    <span><i class="fas fa-user"></i> Nguyễn Văn A</span>
-                  </div>
-                </div>
-                <div class="appointment-status status-scheduled">
-                  Đã xác minh
-                </div>
-              </div>
-              <div class="appointment-item">
-                <div class="appointment-avatar">
-                  <i class="fas fa-cog"></i>
-                </div>
-                <div class="appointment-details">
-                  <div class="appointment-name">Thay đổi cài đặt hệ thống</div>
-                  <div class="appointment-info">
-                    <span
-                      ><i class="fas fa-calendar"></i> Hôm nay, 9:30 AM</span
-                    >
-                    <span><i class="fas fa-user"></i> Admin Trần</span>
-                  </div>
-                </div>
-                <div class="appointment-status status-scheduled">
-                  Hoàn thành
-                </div>
-              </div>
-              <div class="appointment-item">
-                <div class="appointment-avatar">
-                  <i class="fas fa-database"></i>
-                </div>
-                <div class="appointment-details">
-                  <div class="appointment-name">Sao lưu dữ liệu tự động</div>
-                  <div class="appointment-info">
-                    <span
-                      ><i class="fas fa-calendar"></i> Hôm nay, 2:00 AM</span
-                    >
-                    <span><i class="fas fa-hdd"></i> Hệ thống</span>
-                  </div>
-                </div>
-                <div class="appointment-status status-scheduled">
-                  Thành công
-                </div>
-              </div>
-              <div class="appointment-item">
-                <div class="appointment-avatar">
-                  <i class="fas fa-user-edit"></i>
-                </div>
-                <div class="appointment-details">
-                  <div class="appointment-name">Cập nhật quyền người dùng</div>
-                  <div class="appointment-info">
-                    <span
-                      ><i class="fas fa-calendar"></i> Hôm qua, 4:45 PM</span
-                    >
-                    <span><i class="fas fa-user"></i> Admin Hoàng</span>
-                  </div>
-                </div>
-                <div class="appointment-status status-scheduled">
-                  Hoàn thành
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- System Health -->
-        <!-- <div class="table-container">
-          <div class="section-header">
-            <h3 class="section-title">Tình trạng hệ thống</h3>
-            <div class="section-actions">
-              <button id="refreshSystemHealth">Làm mới</button>
-            </div>
-          </div>
-          <table>
-            <thead>
-              <tr>
-                <th>Dịch vụ</th>
-                <th>Trạng thái</th>
-                <th>Thời gian hoạt động</th>
-                <th>Tải hiện tại</th>
-                <th>Bảo trì</th>
-              </tr>
-            </thead>
-            <tbody id="systemHealthTable">
-              <tr>
-                <td>Máy chủ web</td>
-                <td>
-                  <span
-                    class="badge"
-                    style="
-                      background-color: #4caf50;
-                      color: white;
-                      padding: 3px 8px;
-                      border-radius: 3px;
-                    "
-                    >Hoạt động</span
-                  >
-                </td>
-                <td>45 ngày, 7 giờ</td>
-                <td>
-                  <div
-                    class="progress-bar"
-                    style="width: 65%; background-color: #4caf50"
-                  >
-                    65%
-                  </div>
-                </td>
-                <td>Không có</td>
-              </tr>
-              <tr>
-                <td>Máy chủ cơ sở dữ liệu</td>
-                <td>
-                  <span
-                    class="badge"
-                    style="
-                      background-color: #4caf50;
-                      color: white;
-                      padding: 3px 8px;
-                      border-radius: 3px;
-                    "
-                    >Hoạt động</span
-                  >
-                </td>
-                <td>45 ngày, 7 giờ</td>
-                <td>
-                  <div
-                    class="progress-bar"
-                    style="width: 78%; background-color: #ff9800"
-                  >
-                    78%
-                  </div>
-                </td>
-                <td>Không có</td>
-              </tr>
-              <tr>
-                <td>Hệ thống sao lưu</td>
-                <td>
-                  <span
-                    class="badge"
-                    style="
-                      background-color: #4caf50;
-                      color: white;
-                      padding: 3px 8px;
-                      border-radius: 3px;
-                    "
-                    >Hoạt động</span
-                  >
-                </td>
-                <td>45 ngày, 6 giờ</td>
-                <td>
-                  <div
-                    class="progress-bar"
-                    style="width: 25%; background-color: #4caf50"
-                  >
-                    25%
-                  </div>
-                </td>
-                <td>Không có</td>
-              </tr>
-              <tr>
-                <td>API Gateway</td>
-                <td>
-                  <span
-                    class="badge"
-                    style="
-                      background-color: #4caf50;
-                      color: white;
-                      padding: 3px 8px;
-                      border-radius: 3px;
-                    "
-                    >Hoạt động</span
-                  >
-                </td>
-                <td>10 ngày, 3 giờ</td>
-                <td>
-                  <div
-                    class="progress-bar"
-                    style="width: 42%; background-color: #4caf50"
-                  >
-                    42%
-                  </div>
-                </td>
-                <td>20/06/2025</td>
-              </tr>
-              <tr>
-                <td>Hệ thống email</td>
-                <td>
-                  <span
-                    class="badge"
-                    style="
-                      background-color: #ff9800;
-                      color: white;
-                      padding: 3px 8px;
-                      border-radius: 3px;
-                    "
-                    >Cảnh báo</span
-                  >
-                </td>
-                <td>45 ngày, 7 giờ</td>
-                <td>
-                  <div
-                    class="progress-bar"
-                    style="width: 92%; background-color: #f44336"
-                  >
-                    92%
-                  </div>
-                </td>
-                <td>Kiểm tra ngay</td>
-              </tr>
-            </tbody>
-          </table>
-        </div> -->
-        <!-- Recent Logs Table -->
-        <!-- <div class="table-container">
-          <div class="section-header">
-            <h3 class="section-title">Nhật ký hệ thống gần đây</h3>
-            <div class="section-actions">
-              <button id="viewAllLogs">Xem tất cả</button>
-            </div>
-          </div>
-          <table>
-            <thead>
-              <tr>
-                <th>Mã nhật ký</th>
-                <th>Thời gian</th>
-                <th>Người dùng</th>
-                <th>Hoạt động</th>
-                <th>IP</th>
-                <th>Mức độ</th>
-                <th>Thao tác</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>LOG-2345</td>
-                <td>21/05/2025 10:15:22</td>
-                <td>Nguyễn Văn A</td>
-                <td>Đăng nhập thành công</td>
-                <td>192.168.1.45</td>
-                <td>
-                  <span
-                    class="badge"
-                    style="
-                      background-color: #4caf50;
-                      color: white;
-                      padding: 3px 8px;
-                      border-radius: 3px;
-                    "
-                    >Info</span
-                  >
-                </td>
-                <td>
-                  <a href="#" class="action-btn view-btn">Chi tiết</a>
-                </td>
-              </tr>
-              <tr>
-                <td>LOG-2344</td>
-                <td>21/05/2025 10:10:05</td>
-                <td>Admin Trần</td>
-                <td>Thay đổi cài đặt hệ thống</td>
-                <td>192.168.1.10</td>
-                <td>
-                  <span
-                    class="badge"
-                    style="
-                      background-color: #ff9800;
-                      color: white;
-                      padding: 3px 8px;
-                      border-radius: 3px;
-                    "
-                    >Warning</span
-                  >
-                </td>
-                <td>
-                  <a href="#" class="action-btn view-btn">Chi tiết</a>
-                </td>
-              </tr>
-              <tr>
-                <td>LOG-2343</td>
-                <td>21/05/2025 09:47:33</td>
-                <td>Hệ thống</td>
-                <td>Sao lưu dữ liệu tự động hoàn thành</td>
-                <td>127.0.0.1</td>
-                <td>
-                  <span
-                    class="badge"
-                    style="
-                      background-color: #4caf50;
-                      color: white;
-                      padding: 3px 8px;
-                      border-radius: 3px;
-                    "
-                    >Info</span
-                  >
-                </td>
-                <td>
-                  <a href="#" class="action-btn view-btn">Chi tiết</a>
-                </td>
-              </tr>
-              <tr>
-                <td>LOG-2342</td>
-                <td>21/05/2025 09:22:17</td>
-                <td>Hệ thống email</td>
-                <td>Cảnh báo tải cao</td>
-                <td>127.0.0.1</td>
-                <td>
-                  <span
-                    class="badge"
-                    style="
-                      background-color: #f44336;
-                      color: white;
-                      padding: 3px 8px;
-                      border-radius: 3px;
-                    "
-                    >Error</span
-                  >
-                </td>
-                <td>
-                  <a href="#" class="action-btn view-btn">Chi tiết</a>
-                </td>
-              </tr>
-              <tr>
-                <td>LOG-2341</td>
-                <td>21/05/2025 08:56:41</td>
-                <td>Admin Hoàng</td>
-                <td>Cập nhật quyền người dùng</td>
-                <td>192.168.1.15</td>
-                <td>
-                  <span
-                    class="badge"
-                    style="
-                      background-color: #4caf50;
-                      color: white;
-                      padding: 3px 8px;
-                      border-radius: 3px;
-                    "
-                    >Info</span
-                  >
-                </td>
-                <td>
-                  <a href="#" class="action-btn view-btn">Chi tiết</a>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div> -->
+      <!-- Dashboard Page (đã tách sang file riêng) -->
+      <div
+        class="main-content page-content"
+        id="dashboard-page"
+        style="display: block; padding: 0; margin: 0"
+      >
+        <iframe
+          src="admin-dashboard.html"
+          style="
+            width: 100%;
+            height: calc(100vh - var(--header-height));
+            border: none;
+            margin: 0;
+            padding: 0;
+            display: block;
+          "
+        ></iframe>
       </div>
     </div>
-    <!-- User Management Page -->
+    <!-- User Management Page (đã tách sang file riêng) -->
     <div
       class="main-content page-content"
       id="user-management-page"
-      style="display: none"
+      style="display: none; padding: 0; margin: 0"
     >
-      <h2 class="page-title">Quản lý người dùng</h2>
-      <!-- Thanh tìm kiếm và bộ lọc -->
-      <div
+      <iframe
+        src="admin-user-management.html"
         style="
-          display: flex;
-          gap: 16px;
-          margin-bottom: 18px;
-          align-items: center;
+          width: 100%;
+          height: calc(100vh - var(--header-height));
+          border: none;
+          margin: 0;
+          padding: 0;
+          display: block;
         "
-      >
-        <div style="position: relative; width: 320px">
-          <i
-            class="fas fa-search"
-            style="
-              position: absolute;
-              left: 12px;
-              top: 0;
-              bottom: 0;
-              margin: auto 0;
-              height: 20px;
-              display: flex;
-              align-items: center;
-              color: #aaa;
-            "
-          ></i>
-          <input
-            type="text"
-            placeholder="Tìm kiếm theo tên, email..."
-            style="
-              width: 100%;
-              height: 40px;
-              line-height: 40px;
-              padding: 0 12px 0 40px;
-              border-radius: 5px;
-              border: 1px solid #ddd;
-              font-size: 16px;
-            "
-          />
-        </div>
-        <select
-          id="adminUserStatusFilter"
-          style="padding: 8px 12px; border-radius: 5px; border: 1px solid #ddd"
-        >
-          <option value="">Tất cả trạng thái</option>
-          <option value="active">Đang hoạt động</option>
-          <option value="inactive">Không hoạt động</option>
-          <option value="suspended">Tạm khóa</option>
-        </select>
-      </div>
-      <!-- Danh sách người dùng giả -->
-      <div class="table-container">
-        <table>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Họ tên</th>
-              <th>Email</th>
-              <th>Số điện thoại</th>
-              <th>Ngày đăng ký</th>
-              <th>Trạng thái</th>
-              <th>Thao tác</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>ADMIN-001</td>
-              <td>Nguyễn Văn Quản Trị</td>
-              <td>admin1@dnatest.com</td>
-              <td>0901234567</td>
-              <td>01/01/2024</td>
-              <td>
-                <span class="badge" style="background: #4caf50; color: #fff"
-                  >Đang hoạt động</span
-                >
-              </td>
-              <td>
-                <a href="#" class="action-btn view-btn">Xem</a>
-                <a href="#" class="action-btn edit-btn">Sửa</a>
-                <a href="#" class="action-btn delete-btn" style="color: #fff"
-                  >Xóa</a
-                >
-              </td>
-            </tr>
-            <tr>
-              <td>ADMIN-002</td>
-              <td>Trần Thị Quản Lý</td>
-              <td>admin2@dnatest.com</td>
-              <td>0912345678</td>
-              <td>15/02/2024</td>
-              <td>
-                <span class="badge" style="background: #4caf50; color: #fff"
-                  >Đang hoạt động</span
-                >
-              </td>
-              <td>
-                <a href="#" class="action-btn view-btn">Xem</a>
-                <a href="#" class="action-btn edit-btn">Sửa</a>
-                <a href="#" class="action-btn delete-btn" style="color: #fff"
-                  >Xóa</a
-                >
-              </td>
-            </tr>
-            <tr>
-              <td>ADMIN-003</td>
-              <td>Lê Văn Điều Hành</td>
-              <td>admin3@dnatest.com</td>
-              <td>0923456789</td>
-              <td>20/03/2024</td>
-              <td>
-                <span class="badge" style="background: #ff9800; color: #fff"
-                  >Tạm khóa</span
-                >
-              </td>
-              <td>
-                <a href="#" class="action-btn view-btn">Xem</a>
-                <a href="#" class="action-btn edit-btn">Sửa</a>
-                <a href="#" class="action-btn delete-btn" style="color: #fff"
-                  >Xóa</a
-                >
-              </td>
-            </tr>
-            <tr>
-              <td>ADMIN-004</td>
-              <td>Phạm Thị Quản Trị</td>
-              <td>admin4@dnatest.com</td>
-              <td>0934567890</td>
-              <td>10/04/2024</td>
-              <td>
-                <span class="badge" style="background: #f44336; color: #fff"
-                  >Không hoạt động</span
-                >
-              </td>
-              <td>
-                <a href="#" class="action-btn view-btn">Xem</a>
-                <a href="#" class="action-btn edit-btn">Sửa</a>
-                <a href="#" class="action-btn delete-btn" style="color: #fff"
-                  >Xóa</a
-                >
-              </td>
-            </tr>
-            <tr>
-              <td>ADMIN-005</td>
-              <td>Hoàng Văn Admin</td>
-              <td>admin5@dnatest.com</td>
-              <td>0945678901</td>
-              <td>05/05/2024</td>
-              <td>
-                <span class="badge" style="background: #4caf50; color: #fff"
-                  >Đang hoạt động</span
-                >
-              </td>
-              <td>
-                <a href="#" class="action-btn view-btn">Xem</a>
-                <a href="#" class="action-btn edit-btn">Sửa</a>
-                <a href="#" class="action-btn delete-btn" style="color: #fff"
-                  >Xóa</a
-                >
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      ></iframe>
     </div>
-
-    <!-- Staff Management Page -->
+    <!-- Staff Management Page (đã tách sang file riêng) -->
     <div
       class="main-content page-content"
       id="staff-management-page"
-      style="display: none"
+      style="display: none; padding: 0; margin: 0"
     >
-      <h2 class="page-title">Quản lý nhân viên</h2>
-      <!-- Thanh tìm kiếm và bộ lọc nhân viên -->
-      <div
+      <iframe
+        src="admin-staff-management.html"
         style="
-          display: flex;
-          gap: 16px;
-          margin-bottom: 18px;
-          align-items: center;
+          width: 100%;
+          height: calc(100vh - var(--header-height));
+          border: none;
+          margin: 0;
+          padding: 0;
+          display: block;
         "
-      >
-        <div style="position: relative; width: 320px">
-          <i
-            class="fas fa-search"
-            style="
-              position: absolute;
-              left: 12px;
-              top: 0;
-              bottom: 0;
-              margin: auto 0;
-              height: 20px;
-              display: flex;
-              align-items: center;
-              color: #aaa;
-            "
-          ></i>
-          <input
-            type="text"
-            id="staffSearch"
-            placeholder="Tìm kiếm theo tên, email..."
-            style="
-              width: 100%;
-              height: 40px;
-              line-height: 40px;
-              padding: 0 12px 0 40px;
-              border-radius: 5px;
-              border: 1px solid #ddd;
-              font-size: 16px;
-            "
-          />
-        </div>
-        <select
-          id="staffStatusFilter"
-          style="padding: 8px 12px; border-radius: 5px; border: 1px solid #ddd"
-        >
-          <option value="">Tất cả trạng thái</option>
-          <option value="active">Đang làm việc</option>
-          <option value="leave">Nghỉ phép</option>
-          <option value="quit">Đã nghỉ việc</option>
-        </select>
-      </div>
-      <!-- Danh sách nhân viên giả -->
-      <div class="table-container">
-        <table>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Họ tên</th>
-              <th>Email</th>
-              <th>Số điện thoại</th>
-              <th>Chức vụ</th>
-              <th>Ngày vào làm</th>
-              <th>Trạng thái</th>
-              <th>Thao tác</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>STF-001</td>
-              <td>Nguyễn Thị Lan</td>
-              <td>lan.nguyen@dnatest.com</td>
-              <td>0901111222</td>
-              <td>Bác sĩ</td>
-              <td>10/01/2023</td>
-              <td>
-                <span class="badge" style="background: #4caf50; color: #fff">
-                  Đang làm việc
-                </span>
-              </td>
-              <td>
-                <a href="#" class="action-btn view-btn">Xem</a>
-                <a href="#" class="action-btn edit-btn">Sửa</a>
-                <a href="#" class="action-btn delete-btn" style="color: #fff">
-                  Xóa
-                </a>
-              </td>
-            </tr>
-            <tr>
-              <td>STF-002</td>
-              <td>Trần Văn Bình</td>
-              <td>binh.tran@dnatest.com</td>
-              <td>0912222333</td>
-              <td>Kỹ thuật viên</td>
-              <td>15/03/2023</td>
-              <td>
-                <span class="badge" style="background: #4caf50; color: #fff">
-                  Đang làm việc
-                </span>
-              </td>
-              <td>
-                <a href="#" class="action-btn view-btn">Xem</a>
-                <a href="#" class="action-btn edit-btn">Sửa</a>
-                <a href="#" class="action-btn delete-btn" style="color: #fff">
-                  Xóa
-                </a>
-              </td>
-            </tr>
-            <tr>
-              <td>STF-003</td>
-              <td>Lê Thị Hạnh</td>
-              <td>hanh.le@dnatest.com</td>
-              <td>0923333444</td>
-              <td>Điều dưỡng</td>
-              <td>20/06/2023</td>
-              <td>
-                <span class="badge" style="background: #ff9800; color: #fff">
-                  Nghỉ phép
-                </span>
-              </td>
-              <td>
-                <a href="#" class="action-btn view-btn">Xem</a>
-                <a href="#" class="action-btn edit-btn">Sửa</a>
-                <a href="#" class="action-btn delete-btn" style="color: #fff">
-                  Xóa
-                </a>
-              </td>
-            </tr>
-            <tr>
-              <td>STF-004</td>
-              <td>Phạm Văn Dũng</td>
-              <td>dung.pham@dnatest.com</td>
-              <td>0934444555</td>
-              <td>Nhân viên lấy mẫu</td>
-              <td>05/09/2023</td>
-              <td>
-                <span class="badge" style="background: #f44336; color: #fff">
-                  Đã nghỉ việc
-                </span>
-              </td>
-              <td>
-                <a href="#" class="action-btn view-btn">Xem</a>
-                <a href="#" class="action-btn edit-btn">Sửa</a>
-                <a href="#" class="action-btn delete-btn" style="color: #fff">
-                  Xóa
-                </a>
-              </td>
-            </tr>
-            <tr>
-              <td>STF-005</td>
-              <td>Hoàng Thị Mai</td>
-              <td>mai.hoang@dnatest.com</td>
-              <td>0945555666</td>
-              <td>Nhân viên tư vấn</td>
-              <td>12/12/2023</td>
-              <td>
-                <span class="badge" style="background: #4caf50; color: #fff">
-                  Đang làm việc
-                </span>
-              </td>
-              <td>
-                <a href="#" class="action-btn view-btn">Xem</a>
-                <a href="#" class="action-btn edit-btn">Sửa</a>
-                <a href="#" class="action-btn delete-btn" style="color: #fff">
-                  Xóa
-                </a>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      ></iframe>
     </div>
-
-    <!-- Service Management Page -->
+    <!-- Service Management Page (đã tách sang file riêng) -->
     <div
       class="main-content page-content"
       id="service-management-page"
-      style="display: none"
+      style="display: none; padding: 0; margin: 0"
     >
-      <h2 class="page-title">Quản lý dịch vụ</h2>
-      <!-- Thanh công cụ quản lý dịch vụ -->
-      <div
+      <iframe
+        src="admin-service-management.html"
         style="
-          display: flex;
-          gap: 12px;
-          margin-bottom: 18px;
-          align-items: center;
-          flex-wrap: wrap;
+          width: 100%;
+          height: calc(100vh - var(--header-height));
+          border: none;
+          margin: 0;
+          padding: 0;
+          display: block;
         "
-      >
-        <button
-          class="action-btn add-btn"
-          id="addServiceBtn"
-          style="
-            background: #2196f3;
-            color: #fff;
-            font-weight: 500;
-            padding: 8px 18px;
-            border-radius: 5px;
-            border: none;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-          "
-        >
-          <i class="fas fa-plus"></i> Thêm dịch vụ
-        </button>
-        <button
-          class="action-btn price-btn"
-          id="adjustPriceBtn"
-          style="
-            background: #ff9800;
-            color: #fff;
-            font-weight: 500;
-            padding: 8px 18px;
-            border-radius: 5px;
-            border: none;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-          "
-        >
-          <i class="fas fa-money-bill-wave"></i> Điều chỉnh bảng giá
-        </button>
-        <div
-          style="
-            flex: 1 1 220px;
-            min-width: 220px;
-            max-width: 340px;
-            position: relative;
-          "
-        >
-          <i
-            class="fas fa-search"
-            style="
-              position: absolute;
-              left: 12px;
-              top: 0;
-              bottom: 0;
-              margin: auto 0;
-              height: 20px;
-              display: flex;
-              align-items: center;
-              color: #aaa;
-            "
-          ></i>
-          <input
-            type="text"
-            id="serviceSearch"
-            placeholder="Tìm kiếm theo tên, mã dịch vụ..."
-            style="
-              width: 100%;
-              height: 40px;
-              line-height: 40px;
-              padding: 0 12px 0 40px;
-              border-radius: 5px;
-              border: 1px solid #ddd;
-              font-size: 16px;
-            "
-          />
-        </div>
-        <select
-          id="serviceStatusFilter"
-          style="padding: 8px 12px; border-radius: 5px; border: 1px solid #ddd"
-        >
-          <option value="">Tất cả trạng thái</option>
-          <option value="active">Đang cung cấp</option>
-          <option value="inactive">Tạm ngừng</option>
-        </select>
-        <select
-          id="serviceTypeFilter"
-          style="padding: 8px 12px; border-radius: 5px; border: 1px solid #ddd"
-        >
-          <option value="">Tất cả loại</option>
-          <option value="Dân sự">Dân sự</option>
-          <option value="Hành chính">Hành chính</option>
-        </select>
-      </div>
-      <!-- Danh sách dịch vụ xét nghiệm ADN huyết thống (fake data) -->
-      <div class="table-container">
-        <table>
-          <thead>
-            <tr>
-              <th>Mã dịch vụ</th>
-              <th>Tên dịch vụ</th>
-              <th>Loại</th>
-              <th>Giá (VNĐ)</th>
-              <th>Thời gian trả kết quả</th>
-              <th>Trạng thái</th>
-              <th style="min-width: 120px">Thao tác</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>SV-ADN-01</td>
-              <td>Xét nghiệm ADN cha con (dân sự)</td>
-              <td>Dân sự</td>
-              <td>3.500.000</td>
-              <td>2 ngày</td>
-              <td>
-                <span class="badge" style="background: #4caf50; color: #fff"
-                  >Đang cung cấp</span
-                >
-              </td>
-              <td>
-                <button class="action-btn edit-btn" style="margin-right: 6px">
-                  <i class="fas fa-edit"></i> Sửa
-                </button>
-                <button class="action-btn delete-btn" style="color: #fff">
-                  <i class="fas fa-trash"></i> Xóa
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <td>SV-ADN-02</td>
-              <td>Xét nghiệm ADN mẹ con (dân sự)</td>
-              <td>Dân sự</td>
-              <td>3.500.000</td>
-              <td>2 ngày</td>
-              <td>
-                <span class="badge" style="background: #4caf50; color: #fff"
-                  >Đang cung cấp</span
-                >
-              </td>
-              <td>
-                <button class="action-btn edit-btn" style="margin-right: 6px">
-                  <i class="fas fa-edit"></i> Sửa
-                </button>
-                <button class="action-btn delete-btn" style="color: #fff">
-                  <i class="fas fa-trash"></i> Xóa
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <td>SV-ADN-03</td>
-              <td>Xét nghiệm ADN huyết thống (hành chính)</td>
-              <td>Hành chính</td>
-              <td>5.000.000</td>
-              <td>3 ngày</td>
-              <td>
-                <span class="badge" style="background: #4caf50; color: #fff"
-                  >Đang cung cấp</span
-                >
-              </td>
-              <td>
-                <button class="action-btn edit-btn" style="margin-right: 6px">
-                  <i class="fas fa-edit"></i> Sửa
-                </button>
-                <button class="action-btn delete-btn" style="color: #fff">
-                  <i class="fas fa-trash"></i> Xóa
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <td>SV-ADN-04</td>
-              <td>Xét nghiệm ADN anh chị em ruột</td>
-              <td>Dân sự</td>
-              <td>4.200.000</td>
-              <td>3 ngày</td>
-              <td>
-                <span class="badge" style="background: #ff9800; color: #fff"
-                  >Tạm ngừng</span
-                >
-              </td>
-              <td>
-                <button class="action-btn edit-btn" style="margin-right: 6px">
-                  <i class="fas fa-edit"></i> Sửa
-                </button>
-                <button class="action-btn delete-btn" style="color: #fff">
-                  <i class="fas fa-trash"></i> Xóa
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <td>SV-ADN-05</td>
-              <td>Xét nghiệm ADN cha con (hành chính)</td>
-              <td>Hành chính</td>
-              <td>5.500.000</td>
-              <td>4 ngày</td>
-              <td>
-                <span class="badge" style="background: #4caf50; color: #fff"
-                  >Đang cung cấp</span
-                >
-              </td>
-              <td>
-                <button class="action-btn edit-btn" style="margin-right: 6px">
-                  <i class="fas fa-edit"></i> Sửa
-                </button>
-                <button class="action-btn delete-btn" style="color: #fff">
-                  <i class="fas fa-trash"></i> Xóa
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      ></iframe>
     </div>
-
-    <!-- Settings Page -->
+    <!-- Settings Page (đã tách sang file riêng) -->
     <div
       class="main-content page-content"
       id="settings-page"
-      style="display: none"
+      style="display: none; padding: 0; margin: 0"
     >
-      <h2 class="page-title">Cài đặt hệ thống</h2>
-      <div class="settings-tabs">
-        <button class="settings-tab-btn active" data-tab="blog">
-          Quản lý Blog
-        </button>
-        <button class="settings-tab-btn" data-tab="guide">
-          Hướng dẫn xét nghiệm
-        </button>
-      </div>
-      <div class="settings-tab-content" id="blog-tab" style="display: block">
-        <div
-          style="
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-          "
-        >
-          <button
-            class="action-btn add-btn"
-            id="addBlogBtn"
-            style="
-              background: #2196f3;
-              color: #fff;
-              font-weight: 500;
-              padding: 8px 18px;
-              border-radius: 5px;
-              border: none;
-              display: flex;
-              align-items: center;
-              gap: 6px;
-            "
-          >
-            <i class="fas fa-plus"></i> Thêm blog
-          </button>
-          <input
-            type="text"
-            id="blogSearch"
-            placeholder="Tìm kiếm blog..."
-            style="
-              width: 260px;
-              height: 36px;
-              padding: 0 12px;
-              border-radius: 5px;
-              border: 1px solid #ddd;
-              font-size: 15px;
-            "
-          />
-        </div>
-        <div class="table-container">
-          <table>
-            <thead>
-              <tr>
-                <th>Tiêu đề</th>
-                <th>Ảnh blog</th>
-                <th>Banner</th>
-                <th>Ngày đăng</th>
-                <th>Thao tác</th>
-              </tr>
-            </thead>
-            <tbody id="blogTableBody">
-              <tr>
-                <td>Giới thiệu về xét nghiệm ADN</td>
-                <td>
-                  <img
-                    src="https://via.placeholder.com/60x40"
-                    style="height: 40px; border-radius: 4px"
-                  />
-                </td>
-                <td>
-                  <img
-                    src="https://via.placeholder.com/100x40"
-                    style="height: 40px; border-radius: 4px"
-                  />
-                </td>
-                <td>20/05/2025</td>
-                <td>
-                  <button
-                    class="action-btn edit-btn"
-                    onclick="openEditBlogModal()"
-                  >
-                    <i class="fas fa-edit"></i>
-                  </button>
-                  <button
-                    class="action-btn delete-btn"
-                    style="color: #fff"
-                    onclick="deleteBlog()"
-                  >
-                    <i class="fas fa-trash"></i>
-                  </button>
-                </td>
-              </tr>
-              <tr>
-                <td>Lợi ích của xét nghiệm huyết thống</td>
-                <td>
-                  <img
-                    src="https://via.placeholder.com/60x40"
-                    style="height: 40px; border-radius: 4px"
-                  />
-                </td>
-                <td>
-                  <img
-                    src="https://via.placeholder.com/100x40"
-                    style="height: 40px; border-radius: 4px"
-                  />
-                </td>
-                <td>18/05/2025</td>
-                <td>
-                  <button
-                    class="action-btn edit-btn"
-                    onclick="openEditBlogModal()"
-                  >
-                    <i class="fas fa-edit"></i>
-                  </button>
-                  <button
-                    class="action-btn delete-btn"
-                    style="color: #fff"
-                    onclick="deleteBlog()"
-                  >
-                    <i class="fas fa-trash"></i>
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-      <div class="settings-tab-content" id="guide-tab" style="display: none">
-        <div
-          style="
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-          "
-        >
-          <button
-            class="action-btn add-btn"
-            id="addGuideBtn"
-            style="
-              background: #2196f3;
-              color: #fff;
-              font-weight: 500;
-              padding: 8px 18px;
-              border-radius: 5px;
-              border: none;
-              display: flex;
-              align-items: center;
-              gap: 6px;
-            "
-          >
-            <i class="fas fa-plus"></i> Thêm hướng dẫn
-          </button>
-          <input
-            type="text"
-            id="guideSearch"
-            placeholder="Tìm kiếm hướng dẫn..."
-            style="
-              width: 260px;
-              height: 36px;
-              padding: 0 12px;
-              border-radius: 5px;
-              border: 1px solid #ddd;
-              font-size: 15px;
-            "
-          />
-        </div>
-        <div class="table-container">
-          <table>
-            <thead>
-              <tr>
-                <th>Tiêu đề</th>
-                <th>Ảnh minh họa</th>
-                <th>Ngày cập nhật</th>
-                <th>Thao tác</th>
-              </tr>
-            </thead>
-            <tbody id="guideTableBody">
-              <tr>
-                <td>Quy trình lấy mẫu xét nghiệm</td>
-                <td>
-                  <img
-                    src="https://via.placeholder.com/60x40"
-                    style="height: 40px; border-radius: 4px"
-                  />
-                </td>
-                <td>19/05/2025</td>
-                <td>
-                  <button
-                    class="action-btn edit-btn"
-                    onclick="openEditGuideModal()"
-                  >
-                    <i class="fas fa-edit"></i>
-                  </button>
-                  <button
-                    class="action-btn delete-btn"
-                    style="color: #fff"
-                    onclick="deleteGuide()"
-                  >
-                    <i class="fas fa-trash"></i>
-                  </button>
-                </td>
-              </tr>
-              <tr>
-                <td>Hướng dẫn bảo quản mẫu</td>
-                <td>
-                  <img
-                    src="https://via.placeholder.com/60x40"
-                    style="height: 40px; border-radius: 4px"
-                  />
-                </td>
-                <td>15/05/2025</td>
-                <td>
-                  <button
-                    class="action-btn edit-btn"
-                    onclick="openEditGuideModal()"
-                  >
-                    <i class="fas fa-edit"></i>
-                  </button>
-                  <button
-                    class="action-btn delete-btn"
-                    style="color: #fff"
-                    onclick="deleteGuide()"
-                  >
-                    <i class="fas fa-trash"></i>
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-      <!-- Modal Blog -->
-      <div id="blogModal" class="modal" style="display: none">
-        <div class="modal-content" style="max-width: 480px">
-          <span class="close" onclick="closeBlogModal()">&times;</span>
-          <h3 id="blogModalTitle">Thêm/Sửa Blog</h3>
-          <form id="blogForm">
-            <label>Tiêu đề</label>
-            <input
-              type="text"
-              name="title"
-              required
-              style="width: 100%; margin-bottom: 10px"
-            />
-            <label>Ảnh blog</label>
-            <input
-              type="file"
-              name="blogImage"
-              accept="image/*"
-              style="margin-bottom: 10px"
-            />
-            <label>Banner</label>
-            <input
-              type="file"
-              name="bannerImage"
-              accept="image/*"
-              style="margin-bottom: 10px"
-            />
-            <label>Nội dung</label>
-            <textarea
-              name="content"
-              rows="4"
-              style="width: 100%; margin-bottom: 10px"
-            ></textarea>
-            <button
-              type="submit"
-              class="action-btn add-btn"
-              style="width: 100%; background: #2196f3; color: #fff"
-            >
-              Lưu
-            </button>
-          </form>
-        </div>
-      </div>
-      <!-- Modal Guide -->
-      <div id="guideModal" class="modal" style="display: none">
-        <div class="modal-content" style="max-width: 480px">
-          <span class="close" onclick="closeGuideModal()">&times;</span>
-          <h3 id="guideModalTitle">Thêm/Sửa Hướng dẫn</h3>
-          <form id="guideForm">
-            <label>Tiêu đề</label>
-            <input
-              type="text"
-              name="title"
-              required
-              style="width: 100%; margin-bottom: 10px"
-            />
-            <label>Ảnh minh họa</label>
-            <input
-              type="file"
-              name="guideImage"
-              accept="image/*"
-              style="margin-bottom: 10px"
-            />
-            <label>Nội dung</label>
-            <textarea
-              name="content"
-              rows="4"
-              style="width: 100%; margin-bottom: 10px"
-            ></textarea>
-            <button
-              type="submit"
-              class="action-btn add-btn"
-              style="width: 100%; background: #2196f3; color: #fff"
-            >
-              Lưu
-            </button>
-          </form>
-        </div>
-      </div>
-      <style>
-        .settings-tabs {
-          display: flex;
-          gap: 8px;
-          margin-bottom: 18px;
-        }
-        .settings-tab-btn {
-          background: #f5f5f5;
+      <iframe
+        src="admin-settings.html"
+        style="
+          width: 100%;
+          height: calc(100vh - var(--header-height));
           border: none;
-          padding: 8px 18px;
-          border-radius: 5px 5px 0 0;
-          font-weight: 500;
-          cursor: pointer;
-        }
-        .settings-tab-btn.active {
-          background: #2196f3;
-          color: #fff;
-        }
-        .settings-tab-content {
-          background: #fff;
-          border-radius: 0 0 8px 8px;
-          box-shadow: 0 2px 8px #0001;
-          padding: 18px 12px 12px 12px;
-        }
-        .modal {
-          position: fixed;
-          z-index: 9999;
-          left: 0;
-          top: 0;
-          width: 100vw;
-          height: 100vh;
-          background: #0005;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-        .modal-content {
-          background: #fff;
-          border-radius: 8px;
-          padding: 24px 18px 18px 18px;
-          position: relative;
-        }
-        .close {
-          position: absolute;
-          right: 16px;
-          top: 10px;
-          font-size: 22px;
-          cursor: pointer;
-          color: #888;
-        }
-      </style>
-      <script>
-        // Tab switching
-        const tabBtns = document.querySelectorAll(".settings-tab-btn");
-        tabBtns.forEach(
-          (btn) =>
-            (btn.onclick = function () {
-              tabBtns.forEach((b) => b.classList.remove("active"));
-              this.classList.add("active");
-              document.getElementById("blog-tab").style.display =
-                this.dataset.tab === "blog" ? "block" : "none";
-              document.getElementById("guide-tab").style.display =
-                this.dataset.tab === "guide" ? "block" : "none";
-            })
-        );
-        // Modal Blog
-        function openEditBlogModal() {
-          document.getElementById("blogModal").style.display = "flex";
-        }
-        function closeBlogModal() {
-          document.getElementById("blogModal").style.display = "none";
-        }
-        document.getElementById("addBlogBtn").onclick = openEditBlogModal;
-        document.querySelector("#blogModal .close").onclick = closeBlogModal;
-        // Modal Guide
-        function openEditGuideModal() {
-          document.getElementById("guideModal").style.display = "flex";
-        }
-        function closeGuideModal() {
-          document.getElementById("guideModal").style.display = "none";
-        }
-        document.getElementById("addGuideBtn").onclick = openEditGuideModal;
-        document.querySelector("#guideModal .close").onclick = closeGuideModal;
-        // Đóng modal khi click ngoài
-        window.onclick = function (e) {
-          if (e.target === document.getElementById("blogModal"))
-            closeBlogModal();
-          if (e.target === document.getElementById("guideModal"))
-            closeGuideModal();
-        };
-        // Fake delete
-        function deleteBlog() {
-          alert("Xóa blog (fake)");
-        }
-        function deleteGuide() {
-          alert("Xóa hướng dẫn (fake)");
-        }
-        // Simple search (fake)
-        document.getElementById("blogSearch").oninput = function () {
-          const val = this.value.toLowerCase();
-          document.querySelectorAll("#blogTableBody tr").forEach((tr) => {
-            tr.style.display = tr.innerText.toLowerCase().includes(val)
-              ? ""
-              : "none";
-          });
-        };
-        document.getElementById("guideSearch").oninput = function () {
-          const val = this.value.toLowerCase();
-          document.querySelectorAll("#guideTableBody tr").forEach((tr) => {
-            tr.style.display = tr.innerText.toLowerCase().includes(val)
-              ? ""
-              : "none";
-          });
-        };
-      </script>
+          margin: 0;
+          padding: 0;
+          display: block;
+        "
+      ></iframe>
     </div>
-    <!-- Backups Page -->
+    <!-- Backups, Permissions, Integrations Pages (đã tách sang file riêng) -->
     <div
       class="main-content page-content"
       id="backups-page"
-      style="display: none"
+      style="display: none; padding: 0; margin: 0"
     >
-      <h2 class="page-title">Sao lưu & Phục hồi</h2>
-      <!-- Backups Content Will Be Here -->
+      <iframe
+        src="admin-system-management.html#backups"
+        style="
+          width: 100%;
+          height: calc(100vh - var(--header-height));
+          border: none;
+          margin: 0;
+          padding: 0;
+          display: block;
+        "
+      ></iframe>
     </div>
 
-    <!-- Permissions Page -->
     <div
       class="main-content page-content"
       id="permissions-page"
-      style="display: none"
+      style="display: none; padding: 0; margin: 0"
     >
-      <h2 class="page-title">Phân quyền</h2>
-      <!-- Permissions Content Will Be Here -->
+      <iframe
+        src="admin-system-management.html#permissions"
+        style="
+          width: 100%;
+          height: calc(100vh - var(--header-height));
+          border: none;
+          margin: 0;
+          padding: 0;
+          display: block;
+        "
+      ></iframe>
     </div>
 
-    <!-- Integrations Page -->
     <div
       class="main-content page-content"
       id="integrations-page"
-      style="display: none"
+      style="display: none; padding: 0; margin: 0"
     >
-      <h2 class="page-title">Tích hợp</h2>
-      <!-- Integrations Content Will Be Here -->
+      <iframe
+        src="admin-system-management.html#integrations"
+        style="
+          width: 100%;
+          height: calc(100vh - var(--header-height));
+          border: none;
+          margin: 0;
+          padding: 0;
+          display: block;
+        "
+      ></iframe>
     </div>
     <!-- Chart.js Library -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -1593,25 +266,19 @@
             loading.style.visibility = "hidden";
             console.log("Force hide loading overlay after timeout");
           }
-        }, 3000); // Page navigation is already handled by handleMenuNavigation in admin.js
-      });
+        }, 3000);
 
-      // Thêm sự kiện double-check để đảm bảo hiển thị đúng sau khi trang đã tải xong
-      setTimeout(function () {
-        // Hiển thị dashboard nếu không có trang nào khác hiển thị
-        const visiblePages = document.querySelectorAll(
-          '.page-content[style="display: block;"]'
+        // Xử lý khi người dùng click vào menu "Bảng điều khiển"
+        const dashboardMenuItem = document.querySelector(
+          'a[data-page="dashboard"]'
         );
-        const dashboard = document.querySelector(".dashboard");
-
-        if (
-          visiblePages.length === 0 &&
-          dashboard &&
-          dashboard.style.display !== "block"
-        ) {
-          dashboard.style.display = "block";
+        if (dashboardMenuItem) {
+          dashboardMenuItem.addEventListener("click", function (e) {
+            e.preventDefault();
+            showAdminPage("dashboard");
+          });
         }
-      }, 2500);
+      });
     </script>
   </body>
 </html>

@@ -1,0 +1,46 @@
+/* CSS tùy chỉnh dành riêng cho Admin */
+#dashboard-page iframe,
+#user-management-page iframe,
+#service-management-page iframe,
+#system-management-page iframe {
+  padding-top: 0;
+  margin-top: 0;
+}
+
+/* Điều chỉnh khoảng cách trong iframe */
+body.admin-iframe {
+  padding: 0;
+  margin: 0;
+}
+
+/* Điều chỉnh khoảng cách của nội dung */
+.admin-iframe .dashboard,
+.admin-iframe .page-content {
+  padding-top: 10px;
+}
+
+/* Đảm bảo tiêu đề trang có khoảng cách phù hợp */
+.admin-iframe .page-title {
+  margin-top: 0;
+  padding: 10px 15px;
+}
+
+/* Loại bỏ padding thừa cho .main-content khi ở layout admin */
+body.admin-layout .main-content {
+  padding: 0 !important;
+}
+
+/* Điều chỉnh kích thước iframe cho đúng */
+body.admin-layout .main-content iframe {
+  width: 100%;
+  height: calc(100vh - var(--header-height));
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Xóa bỏ khoảng trắng không cần thiết giữa các phần tử */
+.page-content {
+  margin: 0;
+  padding: 0;
+}

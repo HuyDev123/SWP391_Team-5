@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quản lý phản hồi</title>
+    <link rel="stylesheet" href="assets/css/common.css" />
+    <link rel="stylesheet" href="assets/css/manager.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+      /* Ensure the page takes full width of the viewport */
+      body,
+      html {
+        width: 100%;
+        max-width: 90%;
+        overflow-x: hidden;
+      }
+
+      .main-content.page-content {
+        padding: 0;
+        margin: 0;
+        background-color: #fff;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        overflow-x: hidden;
+      }
+
+      .page-title {
+        margin: 0;
+        padding: 15px 20px;
+        background-color: #fff;
+        border-bottom: 1px solid #eee;
+        font-size: 1.4rem;
+      } /* Stats container styling */
+      .stats-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        margin: 20px;
+        width: calc(100% - 40px);
+        box-sizing: border-box;
+      }
+
+      .stat-card {
+        flex: 1;
+        min-width: 220px;
+        background-color: var(--white);
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: var(--shadow);
+      } /* Chart container styling */
+      .chart-container-wrapper {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        margin: 0 20px 20px;
+        width: calc(100% - 40px);
+        box-sizing: border-box;
+      }
+
+      @media screen and (max-width: 992px) {
+        .chart-container-wrapper {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .chart-container {
+        background-color: var(--white);
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: var(--shadow);
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      .chart {
+        height: 300px;
+        position: relative;
+        width: 100%;
+      }
+
+      /* Table styling */
+      .table-container {
+        margin: 0 20px 20px;
+        border-radius: 10px;
+        box-shadow: var(--shadow);
+        padding: 20px;
+        width: calc(100% - 40px);
+        max-width: 100%;
+        box-sizing: border-box;
+        background-color: var(--white);
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: fixed;
+      }
+
+      thead th {
+        background-color: #f9f9f9;
+        padding: 12px 15px;
+        text-align: left;
+        border-bottom: 1px solid #eee;
+        font-weight: 600;
+        color: #333;
+      }
+
+      tbody td {
+        padding: 12px 15px;
+        text-align: left;
+        border-bottom: 1px solid #eee;
+        color: #444;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      /* Set column widths for better spacing */
+      th:nth-child(1),
+      td:nth-child(1) {
+        width: 15%;
+      } /* Bệnh nhân */
+      th:nth-child(2),
+      td:nth-child(2) {
+        width: 12%;
+      } /* Đánh giá */
+      th:nth-child(3),
+      td:nth-child(3) {
+        width: 30%;
+      } /* Bình luận */
+      th:nth-child(4),
+      td:nth-child(4) {
+        width: 12%;
+      } /* Ngày */
+      th:nth-child(5),
+      td:nth-child(5) {
+        width: 15%;
+      } /* Trạng thái */
+      th:nth-child(6),
+      td:nth-child(6) {
+        width: 16%;
+      } /* Thao tác */
+
+      .badge {
+        display: inline-block;
+        padding: 3px 8px;
+        border-radius: 3px;
+        font-size: 0.85rem;
+        white-space: nowrap;
+        text-align: center;
+      }
+
+      .action-btn {
+        padding: 5px 10px;
+        border-radius: 5px;
+        text-decoration: none;
+        color: var(--white);
+        font-size: 0.8rem;
+        margin-right: 5px;
+        display: inline-block;
+      }
+
+      .pagination {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 20px;
+        gap: 5px;
+      }
+
+      .pagination-btn {
+        padding: 5px 10px;
+        border: 1px solid var(--border-color);
+        background: var(--white);
+        border-radius: 3px;
+        cursor: pointer;
+      }
+
+      .pagination-btn.active {
+        border: 1px solid var(--primary-color);
+        background: var(--primary-color);
+        color: white;
+      }
+
+      /* Modal styling */
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.4);
+      }
+
+      .modal-content {
+        background-color: var(--white);
+        margin: 10% auto;
+        padding: 20px;
+        border-radius: 10px;
+        width: 60%;
+        box-shadow: var(--shadow);
+      }
+
+      .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid var(--border-color);
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+      }
+
+      .close-modal {
+        font-size: 24px;
+        cursor: pointer;
+      }
+
+      /* Make comment cells wrap text properly */
+      td:nth-child(3) {
+        white-space: normal;
+        line-height: 1.4;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      class="main-content page-content"
+      style="
+        display: block;
+        width: 100%;
+        margin-left: 0;
+        padding-right: 0;
+        overflow-x: hidden;
+      "
+    >
+      <h2 class="page-title">Quản lý phản hồi</h2>
+      <!-- Feedback Stats -->
+      <div class="stats-container">
+        <div class="stat-card">
+          <div class="stat-header">
+            <div class="stat-title">Tổng phản hồi</div>
+            <div class="stat-icon" style="background-color: #1a73e8">
+              <i class="fas fa-comment-dots"></i>
+            </div>
+          </div>
+          <div class="stat-value">427</div>
+          <div class="stat-description">
+            <span class="positive">+32</span> tháng này
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-header">
+            <div class="stat-title">Đánh giá trung bình</div>
+            <div class="stat-icon" style="background-color: #ff9800">
+              <i class="fas fa-star"></i>
+            </div>
+          </div>
+          <div class="stat-value">
+            4.7<span style="font-size: 1rem">/5</span>
+          </div>
+          <div class="stat-description">Dựa trên 427 đánh giá</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-header">
+            <div class="stat-title">Đánh giá chờ duyệt</div>
+            <div class="stat-icon" style="background-color: #f44336">
+              <i class="fas fa-hourglass-half"></i>
+            </div>
+          </div>
+          <div class="stat-value">12</div>
+          <div class="stat-description">Cần kiểm duyệt</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-header">
+            <div class="stat-title">Tỉ lệ phản hồi</div>
+            <div class="stat-icon" style="background-color: #4caf50">
+              <i class="fas fa-reply"></i>
+            </div>
+          </div>
+          <div class="stat-value">94%</div>
+          <div class="stat-description">
+            <span class="positive">+5%</span> so với tháng trước
+          </div>
+        </div>
+      </div>
+      <!-- Chart Section with Two Equal Columns -->
+      <div class="chart-container-wrapper">
+        <div class="chart-container">
+          <div class="section-header">
+            <h3 class="section-title">Phân bố đánh giá</h3>
+            <div class="section-actions">
+              <select id="ratingTimeRange">
+                <option>30 ngày qua</option>
+                <option>90 ngày qua</option>
+                <option>Năm qua</option>
+                <option>Tất cả thời gian</option>
+              </select>
+            </div>
+          </div>
+          <div class="chart">
+            <canvas id="ratingDistributionChart" height="300"></canvas>
+          </div>
+        </div>
+        <div class="chart-container">
+          <div class="section-header">
+            <h3 class="section-title">Xu hướng phản hồi</h3>
+            <div class="section-actions">
+              <select id="feedbackTrendTimeRange">
+                <option>30 ngày qua</option>
+                <option>90 ngày qua</option>
+                <option>Năm qua</option>
+              </select>
+            </div>
+          </div>
+          <div class="chart">
+            <canvas id="feedbackTrendChart" height="300"></canvas>
+          </div>
+        </div>
+      </div>
+      <!-- Feedback Table -->
+      <div class="table-container">
+        <div class="section-header">
+          <h3 class="section-title">Tất cả phản hồi</h3>
+          <div class="section-actions" style="display: flex; gap: 10px">
+            <select id="feedbackStatusFilter">
+              <option value="">Tất cả trạng thái</option>
+              <option value="published">Đã đăng</option>
+              <option value="pending">Chờ duyệt</option>
+              <option value="review">Đang xem xét</option>
+            </select>
+            <select id="ratingFilter">
+              <option value="">Tất cả đánh giá</option>
+              <option value="5">5 Sao</option>
+              <option value="4">4 Sao</option>
+              <option value="3">3 Sao</option>
+              <option value="2">2 Sao</option>
+              <option value="1">1 Sao</option>
+            </select>
+            <button id="exportFeedback" style="background-color: #4caf50">
+              Xuất CSV
+            </button>
+          </div>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Bệnh nhân</th>
+              <th>Đánh giá</th>
+              <th>Bình luận</th>
+              <th>Ngày</th>
+              <th>Trạng thái</th>
+              <th>Thao tác</th>
+            </tr>
+          </thead>
+          <tbody id="feedbackTable">
+            <tr>
+              <td>Nguyễn Văn An</td>
+              <td>
+                <div class="rating">
+                  <i class="fas fa-star" style="color: gold"></i>
+                  <i class="fas fa-star" style="color: gold"></i>
+                  <i class="fas fa-star" style="color: gold"></i>
+                  <i class="fas fa-star" style="color: gold"></i>
+                  <i class="fas fa-star" style="color: gold"></i>
+                </div>
+              </td>
+              <td>Dịch vụ và chăm sóc tuyệt vời. Bác sĩ rất tận tình.</td>
+              <td>18/05/2025</td>
+              <td>
+                <span
+                  class="badge"
+                  style="background-color: #4caf50; color: white"
+                  >Đã đăng</span
+                >
+              </td>
+              <td>
+                <a href="#" class="action-btn view-btn">Xem</a>
+                <a href="#" class="action-btn edit-btn">Trả lời</a>
+              </td>
+            </tr>
+            <tr>
+              <td>Trần Thị Bình</td>
+              <td>
+                <div class="rating">
+                  <i class="fas fa-star" style="color: gold"></i>
+                  <i class="fas fa-star" style="color: gold"></i>
+                  <i class="fas fa-star" style="color: gold"></i>
+                  <i class="fas fa-star" style="color: gold"></i>
+                  <i class="far fa-star" style="color: #ccc"></i>
+                </div>
+              </td>
+              <td>Nhìn chung trải nghiệm tốt, nhưng phải đợi 30 phút.</td>
+              <td>17/05/2025</td>
+              <td>
+                <span
+                  class="badge"
+                  style="background-color: #ff9800; color: white"
+                  >Chờ duyệt</span
+                >
+              </td>
+              <td>
+                <a href="#" class="action-btn view-btn">Xem</a>
+                <a href="#" class="action-btn edit-btn">Phê duyệt</a>
+              </td>
+            </tr>
+            <tr>
+              <td>Lê Văn Cường</td>
+              <td>
+                <div class="rating">
+                  <i class="fas fa-star" style="color: gold"></i>
+                  <i class="fas fa-star" style="color: gold"></i>
+                  <i class="far fa-star" style="color: #ccc"></i>
+                  <i class="far fa-star" style="color: #ccc"></i>
+                  <i class="far fa-star" style="color: #ccc"></i>
+                </div>
+              </td>
+              <td>
+                Thời gian chờ đợi quá lâu và nhân viên không hỗ trợ nhiệt tình.
+              </td>
+              <td>16/05/2025</td>
+              <td>
+                <span
+                  class="badge"
+                  style="background-color: #f44336; color: white"
+                  >Đang xem xét</span
+                >
+              </td>
+              <td>
+                <a href="#" class="action-btn view-btn">Xem</a>
+                <a href="#" class="action-btn edit-btn">Xem xét</a>
+              </td>
+            </tr>
+            <tr>
+              <td>Phạm Thị Dung</td>
+              <td>
+                <div class="rating">
+                  <i class="fas fa-star" style="color: gold"></i>
+                  <i class="fas fa-star" style="color: gold"></i>
+                  <i class="fas fa-star" style="color: gold"></i>
+                  <i class="fas fa-star" style="color: gold"></i>
+                  <i class="fas fa-star" style="color: gold"></i>
+                </div>
+              </td>
+              <td>BS. Minh rất tuyệt vời và giải thích mọi thứ kỹ lưỡng.</td>
+              <td>15/05/2025</td>
+              <td>
+                <span
+                  class="badge"
+                  style="background-color: #4caf50; color: white"
+                  >Đã đăng</span
+                >
+              </td>
+              <td>
+                <a href="#" class="action-btn view-btn">Xem</a>
+                <a href="#" class="action-btn edit-btn">Trả lời</a>
+              </td>
+            </tr>
+            <tr>
+              <td>Hoàng Văn Em</td>
+              <td>
+                <div class="rating">
+                  <i class="fas fa-star" style="color: gold"></i>
+                  <i class="fas fa-star" style="color: gold"></i>
+                  <i class="fas fa-star" style="color: gold"></i>
+                  <i class="far fa-star" style="color: #ccc"></i>
+                  <i class="far fa-star" style="color: #ccc"></i>
+                </div>
+              </td>
+              <td>Cơ sở sạch sẽ nhưng quy trình mất quá nhiều thời gian.</td>
+              <td>14/05/2025</td>
+              <td>
+                <span
+                  class="badge"
+                  style="background-color: #4caf50; color: white"
+                  >Đã đăng</span
+                >
+              </td>
+              <td>
+                <a href="#" class="action-btn view-btn">Xem</a>
+                <a href="#" class="action-btn edit-btn">Trả lời</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <!-- Pagination -->
+        <div class="pagination">
+          <button class="pagination-btn">&laquo;</button>
+          <button class="pagination-btn active">1</button>
+          <button class="pagination-btn">2</button>
+          <button class="pagination-btn">3</button>
+          <button class="pagination-btn">&raquo;</button>
+        </div>
+      </div>
+      <!-- Feedback Reply Modal -->
+      <div id="feedbackReplyModal" class="modal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3>Trả lời phản hồi</h3>
+            <span class="close-modal">&times;</span>
+          </div>
+          <div class="modal-body">
+            <div
+              class="feedback-details"
+              style="
+                margin-bottom: 20px;
+                padding: 15px;
+                background-color: var(--light-bg);
+                border-radius: 5px;
+              "
+            >
+              <p>
+                <strong>Bệnh nhân:</strong>
+                <span id="modalPatientName">Nguyễn Văn An</span>
+              </p>
+              <p>
+                <strong>Đánh giá:</strong>
+                <span class="rating">
+                  <i class="fas fa-star" style="color: gold"></i>
+                  <i class="fas fa-star" style="color: gold"></i>
+                  <i class="fas fa-star" style="color: gold"></i>
+                  <i class="fas fa-star" style="color: gold"></i>
+                  <i class="fas fa-star" style="color: gold"></i>
+                </span>
+              </p>
+              <p>
+                <strong>Bình luận:</strong>
+                <span id="modalFeedbackComment"
+                  >Dịch vụ và chăm sóc tuyệt vời. Bác sĩ rất tận tình.</span
+                >
+              </p>
+              <p>
+                <strong>Ngày:</strong>
+                <span id="modalFeedbackDate">18/05/2025</span>
+              </p>
+            </div>
+            <div class="reply-form">
+              <div style="margin-bottom: 15px">
+                <label
+                  for="feedbackStatus"
+                  style="display: block; margin-bottom: 5px; font-weight: 600"
+                  >Trạng thái:</label
+                >
+                <select
+                  id="feedbackStatus"
+                  style="
+                    width: 100%;
+                    padding: 10px;
+                    border-radius: 5px;
+                    border: 1px solid var(--border-color);
+                  "
+                >
+                  <option value="published">Đã đăng</option>
+                  <option value="pending">Chờ duyệt</option>
+                  <option value="review">Đang xem xét</option>
+                </select>
+              </div>
+              <div style="margin-bottom: 15px">
+                <label
+                  for="replyText"
+                  style="display: block; margin-bottom: 5px; font-weight: 600"
+                  >Phản hồi của bạn:</label
+                >
+                <textarea
+                  id="replyText"
+                  style="
+                    width: 100%;
+                    height: 120px;
+                    padding: 10px;
+                    border-radius: 5px;
+                    border: 1px solid var(--border-color);
+                  "
+                  placeholder="Nhập phản hồi của bạn tại đây..."
+                ></textarea>
+              </div>
+            </div>
+          </div>
+          <div
+            class="modal-footer"
+            style="
+              display: flex;
+              justify-content: flex-end;
+              gap: 10px;
+              margin-top: 20px;
+              border-top: 1px solid var(--border-color);
+              padding-top: 20px;
+            "
+          >
+            <button
+              style="
+                padding: 8px 15px;
+                background-color: var(--primary-color);
+                color: white;
+                border: none;
+                border-radius: 5px;
+              "
+            >
+              Gửi phản hồi
+            </button>
+            <button
+              style="
+                padding: 8px 15px;
+                background-color: var(--light-bg);
+                border: 1px solid var(--border-color);
+                border-radius: 5px;
+              "
+            >
+              Hủy
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="assets/js/manager.js"></script>
+    <script>
+      // Script để cân đối kích thước biểu đồ
+      document.addEventListener("DOMContentLoaded", function () {
+        // Đảm bảo Chart.js đã được tải
+        if (typeof Chart !== "undefined") {
+          // Thiết lập dữ liệu mẫu cho biểu đồ phân bố đánh giá
+          const ratingDistributionCtx = document
+            .getElementById("ratingDistributionChart")
+            .getContext("2d");
+          const ratingDistributionChart = new Chart(ratingDistributionCtx, {
+            type: "bar",
+            data: {
+              labels: ["5 Sao", "4 Sao", "3 Sao", "2 Sao", "1 Sao"],
+              datasets: [
+                {
+                  label: "Số lượng đánh giá",
+                  data: [250, 120, 35, 15, 7],
+                  backgroundColor: [
+                    "#4caf50",
+                    "#8bc34a",
+                    "#ffeb3b",
+                    "#ff9800",
+                    "#f44336",
+                  ],
+                },
+              ],
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: {
+                  display: false,
+                },
+              },
+            },
+          });
+
+          // Thiết lập dữ liệu mẫu cho biểu đồ xu hướng phản hồi
+          const feedbackTrendCtx = document
+            .getElementById("feedbackTrendChart")
+            .getContext("2d");
+          const feedbackTrendChart = new Chart(feedbackTrendCtx, {
+            type: "line",
+            data: {
+              labels: [
+                "T1",
+                "T2",
+                "T3",
+                "T4",
+                "T5",
+                "T6",
+                "T7",
+                "T8",
+                "T9",
+                "T10",
+                "T11",
+                "T12",
+              ],
+              datasets: [
+                {
+                  label: "Đánh giá",
+                  data: [30, 35, 40, 38, 42, 50, 45, 48, 40, 42, 38, 45],
+                  borderColor: "#1a73e8",
+                  tension: 0.3,
+                  fill: false,
+                },
+              ],
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: {
+                  display: false,
+                },
+              },
+            },
+          });
+        }
+      });
+    </script>
+  </body>
+</html>

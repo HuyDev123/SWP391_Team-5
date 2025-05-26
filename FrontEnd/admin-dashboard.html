@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bảng điều khiển Admin</title>
+    <link rel="stylesheet" href="assets/css/common.css" />
+    <link rel="stylesheet" href="assets/css/manager.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <style>
+      /* CSS tùy chỉnh cho trang dashboard */
+      body {
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+      }
+
+      .dashboard {
+        max-width: 1200px;
+        margin: 0 0 0 70px;
+        padding: 60px 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px; /* Giảm khoảng cách giữa các phần tử */
+      }
+
+      .stats-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 15px;
+        margin-bottom: 0;
+      }
+
+      .users-container {
+        width: 100%;
+        margin-top: 0;
+      }
+
+      /* Điều chỉnh để tối ưu khoảng cách */
+      .table-container {
+        padding: 20px;
+        margin-bottom: 0;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+      .users-table {
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: fixed;
+      }
+
+      .users-table th,
+      .users-table td {
+        padding: 12px 15px;
+        text-align: left;
+        border-bottom: 1px solid #eee;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      /* Định nghĩa chiều rộng cho các cột */
+      .users-table th:nth-child(1),
+      .users-table td:nth-child(1) {
+        width: 8%;
+      }
+      .users-table th:nth-child(2),
+      .users-table td:nth-child(2) {
+        width: 20%;
+      }
+      .users-table th:nth-child(3),
+      .users-table td:nth-child(3) {
+        width: 15%;
+      }
+      .users-table th:nth-child(4),
+      .users-table td:nth-child(4) {
+        width: 15%;
+      }
+      .users-table th:nth-child(5),
+      .users-table td:nth-child(5) {
+        width: 12%;
+      }
+      .users-table th:nth-child(6),
+      .users-table td:nth-child(6) {
+        width: 20%;
+      }
+
+      .users-table th {
+        background-color: #f9f9f9;
+        font-weight: 600;
+      }
+
+      .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+      }
+      .section-title {
+        margin: 0;
+        font-size: 1.25rem;
+        color: #333;
+      }
+
+      /* Loading overlay cho iframe */
+      .iframe-loading {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(255, 255, 255, 0.7);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        visibility: hidden;
+        opacity: 0;
+        transition: all 0.3s;
+      }
+
+      .iframe-loading.active {
+        visibility: visible;
+        opacity: 1;
+      }
+
+      .iframe-spinner {
+        width: 40px;
+        height: 40px;
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid #3498db;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+      .badge {
+        display: inline-block;
+        padding: 3px 8px;
+        border-radius: 3px;
+        font-size: 0.85rem;
+        font-weight: 500;
+        color: white;
+        white-space: nowrap;
+      }
+
+      .action-btn {
+        display: inline-block;
+        padding: 5px 10px;
+        margin-right: 5px;
+        border-radius: 4px;
+        text-decoration: none;
+        font-size: 0.85rem;
+        transition: background-color 0.2s;
+      }
+
+      .view-btn {
+        background-color: #e9f0fd;
+        color: #4a89dc;
+      }
+
+      .edit-btn {
+        background-color: #e3f2fd;
+        color: #1976d2;
+      }
+
+      .delete-btn {
+        background-color: #ffebee;
+        color: #e53935;
+      }
+
+      .action-btn:hover {
+        opacity: 0.9;
+      }
+
+      /* Cải thiện hiển thị bảng trên thiết bị nhỏ */
+      @media (max-width: 768px) {
+        .stats-container {
+          grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+          gap: 15px;
+        }
+
+        .table-container {
+          padding: 15px;
+        }
+
+        table {
+          display: block;
+          overflow-x: auto;
+        }
+      }
+
+      /* Thêm style cho stat-card */
+      .stat-card {
+        background-color: white;
+        border-radius: 8px;
+        padding: 15px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+      }
+
+      .stat-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      }
+
+      .stat-value {
+        font-size: 24px;
+        font-weight: bold;
+        margin: 10px 0;
+      }
+
+      /* Fix các vấn đề về khoảng cách */
+      .section-header {
+        margin-bottom: 10px;
+      }
+    </style>
+  </head>
+  <body class="admin-iframe">
+    <!-- Loading overlay cho iframe -->
+    <div class="iframe-loading">
+      <div class="iframe-spinner"></div>
+    </div>
+    <div class="dashboard">
+      <h2 class="page-title" style="margin: 5px 0; padding: 5px 0">
+        Bảng điều khiển Admin
+      </h2>
+      <!-- Stats Cards -->
+      <div class="stats-container">
+        <div class="stat-card">
+          <div class="stat-header">
+            <div class="stat-title">Tổng người dùng</div>
+            <div class="stat-icon" style="background-color: #1a73e8">
+              <i class="fas fa-users"></i>
+            </div>
+          </div>
+          <div class="stat-value">1,285</div>
+          <div class="stat-description">
+            <span class="positive">+24</span> người so với tháng trước
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-header">
+            <div class="stat-title">Lịch hẹn tháng này</div>
+            <div class="stat-icon" style="background-color: #4caf50">
+              <i class="fas fa-calendar-check"></i>
+            </div>
+          </div>
+          <div class="stat-value">158</div>
+          <div class="stat-description">
+            <span class="positive">+15%</span> so với tháng trước
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-header">
+            <div class="stat-title">Doanh thu</div>
+            <div class="stat-icon" style="background-color: #ff9800">
+              <i class="fas fa-dollar-sign"></i>
+            </div>
+          </div>
+          <div class="stat-value">85,4 triệu</div>
+          <div class="stat-description">
+            <span class="positive">+12%</span> so với tháng trước
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-header">
+            <div class="stat-title">Hoạt động hệ thống</div>
+            <div class="stat-icon" style="background-color: #f44336">
+              <i class="fas fa-server"></i>
+            </div>
+          </div>
+          <div class="stat-value">99,8%</div>
+          <div class="stat-description">
+            <span class="positive">+0,2%</span> so với tháng trước
+          </div>
+        </div>
+      </div>
+      <!-- Recent Users -->
+      <div class="table-container users-container">
+        <div class="section-header">
+          <h3 class="section-title">Người dùng mới đăng ký</h3>
+          <div class="section-actions">
+            <button id="viewAllUsers" class="primary-button">
+              Quản lý người dùng
+            </button>
+          </div>
+        </div>
+        <table class="users-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Họ tên</th>
+              <th>Email</th>
+              <th>Vai trò</th>
+              <th>Trạng thái</th>
+              <th>Thao tác</th>
+            </tr>
+          </thead>
+          <tbody id="recentUsersTable">
+            <tr>
+              <td>U1025</td>
+              <td>Nguyễn Văn An</td>
+              <td>annguyen@example.com</td>
+              <td>Bệnh nhân</td>
+              <td>
+                <span class="badge" style="background-color: #4caf50"
+                  >Đã kích hoạt</span
+                >
+              </td>
+              <td>
+                <a href="#" class="action-btn view-btn">Xem</a>
+                <a href="#" class="action-btn edit-btn">Chỉnh sửa</a>
+                <a href="#" class="action-btn delete-btn">Vô hiệu</a>
+              </td>
+            </tr>
+            <tr>
+              <td>U1024</td>
+              <td>Trần Thị Bình</td>
+              <td>binhtran@example.com</td>
+              <td>Bệnh nhân</td>
+              <td>
+                <span class="badge" style="background-color: #ff9800"
+                  >Chờ xác nhận</span
+                >
+              </td>
+              <td>
+                <a href="#" class="action-btn view-btn">Xem</a>
+                <a href="#" class="action-btn edit-btn">Xác nhận</a>
+                <a href="#" class="action-btn delete-btn">Từ chối</a>
+              </td>
+            </tr>
+            <tr>
+              <td>U1023</td>
+              <td>Lê Văn Cường</td>
+              <td>cuongle@example.com</td>
+              <td>Nhân viên</td>
+              <td>
+                <span class="badge" style="background-color: #4caf50"
+                  >Đã kích hoạt</span
+                >
+              </td>
+              <td>
+                <a href="#" class="action-btn view-btn">Xem</a>
+                <a href="#" class="action-btn edit-btn">Chỉnh sửa</a>
+                <a href="#" class="action-btn delete-btn">Vô hiệu</a>
+              </td>
+            </tr>
+            <tr>
+              <td>U1022</td>
+              <td>Phạm Thị Dung</td>
+              <td>dungpham@example.com</td>
+              <td>Bác sĩ</td>
+              <td>
+                <span class="badge" style="background-color: #f44336"
+                  >Cần xác minh</span
+                >
+              </td>
+              <td>
+                <a href="#" class="action-btn view-btn">Xem</a>
+                <a href="#" class="action-btn edit-btn">Xác minh</a>
+                <a href="#" class="action-btn delete-btn">Từ chối</a>
+              </td>
+            </tr>
+            <tr>
+              <td>U1021</td>
+              <td>Hoàng Văn Em</td>
+              <td>emhoang@example.com</td>
+              <td>Bệnh nhân</td>
+              <td>
+                <span class="badge" style="background-color: #4caf50"
+                  >Đã kích hoạt</span
+                >
+              </td>
+              <td>
+                <a href="#" class="action-btn view-btn">Xem</a>
+                <a href="#" class="action-btn edit-btn">Chỉnh sửa</a>
+                <a href="#" class="action-btn delete-btn">Vô hiệu</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- System Activities -->
+      <div class="table-container">
+        <div class="section-header">
+          <h3 class="section-title">Hoạt động hệ thống gần đây</h3>
+          <div class="section-actions">
+            <button id="viewAllActivities" class="primary-button">
+              Xem tất cả hoạt động
+            </button>
+          </div>
+        </div>
+        <table class="users-table">
+          <thead>
+            <tr>
+              <th>Thời gian</th>
+              <th>Người dùng</th>
+              <th>Hoạt động</th>
+              <th>IP</th>
+              <th>Trạng thái</th>
+              <th>Thao tác</th>
+            </tr>
+          </thead>
+          <tbody id="recentActivitiesTable">
+            <tr>
+              <td>25/05/2025 15:30</td>
+              <td>Admin Hoàng</td>
+              <td>Đăng nhập hệ thống</td>
+              <td>192.168.1.5</td>
+              <td>
+                <span class="badge" style="background-color: #4caf50"
+                  >Thành công</span
+                >
+              </td>
+              <td>
+                <a href="#" class="action-btn view-btn">Chi tiết</a>
+              </td>
+            </tr>
+            <tr>
+              <td>25/05/2025 14:28</td>
+              <td>Lê Văn Cường</td>
+              <td>Cập nhật hồ sơ</td>
+              <td>192.168.1.12</td>
+              <td>
+                <span class="badge" style="background-color: #4caf50"
+                  >Thành công</span
+                >
+              </td>
+              <td>
+                <a href="#" class="action-btn view-btn">Chi tiết</a>
+              </td>
+            </tr>
+            <tr>
+              <td>25/05/2025 13:45</td>
+              <td>unknown</td>
+              <td>Đăng nhập thất bại</td>
+              <td>203.162.3.45</td>
+              <td>
+                <span class="badge" style="background-color: #f44336"
+                  >Thất bại</span
+                >
+              </td>
+              <td>
+                <a href="#" class="action-btn view-btn">Chi tiết</a>
+              </td>
+            </tr>
+            <tr>
+              <td>25/05/2025 11:20</td>
+              <td>Phạm Thị Dung</td>
+              <td>Đăng ký tài khoản</td>
+              <td>192.168.1.35</td>
+              <td>
+                <span class="badge" style="background-color: #4caf50"
+                  >Thành công</span
+                >
+              </td>
+              <td>
+                <a href="#" class="action-btn view-btn">Chi tiết</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="assets/js/manager.js"></script>
+    <script>
+      // Hiển thị loading khi trang bắt đầu tải
+      const iframeLoading = document.querySelector(".iframe-loading");
+      if (iframeLoading) {
+        iframeLoading.classList.add("active");
+      }
+
+      // Xử lý nút "Quản lý người dùng"
+      document.addEventListener("DOMContentLoaded", function () {
+        // Ẩn loading khi trang đã tải xong
+        if (iframeLoading) {
+          iframeLoading.classList.remove("active");
+        }
+        const viewAllUsersBtn = document.getElementById("viewAllUsers");
+        if (viewAllUsersBtn) {
+          viewAllUsersBtn.addEventListener("click", function () {
+            // Kiểm tra xem trang có đang được tải trong iframe không
+            if (window.parent && window.parent !== window) {
+              // Trang đang trong iframe, gọi hàm từ trang cha
+              console.log("Chuyển đến trang quản lý người dùng");
+              window.parent.postMessage("admin-dashboard-loaded", "*");
+              window.parent.showAdminPage("user-management");
+            } else {
+              // Fallback nếu không phải iframe
+              window.location.href = "admin-user-management.html";
+            }
+          });
+        }
+        const viewAllActivitiesBtn =
+          document.getElementById("viewAllActivities");
+        if (viewAllActivitiesBtn) {
+          viewAllActivitiesBtn.addEventListener("click", function () {
+            // Kiểm tra xem trang có đang được tải trong iframe không
+            if (window.parent && window.parent !== window) {
+              // Thử gọi trang quản lý hệ thống từ trang cha
+              console.log("Chuyển đến trang nhật ký hệ thống");
+              window.parent.postMessage("admin-dashboard-loaded", "*");
+              window.parent.showAdminPage("system-logs");
+            } else {
+              // Fallback nếu không phải iframe
+              window.location.href = "admin-system-management.html";
+            }
+          });
+        } // Thông báo cho trang cha biết iframe đã tải xong
+        if (window.parent && window.parent !== window) {
+          window.parent.postMessage("admin-dashboard-loaded", "*");
+          console.log("Đã gửi thông báo iframe loaded đến parent window");
+        }
+      });
+    </script>
+  </body>
+</html>

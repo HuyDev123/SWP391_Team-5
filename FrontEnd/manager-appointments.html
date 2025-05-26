@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quản lý lịch hẹn - DNA Testing Management System</title>
+    <link rel="stylesheet" href="assets/css/common.css" />
+    <link rel="stylesheet" href="assets/css/manager.css" />
+  </head>
+  <body>
+    <h2 class="page-title">Danh sách lịch hẹn xét nghiệm ADN</h2>
+    <div
+      style="display: flex; gap: 16px; margin-bottom: 18px; align-items: center"
+    >
+      <div style="position: relative; width: 320px">
+        <i
+          class="fas fa-search"
+          style="
+            position: absolute;
+            left: 12px;
+            top: 0;
+            bottom: 0;
+            margin: auto 0;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            color: #aaa;
+          "
+        ></i>
+        <input
+          type="text"
+          id="appointmentSearch"
+          placeholder="Tìm kiếm theo tên, mã BN..."
+          style="
+            width: 100%;
+            height: 40px;
+            line-height: 40px;
+            padding: 0 12px 0 40px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+          "
+        />
+      </div>
+      <input
+        type="date"
+        id="appointmentDateFilter"
+        style="padding: 8px 12px; border-radius: 5px; border: 1px solid #ddd"
+      />
+      <select
+        id="appointmentStatusFilter"
+        style="padding: 8px 12px; border-radius: 5px; border: 1px solid #ddd"
+      >
+        <option value="">Tất cả trạng thái</option>
+        <option value="scheduled">Đã lên lịch</option>
+        <option value="completed">Hoàn thành</option>
+        <option value="cancelled">Đã hủy</option>
+      </select>
+    </div>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Mã lịch hẹn</th>
+            <th>Bệnh nhân</th>
+            <th>Bác sĩ</th>
+            <th>Ngày</th>
+            <th>Giờ</th>
+            <th>Trạng thái</th>
+            <th>Thao tác</th>
+          </tr>
+        </thead>
+        <tbody id="appointmentsTableBody">
+          <tr>
+            <td>LH-001</td>
+            <td>Nguyễn Thị Hoa (BN-1001)</td>
+            <td>BS. Tuấn</td>
+            <td>22/05/2025</td>
+            <td>09:00</td>
+            <td>
+              <span class="badge" style="background: #1e88e5; color: #fff"
+                >Đã lên lịch</span
+              >
+            </td>
+            <td><a href="#" class="action-btn view-btn">Xem</a></td>
+          </tr>
+          <tr>
+            <td>LH-002</td>
+            <td>Trần Văn Nam (BN-1002)</td>
+            <td>BS. Hương</td>
+            <td>22/05/2025</td>
+            <td>10:30</td>
+            <td>
+              <span class="badge" style="background: #1e88e5; color: #fff"
+                >Đã lên lịch</span
+              >
+            </td>
+            <td><a href="#" class="action-btn view-btn">Xem</a></td>
+          </tr>
+          <tr>
+            <td>LH-003</td>
+            <td>Lê Thị Hạnh (BN-1003)</td>
+            <td>BS. Minh</td>
+            <td>21/05/2025</td>
+            <td>14:00</td>
+            <td>
+              <span class="badge" style="background: #4caf50; color: #fff"
+                >Hoàn thành</span
+              >
+            </td>
+            <td><a href="#" class="action-btn view-btn">Xem</a></td>
+          </tr>
+          <tr>
+            <td>LH-004</td>
+            <td>Phạm Văn Bình (BN-1004)</td>
+            <td>BS. Thành</td>
+            <td>20/05/2025</td>
+            <td>15:30</td>
+            <td>
+              <span class="badge" style="background: #f44336; color: #fff"
+                >Đã hủy</span
+              >
+            </td>
+            <td><a href="#" class="action-btn view-btn">Xem</a></td>
+          </tr>
+          <tr>
+            <td>LH-005</td>
+            <td>Đỗ Thị Mai (BN-1005)</td>
+            <td>BS. Tuấn</td>
+            <td>19/05/2025</td>
+            <td>08:30</td>
+            <td>
+              <span class="badge" style="background: #4caf50; color: #fff"
+                >Hoàn thành</span
+              >
+            </td>
+            <td><a href="#" class="action-btn view-btn">Xem</a></td>
+          </tr>
+          <tr>
+            <td>LH-006</td>
+            <td>Ngô Văn Dũng (BN-1006)</td>
+            <td>BS. Hương</td>
+            <td>18/05/2025</td>
+            <td>11:00</td>
+            <td>
+              <span class="badge" style="background: #4caf50; color: #fff"
+                >Hoàn thành</span
+              >
+            </td>
+            <td><a href="#" class="action-btn view-btn">Xem</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+  </body>
+</html>

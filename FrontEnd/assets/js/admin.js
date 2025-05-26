@@ -732,39 +732,102 @@ function handleMenuNavigation() {
  * @param {string} pageId - ID của trang cần hiển thị (không bao gồm suffix "-page")
  */
 function showAdminPage(pageId) {
+  // Hiện loading
+  showLoading(
+    `Đang tải ${pageId === "dashboard" ? "bảng điều khiển" : pageId}...`
+  );
+
   // Ẩn tất cả các trang
   const allPages = document.querySelectorAll(".page-content");
-  const dashboard = document.querySelector(".dashboard");
-
-  // Ẩn dashboard và tất cả các trang
-  if (dashboard) {
-    dashboard.style.display = "none";
-  }
 
   allPages.forEach((page) => {
     page.style.display = "none";
   });
 
   // Hiển thị trang yêu cầu
-  const targetPageId = pageId === "dashboard" ? "dashboard" : pageId + "-page";
+  const targetPageId =
+    pageId === "dashboard" ? "dashboard-page" : pageId + "-page";
+  const targetPage = document.getElementById(targetPageId);
 
-  if (pageId === "dashboard") {
-    if (dashboard) {
-      dashboard.style.display = "block";
+  if (targetPage) {
+    targetPage.style.display = "block";
+
+    // Đảm bảo iframe đã tải xong
+    const iframe = targetPage.querySelector("iframe");
+    if (iframe) {
+      // Đảm bảo iframe được hiển thị đúng cách
+      iframe.style.width = "100%";
+      iframe.style.height = "calc(100vh - var(--header-height))";
+      iframe.style.border = "none";
+      iframe.style.margin = "0";
+      iframe.style.padding = "0";
+      iframe.style.display = "block";
+
+      // Xử lý sau khi iframe tải xong
+      const handleIframeLoad = function () {
+        console.log(`Iframe ${pageId} đã tải xong`);
+        hideLoading();
+      };
+
+      // Lắng nghe thông báo từ iframe
+      const handleIframeMessage = function (event) {
+        if (
+          event.data === "admin-dashboard-loaded" ||
+          event.data === "admin-iframe-loaded" ||
+          event.data === "iframe-loaded"
+        ) {
+          console.log("Nhận thông báo từ iframe:", event.data);
+          hideLoading();
+        }
+      };
+
+      // Thêm event listener cho message từ iframe
+      window.addEventListener("message", handleIframeMessage);
+
+      // Cũng xử lý qua onload để đảm bảo không bị treo loading
+      iframe.onload = handleIframeLoad;
+
+      // Đặt timeout để tránh bị treo loading
+      setTimeout(hideLoading, 2000);
+
+      // Cập nhật active menu
+      updateActiveMenu(pageId);
+    } else {
+      hideLoading();
     }
   } else {
-    const targetPage = document.getElementById(targetPageId);
-    if (targetPage) {
-      targetPage.style.display = "block";
-    } else {
-      console.error("Không tìm thấy trang:", targetPageId);
-      // Fallback to dashboard if page not found
-      if (dashboard) {
-        dashboard.style.display = "block";
-      }
+    console.error("Không tìm thấy trang:", targetPageId);
+    // Fallback to dashboard if page not found
+    const dashboardPage = document.getElementById("dashboard-page");
+    if (dashboardPage) {
+      dashboardPage.style.display = "block";
     }
+    hideLoading();
+    showNotification(
+      "Không tìm thấy trang yêu cầu, đã chuyển về dashboard",
+      "warning"
+    );
   }
-
   // Cập nhật URL (tùy chọn)
   history.pushState({ page: pageId }, "", "#" + pageId);
+}
+
+/**
+ * Cập nhật menu item active dựa trên trang hiện tại
+ * @param {string} pageId - ID của trang hiện tại
+ */
+function updateActiveMenu(pageId) {
+  // Xóa active class từ tất cả menu items
+  const allMenuLinks = document.querySelectorAll(".menu-link");
+  allMenuLinks.forEach((link) => {
+    link.classList.remove("active");
+  });
+
+  // Thêm active class cho menu item hiện tại
+  const activeLink = document.querySelector(
+    `.menu-link[data-page="${pageId}"]`
+  );
+  if (activeLink) {
+    activeLink.classList.add("active");
+  }
 }

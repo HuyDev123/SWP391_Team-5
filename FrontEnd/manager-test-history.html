@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lịch sử xét nghiệm</title>
+    <link rel="stylesheet" href="assets/css/common.css" />
+    <link rel="stylesheet" href="assets/css/manager.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div
+      class="main-content page-content"
+      id="test-history-page"
+      style="display: block"
+    >
+      <h2 class="page-title">Lịch sử xét nghiệm</h2>
+      <!-- Search and Filter -->
+      <div
+        class="filter-container"
+        style="
+          display: flex;
+          gap: 15px;
+          margin-bottom: 20px;
+          align-items: center;
+        "
+      >
+        <div class="search-box" style="width: 400px; position: relative">
+          <i
+            class="fas fa-search"
+            style="
+              position: absolute;
+              left: 24px;
+              top: 2px;
+              bottom: 0;
+              margin: auto 0;
+              height: 20px;
+              display: flex;
+              align-items: center;
+              color: #888;
+            "
+          ></i>
+          <input
+            type="text"
+            id="testHistorySearch"
+            placeholder="Tìm kiếm theo tên hoặc mã bệnh nhân..."
+            style="
+              border: 2px solid #2196f3;
+              box-shadow: 0 1px 4px #2196f322;
+              padding-left: 38px;
+              height: 40px;
+            "
+          />
+        </div>
+        <select
+          id="testTypeFilter"
+          style="
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid var(--border-color);
+          "
+        >
+          <option value="">Tất cả loại xét nghiệm</option>
+          <option value="blood">Xét nghiệm máu</option>
+          <option value="urine">Xét nghiệm nước tiểu</option>
+          <option value="xray">X-Quang</option>
+          <option value="mri">MRI</option>
+          <option value="ct">CT Scan</option>
+        </select>
+        <div style="display: flex; gap: 10px">
+          <input
+            type="date"
+            id="startDate"
+            style="
+              padding: 10px;
+              border-radius: 5px;
+              border: 1px solid var(--border-color);
+            "
+          />
+          <input
+            type="date"
+            id="endDate"
+            style="
+              padding: 10px;
+              border-radius: 5px;
+              border: 1px solid var(--border-color);
+            "
+          />
+        </div>
+        <button
+          id="applyFilters"
+          style="
+            padding: 10px 15px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+          "
+        >
+          Áp dụng bộ lọc
+        </button>
+      </div>
+      <!-- Test History Table -->
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Mã XN</th>
+              <th>Bệnh nhân</th>
+              <th>Loại xét nghiệm</th>
+              <th>Ngày</th>
+              <th>Bác sĩ</th>
+              <th>Trạng thái</th>
+              <th>Thao tác</th>
+            </tr>
+          </thead>
+          <tbody id="testHistoryTable">
+            <tr>
+              <td>XN-0001</td>
+              <td>Nguyễn Văn An (BN-0001)</td>
+              <td>Xét nghiệm ADN xác định huyết thống</td>
+              <td>18/05/2025</td>
+              <td>BS. Tuấn</td>
+              <td>
+                <span
+                  class="badge"
+                  style="
+                    background-color: #4caf50;
+                    color: white;
+                    padding: 3px 8px;
+                    border-radius: 3px;
+                  "
+                  >Hoàn thành</span
+                >
+              </td>
+              <td>
+                <a
+                  href="#"
+                  class="action-btn view-btn"
+                  onclick="viewTestResults('XN-0001')"
+                  >Xem kết quả</a
+                >
+                <a href="#" class="action-btn edit-btn">In</a>
+              </td>
+            </tr>
+            <tr>
+              <td>XN-0002</td>
+              <td>Trần Thị Bình (BN-0010)</td>
+              <td>Sàng lọc di truyền</td>
+              <td>17/05/2025</td>
+              <td>BS. Hương</td>
+              <td>
+                <span
+                  class="badge"
+                  style="
+                    background-color: #ff9800;
+                    color: white;
+                    padding: 3px 8px;
+                    border-radius: 3px;
+                  "
+                  >Đang xử lý</span
+                >
+              </td>
+              <td>
+                <a
+                  href="#"
+                  class="action-btn view-btn"
+                  onclick="viewTestResults('XN-0002')"
+                  >Xem kết quả</a
+                >
+                <a href="#" class="action-btn edit-btn">In</a>
+              </td>
+            </tr>
+            <tr>
+              <td>XN-0003</td>
+              <td>Lê Văn Cường (BN-0003)</td>
+              <td>Xét nghiệm ADN tổ tiên</td>
+              <td>16/05/2025</td>
+              <td>BS. Minh</td>
+              <td>
+                <span
+                  class="badge"
+                  style="
+                    background-color: #4caf50;
+                    color: white;
+                    padding: 3px 8px;
+                    border-radius: 3px;
+                  "
+                  >Hoàn thành</span
+                >
+              </td>
+              <td>
+                <a
+                  href="#"
+                  class="action-btn view-btn"
+                  style="opacity: 0.5; cursor: not-allowed"
+                  >Xem kết quả</a
+                >
+                <a
+                  href="#"
+                  class="action-btn edit-btn"
+                  style="opacity: 0.5; cursor: not-allowed"
+                  >In</a
+                >
+              </td>
+            </tr>
+            <tr>
+              <td>XN-0004</td>
+              <td>Phạm Thị Dung (BN-0008)</td>
+              <td>Xét nghiệm dự đoán di truyền</td>
+              <td>15/05/2025</td>
+              <td>BS. Thành</td>
+              <td>
+                <span
+                  class="badge"
+                  style="
+                    background-color: #1e88e5;
+                    color: white;
+                    padding: 3px 8px;
+                    border-radius: 3px;
+                  "
+                  >Đợi mẫu</span
+                >
+              </td>
+              <td>
+                <a
+                  href="#"
+                  class="action-btn view-btn"
+                  onclick="viewTestResults('XN-0004')"
+                  >Xem kết quả</a
+                >
+                <a href="#" class="action-btn edit-btn">In</a>
+              </td>
+            </tr>
+            <tr>
+              <td>XN-0005</td>
+              <td>Hoàng Văn Em (BN-0005)</td>
+              <td>Xét nghiệm ADN xác định huyết thống</td>
+              <td>14/05/2025</td>
+              <td>BS. Linh</td>
+              <td>
+                <span
+                  class="badge"
+                  style="
+                    background-color: #4caf50;
+                    color: white;
+                    padding: 3px 8px;
+                    border-radius: 3px;
+                  "
+                  >Hoàn thành</span
+                >
+              </td>
+              <td>
+                <a
+                  href="#"
+                  class="action-btn view-btn"
+                  style="opacity: 0.5; cursor: not-allowed"
+                  >Xem kết quả</a
+                >
+                <a
+                  href="#"
+                  class="action-btn edit-btn"
+                  style="opacity: 0.5; cursor: not-allowed"
+                  >In</a
+                >
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <!-- Pagination -->
+        <div
+          class="pagination"
+          style="
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+            gap: 5px;
+          "
+        >
+          <button
+            class="pagination-btn"
+            style="
+              padding: 5px 10px;
+              border: 1px solid var(--border-color);
+              background: var(--white);
+              border-radius: 3px;
+            "
+          >
+            &laquo;
+          </button>
+          <button
+            class="pagination-btn active"
+            style="
+              padding: 5px 10px;
+              border: 1px solid var(--primary-color);
+              background: var(--primary-color);
+              color: white;
+              border-radius: 3px;
+            "
+          >
+            1
+          </button>
+          <button
+            class="pagination-btn"
+            style="
+              padding: 5px 10px;
+              border: 1px solid var(--border-color);
+              background: var(--white);
+              border-radius: 3px;
+            "
+          >
+            2
+          </button>
+          <button
+            class="pagination-btn"
+            style="
+              padding: 5px 10px;
+              border: 1px solid var(--border-color);
+              background: var(--white);
+              border-radius: 3px;
+            "
+          >
+            3
+          </button>
+          <button
+            class="pagination-btn"
+            style="
+              padding: 5px 10px;
+              border: 1px solid var(--border-color);
+              background: var(--white);
+              border-radius: 3px;
+            "
+          >
+            &raquo;
+          </button>
+        </div>
+      </div>
+      <!-- Test Results Modal -->
+      <div
+        id="testResultsModal"
+        class="modal"
+        style="
+          display: none;
+          position: fixed;
+          z-index: 1000;
+          left: 0;
+          top: 0;
+          width: 100%;
+          height: 100%;
+          overflow: auto;
+          background-color: rgba(0, 0, 0, 0.4);
+        "
+      >
+        <div
+          class="modal-content"
+          style="
+            background-color: var(--white);
+            margin: 10% auto;
+            padding: 20px;
+            border-radius: 10px;
+            width: 70%;
+            box-shadow: var(--shadow);
+          "
+        >
+          <div
+            class="modal-header"
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              border-bottom: 1px solid var(--border-color);
+              padding-bottom: 10px;
+              margin-bottom: 20px;
+            "
+          >
+            <h3 id="testResultTitle">Kết quả xét nghiệm</h3>
+            <span class="close-modal" style="font-size: 24px; cursor: pointer"
+              >&times;</span
+            >
+          </div>
+          <div class="modal-body">
+            <div class="patient-info" style="margin-bottom: 20px">
+              <h4>Thông tin bệnh nhân</h4>
+              <div
+                style="
+                  display: grid;
+                  grid-template-columns: repeat(2, 1fr);
+                  gap: 10px;
+                "
+              >
+                <p>
+                  <strong>Họ tên:</strong>
+                  <span id="patientName">Nguyễn Văn An</span>
+                </p>
+                <p>
+                  <strong>Mã BN:</strong> <span id="patientId">BN-0001</span>
+                </p>
+                <p><strong>Tuổi:</strong> <span id="patientAge">35</span></p>
+                <p>
+                  <strong>Giới tính:</strong>
+                  <span id="patientGender">Nam</span>
+                </p>
+              </div>
+            </div>
+            <div class="test-info" style="margin-bottom: 20px">
+              <h4>Thông tin xét nghiệm</h4>
+              <div
+                style="
+                  display: grid;
+                  grid-template-columns: repeat(2, 1fr);
+                  gap: 10px;
+                "
+              >
+                <p><strong>Mã XN:</strong> <span id="testId">XN-0001</span></p>
+                <p>
+                  <strong>Ngày xét nghiệm:</strong>
+                  <span id="testDate">18/05/2025</span>
+                </p>
+                <p>
+                  <strong>Loại xét nghiệm:</strong>
+                  <span id="testType">Xét nghiệm máu</span>
+                </p>
+                <p>
+                  <strong>Bác sĩ yêu cầu:</strong>
+                  <span id="testDoctor">BS. Tuấn</span>
+                </p>
+              </div>
+            </div>
+            <div class="test-results">
+              <h4>Kết quả</h4>
+              <table style="width: 100%; margin-top: 10px">
+                <thead>
+                  <tr>
+                    <th>Thông số</th>
+                    <th>Kết quả</th>
+                    <th>Khoảng bình thường</th>
+                    <th>Trạng thái</th>
+                  </tr>
+                </thead>
+                <tbody id="testResultsTable">
+                  <tr>
+                    <td>Hemoglobin</td>
+                    <td>14.2 g/dL</td>
+                    <td>13.5-17.5 g/dL</td>
+                    <td><span style="color: green">Bình thường</span></td>
+                  </tr>
+                  <tr>
+                    <td>Bạch cầu</td>
+                    <td>8.3 x10^9/L</td>
+                    <td>4.5-11.0 x10^9/L</td>
+                    <td><span style="color: green">Bình thường</span></td>
+                  </tr>
+                  <tr>
+                    <td>Tiểu cầu</td>
+                    <td>210 x10^9/L</td>
+                    <td>150-450 x10^9/L</td>
+                    <td><span style="color: green">Bình thường</span></td>
+                  </tr>
+                  <tr>
+                    <td>Đường huyết</td>
+                    <td>110 mg/dL</td>
+                    <td>70-100 mg/dL</td>
+                    <td><span style="color: orange">Cao</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="test-notes" style="margin-top: 20px">
+              <h4>Ghi chú của bác sĩ</h4>
+              <p id="doctorNotes">
+                Kết quả xét nghiệm của bệnh nhân nhìn chung bình thường với chỉ
+                số đường huyết hơi cao. Khuyến nghị tái khám sau 3 tháng.
+              </p>
+            </div>
+          </div>
+          <div
+            class="modal-footer"
+            style="
+              display: flex;
+              justify-content: flex-end;
+              gap: 10px;
+              margin-top: 20px;
+              border-top: 1px solid var(--border-color);
+              padding-top: 20px;
+            "
+          >
+            <button
+              style="
+                padding: 8px 15px;
+                background-color: var(--primary-color);
+                color: white;
+                border: none;
+                border-radius: 5px;
+              "
+            >
+              In kết quả
+            </button>
+            <button
+              style="
+                padding: 8px 15px;
+                background-color: var(--secondary-color);
+                color: white;
+                border: none;
+                border-radius: 5px;
+              "
+            >
+              Gửi email cho bệnh nhân
+            </button>
+            <button
+              style="
+                padding: 8px 15px;
+                background-color: var(--light-bg);
+                border: 1px solid var(--border-color);
+                border-radius: 5px;
+              "
+              onclick="closeTestResultsModal()"
+            >
+              Đóng
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="assets/js/manager.js"></script>
+  </body>
+</html>
