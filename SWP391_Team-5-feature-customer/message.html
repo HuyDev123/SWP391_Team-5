@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Messages - DNA Testing System</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="../css/message.css">
+    <link rel="stylesheet" href="../css/sidebar.css">
+    <link rel="stylesheet" href="../css/header.css">
+</head>
+<body>
+    <div class="page-content" id="messages-page">
+        <div class="page-header">
+            <h1 class="page-title">Tin nhắn</h1>
+            <div class="header-actions">
+                <button class="btn btn-secondary" id="mark-all-read">
+                    <i class="fas fa-check-double"></i> Đánh dấu tất cả đã đọc
+                </button>
+            </div>
+        </div>
+        
+        <div class="messages-container">
+            <div class="messages-sidebar">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Tìm kiếm tin nhắn...">
+                </div>
+                
+                <div class="message-contacts">
+                    <div class="contact-item active">
+                        <div class="contact-icon">
+                            <i class="fas fa-user-md"></i>
+                        </div>
+                        <div class="contact-info">
+                            <div class="contact-name">Trung tâm xét nghiệm ADN</div>
+                            <div class="contact-preview">Kính chào quý khách, chúng tôi...</div>
+                        </div>
+                        <div class="contact-meta">
+                            <div class="contact-time">15:30</div>
+                            <div class="contact-badge">2</div>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-headset"></i>
+                        </div>
+                        <div class="contact-info">
+                            <div class="contact-name">Bộ phận hỗ trợ</div>
+                            <div class="contact-preview">Cảm ơn bạn đã sử dụng dịch vụ...</div>
+                        </div>
+                        <div class="contact-meta">
+                            <div class="contact-time">Hôm qua</div>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-hospital"></i>
+                        </div>
+                        <div class="contact-info">
+                            <div class="contact-name">Phòng xét nghiệm</div>
+                            <div class="contact-preview">Kết quả xét nghiệm ADN của...</div>
+                        </div>
+                        <div class="contact-meta">
+                            <div class="contact-time">22/05</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="messages-main">
+                <div class="chat-header">
+                    <div class="chat-contact">
+                        <div class="chat-contact-icon">
+                            <i class="fas fa-user-md"></i>
+                        </div>
+                        <div class="chat-contact-info">
+                            <div class="chat-contact-name">Trung tâm xét nghiệm ADN</div>
+                            <div class="chat-contact-status">Trực tuyến</div>
+                        </div>
+                    </div>
+                    <div class="chat-actions">
+                        <button class="btn-icon" title="Tìm kiếm">
+                            <i class="fas fa-search"></i>
+                        </button>
+                        <button class="btn-icon" title="Gọi">
+                            <i class="fas fa-phone"></i>
+                        </button>
+                        <button class="btn-icon" title="Cài đặt">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="chat-messages">
+                    <div class="message-date-separator">
+                        <span>Hôm nay</span>
+                    </div>
+                    
+                    <div class="message received">
+                        <div class="message-icon">
+                            <i class="fas fa-user-md"></i>
+                        </div>
+                        <div class="message-content">
+                            <div class="message-bubble">
+                                Kính chào quý khách, chúng tôi xin thông báo về lịch hẹn lấy mẫu xét nghiệm ADN của quý khách.
+                            </div>
+                            <div class="message-time">10:15</div>
+                        </div>
+                    </div>
+                    
+                    <div class="message received">
+                        <div class="message-icon">
+                            <i class="fas fa-user-md"></i>
+                        </div>
+                        <div class="message-content">
+                            <div class="message-bubble">
+                                Lịch hẹn xét nghiệm ADN của quý khách (APT-20240610-001) đã được xác nhận vào ngày 10/06/2024, 09:30 tại trung tâm xét nghiệm.
+                            </div>
+                            <div class="message-time">10:16</div>
+                        </div>
+                    </div>
+                    
+                    <div class="message sent">
+                        <div class="message-content">
+                            <div class="message-bubble">
+                                Cảm ơn thông tin. Tôi có thể thay đổi lịch hẹn không?
+                            </div>
+                            <div class="message-time">11:45</div>
+                        </div>
+                    </div>
+                    
+                    <div class="message received">
+                        <div class="message-icon">
+                            <i class="fas fa-user-md"></i>
+                        </div>
+                        <div class="message-content">
+                            <div class="message-bubble">
+                                Quý khách có thể thay đổi lịch hẹn trong vòng 24h trước thời gian đã đặt. Vui lòng truy cập mục "Lịch hẹn" trên trang khách hàng hoặc liên hệ hotline 1900xxxx để được hỗ trợ.
+                            </div>
+                            <div class="message-time">15:30</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="chat-input">
+                    <button class="btn-icon" title="Thêm file">
+                        <i class="fas fa-paperclip"></i>
+                    </button>
+                    <input type="text" placeholder="Nhập tin nhắn...">
+                    <button class="btn-icon send-btn" title="Gửi">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/message.js"></script>
+</body>
+</html> 

@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Theo dõi tiến trình - Genx DNA Testing</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        .tracking-container {
+            margin-top: 20px;
+        }
+        
+        .tracking-timeline {
+            position: relative;
+            padding-left: 40px;
+        }
+        
+        .tracking-timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 15px;
+            width: 2px;
+            background-color: #e0e0e0;
+        }
+        
+        .tracking-step {
+            position: relative;
+            margin-bottom: 30px;
+        }
+        
+        .tracking-step:last-child {
+            margin-bottom: 0;
+        }
+        
+        .tracking-step::before {
+            content: '';
+            position: absolute;
+            left: -40px;
+            top: 5px;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: #f5f5f5;
+            border: 2px solid #e0e0e0;
+            z-index: 1;
+        }
+        
+        .tracking-step.active::before {
+            background-color: #2196F3;
+            border-color: #2196F3;
+        }
+        
+        .tracking-step.completed::before {
+            background-color: #4caf50;
+            border-color: #4caf50;
+        }
+        
+        .tracking-step.active::after,
+        .tracking-step.completed::after {
+            content: '\f00c';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            position: absolute;
+            left: -33px;
+            top: 12px;
+            font-size: 14px;
+            color: white;
+        }
+        
+        .tracking-title {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+        
+        .tracking-date {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .tracking-description {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .tracking-status {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <img src="assets/images/logo.svg" alt="Genx DNA Testing Logo">
+            </div>
+            <h1>Genx</h1>
+        </div>
+        
+        <div class="user-profile">
+            <div class="user-info">
+                <div class="user-avatar">
+                    <img src="assets/images/avatar.jpg" alt="User Avatar">
+                </div>
+                <div class="user-details">
+                    <div class="user-name">Nguyễn Văn A</div>
+                    <div class="user-role">Khách hàng</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="menu-title">Menu</div>
+        <ul class="menu-items">
+            <li class="menu-item">
+                <a href="index.html" class="menu-link">
+                    <i class="fas fa-home"></i> Trang chủ
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="service.html" class="menu-link">
+                    <i class="fas fa-flask"></i> Dịch vụ xét nghiệm
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="self-collection.html" class="menu-link">
+                    <i class="fas fa-vial"></i> Tự thu mẫu
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="professional-collection.html" class="menu-link">
+                    <i class="fas fa-user-md"></i> Thu mẫu tại cơ sở
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="appointment.html" class="menu-link">
+                    <i class="fas fa-calendar-plus"></i> Đặt lịch hẹn
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="appointments.html" class="menu-link">
+                    <i class="fas fa-calendar-check"></i> Quản lý lịch hẹn
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="result.html" class="menu-link">
+                    <i class="fas fa-file-medical-alt"></i> Kết quả xét nghiệm
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="notification.html" class="menu-link">
+                    <i class="fas fa-bell"></i> Thông báo
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="feedback.html" class="menu-link">
+                    <i class="fas fa-comment-alt"></i> Đánh giá & Phản hồi
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="history.html" class="menu-link">
+                    <i class="fas fa-history"></i> Lịch sử xét nghiệm
+                </a>
+            </li>
+        </ul>
+        
+        <div class="menu-title">Tài khoản</div>
+        <ul class="menu-items">
+            <li class="menu-item">
+                <a href="profile.html" class="menu-link">
+                    <i class="fas fa-user"></i> Hồ sơ cá nhân
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="settings.html" class="menu-link">
+                    <i class="fas fa-cog"></i> Cài đặt
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="#" class="menu-link logout-link">
+                    <i class="fas fa-sign-out-alt"></i> Đăng xuất
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <div class="header">
+            <button class="toggle-sidebar">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Tìm kiếm...">
+            </div>
+            
+            <div class="header-actions">
+                <button class="notification-btn">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge">3</span>
+                </button>
+                
+                <button class="help-btn">
+                    <i class="fas fa-question-circle"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Page Content -->
+        <div class="page-content">
+            <h2 class="page-title">Theo dõi tiến trình</h2>
+            
+            <div class="dashboard-section">
+                <h3 class="section-title">Xét nghiệm huyết thống - XN-20230215-003</h3>
+                
+                <div class="tracking-container">
+                    <div class="tracking-timeline">
+                        <div class="tracking-step completed">
+                            <div class="tracking-title">Đăng ký đặt hẹn dịch vụ xét nghiệm</div>
+                            <div class="tracking-date">10/02/2023 - 09:15</div>
+                            <div class="tracking-description">Bạn đã đăng ký dịch vụ xét nghiệm huyết thống thành công.</div>
+                            <span class="status-badge completed">Hoàn thành</span>
+                        </div>
+                        
+                        <div class="tracking-step completed">
+                            <div class="tracking-title">Nhận bộ kit xét nghiệm</div>
+                            <div class="tracking-date">12/02/2023 - 14:30</div>
+                            <div class="tracking-description">Bạn đã nhận bộ kit xét nghiệm tại nhà.</div>
+                            <span class="status-badge completed">Hoàn thành</span>
+                        </div>
+                        
+                        <div class="tracking-step completed">
+                            <div class="tracking-title">Thu thập mẫu xét nghiệm</div>
+                            <div class="tracking-date">13/02/2023 - 10:00</div>
+                            <div class="tracking-description">Mẫu xét nghiệm đã được thu thập thành công.</div>
+                            <span class="status-badge completed">Hoàn thành</span>
+                        </div>
+                        
+                        <div class="tracking-step completed">
+                            <div class="tracking-title">Chuyển mẫu đến cơ sở y tế</div>
+                            <div class="tracking-date">13/02/2023 - 15:45</div>
+                            <div class="tracking-description">Mẫu xét nghiệm đã được chuyển đến trung tâm xét nghiệm.</div>
+                            <span class="status-badge completed">Hoàn thành</span>
+                        </div>
+                        
+                        <div class="tracking-step completed">
+                            <div class="tracking-title">Thực hiện xét nghiệm tại cơ sở y tế</div>
+                            <div class="tracking-date">14/02/2023 - 09:30</div>
+                            <div class="tracking-description">Mẫu xét nghiệm đang được phân tích tại phòng thí nghiệm.</div>
+                            <span class="status-badge completed">Hoàn thành</span>
+                        </div>
+                        
+                        <div class="tracking-step completed">
+                            <div class="tracking-title">Trả kết quả xét nghiệm</div>
+                            <div class="tracking-date">15/02/2023 - 14:00</div>
+                            <div class="tracking-description">Kết quả xét nghiệm đã được cập nhật. Bạn có thể xem kết quả chi tiết trong mục "Kết quả xét nghiệm".</div>
+                            <span class="status-badge completed">Hoàn thành</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dashboard-section">
+                <h3 class="section-title">Xét nghiệm di truyền - XN-20230720-004</h3>
+                
+                <div class="tracking-container">
+                    <div class="tracking-timeline">
+                        <div class="tracking-step completed">
+                            <div class="tracking-title">Đăng ký đặt hẹn dịch vụ xét nghiệm</div>
+                            <div class="tracking-date">15/07/2023 - 11:20</div>
+                            <div class="tracking-description">Bạn đã đăng ký dịch vụ xét nghiệm di truyền thành công.</div>
+                            <span class="status-badge completed">Hoàn thành</span>
+                        </div>
+                        
+                        <div class="tracking-step completed">
+                            <div class="tracking-title">Nhận bộ kit xét nghiệm</div>
+                            <div class="tracking-date">18/07/2023 - 09:45</div>
+                            <div class="tracking-description">Bạn đã nhận bộ kit xét nghiệm tại trung tâm.</div>
+                            <span class="status-badge completed">Hoàn thành</span>
+                        </div>
+                        
+                        <div class="tracking-step completed">
+                            <div class="tracking-title">Thu thập mẫu xét nghiệm</div>
+                            <div class="tracking-date">20/07/2023 - 14:00</div>
+                            <div class="tracking-description">Mẫu xét nghiệm đã được thu thập thành công tại trung tâm.</div>
+                            <span class="status-badge completed">Hoàn thành</span>
+                        </div>
+                        
+                        <div class="tracking-step completed">
+                            <div class="tracking-title">Chuyển mẫu đến phòng xét nghiệm</div>
+                            <div class="tracking-date">20/07/2023 - 16:30</div>
+                            <div class="tracking-description">Mẫu xét nghiệm đã được chuyển đến phòng xét nghiệm.</div>
+                            <span class="status-badge completed">Hoàn thành</span>
+                        </div>
+                        
+                        <div class="tracking-step active">
+                            <div class="tracking-title">Thực hiện xét nghiệm tại cơ sở y tế</div>
+                            <div class="tracking-date">21/07/2023 - 09:00</div>
+                            <div class="tracking-description">Mẫu xét nghiệm đang được phân tích tại phòng thí nghiệm.</div>
+                            <span class="status-badge pending">Đang xử lý</span>
+                        </div>
+                        
+                        <div class="tracking-step">
+                            <div class="tracking-title">Trả kết quả xét nghiệm</div>
+                            <div class="tracking-date">Dự kiến: 27/07/2023</div>
+                            <div class="tracking-description">Kết quả xét nghiệm sẽ được cập nhật sau khi hoàn thành.</div>
+                            <span class="status-badge pending">Chờ xử lý</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-container">
+                <div class="footer-col">
+                    <div class="footer-title"><i class="fas fa-comments"></i> Chat tư vấn</div>
+                    <div><i class="fas fa-phone"></i> 1900xxxx</div>
+                    <div><i class="fas fa-envelope"></i> <a href="mailto:xetnghiemadn@benhvien.com">xetnghiemadn@benhvien.com</a></div>
+                </div>
+                <div class="footer-col">
+                    <div class="footer-title">Dịch vụ</div>
+                    <div><a href="#">Xét nghiệm huyết thống</a></div>
+                    <div><a href="#">Xét nghiệm pháp lý</a></div>
+                    <div><a href="#">Tư vấn di truyền</a></div>
+                    <div><a href="#">Xét nghiệm tại nhà</a></div>
+                </div>
+                <div class="footer-col">
+                    <div class="footer-title">Thông tin</div>
+                    <div><a href="#">Giới thiệu</a></div>
+                    <div><a href="#">Hướng dẫn lấy mẫu</a></div>
+                    <div><a href="#">Liên hệ</a></div>
+                    <div><a href="#">Đặt lịch</a></div>
+                </div>
+                <div class="footer-col">
+                    <div class="footer-title">Kết nối</div>
+                    <div class="footer-socials">
+                        <a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" title="YouTube"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-copyright">© 2025 Trung tâm Xét nghiệm ADN.</div>
+                <div class="footer-powered">Powered by <b>Genx</b></div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="assets/js/main.js"></script>
+</body>
+</html> 

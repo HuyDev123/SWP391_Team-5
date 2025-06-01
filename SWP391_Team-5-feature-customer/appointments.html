@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quản lý lịch hẹn - Genx DNA Testing</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <img src="assets/images/logo.svg" alt="Genx DNA Testing Logo">
+            </div>
+            <h1>Genx</h1>
+        </div>
+        
+        <div class="user-profile">
+            <div class="user-info">
+                <div class="user-avatar">
+                    <img src="assets/images/avatar.jpg" alt="User Avatar">
+                </div>
+                <div class="user-details">
+                    <div class="user-name">Nguyễn Văn A</div>
+                    <div class="user-role">Khách hàng</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="menu-title">Menu</div>
+        <ul class="menu-items">
+            <li class="menu-item">
+                <a href="index.html" class="menu-link">
+                    <i class="fas fa-home"></i> Trang chủ
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="service.html" class="menu-link">
+                    <i class="fas fa-flask"></i> Dịch vụ xét nghiệm
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="self-collection.html" class="menu-link">
+                    <i class="fas fa-vial"></i> Tự thu mẫu
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="professional-collection.html" class="menu-link">
+                    <i class="fas fa-user-md"></i> Thu mẫu tại cơ sở
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="appointment.html" class="menu-link">
+                    <i class="fas fa-calendar-plus"></i> Đặt lịch hẹn
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="appointments.html" class="menu-link active">
+                    <i class="fas fa-calendar-check"></i> Quản lý lịch hẹn
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="result.html" class="menu-link">
+                    <i class="fas fa-file-medical-alt"></i> Kết quả xét nghiệm
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="notification.html" class="menu-link">
+                    <i class="fas fa-bell"></i> Thông báo
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="feedback.html" class="menu-link">
+                    <i class="fas fa-comment-alt"></i> Đánh giá & Phản hồi
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="history.html" class="menu-link">
+                    <i class="fas fa-history"></i> Lịch sử xét nghiệm
+                </a>
+            </li>
+        </ul>
+        
+        <div class="menu-title">Tài khoản</div>
+        <ul class="menu-items">
+            <li class="menu-item">
+                <a href="profile.html" class="menu-link">
+                    <i class="fas fa-user"></i> Hồ sơ cá nhân
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="settings.html" class="menu-link">
+                    <i class="fas fa-cog"></i> Cài đặt
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="#" class="menu-link logout-link">
+                    <i class="fas fa-sign-out-alt"></i> Đăng xuất
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <div class="header">
+            <button class="toggle-sidebar">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Tìm kiếm...">
+            </div>
+            
+            <div class="header-actions">
+                <button class="notification-btn">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge">3</span>
+                </button>
+                
+                <button class="help-btn">
+                    <i class="fas fa-question-circle"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Page Content -->
+        <div class="page-content">
+            <h2 class="page-title">Quản lý lịch hẹn</h2>
+            
+            <div class="appointments-container">
+                <div class="appointments-filters">
+                    <div class="filter-group">
+                        <label for="status-filter">Trạng thái</label>
+                        <select id="status-filter">
+                            <option value="all">Tất cả</option>
+                            <option value="pending">Chờ xác nhận</option>
+                            <option value="confirmed">Đã xác nhận</option>
+                            <option value="completed">Hoàn thành</option>
+                            <option value="cancelled">Đã hủy</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="date-filter">Thời gian</label>
+                        <select id="date-filter">
+                            <option value="all">Tất cả</option>
+                            <option value="upcoming">Sắp tới</option>
+                            <option value="past">Đã qua</option>
+                            <option value="today">Hôm nay</option>
+                            <option value="this-week">Tuần này</option>
+                            <option value="this-month">Tháng này</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="service-filter">Dịch vụ</label>
+                        <select id="service-filter">
+                            <option value="all">Tất cả</option>
+                            <option value="paternity">Xét nghiệm huyết thống</option>
+                            <option value="ancestry">Xét nghiệm tổ tiên</option>
+                            <option value="genetic">Xét nghiệm di truyền</option>
+                            <option value="health">Xét nghiệm sức khỏe</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="appointments-list">
+                    <div class="appointment-item" data-status="confirmed">
+                        <div class="appointment-header">
+                            <div class="appointment-id">APT-20230720-001</div>
+                            <div class="appointment-status confirmed">Đã xác nhận</div>
+                        </div>
+                        
+                        <div class="appointment-body">
+                            <div class="appointment-info">
+                                <div class="info-group">
+                                    <div class="info-label"><i class="fas fa-flask"></i> Dịch vụ</div>
+                                    <div class="info-value">Xét nghiệm di truyền</div>
+                                </div>
+                                
+                                <div class="info-group">
+                                    <div class="info-label"><i class="fas fa-calendar"></i> Ngày</div>
+                                    <div class="info-value">20/07/2023</div>
+                                </div>
+                                
+                                <div class="info-group">
+                                    <div class="info-label"><i class="fas fa-clock"></i> Giờ</div>
+                                    <div class="info-value">14:00</div>
+                                </div>
+                                
+                                <div class="info-group">
+                                    <div class="info-label"><i class="fas fa-map-marker-alt"></i> Địa điểm</div>
+                                    <div class="info-value">TP. Hồ Chí Minh</div>
+                                </div>
+                                
+                                <div class="info-group">
+                                    <div class="info-label"><i class="fas fa-syringe"></i> Phương thức lấy mẫu</div>
+                                    <div class="info-value">Lấy mẫu tại trung tâm</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="appointment-footer">
+                            <button class="btn btn-outline"><i class="fas fa-eye"></i> Chi tiết</button>
+                            <button class="btn btn-danger"><i class="fas fa-times"></i> Hủy lịch hẹn</button>
+                        </div>
+                    </div>
+                    
+                    <div class="appointment-item" data-status="pending">
+                        <div class="appointment-header">
+                            <div class="appointment-id">APT-20230715-002</div>
+                            <div class="appointment-status pending">Chờ xác nhận</div>
+                        </div>
+                        
+                        <div class="appointment-body">
+                            <div class="appointment-info">
+                                <div class="info-group">
+                                    <div class="info-label"><i class="fas fa-flask"></i> Dịch vụ</div>
+                                    <div class="info-value">Xét nghiệm huyết thống</div>
+                                </div>
+                                
+                                <div class="info-group">
+                                    <div class="info-label"><i class="fas fa-calendar"></i> Ngày</div>
+                                    <div class="info-value">15/07/2023</div>
+                                </div>
+                                
+                                <div class="info-group">
+                                    <div class="info-label"><i class="fas fa-clock"></i> Giờ</div>
+                                    <div class="info-value">10:00</div>
+                                </div>
+                                
+                                <div class="info-group">
+                                    <div class="info-label"><i class="fas fa-map-marker-alt"></i> Địa điểm</div>
+                                    <div class="info-value">Hà Nội</div>
+                                </div>
+                                
+                                <div class="info-group">
+                                    <div class="info-label"><i class="fas fa-syringe"></i> Phương thức lấy mẫu</div>
+                                    <div class="info-value">Tự lấy mẫu tại nhà</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="appointment-footer">
+                            <button class="btn btn-outline"><i class="fas fa-eye"></i> Chi tiết</button>
+                            <button class="btn btn-danger"><i class="fas fa-times"></i> Hủy lịch hẹn</button>
+                        </div>
+                    </div>
+                    
+                    <div class="appointment-item" data-status="completed">
+                        <div class="appointment-header">
+                            <div class="appointment-id">APT-20230605-003</div>
+                            <div class="appointment-status completed">Hoàn thành</div>
+                        </div>
+                        
+                        <div class="appointment-body">
+                            <div class="appointment-info">
+                                <div class="info-group">
+                                    <div class="info-label"><i class="fas fa-flask"></i> Dịch vụ</div>
+                                    <div class="info-value">Xét nghiệm sức khỏe</div>
+                                </div>
+                                
+                                <div class="info-group">
+                                    <div class="info-label"><i class="fas fa-calendar"></i> Ngày</div>
+                                    <div class="info-value">05/06/2023</div>
+                                </div>
+                                
+                                <div class="info-group">
+                                    <div class="info-label"><i class="fas fa-clock"></i> Giờ</div>
+                                    <div class="info-value">11:00</div>
+                                </div>
+                                
+                                <div class="info-group">
+                                    <div class="info-label"><i class="fas fa-map-marker-alt"></i> Địa điểm</div>
+                                    <div class="info-value">Đà Nẵng</div>
+                                </div>
+                                
+                                <div class="info-group">
+                                    <div class="info-label"><i class="fas fa-syringe"></i> Phương thức lấy mẫu</div>
+                                    <div class="info-value">Lấy mẫu tại trung tâm</div>
+                                </div>
+                                
+                                <div class="info-group">
+                                    <div class="info-label"><i class="fas fa-file-medical-alt"></i> Kết quả</div>
+                                    <div class="info-value"><a href="result.html" class="service-link">Xem kết quả</a></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="appointment-footer">
+                            <button class="btn btn-outline"><i class="fas fa-eye"></i> Chi tiết</button>
+                            <button class="btn btn-primary"><i class="fas fa-star"></i> Đánh giá</button>
+                        </div>
+                    </div>
+                    
+                    <div class="appointment-item" data-status="cancelled">
+                        <div class="appointment-header">
+                            <div class="appointment-id">APT-20230520-004</div>
+                            <div class="appointment-status cancelled">Đã hủy</div>
+                        </div>
+                        
+                        <div class="appointment-body">
+                            <div class="appointment-info">
+                                <div class="info-group">
+                                    <div class="info-label"><i class="fas fa-flask"></i> Dịch vụ</div>
+                                    <div class="info-value">Xét nghiệm tổ tiên</div>
+                                </div>
+                                
+                                <div class="info-group">
+                                    <div class="info-label"><i class="fas fa-calendar"></i> Ngày</div>
+                                    <div class="info-value">20/05/2023</div>
+                                </div>
+                                
+                                <div class="info-group">
+                                    <div class="info-label"><i class="fas fa-clock"></i> Giờ</div>
+                                    <div class="info-value">15:00</div>
+                                </div>
+                                
+                                <div class="info-group">
+                                    <div class="info-label"><i class="fas fa-map-marker-alt"></i> Địa điểm</div>
+                                    <div class="info-value">Hà Nội</div>
+                                </div>
+                                
+                                <div class="info-group">
+                                    <div class="info-label"><i class="fas fa-syringe"></i> Phương thức lấy mẫu</div>
+                                    <div class="info-value">Tự lấy mẫu tại nhà</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="appointment-footer">
+                            <button class="btn btn-outline"><i class="fas fa-eye"></i> Chi tiết</button>
+                            <button class="btn btn-primary"><i class="fas fa-redo"></i> Đặt lại</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Empty state (hidden by default) -->
+                    <div class="appointments-empty" style="display: none;">
+                        <div class="empty-icon">
+                            <i class="fas fa-calendar-times"></i>
+                        </div>
+                        <div class="empty-text">Không tìm thấy cuộc hẹn nào phù hợp với bộ lọc</div>
+                        <a href="appointment.html" class="btn btn-primary">Đặt lịch hẹn mới</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-container">
+                <div class="footer-col">
+                    <div class="footer-title"><i class="fas fa-comments"></i> Chat tư vấn</div>
+                    <div><i class="fas fa-phone"></i> 1900xxxx</div>
+                    <div><i class="fas fa-envelope"></i> <a href="mailto:xetnghiemadn@benhvien.com">xetnghiemadn@benhvien.com</a></div>
+                </div>
+                <div class="footer-col">
+                    <div class="footer-title">Dịch vụ</div>
+                    <div><a href="#">Xét nghiệm huyết thống</a></div>
+                    <div><a href="#">Xét nghiệm pháp lý</a></div>
+                    <div><a href="#">Tư vấn di truyền</a></div>
+                    <div><a href="#">Xét nghiệm tại nhà</a></div>
+                </div>
+                <div class="footer-col">
+                    <div class="footer-title">Thông tin</div>
+                    <div><a href="#">Giới thiệu</a></div>
+                    <div><a href="#">Hướng dẫn lấy mẫu</a></div>
+                    <div><a href="#">Liên hệ</a></div>
+                    <div><a href="#">Đặt lịch</a></div>
+                </div>
+                <div class="footer-col">
+                    <div class="footer-title">Kết nối</div>
+                    <div class="footer-socials">
+                        <a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" title="YouTube"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-copyright">© 2025 Trung tâm Xét nghiệm ADN.</div>
+                <div class="footer-powered">Powered by <b>Genx</b></div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="assets/js/main.js"></script>
+</body>
+</html> 

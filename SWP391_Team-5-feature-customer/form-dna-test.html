@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Đặt dịch vụ - DNA Testing System</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="../css/form-dna-test.css">
+    <link rel="stylesheet" href="../css/sidebar.css">
+    <link rel="stylesheet" href="../css/header.css">
+</head>
+<body>
+    <div class="page-content" id="form-dna-test-page">
+        <div class="page-header">
+            <h1 class="page-title">Đặt dịch vụ xét nghiệm ADN</h1>
+        </div>
+        <div class="form-container">
+            <div class="form-card">
+                <form id="dna-test-form">
+                    <div class="form-section">
+                        <h2 class="section-title">1. Thông tin dịch vụ</h2>
+                        <div class="form-group">
+                            <label class="form-label required-label">Loại dịch vụ</label>
+                            <div class="radio-group">
+                                <div class="radio-item">
+                                    <input type="radio" name="service_mode" id="civil" value="civil" checked>
+                                    <label for="civil">Dân sự</label>
+                                </div>
+                                <div class="radio-item">
+                                    <input type="radio" name="service_mode" id="legal" value="legal">
+                                    <label for="legal">Hành chính</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label required-label">Phương thức lấy mẫu</label>
+                            <div class="radio-group">
+                                <div class="radio-item">
+                                    <input type="radio" name="sample_collection" id="home" value="home" checked>
+                                    <label for="home">Lấy mẫu tại nhà</label>
+                                </div>
+                                <div class="radio-item">
+                                    <input type="radio" name="sample_collection" id="center" value="center">
+                                    <label for="center">Lấy mẫu tại cơ sở xét nghiệm</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label required-label">Loại kit sử dụng</label>
+                            <input type="text" class="form-control" id="kit-type" name="kit_type" value="Kit tại nhà" readonly>
+                        </div>
+                    </div>
+                
+                    <div class="form-section">
+                        <h2 class="section-title">2. Thông tin liên hệ</h2>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label required-label">Họ và tên</label>
+                                <input type="text" class="form-control" name="fullname" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label required-label">Số điện thoại</label>
+                                <input type="tel" class="form-control" name="phone" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label required-label">Email</label>
+                            <input type="email" class="form-control" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Địa chỉ (nếu lấy mẫu tại nhà)</label>
+                            <textarea class="form-control" name="address" rows="2"></textarea>
+                        </div>
+                    </div>
+                
+                    <div class="form-section">
+                        <h2 class="section-title">3. Thông tin mẫu</h2>
+                        <div id="samples-container">
+                            <div class="sample-item">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label required-label">Tên người lấy mẫu</label>
+                                        <input type="text" class="form-control" name="sample_name[]" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label required-label">Quan hệ</label>
+                                        <select class="form-select" name="sample_relation[]" required>
+                                            <option value="">-- Chọn --</option>
+                                            <option value="father">Cha</option>
+                                            <option value="mother">Mẹ</option>
+                                            <option value="child">Con</option>
+                                            <option value="sibling">Anh/Chị/Em</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label required-label">Loại mẫu</label>
+                                        <select class="form-select" name="sample_type[]" required>
+                                            <option value="">-- Chọn --</option>
+                                            <option value="niêm mạc miệng">Niêm mạc miệng</option>
+                                            <option value="máu">Máu</option>
+                                            <option value="tóc">Tóc</option>
+                                            <option value="móng tay">Móng tay</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Hình ảnh mẫu</label>
+                                        <input type="file" class="form-control" name="sample_image[]" accept="image/*">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label required-label">Ngày lấy mẫu</label>
+                                        <input type="date" class="form-control" name="sample_date[]" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Giờ lấy mẫu</label>
+                                        <input type="time" class="form-control" name="sample_time[]">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-secondary" id="add-sample"><i class="fas fa-plus"></i> Thêm mẫu</button>
+                    </div>
+                
+                    <div class="form-section">
+                        <h2 class="section-title">4. Ghi chú</h2>
+                        <div class="form-group">
+                            <label class="form-label">Thông tin bổ sung</label>
+                            <textarea class="form-control" name="note" rows="3" placeholder="Nhập thông tin bổ sung nếu có..."></textarea>
+                        </div>
+                    </div>
+                
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="reset-form"><i class="fas fa-undo"></i> Làm mới</button>
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-check"></i> Đăng ký dịch vụ</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/form-dna-test.js"></script>
+</body>
+</html> 
+</html> 

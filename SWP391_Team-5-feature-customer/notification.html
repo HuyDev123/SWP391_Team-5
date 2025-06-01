@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Thông báo - Genx DNA Testing</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <img src="assets/images/logo.svg" alt="Genx DNA Testing Logo">
+            </div>
+            <h1>Genx</h1>
+        </div>
+        
+        <div class="user-profile">
+            <div class="user-info">
+                <div class="user-avatar">
+                    <img src="assets/images/avatar.jpg" alt="User Avatar">
+                </div>
+                <div class="user-details">
+                    <div class="user-name">Nguyễn Văn A</div>
+                    <div class="user-role">Khách hàng</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="menu-title">Menu</div>
+        <ul class="menu-items">
+            <li class="menu-item">
+                <a href="index.html" class="menu-link">
+                    <i class="fas fa-home"></i> Trang chủ
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="service.html" class="menu-link">
+                    <i class="fas fa-flask"></i> Dịch vụ xét nghiệm
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="self-collection.html" class="menu-link">
+                    <i class="fas fa-vial"></i> Tự thu mẫu
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="professional-collection.html" class="menu-link">
+                    <i class="fas fa-user-md"></i> Thu mẫu tại cơ sở
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="appointment.html" class="menu-link">
+                    <i class="fas fa-calendar-plus"></i> Đặt lịch hẹn
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="appointments.html" class="menu-link">
+                    <i class="fas fa-calendar-check"></i> Quản lý lịch hẹn
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="result.html" class="menu-link">
+                    <i class="fas fa-file-medical-alt"></i> Kết quả xét nghiệm
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="notification.html" class="menu-link active">
+                    <i class="fas fa-bell"></i> Thông báo
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="feedback.html" class="menu-link">
+                    <i class="fas fa-comment-alt"></i> Đánh giá & Phản hồi
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="history.html" class="menu-link">
+                    <i class="fas fa-history"></i> Lịch sử xét nghiệm
+                </a>
+            </li>
+        </ul>
+        
+        <div class="menu-title">Tài khoản</div>
+        <ul class="menu-items">
+            <li class="menu-item">
+                <a href="profile.html" class="menu-link">
+                    <i class="fas fa-user"></i> Hồ sơ cá nhân
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="settings.html" class="menu-link">
+                    <i class="fas fa-cog"></i> Cài đặt
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="#" class="menu-link logout-link">
+                    <i class="fas fa-sign-out-alt"></i> Đăng xuất
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <div class="header">
+            <button class="toggle-sidebar">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Tìm kiếm...">
+            </div>
+            
+            <div class="header-actions">
+                <button class="notification-btn">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge">3</span>
+                </button>
+                
+                <button class="help-btn">
+                    <i class="fas fa-question-circle"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Page Content -->
+        <div class="page-content">
+            <h2 class="page-title">Thông báo</h2>
+            
+            <div class="notifications-container">
+                <div class="notifications-header">
+                    <div class="notifications-count">3 thông báo mới</div>
+                    <button class="btn-mark-all-read">Đánh dấu tất cả là đã đọc</button>
+                </div>
+                
+                <div class="notifications-list">
+                    <div class="notification-item unread">
+                        <div class="notification-icon">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <div class="notification-content">
+                            <div class="notification-title">Xác nhận lịch hẹn</div>
+                            <div class="notification-message">Lịch hẹn xét nghiệm di truyền của bạn vào ngày 20/07/2023 đã được xác nhận.</div>
+                            <div class="notification-time">10 phút trước</div>
+                        </div>
+                        <div class="notification-actions">
+                            <button class="btn-mark-read" title="Đánh dấu đã đọc">
+                                <i class="fas fa-check"></i>
+                            </button>
+                            <button class="btn-delete" title="Xóa thông báo">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="notification-item unread">
+                        <div class="notification-icon">
+                            <i class="fas fa-flask"></i>
+                        </div>
+                        <div class="notification-content">
+                            <div class="notification-title">Kết quả xét nghiệm</div>
+                            <div class="notification-message">Kết quả xét nghiệm sức khỏe của bạn đã sẵn sàng. Vui lòng đăng nhập để xem chi tiết.</div>
+                            <div class="notification-time">2 giờ trước</div>
+                        </div>
+                        <div class="notification-actions">
+                            <button class="btn-mark-read" title="Đánh dấu đã đọc">
+                                <i class="fas fa-check"></i>
+                            </button>
+                            <button class="btn-delete" title="Xóa thông báo">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="notification-item unread">
+                        <div class="notification-icon">
+                            <i class="fas fa-percent"></i>
+                        </div>
+                        <div class="notification-content">
+                            <div class="notification-title">Khuyến mãi đặc biệt</div>
+                            <div class="notification-message">Giảm 20% cho các dịch vụ xét nghiệm di truyền từ ngày 01/08 đến 15/08/2023. Đặt lịch ngay!</div>
+                            <div class="notification-time">1 ngày trước</div>
+                        </div>
+                        <div class="notification-actions">
+                            <button class="btn-mark-read" title="Đánh dấu đã đọc">
+                                <i class="fas fa-check"></i>
+                            </button>
+                            <button class="btn-delete" title="Xóa thông báo">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="notification-item">
+                        <div class="notification-icon">
+                            <i class="fas fa-info-circle"></i>
+                        </div>
+                        <div class="notification-content">
+                            <div class="notification-title">Cập nhật thông tin</div>
+                            <div class="notification-message">Vui lòng cập nhật thông tin cá nhân của bạn để chúng tôi có thể phục vụ bạn tốt hơn.</div>
+                            <div class="notification-time">3 ngày trước</div>
+                        </div>
+                        <div class="notification-actions">
+                            <button class="btn-mark-read" title="Đánh dấu đã đọc" disabled>
+                                <i class="fas fa-check"></i>
+                            </button>
+                            <button class="btn-delete" title="Xóa thông báo">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="notification-item">
+                        <div class="notification-icon">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <div class="notification-content">
+                            <div class="notification-title">Nhắc nhở lịch hẹn</div>
+                            <div class="notification-message">Bạn có lịch hẹn xét nghiệm sức khỏe vào ngày 05/06/2023 lúc 11:00 tại Đà Nẵng.</div>
+                            <div class="notification-time">1 tháng trước</div>
+                        </div>
+                        <div class="notification-actions">
+                            <button class="btn-mark-read" title="Đánh dấu đã đọc" disabled>
+                                <i class="fas fa-check"></i>
+                            </button>
+                            <button class="btn-delete" title="Xóa thông báo">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-container">
+                <div class="footer-col">
+                    <div class="footer-title"><i class="fas fa-comments"></i> Chat tư vấn</div>
+                    <div><i class="fas fa-phone"></i> 1900xxxx</div>
+                    <div><i class="fas fa-envelope"></i> <a href="mailto:xetnghiemadn@benhvien.com">xetnghiemadn@benhvien.com</a></div>
+                </div>
+                <div class="footer-col">
+                    <div class="footer-title">Dịch vụ</div>
+                    <div><a href="#">Xét nghiệm huyết thống</a></div>
+                    <div><a href="#">Xét nghiệm pháp lý</a></div>
+                    <div><a href="#">Tư vấn di truyền</a></div>
+                    <div><a href="#">Xét nghiệm tại nhà</a></div>
+                </div>
+                <div class="footer-col">
+                    <div class="footer-title">Thông tin</div>
+                    <div><a href="#">Giới thiệu</a></div>
+                    <div><a href="#">Hướng dẫn lấy mẫu</a></div>
+                    <div><a href="#">Liên hệ</a></div>
+                    <div><a href="#">Đặt lịch</a></div>
+                </div>
+                <div class="footer-col">
+                    <div class="footer-title">Kết nối</div>
+                    <div class="footer-socials">
+                        <a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" title="YouTube"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-copyright">© 2025 Trung tâm Xét nghiệm ADN.</div>
+                <div class="footer-powered">Powered by <b>Genx</b></div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="assets/js/main.js"></script>
+</body>
+</html> 

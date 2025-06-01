@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Đặt lịch hẹn - Genx DNA Testing</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <img src="assets/images/logo.svg" alt="Genx DNA Testing Logo">
+            </div>
+            <h1>Genx</h1>
+        </div>
+        
+        <div class="user-profile">
+            <div class="user-info">
+                <div class="user-avatar">
+                    <img src="assets/images/avatar.jpg" alt="User Avatar">
+                </div>
+                <div class="user-details">
+                    <div class="user-name">Nguyễn Văn A</div>
+                    <div class="user-role">Khách hàng</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="menu-title">Menu</div>
+        <ul class="menu-items">
+            <li class="menu-item">
+                <a href="index.html" class="menu-link">
+                    <i class="fas fa-home"></i> Trang chủ
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="service.html" class="menu-link">
+                    <i class="fas fa-flask"></i> Dịch vụ xét nghiệm
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="self-collection.html" class="menu-link">
+                    <i class="fas fa-vial"></i> Tự thu mẫu
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="professional-collection.html" class="menu-link">
+                    <i class="fas fa-user-md"></i> Thu mẫu tại cơ sở
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="appointment.html" class="menu-link active">
+                    <i class="fas fa-calendar-plus"></i> Đặt lịch hẹn
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="appointments.html" class="menu-link">
+                    <i class="fas fa-calendar-check"></i> Quản lý lịch hẹn
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="result.html" class="menu-link">
+                    <i class="fas fa-file-medical-alt"></i> Kết quả xét nghiệm
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="notification.html" class="menu-link">
+                    <i class="fas fa-bell"></i> Thông báo
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="feedback.html" class="menu-link">
+                    <i class="fas fa-comment-alt"></i> Đánh giá & Phản hồi
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="history.html" class="menu-link">
+                    <i class="fas fa-history"></i> Lịch sử xét nghiệm
+                </a>
+            </li>
+        </ul>
+        
+        <div class="menu-title">Tài khoản</div>
+        <ul class="menu-items">
+            <li class="menu-item">
+                <a href="profile.html" class="menu-link">
+                    <i class="fas fa-user"></i> Hồ sơ cá nhân
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="settings.html" class="menu-link">
+                    <i class="fas fa-cog"></i> Cài đặt
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="#" class="menu-link logout-link">
+                    <i class="fas fa-sign-out-alt"></i> Đăng xuất
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <div class="header">
+            <button class="toggle-sidebar">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Tìm kiếm...">
+            </div>
+            
+            <div class="header-actions">
+                <button class="notification-btn">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge">3</span>
+                </button>
+                
+                <button class="help-btn">
+                    <i class="fas fa-question-circle"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Page Content -->
+        <div class="page-content">
+            <h2 class="page-title">Đặt lịch hẹn</h2>
+            
+            <form id="appointment-form" class="form-section">
+                <div class="form-group">
+                    <label for="service-type">Loại dịch vụ</label>
+                    <select id="service-type" required>
+                        <option value="">Chọn loại dịch vụ</option>
+                        <option value="paternity">Xét nghiệm huyết thống</option>
+                        <option value="ancestry">Xét nghiệm tổ tiên</option>
+                        <option value="genetic">Xét nghiệm di truyền</option>
+                        <option value="health">Xét nghiệm sức khỏe</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="location">Địa điểm</label>
+                    <select id="location" required>
+                        <option value="">Chọn địa điểm</option>
+                        <option value="hanoi">Hà Nội</option>
+                        <option value="hcm">TP. Hồ Chí Minh</option>
+                        <option value="danang">Đà Nẵng</option>
+                        <option value="cantho">Cần Thơ</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="date">Ngày hẹn</label>
+                    <input type="date" id="date" min="" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="time">Thời gian</label>
+                    <select id="time" required>
+                        <option value="">Chọn thời gian</option>
+                        <option value="09:00">09:00</option>
+                        <option value="10:00">10:00</option>
+                        <option value="11:00">11:00</option>
+                        <option value="14:00">14:00</option>
+                        <option value="15:00">15:00</option>
+                        <option value="16:00">16:00</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Phương thức lấy mẫu</label>
+                    <div class="radio-group">
+                        <label>
+                            <input type="radio" name="collection-method" value="self" required>
+                            Tự lấy mẫu tại nhà
+                        </label>
+                        <label>
+                            <input type="radio" name="collection-method" value="professional" required>
+                            Lấy mẫu tại trung tâm
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="notes">Ghi chú (không bắt buộc)</label>
+                    <textarea id="notes" rows="4"></textarea>
+                </div>
+                
+                <button type="submit" class="btn">Đặt lịch</button>
+            </form>
+        </div>
+        
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-container">
+                <div class="footer-col">
+                    <div class="footer-title"><i class="fas fa-comments"></i> Chat tư vấn</div>
+                    <div><i class="fas fa-phone"></i> 1900xxxx</div>
+                    <div><i class="fas fa-envelope"></i> <a href="mailto:xetnghiemadn@benhvien.com">xetnghiemadn@benhvien.com</a></div>
+                </div>
+                <div class="footer-col">
+                    <div class="footer-title">Dịch vụ</div>
+                    <div><a href="#">Xét nghiệm huyết thống</a></div>
+                    <div><a href="#">Xét nghiệm pháp lý</a></div>
+                    <div><a href="#">Tư vấn di truyền</a></div>
+                    <div><a href="#">Xét nghiệm tại nhà</a></div>
+                </div>
+                <div class="footer-col">
+                    <div class="footer-title">Thông tin</div>
+                    <div><a href="#">Giới thiệu</a></div>
+                    <div><a href="#">Hướng dẫn lấy mẫu</a></div>
+                    <div><a href="#">Liên hệ</a></div>
+                    <div><a href="#">Đặt lịch</a></div>
+                </div>
+                <div class="footer-col">
+                    <div class="footer-title">Kết nối</div>
+                    <div class="footer-socials">
+                        <a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" title="YouTube"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-copyright">© 2025 Trung tâm Xét nghiệm ADN.</div>
+                <div class="footer-powered">Powered by <b>Genx</b></div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="assets/js/main.js"></script>
+    <script>
+        // Set minimum date to today
+        document.getElementById('date').min = new Date().toISOString().split('T')[0];
+    </script>
+</body>
+</html> 

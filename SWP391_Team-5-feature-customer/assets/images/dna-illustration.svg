@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <!-- DNA Double Helix Illustration -->
+  <defs>
+    <linearGradient id="blueGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#64b5f6"/>
+      <stop offset="100%" stop-color="#0d47a1"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Background Circle -->
+  <circle cx="100" cy="100" r="90" fill="#e3f2fd" opacity="0.5"/>
+  
+  <!-- DNA Strands -->
+  <g>
+    <!-- Left strand -->
+    <path d="M60,20 Q80,40 60,60 Q40,80 60,100 Q80,120 60,140 Q40,160 60,180" 
+          fill="none" stroke="url(#blueGradient)" stroke-width="4" stroke-linecap="round"/>
+    
+    <!-- Right strand -->
+    <path d="M140,20 Q120,40 140,60 Q160,80 140,100 Q120,120 140,140 Q160,160 140,180" 
+          fill="none" stroke="url(#blueGradient)" stroke-width="4" stroke-linecap="round"/>
+    
+    <!-- Connecting rungs -->
+    <line x1="60" y1="20" x2="140" y2="20" stroke="#2196F3" stroke-width="3"/>
+    <line x1="60" y1="60" x2="140" y2="60" stroke="#2196F3" stroke-width="3"/>
+    <line x1="60" y1="100" x2="140" y2="100" stroke="#2196F3" stroke-width="3"/>
+    <line x1="60" y1="140" x2="140" y2="140" stroke="#2196F3" stroke-width="3"/>
+    <line x1="60" y1="180" x2="140" y2="180" stroke="#2196F3" stroke-width="3"/>
+    
+    <!-- Nucleotide pairs (circles at connection points) -->
+    <circle cx="60" cy="20" r="6" fill="#2196F3"/>
+    <circle cx="140" cy="20" r="6" fill="#2196F3"/>
+    
+    <circle cx="60" cy="60" r="6" fill="#2196F3"/>
+    <circle cx="140" cy="60" r="6" fill="#2196F3"/>
+    
+    <circle cx="60" cy="100" r="6" fill="#2196F3"/>
+    <circle cx="140" cy="100" r="6" fill="#2196F3"/>
+    
+    <circle cx="60" cy="140" r="6" fill="#2196F3"/>
+    <circle cx="140" cy="140" r="6" fill="#2196F3"/>
+    
+    <circle cx="60" cy="180" r="6" fill="#2196F3"/>
+    <circle cx="140" cy="180" r="6" fill="#2196F3"/>
+  </g>
+  
+  <!-- Small decorative elements -->
+  <g fill="#64b5f6" opacity="0.7">
+    <circle cx="40" cy="40" r="3"/>
+    <circle cx="160" cy="40" r="3"/>
+    <circle cx="30" cy="100" r="4"/>
+    <circle cx="170" cy="100" r="4"/>
+    <circle cx="45" cy="160" r="3"/>
+    <circle cx="155" cy="160" r="3"/>
+  </g>
+</svg> 

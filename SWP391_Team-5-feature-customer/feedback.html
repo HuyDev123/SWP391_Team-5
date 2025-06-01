@@ -1,0 +1,450 @@
+<!-- feedback.html -->
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Đánh giá & Phản hồi - Genx DNA Testing</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        .rating {
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: flex-start;
+            margin-bottom: 15px;
+        }
+        
+        .rating input {
+            display: none;
+        }
+        
+        .rating label {
+            cursor: pointer;
+            font-size: 30px;
+            color: #ddd;
+            margin-right: 5px;
+        }
+        
+        .rating label:hover,
+        .rating label:hover ~ label,
+        .rating input:checked ~ label {
+            color: #ffb400;
+        }
+        
+        .feedback-list {
+            margin-top: 30px;
+        }
+        
+        .feedback-item {
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .feedback-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .feedback-date {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .feedback-stars {
+            color: #ffb400;
+            margin-bottom: 10px;
+        }
+        
+        .feedback-response {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+        
+        .response-header {
+            font-weight: 500;
+            margin-bottom: 5px;
+            color: #2196F3;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        
+        .checkbox-label input {
+            margin-right: 8px;
+            width: auto;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <img src="assets/images/logo.svg" alt="Genx DNA Testing Logo">
+            </div>
+            <h1>Genx</h1>
+        </div>
+        
+        <div class="user-profile">
+            <div class="user-info">
+                <div class="user-avatar">
+                    <img src="assets/images/avatar.jpg" alt="User Avatar">
+                </div>
+                <div class="user-details">
+                    <div class="user-name">Nguyễn Văn A</div>
+                    <div class="user-role">Khách hàng</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="menu-title">Menu</div>
+        <ul class="menu-items">
+            <li class="menu-item">
+                <a href="index.html" class="menu-link">
+                    <i class="fas fa-home"></i> Trang chủ
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="service.html" class="menu-link">
+                    <i class="fas fa-flask"></i> Dịch vụ xét nghiệm
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="self-collection.html" class="menu-link">
+                    <i class="fas fa-vial"></i> Tự thu mẫu
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="professional-collection.html" class="menu-link">
+                    <i class="fas fa-user-md"></i> Thu mẫu tại cơ sở
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="appointment.html" class="menu-link">
+                    <i class="fas fa-calendar-plus"></i> Đặt lịch hẹn
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="appointments.html" class="menu-link">
+                    <i class="fas fa-calendar-check"></i> Quản lý lịch hẹn
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="result.html" class="menu-link">
+                    <i class="fas fa-file-medical-alt"></i> Kết quả xét nghiệm
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="notification.html" class="menu-link">
+                    <i class="fas fa-bell"></i> Thông báo
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="feedback.html" class="menu-link active">
+                    <i class="fas fa-comment-alt"></i> Đánh giá & Phản hồi
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="history.html" class="menu-link">
+                    <i class="fas fa-history"></i> Lịch sử xét nghiệm
+                </a>
+            </li>
+        </ul>
+        
+        <div class="menu-title">Tài khoản</div>
+        <ul class="menu-items">
+            <li class="menu-item">
+                <a href="profile.html" class="menu-link">
+                    <i class="fas fa-user"></i> Hồ sơ cá nhân
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="settings.html" class="menu-link">
+                    <i class="fas fa-cog"></i> Cài đặt
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="#" class="menu-link logout-link">
+                    <i class="fas fa-sign-out-alt"></i> Đăng xuất
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <div class="header">
+            <button class="toggle-sidebar">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Tìm kiếm...">
+            </div>
+            
+            <div class="header-actions">
+                <button class="notification-btn">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge">3</span>
+                </button>
+                
+                <button class="help-btn">
+                    <i class="fas fa-question-circle"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Page Content -->
+        <div class="page-content">
+            <h2 class="page-title">Đánh giá & Phản hồi</h2>
+            
+            <div class="dashboard-section">
+                <h3 class="section-title">Gửi đánh giá mới</h3>
+                
+                <form id="feedback-form" class="form-section">
+                    <div class="form-group">
+                        <label for="service-type">Dịch vụ đã sử dụng</label>
+                        <select id="service-type" required>
+                            <option value="">Chọn dịch vụ</option>
+                            <option value="paternity">Xét nghiệm huyết thống</option>
+                            <option value="ancestry">Xét nghiệm tổ tiên</option>
+                            <option value="genetic">Xét nghiệm di truyền</option>
+                            <option value="health">Xét nghiệm sức khỏe</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Mức độ hài lòng</label>
+                        <div class="rating">
+                            <input type="radio" name="rating" id="star5" value="5" required>
+                            <label for="star5"><i class="fas fa-star"></i></label>
+                            <input type="radio" name="rating" id="star4" value="4">
+                            <label for="star4"><i class="fas fa-star"></i></label>
+                            <input type="radio" name="rating" id="star3" value="3">
+                            <label for="star3"><i class="fas fa-star"></i></label>
+                            <input type="radio" name="rating" id="star2" value="2">
+                            <label for="star2"><i class="fas fa-star"></i></label>
+                            <input type="radio" name="rating" id="star1" value="1">
+                            <label for="star1"><i class="fas fa-star"></i></label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Bạn đánh giá cao điều gì?</label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="positive_aspects" value="service_quality"> Chất lượng dịch vụ
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="positive_aspects" value="staff"> Thái độ nhân viên
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="positive_aspects" value="price"> Giá cả hợp lý
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="positive_aspects" value="speed"> Tốc độ xử lý
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="positive_aspects" value="accuracy"> Độ chính xác
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="positive_aspects" value="convenience"> Tiện lợi
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Những điểm cần cải thiện?</label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="improvement_areas" value="service_quality"> Chất lượng dịch vụ
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="improvement_areas" value="staff"> Thái độ nhân viên
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="improvement_areas" value="price"> Giá cả
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="improvement_areas" value="speed"> Tốc độ xử lý
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="improvement_areas" value="communication"> Giao tiếp
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="improvement_areas" value="process"> Quy trình
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="feedback-comment">Nhận xét chi tiết</label>
+                        <textarea id="feedback-comment" rows="5" placeholder="Chia sẻ trải nghiệm của bạn..."></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Gửi đánh giá</button>
+                </form>
+            </div>
+            
+            <div class="dashboard-section">
+                <h3 class="section-title">Đánh giá đã gửi</h3>
+                
+                <div class="feedback-list">
+                    <div class="feedback-item">
+                        <div class="feedback-header">
+                            <div class="feedback-service">Xét nghiệm di truyền</div>
+                            <div class="feedback-date">12/04/2023</div>
+                        </div>
+                        <div class="feedback-stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+                        <div class="feedback-content">
+                            Dịch vụ rất tốt, nhân viên nhiệt tình và chuyên nghiệp. Kết quả xét nghiệm được gửi đúng thời hạn và rất chi tiết. Tuy nhiên, giá cả hơi cao so với mặt bằng chung.
+                        </div>
+                        <div class="feedback-response">
+                            <div class="response-header">Phản hồi từ Genx:</div>
+                            <div class="response-content">
+                                Cảm ơn bạn đã sử dụng dịch vụ và gửi đánh giá. Chúng tôi rất vui khi bạn hài lòng với chất lượng dịch vụ. Về vấn đề giá cả, chúng tôi sẽ xem xét các gói dịch vụ phù hợp hơn trong thời gian tới. Mong được phục vụ bạn lần sau!
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="feedback-item">
+                        <div class="feedback-header">
+                            <div class="feedback-service">Xét nghiệm huyết thống</div>
+                            <div class="feedback-date">15/02/2023</div>
+                        </div>
+                        <div class="feedback-stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+                        <div class="feedback-content">
+                            Quy trình lấy mẫu khá đơn giản, nhưng thời gian chờ kết quả hơi lâu. Nhân viên tư vấn nhiệt tình giải đáp mọi thắc mắc.
+                        </div>
+                        <div class="feedback-response">
+                            <div class="response-header">Phản hồi từ Genx:</div>
+                            <div class="response-content">
+                                Cảm ơn bạn đã gửi đánh giá. Chúng tôi xin lỗi vì thời gian chờ kết quả chưa đáp ứng được mong đợi của bạn. Hiện tại, chúng tôi đang nâng cấp hệ thống xét nghiệm để rút ngắn thời gian này. Mong bạn thông cảm và tiếp tục ủng hộ dịch vụ của chúng tôi.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-container">
+                <div class="footer-col">
+                    <div class="footer-title"><i class="fas fa-comments"></i> Chat tư vấn</div>
+                    <div><i class="fas fa-phone"></i> 1900xxxx</div>
+                    <div><i class="fas fa-envelope"></i> <a href="mailto:xetnghiemadn@benhvien.com">xetnghiemadn@benhvien.com</a></div>
+                </div>
+                <div class="footer-col">
+                    <div class="footer-title">Dịch vụ</div>
+                    <div><a href="#">Xét nghiệm huyết thống</a></div>
+                    <div><a href="#">Xét nghiệm pháp lý</a></div>
+                    <div><a href="#">Tư vấn di truyền</a></div>
+                    <div><a href="#">Xét nghiệm tại nhà</a></div>
+                </div>
+                <div class="footer-col">
+                    <div class="footer-title">Thông tin</div>
+                    <div><a href="#">Giới thiệu</a></div>
+                    <div><a href="#">Hướng dẫn lấy mẫu</a></div>
+                    <div><a href="#">Liên hệ</a></div>
+                    <div><a href="#">Đặt lịch</a></div>
+                </div>
+                <div class="footer-col">
+                    <div class="footer-title">Kết nối</div>
+                    <div class="footer-socials">
+                        <a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" title="YouTube"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-copyright">© 2025 Trung tâm Xét nghiệm ADN.</div>
+                <div class="footer-powered">Powered by <b>Genx</b></div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="assets/js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const feedbackForm = document.getElementById('feedback-form');
+            if (feedbackForm) {
+                feedbackForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    // Form validation
+                    const serviceType = document.getElementById('service-type').value;
+                    const rating = document.querySelector('input[name="rating"]:checked');
+                    
+                    if (!serviceType) {
+                        alert('Vui lòng chọn dịch vụ đã sử dụng');
+                        return;
+                    }
+                    
+                    if (!rating) {
+                        alert('Vui lòng đánh giá mức độ hài lòng');
+                        return;
+                    }
+                    
+                    // Here you would typically send an AJAX request to submit the form data
+                    console.log('Feedback submitted');
+                    
+                    // Show success message and reset form
+                    alert('Cảm ơn bạn đã gửi đánh giá!');
+                    feedbackForm.reset();
+                });
+                
+                // Star rating hover effect
+                const stars = document.querySelectorAll('.rating label');
+                stars.forEach((star, index) => {
+                    star.addEventListener('mouseover', () => {
+                        for (let i = stars.length - 1; i >= stars.length - 1 - index; i--) {
+                            stars[i].style.color = '#ffb400';
+                        }
+                    });
+                    
+                    star.addEventListener('mouseout', () => {
+                        stars.forEach(s => {
+                            if (!s.previousElementSibling.checked) {
+                                s.style.color = '';
+                            }
+                        });
+                    });
+                });
+            }
+        });
+    </script>
+</body>
+</html> 

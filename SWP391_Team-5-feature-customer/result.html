@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kết quả xét nghiệm - Genx DNA Testing</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <img src="assets/images/logo.svg" alt="Genx DNA Testing Logo">
+            </div>
+            <h1>Genx</h1>
+        </div>
+        
+        <div class="user-profile">
+            <div class="user-info">
+                <div class="user-avatar">
+                    <img src="assets/images/avatar.jpg" alt="User Avatar">
+                </div>
+                <div class="user-details">
+                    <div class="user-name">Nguyễn Văn A</div>
+                    <div class="user-role">Khách hàng</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="menu-title">Menu</div>
+        <ul class="menu-items">
+            <li class="menu-item">
+                <a href="index.html" class="menu-link">
+                    <i class="fas fa-home"></i> Trang chủ
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="service.html" class="menu-link">
+                    <i class="fas fa-flask"></i> Dịch vụ xét nghiệm
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="self-collection.html" class="menu-link">
+                    <i class="fas fa-vial"></i> Tự thu mẫu
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="professional-collection.html" class="menu-link">
+                    <i class="fas fa-user-md"></i> Thu mẫu tại cơ sở
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="appointment.html" class="menu-link">
+                    <i class="fas fa-calendar-plus"></i> Đặt lịch hẹn
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="appointments.html" class="menu-link">
+                    <i class="fas fa-calendar-check"></i> Quản lý lịch hẹn
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="result.html" class="menu-link active">
+                    <i class="fas fa-file-medical-alt"></i> Kết quả xét nghiệm
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="notification.html" class="menu-link">
+                    <i class="fas fa-bell"></i> Thông báo
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="feedback.html" class="menu-link">
+                    <i class="fas fa-comment-alt"></i> Đánh giá & Phản hồi
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="history.html" class="menu-link">
+                    <i class="fas fa-history"></i> Lịch sử xét nghiệm
+                </a>
+            </li>
+        </ul>
+        
+        <div class="menu-title">Tài khoản</div>
+        <ul class="menu-items">
+            <li class="menu-item">
+                <a href="profile.html" class="menu-link">
+                    <i class="fas fa-user"></i> Hồ sơ cá nhân
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="settings.html" class="menu-link">
+                    <i class="fas fa-cog"></i> Cài đặt
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="#" class="menu-link logout-link">
+                    <i class="fas fa-sign-out-alt"></i> Đăng xuất
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <div class="header">
+            <button class="toggle-sidebar">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Tìm kiếm...">
+            </div>
+            
+            <div class="header-actions">
+                <button class="notification-btn">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge">3</span>
+                </button>
+                
+                <button class="help-btn">
+                    <i class="fas fa-question-circle"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Page Content -->
+        <div class="page-content">
+            <h2 class="page-title">Kết quả xét nghiệm</h2>
+            
+            <div class="dashboard-section">
+                <h3 class="section-title">Kết quả xét nghiệm gần đây</h3>
+                
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Mã xét nghiệm</th>
+                            <th>Loại xét nghiệm</th>
+                            <th>Ngày thực hiện</th>
+                            <th>Trạng thái</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>XN-20230605-001</td>
+                            <td>Xét nghiệm sức khỏe</td>
+                            <td>05/06/2023</td>
+                            <td><span class="status-badge completed">Hoàn thành</span></td>
+                            <td>
+                                <button class="btn btn-outline btn-sm" onclick="showResultDetails('XN-20230605-001')">Xem kết quả</button>
+                                <button class="btn btn-outline btn-sm"><i class="fas fa-download"></i> Tải PDF</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>XN-20230412-002</td>
+                            <td>Xét nghiệm di truyền</td>
+                            <td>12/04/2023</td>
+                            <td><span class="status-badge completed">Hoàn thành</span></td>
+                            <td>
+                                <button class="btn btn-outline btn-sm" onclick="showResultDetails('XN-20230412-002')">Xem kết quả</button>
+                                <button class="btn btn-outline btn-sm"><i class="fas fa-download"></i> Tải PDF</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>XN-20230215-003</td>
+                            <td>Xét nghiệm huyết thống</td>
+                            <td>15/02/2023</td>
+                            <td><span class="status-badge completed">Hoàn thành</span></td>
+                            <td>
+                                <button class="btn btn-outline btn-sm" onclick="showResultDetails('XN-20230215-003')">Xem kết quả</button>
+                                <button class="btn btn-outline btn-sm"><i class="fas fa-download"></i> Tải PDF</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Result Details (Hidden by default) -->
+            <div id="result-details" class="dashboard-section" style="display: none;">
+                <div class="result-header">
+                    <h3 class="section-title">Chi tiết kết quả xét nghiệm <span id="result-id"></span></h3>
+                    <button class="btn btn-outline" onclick="hideResultDetails()"><i class="fas fa-times"></i> Đóng</button>
+                </div>
+                
+                <div class="result-info">
+                    <div class="info-row">
+                        <div class="info-label">Loại xét nghiệm:</div>
+                        <div class="info-value" id="result-type"></div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">Ngày thực hiện:</div>
+                        <div class="info-value" id="result-date"></div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">Bác sĩ phụ trách:</div>
+                        <div class="info-value" id="result-doctor"></div>
+                    </div>
+                </div>
+                
+                <div class="result-content" id="result-content">
+                    <!-- Content will be loaded dynamically -->
+                </div>
+                
+                <div class="result-footer">
+                    <button class="btn btn-primary"><i class="fas fa-download"></i> Tải kết quả dạng PDF</button>
+                    <button class="btn btn-outline"><i class="fas fa-envelope"></i> Gửi qua email</button>
+                </div>
+            </div>
+            
+            <div class="dashboard-section">
+                <h3 class="section-title">Xét nghiệm đang chờ kết quả</h3>
+                
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Mã xét nghiệm</th>
+                            <th>Loại xét nghiệm</th>
+                            <th>Ngày thực hiện</th>
+                            <th>Trạng thái</th>
+                            <th>Dự kiến có kết quả</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>XN-20230720-004</td>
+                            <td>Xét nghiệm di truyền</td>
+                            <td>20/07/2023</td>
+                            <td><span class="status-badge pending">Đang xử lý</span></td>
+                            <td>27/07/2023</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-container">
+                <div class="footer-col">
+                    <div class="footer-title"><i class="fas fa-comments"></i> Chat tư vấn</div>
+                    <div><i class="fas fa-phone"></i> 1900xxxx</div>
+                    <div><i class="fas fa-envelope"></i> <a href="mailto:xetnghiemadn@benhvien.com">xetnghiemadn@benhvien.com</a></div>
+                </div>
+                <div class="footer-col">
+                    <div class="footer-title">Dịch vụ</div>
+                    <div><a href="#">Xét nghiệm huyết thống</a></div>
+                    <div><a href="#">Xét nghiệm pháp lý</a></div>
+                    <div><a href="#">Tư vấn di truyền</a></div>
+                    <div><a href="#">Xét nghiệm tại nhà</a></div>
+                </div>
+                <div class="footer-col">
+                    <div class="footer-title">Thông tin</div>
+                    <div><a href="#">Giới thiệu</a></div>
+                    <div><a href="#">Hướng dẫn lấy mẫu</a></div>
+                    <div><a href="#">Liên hệ</a></div>
+                    <div><a href="#">Đặt lịch</a></div>
+                </div>
+                <div class="footer-col">
+                    <div class="footer-title">Kết nối</div>
+                    <div class="footer-socials">
+                        <a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" title="YouTube"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-copyright">© 2025 Trung tâm Xét nghiệm ADN.</div>
+                <div class="footer-powered">Powered by <b>Genx</b></div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="assets/js/main.js"></script>
+    <script>
+        // Sample result data
+        const resultData = {
+            'XN-20230605-001': {
+                type: 'Xét nghiệm sức khỏe',
+                date: '05/06/2023',
+                doctor: 'BS. Nguyễn Văn B',
+                content: `
+                    <h4>Kết quả xét nghiệm sức khỏe</h4>
+                    <p>Chỉ số cơ bản:</p>
+                    <table class="result-table">
+                        <tr>
+                            <th>Chỉ số</th>
+                            <th>Kết quả</th>
+                            <th>Giá trị tham chiếu</th>
+                            <th>Đánh giá</th>
+                        </tr>
+                        <tr>
+                            <td>Huyết áp</td>
+                            <td>120/80 mmHg</td>
+                            <td>90-120/60-80 mmHg</td>
+                            <td>Bình thường</td>
+                        </tr>
+                        <tr>
+                            <td>Nhịp tim</td>
+                            <td>72 bpm</td>
+                            <td>60-100 bpm</td>
+                            <td>Bình thường</td>
+                        </tr>
+                        <tr>
+                            <td>Đường huyết</td>
+                            <td>5.2 mmol/L</td>
+                            <td>3.9-5.5 mmol/L</td>
+                            <td>Bình thường</td>
+                        </tr>
+                        <tr>
+                            <td>Cholesterol</td>
+                            <td>5.8 mmol/L</td>
+                            <td>< 5.2 mmol/L</td>
+                            <td>Cao nhẹ</td>
+                        </tr>
+                    </table>
+                    <p>Nhận xét: Sức khỏe tổng thể tốt, chỉ có chỉ số cholesterol cao nhẹ. Khuyến nghị điều chỉnh chế độ ăn uống và tập thể dục đều đặn.</p>
+                `
+            },
+            'XN-20230412-002': {
+                type: 'Xét nghiệm di truyền',
+                date: '12/04/2023',
+                doctor: 'BS. Trần Thị C',
+                content: `
+                    <h4>Kết quả xét nghiệm di truyền</h4>
+                    <p>Phân tích các biến thể gen liên quan đến nguy cơ bệnh:</p>
+                    <table class="result-table">
+                        <tr>
+                            <th>Gen</th>
+                            <th>Biến thể</th>
+                            <th>Tình trạng</th>
+                            <th>Liên quan đến</th>
+                        </tr>
+                        <tr>
+                            <td>BRCA1</td>
+                            <td>rs28897696</td>
+                            <td>Không phát hiện</td>
+                            <td>Ung thư vú và buồng trứng</td>
+                        </tr>
+                        <tr>
+                            <td>APOE</td>
+                            <td>e3/e3</td>
+                            <td>Phát hiện</td>
+                            <td>Nguy cơ bệnh Alzheimer trung bình</td>
+                        </tr>
+                        <tr>
+                            <td>MTHFR</td>
+                            <td>C677T</td>
+                            <td>Dị hợp tử</td>
+                            <td>Chuyển hóa folate</td>
+                        </tr>
+                    </table>
+                    <p>Nhận xét: Không phát hiện các biến thể gen nguy cơ cao. Khuyến nghị duy trì lối sống lành mạnh và kiểm tra sức khỏe định kỳ.</p>
+                `
+            },
+            'XN-20230215-003': {
+                type: 'Xét nghiệm huyết thống',
+                date: '15/02/2023',
+                doctor: 'BS. Lê Văn D',
+                content: `
+                    <h4>Kết quả xét nghiệm huyết thống</h4>
+                    <p>Phân tích ADN để xác định mối quan hệ huyết thống:</p>
+                    <table class="result-table">
+                        <tr>
+                            <th>Marker</th>
+                            <th>Mẫu 1 (Cha)</th>
+                            <th>Mẫu 2 (Con)</th>
+                            <th>Phù hợp</th>
+                        </tr>
+                        <tr>
+                            <td>D3S1358</td>
+                            <td>15, 18</td>
+                            <td>15, 16</td>
+                            <td>Có</td>
+                        </tr>
+                        <tr>
+                            <td>vWA</td>
+                            <td>17, 19</td>
+                            <td>17, 18</td>
+                            <td>Có</td>
+                        </tr>
+                        <tr>
+                            <td>FGA</td>
+                            <td>20, 22</td>
+                            <td>20, 21</td>
+                            <td>Có</td>
+                        </tr>
+                        <tr>
+                            <td>D8S1179</td>
+                            <td>13, 14</td>
+                            <td>13, 15</td>
+                            <td>Có</td>
+                        </tr>
+                        <tr>
+                            <td>D21S11</td>
+                            <td>29, 31</td>
+                            <td>29, 30</td>
+                            <td>Có</td>
+                        </tr>
+                    </table>
+                    <p>Kết luận: Xác suất quan hệ cha-con: 99.9999%. Kết quả này khẳng định mối quan hệ huyết thống giữa hai mẫu.</p>
+                `
+            }
+        };
+
+        function showResultDetails(resultId) {
+            const resultDetails = document.getElementById('result-details');
+            const data = resultData[resultId];
+            
+            if (data) {
+                document.getElementById('result-id').textContent = resultId;
+                document.getElementById('result-type').textContent = data.type;
+                document.getElementById('result-date').textContent = data.date;
+                document.getElementById('result-doctor').textContent = data.doctor;
+                document.getElementById('result-content').innerHTML = data.content;
+                
+                resultDetails.style.display = 'block';
+                
+                // Scroll to result details
+                resultDetails.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function hideResultDetails() {
+            document.getElementById('result-details').style.display = 'none';
+        }
+    </script>
+    
+    <style>
+        .btn-sm {
+            padding: 5px 10px;
+            font-size: 14px;
+        }
+        
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .result-info {
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .info-row {
+            display: flex;
+            margin-bottom: 10px;
+        }
+        
+        .info-row:last-child {
+            margin-bottom: 0;
+        }
+        
+        .info-label {
+            font-weight: bold;
+            width: 150px;
+            color: #555;
+        }
+        
+        .result-content {
+            margin-bottom: 20px;
+        }
+        
+        .result-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        
+        .result-table th, .result-table td {
+            border: 1px solid #ddd;
+            padding: 8px 12px;
+            text-align: left;
+        }
+        
+        .result-table th {
+            background-color: #f5f5f5;
+        }
+        
+        .result-footer {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-start;
+        }
+    </style>
+</body>
+</html> 

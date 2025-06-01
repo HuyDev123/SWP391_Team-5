@@ -1,0 +1,125 @@
+/* footer.css */
+.footer {
+  background: #223042;
+  color: #fff;
+  padding: 1.2rem 0 0 0;
+  margin-top: 1.2rem;
+  width: calc(100% - var(--sidebar-width));
+  margin-left: var(--sidebar-width);
+  position: relative;
+  left: 0;
+  right: 0;
+  box-sizing: border-box;
+  font-size: 0.97rem;
+}
+.footer-container {
+  width: 100%;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+  align-items: flex-start;
+  padding: 0 2rem 0 2rem;
+}
+.footer-col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.footer-title {
+  font-weight: 700;
+  color: #10b981;
+  font-size: 1.02rem;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.footer-col a {
+  color: #fff;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.footer-col a:hover {
+  color: #4ade80;
+  text-decoration: underline;
+}
+.footer-col i {
+  color: #fff;
+  margin-right: 0.5rem;
+  font-size: 1.05rem;
+}
+.footer-socials {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.3rem;
+}
+.footer-socials a {
+  color: #fff;
+  font-size: 1.15rem;
+  transition: color 0.2s;
+}
+.footer-socials a:hover {
+  color: #10b981;
+}
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #b5c2d1;
+  font-size: 0.93rem;
+  margin-top: 1rem;
+  padding: 0.5rem 2rem 0.7rem 2rem;
+  width: 100%;
+}
+.footer-powered b {
+  color: #fff;
+}
+
+/* Xóa mọi style liên quan đến widget Zalo */
+.zalo-chat-widget,
+.zalo-chat-wrapper,
+.zalo-chat-button,
+.zalo-chat-icon {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  width: 0 !important;
+  height: 0 !important;
+  position: absolute !important;
+  left: -9999px !important;
+}
+
+@media (max-width: 900px) {
+  .footer-container {
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    padding: 0 1.5rem;
+    margin-left: 0;
+  }
+  .footer-bottom {
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.5rem 1.5rem 0.7rem 1.5rem;
+    margin-left: 0;
+  }
+}
+@media (max-width: 600px) {
+  .footer-container {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 0 1rem;
+    margin-left: 0;
+  }
+  .footer-col {
+    text-align: center;
+    align-items: center;
+  }
+  .footer-bottom {
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem 0.7rem 1rem;
+    margin-left: 0;
+  }
+} 
