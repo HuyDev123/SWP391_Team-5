@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập - Dịch Vụ Xét Nghiệm ADN</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        .login-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 30px;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+        
+        .login-logo {
+            margin-bottom: 20px;
+        }
+        
+        .login-logo img {
+            width: 60px;
+            height: 60px;
+        }
+        
+        .login-title {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 30px;
+        }
+        
+        .login-subtitle {
+            color: #666;
+            font-size: 16px;
+            margin-bottom: 25px;
+        }
+        
+        .role-select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            font-size: 16px;
+            color: #333;
+            background-color: #f9f9f9;
+            cursor: pointer;
+            outline: none;
+        }
+        
+        .role-select:focus {
+            border-color: #2196F3;
+            box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.2);
+        }
+        
+        .google-login-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #4285F4; /* Thay đổi nền thành màu xanh Google */
+            color: #ffffff; /* Thay đổi màu chữ thành trắng */
+            border: 1px solid #3367d6;
+            padding: 12px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            width: 100%;
+            margin-bottom: 20px;
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+        
+        .google-login-btn:hover {
+            background-color: #3367d6; /* Màu xanh đậm hơn khi hover */
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+        
+               .google-login-btn img {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            filter: brightness(0) invert(1); /* Biến icon thành màu trắng */
+        }
+        
+        .back-link {
+            color: #2196F3;
+            text-decoration: none;
+            font-size: 14px;
+            display: block;
+            margin-top: 20px;
+        }
+        
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login-container">
+        <div class="login-logo">
+            <img src="assets/images/logo.svg" alt="ADN Logo">
+        </div>
+        
+        <h1 class="login-title">Đăng nhập</h1>
+        <p class="login-subtitle">Đăng nhập để đặt lịch và theo dõi kết quả xét nghiệm ADN</p>
+        
+        <!-- Thêm lựa chọn vai trò -->
+        <select id="role-select" class="role-select">
+            <option value="customer" selected>Khách Hàng</option>
+            <option value="internalUser">Nhân sự</option>
+        </select>
+        
+        <button class="google-login-btn" onclick="signInWithGoogle()">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google logo">
+            Đăng nhập với Google
+        </button>
+        
+        <a href="index.html" class="back-link">
+            <i class="fas fa-arrow-left" style="margin-right: 5px;"></i>
+            Quay lại trang chủ
+        </a>
+    </div>
+    
+    <script>
+function signInWithGoogle() {
+            // Lấy vai trò được chọn
+            const role = document.getElementById('role-select').value;
+            
+            // Mô phỏng đăng nhập với Google
+            alert(`Đăng nhập với Google với vai trò: ${role === 'customer' ? 'Khách Hàng' : 'Nhân sự'}`);
+            
+            // Giả lập lưu thông tin người dùng đăng nhập
+            const mockUser = {
+                id: 'google_' + Math.random().toString(36).substr(2, 9),
+                fullname: 'Người dùng Google',
+                email: 'user' + Math.floor(Math.random() * 1000) + '@gmail.com',
+                avatar: 'https://lh3.googleusercontent.com/a/default-user',
+                role: role // Lưu vai trò người dùng
+            };
+            
+            localStorage.setItem('currentUser', JSON.stringify(mockUser));
+            
+        // Chuyển hướng về trang chính hoặc trang nhân sự tùy theo vai trò
+            setTimeout(function() {
+                if (role === 'customer') {
+                    window.location.href = 'index.html';
+                } else {
+                    window.location.href = 'staff-dashboard.html'; // Hoặc trang dành cho nhân sự
+                }
+            }, 500);
+        }
+    </script>
+</body>
+</html>
