@@ -1,208 +1,247 @@
 <!DOCTYPE html>
 <html lang="vi">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Đặt lịch xét nghiệm - Dịch Vụ Xét Nghiệm ADN</title>
     <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: Arial, sans-serif;
-      }
-
-      body {
-        display: flex;
-        min-height: 100vh;
-        background-color: #f5f5f5;
-      }
-
-      /* Sidebar styles */
-      .sidebar {
-        width: 260px;
-        background-color: white;
-        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-        position: fixed;
-        height: 100vh;
-        left: 0;
-        top: 0;
-        z-index: 100;
-        overflow-y: auto;
-      }
-
-      .logo-container {
-        display: flex;
-        align-items: center;
-        padding: 15px;
-        border-bottom: 1px solid #eee;
-      }
-
-      .logo {
-        width: 40px;
-        height: 40px;
-        margin-right: 10px;
-      }
-
-      .logo-text {
-        font-size: 22px;
-        color: #2196f3;
-        font-weight: bold;
-      }
-
-      .login-register {
-        padding: 15px;
-        background-color: #f9f9f9;
-        border-bottom: 1px solid #eee;
-        display: flex;
-        flex-direction: column;
-      }
-
-      .login-register-btn {
-        background-color: #2196f3;
-        color: white;
-        border: none;
-        padding: 10px;
-        border-radius: 5px;
-        cursor: pointer;
-        margin-bottom: 8px;
-        text-align: center;
-        text-decoration: none;
-        font-weight: bold;
-      }
-
-      .menu-title {
-        padding: 15px;
-        color: #888;
-        font-size: 14px;
-      }
-
-      .menu-item {
-        padding: 15px;
-        display: flex;
-        align-items: center;
-        color: #333;
-        text-decoration: none;
-        transition: background-color 0.3s;
-      }
-
-      .menu-item.active {
-        background-color: #2196f3;
-        color: white;
-      }
-
-      .menu-item:hover {
-        background-color: #e3f2fd;
-      }
-
-      .menu-item.active:hover {
-        background-color: #1976d2;
-      }
-
-      .menu-icon {
-        margin-right: 10px;
-        width: 20px;
-        text-align: center;
-      }
-
-      /* Main content styles */
-      .main-content {
-        margin-left: 260px;
-        padding: 20px;
-        width: calc(100% - 260px);
-      }
-
-      .navbar {
-        display: flex;
-        margin: 20px 0;
-        background-color: white;
-        border-radius: 5px;
-        overflow: hidden;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-      }
-
-      .nav-item {
-        padding: 15px 20px;
-        text-decoration: none;
-        color: #333;
-        display: flex;
-        align-items: center;
-        border-bottom: 2px solid transparent;
-      }
-
-      .nav-item.active {
-        border-bottom: 2px solid #2196f3;
-        color: #2196f3;
-      }
-
-      .nav-icon {
-        margin-right: 10px;
-      }
-
-      /* Form styles */
-      .form-section {
-        background-color: white;
-        border-radius: 5px;
-        padding: 30px;
-        margin-bottom: 20px;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-      }
-
-      .page-title {
-        font-size: 24px;
-        margin-bottom: 25px;
-        color: #333;
-        text-align: center;
-      }
-
-      form {
-        max-width: 600px;
-        margin: 0 auto;
-      }
-
-      .form-group {
-        margin-bottom: 20px;
-      }
-
-      form label {
-        display: block;
-        margin-bottom: 8px;
-        font-weight: bold;
-        color: #555;
-      }
-
-      form input,
-      form select {
-        width: 100%;
-        padding: 12px;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        font-size: 16px;
-      }
-
-      form select {
-        cursor: pointer;
-      }
-
-      form button {
-        padding: 14px;
-        background-color: #2196f3;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        margin-top: 10px;
-        width: 100%;
-        font-size: 16px;
-        font-weight: bold;
-        transition: background-color 0.3s;
-      }
-
-      form button:hover {
-        background-color: #1976d2;
-      }
-
-      /* Modal styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        
+        body {
+            display: flex;
+            min-height: 100vh;
+            background-color: #f5f5f5;
+        }
+        
+        /* Sidebar styles */
+        .sidebar {
+            width: 260px;
+            background-color: white;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            position: fixed;
+            height: 100vh;
+            left: 0;
+            top: 0;
+            z-index: 100;
+            overflow-y: auto;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .logo {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+        }
+        
+        .logo-text {
+            font-size: 22px;
+            color: #2196F3;
+            font-weight: bold;
+        }
+        
+        .login-register {
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .login-register-btn {
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 8px;
+            text-align: center;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        .menu-title {
+            padding: 15px;
+            color: #888;
+            font-size: 14px;
+        }
+        
+        .menu-item {
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            color: #333;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+        
+        .menu-item.active {
+            background-color: #2196F3;
+            color: white;
+        }
+        
+        .menu-item:hover {
+            background-color: #e3f2fd;
+        }
+        
+        .menu-item.active:hover {
+            background-color: #1976D2;
+        }
+        
+        .menu-icon {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        /* Main content styles */
+        .main-content {
+            margin-left: 260px;
+            padding: 20px;
+            width: calc(100% - 260px);
+        }
+        
+        .navbar {
+            display: flex;
+            margin: 20px 0;
+            background-color: white;
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .nav-item {
+            padding: 15px 20px;
+            text-decoration: none;
+            color: #333;
+            display: flex;
+            align-items: center;
+            border-bottom: 2px solid transparent;
+        }
+        
+        .nav-item.active {
+            border-bottom: 2px solid #2196F3;
+            color: #2196F3;
+        }
+        
+        .nav-icon {
+            margin-right: 10px;
+        }
+        
+        /* Form styles */
+        .form-section {
+            background-color: white;
+            border-radius: 5px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .page-title {
+            font-size: 24px;
+            margin-bottom: 25px;
+            color: #333;
+            text-align: center;
+        }
+        
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        form label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+        
+        form input, form select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        
+        form select {
+            cursor: pointer;
+        }
+        
+        form button {
+            padding: 14px;
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            width: 100%;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        
+        form button:hover {
+            background-color: #1976D2;
+        }
+        
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+        }
+        
+        .success-icon {
+            font-size: 60px;
+            color: #4CAF50;
+            margin-bottom: 20px;
+        }
+        
+        .modal-title {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .modal-message {
+            margin-bottom: 25px;
+            color: #666;
+            line-height: 1.6;
+        }
       .modal {
         display: none;
         position: fixed;
@@ -210,370 +249,307 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        z-index: 1000;
-        justify-content: center;
-        align-items: center;
-      }
-
-      .modal-content {
-        background-color: white;
-        border-radius: 8px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-        padding: 30px;
-        max-width: 500px;
-        width: 90%;
-        text-align: center;
-      }
-
-      .success-icon {
-        font-size: 60px;
-        color: #4caf50;
-        margin-bottom: 20px;
-      }
-
-      .modal-title {
-        font-size: 24px;
-        margin-bottom: 15px;
-        color: #333;
-      }
-
-      .modal-message {
-        margin-bottom: 25px;
-        color: #666;
-        line-height: 1.6;
-      }
-      .modal {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.7);
+        background-color: rgba(0,0,0,0.7);
         z-index: 99999; /* Tăng z-index lên cao hơn */
         align-items: center;
         justify-content: center;
-      }
-
-      .modal-content {
+    }
+    
+    .modal-content {
         background-color: white;
         border-radius: 8px;
-        box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5);
+        box-shadow: 0 5px 25px rgba(0,0,0,0.5);
         padding: 30px;
         max-width: 500px;
         width: 90%;
         position: relative;
         transform: translateY(0);
         animation: modalFadeIn 0.5s;
-      }
-
-      @keyframes modalFadeIn {
+    }
+    
+    @keyframes modalFadeIn {
+        from { opacity: 0; transform: translateY(-30px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes fadeInDown {
         from {
-          opacity: 0;
-          transform: translateY(-30px);
+            opacity: 0;
+            transform: translateY(-50px);
         }
         to {
-          opacity: 1;
-          transform: translateY(0);
+            opacity: 1;
+            transform: translateY(0);
         }
-      }
-
-      @keyframes fadeInDown {
-        from {
-          opacity: 0;
-          transform: translateY(-50px);
+    }
+        .close-btn {
+            padding: 12px 30px;
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
         }
-        to {
-          opacity: 1;
-          transform: translateY(0);
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+            
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+            }
         }
-      }
-      .close-btn {
-        padding: 12px 30px;
-        background-color: #2196f3;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 16px;
-        font-weight: bold;
-      }
+        /* Radio button styles - thêm vào cuối phần style */
+.radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 10px;
+}
 
-      /* Responsive adjustments */
-      @media (max-width: 768px) {
-        body {
-          flex-direction: column;
-        }
+.radio-option {
+    display: flex;
+    align-items: center;
+}
 
-        .sidebar {
-          width: 100%;
-          height: auto;
-          position: relative;
-        }
+.radio-option input[type="radio"] {
+    width: auto;
+    margin-right: 10px;
+}
 
-        .main-content {
-          margin-left: 0;
-          width: 100%;
-        }
-      }
-      /* Radio button styles - thêm vào cuối phần style */
-      .radio-group {
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-        margin-top: 10px;
-      }
+.radio-option label {
+    margin-bottom: 0;
+    font-weight: normal;
+    cursor: pointer;
+}
 
-      .radio-option {
-        display: flex;
-        align-items: center;
-      }
+/* Improved radio button appearance */
+.radio-option input[type="radio"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ddd;
+    border-radius: 50%;
+    outline: none;
+    position: relative;
+    margin-right: 10px;
+}
 
-      .radio-option input[type="radio"] {
-        width: auto;
-        margin-right: 10px;
-      }
+.radio-option input[type="radio"]:checked {
+    border-color: #2196F3;
+}
 
-      .radio-option label {
-        margin-bottom: 0;
-        font-weight: normal;
-        cursor: pointer;
-      }
+.radio-option input[type="radio"]:checked::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #2196F3;
+}
 
-      /* Improved radio button appearance */
-      .radio-option input[type="radio"] {
-        appearance: none;
-        -webkit-appearance: none;
-        width: 20px;
-        height: 20px;
-        border: 2px solid #ddd;
-        border-radius: 50%;
-        outline: none;
-        position: relative;
-        margin-right: 10px;
-      }
+.radio-option:hover input[type="radio"] {
+    border-color: #2196F3;
+}
 
-      .radio-option input[type="radio"]:checked {
-        border-color: #2196f3;
-      }
-
-      .radio-option input[type="radio"]:checked::after {
-        content: "";
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-        background-color: #2196f3;
-      }
-
-      .radio-option:hover input[type="radio"] {
-        border-color: #2196f3;
-      }
-
-      @media (min-width: 768px) {
-        .radio-group {
-          flex-direction: row;
-          gap: 30px;
-        }
-      }
+@media (min-width: 768px) {
+    .radio-group {
+        flex-direction: row;
+        gap: 30px;
+    }
+}
     </style>
     <!-- Thêm vào phần <head> của mỗi trang -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
-    />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
 
-    <style>
-      /* Hiệu ứng chuyển động mượt mà */
-      .hero-banner,
-      .content-section,
-      .service-card,
-      .step-item,
-      .contact-btn {
+<style>
+    /* Hiệu ứng chuyển động mượt mà */
+    .hero-banner, .content-section, .service-card, .step-item, .contact-btn {
         transition: all 0.5s ease;
-      }
-
-      /* Cải thiện hero banner */
-      .hero-banner {
-        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Cải thiện hero banner */
+    .hero-banner {
+        box-shadow: 0 8px 30px rgba(0,0,0,0.1);
         overflow: hidden;
-      }
-
-      .hero-banner:hover {
+    }
+    
+    .hero-banner:hover {
         transform: translateY(-5px);
-      }
-
-      /* Hiệu ứng cho các section */
-      .content-section {
+    }
+    
+    /* Hiệu ứng cho các section */
+    .content-section {
         transition: transform 0.4s ease, box-shadow 0.4s ease;
-      }
-
-      .content-section:hover {
+    }
+    
+    .content-section:hover {
         transform: translateY(-5px);
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-      }
-
-      /* Hiệu ứng facility items */
-      .facility-item {
+        box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    }
+    
+    /* Hiệu ứng facility items */
+    .facility-item {
         transition: all 0.4s ease;
-      }
-
-      .facility-item:hover {
+    }
+    
+    .facility-item:hover {
         transform: translateY(-8px);
-      }
-
-      .facility-item .icon-wrapper {
+    }
+    
+    .facility-item .icon-wrapper {
         transition: all 0.5s ease;
-      }
-
-      .facility-item:hover .icon-wrapper {
+    }
+    
+    .facility-item:hover .icon-wrapper {
         transform: rotateY(180deg);
-      }
-
-      /* Card hover effects */
-      .service-card:hover {
+    }
+    
+    /* Card hover effects */
+    .service-card:hover {
         transform: translateY(-8px) scale(1.02);
         box-shadow: 0 15px 30px rgba(33, 150, 243, 0.1);
-      }
-
-      .service-card .card-icon {
+    }
+    
+    .service-card .card-icon {
         transition: all 0.5s ease;
-      }
-
-      .service-card:hover .card-icon {
+    }
+    
+    .service-card:hover .card-icon {
         transform: rotateY(360deg);
-        background-color: #2196f3;
+        background-color: #2196F3;
         color: white;
-      }
-
-      /* Step item animations */
-      .step-item {
+    }
+    
+    /* Step item animations */
+    .step-item {
         position: relative;
         overflow: hidden;
-      }
-
-      .step-item:hover {
+    }
+    
+    .step-item:hover {
         background-color: #f9f9f9;
         padding-left: 15px;
         border-radius: 8px;
-      }
-
-      .step-item .step-number,
-      .step-item .step-icon {
+    }
+    
+    .step-item .step-number, .step-item .step-icon {
         transition: all 0.4s ease;
-      }
-
-      .step-item:hover .step-number {
+    }
+    
+    .step-item:hover .step-number {
         transform: scale(1.2);
-      }
-
-      .step-item:hover .step-icon {
+    }
+    
+    .step-item:hover .step-icon {
         transform: rotate(360deg);
-      }
-
-      /* Contact button effects */
-      .contact-btn {
+    }
+    
+    /* Contact button effects */
+    .contact-btn {
         transform-origin: center;
         transition: all 0.3s ease;
-      }
-
-      .contact-btn:hover {
+    }
+    
+    .contact-btn:hover {
         transform: translateY(-5px);
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-      }
-
-      .contact-btn i {
+        box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+    }
+    
+    .contact-btn i {
         transition: all 0.4s ease;
-      }
-
-      .contact-btn:hover i {
+    }
+    
+    .contact-btn:hover i {
         transform: scale(1.2);
-      }
-
-      /* Scrollbar styling */
-      ::-webkit-scrollbar {
+    }
+    
+    /* Scrollbar styling */
+    ::-webkit-scrollbar {
         width: 8px;
-      }
-
-      ::-webkit-scrollbar-track {
+    }
+    
+    ::-webkit-scrollbar-track {
         background: #f1f1f1;
-      }
-
-      ::-webkit-scrollbar-thumb {
-        background: #2196f3;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+        background: #2196F3;
         border-radius: 10px;
-      }
-
-      ::-webkit-scrollbar-thumb:hover {
-        background: #1976d2;
-      }
-
-      /* Sidebar menu hover effect */
-      .menu-item {
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+        background: #1976D2;
+    }
+    
+    /* Sidebar menu hover effect */
+    .menu-item {
         transition: all 0.3s ease;
-      }
-
-      .menu-item:hover .menu-icon {
+    }
+    
+    .menu-item:hover .menu-icon {
         transform: scale(1.2);
         transition: transform 0.3s ease;
-      }
-
-      /* Gradient buttons */
-      .login-register-btn {
-        background-image: linear-gradient(45deg, #2196f3, #1976d2);
+    }
+    
+    /* Gradient buttons */
+    .login-register-btn {
+        background-image: linear-gradient(45deg, #2196F3, #1976D2);
         transition: all 0.3s ease;
-      }
-
-      .login-register-btn:hover {
-        background-image: linear-gradient(45deg, #1976d2, #0d47a1);
+    }
+    
+    .login-register-btn:hover {
+        background-image: linear-gradient(45deg, #1976D2, #0D47A1);
         transform: translateY(-2px);
         box-shadow: 0 5px 15px rgba(33, 150, 243, 0.3);
-      }
-
-      /* Animation for facility section */
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-          transform: translateY(20px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-      .menu-icon i {
+    }
+    
+    /* Animation for facility section */
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+     .menu-icon i {
         font-size: 18px;
         width: 20px;
         text-align: center;
-      }
-
-      .menu-item.active .menu-icon i {
+    }
+    
+    .menu-item.active .menu-icon i {
         color: white;
-      }
-
-      .menu-item:hover .menu-icon i {
+    }
+    
+    .menu-item:hover .menu-icon i {
         transform: scale(1.2);
         transition: transform 0.3s ease;
-      }
-      .quantity-input-container {
+    }
+   .quantity-input-container {
         display: flex;
         align-items: center;
         justify-content: space-between;
         width: 100%;
-      }
-
-      .quantity-btn {
+    }
+    
+    .quantity-btn {
         width: 40px;
         height: 40px;
-        background-color: #2196f3;
+        background-color: #2196F3;
         color: white;
         border: none;
         font-size: 24px;
@@ -583,346 +559,197 @@
         align-items: center;
         justify-content: center;
         transition: background-color 0.3s;
-      }
-
-      .quantity-btn:hover {
-        background-color: #1976d2;
-      }
-
-      .quantity-btn:active {
-        background-color: #0d47a1;
-      }
-
-      .minus-btn {
+    }
+    
+    .quantity-btn:hover {
+        background-color: #1976D2;
+    }
+    
+    .quantity-btn:active {
+        background-color: #0D47A1;
+    }
+    
+     .minus-btn {
         border-radius: 5px 0 0 5px;
-      }
-
-      .plus-btn {
+    }
+    
+    .plus-btn {
         border-radius: 0 5px 5px 0;
-      }
-
-      .quantity-input-container input {
+    }
+    
+    .quantity-input-container input {
         text-align: center;
         border-radius: 5px;
         width: 60%;
         flex-grow: 0;
         font-size: 18px;
-      }
-      .logo-container {
-        display: flex;
-        align-items: center;
-        flex-direction: row; /* Thay đổi từ column thành row */
-        padding: 15px;
-        border-bottom: 1px solid #eee;
-      }
+    }
+.logo-container {
+    display: flex;
+    align-items: center;
+    flex-direction: row; /* Thay đổi từ column thành row */
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+}
 
-      .logo {
-        width: 45px;
-        height: 45px;
-        margin-right: 12px; /* Thêm khoảng cách giữa logo và text */
-        margin-bottom: 0;
-      }
+.logo {
+    width: 45px;
+    height: 45px;
+    margin-right: 12px; /* Thêm khoảng cách giữa logo và text */
+    margin-bottom: 0;
+}
 
-      .text-container {
-        display: flex;
-        flex-direction: column;
-      }
+.text-container {
+    display: flex;
+    flex-direction: column;
+}
 
-      .logo-text {
-        font-size: 28px;
-        color: #2196f3;
-        font-weight: bold;
-        letter-spacing: 1px;
-        margin-bottom: 3px;
-        line-height: 1;
-      }
+.logo-text {
+    font-size: 28px;
+    color: #2196F3;
+    font-weight: bold;
+    letter-spacing: 1px;
+    margin-bottom: 3px;
+    line-height: 1;
+}
 
-      .logo-subtext {
-        font-size: 15px;
-        color: #444;
-        font-weight: 500;
-        letter-spacing: 0.5px;
-        line-height: 1.2;
-        text-transform: capitalize;
-        /* background: linear-gradient(to right, #2196F3, #1976D2); */
-        /* -webkit-background-clip: text; */
-        /* -webkit-text-fill-color: transparent; */
-        max-width: 180px;
-      }
-    </style>
-  </head>
+.logo-subtext {
+    font-size: 15px;
+    color: #444;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    line-height: 1.2;
+    text-transform: capitalize;
+    /* background: linear-gradient(to right, #2196F3, #1976D2); */
+    /* -webkit-background-clip: text; */
+    /* -webkit-text-fill-color: transparent; */
+    max-width: 180px;
+}
+</style>
+</head>
 
-  <body>
+<body>
     <!-- Sidebar -->
     <div class="sidebar">
-      <div class="logo-container">
-        <img src="assets/images/logo.svg" alt="Logo" class="logo" />
-        <div class="text-container">
-          <div class="logo-text">Genx</div>
-          <div class="logo-subtext">Trung tâm xét nghiệm ADN huyết thống</div>
+<div class="logo-container">
+    <img src="assets/images/logo.svg" alt="Logo" class="logo">
+    <div class="text-container">
+        <div class="logo-text">Genx</div>
+        <div class="logo-subtext">Trung tâm xét nghiệm ADN huyết thống</div>
+    </div>
+</div>
+        
+<div class="login-register">
+    <a href="login.html" class="login-register-btn" style="background-color: #4285F4; color: #ffffff; border: 1px solid #3367d6; display: flex; align-items: center; justify-content: center; gap: 8px;">
+       
+        Đăng nhập
+    </a>
+</div>
+        
+        <div class="menu-title">MAIN MENU</div>
+        <div id="mainMenu">
+            <!-- Menu sẽ được thêm bằng JavaScript -->
         </div>
-      </div>
-
-      <div class="login-register">
-        <div
-          style="background-color: #f0f8ff; padding: 15px; border-radius: 5px"
-        >
-          <div style="display: flex; align-items: center; margin-bottom: 10px">
-            <div
-              style="
-                width: 40px;
-                height: 40px;
-                background-color: #2196f3;
-                border-radius: 50%;
-                color: white;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                margin-right: 10px;
-                font-weight: bold;
-                font-size: 20px;
-              "
-            >
-              <span id="avatar-letter">G</span>
-            </div>
-            <div>
-              <div id="avatar-fullname" style="font-weight: bold"></div>
-              <div id="avatar-role" style="font-size: 12px; color: #888"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <script>
-        // Biến lưu thông tin người dùng (giả lập, sau này lấy từ API/database)
-        let userInfo = {
-          fullname: "Van A",
-          role: "Khách hàng",
-        };
-
-        // Khi có dữ liệu thật, chỉ cần cập nhật userInfo từ API
-        document.addEventListener("DOMContentLoaded", function () {
-          // Nếu có currentUser trong localStorage thì lấy ra
-          const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-          if (currentUser) {
-            userInfo.fullname = currentUser.fullname;
-            userInfo.role = currentUser.role || "Khách hàng";
-          }
-          // Gán lên giao diện
-          document.getElementById("avatar-letter").textContent =
-            userInfo.fullname.charAt(0).toUpperCase();
-          document.getElementById("avatar-fullname").textContent =
-            userInfo.fullname;
-          document.getElementById("avatar-role").textContent = userInfo.role;
-        });
-      </script>
-
-      <div class="menu-title">MAIN MENU</div>
-      <div id="mainMenu">
-        <!-- Menu sẽ được thêm bằng JavaScript -->
-      </div>
     </div>
 
     <!-- Main Content -->
     <div class="main-content">
-      <!-- Navigation Bar -->
-      <div id="topNavbar" class="navbar">
-        <!-- Navbar sẽ được thêm bằng JavaScript -->
-      </div>
-
-      <!-- Booking Form -->
-      <div class="form-section">
-        <h1 class="page-title">Đặt lịch xét nghiệm ADN</h1>
-
-        <form id="booking-form" action="/appointments">
-          <div class="form-group">
-            <label for="fullname">Họ và tên *</label>
-            <input
-              type="text"
-              id="fullname"
-              name="fullname"
-              required
-              placeholder="Nhập họ tên của bạn"
-            />
-          </div>
-          <div class="form-group">
-            <label for="email">Email *</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              required
-              placeholder="Nhập email của bạn"
-            />
-          </div>
-          <div class="form-group">
-            <label for="phone">Số điện thoại *</label>
-            <input
-              type="tel"
-              id="phone"
-              name="phone"
-              required
-              placeholder="Nhập số điện thoại liên hệ"
-            />
-          </div>
-
-          <div class="form-group">
-            <label for="service-type">Chọn dịch vụ *</label>
-            <select id="service-type" name="service-type" required>
-              <option value="" disabled selected>
-                -- Chọn dịch vụ xét nghiệm --
-              </option>
-              <option value="father-child">
-                Xét nghiệm quan hệ Cha - Con.
-              </option>
-              <option value="mother-child">Xét nghiệm quan hệ Mẹ - Con.</option>
-              <option value="siblings">Xét nghiệm quan hệ Anh,Chị - Em.</option>
-              <option value="grandparent-child">
-                Xét nghiệm quan hệ Ông,Bà - Cháu.
-              </option>
-            </select>
-          </div>
-
-          <!-- Thêm lựa chọn Hành chính/Dân sự -->
-          <div class="form-group">
-            <label>Dịch vụ xét nghiệm ADN *</label>
-            <div class="radio-group">
-              <div class="radio-option">
-                <input
-                  type="radio"
-                  id="purpose-administrative"
-                  name="purpose"
-                  value="administrative"
-                  required
-                />
-                <label for="purpose-administrative"
-                  >Hành chính (có giá trị pháp lý)</label
-                >
-              </div>
-              <div class="radio-option">
-                <input
-                  type="radio"
-                  id="purpose-civil"
-                  name="purpose"
-                  value="civil"
-                  required
-                />
-                <label for="purpose-civil"
-                  >Dân sự (không có giá trị pháp lý)</label
-                >
-              </div>
+        <!-- Navigation Bar -->
+        <div id="topNavbar" class="navbar">
+            <!-- Navbar sẽ được thêm bằng JavaScript -->
+        </div>
+        
+        <!-- Booking Form -->
+        <div class="form-section">
+            <h1 class="page-title">Đặt lịch xét nghiệm ADN</h1>
+            
+            <form id="booking-form" action="/appointments" >
+    <div class="form-group">
+        <label for="fullname">Họ và tên *</label>
+        <input type="text" id="fullname" name="fullname" required placeholder="Nhập họ tên của bạn">
+    </div>
+    <div class="form-group">
+    <label for="email">Email *</label>
+    <input type="email" id="email" name="email" required placeholder="Nhập email của bạn">
+</div>
+    <div class="form-group">
+        <label for="phone">Số điện thoại *</label>
+        <input type="tel" id="phone" name="phone" required placeholder="Nhập số điện thoại liên hệ">
+    </div>
+    
+    <div class="form-group">
+    <label for="service-type">Chọn dịch vụ *</label>
+    <select id="service-type" name="service-type" required>
+        <option value="" disabled selected>-- Chọn dịch vụ xét nghiệm --</option>
+        <option value="father-child">Xét nghiệm quan hệ Cha - Con.</option>
+        <option value="mother-child">Xét nghiệm quan hệ Mẹ - Con.</option>
+        <option value="siblings">Xét nghiệm quan hệ Anh,Chị - Em.</option>
+        <option value="grandparent-child">Xét nghiệm quan hệ Ông,Bà - Cháu.</option>
+    </select>
+</div>
+    
+    <!-- Thêm lựa chọn Hành chính/Dân sự -->
+    <div class="form-group">
+        <label>Dịch vụ xét nghiệm ADN *</label>
+        <div class="radio-group">
+            <div class="radio-option">
+                <input type="radio" id="purpose-administrative" name="purpose" value="administrative" required>
+                <label for="purpose-administrative">Hành chính (có giá trị pháp lý)</label>
             </div>
-          </div>
-
-          <!-- Thêm lựa chọn phương thức lấy mẫu -->
-          <div class="form-group">
-            <label>Phương thức lấy mẫu *</label>
-            <div class="radio-group">
-              <div class="radio-option">
-                <input
-                  type="radio"
-                  id="location-home"
-                  name="sample-location"
-                  value="home"
-                  required
-                />
+            <div class="radio-option">
+                <input type="radio" id="purpose-civil" name="purpose" value="civil" required>
+                <label for="purpose-civil">Dân sự (không có giá trị pháp lý)</label>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Thêm lựa chọn phương thức lấy mẫu -->
+    <div class="form-group">
+        <label>Phương thức lấy mẫu *</label>
+        <div class="radio-group">
+            <div class="radio-option">
+                <input type="radio" id="location-home" name="sample-location" value="home" required>
                 <label for="location-home">Lấy mẫu tại nhà</label>
-              </div>
-              <div class="radio-option">
-                <input
-                  type="radio"
-                  id="location-center"
-                  name="sample-location"
-                  value="center"
-                  required
-                />
+            </div>
+            <div class="radio-option">
+                <input type="radio" id="location-center" name="sample-location" value="center" required>
                 <label for="location-center">Lấy mẫu tại trung tâm</label>
-              </div>
             </div>
-          </div>
-          <!-- Thông tin lấy mẫu tại nhà - mặc định ẩn -->
-          <div id="home-details" style="display: none">
-            <div class="form-group">
-              <label for="home-address"
-                >Địa chỉ nhận bộ kit <span style="color: red">*</span></label
-              >
-              <input
-                type="text"
-                id="home-address"
-                name="home-address"
-                placeholder="Nhập địa chỉ đầy đủ để nhận bộ kit"
-              />
-            </div>
+        </div>
+    </div>
+    <!-- Thông tin lấy mẫu tại nhà - mặc định ẩn -->
+    <div id="home-details" style="display: none;">
+        <div class="form-group">
+            <label for="home-address">Địa chỉ nhận bộ kit <span style="color: red;">*</span></label>
+            <input type="text" id="home-address" name="home-address" placeholder="Nhập địa chỉ đầy đủ để nhận bộ kit">
+        </div>
+        
+        <div class="form-group">
+     <label for="test-quantity">Số người xét nghiệm <span style="color: red;">*</span></label>
+   <div style="display: flex; align-items: center;">
+      <input type="number" id="test-quantity" name="test-quantity" min="2" value="2" required 
+             placeholder="2" readonly style="width: 60px; text-align: center; border-radius: 5px 0 0 5px; margin-right: 0; border-right: none;">
+      <button type="button" class="quantity-btn minus-btn" onclick="decreaseQuantity()" 
+              style="border-radius: 0; width: 40px; margin: 0; border-right: none; border-left: none;">-</button>
+      <button type="button" class="quantity-btn plus-btn" onclick="increaseQuantity()" 
+              style="border-radius: 0 5px 5px 0; width: 40px; margin: 0; border-left: none;">+</button>
+   </div>
 
-            <div class="form-group">
-              <label for="test-quantity"
-                >Số người xét nghiệm <span style="color: red">*</span></label
-              >
-              <div style="display: flex; align-items: center">
-                <input
-                  type="number"
-                  id="test-quantity"
-                  name="test-quantity"
-                  min="2"
-                  value="2"
-                  required
-                  placeholder="2"
-                  readonly
-                  style="
-                    width: 60px;
-                    text-align: center;
-                    border-radius: 5px 0 0 5px;
-                    margin-right: 0;
-                    border-right: none;
-                  "
-                />
-                <button
-                  type="button"
-                  class="quantity-btn minus-btn"
-                  onclick="decreaseQuantity()"
-                  style="
-                    border-radius: 0;
-                    width: 40px;
-                    margin: 0;
-                    border-right: none;
-                    border-left: none;
-                  "
-                >
-                  -
-                </button>
-                <button
-                  type="button"
-                  class="quantity-btn plus-btn"
-                  onclick="increaseQuantity()"
-                  style="
-                    border-radius: 0 5px 5px 0;
-                    width: 40px;
-                    margin: 0;
-                    border-left: none;
-                  "
-                >
-                  +
-                </button>
-              </div>
-            </div>
-          </div>
-          <!-- Thông tin trung tâm - mặc định ẩn -->
-          <div id="center-details" style="display: none">
-            <div class="form-group">
-              <label for="appointment-date"
-                >Ngày hẹn lấy mẫu <span style="color: red">*</span></label
-              >
-              <input
-                type="date"
-                id="appointment-date"
-                name="appointment-date"
-              />
-            </div>
 
-            <div class="form-group">
-              <label for="appointment-time"
-                >Giờ hẹn lấy mẫu <span style="color: red">*</span></label
-              >
-              <select id="appointment-time" name="appointment-time">
+        </div>
+        
+    </div>
+    <!-- Thông tin trung tâm - mặc định ẩn -->
+    <div id="center-details" style="display: none;">
+        
+        <div class="form-group">
+            <label for="appointment-date">Ngày hẹn lấy mẫu <span style="color: red;">*</span></label>
+            <input type="date" id="appointment-date" name="appointment-date">
+        </div>
+        
+        <div class="form-group">
+            <label for="appointment-time">Giờ hẹn lấy mẫu <span style="color: red;">*</span></label>
+            <select id="appointment-time" name="appointment-time">
                 <option value="" disabled selected>-- Chọn giờ hẹn --</option>
                 <option value="08:00">08:00</option>
                 <option value="09:00">09:00</option>
@@ -932,113 +759,36 @@
                 <option value="14:30">14:30</option>
                 <option value="15:30">15:30</option>
                 <option value="16:30">16:30</option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label for="test-quantity"
-                >Số người xét nghiệm <span style="color: red">*</span></label
-              >
-              <div style="display: flex; align-items: center">
-                <input
-                  type="number"
-                  id="test-quantity"
-                  name="test-quantity"
-                  min="2"
-                  value="2"
-                  required
-                  placeholder="2"
-                  readonly
-                  style="
-                    width: 60px;
-                    text-align: center;
-                    border-radius: 5px 0 0 5px;
-                    margin-right: 0;
-                    border-right: none;
-                  "
-                />
-                <button
-                  type="button"
-                  class="quantity-btn minus-btn"
-                  onclick="decreaseQuantity()"
-                  style="
-                    border-radius: 0;
-                    width: 40px;
-                    margin: 0;
-                    border-right: none;
-                    border-left: none;
-                  "
-                >
-                  -
-                </button>
-                <button
-                  type="button"
-                  class="quantity-btn plus-btn"
-                  onclick="increaseQuantity()"
-                  style="
-                    border-radius: 0 5px 5px 0;
-                    width: 40px;
-                    margin: 0;
-                    border-left: none;
-                  "
-                >
-                  +
-                </button>
-              </div>
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="note">Ghi chú (không bắt buộc)</label>
-            <input
-              type="text"
-              id="note"
-              name="note"
-              placeholder="Ghi chú thêm (nếu có)"
-            />
-          </div>
-
-          <button type="submit">Đặt lịch</button>
-        </form>
-      </div>
-    </div>
-
-    <!-- Success Modal - Cải thiện thiết kế -->
-    <div id="success-modal" class="modal">
-      <div class="modal-content">
-        <div style="font-size: 48px; color: #4caf50; margin-bottom: 20px">
-          ✅
+            </select>
         </div>
-        <h2 style="margin-bottom: 15px; color: #333">Đặt lịch thành công!</h2>
-        <p style="margin-bottom: 20px; color: #555; line-height: 1.5">
-          Cảm ơn bạn đã đặt lịch xét nghiệm ADN với chúng tôi.
-          <br /><br />
-          <b
-            >Chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất để xác nhận
-            lịch hẹn.</b
-          >
-          <br /><br />
-          <span
-            id="email-confirmation"
-            style="color: #4caf50; font-weight: bold"
-          ></span>
-        </p>
-        <button
-          onclick="closeModal()"
-          style="
-            background: #2196f3;
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 5px;
-            font-weight: bold;
-            cursor: pointer;
-            font-size: 16px;
-          "
-        >
-          Đóng
-        </button>
-      </div>
     </div>
+    <div class="form-group">
+        <label for="note">Ghi chú (không bắt buộc)</label>
+        <input type="text" id="note" name="note" placeholder="Ghi chú thêm (nếu có)">
+    </div>
+    
+    <button type="submit">Đặt lịch</button>
+</form>
+        </div>
+    </div>
+    
+    
+   <!-- Success Modal - Cải thiện thiết kế -->
+<div id="success-modal" class="modal">
+    <div class="modal-content">
+        <div style="font-size: 48px; color: #4CAF50; margin-bottom: 20px;">✅</div>
+        <h2 style="margin-bottom: 15px; color: #333;">Đặt lịch thành công!</h2>
+        <p style="margin-bottom: 20px; color: #555; line-height: 1.5;">
+            Cảm ơn bạn đã đặt lịch xét nghiệm ADN với chúng tôi. 
+            <br><br>
+            <b>Chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất để xác nhận lịch hẹn.</b>
+            <br><br>
+            <span id="email-confirmation" style="color: #4CAF50; font-weight: bold;"></span>
+        </p>
+        <button onclick="closeModal()" style="background: #2196F3; color: white; border: none; padding: 12px 24px; border-radius: 5px; font-weight: bold; cursor: pointer; font-size: 16px;">Đóng</button>
+    </div>
+</div>
+
 
     <!-- THÊM nút test này ngay sau form để dễ kiểm tra
 <div style="margin-top: 15px; text-align: center;">
@@ -1047,32 +797,33 @@
     </button>
 </div> -->
 
+<script>
+// THÊM hàm này cho nút test
+function testModal() {
+    const modal = document.getElementById('success-modal');
+    if (modal) {
+        console.log('Test hiển thị modal');
+        document.getElementById('email-confirmation').textContent = "Đây là email test@example.com";
+        modal.style.display = 'flex';
+    } else {
+        alert('Không tìm thấy modal!');
+    }
+}
+</script>
     <script>
-      // THÊM hàm này cho nút test
-      function testModal() {
-        const modal = document.getElementById("success-modal");
-        if (modal) {
-          console.log("Test hiển thị modal");
-          document.getElementById("email-confirmation").textContent =
-            "Đây là email test@example.com";
-          modal.style.display = "flex";
-        } else {
-          alert("Không tìm thấy modal!");
-        }
-      }
-    </script>
-    <script>
-      // Kiểm tra xem người dùng đã đăng nhập hay chưa
-      function checkLoggedIn() {
-        const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-        const loginRegisterDiv = document.querySelector(".login-register");
-        const mainMenuDiv = document.getElementById("mainMenu");
-        const topNavbarDiv = document.getElementById("topNavbar");
-        // Lấy tên file hiện tại để xác định trang đang active
-        const currentPage = window.location.pathname.split("/").pop();
-        // Cập nhật menu dựa theo trạng thái đăng nhập
-        if (currentUser) {
-          loginRegisterDiv.innerHTML = `
+
+
+        // Kiểm tra xem người dùng đã đăng nhập hay chưa
+function checkLoggedIn() {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    const loginRegisterDiv = document.querySelector('.login-register');
+    const mainMenuDiv = document.getElementById('mainMenu');
+    const topNavbarDiv = document.getElementById('topNavbar');
+    // Lấy tên file hiện tại để xác định trang đang active
+    const currentPage = window.location.pathname.split("/").pop();
+            // Cập nhật menu dựa theo trạng thái đăng nhập
+            if (currentUser) {
+                loginRegisterDiv.innerHTML = `
             <div style="background-color: #f0f8ff; padding: 15px; border-radius: 5px;">
                 <div style="display: flex; align-items: center; margin-bottom: 10px;">
                     <div style="width: 40px; height: 40px; background-color: #2196F3; border-radius: 50%; 
@@ -1081,12 +832,8 @@
                         ${currentUser.fullname.charAt(0)}
                     </div>
                     <div>
-                        <div style="font-weight: bold;">${
-                          currentUser.fullname
-                        }</div>
-                        <div style="font-size: 12px; color: #888;">${
-                          currentUser.email
-                        }</div>
+                        <div style="font-weight: bold;">${currentUser.fullname}</div>
+                        <div style="font-size: 12px; color: #888;">${currentUser.email}</div>
                     </div>
                 </div>
                 <button id="logout-btn" style="width: 100%; padding: 10px; background-color: #f44336; 
@@ -1095,84 +842,15 @@
                 </button>
             </div>
         `;
-          document
-            .getElementById("logout-btn")
-            .addEventListener("click", function () {
-              localStorage.removeItem("currentUser");
-              window.location.reload();
-            });
-
-          // Menu cho người dùng đã đăng nhập - đầy đủ các mục
-          mainMenuDiv.innerHTML = `
-                    <a href="index.html" class="menu-item">
-                        <span class="menu-icon">📊</span>
-                        Trang chủ
-                    </a>
-                    
-                    <a href="#" class="menu-item">
-                        <span class="menu-icon">👤</span>
-                        Thông tin cá nhân
-                    </a>
-                    
-                    <a href="booking.html" class="menu-item active">
-                        <span class="menu-icon">📅</span>
-                        Đặt lịch xét nghiệm
-                    </a>
-                    
-                    <a href="#" class="menu-item">
-                        <span class="menu-icon">📋</span>
-                        Tiến trình xét nghiệm
-                    </a>
-                    
-                    <a href="#" class="menu-item">
-                        <span class="menu-icon">⏱️</span>
-                        Lịch sử xét nghiệm
-                    </a>
-                    
-                    <a href="#" class="menu-item">
-                        <span class="menu-icon">📊</span>
-                        Kết quả xét nghiệm
-                    </a>
-                    
-                    <a href="#" class="menu-item">
-                        <span class="menu-icon">⭐</span>
-                        Đánh giá dịch vụ
-                    </a>
-                `;
-          // Cập nhật navbar tương ứng với menu đã đăng nhập
-          topNavbarDiv.innerHTML = `
-                    <a href="index.html" class="nav-item">
-                        <span class="nav-icon">📊</span>
-                        Trang chủ
-                    </a>
-                    <a href="#" class="nav-item">
-                        <span class="nav-icon">👤</span>
-                        Thông tin
-                    </a>
-                    <a href="booking.html" class="nav-item active">
-                        <span class="nav-icon">📅</span>
-                        Đặt lịch
-                    </a>
-                    <a href="#" class="nav-item">
-                        <span class="nav-icon">📋</span>
-                        Tiến trình
-                    </a>
-                    <a href="#" class="nav-item">
-                        <span class="nav-icon">⏱️</span>
-                        Lịch sử
-                    </a>
-                    <a href="#" class="nav-item">
-                        <span class="nav-icon">📊</span>
-                        Kết quả
-                    </a>
-                    <a href="#" class="nav-item">
-                        <span class="nav-icon">⭐</span>
-                        Đánh giá
-                    </a>
-                `;
-
-          // Nếu đã đăng nhập, hiển thị thông tin người dùng
-          loginRegisterDiv.innerHTML = `
+        document.getElementById('logout-btn').addEventListener('click', function() {
+            localStorage.removeItem('currentUser');
+            window.location.reload();
+        });
+        
+                
+                
+                // Nếu đã đăng nhập, hiển thị thông tin người dùng
+                loginRegisterDiv.innerHTML = `
                     <div style="background-color: #f0f8ff; padding: 15px; border-radius: 5px;">
                         <div style="display: flex; align-items: center; margin-bottom: 10px;">
                             <div style="width: 40px; height: 40px; background-color: #2196F3; border-radius: 50%; 
@@ -1181,9 +859,7 @@
                                 ${currentUser.fullname.charAt(0)}
                             </div>
                             <div>
-                                <div style="font-weight: bold;">${
-                                  currentUser.fullname
-                                }</div>
+                                <div style="font-weight: bold;">${currentUser.fullname}</div>
                                 <div style="font-size: 12px; color: #888;">Khách hàng</div>
                             </div>
                         </div>
@@ -1193,273 +869,241 @@
                         </button>
                     </div>
                 `;
-
-          // Thêm sự kiện đăng xuất
-          document
-            .getElementById("logout-btn")
-            .addEventListener("click", function () {
-              localStorage.removeItem("currentUser");
-              window.location.reload();
-            });
-        } else {
-          // Menu cho người dùng chưa đăng nhập - chỉ hiện các mục cơ bản
-          mainMenuDiv.innerHTML = `
-            <a href="index.html" class="menu-item${
-              currentPage === "index.html" ? " active" : ""
-            }">
+                
+                // Thêm sự kiện đăng xuất
+                document.getElementById('logout-btn').addEventListener('click', function() {
+                    localStorage.removeItem('currentUser');
+                    window.location.reload();
+                });
+            } else {
+                // Menu cho người dùng chưa đăng nhập - chỉ hiện các mục cơ bản
+                 mainMenuDiv.innerHTML = `
+            <a href="index.html" class="menu-item${currentPage === 'index.html' ? ' active' : ''}">
                 <span class="menu-icon"><i class="fas fa-home"></i></span>
                 Trang chủ
             </a>
             
-            <a href="booking.html" class="menu-item${
-              currentPage === "booking.html" ? " active" : ""
-            }">
-                <span class="menu-icon"><i class="fas fa-notes-medical"></i></span>
+            <a href="booking.html" class="menu-item${currentPage === 'booking.html' ? ' active' : ''}">
+                <span class="menu-icon"><i class="fas fa-calendar-alt"></i></span>
                 Đặt lịch xét nghiệm
             </a>
-
-            <a href="appoinments.html" class="menu-item${
-              currentPage === "appoinments.html" ? " active" : ""
-            }">
-                <span class="menu-icon"><i class="fas fa-clipboard-list"></i></span>
-                Danh sách lịch hẹn
-            </a>
             
-            <a href="services.html" class="menu-item${
-              currentPage === "services.html" ? " active" : ""
-            }">
+            <a href="services.html" class="menu-item${currentPage === 'services.html' ? ' active' : ''}">
                 <span class="menu-icon"><i class="fas fa-flask"></i></span>
                 Giới thiệu dịch vụ
             </a>
             
-            <a href="knowledge.html" class="menu-item${
-              currentPage === "knowledge.html" ? " active" : ""
-            }">
+            <a href="knowledge.html" class="menu-item${currentPage === 'knowledge.html' ? ' active' : ''}">
                 <span class="menu-icon"><i class="fas fa-dna"></i></span>
                 Chia sẻ kiến thức ADN
             </a>
             
-            <a href="sample-collection.html" class="menu-item${
-              currentPage === "sample-collection.html" ? " active" : ""
-            }">
+            <a href="sample-collection.html" class="menu-item${currentPage === 'sample-collection.html' ? ' active' : ''}">
                 <span class="menu-icon"><i class="fas fa-vial"></i></span>
                 Hướng dẫn lấy mẫu
             </a>
         `;
+
+            }
         }
-      }
+        
+        
+        // Xử lý form đặt lịch
+// THÊM đoạn code này thay thế cho tất cả các event listeners liên quan đến form submit
 
-      // Xử lý form đặt lịch
-      // THÊM đoạn code này thay thế cho tất cả các event listeners liên quan đến form submit
+// Một event handler DOMContentLoaded duy nhất
+document.addEventListener('DOMContentLoaded', function() {
+    console.clear(); // Xóa console để dễ theo dõi
+    console.log("Trang đã tải xong, đang thiết lập...");
+    
+    // Chạy một lần checkLoggedIn
+    checkLoggedIn();
+    
+    // Thiết lập các radio buttons
+    setupRadioHandlers();
+    
+    // Xử lý tham số URL
+    handleURLParams();
+    
+    // Thiết lập form submit
+    setupFormSubmit();
+});
 
-      // Một event handler DOMContentLoaded duy nhất
-      document.addEventListener("DOMContentLoaded", function () {
-        console.clear(); // Xóa console để dễ theo dõi
-        console.log("Trang đã tải xong, đang thiết lập...");
-
-        // Chạy một lần checkLoggedIn
-        checkLoggedIn();
-
-        // Thiết lập các radio buttons
-        setupRadioHandlers();
-
-        // Xử lý tham số URL
-        handleURLParams();
-
-        // Thiết lập form submit
-        setupFormSubmit();
-      });
-
-      function setupFormSubmit() {
-        const form = document.getElementById("booking-form");
-        if (!form) {
-          console.error("Không tìm thấy form booking!");
-          return;
-        }
-
-        // Loại bỏ event listeners cũ
-        const newForm = form.cloneNode(true);
-        form.parentNode.replaceChild(newForm, form);
-
-        // Thêm event listener mới
-        newForm.addEventListener("submit", async function (e) {
-          e.preventDefault();
-          console.log("Form đã được submit");
-
-          try {
+function setupFormSubmit() {
+    const form = document.getElementById('booking-form');
+    if (!form) {
+        console.error("Không tìm thấy form booking!");
+        return;
+    }
+    
+    // Loại bỏ event listeners cũ
+    const newForm = form.cloneNode(true);
+    form.parentNode.replaceChild(newForm, form);
+   
+    // Thêm event listener mới
+    newForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        console.log("Form đã được submit");
+        
+        try {
             // Lấy dữ liệu từ form
-            const fullname = document.getElementById("fullname").value;
-            const email = document.getElementById("email").value;
-            const phone = document.getElementById("phone").value;
-            const serviceType = document.getElementById("service-type").value;
-            const note = document.getElementById("note").value || "";
-
+            const fullname = document.getElementById('fullname').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const serviceType = document.getElementById('service-type').value;
+            const note = document.getElementById('note').value || "";
+            
             // Lấy giá trị mục đích xét nghiệm
-            const purposeAdministrative = document.getElementById(
-              "purpose-administrative"
-            );
-            const type = purposeAdministrative.checked
-              ? "administrative"
-              : "civil";
-
+            const purposeAdministrative = document.getElementById('purpose-administrative');
+            const type = purposeAdministrative.checked ? 'administrative' : 'civil';
+            
             // Lấy giá trị phương thức lấy mẫu
-            const locationHome = document.getElementById("location-home");
-            const sampleMethod = locationHome.checked ? "home" : "center";
-
+            const locationHome = document.getElementById('location-home');
+            const sampleMethod = locationHome.checked ? 'home' : 'center';
+            
             // Dữ liệu bổ sung dựa trên phương thức lấy mẫu
             let address = "";
             let appointmentDate = "";
             let appointmentTime = "";
-
-            if (sampleMethod === "home") {
-              address = document.getElementById("home-address").value;
+            
+            if (sampleMethod === 'home') {
+                address = document.getElementById('home-address').value;
             } else {
-              appointmentDate =
-                document.getElementById("appointment-date").value;
-              appointmentTime =
-                document.getElementById("appointment-time").value;
+                appointmentDate = document.getElementById('appointment-date').value;
+                appointmentTime = document.getElementById('appointment-time').value;
             }
 
             // Tạo đối tượng dữ liệu đầy đủ để gửi đến API - theo định dạng mới
             const bookingData = {
-              fullName: fullname,
-              email: email,
-              phone: phone,
-              serviceId: serviceType,
-              type: type,
-              sampleMethod: sampleMethod,
-              address: address || undefined,
-              appointmentDate: appointmentDate || undefined,
-              appointmentTime: appointmentTime || undefined,
-              note: note,
+                fullName: fullname,
+                email: email,
+                phone: phone,
+                serviceId: serviceType,
+                type: type,
+                sampleMethod: sampleMethod,
+                address: address || undefined,
+                appointmentDate: appointmentDate || undefined,
+                appointmentTime: appointmentTime || undefined,
+                note: note
             };
-
+            
             // Hiển thị trạng thái đang xử lý
             const submitBtn = this.querySelector('button[type="submit"]');
             const originalBtnText = submitBtn.innerText;
             submitBtn.innerText = "Đang xử lý...";
             submitBtn.disabled = true;
-
+            
             console.log("Gửi dữ liệu đến API:", bookingData);
-
+            
             // Gọi API đặt lịch với endpoint mới
-            const response = await fetch("/appointments", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify(bookingData),
+            const response = await fetch('/appointments', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(bookingData)
             });
-
+            
             // Khôi phục trạng thái nút
             submitBtn.innerText = originalBtnText;
             submitBtn.disabled = false;
-
+            
             if (response.ok) {
-              const data = await response.json();
-              console.log("Phản hồi từ API:", data);
-
-              // Lưu thông tin đặt lịch vào localStorage (tùy chọn, có thể giữ lại)
-              const bookings =
-                JSON.parse(localStorage.getItem("bookings")) || [];
-              bookings.push({
-                ...bookingData,
-                date: new Date().toISOString(),
-                status: "pending",
-              });
-              localStorage.setItem("bookings", JSON.stringify(bookings));
-
-              // Hiển thị modal thành công
-              const emailConfirmElement =
-                document.getElementById("email-confirmation");
-              if (emailConfirmElement) {
-                emailConfirmElement.textContent = `Một email xác nhận đã được gửi đến ${email}.`;
-              }
-
-              const modal = document.getElementById("success-modal");
-              if (modal) {
-                modal.style.display = "flex";
-              }
-
-              // Reset form
-              this.reset();
-
-              // Ẩn các chi tiết bổ sung
-              const homeDetails = document.getElementById("home-details");
-              const centerDetails = document.getElementById("center-details");
-              if (homeDetails) homeDetails.style.display = "none";
-              if (centerDetails) centerDetails.style.display = "none";
+                const data = await response.json();
+                console.log("Phản hồi từ API:", data);
+                
+                // Lưu thông tin đặt lịch vào localStorage (tùy chọn, có thể giữ lại)
+                const bookings = JSON.parse(localStorage.getItem('bookings')) || [];
+                bookings.push({
+                    ...bookingData,
+                    date: new Date().toISOString(),
+                    status: 'pending'
+                });
+                localStorage.setItem('bookings', JSON.stringify(bookings));
+                
+                // Hiển thị modal thành công
+                const emailConfirmElement = document.getElementById('email-confirmation');
+                if (emailConfirmElement) {
+                    emailConfirmElement.textContent = `Một email xác nhận đã được gửi đến ${email}.`;
+                }
+                
+                const modal = document.getElementById('success-modal');
+                if (modal) {
+                    modal.style.display = 'flex';
+                }
+                
+                // Reset form
+                this.reset();
+                
+                // Ẩn các chi tiết bổ sung
+                const homeDetails = document.getElementById('home-details');
+                const centerDetails = document.getElementById('center-details');
+                if (homeDetails) homeDetails.style.display = 'none';
+                if (centerDetails) centerDetails.style.display = 'none';
             } else {
-              // Xử lý lỗi từ API
-              const errorData = await response.json();
-              throw new Error(
-                errorData.message || "Có lỗi xảy ra khi đặt lịch"
-              );
+                // Xử lý lỗi từ API
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Có lỗi xảy ra khi đặt lịch');
             }
-          } catch (error) {
+            
+        } catch (error) {
             console.error("Lỗi khi xử lý form:", error);
             alert("Có lỗi xảy ra khi đặt lịch: " + error.message);
-          }
-        });
+        }
+    });
+    
+    console.log("Đã thiết lập xử lý form thành công");
+}
+    
 
-        console.log("Đã thiết lập xử lý form thành công");
-      }
 
-      // Tách hàm xử lý form submit để dễ debug
-      function handleFormSubmit(e) {
-        console.log("Form submit started");
-        e.preventDefault();
-
-        try {
-          // Lấy dữ liệu từ form
-          const fullname = document.getElementById("fullname").value;
-          const phone = document.getElementById("phone").value;
-          const serviceType = document.getElementById("service-type").value;
-          const note = document.getElementById("note").value || "";
-
-          console.log("Form data collected:", { fullname, phone, serviceType });
-
-          // Lấy giá trị mục đích xét nghiệm
-          const purposeAdministrative = document.getElementById(
-            "purpose-administrative"
-          );
-          const purpose = purposeAdministrative.checked
-            ? "administrative"
-            : "civil";
-
-          // Lấy giá trị phương thức lấy mẫu
-          const locationHome = document.getElementById("location-home");
-          const sampleLocation = locationHome.checked ? "home" : "center";
-
-          // Dữ liệu bổ sung dựa trên phương thức lấy mẫu
-          let additionalData = {};
-          let emailConfirmation = "";
-
-          if (sampleLocation === "home") {
+// Tách hàm xử lý form submit để dễ debug
+function handleFormSubmit(e) {
+    console.log('Form submit started');
+    e.preventDefault();
+    
+    try {
+        // Lấy dữ liệu từ form
+        const fullname = document.getElementById('fullname').value;
+        const phone = document.getElementById('phone').value;
+        const serviceType = document.getElementById('service-type').value;
+        const note = document.getElementById('note').value || "";
+        
+        console.log('Form data collected:', { fullname, phone, serviceType });
+        
+        // Lấy giá trị mục đích xét nghiệm
+        const purposeAdministrative = document.getElementById('purpose-administrative');
+        const purpose = purposeAdministrative.checked ? 'administrative' : 'civil';
+        
+        // Lấy giá trị phương thức lấy mẫu
+        const locationHome = document.getElementById('location-home');
+        const sampleLocation = locationHome.checked ? 'home' : 'center';
+        
+        // Dữ liệu bổ sung dựa trên phương thức lấy mẫu
+        let additionalData = {};
+        let emailConfirmation = "";
+        
+        if (sampleLocation === 'home') {
             additionalData = {
-              homeAddress: document.getElementById("home-address").value,
-              testQuantity: document.getElementById("test-quantity").value,
-              email: document.getElementById("home-email").value,
+                homeAddress: document.getElementById('home-address').value,
+                testQuantity: document.getElementById('test-quantity').value,
+                email: document.getElementById('home-email').value
             };
-
-            if (document.getElementById("home-email").value) {
-              emailConfirmation = `Kết quả xét nghiệm sẽ được gửi đến email: ${
-                document.getElementById("home-email").value
-              }`;
+            
+            if (document.getElementById('home-email').value) {
+                emailConfirmation = `Kết quả xét nghiệm sẽ được gửi đến email: ${document.getElementById('home-email').value}`;
             }
-          } else {
+        } else {
             additionalData = {
-              centerAddress: document.getElementById("center-address").value,
-              appointmentDate:
-                document.getElementById("appointment-date").value,
-              appointmentTime:
-                document.getElementById("appointment-time").value,
+                centerAddress: document.getElementById('center-address').value,
+                appointmentDate: document.getElementById('appointment-date').value,
+                appointmentTime: document.getElementById('appointment-time').value
             };
-          }
+        }
 
-          // Lưu thông tin đặt lịch vào localStorage
-          const bookings = JSON.parse(localStorage.getItem("bookings")) || [];
-          bookings.push({
+        // Lưu thông tin đặt lịch vào localStorage
+        const bookings = JSON.parse(localStorage.getItem('bookings')) || [];
+        bookings.push({
             fullname: fullname,
             phone: phone,
             serviceType: serviceType,
@@ -1468,209 +1112,165 @@
             note: note,
             additionalData: additionalData,
             date: new Date().toISOString(),
-            status: "pending",
-          });
-          localStorage.setItem("bookings", JSON.stringify(bookings));
-
-          console.log("Booking saved, showing modal");
-
-          // Cập nhật thông báo email trong modal nếu có
-          const emailConfirmElement =
-            document.getElementById("email-confirmation");
-          if (emailConfirmElement) {
+            status: 'pending'
+        });
+        localStorage.setItem('bookings', JSON.stringify(bookings));
+        
+        console.log('Booking saved, showing modal');
+        
+        // Cập nhật thông báo email trong modal nếu có
+        const emailConfirmElement = document.getElementById('email-confirmation');
+        if (emailConfirmElement) {
             emailConfirmElement.textContent = emailConfirmation;
-          }
-
-          // Hiển thị modal thành công
-          showSuccessModal();
-
-          // Reset form
-          e.target.reset();
-
-          // Ẩn các chi tiết bổ sung
-          document.getElementById("home-details").style.display = "none";
-          document.getElementById("center-details").style.display = "none";
-        } catch (error) {
-          console.error("Error during form submission:", error);
-          alert("Có lỗi xảy ra khi đặt lịch. Vui lòng thử lại sau.");
         }
-      }
+        
+        // Hiển thị modal thành công
+        showSuccessModal();
+        
+        // Reset form
+        e.target.reset();
+        
+        // Ẩn các chi tiết bổ sung
+        document.getElementById('home-details').style.display = 'none';
+        document.getElementById('center-details').style.display = 'none';
+    } catch (error) {
+        console.error("Error during form submission:", error);
+        alert("Có lỗi xảy ra khi đặt lịch. Vui lòng thử lại sau.");
+    }
+}
 
-      // Tách riêng hàm hiển thị modal để dễ debug
-      function showSuccessModal() {
-        const modal = document.getElementById("success-modal");
-        if (modal) {
-          console.log("Showing modal");
-          modal.style.display = "flex";
-        } else {
-          console.error("Modal element not found!");
-          alert("Đặt lịch thành công! Chúng tôi sẽ liên hệ với bạn sớm nhất.");
+// Tách riêng hàm hiển thị modal để dễ debug
+function showSuccessModal() {
+    const modal = document.getElementById('success-modal');
+    if (modal) {
+        console.log('Showing modal');
+        modal.style.display = 'flex';
+    } else {
+        console.error('Modal element not found!');
+        alert('Đặt lịch thành công! Chúng tôi sẽ liên hệ với bạn sớm nhất.');
+    }
+}
+
+
+// Đóng modal - giữ hàm này
+function closeModal() {
+    console.log('Đóng modal và chuyển hướng');
+    const modal = document.getElementById('success-modal');
+    if (modal) {
+        modal.style.display = 'none';
+    }
+    // Chuyển hướng sau khi đóng modal
+    setTimeout(function() {
+        window.location.href = 'index.html';
+    }, 300);
+}
+        
+       
+// Kiểm tra phương thức lấy mẫu tại trung tâm
+if (document.getElementById('location-center').checked) {
+    document.getElementById('center-details').style.display = 'block';
+    document.getElementById('center-address').setAttribute('required', 'required');
+    document.getElementById('appointment-date').setAttribute('required', 'required');
+    document.getElementById('appointment-time').setAttribute('required', 'required');
+}
+
+        // Thêm xử lý khi mục đích xét nghiệm thay đổi
+document.getElementById('purpose-administrative').addEventListener('change', function() {
+    if (this.checked) {
+        // Nếu chọn Hành chính, tự động chọn lấy mẫu tại trung tâm
+        // document.getElementById('location-center').checked = true;
+        
+        // Vô hiệu hóa tùy chọn lấy mẫu tại nhà
+        document.getElementById('location-home').disabled = true;
+        document.getElementById('location-home').parentElement.style.opacity = "0.5";
+        document.getElementById('location-home').parentElement.style.cursor = "not-allowed";
+        
+        // Thêm thông báo giải thích
+        if (!document.getElementById('admin-notice')) {
+            const notice = document.createElement('div');
+            notice.id = 'admin-notice';
+            notice.style.color = "#ff5722";
+            notice.style.fontSize = "13px";
+            notice.style.marginTop = "5px";
+            notice.innerHTML = "* Xét nghiệm có giá trị pháp lý bắt buộc phải lấy mẫu tại trung tâm";
+            document.querySelector('.radio-group:nth-of-type(2)').appendChild(notice);
         }
-      }
+    }
+});
 
-      // Đóng modal - giữ hàm này
-      function closeModal() {
-        console.log("Đóng modal và chuyển hướng");
-        const modal = document.getElementById("success-modal");
-        if (modal) {
-          modal.style.display = "none";
+document.getElementById('purpose-civil').addEventListener('change', function() {
+    if (this.checked) {
+        // Nếu chọn Dân sự, bỏ vô hiệu hóa tùy chọn lấy mẫu tại nhà
+        document.getElementById('location-home').disabled = false;
+        document.getElementById('location-home').parentElement.style.opacity = "1";
+        document.getElementById('location-home').parentElement.style.cursor = "pointer";
+        
+        // Xóa thông báo nếu có
+        const notice = document.getElementById('admin-notice');
+        if (notice) {
+            notice.remove();
         }
-        // Chuyển hướng sau khi đóng modal
-        setTimeout(function () {
-          window.location.href = "index.html";
-        }, 300);
-      }
+    }
+});
+// Xử lý hiển thị/ẩn thông tin tương ứng với phương thức lấy mẫu
+document.getElementById('location-home').addEventListener('change', function() {
+    if(this.checked) {
+        // Hiển thị thông tin lấy mẫu tại nhà
+        document.getElementById('home-details').style.display = 'block';
+        document.getElementById('center-details').style.display = 'none';
+        
+        // Thêm thuộc tính required cho các trường nhà
+        document.getElementById('home-address').setAttribute('required', 'required');
+        document.getElementById('test-quantity').setAttribute('required', 'required');
+        
+        // Bỏ thuộc tính required của các trường trung tâm
+        document.getElementById('center-address').removeAttribute('required');
+        document.getElementById('appointment-date').removeAttribute('required');
+        document.getElementById('appointment-time').removeAttribute('required');
+    }
+});
 
-      // Kiểm tra phương thức lấy mẫu tại trung tâm
-      if (document.getElementById("location-center").checked) {
-        document.getElementById("center-details").style.display = "block";
-        document
-          .getElementById("center-address")
-          .setAttribute("required", "required");
-        document
-          .getElementById("appointment-date")
-          .setAttribute("required", "required");
-        document
-          .getElementById("appointment-time")
-          .setAttribute("required", "required");
-      }
+document.getElementById('location-center').addEventListener('change', function() {
+    if(this.checked) {
+        // Hiển thị thông tin trung tâm
+        document.getElementById('center-details').style.display = 'block';
+        document.getElementById('home-details').style.display = 'none';
+        
+        // Thêm thuộc tính required cho các trường trung tâm
+        document.getElementById('center-address').setAttribute('required', 'required');
+        document.getElementById('appointment-date').setAttribute('required', 'required');
+        document.getElementById('appointment-time').setAttribute('required', 'required');
+        
+        // Bỏ thuộc tính required của các trường nhà
+        document.getElementById('home-address').removeAttribute('required');
+        document.getElementById('test-quantity').removeAttribute('required');
+    }
+});
+// Kiểm tra khi trang được tải (trường hợp refresh)
+document.addEventListener('DOMContentLoaded', function() {
+    checkLoggedIn();
+    
+    // Kiểm tra trạng thái của radio button mục đích xét nghiệm
+    if (document.getElementById('purpose-administrative').checked) {
+        document.getElementById('location-center').checked = true;
+        document.getElementById('location-home').disabled = true;
+        document.getElementById('location-home').parentElement.style.opacity = "0.5";
+        document.getElementById('location-home').parentElement.style.cursor = "not-allowed";
+    }
+});
+function increaseQuantity() {
+    const quantityInput = document.getElementById('test-quantity');
+    let currentValue = parseInt(quantityInput.value);
+    quantityInput.value = currentValue + 1;
+}
 
-      // Thêm xử lý khi mục đích xét nghiệm thay đổi
-      document
-        .getElementById("purpose-administrative")
-        .addEventListener("change", function () {
-          if (this.checked) {
-            // Nếu chọn Hành chính, tự động chọn lấy mẫu tại trung tâm
-            // document.getElementById('location-center').checked = true;
-
-            // Vô hiệu hóa tùy chọn lấy mẫu tại nhà
-            document.getElementById("location-home").disabled = true;
-            document.getElementById(
-              "location-home"
-            ).parentElement.style.opacity = "0.5";
-            document.getElementById(
-              "location-home"
-            ).parentElement.style.cursor = "not-allowed";
-
-            // Thêm thông báo giải thích
-            if (!document.getElementById("admin-notice")) {
-              const notice = document.createElement("div");
-              notice.id = "admin-notice";
-              notice.style.color = "#ff5722";
-              notice.style.fontSize = "13px";
-              notice.style.marginTop = "5px";
-              notice.innerHTML =
-                "* Xét nghiệm có giá trị pháp lý bắt buộc phải lấy mẫu tại trung tâm";
-              document
-                .querySelector(".radio-group:nth-of-type(2)")
-                .appendChild(notice);
-            }
-          }
-        });
-
-      document
-        .getElementById("purpose-civil")
-        .addEventListener("change", function () {
-          if (this.checked) {
-            // Nếu chọn Dân sự, bỏ vô hiệu hóa tùy chọn lấy mẫu tại nhà
-            document.getElementById("location-home").disabled = false;
-            document.getElementById(
-              "location-home"
-            ).parentElement.style.opacity = "1";
-            document.getElementById(
-              "location-home"
-            ).parentElement.style.cursor = "pointer";
-
-            // Xóa thông báo nếu có
-            const notice = document.getElementById("admin-notice");
-            if (notice) {
-              notice.remove();
-            }
-          }
-        });
-      // Xử lý hiển thị/ẩn thông tin tương ứng với phương thức lấy mẫu
-      document
-        .getElementById("location-home")
-        .addEventListener("change", function () {
-          if (this.checked) {
-            // Hiển thị thông tin lấy mẫu tại nhà
-            document.getElementById("home-details").style.display = "block";
-            document.getElementById("center-details").style.display = "none";
-
-            // Thêm thuộc tính required cho các trường nhà
-            document
-              .getElementById("home-address")
-              .setAttribute("required", "required");
-            document
-              .getElementById("test-quantity")
-              .setAttribute("required", "required");
-
-            // Bỏ thuộc tính required của các trường trung tâm
-            document
-              .getElementById("center-address")
-              .removeAttribute("required");
-            document
-              .getElementById("appointment-date")
-              .removeAttribute("required");
-            document
-              .getElementById("appointment-time")
-              .removeAttribute("required");
-          }
-        });
-
-      document
-        .getElementById("location-center")
-        .addEventListener("change", function () {
-          if (this.checked) {
-            // Hiển thị thông tin trung tâm
-            document.getElementById("center-details").style.display = "block";
-            document.getElementById("home-details").style.display = "none";
-
-            // Thêm thuộc tính required cho các trường trung tâm
-            document
-              .getElementById("center-address")
-              .setAttribute("required", "required");
-            document
-              .getElementById("appointment-date")
-              .setAttribute("required", "required");
-            document
-              .getElementById("appointment-time")
-              .setAttribute("required", "required");
-
-            // Bỏ thuộc tính required của các trường nhà
-            document.getElementById("home-address").removeAttribute("required");
-            document
-              .getElementById("test-quantity")
-              .removeAttribute("required");
-          }
-        });
-      // Kiểm tra khi trang được tải (trường hợp refresh)
-      document.addEventListener("DOMContentLoaded", function () {
-        checkLoggedIn();
-
-        // Kiểm tra trạng thái của radio button mục đích xét nghiệm
-        if (document.getElementById("purpose-administrative").checked) {
-          document.getElementById("location-center").checked = true;
-          document.getElementById("location-home").disabled = true;
-          document.getElementById("location-home").parentElement.style.opacity =
-            "0.5";
-          document.getElementById("location-home").parentElement.style.cursor =
-            "not-allowed";
-        }
-      });
-      function increaseQuantity() {
-        const quantityInput = document.getElementById("test-quantity");
-        let currentValue = parseInt(quantityInput.value);
-        quantityInput.value = currentValue + 1;
-      }
-
-      function decreaseQuantity() {
-        const quantityInput = document.getElementById("test-quantity");
-        let currentValue = parseInt(quantityInput.value);
-        if (currentValue > 2) {
-          quantityInput.value = currentValue - 1;
-        }
-      }
+function decreaseQuantity() {
+    const quantityInput = document.getElementById('test-quantity');
+    let currentValue = parseInt(quantityInput.value);
+    if (currentValue > 2) {
+        quantityInput.value = currentValue - 1;
+    }
+}
     </script>
-  </body>
+</body>
 </html>

@@ -10,263 +10,222 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: Arial, sans-serif;
         }
         
         body {
-            background-color: #f8f9fa;
-            padding: 20px;
-            color: #333;
-        }
-        
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-        }
-        
-        .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 30px;
-            text-align: center;
-        }
-        
-        .header h1 {
-            font-size: 28px;
-            margin-bottom: 8px;
-            font-weight: 600;
-        }
-        
-        .header p {
-            font-size: 16px;
-            opacity: 0.9;
-        }
-        
-        .status-badge {
-            display: inline-flex;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
             align-items: center;
-            gap: 8px;
-            background: rgba(255, 255, 255, 0.2);
-            padding: 8px 16px;
-            border-radius: 20px;
-            margin-top: 15px;
-            font-size: 14px;
+            min-height: 100vh;
+            padding: 20px;
         }
         
-        .form-content {
-            padding: 40px;
+        .kit-form-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 30px;
+            width: 100%;
+            max-width: 500px;
         }
         
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            margin-bottom: 30px;
+        .form-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        
+        .form-logo img {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 15px;
+        }
+        
+        .form-title {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        
+        .form-subtitle {
+            color: #666;
+            font-size: 16px;
         }
         
         .form-group {
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .form-group.full-width {
-            grid-column: 1 / -1;
+            margin-bottom: 20px;
         }
         
         .form-label {
-            font-weight: 600;
-            color: #555;
+            display: block;
             margin-bottom: 8px;
-            font-size: 14px;
-        }
-        
-        .required {
-            color: #e74c3c;
-        }
-        
-        .form-input,
-        .form-select {
-            padding: 12px 16px;
-            border: 2px solid #e1e5e9;
-            border-radius: 6px;
-            font-size: 16px;
-            background: #f8f9fa;
-            color: #666;
-            cursor: not-allowed;
-        }
-        
-        .kit-code-special {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white !important;
-            font-family: 'Courier New', monospace;
             font-weight: bold;
-            text-align: center;
-            letter-spacing: 1px;
+            color: #333;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            color: #333;
+            background-color: #f9f9f9;
+        }
+        
+        .form-input:focus {
+            border-color: #2196F3;
+            box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.2);
+            outline: none;
         }
         
         .form-textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            color: #333;
+            background-color: #f9f9f9;
             min-height: 100px;
             resize: vertical;
-            font-family: inherit;
-            line-height: 1.5;
         }
         
-        .action-buttons {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            margin-top: 40px;
+        .form-textarea:focus {
+            border-color: #2196F3;
+            box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.2);
+            outline: none;
         }
         
-        .btn {
-            padding: 12px 30px;
-            border: none;
-            border-radius: 6px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
+        .submit-button {
             display: flex;
             align-items: center;
-            gap: 8px;
-            text-decoration: none;
-        }
-        
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            justify-content: center;
+            background-color: #2196F3;
             color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+            transition: background-color 0.3s;
         }
         
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        .submit-button:hover {
+            background-color: #0b7dda;
         }
         
-        .btn-secondary {
-            background: #f8f9fa;
-            color: #666;
-            border: 2px solid #e1e5e9;
-        }
-        
-        .btn-secondary:hover {
-            background: #e9ecef;
-            transform: translateY(-2px);
+        .submit-button i {
+            margin-right: 10px;
         }
         
         .back-link {
-            display: block;
-            text-align: center;
-            margin-top: 25px;
-            color: #667eea;
+            color: #2196F3;
             text-decoration: none;
-            font-weight: 500;
+            font-size: 14px;
+            display: block;
+            margin-top: 20px;
+            text-align: center;
         }
         
         .back-link:hover {
-            color: #764ba2;
-        }
-        
-        @media (max-width: 768px) {
-            .form-grid {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-            
-            .form-content {
-                padding: 20px;
-            }
-            
-            .action-buttons {
-                flex-direction: column;
-            }
+            text-decoration: underline;
         }
     </style>
 </head>
 
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>Thông tin Kit xét nghiệm</h1>
-            <p>Chi tiết thông tin Kit xét nghiệm ADN</p>
-            <div class="status-badge">
-                <i class="fas fa-check-circle"></i>
-                <span>Đã tiếp nhận - Đang xử lý</span>
+    <div class="kit-form-container">
+        <div class="form-header">
+            <div class="form-logo">
+                <img src="assets/images/logo.svg" alt="ADN Logo">
             </div>
+            <h1 class="form-title">Thông tin Kit xét nghiệm</h1>
+            <p class="form-subtitle">Vui lòng điền đầy đủ thông tin về Kit xét nghiệm</p>
         </div>
 
-        <div class="form-content">
-            <div class="form-grid">
-                <div class="form-group">
-                    <label class="form-label">
-                        Mã Kit <span class="required">*</span>
-                    </label>
-                    <input type="text" class="form-input kit-code-special" value="KIT-ADN-2024-001" readonly>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">
-                        Mã nhân viên <span class="required">*</span>
-                    </label>
-                    <input type="text" class="form-input" value="NV001" readonly>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">
-                        Ngày gửi <span class="required">*</span>
-                    </label>
-                    <input type="text" class="form-input" value="15/03/2024" readonly>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">Ngày nhận</label>
-                    <input type="text" class="form-input" value="16/03/2024" readonly>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">
-                        Số lượng mẫu <span class="required">*</span>
-                    </label>
-                    <input type="text" class="form-input" value="3" readonly>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">
-                        Trạng thái <span class="required">*</span>
-                    </label>
-                    <select class="form-select" disabled>
-                        <option value="pending" selected>Đã tiếp nhận - Đang xử lý</option>
-                        <option value="processing">Đang phân tích</option>
-                        <option value="completed">Hoàn thành</option>
-                        <option value="cancelled">Đã hủy</option>
-                    </select>
-                </div>
-                
-                <div class="form-group full-width">
-                    <label class="form-label">Ghi chú</label>
-                    <textarea class="form-input form-textarea" readonly>Mẫu ADN cho việc xác định quan hệ huyết thống giữa cha và con. Yêu cầu kết quả nhanh trong vòng 5-7 ngày làm việc. Khách hàng đã thanh toán đầy đủ chi phí.</textarea>
-                </div>
+        <form id="kit-form">
+            <div class="form-group">
+                <label for="kit-code" class="form-label">Mã Kit</label>
+                <input type="text" id="kit-code" name="kitCode" class="form-input" placeholder="Nhập mã Kit" required>
             </div>
-
-            <div class="action-buttons">
-                <a href="editkit.html?id=KIT-ADN-2024-001" class="btn btn-primary">
-                    <i class="fas fa-edit"></i>
-                    Chỉnh sửa thông tin
-                </a>
-                <button type="button" class="btn btn-secondary" onclick="window.print()">
-                    <i class="fas fa-print"></i>
-                    In thông tin
-                </button>
+            
+            <div class="form-group">
+                <label for="send-date" class="form-label">Ngày gửi</label>
+                <input type="date" id="send-date" name="sendDate" class="form-input" required>
             </div>
+            
+            <div class="form-group">
+                <label for="sample-count" class="form-label">Số lượng mẫu</label>
+                <input type="number" id="sample-count" name="sampleCount" class="form-input" min="2" placeholder="Nhập số lượng mẫu" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="notes" class="form-label">Ghi chú</label>
+                <textarea id="notes" name="notes" class="form-textarea" placeholder="Nhập ghi chú về Kit (nếu có)"></textarea>
+            </div>
+            
+            <button type="submit" class="submit-button">
+                <i class="fas fa-save"></i>
+                Thêm Kit
+            </button>
+        </form>
 
-            <a href="index.html" class="back-link">
-                <i class="fas fa-arrow-left" style="margin-right: 5px;"></i>
-                Quay lại trang chính
-            </a>
-        </div>
+        <a href="index.html" class="back-link">
+            <i class="fas fa-arrow-left" style="margin-right: 5px;"></i>
+            Quay lại
+        </a>
     </div>
+    
+    <script>
+        document.getElementById('kit-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const kitCode = document.getElementById('kit-code').value.trim();
+            const sendDate = document.getElementById('send-date').value;
+            const sampleCount = document.getElementById('sample-count').value;
+            const notes = document.getElementById('notes').value.trim();
+            
+            if (!kitCode || !sendDate || !sampleCount) {
+                alert('Vui lòng điền đầy đủ thông tin bắt buộc!');
+                return;
+            }
+            
+            try {
+                const response = await fetch('/api/kits', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        kitCode,
+                        sendDate,
+                        sampleCount,
+                        notes
+                    })
+                });
+                
+                if (response.ok) {
+                    alert('Lưu thông tin Kit thành công!');
+                    // Có thể chuyển hướng hoặc reset form tại đây
+                    document.getElementById('kit-form').reset();
+                } else {
+                    const errorData = await response.json();
+                    alert('Lỗi: ' + (errorData.message || 'Không thể lưu thông tin Kit.'));
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Lỗi kết nối server.');
+            }
+        });
+        
+        // Tự động đặt ngày hôm nay làm giá trị mặc định cho trường ngày gửi
+        document.addEventListener('DOMContentLoaded', function() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('send-date').value = today;
+        });
+    </script>
 </body>
 </html>

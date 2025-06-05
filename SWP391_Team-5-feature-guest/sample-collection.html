@@ -749,57 +749,11 @@
 </div>
         
    <div class="login-register">
-        <div
-          style="background-color: #f0f8ff; padding: 15px; border-radius: 5px"
-        >
-          <div style="display: flex; align-items: center; margin-bottom: 10px">
-            <div
-              style="
-                width: 40px;
-                height: 40px;
-                background-color: #2196f3;
-                border-radius: 50%;
-                color: white;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                margin-right: 10px;
-                font-weight: bold;
-                font-size: 20px;
-              "
-            >
-              <span id="avatar-letter">G</span>
-            </div>
-            <div>
-              <div id="avatar-fullname" style="font-weight: bold"></div>
-              <div id="avatar-role" style="font-size: 12px; color: #888"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <script>
-        // Biến lưu thông tin người dùng (giả lập, sau này lấy từ API/database)
-        let userInfo = {
-          fullname: "Van A",
-          role: "Khách hàng",
-        };
-
-        // Khi có dữ liệu thật, chỉ cần cập nhật userInfo từ API
-        document.addEventListener("DOMContentLoaded", function () {
-          // Nếu có currentUser trong localStorage thì lấy ra
-          const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-          if (currentUser) {
-            userInfo.fullname = currentUser.fullname;
-            userInfo.role = currentUser.role || "Khách hàng";
-          }
-          // Gán lên giao diện
-          document.getElementById("avatar-letter").textContent =
-            userInfo.fullname.charAt(0).toUpperCase();
-          document.getElementById("avatar-fullname").textContent =
-            userInfo.fullname;
-          document.getElementById("avatar-role").textContent = userInfo.role;
-        });
-      </script>
+    <a href="login.html" class="login-register-btn" style="background-color: #4285F4; color: #ffffff; border: 1px solid #3367d6; display: flex; align-items: center; justify-content: center; gap: 8px;">
+        
+        Đăng nhập 
+    </a>
+</div>
         
         <div class="menu-title">MAIN MENU</div>
         <div id="mainMenu">
@@ -1126,43 +1080,6 @@
     const currentPage = window.location.pathname.split("/").pop();
             // Cập nhật menu dựa theo trạng thái đăng nhập
             if (currentUser) {
-                // Menu cho người dùng đã đăng nhập - đầy đủ các mục
-                mainMenuDiv.innerHTML = `
-                    <a href="index.html" class="menu-item">
-                        <span class="menu-icon">📊</span>
-                        Trang chủ
-                    </a>
-                    
-                    <a href="profile.html" class="menu-item">
-                        <span class="menu-icon">👤</span>
-                        Thông tin cá nhân
-                    </a>
-                    
-                    <a href="booking.html" class="menu-item">
-                        <span class="menu-icon">📅</span>
-                        Đặt lịch xét nghiệm
-                    </a>
-                    
-                    <a href="progress.html" class="menu-item">
-                        <span class="menu-icon">📋</span>
-                        Tiến trình xét nghiệm
-                    </a>
-                    
-                    <a href="history.html" class="menu-item">
-                        <span class="menu-icon">⏱️</span>
-                        Lịch sử xét nghiệm
-                    </a>
-                    
-                    <a href="results.html" class="menu-item">
-                        <span class="menu-icon">📊</span>
-                        Kết quả xét nghiệm
-                    </a>
-                    
-                    <a href="reviews.html" class="menu-item">
-                        <span class="menu-icon">⭐</span>
-                        Đánh giá dịch vụ
-                    </a>
-                `;
              
                 // Nếu đã đăng nhập, hiển thị thông tin người dùng
                 loginRegisterDiv.innerHTML = `
@@ -1192,64 +1109,33 @@
                 });
             } else {
                 // Menu cho người dùng chưa đăng nhập - chỉ hiện các mục cơ bản
-                  mainMenuDiv.innerHTML = `
-            <a href="index.html" class="menu-item${currentPage === 'index.html' ? ' active' : ''}">
-                <span class="menu-icon"><i class="fas fa-home"></i></span>
-                Trang chủ
-            </a>
-            
-            <a href="booking.html" class="menu-item${
-              currentPage === "booking.html" ? " active" : ""
-            }">
-                <span class="menu-icon"><i class="fas fa-notes-medical"></i></span>
-                Đặt lịch xét nghiệm
-            </a>
-
-            <a href="appoinments.html" class="menu-item${
-              currentPage === "appoinments.html" ? " active" : ""
-            }">
-                <span class="menu-icon"><i class="fas fa-clipboard-list"></i></span>
-                Danh sách lịch hẹn
-            </a>
-            
-            <a href="services.html" class="menu-item${currentPage === 'services.html' ? ' active' : ''}">
-                <span class="menu-icon"><i class="fas fa-flask"></i></span>
-                Giới thiệu dịch vụ
-            </a>
-            
-            <a href="knowledge.html" class="menu-item${currentPage === 'knowledge.html' ? ' active' : ''}">
-                <span class="menu-icon"><i class="fas fa-dna"></i></span>
-                Chia sẻ kiến thức ADN
-            </a>
-            
-            <a href="sample-collection.html" class="menu-item${currentPage === 'sample-collection.html' ? ' active' : ''}">
-                <span class="menu-icon"><i class="fas fa-vial"></i></span>
-                Hướng dẫn lấy mẫu
-            </a>
-        `;
-                // Navbar tương ứng với menu chưa đăng nhập
-                // topNavbarDiv.innerHTML = `
-                //     <a href="index.html" class="nav-item">
-                //         <span class="nav-icon">📊</span>
-                //         Trang chủ
-                //     </a>
-                //     <a href="booking.html" class="nav-item">
-                //         <span class="nav-icon">📅</span>
-                //         Đặt lịch
-                //     </a>
-                //     <a href="services.html" class="nav-item">
-                //         <span class="nav-icon">ℹ️</span>
-                //         Giới thiệu
-                //     </a>
-                //     <a href="knowledge.html" class="nav-item">
-                //         <span class="nav-icon">🧬</span>
-                //         Kiến thức
-                //     </a>
-                //     <a href="sample-collection.html" class="nav-item active">
-                //         <span class="nav-icon">🧪</span>
-                //         Lấy mẫu
-                //     </a>
-                // `;
+                 mainMenuDiv.innerHTML = `
+    <a href="/home" class="menu-item${currentPage === 'index.html' ? ' active' : ''}">
+        <span class="menu-icon"><i class="fas fa-home"></i></span>
+        Trang chủ
+    </a>
+    
+    <a href="/appointments" class="menu-item${currentPage === 'booking.html' ? ' active' : ''}">
+        <span class="menu-icon"><i class="fas fa-calendar-alt"></i></span>
+        Đặt lịch xét nghiệm
+    </a>
+    
+    <a href="/services" class="menu-item${currentPage === 'services.html' ? ' active' : ''}">
+        <span class="menu-icon"><i class="fas fa-flask"></i></span>
+        Giới thiệu dịch vụ
+    </a>
+    
+    <a href="/knowledge" class="menu-item${currentPage === 'knowledge.html' ? ' active' : ''}">
+        <span class="menu-icon"><i class="fas fa-dna"></i></span>
+        Chia sẻ kiến thức ADN
+    </a>
+    
+    <a href="/sampling-guide" class="menu-item${currentPage === 'sample-collection.html' ? ' active' : ''}">
+        <span class="menu-icon"><i class="fas fa-vial"></i></span>
+        Hướng dẫn lấy mẫu
+    </a>
+`;
+           
             }
         }
         
