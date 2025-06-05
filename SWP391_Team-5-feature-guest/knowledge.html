@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kiến thức ADN - Dịch Vụ Xét Nghiệm ADN</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+      }
+
+      body {
+        display: flex;
+        min-height: 100vh;
+        background-color: #f5f5f5;
+      }
+
+      /* Sidebar styles */
+      .sidebar {
+        width: 260px;
+        background-color: white;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+        position: fixed;
+        height: 100vh;
+        left: 0;
+        top: 0;
+        z-index: 100;
+        overflow-y: auto;
+      }
+
+      .logo-container {
+        display: flex;
+        align-items: center;
+        padding: 15px;
+        border-bottom: 1px solid #eee;
+      }
+
+      .logo {
+        width: 40px;
+        height: 40px;
+        margin-right: 10px;
+      }
+
+      .logo-text {
+        font-size: 22px;
+        color: #2196f3;
+        font-weight: bold;
+      }
+
+      .login-register {
+        padding: 15px;
+        background-color: #f9f9f9;
+        border-bottom: 1px solid #eee;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .login-register-btn {
+        background-color: #2196f3;
+        color: white;
+        border: none;
+        padding: 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-bottom: 8px;
+        text-align: center;
+        text-decoration: none;
+        font-weight: bold;
+      }
+
+      .menu-title {
+        padding: 15px;
+        color: #888;
+        font-size: 14px;
+      }
+
+      .menu-item {
+        padding: 15px;
+        display: flex;
+        align-items: center;
+        color: #333;
+        text-decoration: none;
+        transition: background-color 0.3s;
+      }
+
+      .menu-item.active {
+        background-color: #2196f3;
+        color: white;
+      }
+
+      .menu-item:hover {
+        background-color: #e3f2fd;
+      }
+
+      .menu-item.active:hover {
+        background-color: #1976d2;
+      }
+
+      .menu-icon {
+        margin-right: 10px;
+        width: 20px;
+        text-align: center;
+      }
+
+      /* Main content styles */
+      .main-content {
+        margin-left: 260px;
+        padding: 20px;
+        width: calc(100% - 260px);
+      }
+
+      .navbar {
+        display: flex;
+        margin: 20px 0;
+        background-color: white;
+        border-radius: 5px;
+        overflow: hidden;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      .nav-item {
+        padding: 15px 20px;
+        text-decoration: none;
+        color: #333;
+        display: flex;
+        align-items: center;
+        border-bottom: 2px solid transparent;
+      }
+
+      .nav-item.active {
+        border-bottom: 2px solid #2196f3;
+        color: #2196f3;
+      }
+
+      .nav-icon {
+        margin-right: 10px;
+      }
+
+      /* Knowledge styles */
+      .knowledge-header {
+        background-image: linear-gradient(
+            rgba(0, 0, 0, 0.6),
+            rgba(0, 0, 0, 0.6)
+          ),
+          url("assets/images/banner.jpg");
+        background-size: cover;
+        background-position: center;
+        color: white;
+        padding: 60px 30px;
+        border-radius: 10px;
+        margin-bottom: 30px;
+        text-align: center;
+      }
+
+      .knowledge-header h1 {
+        font-size: 32px;
+        margin-bottom: 15px;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+      }
+
+      .knowledge-header p {
+        font-size: 18px;
+        max-width: 800px;
+        margin: 0 auto;
+        line-height: 1.6;
+      }
+
+      .knowledge-section {
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        padding: 30px;
+        margin-bottom: 30px;
+      }
+
+      .knowledge-section:hover {
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        transform: translateY(-5px);
+        transition: all 0.3s ease;
+      }
+
+      .section-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #eee;
+      }
+
+      .section-icon {
+        width: 60px;
+        height: 60px;
+        background-color: #e3f2fd;
+        color: #2196f3;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 30px;
+        margin-right: 20px;
+        flex-shrink: 0;
+      }
+
+      .section-icon.purple {
+        background-color: #f3e5f5;
+        color: #9c27b0;
+      }
+
+      .section-icon.orange {
+        background-color: #fff3e0;
+        color: #ff9800;
+      }
+
+      .section-title {
+        font-size: 24px;
+        color: #333;
+      }
+
+      .knowledge-content {
+        line-height: 1.7;
+        color: #555;
+      }
+
+      .knowledge-content p {
+        margin-bottom: 15px;
+      }
+
+      .bullet-list {
+        margin: 20px 0;
+        padding-left: 20px;
+      }
+
+      .bullet-item {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 15px;
+      }
+
+      .bullet-icon {
+        color: #2196f3;
+        margin-right: 10px;
+        flex-shrink: 0;
+        font-size: 18px;
+      }
+
+      .purple .bullet-icon {
+        color: #9c27b0;
+      }
+
+      .orange .bullet-icon {
+        color: #ff9800;
+      }
+
+      .highlight-box {
+        background-color: #f9f9f9;
+        border-left: 4px solid #2196f3;
+        padding: 15px;
+        margin: 20px 0;
+        border-radius: 0 5px 5px 0;
+      }
+
+      .purple .highlight-box {
+        border-left-color: #9c27b0;
+      }
+
+      .orange .highlight-box {
+        border-left-color: #ff9800;
+      }
+
+      /* Responsive adjustments */
+      @media (max-width: 768px) {
+        body {
+          flex-direction: column;
+        }
+
+        .sidebar {
+          width: 100%;
+          height: auto;
+          position: relative;
+        }
+
+        .main-content {
+          margin-left: 0;
+          width: 100%;
+        }
+
+        .section-header {
+          flex-direction: column;
+          text-align: center;
+        }
+
+        .section-icon {
+          margin-right: 0;
+          margin-bottom: 15px;
+        }
+      }
+      .menu-icon i {
+        font-size: 18px;
+        width: 20px;
+        text-align: center;
+      }
+
+      .menu-item.active .menu-icon i {
+        color: white;
+      }
+
+      .menu-item:hover .menu-icon i {
+        transform: scale(1.2);
+        transition: transform 0.3s ease;
+      }
+    </style>
+    <!-- Thêm vào phần <head> của mỗi trang -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+
+    <style>
+      /* Hiệu ứng chuyển động mượt mà */
+      .hero-banner,
+      .content-section,
+      .service-card,
+      .step-item,
+      .contact-btn {
+        transition: all 0.5s ease;
+      }
+
+      /* Cải thiện hero banner */
+      .hero-banner {
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+      }
+
+      .hero-banner:hover {
+        transform: translateY(-5px);
+      }
+
+      /* Hiệu ứng cho các section */
+      .content-section {
+        transition: transform 0.4s ease, box-shadow 0.4s ease;
+      }
+
+      .content-section:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+      }
+
+      /* Hiệu ứng facility items */
+      .facility-item {
+        transition: all 0.4s ease;
+      }
+
+      .facility-item:hover {
+        transform: translateY(-8px);
+      }
+
+      .facility-item .icon-wrapper {
+        transition: all 0.5s ease;
+      }
+
+      .facility-item:hover .icon-wrapper {
+        transform: rotateY(180deg);
+      }
+
+      /* Card hover effects */
+      .service-card:hover {
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 15px 30px rgba(33, 150, 243, 0.1);
+      }
+
+      .service-card .card-icon {
+        transition: all 0.5s ease;
+      }
+
+      .service-card:hover .card-icon {
+        transform: rotateY(360deg);
+        background-color: #2196f3;
+        color: white;
+      }
+
+      /* Step item animations */
+      .step-item {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .step-item:hover {
+        background-color: #f9f9f9;
+        padding-left: 15px;
+        border-radius: 8px;
+      }
+
+      .step-item .step-number,
+      .step-item .step-icon {
+        transition: all 0.4s ease;
+      }
+
+      .step-item:hover .step-number {
+        transform: scale(1.2);
+      }
+
+      .step-item:hover .step-icon {
+        transform: rotate(360deg);
+      }
+
+      /* Contact button effects */
+      .contact-btn {
+        transform-origin: center;
+        transition: all 0.3s ease;
+      }
+
+      .contact-btn:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+      }
+
+      .contact-btn i {
+        transition: all 0.4s ease;
+      }
+
+      .contact-btn:hover i {
+        transform: scale(1.2);
+      }
+
+      /* Scrollbar styling */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: #2196f3;
+        border-radius: 10px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: #1976d2;
+      }
+
+      /* Sidebar menu hover effect */
+      .menu-item {
+        transition: all 0.3s ease;
+      }
+
+      .menu-item:hover .menu-icon {
+        transform: scale(1.2);
+        transition: transform 0.3s ease;
+      }
+
+      /* Gradient buttons */
+      .login-register-btn {
+        background-image: linear-gradient(45deg, #2196f3, #1976d2);
+        transition: all 0.3s ease;
+      }
+
+      .login-register-btn:hover {
+        background-image: linear-gradient(45deg, #1976d2, #0d47a1);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(33, 150, 243, 0.3);
+      }
+
+      /* Animation for facility section */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .logo-container {
+        display: flex;
+        align-items: center;
+        flex-direction: row; /* Thay đổi từ column thành row */
+        padding: 15px;
+        border-bottom: 1px solid #eee;
+      }
+
+      .logo {
+        width: 45px;
+        height: 45px;
+        margin-right: 12px; /* Thêm khoảng cách giữa logo và text */
+        margin-bottom: 0;
+      }
+
+      .text-container {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .logo-text {
+        font-size: 28px;
+        color: #2196f3;
+        font-weight: bold;
+        letter-spacing: 1px;
+        margin-bottom: 3px;
+        line-height: 1;
+      }
+
+      .logo-subtext {
+        font-size: 15px;
+        color: #444;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+        line-height: 1.2;
+        text-transform: capitalize;
+        /* background: linear-gradient(to right, #2196F3, #1976D2); */
+        /* -webkit-background-clip: text; */
+        /* -webkit-text-fill-color: transparent; */
+        max-width: 180px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="logo-container">
+        <img src="assets/images/logo.svg" alt="Logo" class="logo" />
+        <div class="text-container">
+          <div class="logo-text">Genx</div>
+          <div class="logo-subtext">Trung tâm xét nghiệm ADN huyết thống</div>
+        </div>
+      </div>
+
+      <div class="login-register">
+        <div
+          style="background-color: #f0f8ff; padding: 15px; border-radius: 5px"
+        >
+          <div style="display: flex; align-items: center; margin-bottom: 10px">
+            <div
+              style="
+                width: 40px;
+                height: 40px;
+                background-color: #2196f3;
+                border-radius: 50%;
+                color: white;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-right: 10px;
+                font-weight: bold;
+                font-size: 20px;
+              "
+            >
+              <span id="avatar-letter">G</span>
+            </div>
+            <div>
+              <div id="avatar-fullname" style="font-weight: bold"></div>
+              <div id="avatar-role" style="font-size: 12px; color: #888"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+        // Biến lưu thông tin người dùng (giả lập, sau này lấy từ API/database)
+        let userInfo = {
+          fullname: "Van A",
+          role: "Khách hàng",
+        };
+
+        // Khi có dữ liệu thật, chỉ cần cập nhật userInfo từ API
+        document.addEventListener("DOMContentLoaded", function () {
+          // Nếu có currentUser trong localStorage thì lấy ra
+          const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+          if (currentUser) {
+            userInfo.fullname = currentUser.fullname;
+            userInfo.role = currentUser.role || "Khách hàng";
+          }
+          // Gán lên giao diện
+          document.getElementById("avatar-letter").textContent =
+            userInfo.fullname.charAt(0).toUpperCase();
+          document.getElementById("avatar-fullname").textContent =
+            userInfo.fullname;
+          document.getElementById("avatar-role").textContent = userInfo.role;
+        });
+      </script>
+
+      <div class="menu-title">MAIN MENU</div>
+      <div id="mainMenu">
+        <!-- Menu sẽ được thêm bằng JavaScript -->
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <!-- Navigation Bar -->
+      <div id="topNavbar" class="navbar">
+        <!-- Navbar sẽ được thêm bằng JavaScript -->
+      </div>
+
+      <!-- Knowledge Header -->
+      <div class="knowledge-header">
+        <h1>Kiến thức về ADN</h1>
+        <p>
+          Hiểu biết về ADN và vai trò quan trọng của xét nghiệm ADN trong y học
+          và đời sống hiện đại.
+        </p>
+      </div>
+
+      <!-- Section 1: ADN là gì? -->
+      <div class="knowledge-section">
+        <div class="section-header">
+          <div class="section-icon">🧬</div>
+          <h2 class="section-title">ADN là gì?</h2>
+        </div>
+
+        <div class="knowledge-content">
+          <p>
+            ADN (hay DNA) là acid deoxyribonucleic, mang thông tin di truyền của
+            sinh vật. Hiểu một cách đơn giản trong y học và dịch vụ xét nghiệm,
+            ADN (DNA) là vật liệu di truyền riêng biệt của mỗi người, giống như
+            "dấu vân tay di truyền".
+          </p>
+
+          <p>
+            Mỗi người có ADN khác nhau (trừ trường hợp sinh đôi cùng trứng), nên
+            các cơ sở y tế có thể dùng ADN để:
+          </p>
+
+          <div class="bullet-list">
+            <div class="bullet-item">
+              <span class="bullet-icon">🔬</span>
+              <span
+                ><strong>Xét nghiệm huyết thống:</strong> Kiểm tra mối quan hệ
+                cha – con, mẹ – con, anh – em ruột… bằng cách so sánh ADN giữa
+                hai hay nhiều người.</span
+              >
+            </div>
+
+            <div class="bullet-item">
+              <span class="bullet-icon">🩺</span>
+              <span
+                ><strong>Tầm soát bệnh di truyền:</strong> Phát hiện sớm nguy cơ
+                mắc các bệnh như ung thư, tim mạch, tiểu đường… do di truyền từ
+                cha mẹ.</span
+              >
+            </div>
+
+            <div class="bullet-item">
+              <span class="bullet-icon">🔍</span>
+              <span
+                ><strong>Xác định danh tính:</strong> Trong pháp y, xác định
+                danh tính nạn nhân trong các vụ tai nạn, mất tích…</span
+              >
+            </div>
+
+            <div class="bullet-item">
+              <span class="bullet-icon">👶</span>
+              <span
+                ><strong>Xét nghiệm trước sinh:</strong> Kiểm tra các bất thường
+                di truyền của thai nhi.</span
+              >
+            </div>
+          </div>
+
+          <div class="highlight-box">
+            <p>
+              <strong>Nói nôm na:</strong> ADN là "căn cước sinh học", xét
+              nghiệm ADN giống như đem "căn cước đó" ra so sánh để xác định mối
+              quan hệ huyết thống hay phát hiện nguy cơ bệnh tật.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 2: Ý nghĩa của xét nghiệm ADN -->
+      <div class="knowledge-section">
+        <div class="section-header">
+          <div class="section-icon purple">📊</div>
+          <h2 class="section-title">Ý nghĩa của xét nghiệm ADN</h2>
+        </div>
+
+        <div class="knowledge-content purple">
+          <p>
+            Ý nghĩa của xét nghiệm ADN trong y học và đời sống rất lớn, cụ thể
+            như sau:
+          </p>
+
+          <div class="bullet-list">
+            <div class="bullet-item">
+              <span class="bullet-icon">👨‍👩‍👧</span>
+              <span
+                ><strong
+                  >1. Xác định huyết thống (cha – con, mẹ – con, ông –
+                  cháu…)</strong
+                ><br />
+                Đây là mục đích phổ biến nhất. Giúp xác nhận mối quan hệ ruột
+                thịt một cách chính xác gần như tuyệt đối (99,999%). Áp dụng
+                trong tranh chấp pháp lý, nhận con, nhận cha/mẹ, thừa kế tài
+                sản, hoặc chỉ để an tâm cá nhân.</span
+              >
+            </div>
+
+            <div class="bullet-item">
+              <span class="bullet-icon">🧪</span>
+              <span
+                ><strong>2. Tầm soát và chẩn đoán bệnh di truyền</strong><br />
+                Phát hiện sớm các bệnh có yếu tố di truyền như: ung thư vú, ung
+                thư đại trực tràng, tim mạch, tiểu đường, loãng xương… Từ đó
+                giúp cá nhân chủ động phòng ngừa hoặc điều trị sớm, nâng cao
+                chất lượng sống.</span
+              >
+            </div>
+
+            <div class="bullet-item">
+              <span class="bullet-icon">🤰</span>
+              <span
+                ><strong>3. Xét nghiệm trước sinh và sơ sinh</strong><br />
+                Phát hiện bất thường nhiễm sắc thể (như hội chứng Down) ngay từ
+                khi thai còn trong bụng mẹ. Xét nghiệm sơ sinh giúp phát hiện
+                sớm các bệnh rối loạn chuyển hóa hay di truyền hiếm gặp để can
+                thiệp kịp thời.</span
+              >
+            </div>
+
+            <div class="bullet-item">
+              <span class="bullet-icon">⚖️</span>
+              <span
+                ><strong>4. Xác định danh tính trong pháp y</strong><br />
+                Giúp nhận dạng thi thể trong các vụ tai nạn, thảm họa, hoặc xác
+                minh người mất tích. Sử dụng trong điều tra hình sự để xác định
+                nghi phạm hoặc minh oan cho người vô tội.</span
+              >
+            </div>
+
+            <div class="bullet-item">
+              <span class="bullet-icon">📝</span>
+              <span
+                ><strong>5. Lập hồ sơ di truyền cá nhân</strong><br />
+                Phục vụ cho y học cá thể hóa (cá nhân hóa điều trị). Phân tích
+                ADN giúp lựa chọn thuốc phù hợp, tránh tác dụng phụ và nâng cao
+                hiệu quả điều trị.</span
+              >
+            </div>
+          </div>
+
+          <div class="highlight-box">
+            <p>
+              <strong>Tóm lại:</strong> Xét nghiệm ADN là công cụ mạnh mẽ giúp
+              hiểu rõ về bản thân, bảo vệ sức khỏe, xác định huyết thống và danh
+              tính, từ đó hỗ trợ cả trong y học lẫn pháp luật.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 3: Độ chính xác của xét nghiệm ADN -->
+      <div class="knowledge-section">
+        <div class="section-header">
+          <div class="section-icon orange">📈</div>
+          <h2 class="section-title">Độ chính xác của xét nghiệm ADN</h2>
+        </div>
+
+        <div class="knowledge-content orange">
+          <p>
+            Độ chính xác của xét nghiệm ADN hiện nay rất cao, đặc biệt khi được
+            thực hiện tại các cơ sở uy tín và theo đúng quy trình chuyên môn:
+          </p>
+
+          <div class="bullet-list">
+            <div class="bullet-item">
+              <span class="bullet-icon">✅</span>
+              <span
+                ><strong
+                  >1. Xét nghiệm huyết thống (cha – con, mẹ – con...)</strong
+                ><br />
+                Chính xác gần như tuyệt đối: Nếu có quan hệ huyết thống, độ
+                chính xác thường đạt 99,999% trở lên. Nếu không có quan hệ huyết
+                thống, độ loại trừ là 100%. Vì vậy, được sử dụng làm bằng chứng
+                hợp pháp trong tòa án.</span
+              >
+            </div>
+
+            <div class="bullet-item">
+              <span class="bullet-icon">🧬</span>
+              <span
+                ><strong
+                  >2. Xét nghiệm gen bệnh lý (tầm soát bệnh di truyền)</strong
+                ><br />
+                Độ chính xác thường từ 95% – 99%, tùy loại bệnh và công nghệ sử
+                dụng. Kết quả có độ tin cậy cao, nhưng thường đi kèm tư vấn di
+                truyền để hiểu rõ nguy cơ.</span
+              >
+            </div>
+          </div>
+
+          <p><strong>3. Các yếu tố ảnh hưởng đến độ chính xác</strong></p>
+
+          <div class="bullet-list">
+            <div class="bullet-item">
+              <span class="bullet-icon">🔬</span>
+              <span
+                ><strong>Chất lượng mẫu sinh học:</strong> Máu, niêm mạc miệng,
+                tóc, móng… nếu bị hỏng, nhiễm bẩn sẽ ảnh hưởng kết quả.</span
+              >
+            </div>
+
+            <div class="bullet-item">
+              <span class="bullet-icon">🏥</span>
+              <span
+                ><strong>Phòng xét nghiệm:</strong> Cần trang bị công nghệ hiện
+                đại, kiểm soát quy trình nghiêm ngặt.</span
+              >
+            </div>
+
+            <div class="bullet-item">
+              <span class="bullet-icon">🔍</span>
+              <span
+                ><strong>Số lượng điểm gen được phân tích:</strong> Càng nhiều
+                loci (vị trí gen) thì độ chính xác càng cao.</span
+              >
+            </div>
+          </div>
+
+          <div class="highlight-box">
+            <p><strong>Lưu ý:</strong></p>
+            <ul style="margin-top: 10px; margin-left: 20px">
+              <li>
+                Nên chọn đơn vị xét nghiệm uy tín, được cấp phép, có đội ngũ
+                chuyên môn và trang thiết bị hiện đại.
+              </li>
+              <li>
+                Một số xét nghiệm phục vụ pháp lý cần lấy mẫu trực tiếp tại cơ
+                sở và có giấy tờ tùy thân, tránh xét nghiệm ẩn danh khi cần giá
+                trị pháp lý.
+              </li>
+            </ul>
+          </div>
+
+          <div
+            class="highlight-box"
+            style="background-color: #fff8e1; border-color: #ff9800"
+          >
+            <p>
+              <strong>Tóm lại:</strong> Xét nghiệm ADN có độ chính xác rất cao,
+              đặc biệt trong xác định huyết thống và tầm soát bệnh di truyền.
+              Tuy nhiên, độ chính xác phụ thuộc vào công nghệ, mẫu xét nghiệm và
+              đơn vị thực hiện.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Kiểm tra xem người dùng đã đăng nhập hay chưa
+      function checkLoggedIn() {
+        const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+        const loginRegisterDiv = document.querySelector(".login-register");
+        const mainMenuDiv = document.getElementById("mainMenu");
+        const topNavbarDiv = document.getElementById("topNavbar");
+
+        // Lấy tên file hiện tại để xác định trang đang active
+        const currentPage = window.location.pathname.split("/").pop();
+        // Cập nhật menu dựa theo trạng thái đăng nhập
+        if (currentUser) {
+          // Menu cho người dùng đã đăng nhập - đầy đủ các mục
+          mainMenuDiv.innerHTML = `
+                    <a href="index.html" class="menu-item">
+                        <span class="menu-icon">📊</span>
+                        Trang chủ
+                    </a>
+                    
+                    <a href="profile.html" class="menu-item">
+                        <span class="menu-icon">👤</span>
+                        Thông tin cá nhân
+                    </a>
+                    
+                    <a href="booking.html" class="menu-item">
+                        <span class="menu-icon">📅</span>
+                        Đặt lịch xét nghiệm
+                    </a>
+                    
+                    <a href="progress.html" class="menu-item">
+                        <span class="menu-icon">📋</span>
+                        Tiến trình xét nghiệm
+                    </a>
+                    
+                    <a href="history.html" class="menu-item">
+                        <span class="menu-icon">⏱️</span>
+                        Lịch sử xét nghiệm
+                    </a>
+                    
+                    <a href="results.html" class="menu-item">
+                        <span class="menu-icon">📊</span>
+                        Kết quả xét nghiệm
+                    </a>
+                    
+                    <a href="reviews.html" class="menu-item">
+                        <span class="menu-icon">⭐</span>
+                        Đánh giá dịch vụ
+                    </a>
+                `;
+          // Cập nhật navbar tương ứng với menu đã đăng nhập
+          topNavbarDiv.innerHTML = `
+                    <a href="index.html" class="nav-item">
+                        <span class="nav-icon">📊</span>
+                        Trang chủ
+                    </a>
+                    <a href="profile.html" class="nav-item">
+                        <span class="nav-icon">👤</span>
+                        Thông tin
+                    </a>
+                    <a href="booking.html" class="nav-item">
+                        <span class="nav-icon">📅</span>
+                        Đặt lịch
+                    </a>
+                    <a href="progress.html" class="nav-item">
+                        <span class="nav-icon">📋</span>
+                        Tiến trình
+                    </a>
+                    <a href="history.html" class="nav-item">
+                        <span class="nav-icon">⏱️</span>
+                        Lịch sử
+                    </a>
+                    <a href="results.html" class="nav-item">
+                        <span class="nav-icon">📊</span>
+                        Kết quả
+                    </a>
+                    <a href="reviews.html" class="nav-item">
+                        <span class="nav-icon">⭐</span>
+                        Đánh giá
+                    </a>
+                `;
+
+          // Nếu đã đăng nhập, hiển thị thông tin người dùng
+          loginRegisterDiv.innerHTML = `
+                    <div style="background-color: #f0f8ff; padding: 15px; border-radius: 5px;">
+                        <div style="display: flex; align-items: center; margin-bottom: 10px;">
+                            <div style="width: 40px; height: 40px; background-color: #2196F3; border-radius: 50%; 
+                                 color: white; display: flex; justify-content: center; align-items: center; 
+                                 margin-right: 10px; font-weight: bold;">
+                                ${currentUser.fullname.charAt(0)}
+                            </div>
+                            <div>
+                                <div style="font-weight: bold;">${
+                                  currentUser.fullname
+                                }</div>
+                                <div style="font-size: 12px; color: #888;">Khách hàng</div>
+                            </div>
+                        </div>
+                        <button id="logout-btn" style="width: 100%; padding: 10px; background-color: #f44336; 
+                                color: white; border: none; border-radius: 5px; cursor: pointer;">
+                            Đăng xuất
+                        </button>
+                    </div>
+                `;
+
+          // Thêm sự kiện đăng xuất
+          document
+            .getElementById("logout-btn")
+            .addEventListener("click", function () {
+              localStorage.removeItem("currentUser");
+              window.location.reload();
+            });
+        } else {
+          // Menu cho người dùng chưa đăng nhập - chỉ hiện các mục cơ bản
+mainMenuDiv.innerHTML = `
+    <a href="/home" class="menu-item${currentPage === 'index.html' ? ' active' : ''}">
+        <span class="menu-icon"><i class="fas fa-home"></i></span>
+        Trang chủ
+    </a>
+    
+    <a href="/appointments" class="menu-item${currentPage === 'booking.html' ? ' active' : ''}">
+        <span class="menu-icon"><i class="fas fa-calendar-alt"></i></span>
+        Đặt lịch xét nghiệm
+    </a>
+    
+    <a href="/services" class="menu-item${currentPage === 'services.html' ? ' active' : ''}">
+        <span class="menu-icon"><i class="fas fa-flask"></i></span>
+        Giới thiệu dịch vụ
+    </a>
+    
+    <a href="/knowledge" class="menu-item${currentPage === 'knowledge.html' ? ' active' : ''}">
+        <span class="menu-icon"><i class="fas fa-dna"></i></span>
+        Chia sẻ kiến thức ADN
+    </a>
+    
+    <a href="/sampling-guide" class="menu-item${currentPage === 'sample-collection.html' ? ' active' : ''}">
+        <span class="menu-icon"><i class="fas fa-vial"></i></span>
+        Hướng dẫn lấy mẫu
+    </a>
+`;
+
+        }
+      }
+
+      // Kiểm tra đăng nhập khi trang được tải
+      document.addEventListener("DOMContentLoaded", checkLoggedIn);
+    </script>
+  </body>
+</html>
