@@ -1,0 +1,1665 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Trang Chủ - Dịch Vụ Xét Nghiệm ADN</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+      }
+
+      body {
+        display: flex;
+        min-height: 100vh;
+        background-color: #f5f5f5;
+      }
+
+      /* Sidebar styles */
+      .sidebar {
+        width: 260px;
+        background-color: white;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+        position: fixed;
+        height: 100vh;
+        left: 0;
+        top: 0;
+        z-index: 100;
+        overflow-y: auto;
+      }
+
+      .logo-container {
+        display: flex;
+        align-items: center;
+        padding: 15px;
+        border-bottom: 1px solid #eee;
+      }
+
+      .logo {
+        width: 40px;
+        height: 40px;
+        margin-right: 10px;
+      }
+
+      .logo-text {
+        font-size: 22px;
+        color: #2196f3;
+        font-weight: bold;
+      }
+
+      .login-register {
+        padding: 15px;
+        background-color: #f9f9f9;
+        border-bottom: 1px solid #eee;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .login-register-btn {
+        background-color: #2196f3;
+        color: white;
+        border: none;
+        padding: 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-bottom: 8px;
+        text-align: center;
+        text-decoration: none;
+        font-weight: bold;
+      }
+
+      .menu-title {
+        padding: 15px;
+        color: #888;
+        font-size: 14px;
+      }
+
+      .menu-item {
+        padding: 15px;
+        display: flex;
+        align-items: center;
+        color: #333;
+        text-decoration: none;
+        transition: background-color 0.3s;
+      }
+
+      .menu-item.active {
+        background-color: #2196f3;
+        color: white;
+      }
+
+      .menu-item:hover {
+        background-color: #e3f2fd;
+      }
+
+      .menu-item.active:hover {
+        background-color: #1976d2;
+      }
+
+      .menu-icon {
+        margin-right: 10px;
+        width: 20px;
+        text-align: center;
+      }
+
+      /* Main content styles */
+      .main-content {
+        margin-left: 260px;
+        padding: 20px;
+        width: calc(100% - 260px);
+      }
+
+      header {
+        background-color: white;
+        padding: 20px;
+        margin-bottom: 20px;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      .navbar {
+        display: flex;
+        margin: 20px 0;
+        background-color: white;
+        border-radius: 5px;
+        overflow: hidden;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      .nav-item {
+        padding: 15px 20px;
+        text-decoration: none;
+        color: #333;
+        display: flex;
+        align-items: center;
+        border-bottom: 2px solid transparent;
+      }
+
+      .nav-item.active {
+        border-bottom: 2px solid #2196f3;
+        color: #2196f3;
+      }
+
+      .nav-icon {
+        margin-right: 10px;
+      }
+
+      /* Dashboard styles */
+      .dashboard {
+        margin-bottom: 20px;
+      }
+
+      .dashboard-title {
+        font-size: 24px;
+        margin-bottom: 20px;
+      }
+
+      .stats-container {
+        display: flex;
+        gap: 20px;
+        margin-bottom: 20px;
+      }
+
+      .stat-card {
+        background-color: white;
+        border-radius: 5px;
+        padding: 20px;
+        flex: 1;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        position: relative;
+        overflow: hidden;
+        min-height: 120px;
+      }
+
+      .stat-title {
+        color: #888;
+        font-size: 14px;
+        margin-bottom: 10px;
+      }
+
+      .stat-value {
+        font-size: 32px;
+        font-weight: bold;
+      }
+
+      .stat-icon {
+        position: absolute;
+        right: 20px;
+        top: 20px;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+      }
+
+      .blue-icon {
+        background-color: #2196f3;
+      }
+
+      .orange-icon {
+        background-color: #ff9800;
+      }
+
+      .green-icon {
+        background-color: #4caf50;
+      }
+
+      .gold-icon {
+        background-color: #ffc107;
+      }
+
+      .section-title {
+        font-size: 20px;
+        margin-bottom: 15px;
+      }
+
+      .appointments,
+      .progress {
+        display: flex;
+        gap: 20px;
+      }
+
+      .panel {
+        background-color: white;
+        border-radius: 5px;
+        padding: 20px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        flex: 1;
+      }
+
+      .panel-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+      }
+
+      .view-all {
+        color: #2196f3;
+        text-decoration: none;
+        font-size: 14px;
+      }
+
+      .appointment-item {
+        padding: 15px 0;
+        border-bottom: 1px solid #eee;
+        display: flex;
+        align-items: center;
+      }
+
+      .appointment-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: #e3f2fd;
+        color: #2196f3;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 15px;
+      }
+
+      .appointment-icon.purple {
+        background-color: #f3e5f5;
+        color: #9c27b0;
+      }
+
+      .appointment-details {
+        flex: 1;
+      }
+
+      .appointment-date {
+        font-size: 12px;
+        color: #888;
+        margin-bottom: 5px;
+      }
+
+      .appointment-location {
+        font-size: 12px;
+        color: #888;
+        display: flex;
+        align-items: center;
+      }
+
+      .appointment-action {
+        margin-left: 10px;
+      }
+
+      .btn-view {
+        background-color: #e3f2fd;
+        color: #2196f3;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 12px;
+      }
+
+      .progress-bar {
+        height: 6px;
+        background-color: #e0e0e0;
+        border-radius: 3px;
+        overflow: hidden;
+        margin: 10px 0;
+      }
+
+      .progress-fill {
+        height: 100%;
+        background-color: #2196f3;
+        width: 0%;
+      }
+
+      .progress-steps {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .progress-step {
+        font-size: 12px;
+        color: #888;
+      }
+
+      /* General Styles */
+      .content-section {
+        margin-bottom: 50px;
+        background-color: white;
+        border-radius: 10px;
+        padding: 30px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      }
+
+      .section-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #eee;
+      }
+
+      .section-icon {
+        width: 50px;
+        height: 50px;
+        background-color: #e3f2fd;
+        color: #2196f3;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 24px;
+        margin-right: 15px;
+      }
+
+      .section-header h2 {
+        font-size: 24px;
+        color: #333;
+        margin: 0;
+      }
+
+      .section-desc {
+        color: #666;
+        font-size: 16px;
+        margin-bottom: 25px;
+      }
+      .section-header[onclick] {
+        transition: all 0.3s ease;
+      }
+
+      .section-header[onclick]:hover {
+        background-color: #f5f9ff;
+        border-radius: 5px;
+        padding-left: 10px;
+      }
+
+      .section-header[onclick]:hover h2 {
+        color: #2196f3;
+      }
+
+      .service-card {
+        transition: all 0.3s ease;
+      }
+
+      .service-card:hover {
+        box-shadow: 0 8px 20px rgba(33, 150, 243, 0.2);
+        transform: translateY(-5px);
+      }
+      /* Service Cards */
+      .service-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 20px;
+      }
+
+      .service-card {
+        display: flex;
+        align-items: flex-start;
+        background-color: #f9f9f9;
+        padding: 20px;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+      }
+
+      .service-card:hover {
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        transform: translateY(-3px);
+      }
+
+      .card-icon {
+        width: 40px;
+        height: 40px;
+        background-color: #e3f2fd;
+        color: #2196f3;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 18px;
+        margin-right: 15px;
+        flex-shrink: 0;
+      }
+
+      .card-content h3 {
+        font-size: 18px;
+        margin: 0 0 10px 0;
+        color: #333;
+      }
+
+      .card-content p {
+        color: #666;
+        font-size: 14px;
+        margin: 0;
+        line-height: 1.4;
+      }
+
+      /* Knowledge Section */
+      .knowledge-item {
+        display: flex;
+        align-items: flex-start;
+        background-color: #f9f9f9;
+        padding: 25px;
+        border-radius: 8px;
+      }
+
+      .item-icon {
+        width: 45px;
+        height: 45px;
+        background-color: #e8f5e9;
+        color: #4caf50;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 20px;
+        margin-right: 20px;
+        flex-shrink: 0;
+      }
+
+      .item-content h3 {
+        font-size: 20px;
+        margin: 0 0 12px 0;
+        color: #333;
+      }
+
+      .item-content p {
+        color: #555;
+        line-height: 1.6;
+        margin-bottom: 15px;
+      }
+
+      .read-more {
+        color: #2196f3;
+        text-decoration: none;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+      }
+
+      .read-more i {
+        margin-left: 5px;
+        font-size: 14px;
+      }
+
+      /* Sample Steps */
+      .sample-steps {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .step-item {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 25px;
+        position: relative;
+        padding-bottom: 25px;
+        border-bottom: 1px solid #eee;
+      }
+
+      .step-item:last-child {
+        margin-bottom: 0;
+        padding-bottom: 0;
+        border-bottom: none;
+      }
+
+      .step-number {
+        width: 30px;
+        height: 30px;
+        background-color: #2196f3;
+        color: white;
+        font-size: 16px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-right: 15px;
+        flex-shrink: 0;
+        font-weight: bold;
+      }
+
+      .step-icon {
+        width: 40px;
+        height: 40px;
+        background-color: #e3f2fd;
+        color: #2196f3;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 18px;
+        margin-right: 15px;
+        flex-shrink: 0;
+      }
+
+      .step-content h3 {
+        font-size: 18px;
+        margin: 0 0 8px 0;
+        color: #333;
+      }
+
+      .step-content p {
+        color: #666;
+        font-size: 15px;
+        margin: 0;
+        line-height: 1.4;
+      }
+
+      /* Contact Section */
+      .contact-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+      }
+
+      .contact-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 12px 25px;
+        border-radius: 6px;
+        color: white;
+        text-decoration: none;
+        font-weight: 500;
+        flex: 1;
+        min-width: 220px;
+        transition: all 0.3s ease;
+      }
+
+      .contact-btn i {
+        margin-right: 10px;
+        font-size: 20px;
+      }
+
+      .facebook-btn {
+        background-color: #3b5998;
+      }
+
+      .facebook-btn:hover {
+        background-color: #344e86;
+      }
+
+      .zalo-btn {
+        background-color: #0068ff;
+      }
+
+      .zalo-btn:hover {
+        background-color: #0057d5;
+      }
+
+      .hotline-btn {
+        background-color: #4caf50;
+      }
+
+      .hotline-btn:hover {
+        background-color: #43a047;
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        body {
+          flex-direction: column;
+        }
+
+        .sidebar {
+          width: 100%;
+          height: auto;
+          position: relative;
+        }
+
+        .main-content {
+          margin-left: 0;
+          width: 100%;
+        }
+
+        .stats-container,
+        .appointments,
+        .progress {
+          flex-direction: column;
+        }
+
+        .service-cards {
+          grid-template-columns: 1fr;
+        }
+
+        .contact-buttons {
+          flex-direction: column;
+        }
+
+        .contact-btn {
+          width: 100%;
+        }
+
+        .knowledge-item,
+        .step-item {
+          flex-direction: column;
+        }
+
+        .item-icon,
+        .step-icon,
+        .step-number {
+          margin-bottom: 15px;
+        }
+      }
+      .menu-icon i {
+        font-size: 18px;
+        width: 20px;
+        text-align: center;
+      }
+
+      .menu-item.active .menu-icon i {
+        color: white;
+      }
+
+      .menu-item:hover .menu-icon i {
+        transform: scale(1.2);
+        transition: transform 0.3s ease;
+      }
+    </style>
+
+    <!-- Font Awesome để hiển thị icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <!-- Thêm vào phần <head>, trước thẻ </head> -->
+    <style>
+      /* Hiệu ứng chuyển động mượt mà */
+      .hero-banner,
+      .content-section,
+      .service-card,
+      .step-item,
+      .contact-btn {
+        transition: all 0.5s ease;
+      }
+
+      /* Cải thiện hero banner */
+      .hero-banner {
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+      }
+
+      .hero-banner:hover {
+        transform: translateY(-5px);
+      }
+
+      /* Hiệu ứng cho các section */
+      .content-section {
+        transition: transform 0.4s ease, box-shadow 0.4s ease;
+      }
+
+      .content-section:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+      }
+
+      /* Hiệu ứng facility items */
+      .facility-item {
+        transition: all 0.4s ease;
+      }
+
+      .facility-item:hover {
+        transform: translateY(-8px);
+      }
+
+      .facility-item .icon-wrapper {
+        transition: all 0.5s ease;
+      }
+
+      .facility-item:hover .icon-wrapper {
+        transform: rotateY(180deg);
+      }
+
+      /* Card hover effects */
+      .service-card:hover {
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 15px 30px rgba(33, 150, 243, 0.1);
+      }
+
+      .service-card .card-icon {
+        transition: all 0.5s ease;
+      }
+
+      .service-card:hover .card-icon {
+        transform: rotateY(360deg);
+        background-color: #2196f3;
+        color: white;
+      }
+
+      /* Step item animations */
+      .step-item {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .step-item:hover {
+        background-color: #f9f9f9;
+        padding-left: 15px;
+        border-radius: 8px;
+      }
+
+      .step-item .step-number,
+      .step-item .step-icon {
+        transition: all 0.4s ease;
+      }
+
+      .step-item:hover .step-number {
+        transform: scale(1.2);
+      }
+
+      .step-item:hover .step-icon {
+        transform: rotate(360deg);
+      }
+
+      /* Contact button effects */
+      .contact-btn {
+        transform-origin: center;
+        transition: all 0.3s ease;
+      }
+
+      .contact-btn:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+      }
+
+      .contact-btn i {
+        transition: all 0.4s ease;
+      }
+
+      .contact-btn:hover i {
+        transform: scale(1.2);
+      }
+
+      /* Scrollbar styling */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: #2196f3;
+        border-radius: 10px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: #1976d2;
+      }
+
+      /* Sidebar menu hover effect */
+      .menu-item {
+        transition: all 0.3s ease;
+      }
+
+      .menu-item:hover .menu-icon {
+        transform: scale(1.2);
+        transition: transform 0.3s ease;
+      }
+
+      /* Gradient buttons */
+      .login-register-btn {
+        background-image: linear-gradient(45deg, #2196f3, #1976d2);
+        transition: all 0.3s ease;
+      }
+
+      .login-register-btn:hover {
+        background-image: linear-gradient(45deg, #1976d2, #0d47a1);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(33, 150, 243, 0.3);
+      }
+
+      /* Animation for facility section */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .logo-container {
+        display: flex;
+        align-items: center;
+        flex-direction: row; /* Thay đổi từ column thành row */
+        padding: 15px;
+        border-bottom: 1px solid #eee;
+      }
+
+      .logo {
+        width: 45px;
+        height: 45px;
+        margin-right: 12px; /* Thêm khoảng cách giữa logo và text */
+        margin-bottom: 0;
+      }
+
+      .text-container {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .logo-text {
+        font-size: 28px;
+        color: #2196f3;
+        font-weight: bold;
+        letter-spacing: 1px;
+        margin-bottom: 3px;
+        line-height: 1;
+      }
+
+      .logo-subtext {
+        font-size: 15px;
+        color: #444;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+        line-height: 1.2;
+        text-transform: capitalize;
+        /* background: linear-gradient(to right, #2196F3, #1976D2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;  */
+        max-width: 180px;
+      }
+    </style>
+
+    <!-- Thêm thư viện animate.css -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+  </head>
+  <body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="logo-container">
+        <img src="assets/images/Logo.jpg" alt="Logo" class="logo" />
+        <div class="text-container">
+          <div class="logo-text">Genx</div>
+          <div class="logo-subtext">Trung tâm xét nghiệm ADN huyết thống</div>
+        </div>
+      </div>
+
+      <div class="login-register">
+        <div
+          style="background-color: #f0f8ff; padding: 15px; border-radius: 5px"
+        >
+          <div style="display: flex; align-items: center; margin-bottom: 10px">
+            <div
+              style="
+                width: 40px;
+                height: 40px;
+                background-color: #2196f3;
+                border-radius: 50%;
+                color: white;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-right: 10px;
+                font-weight: bold;
+                font-size: 20px;
+              "
+            >
+              <span id="avatar-letter">G</span>
+            </div>
+            <div>
+              <div id="avatar-fullname" style="font-weight: bold"></div>
+              <div id="avatar-role" style="font-size: 12px; color: #888"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+        // Biến lưu thông tin người dùng (giả lập, sau này lấy từ API/database)
+        let userInfo = {
+          fullname: "Tran Ngoc B",
+          role: "Nhân viên",
+        };
+
+        // Khi có dữ liệu thật, chỉ cần cập nhật userInfo từ API
+        document.addEventListener("DOMContentLoaded", function () {
+          // Nếu có currentUser trong localStorage thì lấy ra
+          const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+          if (currentUser) {
+            userInfo.fullname = currentUser.fullname;
+            userInfo.role = currentUser.role || "Khách hàng";
+          }
+          // Gán lên giao diện
+          document.getElementById("avatar-letter").textContent =
+            userInfo.fullname.charAt(0).toUpperCase();
+          document.getElementById("avatar-fullname").textContent =
+            userInfo.fullname;
+          document.getElementById("avatar-role").textContent = userInfo.role;
+        });
+      </script>
+
+      <div class="menu-title">MAIN MENU</div>
+      <div id="mainMenu">
+        <!-- Menu sẽ được thêm bằng JavaScript -->
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <!-- Thêm banner chính ở đây -->
+      <!-- Thay thế toàn bộ div hero-banner hiện tại (dòng 788-796) với mã sau -->
+      <div
+        class="hero-banner"
+        style="
+          background-image: linear-gradient(
+              rgba(0, 0, 0, 0.6),
+              rgba(0, 0, 0, 0.6)
+            ),
+            url('assets/images/banner.jpg');
+          background-size: cover;
+          background-position: center;
+          border-radius: 8px;
+          margin-bottom: 30px;
+          color: white;
+          overflow: hidden;
+        "
+      >
+        <div style="padding: 40px 20px; text-align: center">
+          <h1
+            style="
+              font-size: 36px;
+              margin-bottom: 15px;
+              text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+            "
+          >
+            Dịch vụ xét nghiệm ADN uy tín
+          </h1>
+          <p
+            style="
+              font-size: 18px;
+              max-width: 800px;
+              margin: 0 auto 20px;
+              text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            "
+          >
+            Cung cấp các dịch vụ xét nghiệm ADN nhanh chóng, chính xác và bảo
+            mật.
+          </p>
+          <a
+            href="booking.html"
+            class="login-register-btn"
+            style="
+              display: inline-block;
+              margin-bottom: 30px;
+              background-color: #4caf50;
+              padding: 12px 30px;
+              font-size: 16px;
+            "
+            >Đặt lịch ngay</a
+          >
+        </div>
+
+        <!-- Phần giới thiệu cơ sở y tế -->
+        <div
+          style="
+            background-color: rgba(255, 255, 255, 0.9);
+            color: #333;
+            padding: 30px 20px;
+            display: flex;
+            flex-wrap: wrap;
+          "
+        >
+          <div
+            style="flex: 1; min-width: 300px; padding: 15px; text-align: center"
+          >
+            <div style="font-size: 46px; color: #2196f3; margin-bottom: 10px">
+              <i class="fas fa-hospital"></i>
+            </div>
+            <h3 style="font-size: 20px; margin-bottom: 10px; color: #2196f3">
+              Cơ sở vật chất hiện đại
+            </h3>
+            <p style="color: #555; line-height: 1.6">
+              Phòng xét nghiệm đạt tiêu chuẩn quốc tế với trang thiết bị tiên
+              tiến nhập khẩu từ Mỹ và châu Âu.
+            </p>
+          </div>
+
+          <div
+            style="
+              flex: 1;
+              min-width: 300px;
+              padding: 15px;
+              text-align: center;
+              border-left: 1px solid #eee;
+              border-right: 1px solid #eee;
+            "
+          >
+            <div style="font-size: 46px; color: #2196f3; margin-bottom: 10px">
+              <i class="fas fa-user-md"></i>
+            </div>
+            <h3 style="font-size: 20px; margin-bottom: 10px; color: #2196f3">
+              Đội ngũ chuyên gia
+            </h3>
+            <p style="color: #555; line-height: 1.6">
+              Với hơn 50 chuyên gia và bác sĩ giàu kinh nghiệm, chúng tôi đảm
+              bảo kết quả xét nghiệm chính xác tuyệt đối.
+            </p>
+          </div>
+
+          <div
+            style="flex: 1; min-width: 300px; padding: 15px; text-align: center"
+          >
+            <div style="font-size: 46px; color: #2196f3; margin-bottom: 10px">
+              <i class="fas fa-shield-alt"></i>
+            </div>
+            <h3 style="font-size: 20px; margin-bottom: 10px; color: #2196f3">
+              Bảo mật tuyệt đối
+            </h3>
+            <p style="color: #555; line-height: 1.6">
+              Thông tin và kết quả xét nghiệm của khách hàng được bảo mật nghiêm
+              ngặt theo tiêu chuẩn y tế quốc tế.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div id="service-section" class="content-section">
+        <div class="section-header">
+          <div class="section-icon"><i class="fas fa-dna"></i></div>
+          <h2>Giới Thiệu Dịch Vụ</h2>
+        </div>
+        <p class="section-desc">
+          Chúng tôi cung cấp các dịch vụ xét nghiệm ADN chính xác và nhanh
+          chóng.
+        </p>
+
+        <div class="service-cards">
+          <div class="service-card">
+            <div class="card-icon"><i class="fas fa-users"></i></div>
+            <div class="card-content">
+              <h3>Xét nghiệm huyết thống</h3>
+              <p>
+                Xác định quan hệ cha con với độ chính xác cao lên đến 99.999%
+              </p>
+            </div>
+          </div>
+
+          <!-- <div class="service-card">
+                    <div class="card-icon"><i class="fas fa-heartbeat"></i></div>
+                    <div class="card-content">
+                        <h3>Xét nghiệm di truyền bệnh</h3>
+                        <p>Phát hiện nguy cơ mắc các bệnh di truyền từ sớm</p>
+                    </div>
+                </div>
+                
+                <div class="service-card">
+                    <div class="card-icon"><i class="fas fa-search"></i></div>
+                    <div class="card-content">
+                        <h3>Tìm hiểu nguồn gốc</h3>
+                        <p>Xét nghiệm ADN tìm hiểu nguồn gốc tổ tiên của bạn</p>
+                    </div>
+                </div>
+                
+                <div class="service-card">
+                    <div class="card-icon"><i class="fas fa-user-md"></i></div>
+                    <div class="card-content">
+                        <h3>Điều trị cá nhân hóa</h3>
+                        <p>Xét nghiệm di truyền định hướng cá nhân hóa phương pháp điều trị</p>
+                    </div>
+                </div>-->
+        </div>
+        <div style="text-align: center; margin-top: 30px">
+          <a
+            href="services.html"
+            class="login-register-btn"
+            style="
+              display: inline-block;
+              background-color: #2196f3;
+              padding: 12px 30px;
+              font-size: 16px;
+              text-decoration: none;
+            "
+          >
+            <i class="fas fa-info-circle" style="margin-right: 8px"></i> Xem tất
+            cả dịch vụ
+          </a>
+        </div>
+      </div>
+
+      <div id="knowledge-section" class="content-section">
+        <div class="section-header">
+          <div class="section-icon"><i class="fas fa-book-open"></i></div>
+          <h2>Chia Sẻ Kiến Thức ADN</h2>
+        </div>
+        <p class="section-desc">
+          Tìm hiểu về ADN và tầm quan trọng của nó trong việc xác định nguồn gốc
+          và sức khỏe.
+        </p>
+
+        <div class="knowledge-content">
+          <div class="knowledge-item">
+            <div class="item-icon"><i class="fas fa-question-circle"></i></div>
+            <div class="item-content">
+              <h3>ADN là gì?</h3>
+              <p>
+                ADN (Axit Deoxyribonucleic) là phân tử chứa thông tin di truyền
+                quyết định sự phát triển và chức năng của tất cả sinh vật. ADN
+                chứa các chỉ dẫn di truyền được sử dụng trong sự phát triển và
+                hoạt động của tất cả các sinh vật sống.
+              </p>
+              <a href="knowledge.html" class="read-more"
+                >Tìm hiểu thêm <i class="fas fa-arrow-right"></i
+              ></a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="sample-section" class="content-section">
+        <div class="section-header">
+          <div class="section-icon"><i class="fas fa-vial"></i></div>
+          <h2>Hướng Dẫn Lấy Mẫu</h2>
+        </div>
+        <p class="section-desc">
+          Hướng dẫn chi tiết về cách lấy mẫu xét nghiệm ADN tại nhà.
+        </p>
+
+        <div class="sample-steps">
+          <a
+            href="sample-collection.html#step-1"
+            class="step-item"
+            style="text-decoration: none; color: inherit; cursor: pointer"
+          >
+            <div class="step-number">1</div>
+            <div class="step-icon"><i class="fas fa-hand-sparkles"></i></div>
+            <div class="step-content">
+              <h3>Đảm bảo tay bạn sạch sẽ</h3>
+              <p>Rửa tay kỹ với xà phòng và nước sạch trước khi lấy mẫu</p>
+            </div>
+          </a>
+
+          <a
+            href="sample-collection.html#step-2"
+            class="step-item"
+            style="text-decoration: none; color: inherit; cursor: pointer"
+          >
+            <div class="step-number">2</div>
+            <div class="step-icon">
+              <i class="fas fa-prescription-bottle"></i>
+            </div>
+            <div class="step-content">
+              <h3>Dùng tăm bông lấy mẫu</h3>
+              <p>Quét nhẹ bên trong má trong 30 giây để thu thập tế bào</p>
+            </div>
+          </a>
+
+          <a
+            href="sample-collection.html#step-3"
+            class="step-item"
+            style="text-decoration: none; color: inherit; cursor: pointer"
+          >
+            <div class="step-number">3</div>
+            <div class="step-icon"><i class="fas fa-wind"></i></div>
+            <div class="step-content">
+              <h3>Để tăm bông khô tự nhiên</h3>
+              <p>Để tăm bông khô trong 15-20 phút ở nhiệt độ phòng</p>
+            </div>
+          </a>
+
+          <a
+            href="sample-collection.html#step-4"
+            class="step-item"
+            style="text-decoration: none; color: inherit; cursor: pointer"
+          >
+            <div class="step-number">4</div>
+            <div class="step-icon"><i class="fas fa-box"></i></div>
+            <div class="step-content">
+              <h3>Đặt tăm bông vào túi đựng mẫu</h3>
+              <p>Cẩn thận đặt mẫu vào túi được cung cấp trong bộ kit</p>
+            </div>
+          </a>
+
+          <a
+            href="sample-collection.html#step-5"
+            class="step-item"
+            style="text-decoration: none; color: inherit; cursor: pointer"
+          >
+            <div class="step-number">5</div>
+            <div class="step-icon"><i class="fas fa-pen"></i></div>
+            <div class="step-content">
+              <h3>Ghi rõ thông tin cá nhân</h3>
+              <p>Điền đầy đủ thông tin lên túi đựng mẫu để tránh nhầm lẫn</p>
+            </div>
+          </a>
+
+          <a
+            href="sample-collection.html#step-6"
+            class="step-item"
+            style="text-decoration: none; color: inherit; cursor: pointer"
+          >
+            <div class="step-number">6</div>
+            <div class="step-icon"><i class="fas fa-shipping-fast"></i></div>
+            <div class="step-content">
+              <h3>Gửi mẫu về phòng xét nghiệm</h3>
+              <p>Gửi mẫu theo hướng dẫn trong bộ kit lấy mẫu</p>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- Thay thế phần contact-section bằng footer -->
+      <footer
+        style="
+          background-color: #222;
+          color: #fff;
+          padding: 40px 0;
+          margin-top: 50px;
+          width: 100%;
+          left: 0;
+          right: 0;
+        "
+      >
+        <div style="max-width: 1200px; margin: 0 auto; padding: 0 20px">
+          <div
+            style="
+              display: flex;
+              flex-wrap: wrap;
+              justify-content: space-between;
+              gap: 30px;
+            "
+          >
+            <!-- Thông tin công ty -->
+            <div style="flex: 1; min-width: 250px">
+              <div
+                style="display: flex; align-items: center; margin-bottom: 20px"
+              >
+                <img
+                  src="assets/images/Logo.jpg"
+                  alt="Logo"
+                  style="width: 40px; height: 40px; margin-right: 10px"
+                />
+                <div style="font-size: 22px; color: #2196f3; font-weight: bold">
+                  Xét Nghiệm DNA
+                </div>
+              </div>
+              <p style="color: #aaa; line-height: 1.6; margin-bottom: 20px">
+                Cung cấp dịch vụ xét nghiệm ADN uy tín, chính xác và bảo mật.
+                Kết quả nhanh chóng và tin cậy.
+              </p>
+            </div>
+
+            <!-- Liên kết nhanh -->
+            <div style="flex: 1; min-width: 200px">
+              <h3 style="color: #2196f3; margin-bottom: 20px; font-size: 18px">
+                Liên kết nhanh
+              </h3>
+              <ul style="list-style: none; padding: 0; margin: 0">
+                <li style="margin-bottom: 10px">
+                  <a
+                    href="index.html"
+                    style="
+                      color: #aaa;
+                      text-decoration: none;
+                      transition: color 0.3s;
+                    "
+                    >Trang chủ</a
+                  >
+                </li>
+                <li style="margin-bottom: 10px">
+                  <a
+                    href="services.html"
+                    style="
+                      color: #aaa;
+                      text-decoration: none;
+                      transition: color 0.3s;
+                    "
+                    >Dịch vụ</a
+                  >
+                </li>
+                <li style="margin-bottom: 10px">
+                  <a
+                    href="knowledge.html"
+                    style="
+                      color: #aaa;
+                      text-decoration: none;
+                      transition: color 0.3s;
+                    "
+                    >Kiến thức ADN</a
+                  >
+                </li>
+                <li style="margin-bottom: 10px">
+                  <a
+                    href="booking.html"
+                    style="
+                      color: #aaa;
+                      text-decoration: none;
+                      transition: color 0.3s;
+                    "
+                    >Đặt lịch</a
+                  >
+                </li>
+                <li style="margin-bottom: 10px">
+                  <a
+                    href="sample-collection.html"
+                    style="
+                      color: #aaa;
+                      text-decoration: none;
+                      transition: color 0.3s;
+                    "
+                    >Hướng dẫn lấy mẫu</a
+                  >
+                </li>
+              </ul>
+            </div>
+
+            <!-- Thông tin liên hệ -->
+            <div style="flex: 1; min-width: 250px">
+              <h3 style="color: #2196f3; margin-bottom: 20px; font-size: 18px">
+                Liên hệ
+              </h3>
+              <p
+                style="
+                  color: #aaa;
+                  margin-bottom: 15px;
+                  display: flex;
+                  align-items: center;
+                "
+              >
+                <i
+                  class="fas fa-map-marker-alt"
+                  style="margin-right: 10px; width: 16px"
+                ></i>
+                <span>123 Đường ABC, Quận XYZ, TP. Hồ Chí Minh</span>
+              </p>
+              <p
+                style="
+                  color: #aaa;
+                  margin-bottom: 15px;
+                  display: flex;
+                  align-items: center;
+                "
+              >
+                <i
+                  class="fas fa-envelope"
+                  style="margin-right: 10px; width: 16px"
+                ></i>
+                <span>info@xetnghiemadn.com</span>
+              </p>
+              <p
+                style="
+                  color: #aaa;
+                  margin-bottom: 15px;
+                  display: flex;
+                  align-items: center;
+                "
+              >
+                <i
+                  class="fas fa-phone-alt"
+                  style="margin-right: 10px; width: 16px"
+                ></i>
+                <span>+1234567890</span>
+              </p>
+
+              <!-- Social media links -->
+              <div style="display: flex; gap: 15px; margin-top: 20px">
+                <a
+                  href="#"
+                  style="
+                    width: 36px;
+                    height: 36px;
+                    background-color: #3b5998;
+                    border-radius: 50%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    color: white;
+                    text-decoration: none;
+                  "
+                >
+                  <i class="fab fa-facebook-f"></i>
+                </a>
+                <a
+                  href="#"
+                  style="
+                    width: 36px;
+                    height: 36px;
+                    background-color: #0068ff;
+                    border-radius: 50%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    color: white;
+                    text-decoration: none;
+                  "
+                >
+                  <i class="fas fa-comment-dots"></i>
+                </a>
+                <a
+                  href="#"
+                  style="
+                    width: 36px;
+                    height: 36px;
+                    background-color: #4caf50;
+                    border-radius: 50%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    color: white;
+                    text-decoration: none;
+                  "
+                >
+                  <i class="fas fa-phone-alt"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Copyright -->
+          <div
+            style="
+              border-top: 1px solid #444;
+              margin-top: 30px;
+              padding-top: 20px;
+              text-align: center;
+              color: #aaa;
+            "
+          >
+            <p>© 2025 Dịch Vụ Xét Nghiệm ADN. Tất cả quyền được bảo lưu.</p>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <!-- Custom Notification -->
+    <div
+      id="custom-notification"
+      style="
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+        justify-content: center;
+        align-items: center;
+      "
+    >
+      <div
+        style="
+          background-color: white;
+          border-radius: 8px;
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+          padding: 25px;
+          max-width: 400px;
+          width: 90%;
+          text-align: center;
+        "
+      >
+        <div
+          id="notification-icon"
+          style="margin-bottom: 15px; font-size: 40px"
+        >
+          ✅
+        </div>
+        <h3
+          id="notification-title"
+          style="margin-bottom: 10px; font-size: 20px; color: #333"
+        >
+          Thành công
+        </h3>
+        <p id="notification-message" style="margin-bottom: 20px; color: #666">
+          Thao tác đã được thực hiện thành công.
+        </p>
+        <button
+          onclick="closeNotification()"
+          style="
+            background-color: #2196f3;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+          "
+        >
+          OK
+        </button>
+      </div>
+    </div>
+
+    <script>
+      // Kiểm tra xem người dùng đã đăng nhập hay chưa
+      function checkLoggedIn() {
+        const loginRegisterDiv = document.querySelector(".login-register");
+        const mainMenuDiv = document.getElementById("mainMenu");
+        // Lấy tên file hiện tại để xác định trang đang active
+        const currentPage = window.location.pathname.split("/").pop();
+        // Menu cho người dùng - chỉ hiện các mục cơ bản
+        mainMenuDiv.innerHTML = `
+            <a href="index.html" class="menu-item${
+              currentPage === "index.html" ? " active" : ""
+            }">
+                <span class="menu-icon"><i class="fas fa-home"></i></span>
+                Trang chủ
+            </a>
+            
+            <a href="booking.html" class="menu-item${
+              currentPage === "booking.html" ? " active" : ""
+            }">
+                <span class="menu-icon"><i class="fas fa-notes-medical"></i></span>
+                Đặt lịch xét nghiệm
+            </a>
+
+            <a href="appoinments.html" class="menu-item${
+              currentPage === "appoinments.html" ? " active" : ""
+            }">
+                <span class="menu-icon"><i class="fas fa-clipboard-list"></i></span>
+                Danh sách lịch hẹn
+            </a>
+
+            <a href="list-kit.html" class="menu-item${
+              currentPage === "list-kit.html" ? " active" : ""
+            }">
+            <span class="menu-icon"><i class="fas fa-vials"></i></span>
+            Danh sách kít xét nghiệm
+            </a>
+            
+            <a href="services.html" class="menu-item${
+              currentPage === "services.html" ? " active" : ""
+            }">
+                <span class="menu-icon"><i class="fas fa-flask"></i></span>
+                Giới thiệu dịch vụ
+            </a>
+            
+            <a href="knowledge.html" class="menu-item${
+              currentPage === "knowledge.html" ? " active" : ""
+            }">
+                <span class="menu-icon"><i class="fas fa-dna"></i></span>
+                Chia sẻ kiến thức ADN
+            </a>
+            
+            <a href="sample-collection.html" class="menu-item${
+              currentPage === "sample-collection.html" ? " active" : ""
+            }">
+                <span class="menu-icon"><i class="fas fa-vial"></i></span>
+                Hướng dẫn lấy mẫu
+            </a>
+        `;
+      }
+
+      // Kiểm tra đăng nhập khi trang được tải
+      document.addEventListener("DOMContentLoaded", checkLoggedIn);
+
+      // Hàm đóng thông báo tùy chỉnh
+      function closeNotification() {
+        document.getElementById("custom-notification").style.display = "none";
+      }
+
+      // Hàm hiển thị thông báo tùy chỉnh
+      function showNotification(message, type = "success") {
+        const notification = document.getElementById("custom-notification");
+        const notificationTitle = document.getElementById("notification-title");
+        const notificationMessage = document.getElementById(
+          "notification-message"
+        );
+        const notificationIcon = document.getElementById("notification-icon");
+
+        // Đặt nội dung và kiểu thông báo
+        if (type === "success") {
+          notificationTitle.textContent = "Thành công";
+          notificationIcon.textContent = "✅";
+          notificationIcon.style.color = "#4CAF50";
+        } else if (type === "error") {
+          notificationTitle.textContent = "Lỗi";
+          notificationIcon.textContent = "❌";
+          notificationIcon.style.color = "#f44336";
+        } else if (type === "info") {
+          notificationTitle.textContent = "Thông báo";
+          notificationIcon.textContent = "ℹ️";
+          notificationIcon.style.color = "#2196F3";
+        }
+
+        notificationMessage.textContent = message;
+
+        // Hiển thị thông báo
+        notification.style.display = "flex";
+      }
+      // Thêm sự kiện click cho các service card
+      const serviceCards = document.querySelectorAll(".service-card");
+      serviceCards.forEach((card) => {
+        card.style.cursor = "pointer";
+        card.addEventListener("click", function () {
+          window.location.href = "services.html";
+        });
+      });
+      // Thêm vào phần JavaScript hiện có
+      document.addEventListener("DOMContentLoaded", function () {
+        // Kiểm tra xem có hash trong URL không (ví dụ: #step-2)
+        if (window.location.hash) {
+          // Lấy ID của phần tử cần cuộn đến
+          const targetId = window.location.hash.substring(1);
+          const targetElement = document.getElementById(targetId);
+
+          if (targetElement) {
+            // Đặt timeout ngắn để đảm bảo trang đã tải hoàn toàn
+            setTimeout(function () {
+              // Cuộn đến phần tử với hiệu ứng mượt
+              targetElement.scrollIntoView({
+                behavior: "smooth",
+                block: "start",
+              });
+
+              // Thêm hiệu ứng nổi bật cho bước được chọn
+              targetElement.classList.add("highlighted-step");
+
+              // Loại bỏ hiệu ứng sau 3 giây
+              setTimeout(function () {
+                targetElement.classList.remove("highlighted-step");
+              }, 3000);
+            }, 500);
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
