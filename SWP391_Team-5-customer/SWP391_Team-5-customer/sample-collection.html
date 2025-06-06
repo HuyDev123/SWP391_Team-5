@@ -1,0 +1,1260 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hướng dẫn lấy mẫu - Dịch Vụ Xét Nghiệm ADN</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        
+        body {
+            display: flex;
+            min-height: 100vh;
+            background-color: #f5f5f5;
+        }
+        
+        /* Sidebar styles */
+        .sidebar {
+            width: 260px;
+            background-color: white;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            position: fixed;
+            height: 100vh;
+            left: 0;
+            top: 0;
+            z-index: 100;
+            overflow-y: auto;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .logo {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+        }
+        
+        .logo-text {
+            font-size: 22px;
+            color: #2196F3;
+            font-weight: bold;
+        }
+        
+        .login-register {
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .login-register-btn {
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 8px;
+            text-align: center;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        .menu-title {
+            padding: 15px;
+            color: #888;
+            font-size: 14px;
+        }
+        
+        .menu-item {
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            color: #333;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+        
+        .menu-item.active {
+            background-color: #2196F3;
+            color: white;
+        }
+        
+        .menu-item:hover {
+            background-color: #e3f2fd;
+        }
+        
+        .menu-item.active:hover {
+            background-color: #1976D2;
+        }
+        
+        .menu-icon {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        /* Main content styles */
+        .main-content {
+            margin-left: 260px;
+            padding: 20px;
+            width: calc(100% - 260px);
+        }
+        
+        .navbar {
+            display: flex;
+            margin: 20px 0;
+            background-color: white;
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .nav-item {
+            padding: 15px 20px;
+            text-decoration: none;
+            color: #333;
+            display: flex;
+            align-items: center;
+            border-bottom: 2px solid transparent;
+        }
+        
+        .nav-item.active {
+            border-bottom: 2px solid #2196F3;
+            color: #2196F3;
+        }
+        
+        .nav-icon {
+            margin-right: 10px;
+        }
+        
+        /* Sample collection styles */
+        .sample-header {
+            background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('assets/images/banner.jpg');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 60px 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .sample-header h1 {
+            font-size: 32px;
+            margin-bottom: 15px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
+        }
+        
+        .sample-header p {
+            font-size: 18px;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        .instruction-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .instruction-title {
+            font-size: 24px;
+            color: #2196F3;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .warning-box {
+            background-color: #fff8e1;
+            border-left: 4px solid #ff9800;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .warning-title {
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #e65100;
+        }
+        
+        .warning-icon {
+            margin-right: 10px;
+            font-size: 20px;
+        }
+        
+        .steps-container {
+            margin-top: 30px;
+        }
+        
+        .step {
+            display: flex;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        .step-number {
+            width: 50px;
+            height: 50px;
+            background-color: #2196F3;
+            color: white;
+            font-size: 24px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 20px;
+            flex-shrink: 0;
+        }
+        
+        .step-content {
+            flex: 1;
+        }
+        
+        .step-title {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .step-description {
+            color: #555;
+            line-height: 1.6;
+        }
+        
+        .step-image {
+            width: 100%;
+            max-width: 300px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+        
+        .step-timeline {
+            position: absolute;
+            left: 24px;
+            top: 50px;
+            bottom: -30px;
+            width: 2px;
+            background-color: #2196F3;
+        }
+        
+        .step:last-child .step-timeline {
+            display: none;
+        }
+        
+        .step-tip {
+            background-color: #e3f2fd;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+        
+        .step-tip-title {
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+            color: #0d47a1;
+        }
+        
+        .step-tip-icon {
+            margin-right: 8px;
+        }
+        
+        .step-bullet-list {
+        margin-top: 15px;
+        margin-left: 5px;
+        list-style-type: none;
+    }
+    
+    .step-bullet-list li {
+        position: relative;
+        padding-left: 28px;
+        margin-bottom: 12px;
+        line-height: 1.6;
+    }
+    
+    .step-bullet-list li:before {
+        content: "•";
+        position: absolute;
+        left: 0;
+        top: 0;
+        color: #2196F3;
+        font-size: 24px;
+        line-height: 1;
+    }
+    
+    .step-image-container {
+        margin-top: 20px;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+    }
+    
+    .step-image-container:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 15px rgba(0,0,0,0.15);
+    }
+    
+    .step-image {
+        width: 100%;
+        max-width: 400px;
+        display: block;
+        border-radius: 8px;
+    }
+    
+    .step-content {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-start;
+    }
+    
+    .step-text {
+        flex: 1;
+        min-width: 300px;
+    }
+    
+    .step-visual {
+        flex: 1;
+        min-width: 300px;
+        padding-left: 20px;
+        display: flex;
+        justify-content: center;
+    }
+        .sample-types {
+             display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px;
+        margin-top: 30px;
+        }
+        
+        .sample-type {
+            flex: 1;
+            min-width: 250px;
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        border-left: 4px solid #2196F3;
+        }
+            .sample-type:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+    
+    @media (max-width: 768px) {
+        .step-content {
+            flex-direction: column;
+        }
+        
+        .step-visual {
+            padding-left: 0;
+            margin-top: 20px;
+            width: 100%;
+        }
+    }
+        .sample-type-title {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #333;
+            display: flex;
+            align-items: center;
+        }
+        
+        .sample-type-icon {
+            margin-right: 10px;
+            color: #2196F3;
+            font-size: 20px;
+        }
+        
+        .sample-type-content {
+            color: #555;
+            line-height: 1.5;
+        }
+        
+        /* Video section */
+        .video-section {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .video-title {
+            font-size: 24px;
+            color: #2196F3;
+            margin-bottom: 20px;
+        }
+        
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+        
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        /* FAQs section */
+        .faq-section {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .faq-title {
+            font-size: 24px;
+            color: #2196F3;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .faq-item {
+            margin-bottom: 20px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 20px;
+        }
+        
+        .faq-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .faq-question {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .question-icon {
+            color: #2196F3;
+            margin-right: 10px;
+            flex-shrink: 0;
+        }
+        
+        .faq-answer {
+            color: #555;
+            line-height: 1.6;
+            padding-left: 30px;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+            
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+            }
+            
+            .step {
+                flex-direction: column;
+            }
+            
+            .step-number {
+                margin-bottom: 15px;
+                margin-right: 0;
+            }
+            
+            .step-timeline {
+                display: none;
+            }
+        }
+        .highlighted-step {
+        animation: highlight-step 3s ease;
+    }
+    
+    @keyframes highlight-step {
+        0%, 100% {
+            background-color: transparent;
+        }
+        20%, 80% {
+            background-color: rgba(33, 150, 243, 0.1);
+            box-shadow: 0 0 15px rgba(33, 150, 243, 0.3);
+            transform: translateY(-5px);
+        }
+    }
+    
+    /* Đảm bảo các bước có đủ padding cho hiệu ứng */
+    .step {
+        padding: 20px;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        margin-bottom: 30px;
+    }
+     .menu-icon i {
+        font-size: 18px;
+        width: 20px;
+        text-align: center;
+    }
+    
+    .menu-item.active .menu-icon i {
+        color: white;
+    }
+    
+    .menu-item:hover .menu-icon i {
+        transform: scale(1.2);
+        transition: transform 0.3s ease;
+    }
+    </style>
+    <!-- Thêm vào phần <head> của mỗi trang -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+
+<style>
+    /* Hiệu ứng chuyển động mượt mà */
+    .hero-banner, .content-section, .service-card, .step-item, .contact-btn {
+        transition: all 0.5s ease;
+    }
+    
+    /* Cải thiện hero banner */
+    .hero-banner {
+        box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+        overflow: hidden;
+    }
+    
+    .hero-banner:hover {
+        transform: translateY(-5px);
+    }
+    
+    /* Hiệu ứng cho các section */
+    .content-section {
+        transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+    
+    .content-section:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    }
+    
+    /* Hiệu ứng facility items */
+    .facility-item {
+        transition: all 0.4s ease;
+    }
+    
+    .facility-item:hover {
+        transform: translateY(-8px);
+    }
+    
+    .facility-item .icon-wrapper {
+        transition: all 0.5s ease;
+    }
+    
+    .facility-item:hover .icon-wrapper {
+        transform: rotateY(180deg);
+    }
+    
+    /* Card hover effects */
+    .service-card:hover {
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 15px 30px rgba(33, 150, 243, 0.1);
+    }
+    
+    .service-card .card-icon {
+        transition: all 0.5s ease;
+    }
+    
+    .service-card:hover .card-icon {
+        transform: rotateY(360deg);
+        background-color: #2196F3;
+        color: white;
+    }
+    
+    /* Step item animations */
+    .step-item {
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .step-item:hover {
+        background-color: #f9f9f9;
+        padding-left: 15px;
+        border-radius: 8px;
+    }
+    
+    .step-item .step-number, .step-item .step-icon {
+        transition: all 0.4s ease;
+    }
+    
+    .step-item:hover .step-number {
+        transform: scale(1.2);
+    }
+    
+    .step-item:hover .step-icon {
+        transform: rotate(360deg);
+    }
+    
+    /* Contact button effects */
+    .contact-btn {
+        transform-origin: center;
+        transition: all 0.3s ease;
+    }
+    
+    .contact-btn:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+    }
+    
+    .contact-btn i {
+        transition: all 0.4s ease;
+    }
+    
+    .contact-btn:hover i {
+        transform: scale(1.2);
+    }
+    
+    /* Scrollbar styling */
+    ::-webkit-scrollbar {
+        width: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+        background: #2196F3;
+        border-radius: 10px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+        background: #1976D2;
+    }
+    
+    /* Sidebar menu hover effect */
+    .menu-item {
+        transition: all 0.3s ease;
+    }
+    
+    .menu-item:hover .menu-icon {
+        transform: scale(1.2);
+        transition: transform 0.3s ease;
+    }
+    
+    /* Gradient buttons */
+    .login-register-btn {
+        background-image: linear-gradient(45deg, #2196F3, #1976D2);
+        transition: all 0.3s ease;
+    }
+    
+    .login-register-btn:hover {
+        background-image: linear-gradient(45deg, #1976D2, #0D47A1);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(33, 150, 243, 0.3);
+    }
+    
+    /* Animation for facility section */
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .logo-container {
+    display: flex;
+    align-items: center;
+    flex-direction: row; /* Thay đổi từ column thành row */
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.logo {
+    width: 45px;
+    height: 45px;
+    margin-right: 12px; /* Thêm khoảng cách giữa logo và text */
+    margin-bottom: 0;
+}
+
+.text-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.logo-text {
+    font-size: 28px;
+    color: #2196F3;
+    font-weight: bold;
+    letter-spacing: 1px;
+    margin-bottom: 3px;
+    line-height: 1;
+}
+
+.logo-subtext {
+    font-size: 15px;
+    color: #444;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    line-height: 1.2;
+    text-transform: capitalize;
+    /* background: linear-gradient(to right, #2196F3, #1976D2); */
+    /* -webkit-background-clip: text; */
+    /* -webkit-text-fill-color: transparent; */
+    max-width: 180px;
+}
+</style>
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="logo-container">
+    <img src="assets/images/Logo.jpg" alt="Logo" class="logo">
+    <div class="text-container">
+        <div class="logo-text">Genx</div>
+        <div class="logo-subtext">Trung tâm xét nghiệm ADN huyết thống</div>
+    </div>
+</div>
+        
+   <div class="login-register">
+        <div
+          style="background-color: #f0f8ff; padding: 15px; border-radius: 5px"
+        >
+          <div style="display: flex; align-items: center; margin-bottom: 10px">
+            <div
+              style="
+                width: 40px;
+                height: 40px;
+                background-color: #2196f3;
+                border-radius: 50%;
+                color: white;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-right: 10px;
+                font-weight: bold;
+                font-size: 20px;
+              "
+            >
+              <span id="avatar-letter">G</span>
+            </div>
+            <div>
+              <div id="avatar-fullname" style="font-weight: bold"></div>
+              <div id="avatar-role" style="font-size: 12px; color: #888"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+        // Biến lưu thông tin người dùng (giả lập, sau này lấy từ API/database)
+        let userInfo = {
+          fullname: "Van A",
+          role: "Khách hàng",
+        };
+
+        // Khi có dữ liệu thật, chỉ cần cập nhật userInfo từ API
+        document.addEventListener("DOMContentLoaded", function () {
+          // Nếu có currentUser trong localStorage thì lấy ra
+          const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+          if (currentUser) {
+            userInfo.fullname = currentUser.fullname;
+            userInfo.role = currentUser.role || "Khách hàng";
+          }
+          // Gán lên giao diện
+          document.getElementById("avatar-letter").textContent =
+            userInfo.fullname.charAt(0).toUpperCase();
+          document.getElementById("avatar-fullname").textContent =
+            userInfo.fullname;
+          document.getElementById("avatar-role").textContent = userInfo.role;
+        });
+      </script>
+        
+        <div class="menu-title">MAIN MENU</div>
+        <div id="mainMenu">
+            <!-- Menu sẽ được thêm bằng JavaScript -->
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Navigation Bar -->
+        <div id="topNavbar" class="navbar">
+            <!-- Navbar sẽ được thêm bằng JavaScript -->
+        </div>
+        
+        <!-- Sample Header -->
+        <div class="sample-header">
+    <h1>Hướng dẫn xét nghiệm huyết thống bằng bộ kit tại nhà</h1>
+    <p>Quy trình chi tiết về cách sử dụng bộ kit thu mẫu ADN tại nhà và gửi về trung tâm xét nghiệm để có kết quả chính xác.</p>
+</div>
+        
+        <!-- Main Instructions -->
+        <div class="instruction-container">
+    <h2 class="instruction-title">Quy trình xét nghiệm huyết thống bằng bộ kit tại nhà</h2>
+    
+    <div class="warning-box">
+        <div class="warning-title">
+            <span class="warning-icon">⚠️</span>
+            <span>Lưu ý quan trọng</span>
+        </div>
+        <p>Bộ kit thu mẫu ADN được thiết kế để dễ dàng sử dụng tại nhà. Tuy nhiên, để đảm bảo kết quả chính xác nhất, vui lòng tuân thủ nghiêm ngặt các bước hướng dẫn dưới đây. Mẫu không đạt chuẩn có thể dẫn đến kết quả không chính xác hoặc cần lấy mẫu lại.</p>
+    </div>
+    
+    <div class="steps-container">
+                <!-- Step 1: Kiểm tra bộ kit -->
+<div id="step-1" class="step">
+    <div class="step-number">1</div>
+    <div class="step-timeline"></div>
+    <div class="step-content">
+        <div class="step-text">
+            <h3 class="step-title">Kiểm tra bộ kit thu mẫu ADN</h3>
+            
+            <ul class="step-bullet-list">
+                <li>Mở bộ kit và kiểm tra đầy đủ các thành phần.</li>
+                <li>Đảm bảo có đủ: tăm bông lấy mẫu niêm mạc, ống đựng mẫu có dung dịch bảo quản.</li>
+                <li>Kiểm tra túi zip bảo quản, phiếu thông tin cá nhân và phong bì gửi mẫu.</li>
+                <li>Đọc kỹ hướng dẫn sử dụng trước khi bắt đầu.</li>
+                <li>Kiểm tra hạn sử dụng của bộ kit để đảm bảo hiệu quả.</li>
+            </ul>
+            
+            <div class="step-tip">
+                <div class="step-tip-title">
+                    <span class="step-tip-icon">💡</span>
+                    <span>Mẹo</span>
+                </div>
+                <p>Đọc kỹ toàn bộ hướng dẫn trước khi bắt đầu. Nếu bộ kit dành cho nhiều người (ví dụ: cha và con), hãy kiểm tra mã màu để tránh nhầm lẫn mẫu.</p>
+            </div>
+        </div>
+        
+        <div class="step-visual">
+            <div class="step-image-container">
+                <img src="assets/images/dna-kit-check.jpg" alt="Kiểm tra bộ kit DNA" class="step-image">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Step 2: Chuẩn bị trước khi lấy mẫu -->
+<div id="step-2" class="step">
+    <div class="step-number">2</div>
+    <div class="step-timeline"></div>
+    <div class="step-content">
+        <div class="step-text">
+            <h3 class="step-title">Chuẩn bị trước khi lấy mẫu</h3>
+            
+            <ul class="step-bullet-list">
+                <li>Rửa tay kỹ với xà phòng và nước sạch trước khi bắt đầu.</li>
+                <li>Không ăn, uống, hút thuốc hoặc nhai kẹo cao su ít nhất 30 phút trước khi lấy mẫu.</li>
+                <li>Nếu cần, súc miệng bằng nước lọc và đợi 10 phút trước khi tiến hành.</li>
+                <li>Chuẩn bị bề mặt sạch sẽ để đặt bộ kit.</li>
+                <li>Đảm bảo môi trường làm việc sạch sẽ, tránh nhiễm bẩn mẫu.</li>
+            </ul>
+            
+            <div class="step-tip">
+                <div class="step-tip-title">
+                    <span class="step-tip-icon">⚠️</span>
+                    <span>Quan trọng</span>
+                </div>
+                <p>Mỗi người tham gia xét nghiệm phải sử dụng tăm bông riêng và không được trộn lẫn mẫu. Điều này đặc biệt quan trọng trong xét nghiệm xác định huyết thống.</p>
+            </div>
+        </div>
+        
+        <div class="step-visual">
+            <div class="step-image-container">
+                <img src="assets/images/hand-washing.jpg" alt="Rửa tay trước khi lấy mẫu" class="step-image">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Step 3: Lấy mẫu đúng cách -->
+<div id="step-3" class="step">
+    <div class="step-number">3</div>
+    <div class="step-timeline"></div>
+    <div class="step-content">
+        <div class="step-text">
+            <h3 class="step-title">Lấy mẫu niêm mạc miệng</h3>
+            
+            <ul class="step-bullet-list">
+                <li>Mở bao bì tăm bông mà không chạm vào đầu bông.</li>
+                <li>Đưa tăm bông vào miệng và quét mạnh nhưng nhẹ nhàng giữa má và nướu.</li>
+                <li>Duy trì thời gian quét khoảng 30-60 giây để thu đủ mẫu.</li>
+                <li>Dùng lực vừa phải và đảm bảo quét đủ diện tích.</li>
+                <li>Quét cả hai bên trong má để thu thập đủ lượng tế bào niêm mạc.</li>
+            </ul>
+            
+            <div class="step-tip">
+                <div class="step-tip-title">
+                    <span class="step-tip-icon">💡</span>
+                    <span>Mẹo</span>
+                </div>
+                <p>Quét giữa má và nướu, không phải mặt trong môi hoặc lưỡi. Vị trí này chứa nhiều tế bào niêm mạc nhất giúp thu được lượng ADN tối ưu.</p>
+            </div>
+        </div>
+        
+        <div class="step-visual">
+            <div class="step-image-container">
+                <img src="assets/images/cheek-swab.jpg" alt="Lấy mẫu niêm mạc miệng" class="step-image">
+            </div>
+        </div>
+    </div>
+</div>
+        
+        <!-- Step 4: Đặt mẫu vào ống bảo quản -->
+<div id="step-4" class="step">
+    <div class="step-number">4</div>
+    <div class="step-timeline"></div>
+    <div class="step-content">
+        <div class="step-text">
+            <h3 class="step-title">Đặt tăm bông vào ống bảo quản</h3>
+            
+            <ul class="step-bullet-list">
+                <li>Mở nắp ống đựng mẫu có chứa dung dịch bảo quản.</li>
+                <li>Đặt tăm bông vào ống, đảm bảo đầu bông được nhúng hoàn toàn vào dung dịch.</li>
+                <li>Bẻ gãy hoặc cắt bỏ phần thừa của thân tăm bông (nếu được hướng dẫn).</li>
+                <li>Đóng chặt nắp ống để tránh rò rỉ dung dịch.</li>
+                <li>Kiểm tra lại để đảm bảo ống đã được đóng kín hoàn toàn.</li>
+            </ul>
+            
+            <div class="step-tip">
+                <div class="step-tip-title">
+                    <span class="step-tip-icon">⚠️</span>
+                    <span>Quan trọng</span>
+                </div>
+                <p>Dung dịch trong ống bảo quản giúp bảo vệ ADN trong mẫu. Đảm bảo đóng kín ống để tránh rò rỉ và nhiễm bẩn.</p>
+            </div>
+        </div>
+        
+        <div class="step-visual">
+            <div class="step-image-container">
+                <img src="assets/images/tube-storage.jpg" alt="Đặt mẫu vào ống bảo quản" class="step-image">
+            </div>
+        </div>
+    </div>
+</div>
+        
+<!-- Step 5: Điền thông tin và đóng gói -->
+<div id="step-5" class="step">
+    <div class="step-number">5</div>
+    <div class="step-timeline"></div>
+    <div class="step-content">
+        <div class="step-text">
+            <h3 class="step-title">Điền thông tin và đóng gói mẫu</h3>
+            
+            <ul class="step-bullet-list">
+                <li>Điền đầy đủ thông tin vào phiếu đính kèm theo bộ kit.</li>
+                <li>Ghi rõ họ tên đầy đủ, ngày sinh, giới tính của người lấy mẫu.</li>
+                <li>Ghi rõ mối quan hệ với người tham gia khác (cha, con, mẹ...) nếu có.</li>
+                <li>Đặt ống đựng mẫu đã dán nhãn vào túi zip bảo quản và đóng kín.</li>
+                <li>Kiểm tra lại thông tin trước khi đóng gói hoàn chỉnh.</li>
+            </ul>
+            
+            <div class="step-tip">
+                <div class="step-tip-title">
+                    <span class="step-tip-icon">💡</span>
+                    <span>Mẹo</span>
+                </div>
+                <p>Luôn sử dụng bút không phai để ghi thông tin và đảm bảo thông tin trùng khớp giữa ống mẫu và phiếu thông tin. Chụp ảnh phiếu thông tin để lưu trữ phòng khi thất lạc.</p>
+            </div>
+        </div>
+        
+        <div class="step-visual">
+            <div class="step-image-container">
+                <img src="assets/images/sample-info-form.jpg" alt="Điền thông tin mẫu xét nghiệm" class="step-image">
+            </div>
+        </div>
+    </div>
+</div>
+        
+        <!-- Step 6: Gửi mẫu về trung tâm -->
+<div id="step-6" class="step">
+    <div class="step-number">6</div>
+    <div class="step-content">
+        <div class="step-text">
+            <h3 class="step-title">Gửi mẫu về trung tâm xét nghiệm</h3>
+            
+            <ul class="step-bullet-list">
+                <li>Đặt túi đựng mẫu vào phong bì gửi mẫu được cung cấp trong bộ kit.</li>
+                <li>Đính kèm phiếu thông tin cá nhân đã điền đầy đủ vào phong bì.</li>
+                <li>Dán kín phong bì theo hướng dẫn để đảm bảo an toàn.</li>
+                <li>Gửi về địa chỉ trung tâm xét nghiệm đã được in sẵn trên phong bì.</li>
+                <li>Sử dụng phương thức vận chuyển được đề xuất để đảm bảo mẫu đến trong điều kiện tốt nhất.</li>
+            </ul>
+            
+            <div class="step-tip">
+                <div class="step-tip-title">
+                    <span class="step-tip-icon">💡</span>
+                    <span>Theo dõi kết quả</span>
+                </div>
+                <p>Sau khi gửi mẫu, bạn sẽ nhận được mã theo dõi để kiểm tra tiến trình xét nghiệm. Kết quả thường có sau 5-7 ngày làm việc kể từ khi trung tâm nhận được mẫu.</p>
+            </div>
+        </div>
+        
+        <div class="step-visual">
+            <div class="step-image-container">
+                <img src="assets/images/sample-delivery.jpg" alt="Gửi mẫu về trung tâm" class="step-image">
+            </div>
+        </div>
+    </div>
+</div>
+            
+<h3 style="margin-top: 40px; color: #333; font-size: 24px; text-align: center; margin-bottom: 25px;">
+    <i class="fas fa-vial" style="color: #2196F3; margin-right: 10px;"></i>
+    Các loại mẫu xét nghiệm ADN
+</h3>
+<div class="sample-types">
+    <div class="sample-type">
+        <div class="sample-type-title">
+            <span class="sample-type-icon"><i class="fas fa-smile" style="color: #2196F3;"></i></span>
+            <span>Tế bào niêm mạc miệng</span>
+        </div>
+        <div class="sample-type-content">
+            <p>Loại mẫu phổ biến nhất, dễ lấy và không xâm lấn. Sử dụng tăm bông quét bên trong má để thu thập tế bào.</p>
+           
+        </div>
+    </div>
+    
+    <div class="sample-type">
+        <div class="sample-type-title">
+            <span class="sample-type-icon"><i class="fas fa-tint" style="color: #2196F3;"></i></span>
+            <span>Máu</span>
+        </div>
+        <div class="sample-type-content">
+            <p>Mẫu chính xác cao nhưng cần được lấy bởi nhân viên y tế. Thường dùng cho xét nghiệm pháp y hoặc y khoa.</p>
+        
+        </div>
+    </div>
+</div>
+        
+        <!-- FAQs Section -->
+        <div class="faq-section">
+            <h2 class="faq-title">Câu hỏi thường gặp</h2>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span class="question-icon">❓</span>
+                    <span>Tôi có thể ăn uống trước khi lấy mẫu niêm mạc miệng không?</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Không nên ăn, uống, hút thuốc hoặc nhai kẹo cao su ít nhất 30 phút trước khi lấy mẫu. Nếu đã ăn uống, hãy súc miệng bằng nước sạch và đợi 10 phút trước khi lấy mẫu.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span class="question-icon">❓</span>
+                    <span>Mẫu xét nghiệm có thể giữ được bao lâu trước khi gửi đi?</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Mẫu niêm mạc miệng đã làm khô có thể giữ ở nhiệt độ phòng trong tối đa 7 ngày. Tuy nhiên, tốt nhất nên gửi mẫu càng sớm càng tốt để đảm bảo chất lượng tối ưu.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span class="question-icon">❓</span>
+                    <span>Nếu người cần xét nghiệm là trẻ sơ sinh hoặc trẻ nhỏ thì lấy mẫu như thế nào?</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Với trẻ sơ sinh và trẻ nhỏ, bạn vẫn có thể dùng tăm bông, nhưng cần cẩn thận và nhẹ nhàng hơn. Quét nhẹ bên trong má trẻ trong khoảng 30 giây. Với trẻ sơ sinh, có thể sử dụng tăm bông đặc biệt dành cho trẻ, làm ẩm nhẹ bằng nước tiệt trùng nếu cần.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span class="question-icon">❓</span>
+                    <span>Tôi có thể làm xét nghiệm nếu người cần xét nghiệm không có mặt không?</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Đối với xét nghiệm cá nhân hoặc không có giá trị pháp lý, điều này có thể thực hiện được với mẫu thu thập tại nhà. Tuy nhiên, đối với xét nghiệm có giá trị pháp lý, tất cả các bên liên quan phải có mặt tại cơ sở xét nghiệm để xác minh danh tính và lấy mẫu dưới sự giám sát.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span class="question-icon">❓</span>
+                    <span>Tôi cần làm gì nếu mẫu bị hỏng hoặc không đạt yêu cầu?</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Nếu phòng xét nghiệm thông báo mẫu không đạt yêu cầu, bạn sẽ cần lấy mẫu lại. Nhiều cơ sở xét nghiệm ADN cung cấp miễn phí bộ kit lấy mẫu thứ hai trong trường hợp này. Hãy liên hệ với chúng tôi qua hotline hỗ trợ để được hướng dẫn cụ thể.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Kiểm tra xem người dùng đã đăng nhập hay chưa
+        function checkLoggedIn() {
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            const loginRegisterDiv = document.querySelector('.login-register');
+            const mainMenuDiv = document.getElementById('mainMenu');
+            const topNavbarDiv = document.getElementById('topNavbar');
+            
+            // Lấy tên file hiện tại để xác định trang đang active
+    const currentPage = window.location.pathname.split("/").pop();
+            // Cập nhật menu dựa theo trạng thái đăng nhập
+            if (currentUser) {
+                // Menu cho người dùng đã đăng nhập - đầy đủ các mục
+                mainMenuDiv.innerHTML = `
+                    <a href="index.html" class="menu-item">
+                        <span class="menu-icon">📊</span>
+                        Trang chủ
+                    </a>
+                    
+                    <a href="profile.html" class="menu-item">
+                        <span class="menu-icon">👤</span>
+                        Thông tin cá nhân
+                    </a>
+                    
+                    <a href="booking.html" class="menu-item">
+                        <span class="menu-icon">📅</span>
+                        Đặt lịch xét nghiệm
+                    </a>
+                    
+                    <a href="progress.html" class="menu-item">
+                        <span class="menu-icon">📋</span>
+                        Tiến trình xét nghiệm
+                    </a>
+                    
+                    <a href="history.html" class="menu-item">
+                        <span class="menu-icon">⏱️</span>
+                        Lịch sử xét nghiệm
+                    </a>
+                    
+                    <a href="results.html" class="menu-item">
+                        <span class="menu-icon">📊</span>
+                        Kết quả xét nghiệm
+                    </a>
+                    
+                    <a href="reviews.html" class="menu-item">
+                        <span class="menu-icon">⭐</span>
+                        Đánh giá dịch vụ
+                    </a>
+                `;
+             
+                // Nếu đã đăng nhập, hiển thị thông tin người dùng
+                loginRegisterDiv.innerHTML = `
+                    <div style="background-color: #f0f8ff; padding: 15px; border-radius: 5px;">
+                        <div style="display: flex; align-items: center; margin-bottom: 10px;">
+                            <div style="width: 40px; height: 40px; background-color: #2196F3; border-radius: 50%; 
+                                 color: white; display: flex; justify-content: center; align-items: center; 
+                                 margin-right: 10px; font-weight: bold;">
+                                ${currentUser.fullname.charAt(0)}
+                            </div>
+                            <div>
+                                <div style="font-weight: bold;">${currentUser.fullname}</div>
+                                <div style="font-size: 12px; color: #888;">Khách hàng</div>
+                            </div>
+                        </div>
+                        <button id="logout-btn" style="width: 100%; padding: 10px; background-color: #f44336; 
+                                color: white; border: none; border-radius: 5px; cursor: pointer;">
+                            Đăng xuất
+                        </button>
+                    </div>
+                `;
+                
+                // Thêm sự kiện đăng xuất
+                document.getElementById('logout-btn').addEventListener('click', function() {
+                    localStorage.removeItem('currentUser');
+                    window.location.reload();
+                });
+            } else {
+                // Menu cho người dùng chưa đăng nhập - chỉ hiện các mục cơ bản
+                  mainMenuDiv.innerHTML = `
+            <a href="index.html" class="menu-item${currentPage === 'index.html' ? ' active' : ''}">
+                <span class="menu-icon"><i class="fas fa-home"></i></span>
+                Trang chủ
+            </a>
+            
+            <a href="booking.html" class="menu-item${
+              currentPage === "booking.html" ? " active" : ""
+            }">
+                <span class="menu-icon"><i class="fas fa-notes-medical"></i></span>
+                Đặt lịch xét nghiệm
+            </a>
+
+            <a href="appoinments.html" class="menu-item${
+              currentPage === "appoinments.html" ? " active" : ""
+            }">
+                <span class="menu-icon"><i class="fas fa-clipboard-list"></i></span>
+                Danh sách lịch hẹn
+            </a>
+            
+            <a href="services.html" class="menu-item${currentPage === 'services.html' ? ' active' : ''}">
+                <span class="menu-icon"><i class="fas fa-flask"></i></span>
+                Giới thiệu dịch vụ
+            </a>
+            
+            <a href="knowledge.html" class="menu-item${currentPage === 'knowledge.html' ? ' active' : ''}">
+                <span class="menu-icon"><i class="fas fa-dna"></i></span>
+                Chia sẻ kiến thức ADN
+            </a>
+            
+            <a href="sample-collection.html" class="menu-item${currentPage === 'sample-collection.html' ? ' active' : ''}">
+                <span class="menu-icon"><i class="fas fa-vial"></i></span>
+                Hướng dẫn lấy mẫu
+            </a>
+        `;
+                // Navbar tương ứng với menu chưa đăng nhập
+                // topNavbarDiv.innerHTML = `
+                //     <a href="index.html" class="nav-item">
+                //         <span class="nav-icon">📊</span>
+                //         Trang chủ
+                //     </a>
+                //     <a href="booking.html" class="nav-item">
+                //         <span class="nav-icon">📅</span>
+                //         Đặt lịch
+                //     </a>
+                //     <a href="services.html" class="nav-item">
+                //         <span class="nav-icon">ℹ️</span>
+                //         Giới thiệu
+                //     </a>
+                //     <a href="knowledge.html" class="nav-item">
+                //         <span class="nav-icon">🧬</span>
+                //         Kiến thức
+                //     </a>
+                //     <a href="sample-collection.html" class="nav-item active">
+                //         <span class="nav-icon">🧪</span>
+                //         Lấy mẫu
+                //     </a>
+                // `;
+            }
+        }
+        
+        // Kiểm tra đăng nhập khi trang được tải
+        document.addEventListener('DOMContentLoaded', checkLoggedIn);
+    </script>
+</body>
+</html>
