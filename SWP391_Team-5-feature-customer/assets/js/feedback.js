@@ -1,3 +1,0 @@
-// feedback.js
-// Đánh giá dịch vụ
-// ... existing code ... 

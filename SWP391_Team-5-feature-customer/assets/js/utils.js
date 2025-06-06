@@ -1,3 +1,0 @@
-// utils.js
-// Các hàm tiện ích chung
-// ... existing code ... 
