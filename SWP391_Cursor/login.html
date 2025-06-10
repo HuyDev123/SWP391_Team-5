@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập - Genx</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/header.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+        }
+
+        .login-container {
+            max-width: 400px;
+            margin: 100px auto;
+            padding: 40px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .login-header img {
+            width: 80px;
+            height: auto;
+            margin-bottom: 15px;
+        }
+
+        .login-header h1 {
+            color: #333;
+            font-size: 24px;
+            margin: 0;
+            font-weight: 600;
+        }
+
+        .login-header p {
+            color: #666;
+            margin: 10px 0 0;
+            font-size: 16px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #555;
+            margin-bottom: 8px;
+            font-weight: 500;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+
+        .form-group:focus-within label {
+            color: #2196F3;
+        }
+
+        .input-group {
+            position: relative;
+            background: #f8f9fa;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .input-group:focus-within {
+            background: white;
+            box-shadow: 0 0 0 2px #2196F3;
+        }
+
+        .input-group i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+            transition: color 0.3s ease;
+        }
+
+        .input-group:focus-within i {
+            color: #2196F3;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px 12px 45px;
+            border: 1px solid transparent;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+            background: transparent;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: transparent;
+        }
+
+        .form-control::placeholder {
+            color: #999;
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+
+        .form-control:focus::placeholder {
+            opacity: 0.7;
+        }
+
+        .forgot-password {
+            text-align: right;
+            margin: -10px 0 20px;
+        }
+
+        .forgot-password a {
+            color: #2196F3;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .forgot-password a:hover {
+            text-decoration: underline;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #2196F3, #1976D2);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(45deg, #1976D2, #1565C0);
+            transform: translateY(-1px);
+            box-shadow: 0 5px 15px rgba(33, 150, 243, 0.3);
+        }
+
+        .divider {
+            text-align: center;
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: calc(50% - 30px);
+            height: 1px;
+            background: #ddd;
+        }
+
+        .divider::before {
+            left: 0;
+        }
+
+        .divider::after {
+            right: 0;
+        }
+
+        .btn-google {
+            background: white;
+            color: #333;
+            border: 1px solid #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-google:hover {
+            background: #f8f9fa;
+            transform: translateY(-1px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .btn-google img {
+            width: 20px;
+            height: 20px;
+        }
+
+        .register-link {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .register-link a {
+            color: #2196F3;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 480px) {
+            .login-container {
+                margin: 60px 20px;
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <div class="logo-section">
+                <img src="assets/images/logo.png" alt="Genx Logo">
+                <div class="brand-text">
+                    <h1 class="brand-name">Genx</h1>
+                    <p class="brand-description">Trung Tâm Xét Nghiệm ADN Huyết Thống</p>
+                </div>
+            </div>
+            <nav class="nav-links">
+                <a href="index.html" class="nav-link">Trang chủ</a>
+                <a href="booking.html" class="nav-link">Đặt lịch xét nghiệm</a>
+                <a href="services.html" class="nav-link">Giới thiệu dịch vụ</a>
+                <a href="knowledge.html" class="nav-link">Kiến thức ADN</a>
+                <a href="sample-collection.html" class="nav-link">Hướng dẫn lấy mẫu</a>
+                <a href="login.html" class="nav-link login-button active">Đăng nhập</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Login Form -->
+    <div class="login-container">
+        <div class="login-header">
+            <img src="assets/images/logo.png" alt="Genx Logo">
+            <h1>Đăng nhập</h1>
+            <p>Chào mừng bạn trở lại với Genx</p>
+        </div>
+
+        <form id="loginForm" onsubmit="return handleLogin(event)">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <div class="input-group">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" id="email" class="form-control" placeholder="Nhập email của bạn" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Mật khẩu</label>
+                <div class="input-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="password" class="form-control" placeholder="Nhập mật khẩu" required>
+                </div>
+            </div>
+
+            <div class="forgot-password">
+                <a href="#">Quên mật khẩu?</a>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-sign-in-alt"></i> Đăng nhập
+            </button>
+
+            <div class="divider">hoặc</div>
+
+            <button type="button" class="btn btn-google" onclick="signInWithGoogle()">
+                <img src="assets/images/google-icon.png" alt="Google">
+                Đăng nhập bằng Google
+            </button>
+
+            <div class="register-link">
+                Chưa có tài khoản? <a href="register.html">Đăng ký ngay</a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        function handleLogin(event) {
+            event.preventDefault();
+            // Xử lý đăng nhập ở đây
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            // TODO: Thêm logic xử lý đăng nhập
+            console.log('Đăng nhập với:', { email, password });
+            
+            return false;
+        }
+
+        function signInWithGoogle() {
+            // TODO: Thêm logic đăng nhập bằng Google
+            console.log('Đăng nhập bằng Google');
+        }
+    </script>
+</body>
+</html>

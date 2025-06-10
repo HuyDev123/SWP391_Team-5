@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kiến thức ADN - Genx</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/header.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        .content {
+            margin-top: 80px;
+        }
+
+        .knowledge-hero {
+            background: url('assets/images/dna-hero-bg.jpg') center/cover no-repeat;
+            color: white;
+            padding: 120px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .knowledge-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.4); /* Chỉ để overlay tối để text dễ đọc */
+            z-index: 1;
+        }
+
+        .knowledge-hero .knowledge-container {
+            position: relative;
+            z-index: 2;
+        }
+
+        .knowledge-hero h1 {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            font-weight: 700;
+        }
+
+        .knowledge-hero p {
+            font-size: 1.2em;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+
+        .knowledge-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            color: #0288D1;
+            font-size: 32px;
+            text-align: center;
+            margin: 60px 0 40px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: #2196F3;
+        }
+
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .blog-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .blog-image {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .blog-card:hover .blog-image {
+            transform: scale(1.05);
+        }
+
+        .blog-content {
+            padding: 25px;
+        }
+
+        .blog-category {
+            color: #2196F3;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .blog-title {
+            color: #333;
+            font-size: 20px;
+            margin: 0 0 15px;
+            line-height: 1.4;
+            font-weight: 600;
+        }
+
+        .blog-desc {
+            color: #666;
+            font-size: 15px;
+            line-height: 1.6;
+            margin: 0 0 20px;
+        }
+
+        .blog-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #888;
+            font-size: 14px;
+            margin-bottom: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+
+        .blog-meta span {
+            display: flex;
+            align-items: center;
+        }
+
+        .blog-meta i {
+            margin-right: 5px;
+            color: #2196F3;
+        }
+
+        .read-more {
+            color: #2196F3;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 15px;
+            display: inline-flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .read-more i {
+            margin-left: 5px;
+            transition: transform 0.3s ease;
+        }
+
+        .read-more:hover {
+            color: #1976D2;
+        }
+
+        .read-more:hover i {
+            transform: translateX(5px);
+        }
+
+        .featured-section {
+            background: white;
+            padding: 60px 0;
+            margin: 40px 0;
+        }
+
+        .featured-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .featured-content {
+            padding-right: 40px;
+        }
+
+        .featured-image {
+            width: 100%;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .faq-section {
+            background: #f5f5f5;
+            padding: 80px 0;
+            margin-top: 40px;
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .faq-item {
+            background: white;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .faq-item:hover {
+            transform: translateX(5px);
+        }
+
+        .faq-question {
+            padding: 25px;
+            font-weight: 600;
+            color: #333;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .faq-question i {
+            color: #2196F3;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-answer {
+            padding: 0 25px;
+            color: #666;
+            line-height: 1.6;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .faq-item.active {
+            background: #f8f9fa;
+        }
+
+        .faq-item.active .faq-question {
+            color: #2196F3;
+        }
+
+        .faq-item.active .faq-question i {
+            transform: rotate(180deg);
+        }
+
+        .faq-item.active .faq-answer {
+            padding: 0 25px 25px;
+            max-height: 1000px;
+        }
+
+        .categories-section {
+            padding: 60px 0;
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .category-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.12);
+        }
+
+        .category-icon {
+            font-size: 2.5em;
+            color: #2196F3;
+            margin-bottom: 15px;
+        }
+
+        .category-title {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .category-count {
+            color: #666;
+            font-size: 14px;
+        }
+
+        @media (max-width: 992px) {
+            .blog-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .category-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .featured-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .featured-content {
+                padding-right: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .blog-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .knowledge-hero h1 {
+                font-size: 2.5em;
+            }
+            
+            .knowledge-hero p {
+                font-size: 1.1em;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .category-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Footer Styles */
+        .footer {
+            background: #1a1a1a;
+            color: #fff;
+            padding: 60px 0 0;
+            margin-top: 40px;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1.5fr 2fr;
+            gap: 40px;
+        }
+
+        .footer-info {
+            padding-right: 40px;
+        }
+
+        .footer-title {
+            color: #2196F3;
+            font-size: 24px;
+            margin: 0 0 20px;
+        }
+
+        .footer-desc {
+            color: #ccc;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .contact-info p {
+            color: #ccc;
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .contact-info i {
+            color: #2196F3;
+            margin-right: 10px;
+            width: 20px;
+        }
+
+        .social-links {
+            margin-top: 25px;
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-link {
+            width: 36px;
+            height: 36px;
+            background: #333;
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: #2196F3;
+            transform: translateY(-3px);
+        }
+
+        .footer-links {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .footer-section h3 {
+            color: #2196F3;
+            font-size: 18px;
+            margin: 0 0 20px;
+        }
+
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-section ul li a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section ul li a:hover {
+            color: #2196F3;
+        }
+
+        .working-hours li {
+            color: #ccc;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            background: #111;
+            color: #888;
+        }
+
+        @media (max-width: 992px) {
+            .footer-container {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-info {
+                padding-right: 0;
+            }
+
+            .footer-links {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .footer-links {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Add to style section */
+        .quick-contact {
+            position: fixed;
+            right: 20px;
+            bottom: 20%;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 1000;
+        }
+
+        .quick-contact-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quick-contact-btn i {
+            font-size: 24px;
+            margin: 0;
+        }
+
+        .quick-contact-btn:hover {
+            transform: translateX(-5px);
+            width: auto;
+            padding: 0 20px;
+            border-radius: 30px;
+        }
+
+        .quick-contact-btn:hover i {
+            margin-right: 8px;
+        }
+
+        .quick-contact-btn span {
+            display: none;
+            white-space: nowrap;
+        }
+
+        .quick-contact-btn:hover span {
+            display: inline;
+        }
+
+        .quick-contact-btn.booking {
+            background-color: #ff4444;
+        }
+
+        .quick-contact-btn.register {
+            background-color: #2196F3;
+        }
+
+        .quick-contact-btn.hotline {
+            background-color: #4CAF50;
+            cursor: default;
+        }
+
+        .quick-contact-btn.hotline:hover {
+            transform: translateX(-5px);
+            width: auto;
+            padding: 0 20px;
+        }
+
+        .quick-contact-btn.hotline .phone-number {
+            display: none;
+            white-space: nowrap;
+            font-weight: bold;
+        }
+
+        .quick-contact-btn.hotline:hover .phone-number {
+            display: inline;
+        }
+
+        @media (max-width: 768px) {
+            .quick-contact {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <div class="logo-section">
+                <img src="assets/images/logo.png" alt="Genx Logo">
+                <div class="brand-text">
+                    <h1 class="brand-name">Genx</h1>
+                    <p class="brand-description">Trung Tâm Xét Nghiệm ADN Huyết Thống</p>
+                </div>
+            </div>
+            <nav class="nav-links">
+                <a href="index.html" class="nav-link">Trang chủ</a>
+                <a href="booking.html" class="nav-link">Đặt lịch xét nghiệm</a>
+                <a href="services.html" class="nav-link">Giới thiệu dịch vụ</a>
+                <a href="knowledge.html" class="nav-link active">Kiến thức ADN</a>
+                <a href="sample-collection.html" class="nav-link">Hướng dẫn lấy mẫu</a>
+                <a href="login.html" class="nav-link login-button">Đăng nhập</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="content">
+        <!-- Hero Section -->
+        <div class="knowledge-hero">
+            <div class="knowledge-container">
+                <h1>Khám Phá Thế Giới ADN</h1>
+                <p>Tìm hiểu về di truyền học, xét nghiệm ADN và các ứng dụng trong cuộc sống qua những bài viết chuyên sâu và dễ hiểu</p>
+            </div>
+        </div>
+
+        <!-- Categories Section -->
+        <div class="knowledge-container categories-section">
+            <h2 class="section-title">Danh Mục Kiến Thức</h2>
+            <div class="category-grid">
+                <div class="category-card" data-aos="fade-up" data-aos-delay="100">
+                    <i class="fas fa-dna category-icon"></i>
+                    <h3 class="category-title">Cơ Bản về ADN</h3>
+                    <p class="category-count">12 bài viết</p>
+                </div>
+                <div class="category-card" data-aos="fade-up" data-aos-delay="200">
+                    <i class="fas fa-microscope category-icon"></i>
+                    <h3 class="category-title">Xét Nghiệm ADN</h3>
+                    <p class="category-count">15 bài viết</p>
+                </div>
+                <div class="category-card" data-aos="fade-up" data-aos-delay="300">
+                    <i class="fas fa-users category-icon"></i>
+                    <h3 class="category-title">Di Truyền Học</h3>
+                    <p class="category-count">8 bài viết</p>
+                </div>
+                <div class="category-card" data-aos="fade-up" data-aos-delay="400">
+                    <i class="fas fa-book-medical category-icon"></i>
+                    <h3 class="category-title">Ứng Dụng Y Học</h3>
+                    <p class="category-count">10 bài viết</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Featured Article -->
+        <div class="featured-section">
+            <div class="knowledge-container">
+                <h2 class="section-title">Bài Viết Nổi Bật</h2>
+                <div class="featured-grid">
+                    <div class="featured-content" data-aos="fade-right">
+                        <span class="blog-category">KHÁM PHÁ</span>
+                        <h3 class="blog-title">Hành Trình Khám Phá Bí Mật ADN: Từ Watson-Crick đến Ngày Nay</h3>
+                        <p class="blog-desc">
+                            Khám phá hành trình đầy kỳ thú về sự phát triển của khoa học di truyền, 
+                            từ việc phát hiện cấu trúc ADN cho đến các ứng dụng hiện đại trong y học và đời sống.
+                        </p>
+                        <div class="blog-meta">
+                            <span><i class="far fa-calendar"></i> 20/03/2024</span>
+                            <span><i class="far fa-clock"></i> 12 phút đọc</span>
+                        </div>
+                        <a href="blog/hanh-trinh-kham-pha-adn.html" class="read-more">Khám phá ngay <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                    <img src="assets/images/dna-discovery.jpg" alt="Khám phá ADN" class="featured-image" data-aos="fade-left">
+                </div>
+            </div>
+        </div>
+
+        <!-- Blog Posts -->
+        <div class="knowledge-container">
+            <h2 class="section-title">Bài Viết Mới Nhất</h2>
+            <div class="blog-grid">
+                <div class="blog-card" data-aos="fade-up" data-aos-delay="100">
+                    <img src="assets/images/dna-basic.jpg" alt="ADN là gì" class="blog-image">
+                    <div class="blog-content">
+                        <span class="blog-category">CƠ BẢN</span>
+                        <h3 class="blog-title">ADN là gì? Tìm hiểu về phân tử di truyền</h3>
+                        <p class="blog-desc">
+                            Giải thích đơn giản về ADN và vai trò của nó trong cơ thể. Tìm hiểu tại sao ADN 
+                            lại quan trọng và ảnh hưởng như thế nào đến cuộc sống của chúng ta.
+                        </p>
+                        <div class="blog-meta">
+                            <span><i class="far fa-calendar"></i> 15/03/2024</span>
+                            <span><i class="far fa-clock"></i> 5 phút đọc</span>
+                        </div>
+                        <a href="blog/adn-la-gi.html" class="read-more">Đọc tiếp <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <div class="blog-card" data-aos="fade-up" data-aos-delay="200">
+                    <img src="assets/images/dna-test.jpg" alt="Xét nghiệm ADN" class="blog-image">
+                    <div class="blog-content">
+                        <span class="blog-category">HƯỚNG DẪN</span>
+                        <h3 class="blog-title">Quy Trình Xét Nghiệm ADN Chi Tiết</h3>
+                        <p class="blog-desc">
+                            Hướng dẫn chi tiết về quy trình xét nghiệm ADN từ A-Z. Giúp bạn hiểu rõ 
+                            từng bước và chuẩn bị tốt nhất cho việc xét nghiệm.
+                        </p>
+                        <div class="blog-meta">
+                            <span><i class="far fa-calendar"></i> 12/03/2024</span>
+                            <span><i class="far fa-clock"></i> 8 phút đọc</span>
+                        </div>
+                        <a href="blog/quy-trinh-xet-nghiem.html" class="read-more">Đọc tiếp <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <div class="blog-card" data-aos="fade-up" data-aos-delay="300">
+                    <img src="assets/images/dna-family.jpg" alt="Di truyền ADN" class="blog-image">
+                    <div class="blog-content">
+                        <span class="blog-category">DI TRUYỀN</span>
+                        <h3 class="blog-title">Di Truyền ADN Trong Gia Đình</h3>
+                        <p class="blog-desc">
+                            Tìm hiểu cách ADN được truyền từ cha mẹ đến con cái. Giải thích đơn giản về 
+                            cách xác định quan hệ huyết thống thông qua ADN.
+                        </p>
+                        <div class="blog-meta">
+                            <span><i class="far fa-calendar"></i> 10/03/2024</span>
+                            <span><i class="far fa-clock"></i> 6 phút đọc</span>
+                        </div>
+                        <a href="blog/di-truyen-adn.html" class="read-more">Đọc tiếp <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <div class="blog-card" data-aos="fade-up" data-aos-delay="100">
+                    <img src="assets/images/dna-medicine.jpg" alt="ADN trong y học" class="blog-image">
+                    <div class="blog-content">
+                        <span class="blog-category">Y HỌC</span>
+                        <h3 class="blog-title">Ứng Dụng ADN Trong Y Học Hiện Đại</h3>
+                        <p class="blog-desc">
+                            Khám phá những ứng dụng mới nhất của công nghệ ADN trong y học, 
+                            từ chẩn đoán bệnh đến điều trị gen.
+                        </p>
+                        <div class="blog-meta">
+                            <span><i class="far fa-calendar"></i> 08/03/2024</span>
+                            <span><i class="far fa-clock"></i> 7 phút đọc</span>
+                        </div>
+                        <a href="blog/adn-trong-y-hoc.html" class="read-more">Đọc tiếp <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <div class="blog-card" data-aos="fade-up" data-aos-delay="200">
+                    <img src="assets/images/dna-future.jpg" alt="Tương lai ADN" class="blog-image">
+                    <div class="blog-content">
+                        <span class="blog-category">CÔNG NGHỆ</span>
+                        <h3 class="blog-title">Tương Lai Của Công Nghệ ADN</h3>
+                        <p class="blog-desc">
+                            Những xu hướng và tiến bộ mới nhất trong nghiên cứu ADN, 
+                            cùng những ứng dụng tiềm năng trong tương lai.
+                        </p>
+                        <div class="blog-meta">
+                            <span><i class="far fa-calendar"></i> 05/03/2024</span>
+                            <span><i class="far fa-clock"></i> 9 phút đọc</span>
+                        </div>
+                        <a href="blog/tuong-lai-adn.html" class="read-more">Đọc tiếp <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <div class="blog-card" data-aos="fade-up" data-aos-delay="300">
+                    <img src="assets/images/dna-myths.jpg" alt="Hiểu lầm về ADN" class="blog-image">
+                    <div class="blog-content">
+                        <span class="blog-category">KIẾN THỨC</span>
+                        <h3 class="blog-title">Những Hiểu Lầm Phổ Biến Về ADN</h3>
+                        <p class="blog-desc">
+                            Giải đáp những hiểu lầm thường gặp về ADN và xét nghiệm ADN, 
+                            giúp bạn có cái nhìn chính xác hơn.
+                        </p>
+                        <div class="blog-meta">
+                            <span><i class="far fa-calendar"></i> 03/03/2024</span>
+                            <span><i class="far fa-clock"></i> 6 phút đọc</span>
+                        </div>
+                        <a href="blog/hieu-lam-ve-adn.html" class="read-more">Đọc tiếp <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FAQ Section -->
+        <div class="faq-section">
+            <div class="faq-container">
+                <h2 class="section-title">Câu Hỏi Thường Gặp</h2>
+                
+                <div class="faq-item" data-aos="fade-up">
+                    <div class="faq-question">
+                        Xét nghiệm ADN có đau không?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        Không, xét nghiệm ADN hoàn toàn không đau. Việc lấy mẫu rất đơn giản, 
+                        thường chỉ cần dùng tăm bông lấy tế bào niêm mạc má hoặc lấy một giọt 
+                        máu nhỏ ở đầu ngón tay. Quy trình này được thực hiện bởi các chuyên viên 
+                        có kinh nghiệm và được đào tạo chuyên nghiệp.
+                    </div>
+                </div>
+
+                <div class="faq-item" data-aos="fade-up" data-aos-delay="100">
+                    <div class="faq-question">
+                        Khi nào nên đi xét nghiệm ADN?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        Bạn nên xét nghiệm ADN trong các trường hợp sau:<br>
+                        - Cần xác định quan hệ huyết thống<br>
+                        - Trong các thủ tục pháp lý<br>
+                        - Muốn tìm hiểu về nguồn gốc gia đình<br>
+                        - Theo yêu cầu của cơ quan chức năng<br>
+                        - Khi cần thông tin di truyền cho mục đích y tế<br>
+                        Việc xét nghiệm có thể thực hiện ở mọi độ tuổi và không có giới hạn về thời gian.
+                    </div>
+                </div>
+
+                <div class="faq-item" data-aos="fade-up" data-aos-delay="200">
+                    <div class="faq-question">
+                        Cần chuẩn bị gì khi đi xét nghiệm ADN?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        Để chuẩn bị cho xét nghiệm ADN, bạn cần:<br>
+                        - Mang theo giấy tờ tùy thân<br>
+                        - Không ăn uống, hút thuốc trong vòng 1 giờ trước khi lấy mẫu<br>
+                        - Đặt lịch hẹn trước để được phục vụ tốt nhất<br>
+                        - Mang theo các giấy tờ liên quan nếu xét nghiệm cho mục đích pháp lý<br>
+                        - Đảm bảo sức khỏe ổn định
+                    </div>
+                </div>
+
+                <div class="faq-item" data-aos="fade-up" data-aos-delay="300">
+                    <div class="faq-question">
+                        Kết quả xét nghiệm ADN có chính xác không?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        Kết quả xét nghiệm ADN tại Genx có độ chính xác cực kỳ cao, lên đến 99.99%. 
+                        Chúng tôi sử dụng công nghệ và thiết bị hiện đại nhất, tuân thủ các tiêu chuẩn 
+                        quốc tế về xét nghiệm di truyền. Mỗi mẫu đều được kiểm tra kép và xác nhận bởi 
+                        các chuyên gia có kinh nghiệm để đảm bảo độ chính xác tuyệt đối.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-info">
+                <h2 class="footer-title">TRUNG TÂM XÉT NGHIỆM ADN GENX</h2>
+                <p class="footer-desc">Trung tâm xét nghiệm ADN hàng đầu tại Việt Nam với hơn 10 năm kinh nghiệm. Cam kết mang đến dịch vụ xét nghiệm ADN chính xác và uy tín.</p>
+                <div class="contact-info">
+                    <p><i class="fas fa-map-marker-alt"></i> 123 Đường ABC, Quận 1, TP.HCM</p>
+                    <p><i class="fas fa-phone"></i> 1900 xxxx</p>
+                    <p><i class="fas fa-envelope"></i> info@genx.com</p>
+                </div>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-links">
+                <div class="footer-section">
+                    <h3>Dịch Vụ</h3>
+                    <ul>
+                        <li><a href="services.html">Xét nghiệm ADN Cha Con</a></li>
+                        <li><a href="services.html">Xét nghiệm ADN Mẹ Con</a></li>
+                        <li><a href="services.html">Xét nghiệm ADN Anh Chị Em</a></li>
+                        <li><a href="services.html">Xét nghiệm ADN Ông Bà Cháu</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Hỗ Trợ</h3>
+                    <ul>
+                        <li><a href="sample-collection.html">Hướng dẫn lấy mẫu</a></li>
+                        <li><a href="knowledge.html">Quy trình xét nghiệm</a></li>
+                        <li><a href="knowledge.html">Câu hỏi thường gặp</a></li>
+                        <li><a href="#">Chính sách bảo mật</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Giờ Làm Việc</h3>
+                    <ul class="working-hours">
+                        <li>Thứ 2 - Thứ 6: 8:00 - 17:30</li>
+                        <li>Thứ 7: 8:00 - 12:00</li>
+                        <li>Chủ nhật: Đóng cửa</li>
+                        <li>Hotline: 24/7</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2024 Trung Tâm Xét Nghiệm ADN GenX. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Add before closing body tag -->
+    <div class="quick-contact">
+        <a href="booking.html" class="quick-contact-btn booking">
+            <i class="fas fa-calendar-alt"></i>
+            <span>Đặt lịch ngay</span>
+        </a>
+        <a href="login.html" class="quick-contact-btn register">
+            <i class="fas fa-user-plus"></i>
+            <span>Đăng ký</span>
+        </a>
+        <div class="quick-contact-btn hotline">
+            <i class="fas fa-phone-alt"></i>
+            <span class="phone-number">1900 xxxx</span>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            once: true
+        });
+
+        // FAQ Toggle
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const faqItem = question.parentElement;
+                const wasActive = faqItem.classList.contains('active');
+                
+                // Close all FAQ items
+                document.querySelectorAll('.faq-item').forEach(item => {
+                    item.classList.remove('active');
+                });
+                
+                // Open clicked item if it wasn't active
+                if (!wasActive) {
+                    faqItem.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
