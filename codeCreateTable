@@ -1,0 +1,145 @@
+CREATE TABLE Role (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    name VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE [User] (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    full_name VARCHAR(255),
+    email VARCHAR(255) NOT NULL UNIQUE,
+    role_id INT NOT NULL,
+    is_active BIT,
+    created_at DATETIME,
+    FOREIGN KEY (role_id) REFERENCES Role(id)
+);
+
+CREATE TABLE Service (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    name VARCHAR(255),
+    description TEXT,
+    price DECIMAL(18,2),
+    is_active BIT
+);
+
+CREATE TABLE Booking (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    user_id INT NOT NULL,
+    booking_date DATETIME,
+    sample_method VARCHAR(255),
+    status VARCHAR(100),
+    staff_id INT,
+    note TEXT,
+    created_at DATETIME,
+    updated_at DATETIME,
+    FOREIGN KEY (user_id) REFERENCES [User](id),
+    FOREIGN KEY (staff_id) REFERENCES [User](id)
+);
+
+CREATE TABLE KitType (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    name VARCHAR(255),
+    description TEXT
+);
+
+CREATE TABLE Service_KitType (
+    service_id INT NOT NULL,
+    kit_type_id INT NOT NULL,
+    PRIMARY KEY (service_id, kit_type_id),
+    FOREIGN KEY (service_id) REFERENCES Service(id),
+    FOREIGN KEY (kit_type_id) REFERENCES KitType(id)
+);
+
+CREATE TABLE TestResult (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    result_summary VARCHAR(255),
+    result_file VARCHAR(255),
+    user_id INT,
+    note TEXT,
+    FOREIGN KEY (user_id) REFERENCES [User](id)
+);
+
+CREATE TABLE Booking_Service (
+    booking_id INT NOT NULL,
+    service_id INT NOT NULL,
+    test_result_id INT UNIQUE,
+    PRIMARY KEY (booking_id, service_id),
+    FOREIGN KEY (booking_id) REFERENCES Booking(id),
+    FOREIGN KEY (service_id) REFERENCES Service(id),
+    FOREIGN KEY (test_result_id) REFERENCES TestResult(id)
+);
+
+CREATE TABLE KitItem (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    booking_id INT NOT NULL,
+    service_id INT NOT NULL,
+    kit_code VARCHAR(255),
+    kit_type_id INT NOT NULL,
+    delivery_status VARCHAR(100),
+    FOREIGN KEY (booking_id, service_id) REFERENCES Booking_Service(booking_id, service_id),
+    FOREIGN KEY (kit_type_id) REFERENCES KitType(id)
+);
+
+CREATE TABLE Participant (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    booking_id INT NOT NULL,
+    service_id INT NOT NULL,
+    full_name VARCHAR(255),
+    gender VARCHAR(10),
+    birthday DATE,
+    phone VARCHAR(20),
+    email VARCHAR(255),
+    address TEXT,
+    id_type VARCHAR(50),
+    id_number VARCHAR(50),
+    id_issued_date DATE,
+    id_issued_place VARCHAR(255),
+    relationship VARCHAR(50),
+    photo_url VARCHAR(255),
+    note TEXT,
+    FOREIGN KEY (booking_id, service_id) REFERENCES Booking_Service(booking_id, service_id)
+);
+
+CREATE TABLE TestSample (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    participant_id INT NOT NULL,
+    sample_code VARCHAR(100),
+    sample_type VARCHAR(50),
+    collected_by INT,
+    collected_at DATETIME,
+    note TEXT,
+    FOREIGN KEY (participant_id) REFERENCES Participant(id),
+    FOREIGN KEY (collected_by) REFERENCES [User](id)
+);
+
+CREATE TABLE Feedback (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    booking_id INT NOT NULL,
+    service_id INT NOT NULL,
+    user_id INT,
+    staff_id INT,
+    rating INT,
+    comment TEXT,
+    created_at DATETIME,
+    FOREIGN KEY (booking_id, service_id) REFERENCES Booking_Service(booking_id, service_id),
+    FOREIGN KEY (user_id) REFERENCES [User](id),
+    FOREIGN KEY (staff_id) REFERENCES [User](id)
+);
+
+CREATE TABLE Report (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    report_type VARCHAR(100),
+    generated_by INT,
+    generated_at DATETIME,
+    file_url VARCHAR(255),
+    FOREIGN KEY (generated_by) REFERENCES [User](id)
+);
+
+CREATE TABLE Blog (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    author_id INT NOT NULL,
+    title VARCHAR(255) NOT NULL,
+    content TEXT,
+    is_published BIT,
+    created_at DATETIME,
+    FOREIGN KEY (author_id) REFERENCES [User](id)
+);
