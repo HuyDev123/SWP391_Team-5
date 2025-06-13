@@ -1047,9 +1047,9 @@
           ${
             a.status === "Đã đặt" || a.status === "Đang chờ lấy mẫu"
               ? `<button onclick="handleCancel('${a.id}')"
-                  style="background:#f44336; color:white; border:none; border-radius:4px; padding:6px 12px; cursor:pointer;">
-                  <i class='fas fa-times'></i> Hủy
-                </button>`
+        style="background:#f44336; color:white; border:none; border-radius:4px; padding:6px 12px; cursor:pointer;">
+        <i class='fas fa-times'></i> Hủy
+      </button>`
               : ""
           }
         </td>
@@ -1085,19 +1085,147 @@
             renderAppointments(filtered);
           });
 
-        // Hàm xử lý hủy lịch hẹn
-        async function handleCancel(id) {
-          if (confirm("Bạn có chắc chắn muốn hủy lịch hẹn này?")) {
+        // Hàm xử lý hiển thị modal lý do hủy
+        function handleCancel(id) {
+          // Tạo modal
+          const modal = document.createElement("div");
+          modal.className = "cancel-modal";
+          modal.style.cssText = `
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  `;
+
+          // Tạo nội dung modal
+          modal.innerHTML = `
+    <div class="modal-content" style="background-color: white; border-radius: 8px; padding: 20px; width: 400px; max-width: 90%;">
+      <h3 style="margin-top: 0; color: #333; border-bottom: 1px solid #eee; padding-bottom: 10px;">Lý do hủy lịch hẹn</h3>
+      
+      <div style="margin: 15px 0;">
+        <div class="reason-option" style="margin-bottom: 10px;">
+          <input type="radio" id="reason-1" name="cancel-reason" value="Thay đổi thông tin/địa chỉ">
+          <label for="reason-1" style="margin-left: 8px;">Thay đổi thông tin/địa chỉ</label>
+        </div>
+        
+        <div class="reason-option" style="margin-bottom: 10px;">
+          <input type="radio" id="reason-2" name="cancel-reason" value="Không muốn xét nghiệm nữa">
+          <label for="reason-2" style="margin-left: 8px;">Không muốn xét nghiệm nữa</label>
+        </div>
+        
+        <div class="reason-option" style="margin-bottom: 10px;">
+          <input type="radio" id="reason-3" name="cancel-reason" value="Khác">
+          <label for="reason-3" style="margin-left: 8px;">Khác</label>
+        </div>
+        
+        <div id="other-reason-container" style="display: none; margin-top: 10px;">
+          <textarea id="other-reason-text" placeholder="Vui lòng nhập lý do..." 
+            style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; min-height: 80px;"></textarea>
+        </div>
+      </div>
+      
+      <div style="display: flex; justify-content: flex-end; margin-top: 20px; gap: 10px;">
+        <button id="cancel-modal" style="padding: 8px 16px; background: #f5f5f5; border: none; border-radius: 4px; cursor: pointer;">Hủy bỏ</button>
+        <button id="confirm-cancel" style="padding: 8px 16px; background: #f44336; color: white; border: none; border-radius: 4px; cursor: pointer;">Xác nhận hủy</button>
+      </div>
+    </div>
+  `;
+
+          // Thêm modal vào body
+          document.body.appendChild(modal);
+
+          // Xử lý hiển thị textarea khi chọn "Khác"
+          const reasonRadios = document.querySelectorAll(
+            'input[name="cancel-reason"]'
+          );
+          const otherReasonContainer = document.getElementById(
+            "other-reason-container"
+          );
+
+          reasonRadios.forEach((radio) => {
+            radio.addEventListener("change", function () {
+              if (this.value === "Khác") {
+                otherReasonContainer.style.display = "block";
+              } else {
+                otherReasonContainer.style.display = "none";
+              }
+            });
+          });
+
+          // Xử lý đóng modal khi nhấn nút "Hủy bỏ"
+          document
+            .getElementById("cancel-modal")
+            .addEventListener("click", function () {
+              document.body.removeChild(modal);
+            });
+
+          // Xử lý xác nhận hủy lịch hẹn
+          document
+            .getElementById("confirm-cancel")
+            .addEventListener("click", function () {
+              let reason = "";
+              const selectedReason = document.querySelector(
+                'input[name="cancel-reason"]:checked'
+              );
+
+              if (!selectedReason) {
+                alert("Vui lòng chọn lý do hủy lịch hẹn");
+                return;
+              }
+
+              if (selectedReason.value === "Khác") {
+                const otherReasonText = document
+                  .getElementById("other-reason-text")
+                  .value.trim();
+                if (!otherReasonText) {
+                  alert("Vui lòng nhập lý do hủy lịch hẹn");
+                  return;
+                }
+                reason = otherReasonText;
+              } else {
+                reason = selectedReason.value;
+              }
+
+              // Gọi hàm xử lý hủy lịch hẹn với lý do đã chọn
+              confirmCancelAppointment(id, reason);
+
+              // Đóng modal
+              document.body.removeChild(modal);
+            });
+        }
+
+        // Hàm xử lý hủy lịch hẹn với lý do đã chọn
+        async function confirmCancelAppointment(id, reason) {
+          try {
             // Nếu dùng API thật, gọi API hủy lịch hẹn ở đây
-            // await fetch(`/api/appointments/${id}/cancel`, { method: "POST" });
+            // await fetch(`/api/appointments/${id}/cancel`, {
+            //   method: "POST",
+            //   headers: {
+            //     'Content-Type': 'application/json',
+            //   },
+            //   body: JSON.stringify({ reason: reason })
+            // });
             // Sau đó reload lại danh sách bằng API
 
             // Demo với fake data:
             const idx = fakeAppointments.findIndex((a) => a.id === id);
             if (idx !== -1) {
               fakeAppointments[idx].status = "Đã hủy";
+              fakeAppointments[idx].cancelReason = reason; // Lưu lý do hủy
               renderAppointments();
+
+              // Hiển thị thông báo thành công
+              alert(`Đã hủy lịch hẹn thành công với lý do: ${reason}`);
             }
+          } catch (error) {
+            console.error("Lỗi khi hủy lịch hẹn:", error);
+            alert("Có lỗi xảy ra khi hủy lịch hẹn. Vui lòng thử lại sau.");
           }
         }
 
