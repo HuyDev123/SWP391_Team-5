@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lịch sử xét nghiệm - Trung Tâm Xét Nghiệm ADN Genx</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- CSS chính -->
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <!-- CSS header và footer -->
+    <link rel="stylesheet" href="assets/css/header.css">
+    <link rel="stylesheet" href="assets/css/footer.css">
+    <link rel="stylesheet" href="assets/css/user-dropdown.css">
+    <style>
+        body {
+            min-height: 100vh;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+        
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            margin-top: 80px;
+        }
+        
+        .page-title {
+            font-size: 28px;
+            color: #0288d1;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .page-title i {
+            margin-right: 10px;
+        }
+        
+        .history-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+        
+        .history-title {
+            font-size: 20px;
+            color: #0288d1;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .history-title i {
+            margin-right: 10px;
+        }
+        
+        .filter-form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            min-width: 200px;
+        }
+        
+        .filter-label {
+            font-weight: 500;
+            margin-bottom: 5px;
+            color: #555;
+        }
+        
+        .filter-input,
+        .filter-select {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .filter-button {
+            background-color: #0288d1;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            font-weight: 500;
+            transition: background-color 0.3s;
+            align-self: flex-end;
+        }
+        
+        .filter-button i {
+            margin-right: 8px;
+        }
+        
+        .filter-button:hover {
+            background-color: #0277bd;
+        }
+        
+        .history-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        .history-table th {
+            background-color: #e3f2fd;
+            padding: 12px 15px;
+            text-align: left;
+            font-weight: 500;
+            color: #444;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .history-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+            color: #555;
+        }
+        
+        .history-table tr:hover {
+            background-color: #f9f9f9;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .status-completed {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+        
+        .status-processing {
+            background-color: #fff8e1;
+            color: #ff8f00;
+        }
+        
+        .status-cancelled {
+            background-color: #ffebee;
+            color: #c62828;
+        }
+        
+        .action-button {
+            background-color: #0288d1;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: background-color 0.3s;
+        }
+        
+        .action-button:hover {
+            background-color: #0277bd;
+        }
+        
+        .no-results {
+            text-align: center;
+            padding: 20px;
+            color: #777;
+            font-style: italic;
+        }
+        
+        @media (max-width: 768px) {
+            .filter-form {
+                flex-direction: column;
+            }
+            
+            .filter-group {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <div class="logo-section">
+                <img src="assets/images/logo.png" alt="Genx Logo" />
+                <div class="brand-text">
+                    <h1 class="brand-name">GenX</h1>
+                    <p class="brand-description">Trung tâm xét nghiệm ADN hàng đầu</p>
+                </div>
+            </div>
+            <nav class="nav-links">
+                <a href="index.html" class="nav-link">Trang chủ</a>
+                <a href="booking.html" class="nav-link">Đặt lịch xét nghiệm</a>
+                <a href="services.html" class="nav-link">Giới thiệu dịch vụ</a>
+                <a href="knowledge.html" class="nav-link">Kiến thức ADN</a>
+                <a href="sample-collection.html" class="nav-link">Hướng dẫn lấy mẫu</a>
+                <a href="historytest.html" class="nav-link active">Lịch sử xét nghiệm</a>
+                <a href="login.html" class="nav-link login-button">Đăng nhập</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <h1 class="page-title"><i class="fas fa-history"></i> Lịch sử xét nghiệm ADN</h1>
+        
+        <div class="history-container">
+            <div class="history-title">
+                <i class="fas fa-filter"></i> Tìm kiếm lịch sử xét nghiệm
+            </div>
+            
+            <form class="filter-form" id="filter-form">
+                <div class="filter-group">
+                    <label class="filter-label">Loại dịch vụ:</label>
+                    <select class="filter-select" id="service-type">
+                        <option value="">Tất cả</option>
+                        <option value="Xét nghiệm ADN cha-con">Xét nghiệm ADN cha-con</option>
+                        <option value="Xét nghiệm ADN mẹ-con">Xét nghiệm ADN mẹ-con</option>
+                        <option value="Xét nghiệm ADN anh,chị - em">Xét nghiệm ADN anh,chị - em</option>
+                        <option value="Xét nghiệm ADN ông, bà - cháu">Xét nghiệm ADN ông, bà - cháu</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label class="filter-label">Từ ngày:</label>
+                    <input type="date" class="filter-input" id="date-from">
+                </div>
+                
+                <div class="filter-group">
+                    <label class="filter-label">Đến ngày:</label>
+                    <input type="date" class="filter-input" id="date-to">
+                </div>
+                
+                <div class="filter-group">
+                    <label class="filter-label">Trạng thái:</label>
+                    <select class="filter-select" id="status-filter">
+                        <option value="">Tất cả</option>
+                        <option value="Đã hoàn thành">Đã hoàn thành</option>
+                        <option value="Đang xử lý">Đang xử lý</option>
+                        <option value="Đã hủy">Đã hủy</option>
+                    </select>
+                </div>
+                
+                <button type="submit" class="filter-button">
+                    <i class="fas fa-search"></i> Tìm kiếm
+                </button>
+            </form>
+            
+            <table class="history-table" id="history-table">
+                <thead>
+                    <tr>
+                        <th>Mã xét nghiệm</th>
+                        <th>Loại dịch vụ</th>
+                        <th>Ngày xét nghiệm</th>
+                        <th>Trạng thái</th>
+                        <th>Kết quả</th>
+                        <th>Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody id="history-table-body">
+                    <!-- Dữ liệu sẽ được render bằng JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>Liên hệ</h3>
+                <p><i class="fas fa-map-marker-alt"></i> 285 Đội Cấn, Ba Đình, Hà Nội</p>
+                <p><i class="fas fa-phone-alt"></i> Hotline: 1900 6928</p>
+                <p><i class="fas fa-envelope"></i> Email: info@genx.vn</p>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="footer-section links">
+                <h3>Liên kết nhanh</h3>
+                <ul>
+                    <li><a href="index.html">Trang chủ</a></li>
+                    <li><a href="booking.html">Dịch vụ xét nghiệm</a></li>
+                    <li><a href="sample-collection.html">Hướng dẫn lấy mẫu</a></li>
+                    <li><a href="knowledge.html">Kiến thức ADN</a></li>
+                    <li><a href="#">Chính sách bảo mật</a></li>
+                    <li><a href="#">Điều khoản sử dụng</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Đăng ký nhận tin</h3>
+                <p>Nhận thông tin mới nhất về xét nghiệm ADN và khuyến mãi đặc biệt.</p>
+                <div class="newsletter-form">
+                    <input type="email" placeholder="Email của bạn">
+                    <button>Đăng ký</button>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2023 GenX - Trung tâm xét nghiệm ADN huyết thống | Thiết kế bởi SWP391</p>
+        </div>
+    </footer>
+
+    <!-- Script xác thực -->
+    <script src="assets/js/auth.js"></script>
+    
+    <script>
+        // Danh sách dữ liệu mẫu về lịch sử xét nghiệm
+        const testHistoryData = [
+            {
+                id: "XN001",
+                serviceType: "Xét nghiệm ADN cha-con",
+                testDate: "2025-05-20",
+                status: "Đã hoàn thành",
+                result: "99.9999%",
+                resultUrl: "#"
+            },
+            {
+                id: "XN002",
+                serviceType: "Xét nghiệm ADN mẹ-con",
+                testDate: "2025-05-15",
+                status: "Đã hoàn thành",
+                result: "99.9999%",
+                resultUrl: "#"
+            },
+            {
+                id: "XN003",
+                serviceType: "Xét nghiệm ADN anh,chị - em",
+                testDate: "2025-06-01",
+                status: "Đang xử lý",
+                result: null,
+                resultUrl: null
+            },
+            {
+                id: "XN004",
+                serviceType: "Xét nghiệm ADN ông, bà - cháu",
+                testDate: "2025-05-28",
+                status: "Đã hủy",
+                result: null,
+                resultUrl: null
+            },
+            {
+                id: "XN005",
+                serviceType: "Xét nghiệm ADN cha-con",
+                testDate: "2025-06-10",
+                status: "Đang xử lý",
+                result: null,
+                resultUrl: null
+            }
+        ];
+        
+        // Render danh sách lịch sử xét nghiệm
+        function renderTestHistory(data) {
+            const tableBody = document.getElementById('history-table-body');
+            
+            if (!data || data.length === 0) {
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="6" class="no-results">Không tìm thấy lịch sử xét nghiệm</td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            tableBody.innerHTML = data.map(item => {
+                // Xác định class cho trạng thái
+                let statusClass = '';
+                switch(item.status) {
+                    case 'Đã hoàn thành':
+                        statusClass = 'status-completed';
+                        break;
+                    case 'Đang xử lý':
+                        statusClass = 'status-processing';
+                        break;
+                    case 'Đã hủy':
+                        statusClass = 'status-cancelled';
+                        break;
+                }
+                
+                // Render dòng dữ liệu
+                return `
+                    <tr>
+                        <td>${item.id}</td>
+                        <td>${item.serviceType}</td>
+                        <td>${formatDate(item.testDate)}</td>
+                        <td><span class="status-badge ${statusClass}">${item.status}</span></td>
+                        <td>${item.result || '-'}</td>
+                        <td>
+                            ${item.status === 'Đã hoàn thành' 
+                                ? `<button class="action-button" onclick="viewTestResult('${item.id}')">
+                                    <i class="fas fa-file-alt"></i> Xem kết quả
+                                  </button>` 
+                                : '-'
+                            }
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+        
+        // Hàm xử lý xem kết quả xét nghiệm
+        function viewTestResult(testId) {
+            alert(`Đang mở kết quả xét nghiệm ${testId}`);
+            // Trong thực tế, có thể mở một modal hoặc chuyển hướng đến trang kết quả
+        }
+        
+        // Hàm định dạng ngày tháng
+        function formatDate(dateString) {
+            const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+            return new Date(dateString).toLocaleDateString('vi-VN', options);
+        }
+        
+        // Xử lý form lọc
+        document.getElementById('filter-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const serviceType = document.getElementById('service-type').value;
+            const dateFrom = document.getElementById('date-from').value;
+            const dateTo = document.getElementById('date-to').value;
+            const status = document.getElementById('status-filter').value;
+            
+            // Lọc dữ liệu
+            let filteredData = [...testHistoryData];
+            
+            if (serviceType) {
+                filteredData = filteredData.filter(item => item.serviceType === serviceType);
+            }
+            
+            if (dateFrom) {
+                filteredData = filteredData.filter(item => new Date(item.testDate) >= new Date(dateFrom));
+            }
+            
+            if (dateTo) {
+                filteredData = filteredData.filter(item => new Date(item.testDate) <= new Date(dateTo));
+            }
+            
+            if (status) {
+                filteredData = filteredData.filter(item => item.status === status);
+            }
+            
+            // Render lại dữ liệu đã lọc
+            renderTestHistory(filteredData);
+        });
+        
+        // Xử lý đăng nhập và phân quyền
+        document.addEventListener('DOMContentLoaded', function() {
+            // Cập nhật trạng thái đăng nhập từ auth.js
+            updateAuthUI();
+            
+            // Kiểm tra quyền truy cập
+            const authStatus = Auth.checkLoginStatus();
+            if (!authStatus.isLoggedIn) {
+                // Nếu chưa đăng nhập, chuyển hướng về trang đăng nhập
+                alert('Vui lòng đăng nhập để xem lịch sử xét nghiệm!');
+                window.location.href = 'login.html';
+            } else {
+                // Nếu đã đăng nhập, hiển thị dữ liệu
+                renderTestHistory(testHistoryData);
+            }
+        });
+    </script>
+</body>
+</html>
