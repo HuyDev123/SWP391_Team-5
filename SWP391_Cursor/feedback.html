@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Đánh giá dịch vụ - GenX</title>
+    <link rel="stylesheet" href="assets/css/styles.css" />
+    <link rel="stylesheet" href="assets/css/header.css" />
+    <link rel="stylesheet" href="assets/css/footer.css" />
+    <link rel="stylesheet" href="assets/css/user-dropdown.css" />
+    <style>
+      .main-content {
+        max-width: 500px;
+        margin: 0 auto;
+        padding: 30px 20px 60px 20px;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        margin-top: 10 px;
+      }
+      .page-title {
+        font-size: 26px;
+        color: #0288d1;
+        margin-bottom: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .page-title i {
+        margin-right: 10px;
+      }
+      .feedback-form label {
+        font-weight: 500;
+        margin-bottom: 6px;
+        display: block;
+        color: #333;
+      }
+      .feedback-form input[type="text"],
+      .feedback-form textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 15px;
+        margin-bottom: 16px;
+        background: #fafbfc;
+      }
+      .feedback-form textarea {
+        min-height: 80px;
+        resize: vertical;
+      }
+      .star-rating {
+        direction: rtl;
+        display: flex;
+        gap: 2px;
+        margin-bottom: 16px;
+        justify-content: flex-start;
+      }
+      .star-rating input[type="radio"] {
+        display: none;
+      }
+      .star-rating label {
+        color: #ccc;
+        font-size: 2rem;
+        cursor: pointer;
+        transition: color 0.2s;
+      }
+      .star-rating input[type="radio"]:checked ~ label,
+      .star-rating label:hover,
+      .star-rating label:hover ~ label {
+        color: #ffd700;
+      }
+      .submit-btn {
+        background: #0288d1;
+        color: #fff;
+        border: none;
+        padding: 10px 28px;
+        border-radius: 4px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+      .submit-btn:hover {
+        background: #0277bd;
+      }
+      .form-message {
+        margin-top: 12px;
+        color: #388e3c;
+        font-weight: 500;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <div class="main-content">
+      <h1 class="page-title"><i class="fas fa-star"></i> Đánh giá dịch vụ</h1>
+      <form class="feedback-form" id="feedbackForm">
+        <!-- booking_id có thể lấy từ URL hoặc truyền ẩn -->
+        <input type="hidden" id="booking_id" name="booking_id" value="" />
+        <label for="rating">Đánh giá chất lượng dịch vụ:</label>
+        <div class="star-rating" id="starRating">
+          <input type="radio" id="star5" name="rating" value="5" />
+          <label for="star5" title="5 sao"><i class="fas fa-star"></i></label>
+          <input type="radio" id="star4" name="rating" value="4" />
+          <label for="star4" title="4 sao"><i class="fas fa-star"></i></label>
+          <input type="radio" id="star3" name="rating" value="3" />
+          <label for="star3" title="3 sao"><i class="fas fa-star"></i></label>
+          <input type="radio" id="star2" name="rating" value="2" />
+          <label for="star2" title="2 sao"><i class="fas fa-star"></i></label>
+          <input type="radio" id="star1" name="rating" value="1" />
+          <label for="star1" title="1 sao"><i class="fas fa-star"></i></label>
+        </div>
+        <label for="comment">Ý kiến đóng góp:</label>
+        <textarea
+          id="comment"
+          name="comment"
+          placeholder="Nhập ý kiến của bạn..."
+          required
+        ></textarea>
+        <label for="staff_id">Nhân viên thực hiện:</label>
+        <select
+          id="staff_id"
+          name="staff_id"
+          required
+          style="
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 15px;
+            margin-bottom: 16px;
+            background: #fafbfc;
+          "
+        >
+          <option value="">-- Chọn nhân viên --</option>
+        </select>
+        <button type="submit" class="submit-btn">Gửi đánh giá</button>
+        <div class="form-message" id="formMessage"></div>
+      </form>
+    </div>
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
+    <script>
+      // Lấy booking_id từ URL nếu có (?booking_id=...)
+      function getBookingIdFromUrl() {
+        const params = new URLSearchParams(window.location.search);
+        return params.get("booking_id") || "";
+      }
+      document.getElementById("booking_id").value = getBookingIdFromUrl();
+
+      // Dữ liệu mẫu nhân viên (có thể thay bằng fetch API)
+      const staffList = [
+        { id: 10, name: "Lê Văn Nhân" },
+        { id: 11, name: "Phạm Thị C" },
+        { id: 12, name: "Nguyễn Thị D" },
+      ];
+      // Hàm render dropdown nhân viên
+      function renderStaffDropdown(list) {
+        const select = document.getElementById("staff_id");
+        select.innerHTML =
+          '<option value="">-- Chọn nhân viên --</option>' +
+          list
+            .map(
+              (staff) => `<option value="${staff.id}">${staff.name}</option>`
+            )
+            .join("");
+      }
+      // Khi trang tải xong, render dropdown nhân viên
+      document.addEventListener("DOMContentLoaded", function () {
+        updateAuthUI && updateAuthUI();
+        renderStaffDropdown(staffList);
+      });
+
+      // Xử lý submit form
+      document
+        .getElementById("feedbackForm")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
+          const booking_id = document.getElementById("booking_id").value;
+          const staff_id = document.getElementById("staff_id").value;
+          // Lấy số sao đánh giá (1-5)
+          const rating = document.querySelector(
+            'input[name="rating"]:checked'
+          )?.value;
+          const comment = document.getElementById("comment").value.trim();
+          const formMessage = document.getElementById("formMessage");
+          if (!rating) {
+            formMessage.textContent = "Vui lòng chọn số sao đánh giá.";
+            formMessage.style.color = "#c62828";
+            return;
+          }
+          if (!staff_id) {
+            formMessage.textContent = "Vui lòng chọn nhân viên phục vụ.";
+            formMessage.style.color = "#c62828";
+            return;
+          }
+          // Gửi dữ liệu lên API (ví dụ, thay URL bằng API thật)
+          try {
+            // const response = await fetch('/api/feedback', {
+            //   method: 'POST',
+            //   headers: { 'Content-Type': 'application/json' },
+            //   body: JSON.stringify({ booking_id, staff_id, rating: Number(rating), comment })
+            // });
+            // if (!response.ok) throw new Error('Gửi đánh giá thất bại');
+            // const data = await response.json();
+            // formMessage.textContent = 'Cảm ơn bạn đã đánh giá dịch vụ!';
+            // formMessage.style.color = '#388e3c';
+            // this.reset();
+            // Demo: Hiển thị luôn thành công
+            formMessage.textContent = "Cảm ơn bạn đã đánh giá dịch vụ!";
+            formMessage.style.color = "#388e3c";
+            this.reset();
+            // Reset sao
+            document
+              .querySelectorAll('input[name="rating"]')
+              .forEach((i) => (i.checked = false));
+          } catch (error) {
+            formMessage.textContent = "Có lỗi xảy ra, vui lòng thử lại.";
+            formMessage.style.color = "#c62828";
+          }
+        });
+
+      window.addEventListener("DOMContentLoaded", function () {
+        const params = new URLSearchParams(window.location.search);
+        const staffList = JSON.parse(localStorage.getItem("staffList") || "[]");
+        const staffSelect = document.getElementById("staff_id");
+        const staff_id = params.get("staff_id") || "";
+        if (staffSelect) {
+          // Tìm đúng nhân viên thực hiện
+          const staff = staffList.find((s) => s.id === staff_id);
+          staffSelect.innerHTML = staff
+            ? `<option value="${staff.id}" selected>${staff.name}</option>`
+            : '<option value="">-- Không có nhân viên --</option>';
+          staffSelect.disabled = true; // Không cho chọn nhân viên khác
+        }
+
+        // Set giá trị từ URL cho các trường khác
+        if (document.getElementById("booking_id"))
+          document.getElementById("booking_id").value =
+            params.get("booking_id") || "";
+        if (document.getElementById("user_id"))
+          document.getElementById("user_id").value =
+            params.get("user_id") || "";
+      });
+    </script>
+  </body>
+</html>

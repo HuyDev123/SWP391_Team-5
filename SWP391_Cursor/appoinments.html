@@ -8,7 +8,9 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
     />
+    <!-- CSS chính -->
     <link rel="stylesheet" href="assets/css/styles.css" />
+    <!-- CSS header và footer -->
     <link rel="stylesheet" href="assets/css/header.css" />
     <link rel="stylesheet" href="assets/css/footer.css" />
     <link rel="stylesheet" href="assets/css/user-dropdown.css" />
@@ -778,7 +780,6 @@
           <a href="sample-collection.html" class="nav-link"
             >Hướng dẫn lấy mẫu</a
           >
-          <!-- <a href="appoinments.html" class="nav-link active">Lịch hẹn</a> -->
           <a href="login.html" class="nav-link login-button">Đăng nhập</a>
         </nav>
       </div>
@@ -1240,7 +1241,7 @@
     <!-- Authentication Script for Header -->
     <script src="assets/js/auth.js"></script>
     <script>
-      // Cập nhật UI dựa vào trạng thái đăng nhập (giống index.html)
+      // Hàm cập nhật giao diện đăng nhập (đồng bộ với historytest.html)
       function updateAuthUI() {
         const loginButton = document.querySelector(".nav-link.login-button");
         const authStatus = Auth.checkLoginStatus();
@@ -1259,6 +1260,7 @@
                 <div class="dropdown-content">
                     <a href="newprofile.html">Tài khoản</a>
                     <a href="appoinments.html">Lịch hẹn</a>
+                    <a href="historytest.html">Lịch sử xét nghiệm</a>
                     <a href="#" onclick="handleLogout(); return false;">Đăng xuất</a>
                 </div>
             </div>
@@ -1271,19 +1273,21 @@
           loginButton.setAttribute("href", "login.html");
         }
       }
-      // Xử lý đăng xuất
+      // Hàm xử lý đăng xuất (đồng bộ với historytest.html)
       function handleLogout() {
         if (confirm("Bạn có chắc chắn muốn đăng xuất?")) {
           Auth.logout()
             .then(() => {
               updateAuthUI();
               alert("Đăng xuất thành công!");
+              window.location.href = "login.html";
             })
             .catch((error) => {
               alert("Có lỗi xảy ra khi đăng xuất.");
             });
         }
-      }      document.addEventListener("DOMContentLoaded", function () {
+      }
+      document.addEventListener("DOMContentLoaded", function () {
         updateAuthUI();
       });
     </script>
