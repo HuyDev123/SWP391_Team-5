@@ -735,6 +735,124 @@
         color: #777 !important;
         margin-left: 5px !important;
       }
+
+      /* Knowledge Teaser Section */
+      .knowledge-teaser {
+        padding: 60px 0;
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      }
+
+      .knowledge-teaser-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 50px;
+        align-items: center;
+        padding: 0 20px;
+      }
+
+      .knowledge-teaser-content {
+        padding-right: 30px;
+      }
+
+      .knowledge-teaser-content h2 {
+        color: #0288d1;
+        font-size: 2.5em;
+        margin-bottom: 20px;
+        font-weight: bold;
+      }
+
+      .knowledge-teaser-content p {
+        color: #666;
+        font-size: 1.2em;
+        line-height: 1.6;
+        margin-bottom: 30px;
+      }
+
+      .knowledge-categories {
+        display: flex;
+        gap: 30px;
+        margin-bottom: 30px;
+      }
+
+      .knowledge-category {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: #444;
+      }
+
+      .knowledge-category i {
+        color: #0288d1;
+        font-size: 1.5em;
+      }
+
+      .knowledge-cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        background: #0288d1;
+        color: white;
+        padding: 15px 30px;
+        border-radius: 30px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: all 0.3s ease;
+      }
+
+      .knowledge-cta:hover {
+        background: #026fa8;
+        transform: translateY(-2px);
+      }
+
+      .knowledge-cta i {
+        transition: transform 0.3s ease;
+      }
+
+      .knowledge-cta:hover i {
+        transform: translateX(5px);
+      }
+
+      .knowledge-teaser-image {
+        position: relative;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      }
+
+      .knowledge-teaser-image img {
+        width: 100%;
+        height: 400px;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+      }
+
+      .knowledge-teaser-image:hover img {
+        transform: scale(1.05);
+      }
+
+      @media (max-width: 768px) {
+        .knowledge-teaser-container {
+          grid-template-columns: 1fr;
+          gap: 30px;
+        }
+
+        .knowledge-teaser-content {
+          padding-right: 0;
+          text-align: center;
+        }
+
+        .knowledge-categories {
+          flex-direction: column;
+          align-items: center;
+          gap: 20px;
+        }
+
+        .knowledge-teaser-image img {
+          height: 300px;
+        }
+      }
     </style>
   </head>
   <body>
@@ -945,6 +1063,35 @@
         </div>
       </div>
     </section>
+
+    <!-- Knowledge Teaser Section -->
+    <section class="knowledge-teaser">
+      <div class="knowledge-teaser-container">
+        <div class="knowledge-teaser-content">
+          <h2>KHÁM PHÁ THẾ GIỚI ADN</h2>
+          <p>Tìm hiểu thêm về di truyền học và ứng dụng ADN trong cuộc sống qua những bài viết chuyên sâu</p>
+          <div class="knowledge-categories">
+            <div class="knowledge-category">
+              <i class="fas fa-dna"></i>
+              <span>Cơ bản về ADN</span>
+            </div>
+            <div class="knowledge-category">
+              <i class="fas fa-microscope"></i>
+              <span>Xét nghiệm ADN</span>
+            </div>
+            <div class="knowledge-category">
+              <i class="fas fa-book-medical"></i>
+              <span>Ứng dụng Y học</span>
+            </div>
+          </div>
+          <a href="knowledge.html" class="knowledge-cta">Khám phá ngay <i class="fas fa-arrow-right"></i></a>
+        </div>
+        <div class="knowledge-teaser-image">
+          <img src="assets/images/dna-knowledge.jpg" alt="Kiến thức ADN">
+        </div>
+      </div>
+    </section>
+
     <script src="assets/js/auth.js"></script>
     <script>
       // Slider functionality
@@ -1099,7 +1246,7 @@
             <li><a href="sample-collection.html">Hướng dẫn lấy mẫu</a></li>
             <li><a href="knowledge.html">Quy trình xét nghiệm</a></li>
             <li><a href="knowledge.html">Câu hỏi thường gặp</a></li>
-            <li><a href="#">Chính sách bảo mật</a></li>
+            <li><a href="https://gentis.vn/chinh_sach_bao_mat/">Chính sách bảo mật</a></li>
           </ul>
         </div>
 
