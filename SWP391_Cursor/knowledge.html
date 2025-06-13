@@ -4,15 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kiến thức ADN - Genx</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="assets/css/styles.css">
     <link rel="stylesheet" href="assets/css/header.css">
+    <link rel="stylesheet" href="assets/css/footer.css" />
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <style>
         body {
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #f8f9fa;
         }
 
@@ -21,9 +25,9 @@
         }
 
         .knowledge-hero {
-            background: url('assets/images/dna-hero-bg.jpg') center/cover no-repeat;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('assets/images/dna-hero-bg.jpg') center/cover no-repeat;
             color: white;
-            padding: 120px 0;
+            padding: 100px 0;
             text-align: center;
             position: relative;
             overflow: hidden;
@@ -36,28 +40,70 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.4); /* Chỉ để overlay tối để text dễ đọc */
+            background: linear-gradient(135deg, rgba(33, 150, 243, 0.3), rgba(0, 0, 0, 0.5));
             z-index: 1;
         }
 
         .knowledge-hero .knowledge-container {
             position: relative;
             z-index: 2;
+            max-width: 1000px;
+            margin: 0 auto;
         }
 
         .knowledge-hero h1 {
+            font-family: 'Montserrat', sans-serif;
             font-size: 3.5em;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
             font-weight: 700;
+            margin-bottom: 25px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            animation: fadeInDown 1s ease;
         }
 
         .knowledge-hero p {
-            font-size: 1.2em;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.4em;
             max-width: 800px;
             margin: 0 auto;
             line-height: 1.6;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+            color: rgba(255, 255, 255, 0.95);
+            animation: fadeInUp 1s ease;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .knowledge-hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 100px;
+            background: linear-gradient(to top, rgba(255,255,255,1), rgba(255,255,255,0));
+            z-index: 1;
         }
 
         .knowledge-container {
@@ -343,152 +389,23 @@
                 grid-template-columns: 1fr;
             }
             
+            .knowledge-hero {
+                padding: 60px 0;
+            }
+            
             .knowledge-hero h1 {
                 font-size: 2.5em;
+                padding: 0 20px;
             }
             
             .knowledge-hero p {
-                font-size: 1.1em;
+                font-size: 1.2em;
+                padding: 0 20px;
             }
         }
 
         @media (max-width: 576px) {
             .category-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* Footer Styles */
-        .footer {
-            background: #1a1a1a;
-            color: #fff;
-            padding: 60px 0 0;
-            margin-top: 40px;
-        }
-
-        .footer-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-            display: grid;
-            grid-template-columns: 1.5fr 2fr;
-            gap: 40px;
-        }
-
-        .footer-info {
-            padding-right: 40px;
-        }
-
-        .footer-title {
-            color: #2196F3;
-            font-size: 24px;
-            margin: 0 0 20px;
-        }
-
-        .footer-desc {
-            color: #ccc;
-            line-height: 1.6;
-            margin-bottom: 25px;
-        }
-
-        .contact-info p {
-            color: #ccc;
-            margin: 10px 0;
-            display: flex;
-            align-items: center;
-        }
-
-        .contact-info i {
-            color: #2196F3;
-            margin-right: 10px;
-            width: 20px;
-        }
-
-        .social-links {
-            margin-top: 25px;
-            display: flex;
-            gap: 15px;
-        }
-
-        .social-link {
-            width: 36px;
-            height: 36px;
-            background: #333;
-            color: #fff;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-
-        .social-link:hover {
-            background: #2196F3;
-            transform: translateY(-3px);
-        }
-
-        .footer-links {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
-        }
-
-        .footer-section h3 {
-            color: #2196F3;
-            font-size: 18px;
-            margin: 0 0 20px;
-        }
-
-        .footer-section ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .footer-section ul li {
-            margin-bottom: 12px;
-        }
-
-        .footer-section ul li a {
-            color: #ccc;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .footer-section ul li a:hover {
-            color: #2196F3;
-        }
-
-        .working-hours li {
-            color: #ccc;
-        }
-
-        .footer-bottom {
-            text-align: center;
-            padding: 20px;
-            margin-top: 40px;
-            background: #111;
-            color: #888;
-        }
-
-        @media (max-width: 992px) {
-            .footer-container {
-                grid-template-columns: 1fr;
-            }
-
-            .footer-info {
-                padding-right: 0;
-            }
-
-            .footer-links {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 20px;
-            }
-        }
-
-        @media (max-width: 576px) {
-            .footer-links {
                 grid-template-columns: 1fr;
             }
         }
@@ -655,7 +572,7 @@
                             <span><i class="far fa-calendar"></i> 20/03/2024</span>
                             <span><i class="far fa-clock"></i> 12 phút đọc</span>
                         </div>
-                        <a href="blog/hanh-trinh-kham-pha-adn.html" class="read-more">Khám phá ngay <i class="fas fa-arrow-right"></i></a>
+                        <a href="https://suckhoedoisong.vn/ai-la-nguoi-dau-tien-tim-ra-chuoi-adn-vat-lieu-di-truyen-cua-tat-ca-sinh-the-169221007100600715.htm" class="read-more">Khám phá ngay <i class="fas fa-arrow-right"></i></a>
                     </div>
                     <img src="assets/images/dna-discovery.jpg" alt="Khám phá ADN" class="featured-image" data-aos="fade-left">
                 </div>
@@ -679,7 +596,7 @@
                             <span><i class="far fa-calendar"></i> 15/03/2024</span>
                             <span><i class="far fa-clock"></i> 5 phút đọc</span>
                         </div>
-                        <a href="blog/adn-la-gi.html" class="read-more">Đọc tiếp <i class="fas fa-arrow-right"></i></a>
+                        <a href="https://rdsic.edu.vn/blog/blog-3/chuc-nang-cua-adn-la-gi-vi-cb.html" class="read-more">Đọc tiếp <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
 
@@ -696,7 +613,7 @@
                             <span><i class="far fa-calendar"></i> 12/03/2024</span>
                             <span><i class="far fa-clock"></i> 8 phút đọc</span>
                         </div>
-                        <a href="blog/quy-trinh-xet-nghiem.html" class="read-more">Đọc tiếp <i class="fas fa-arrow-right"></i></a>
+                        <a href="https://www.bamienads.com/tin-tuc/xet-nghiem-adn/chi-tiet-cac-buoc-xet-nghiem-adn-co-the-ban-chua-biet/#:~:text=X%C3%A9t%20nghi%E1%BB%87m%20ADN%20l%C3%A0%20m%E1%BB%99t%20quy%20tr%C3%ACnh%20khoa,chi%20ti%E1%BA%BFt%20nh%E1%BA%A5t%20trong%20b%C3%A0i%20vi%E1%BA%BFt%20d%C6%B0%E1%BB%9Bi%20%C4%91%C3%A2y." class="read-more">Đọc tiếp <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
 
@@ -713,7 +630,7 @@
                             <span><i class="far fa-calendar"></i> 10/03/2024</span>
                             <span><i class="far fa-clock"></i> 6 phút đọc</span>
                         </div>
-                        <a href="blog/di-truyen-adn.html" class="read-more">Đọc tiếp <i class="fas fa-arrow-right"></i></a>
+                        <a href="https://vnexpress.net/nu-bac-si-giai-ma-gene-di-truyen-giup-cac-gia-dinh-sinh-con-khoe-manh-4854216.html" class="read-more">Đọc tiếp <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
 
@@ -730,7 +647,7 @@
                             <span><i class="far fa-calendar"></i> 08/03/2024</span>
                             <span><i class="far fa-clock"></i> 7 phút đọc</span>
                         </div>
-                        <a href="blog/adn-trong-y-hoc.html" class="read-more">Đọc tiếp <i class="fas fa-arrow-right"></i></a>
+                        <a href="https://rdsic.edu.vn/blog/toan/trong-cong-nghe-gen-adn-tai-to-hop-su-tien-bo-va-trien-vong-tuong-lai-vi-cb.html#:~:text=Ch%E1%BB%A7%20%C4%91%E1%BB%81%20Trong%20c%C3%B4ng%20ngh%E1%BB%87%20gen%20adn%20t%C3%A1i,th%C3%A1ch%20th%E1%BB%A9c%20m%C3%A0%20c%C3%B4ng%20ngh%E1%BB%87%20n%C3%A0y%20mang%20l%E1%BA%A1i." class="read-more">Đọc tiếp <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
 
@@ -747,7 +664,7 @@
                             <span><i class="far fa-calendar"></i> 05/03/2024</span>
                             <span><i class="far fa-clock"></i> 9 phút đọc</span>
                         </div>
-                        <a href="blog/tuong-lai-adn.html" class="read-more">Đọc tiếp <i class="fas fa-arrow-right"></i></a>
+                        <a href="https://rdsic.edu.vn/blog/toan/trong-cong-nghe-gen-adn-tai-to-hop-su-tien-bo-va-trien-vong-tuong-lai-vi-cb.html" class="read-more">Đọc tiếp <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
 
@@ -764,7 +681,7 @@
                             <span><i class="far fa-calendar"></i> 03/03/2024</span>
                             <span><i class="far fa-clock"></i> 6 phút đọc</span>
                         </div>
-                        <a href="blog/hieu-lam-ve-adn.html" class="read-more">Đọc tiếp <i class="fas fa-arrow-right"></i></a>
+                        <a href="https://vnexpress.net/adn-khong-noi-doi-nhung-co-the-noi-sai-2068676.html" class="read-more">Đọc tiếp <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
             </div>
@@ -838,74 +755,92 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="footer-container">
-            <div class="footer-info">
-                <h2 class="footer-title">TRUNG TÂM XÉT NGHIỆM ADN GENX</h2>
-                <p class="footer-desc">Trung tâm xét nghiệm ADN hàng đầu tại Việt Nam với hơn 10 năm kinh nghiệm. Cam kết mang đến dịch vụ xét nghiệm ADN chính xác và uy tín.</p>
-                <div class="contact-info">
-                    <p><i class="fas fa-map-marker-alt"></i> 123 Đường ABC, Quận 1, TP.HCM</p>
-                    <p><i class="fas fa-phone"></i> 1900 xxxx</p>
-                    <p><i class="fas fa-envelope"></i> info@genx.com</p>
-                </div>
-                <div class="social-links">
-                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-                    <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
-                    <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
-                </div>
+          <!-- Company Info -->
+          <div class="footer-info">
+            <h3>TRUNG TÂM XÉT NGHIỆM ADN GENX</h3>
+            <p>
+              Trung tâm xét nghiệm ADN hàng đầu tại Việt Nam với hơn 10 năm kinh
+              nghiệm. Cam kết mang đến dịch vụ xét nghiệm ADN chính xác và uy tín.
+            </p>
+            <div class="contact-info">
+              <div class="contact-item">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>123 Đường ABC, Quận 1, TP.HCM</span>
+              </div>
+              <div class="contact-item">
+                <i class="fas fa-phone"></i>
+                <span>1900 xxxx</span>
+              </div>
+              <div class="contact-item">
+                <i class="fas fa-envelope"></i>
+                <span>info@genx.com</span>
+              </div>
             </div>
-
-            <div class="footer-links">
-                <div class="footer-section">
-                    <h3>Dịch Vụ</h3>
-                    <ul>
-                        <li><a href="services.html">Xét nghiệm ADN Cha Con</a></li>
-                        <li><a href="services.html">Xét nghiệm ADN Mẹ Con</a></li>
-                        <li><a href="services.html">Xét nghiệm ADN Anh Chị Em</a></li>
-                        <li><a href="services.html">Xét nghiệm ADN Ông Bà Cháu</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-section">
-                    <h3>Hỗ Trợ</h3>
-                    <ul>
-                        <li><a href="sample-collection.html">Hướng dẫn lấy mẫu</a></li>
-                        <li><a href="knowledge.html">Quy trình xét nghiệm</a></li>
-                        <li><a href="knowledge.html">Câu hỏi thường gặp</a></li>
-                        <li><a href="#">Chính sách bảo mật</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-section">
-                    <h3>Giờ Làm Việc</h3>
-                    <ul class="working-hours">
-                        <li>Thứ 2 - Thứ 6: 8:00 - 17:30</li>
-                        <li>Thứ 7: 8:00 - 12:00</li>
-                        <li>Chủ nhật: Đóng cửa</li>
-                        <li>Hotline: 24/7</li>
-                    </ul>
-                </div>
+            <div class="social-links">
+              <a href="#"><i class="fab fa-facebook-f"></i></a>
+              <a href="#"><i class="fab fa-twitter"></i></a>
+              <a href="#"><i class="fab fa-linkedin-in"></i></a>
+              <a href="#"><i class="fab fa-youtube"></i></a>
             </div>
+          </div>
+  
+          <!-- Quick Links -->
+          <div class="footer-links">
+            <h4>Dịch Vụ</h4>
+            <ul>
+              <li><a href="services.html">Xét nghiệm ADN Cha Con</a></li>
+              <li><a href="services.html">Xét nghiệm ADN Mẹ Con</a></li>
+              <li><a href="services.html">Xét nghiệm ADN Anh Chị Em</a></li>
+              <li><a href="services.html">Xét nghiệm ADN Ông Bà Cháu</a></li>
+            </ul>
+          </div>
+  
+          <!-- Support -->
+          <div class="footer-links">
+            <h4>Hỗ Trợ</h4>
+            <ul>
+              <li><a href="sample-collection.html">Hướng dẫn lấy mẫu</a></li>
+              <li><a href="knowledge.html">Quy trình xét nghiệm</a></li>
+              <li><a href="knowledge.html">Câu hỏi thường gặp</a></li>
+              <li><a href="https://gentis.vn/chinh_sach_bao_mat/">Chính sách bảo mật</a></li>
+            </ul>
+          </div>
+  
+          <!-- Working Hours -->
+          <div class="footer-links">
+            <h4>Giờ Làm Việc</h4>
+            <ul>
+              <li>Thứ 2 - Thứ 6: 8:00 - 17:30</li>
+              <li>Thứ 7: 8:00 - 12:00</li>
+              <li>Chủ nhật: Đóng cửa</li>
+              <li>Hotline: 24/7</li>
+            </ul>
+          </div>
         </div>
-        <div class="footer-bottom">
-            <p>© 2024 Trung Tâm Xét Nghiệm ADN GenX. All rights reserved.</p>
+  
+        <!-- Footer Bottom -->
+        <div class="footer-container">
+          <div class="footer-bottom">
+            <p>&copy; 2024 Trung Tâm Xét Nghiệm ADN GenX. All rights reserved.</p>
+          </div>
         </div>
-    </footer>
-
-    <!-- Add before closing body tag -->
-    <div class="quick-contact">
+      </footer>
+  
+      <!-- Add before closing body tag -->
+      <div class="quick-contact">
         <a href="booking.html" class="quick-contact-btn booking">
-            <i class="fas fa-calendar-alt"></i>
-            <span>Đặt lịch ngay</span>
+          <i class="fas fa-calendar-alt"></i>
+          <span>Đặt lịch ngay</span>
         </a>
         <a href="login.html" class="quick-contact-btn register">
-            <i class="fas fa-user-plus"></i>
-            <span>Đăng ký</span>
+          <i class="fas fa-user-plus"></i>
+          <span>Đăng ký</span>
         </a>
         <div class="quick-contact-btn hotline">
-            <i class="fas fa-phone-alt"></i>
-            <span class="phone-number">1900 xxxx</span>
+          <i class="fas fa-phone-alt"></i>
+          <span class="phone-number">1900 xxxx</span>
         </div>
-    </div>
+      </div>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
