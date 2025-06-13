@@ -83,6 +83,7 @@ CREATE TABLE Participant (
     id INT IDENTITY(1,1) PRIMARY KEY,
     booking_id INT NOT NULL,
     service_id INT NOT NULL,
+    registrant_id INT NOT NULL,
     full_name VARCHAR(255),
     gender VARCHAR(10),
     birthday DATE,
@@ -97,6 +98,7 @@ CREATE TABLE Participant (
     photo_url VARCHAR(255),
     note TEXT,
     FOREIGN KEY (booking_id, service_id) REFERENCES Booking_Service(booking_id, service_id)
+    FOREIGN KEY (registrant_id) REFERENCES User(id)
 );
 
 CREATE TABLE TestSample (
@@ -123,15 +125,6 @@ CREATE TABLE Feedback (
     FOREIGN KEY (booking_id, service_id) REFERENCES Booking_Service(booking_id, service_id),
     FOREIGN KEY (user_id) REFERENCES [User](id),
     FOREIGN KEY (staff_id) REFERENCES [User](id)
-);
-
-CREATE TABLE Report (
-    id INT IDENTITY(1,1) PRIMARY KEY,
-    report_type VARCHAR(100),
-    generated_by INT,
-    generated_at DATETIME,
-    file_url VARCHAR(255),
-    FOREIGN KEY (generated_by) REFERENCES [User](id)
 );
 
 CREATE TABLE Blog (
