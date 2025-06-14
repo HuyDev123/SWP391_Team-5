@@ -23,14 +23,30 @@ CREATE TABLE Service (
 
 CREATE TABLE Booking (
     id INT IDENTITY(1,1) PRIMARY KEY,
-    user_id INT NOT NULL,
+    user_id INT,
     booking_date DATETIME,
-    sample_method VARCHAR(255),
     status VARCHAR(100),
     staff_id INT,
     note TEXT,
-    created_at DATETIME,
-    updated_at DATETIME,
+
+    -- Thông tin khách hàng
+    full_name NVARCHAR(255),
+    email VARCHAR(255),
+    phone VARCHAR(20),
+
+    -- Loại xét nghiệm: 1 = hành chính, 0 = nhân sự
+    is_administrative BIT,
+
+    -- 1: Lấy mẫu tại trung tâm, 0: Lấy mẫu tại nhà
+    is_center_collected BIT,    
+
+    -- Địa chỉ gửi kit (nếu lấy mẫu tại nhà)
+    address NVARCHAR(500),
+
+    -- Ngày, giờ lấy mẫu tại trung tâm (nếu lấy tại trung tâm)
+    center_sample_date DATE,
+    center_sample_time TIME,
+
     FOREIGN KEY (user_id) REFERENCES [User](id),
     FOREIGN KEY (staff_id) REFERENCES [User](id)
 );
@@ -82,8 +98,7 @@ CREATE TABLE KitItem (
 CREATE TABLE Participant (
     id INT IDENTITY(1,1) PRIMARY KEY,
     booking_id INT NOT NULL,
-    service_id INT NOT NULL,
-    registrant_id INT NOT NULL,
+    user_id INT,
     full_name VARCHAR(255),
     gender VARCHAR(10),
     birthday DATE,
@@ -97,18 +112,20 @@ CREATE TABLE Participant (
     relationship VARCHAR(50),
     photo_url VARCHAR(255),
     note TEXT,
-    FOREIGN KEY (booking_id, service_id) REFERENCES Booking_Service(booking_id, service_id)
-    FOREIGN KEY (registrant_id) REFERENCES User(id)
+    FOREIGN KEY (booking_id) REFERENCES Booking(booking_id)
+    FOREIGN KEY (user_id) REFERENCES User(id)
 );
 
 CREATE TABLE TestSample (
     id INT IDENTITY(1,1) PRIMARY KEY,
+    service_id INT NOT NULL,
     participant_id INT NOT NULL,
     sample_code VARCHAR(100),
     sample_type VARCHAR(50),
     collected_by INT,
     collected_at DATETIME,
     note TEXT,
+    FOREIGN KEY (service_id) REFERENCES Service(service_id),
     FOREIGN KEY (participant_id) REFERENCES Participant(id),
     FOREIGN KEY (collected_by) REFERENCES [User](id)
 );
@@ -125,6 +142,8 @@ CREATE TABLE Feedback (
     FOREIGN KEY (booking_id, service_id) REFERENCES Booking_Service(booking_id, service_id),
     FOREIGN KEY (user_id) REFERENCES [User](id),
     FOREIGN KEY (staff_id) REFERENCES [User](id)
+
+    UNIQUE (booking_id, service_id, customer_id)
 );
 
 CREATE TABLE Blog (
