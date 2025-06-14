@@ -1,800 +1,952 @@
 <!DOCTYPE html>
 <html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Giới thiệu dịch vụ - Genx</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="assets/css/styles.css">
-    <link rel="stylesheet" href="assets/css/header.css">
-    <link rel="stylesheet" href="assets/css/footer.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Poppins:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <link rel="stylesheet" href="assets/css/styles.css" />
+    <link rel="stylesheet" href="assets/css/header.css" />
+    <link rel="stylesheet" href="assets/css/footer.css" />
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Poppins", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
 
-        .content {
-            margin-top: 80px;
+      .content {
+        margin-top: 80px;
+      }
+
+      .services-hero {
+        background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+          url("assets/images/dna-hero-bg.jpg") center/cover no-repeat;
+        position: relative;
+        color: white;
+        padding: 100px 0;
+        text-align: center;
+        margin-bottom: 50px;
+        overflow: hidden;
+      }
+
+      .services-hero::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(
+          135deg,
+          rgba(33, 150, 243, 0.3),
+          rgba(0, 0, 0, 0.5)
+        );
+        z-index: 1;
+      }
+
+      .services-hero .services-container {
+        position: relative;
+        z-index: 2;
+        max-width: 1000px;
+        margin: 0 auto;
+      }
+
+      .services-hero h1 {
+        font-family: "Montserrat", sans-serif;
+        font-size: 3.5em;
+        font-weight: 700;
+        margin-bottom: 25px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        animation: fadeInDown 1s ease;
+      }
+
+      .services-hero p {
+        font-family: "Poppins", sans-serif;
+        font-size: 1.4em;
+        max-width: 800px;
+        margin: 0 auto;
+        line-height: 1.6;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        color: rgba(255, 255, 255, 0.95);
+        animation: fadeInUp 1s ease;
+      }
+
+      @keyframes fadeInDown {
+        from {
+          opacity: 0;
+          transform: translateY(-30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .services-hero::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 100px;
+        background: linear-gradient(
+          to top,
+          rgba(255, 255, 255, 1),
+          rgba(255, 255, 255, 0)
+        );
+        z-index: 1;
+      }
+
+      .services-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      .services-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 30px;
+        margin-bottom: 60px;
+      }
+
+      .service-card {
+        background: white;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+        position: relative;
+        min-height: 500px;
+        display: flex;
+        flex-direction: column;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        padding-top: 180px;
+      }
+
+      .service-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(
+          to bottom,
+          rgba(0, 0, 0, 0.3) 0%,
+          rgba(0, 0, 0, 0.6) 100%
+        );
+        z-index: 1;
+      }
+
+      .service-title,
+      .service-subtitle {
+        position: relative;
+        z-index: 2;
+      }
+
+      .service-content {
+        background: white;
+        padding: 25px;
+        border-radius: 15px;
+        margin: 20px;
+        position: relative;
+        z-index: 2;
+        flex-grow: 1;
+        backdrop-filter: blur(5px);
+      }
+
+      .service-title {
+        color: white;
+        font-size: 1.5em;
+        text-align: center;
+        padding: 20px;
+        margin: 0;
+      }
+
+      .service-subtitle {
+        color: white;
+        text-align: center;
+        font-size: 1.2em;
+        margin-top: -10px;
+        padding-bottom: 20px;
+      }
+
+      .service-features {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .service-features li {
+        margin-bottom: 15px;
+        padding-left: 25px;
+        position: relative;
+        color: #333;
+      }
+
+      .service-features li.price {
+        font-weight: bold;
+        color: #1565c0;
+      }
+
+      .service-features li.time {
+        font-style: italic;
+        color: #666;
+      }
+
+      .service-features li.note {
+        font-size: 0.9em;
+        color: #d32f2f;
+      }
+
+      .service-features li:before {
+        content: "✓";
+        position: absolute;
+        left: 0;
+        color: #4caf50;
+      }
+
+      .register-button {
+        display: block;
+        background: white;
+        color: #333;
+        text-align: center;
+        padding: 12px;
+        text-decoration: none;
+        border-radius: 25px;
+        margin: 20px;
+        font-weight: bold;
+        transition: all 0.3s ease;
+        position: relative;
+        z-index: 2;
+      }
+
+      .register-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      /* Promotions Section */
+      .promotions-section {
+        background: #f8f9fa;
+        padding: 60px 0;
+        margin: 40px 0;
+      }
+
+      .promotion-title {
+        text-align: center;
+        font-size: 2em;
+        margin-bottom: 40px;
+        color: #333;
+      }
+
+      .promotion-single {
+        max-width: 800px;
+        margin: 0 auto 30px;
+        padding: 0 20px;
+      }
+
+      .promotion-card {
+        position: relative;
+        overflow: hidden;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .promotion-card img {
+        width: 100%;
+        height: auto;
+        transition: transform 0.3s ease;
+        display: block;
+      }
+
+      .promotion-card:hover img {
+        transform: scale(1.02);
+      }
+
+      .register-promotion {
+        display: block;
+        background: #d32f2f;
+        color: white;
+        text-align: center;
+        padding: 15px 30px;
+        text-decoration: none;
+        border-radius: 25px;
+        margin: 20px auto;
+        max-width: 300px;
+        font-weight: bold;
+        transition: all 0.3s ease;
+      }
+
+      .register-promotion:hover {
+        background: #b71c1c;
+        transform: translateY(-2px);
+      }
+
+      /* Pricing Tables */
+      .pricing-section {
+        padding: 60px 0;
+      }
+
+      .pricing-title {
+        text-align: center;
+        font-size: 2em;
+        margin-bottom: 40px;
+        color: #333;
+      }
+
+      .pricing-subtitle {
+        text-align: center;
+        color: #d32f2f;
+        font-size: 1.2em;
+        margin-bottom: 30px;
+      }
+
+      .pricing-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 30px;
+        margin-bottom: 40px;
+      }
+
+      .pricing-card {
+        background: white;
+        border-radius: 15px;
+        padding: 30px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .pricing-card h3 {
+        color: #1565c0;
+        margin: 0 0 20px;
+        font-size: 1.5em;
+      }
+
+      .price-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+
+      .price-table th,
+      .price-table td {
+        padding: 12px;
+        border: 1px solid #ddd;
+        text-align: left;
+      }
+
+      .price-table th {
+        background: #f5f5f5;
+        font-weight: 600;
+      }
+
+      .price-table tr:hover {
+        background: #f8f9fa;
+      }
+
+      .pricing-notes {
+        max-width: 800px;
+        margin: 40px auto 0;
+        padding: 20px;
+        background: #f8f9fa;
+        border-radius: 10px;
+      }
+
+      .pricing-notes p {
+        margin: 10px 0;
+        color: #666;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .pricing-notes i {
+        color: #1565c0;
+      }
+
+      @media (max-width: 768px) {
+        .services-grid,
+        .promotions-grid,
+        .pricing-grid {
+          grid-template-columns: 1fr;
         }
 
         .services-hero {
-            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('assets/images/dna-hero-bg.jpg') center/cover no-repeat;
-            position: relative;
-            color: white;
-            padding: 100px 0;
-            text-align: center;
-            margin-bottom: 50px;
-            overflow: hidden;
-        }
-
-        .services-hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(33, 150, 243, 0.3), rgba(0, 0, 0, 0.5));
-            z-index: 1;
-        }
-
-        .services-hero .services-container {
-            position: relative;
-            z-index: 2;
-            max-width: 1000px;
-            margin: 0 auto;
+          padding: 60px 0;
         }
 
         .services-hero h1 {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 3.5em;
-            font-weight: 700;
-            margin-bottom: 25px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            animation: fadeInDown 1s ease;
+          font-size: 2.5em;
+          padding: 0 20px;
         }
 
         .services-hero p {
-            font-family: 'Poppins', sans-serif;
-            font-size: 1.4em;
-            max-width: 800px;
-            margin: 0 auto;
-            line-height: 1.6;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
-            color: rgba(255, 255, 255, 0.95);
-            animation: fadeInUp 1s ease;
+          font-size: 1.2em;
+          padding: 0 20px;
         }
+      }
 
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+      /* Add to style section */
+      .quick-contact {
+        position: fixed;
+        right: 20px;
+        bottom: 20%;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        z-index: 1000;
+      }
 
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+      .quick-contact-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
 
-        .services-hero::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 100px;
-            background: linear-gradient(to top, rgba(255,255,255,1), rgba(255,255,255,0));
-            z-index: 1;
-        }
+      .quick-contact-btn i {
+        font-size: 24px;
+        margin: 0;
+      }
 
-        .services-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
+      .quick-contact-btn:hover {
+        transform: translateX(-5px);
+        width: auto;
+        padding: 0 20px;
+        border-radius: 30px;
+      }
 
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 30px;
-            margin-bottom: 60px;
-        }
+      .quick-contact-btn:hover i {
+        margin-right: 8px;
+      }
 
-        .service-card {
-            background: white;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease;
-            position: relative;
-            min-height: 500px;
-            display: flex;
-            flex-direction: column;
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            padding-top: 180px;
-        }
+      .quick-contact-btn span {
+        display: none;
+        white-space: nowrap;
+      }
 
-        .service-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.6) 100%);
-            z-index: 1;
-        }
+      .quick-contact-btn:hover span {
+        display: inline;
+      }
 
-        .service-title, .service-subtitle {
-            position: relative;
-            z-index: 2;
-        }
+      .quick-contact-btn.booking {
+        background-color: #ff4444;
+      }
 
-        .service-content {
-            background: white;
-            padding: 25px;
-            border-radius: 15px;
-            margin: 20px;
-            position: relative;
-            z-index: 2;
-            flex-grow: 1;
-            backdrop-filter: blur(5px);
-        }
+      .quick-contact-btn.register {
+        background-color: #2196f3;
+      }
 
-        .service-title {
-            color: white;
-            font-size: 1.5em;
-            text-align: center;
-            padding: 20px;
-            margin: 0;
-        }
+      .quick-contact-btn.hotline {
+        background-color: #4caf50;
+        cursor: default;
+      }
 
-        .service-subtitle {
-            color: white;
-            text-align: center;
-            font-size: 1.2em;
-            margin-top: -10px;
-            padding-bottom: 20px;
-        }
+      .quick-contact-btn.hotline:hover {
+        transform: translateX(-5px);
+        width: auto;
+        padding: 0 20px;
+      }
 
-        .service-features {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
+      .quick-contact-btn.hotline .phone-number {
+        display: none;
+        white-space: nowrap;
+        font-weight: bold;
+      }
 
-        .service-features li {
-            margin-bottom: 15px;
-            padding-left: 25px;
-            position: relative;
-            color: #333;
-        }
+      .quick-contact-btn.hotline:hover .phone-number {
+        display: inline;
+      }
 
-        .service-features li.price {
-            font-weight: bold;
-            color: #1565C0;
-        }
-
-        .service-features li.time {
-            font-style: italic;
-            color: #666;
-        }
-
-        .service-features li.note {
-            font-size: 0.9em;
-            color: #D32F2F;
-        }
-
-        .service-features li:before {
-            content: '✓';
-            position: absolute;
-            left: 0;
-            color: #4CAF50;
-        }
-
-        .register-button {
-            display: block;
-            background: white;
-            color: #333;
-            text-align: center;
-            padding: 12px;
-            text-decoration: none;
-            border-radius: 25px;
-            margin: 20px;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            position: relative;
-            z-index: 2;
-        }
-
-        .register-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        /* Promotions Section */
-        .promotions-section {
-            background: #f8f9fa;
-            padding: 60px 0;
-            margin: 40px 0;
-        }
-
-        .promotion-title {
-            text-align: center;
-            font-size: 2em;
-            margin-bottom: 40px;
-            color: #333;
-        }
-
-        .promotion-single {
-            max-width: 800px;
-            margin: 0 auto 30px;
-            padding: 0 20px;
-        }
-
-        .promotion-card {
-            position: relative;
-            overflow: hidden;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .promotion-card img {
-            width: 100%;
-            height: auto;
-            transition: transform 0.3s ease;
-            display: block;
-        }
-
-        .promotion-card:hover img {
-            transform: scale(1.02);
-        }
-
-        .register-promotion {
-            display: block;
-            background: #D32F2F;
-            color: white;
-            text-align: center;
-            padding: 15px 30px;
-            text-decoration: none;
-            border-radius: 25px;
-            margin: 20px auto;
-            max-width: 300px;
-            font-weight: bold;
-            transition: all 0.3s ease;
-        }
-
-        .register-promotion:hover {
-            background: #B71C1C;
-            transform: translateY(-2px);
-        }
-
-        /* Pricing Tables */
-        .pricing-section {
-            padding: 60px 0;
-        }
-
-        .pricing-title {
-            text-align: center;
-            font-size: 2em;
-            margin-bottom: 40px;
-            color: #333;
-        }
-
-        .pricing-subtitle {
-            text-align: center;
-            color: #D32F2F;
-            font-size: 1.2em;
-            margin-bottom: 30px;
-        }
-
-        .pricing-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 30px;
-            margin-bottom: 40px;
-        }
-
-        .pricing-card {
-            background: white;
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .pricing-card h3 {
-            color: #1565C0;
-            margin: 0 0 20px;
-            font-size: 1.5em;
-        }
-
-        .price-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-
-        .price-table th,
-        .price-table td {
-            padding: 12px;
-            border: 1px solid #ddd;
-            text-align: left;
-        }
-
-        .price-table th {
-            background: #f5f5f5;
-            font-weight: 600;
-        }
-
-        .price-table tr:hover {
-            background: #f8f9fa;
-        }
-
-        .pricing-notes {
-            max-width: 800px;
-            margin: 40px auto 0;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 10px;
-        }
-
-        .pricing-notes p {
-            margin: 10px 0;
-            color: #666;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .pricing-notes i {
-            color: #1565C0;
-        }
-
-        @media (max-width: 768px) {
-            .services-grid,
-            .promotions-grid,
-            .pricing-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .services-hero {
-                padding: 60px 0;
-            }
-
-            .services-hero h1 {
-                font-size: 2.5em;
-                padding: 0 20px;
-            }
-
-            .services-hero p {
-                font-size: 1.2em;
-                padding: 0 20px;
-            }
-        }
-
-        /* Add to style section */
+      @media (max-width: 768px) {
         .quick-contact {
-            position: fixed;
-            right: 20px;
-            bottom: 20%;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            z-index: 1000;
+          display: none;
         }
-
-        .quick-contact-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .quick-contact-btn i {
-            font-size: 24px;
-            margin: 0;
-        }
-
-        .quick-contact-btn:hover {
-            transform: translateX(-5px);
-            width: auto;
-            padding: 0 20px;
-            border-radius: 30px;
-        }
-
-        .quick-contact-btn:hover i {
-            margin-right: 8px;
-        }
-
-        .quick-contact-btn span {
-            display: none;
-            white-space: nowrap;
-        }
-
-        .quick-contact-btn:hover span {
-            display: inline;
-        }
-
-        .quick-contact-btn.booking {
-            background-color: #ff4444;
-        }
-
-        .quick-contact-btn.register {
-            background-color: #2196F3;
-        }
-
-        .quick-contact-btn.hotline {
-            background-color: #4CAF50;
-            cursor: default;
-        }
-
-        .quick-contact-btn.hotline:hover {
-            transform: translateX(-5px);
-            width: auto;
-            padding: 0 20px;
-        }
-
-        .quick-contact-btn.hotline .phone-number {
-            display: none;
-            white-space: nowrap;
-            font-weight: bold;
-        }
-
-        .quick-contact-btn.hotline:hover .phone-number {
-            display: inline;
-        }
-
-        @media (max-width: 768px) {
-            .quick-contact {
-                display: none;
-            }
-        }
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <!-- Header -->
     <header>
-        <div class="header-container">
-            <div class="logo-section">
-                <img src="assets/images/logo.png" alt="Genx Logo">
-                <div class="brand-text">
-                    <h1 class="brand-name">Genx</h1>
-                    <p class="brand-description">Trung Tâm Xét Nghiệm ADN Huyết Thống</p>
-                </div>
-            </div>
-            <nav class="nav-links">
-                <a href="index.html" class="nav-link">Trang chủ</a>
-                <a href="booking.html" class="nav-link">Đặt lịch xét nghiệm</a>
-                <a href="services.html" class="nav-link active">Giới thiệu dịch vụ</a>
-                <a href="knowledge.html" class="nav-link">Kiến thức ADN</a>
-                <a href="sample-collection.html" class="nav-link">Hướng dẫn lấy mẫu</a>
-                <a href="login.html" class="nav-link login-button">Đăng nhập</a>
-            </nav>
+      <div class="header-container">
+        <div class="logo-section">
+          <img src="assets/images/logo.png" alt="Genx Logo" />
+          <div class="brand-text">
+            <h1 class="brand-name">Genx</h1>
+            <p class="brand-description">
+              Trung Tâm Xét Nghiệm ADN Huyết Thống
+            </p>
+          </div>
         </div>
+        <nav class="nav-links">
+          <a href="index.html" class="nav-link">Trang chủ</a>
+          <a href="booking.html" class="nav-link">Đặt lịch xét nghiệm</a>
+          <a href="services.html" class="nav-link active">Giới thiệu dịch vụ</a>
+          <a href="knowledge.html" class="nav-link">Kiến thức ADN</a>
+          <a href="sample-collection.html" class="nav-link"
+            >Hướng dẫn lấy mẫu</a
+          >
+          <a href="login.html" class="nav-link login-button">Đăng nhập</a>
+        </nav>
+      </div>
     </header>
 
     <!-- Main Content -->
     <main class="content">
-        <!-- Services Hero -->
-        <div class="services-hero">
-            <div class="services-container">
-                <h1>Dịch Vụ Xét Nghiệm ADN</h1>
-                <p>Cung cấp các dịch vụ xét nghiệm ADN chuyên nghiệp, nhanh chóng và chính xác</p>
-            </div>
-        </div>
-
-        <!-- Main Services -->
+      <!-- Services Hero -->
+      <div class="services-hero">
         <div class="services-container">
-            <div class="services-grid">
-                <div class="service-card" style="background-image: url('assets/images/father-child-banner.jpg');">
-                    <h3 class="service-title">Xét nghiệm ADN</h3>
-                    <h4 class="service-subtitle">Cha - Con</h4>
-                    <div class="service-content" style="background: rgba(255, 255, 255, 0.95);">
-                        <ul class="service-features">
-                            <li>Xác định quan hệ huyết thống cha - con.</li>
-                            <li class="price">Giá: 5.000.000đ</li>
-                            <li class="time">Thời gian: Khoảng 4 ngày làm việc</li>
-                            <li>Bảo mật tuyệt đối.</li>
-                            <li>Độ chính xác 99.99%.</li>
-                        </ul>
-                    </div>
-                    <a href="booking.html?service=father-child" class="register-button">ĐẶT LỊCH NGAY</a>
-                </div>
-
-                <div class="service-card" style="background-image: url('assets/images/mother-child-banner.jpg');">
-                    <h3 class="service-title">Xét nghiệm ADN</h3>
-                    <h4 class="service-subtitle">Mẹ - Con</h4>
-                    <div class="service-content" style="background: rgba(255, 255, 255, 0.95);">
-                        <ul class="service-features">
-                            <li>Xác định quan hệ huyết thống mẹ - con.</li>
-                            <li class="price">Giá: 5.000.000đ</li>
-                            <li class="time">Thời gian: Khoảng 4 ngày làm việc</li>
-                            <li>Bảo mật tuyệt đối.</li>
-                            <li>Độ chính xác 99.99%.</li>
-                        </ul>
-                    </div>
-                    <a href="booking.html?service=mother-child" class="register-button">ĐẶT LỊCH NGAY</a>
-                </div>
-
-                <div class="service-card" style="background-image: url('assets/images/siblings-banner.jpg');">
-                    <h3 class="service-title">Xét nghiệm ADN</h3>
-                    <h4 class="service-subtitle">Anh Chị Em</h4>
-                    <div class="service-content" style="background: rgba(255, 255, 255, 0.95);">
-                        <ul class="service-features">
-                            <li>Xác định quan hệ huyết thống anh chị em.</li>
-                            <li class="price">Giá: 4.000.000đ</li>
-                            <li class="time">Thời gian: Khoảng 5 ngày làm việc</li>
-                            <li>Bảo mật tuyệt đối.</li>
-                            <li>Độ chính xác 99.99%.</li>
-                        </ul>
-                    </div>
-                    <a href="booking.html?service=siblings" class="register-button">ĐẶT LỊCH NGAY</a>
-                </div>
-
-                <div class="service-card" style="background-image: url('assets/images/grandparent-banner.jpg');">
-                    <h3 class="service-title">Xét nghiệm ADN</h3>
-                    <h4 class="service-subtitle">Ông Bà Cháu</h4>
-                    <div class="service-content" style="background: rgba(255, 255, 255, 0.95);">
-                        <ul class="service-features">
-                            <li>Xác định quan hệ huyết thống ông bà cháu.</li>
-                            <li class="price">Giá: 4.000.000đ</li>
-                            <li class="time">Thời gian: Khoảng 5 ngày làm việc</li>
-                            <li>Bảo mật tuyệt đối.</li>
-                            <li>Độ chính xác 99.99%.</li>
-                        </ul>
-                    </div>
-                    <a href="booking.html?service=grandparent" class="register-button">ĐẶT LỊCH NGAY</a>
-                </div>
-            </div>
-
-            <!-- Promotions Section -->
-            <div class="promotions-section">
-                <h2 class="promotion-title">CHƯƠNG TRÌNH ƯU ĐÃI ĐANG ÁP DỤNG</h2>
-                <div class="promotion-single">
-                    <div class="promotion-card">
-                        <img src="assets/images/promotion-1.jpg" alt="Ưu đãi xét nghiệm ADN">
-                    </div>
-                </div>
-                <a href="booking.html" class="register-promotion">ĐĂNG KÝ NGAY ĐỂ NHẬN ƯU ĐÃI</a>
-            </div>
-
-            <!-- Pricing Section -->
-            <div class="pricing-section">
-                <h2 class="pricing-title">BẢNG GIÁ CHI TIẾT</h2>
-                <p class="pricing-subtitle">(Ưu đãi giới hạn khách hàng hẹn lịch trước với trụ sở HCM)</p>
-
-                <div class="pricing-grid">
-                    <div class="pricing-card">
-                        <h3>Xét nghiệm ADN Cha - Con</h3>
-                        <div class="pricing-details">
-                            <p>Phân tích 24 đến 33 loci sử dụng bộ kit Powerplex Fusion, HDplex – Mỹ</p>
-                            <table class="price-table">
-                                <tr>
-                                    <th>Loại dịch vụ</th>
-                                    <th>Thời gian</th>
-                                    <th>Chi phí 2 mẫu</th>
-                                    <th>Thêm mẫu thứ 3</th>
-                                </tr>
-                                <tr>
-                                    <td>Dân sự</td>
-                                    <td>04h – 02 ngày</td>
-                                    <td>từ 899,000đ/mẫu</td>
-                                    <td>2,000,000đ</td>
-                                </tr>
-                                <tr>
-                                    <td>Hành chính</td>
-                                    <td>7-10 ngày</td>
-                                    <td>8,500,000đ</td>
-                                    <td>2,000,000đ</td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-
-                    <div class="pricing-card">
-                        <h3>Xét nghiệm ADN Mẹ - Con</h3>
-                        <div class="pricing-details">
-                            <p>Phân tích ADN ti thể và các marker đặc hiệu</p>
-                            <table class="price-table">
-                                <tr>
-                                    <th>Loại dịch vụ</th>
-                                    <th>Thời gian</th>
-                                    <th>Chi phí 2 mẫu</th>
-                                    <th>Thêm mẫu thứ 3</th>
-                                </tr>
-                                <tr>
-                                    <td>Dân sự</td>
-                                    <td>04h – 02 ngày</td>
-                                    <td>từ 899,000đ/mẫu</td>
-                                    <td>2,000,000đ</td>
-                                </tr>
-                                <tr>
-                                    <td>Hành chính</td>
-                                    <td>7-10 ngày</td>
-                                    <td>8,500,000đ</td>
-                                    <td>2,000,000đ</td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-
-                    <div class="pricing-card">
-                        <h3>Xét nghiệm ADN Anh Chị Em</h3>
-                        <div class="pricing-details">
-                            <p>Phân tích 23 loci trên nhiễm sắc thể Y và 12 loci trên NST X</p>
-                            <table class="price-table">
-                                <tr>
-                                    <th>Loại dịch vụ</th>
-                                    <th>Thời gian</th>
-                                    <th>Chi phí 2 mẫu</th>
-                                    <th>Thêm mẫu thứ 3</th>
-                                </tr>
-                                <tr>
-                                    <td>Dân sự</td>
-                                    <td>05 ngày</td>
-                                    <td>4,000,000đ</td>
-                                    <td>2,000,000đ</td>
-                                </tr>
-                                <tr>
-                                    <td>Hành chính</td>
-                                    <td>10-12 ngày</td>
-                                    <td>7,500,000đ</td>
-                                    <td>2,000,000đ</td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-
-                    <div class="pricing-card">
-                        <h3>Xét nghiệm ADN Ông Bà Cháu</h3>
-                        <div class="pricing-details">
-                            <p>Phân tích quan hệ huyết thống theo dòng nội/ngoại</p>
-                            <table class="price-table">
-                                <tr>
-                                    <th>Loại dịch vụ</th>
-                                    <th>Thời gian</th>
-                                    <th>Chi phí 2 mẫu</th>
-                                    <th>Thêm mẫu thứ 3</th>
-                                </tr>
-                                <tr>
-                                    <td>Dân sự</td>
-                                    <td>05 ngày</td>
-                                    <td>4,000,000đ</td>
-                                    <td>2,000,000đ</td>
-                                </tr>
-                                <tr>
-                                    <td>Hành chính</td>
-                                    <td>10-12 ngày</td>
-                                    <td>7,500,000đ</td>
-                                    <td>2,000,000đ</td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="pricing-notes">
-                    <p><i class="fas fa-info-circle"></i> Dịch vụ hành chính có giá trị pháp lý, được công nhận bởi cơ quan có thẩm quyền</p>
-                    <p><i class="fas fa-info-circle"></i> Giá trên áp dụng cho khách hàng lấy mẫu tại trung tâm</p>
-                    <p><i class="fas fa-info-circle"></i> Thời gian tính theo ngày làm việc, không bao gồm thứ 7, chủ nhật và ngày lễ</p>
-                </div>
-            </div>
+          <h1>Dịch Vụ Xét Nghiệm ADN</h1>
+          <p>
+            Cung cấp các dịch vụ xét nghiệm ADN chuyên nghiệp, nhanh chóng và
+            chính xác
+          </p>
         </div>
+      </div>
+
+      <!-- Main Services -->
+      <div class="services-container">
+        <div class="services-grid">
+          <div
+            class="service-card"
+            style="
+              background-image: url('assets/images/father-child-banner.jpg');
+            "
+          >
+            <h3 class="service-title">Xét nghiệm ADN</h3>
+            <h4 class="service-subtitle">Cha - Con</h4>
+            <div
+              class="service-content"
+              style="background: rgba(255, 255, 255, 0.95)"
+            >
+              <ul class="service-features">
+                <li>Xác định quan hệ huyết thống cha - con.</li>
+                <li class="price">Giá: 5.000.000đ</li>
+                <li class="time">Thời gian: Khoảng 4 ngày làm việc</li>
+                <li>Bảo mật tuyệt đối.</li>
+                <li>Độ chính xác 99.99%.</li>
+              </ul>
+            </div>
+            <a href="booking.html?service=father-child" class="register-button"
+              >ĐẶT LỊCH NGAY</a
+            >
+          </div>
+
+          <div
+            class="service-card"
+            style="
+              background-image: url('assets/images/mother-child-banner.jpg');
+            "
+          >
+            <h3 class="service-title">Xét nghiệm ADN</h3>
+            <h4 class="service-subtitle">Mẹ - Con</h4>
+            <div
+              class="service-content"
+              style="background: rgba(255, 255, 255, 0.95)"
+            >
+              <ul class="service-features">
+                <li>Xác định quan hệ huyết thống mẹ - con.</li>
+                <li class="price">Giá: 5.000.000đ</li>
+                <li class="time">Thời gian: Khoảng 4 ngày làm việc</li>
+                <li>Bảo mật tuyệt đối.</li>
+                <li>Độ chính xác 99.99%.</li>
+              </ul>
+            </div>
+            <a href="booking.html?service=mother-child" class="register-button"
+              >ĐẶT LỊCH NGAY</a
+            >
+          </div>
+
+          <div
+            class="service-card"
+            style="background-image: url('assets/images/siblings-banner.jpg')"
+          >
+            <h3 class="service-title">Xét nghiệm ADN</h3>
+            <h4 class="service-subtitle">Anh Chị Em</h4>
+            <div
+              class="service-content"
+              style="background: rgba(255, 255, 255, 0.95)"
+            >
+              <ul class="service-features">
+                <li>Xác định quan hệ huyết thống anh chị em.</li>
+                <li class="price">Giá: 4.000.000đ</li>
+                <li class="time">Thời gian: Khoảng 5 ngày làm việc</li>
+                <li>Bảo mật tuyệt đối.</li>
+                <li>Độ chính xác 99.99%.</li>
+              </ul>
+            </div>
+            <a href="booking.html?service=siblings" class="register-button"
+              >ĐẶT LỊCH NGAY</a
+            >
+          </div>
+
+          <div
+            class="service-card"
+            style="
+              background-image: url('assets/images/grandparent-banner.jpg');
+            "
+          >
+            <h3 class="service-title">Xét nghiệm ADN</h3>
+            <h4 class="service-subtitle">Ông Bà Cháu</h4>
+            <div
+              class="service-content"
+              style="background: rgba(255, 255, 255, 0.95)"
+            >
+              <ul class="service-features">
+                <li>Xác định quan hệ huyết thống ông bà cháu.</li>
+                <li class="price">Giá: 4.000.000đ</li>
+                <li class="time">Thời gian: Khoảng 5 ngày làm việc</li>
+                <li>Bảo mật tuyệt đối.</li>
+                <li>Độ chính xác 99.99%.</li>
+              </ul>
+            </div>
+            <a href="booking.html?service=grandparent" class="register-button"
+              >ĐẶT LỊCH NGAY</a
+            >
+          </div>
+        </div>
+
+        <!-- Promotions Section -->
+        <div class="promotions-section">
+          <h2 class="promotion-title">CHƯƠNG TRÌNH ƯU ĐÃI ĐANG ÁP DỤNG</h2>
+          <div class="promotion-single">
+            <div class="promotion-card">
+              <img
+                src="assets/images/promotion-1.jpg"
+                alt="Ưu đãi xét nghiệm ADN"
+              />
+            </div>
+          </div>
+          <a href="booking.html" class="register-promotion"
+            >ĐĂNG KÝ NGAY ĐỂ NHẬN ƯU ĐÃI</a
+          >
+        </div>
+
+        <!-- Pricing Section -->
+        <div class="pricing-section">
+          <h2 class="pricing-title">BẢNG GIÁ CHI TIẾT</h2>
+          <p class="pricing-subtitle">
+            (Ưu đãi giới hạn khách hàng hẹn lịch trước với trụ sở HCM)
+          </p>
+
+          <div class="pricing-grid">
+            <div class="pricing-card">
+              <h3>Xét nghiệm ADN Cha - Con</h3>
+              <div class="pricing-details">
+                <p>
+                  Phân tích 24 đến 33 loci sử dụng bộ kit Powerplex Fusion,
+                  HDplex – Mỹ
+                </p>
+                <table class="price-table">
+                  <tr>
+                    <th>Loại dịch vụ</th>
+                    <th>Thời gian</th>
+                    <th>Chi phí 2 mẫu</th>
+                    <th>Thêm mẫu thứ 3</th>
+                  </tr>
+                  <tr>
+                    <td>Dân sự</td>
+                    <td>04h – 02 ngày</td>
+                    <td>từ 899,000đ/mẫu</td>
+                    <td>2,000,000đ</td>
+                  </tr>
+                  <tr>
+                    <td>Hành chính</td>
+                    <td>7-10 ngày</td>
+                    <td>8,500,000đ</td>
+                    <td>2,000,000đ</td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+
+            <div class="pricing-card">
+              <h3>Xét nghiệm ADN Mẹ - Con</h3>
+              <div class="pricing-details">
+                <p>Phân tích ADN ti thể và các marker đặc hiệu</p>
+                <table class="price-table">
+                  <tr>
+                    <th>Loại dịch vụ</th>
+                    <th>Thời gian</th>
+                    <th>Chi phí 2 mẫu</th>
+                    <th>Thêm mẫu thứ 3</th>
+                  </tr>
+                  <tr>
+                    <td>Dân sự</td>
+                    <td>04h – 02 ngày</td>
+                    <td>từ 899,000đ/mẫu</td>
+                    <td>2,000,000đ</td>
+                  </tr>
+                  <tr>
+                    <td>Hành chính</td>
+                    <td>7-10 ngày</td>
+                    <td>8,500,000đ</td>
+                    <td>2,000,000đ</td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+
+            <div class="pricing-card">
+              <h3>Xét nghiệm ADN Anh Chị Em</h3>
+              <div class="pricing-details">
+                <p>
+                  Phân tích 23 loci trên nhiễm sắc thể Y và 12 loci trên NST X
+                </p>
+                <table class="price-table">
+                  <tr>
+                    <th>Loại dịch vụ</th>
+                    <th>Thời gian</th>
+                    <th>Chi phí 2 mẫu</th>
+                    <th>Thêm mẫu thứ 3</th>
+                  </tr>
+                  <tr>
+                    <td>Dân sự</td>
+                    <td>05 ngày</td>
+                    <td>4,000,000đ</td>
+                    <td>2,000,000đ</td>
+                  </tr>
+                  <tr>
+                    <td>Hành chính</td>
+                    <td>10-12 ngày</td>
+                    <td>7,500,000đ</td>
+                    <td>2,000,000đ</td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+
+            <div class="pricing-card">
+              <h3>Xét nghiệm ADN Ông Bà Cháu</h3>
+              <div class="pricing-details">
+                <p>Phân tích quan hệ huyết thống theo dòng nội/ngoại</p>
+                <table class="price-table">
+                  <tr>
+                    <th>Loại dịch vụ</th>
+                    <th>Thời gian</th>
+                    <th>Chi phí 2 mẫu</th>
+                    <th>Thêm mẫu thứ 3</th>
+                  </tr>
+                  <tr>
+                    <td>Dân sự</td>
+                    <td>05 ngày</td>
+                    <td>4,000,000đ</td>
+                    <td>2,000,000đ</td>
+                  </tr>
+                  <tr>
+                    <td>Hành chính</td>
+                    <td>10-12 ngày</td>
+                    <td>7,500,000đ</td>
+                    <td>2,000,000đ</td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <div class="pricing-notes">
+            <p>
+              <i class="fas fa-info-circle"></i> Dịch vụ hành chính có giá trị
+              pháp lý, được công nhận bởi cơ quan có thẩm quyền
+            </p>
+            <p>
+              <i class="fas fa-info-circle"></i> Giá trên áp dụng cho khách hàng
+              lấy mẫu tại trung tâm
+            </p>
+            <p>
+              <i class="fas fa-info-circle"></i> Thời gian tính theo ngày làm
+              việc, không bao gồm thứ 7, chủ nhật và ngày lễ
+            </p>
+          </div>
+        </div>
+      </div>
     </main>
 
     <!-- Footer -->
     <footer class="footer">
-        <div class="footer-container">
-            <!-- Company Info -->
-            <div class="footer-info">
-                <h3>TRUNG TÂM XÉT NGHIỆM ADN GENX</h3>
-                <p>Trung tâm xét nghiệm ADN hàng đầu tại Việt Nam với hơn 10 năm kinh nghiệm. Cam kết mang đến dịch vụ xét nghiệm ADN chính xác và uy tín.</p>
-                <div class="contact-info">
-                    <div class="contact-item">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <span>123 Đường ABC, Quận 1, TP.HCM</span>
-                    </div>
-                    <div class="contact-item">
-                        <i class="fas fa-phone"></i>
-                        <span>1900 xxxx</span>
-                    </div>
-                    <div class="contact-item">
-                        <i class="fas fa-envelope"></i>
-                        <span>info@genx.com</span>
-                    </div>
-                </div>
-                <div class="social-links">
-                    <a href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                    <a href="#"><i class="fab fa-youtube"></i></a>
-                </div>
+      <div class="footer-container">
+        <!-- Company Info -->
+        <div class="footer-info">
+          <h3>TRUNG TÂM XÉT NGHIỆM ADN GENX</h3>
+          <p>
+            Trung tâm xét nghiệm ADN hàng đầu tại Việt Nam với hơn 10 năm kinh
+            nghiệm. Cam kết mang đến dịch vụ xét nghiệm ADN chính xác và uy tín.
+          </p>
+          <div class="contact-info">
+            <div class="contact-item">
+              <i class="fas fa-map-marker-alt"></i>
+              <span>123 Đường ABC, Quận 1, TP.HCM</span>
             </div>
-
-            <!-- Quick Links -->
-            <div class="footer-links">
-                <h4>Dịch Vụ</h4>
-                <ul>
-                    <li><a href="services.html">Xét nghiệm ADN Cha Con</a></li>
-                    <li><a href="services.html">Xét nghiệm ADN Mẹ Con</a></li>
-                    <li><a href="services.html">Xét nghiệm ADN Anh Chị Em</a></li>
-                    <li><a href="services.html">Xét nghiệm ADN Ông Bà Cháu</a></li>
-                </ul>
+            <div class="contact-item">
+              <i class="fas fa-phone"></i>
+              <span>1900 xxxx</span>
             </div>
-
-            <!-- Support -->
-            <div class="footer-links">
-                <h4>Hỗ Trợ</h4>
-                <ul>
-                    <li><a href="sample-collection.html">Hướng dẫn lấy mẫu</a></li>
-                    <li><a href="knowledge.html">Quy trình xét nghiệm</a></li>
-                    <li><a href="knowledge.html">Câu hỏi thường gặp</a></li>
-                    <li><a href="https://gentis.vn/chinh_sach_bao_mat/">Chính sách bảo mật</a></li>
-                </ul>
+            <div class="contact-item">
+              <i class="fas fa-envelope"></i>
+              <span>info@genx.com</span>
             </div>
-
-            <!-- Working Hours -->
-            <div class="footer-links">
-                <h4>Giờ Làm Việc</h4>
-                <ul>
-                    <li>Thứ 2 - Thứ 6: 8:00 - 17:30</li>
-                    <li>Thứ 7: 8:00 - 12:00</li>
-                    <li>Chủ nhật: Đóng cửa</li>
-                    <li>Hotline: 24/7</li>
-                </ul>
-            </div>
+          </div>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+          </div>
         </div>
 
-        <!-- Footer Bottom -->
-        <div class="footer-container">
-            <div class="footer-bottom">
-                <p>&copy; 2024 Trung Tâm Xét Nghiệm ADN GenX. All rights reserved.</p>
-            </div>
+        <!-- Quick Links -->
+        <div class="footer-links">
+          <h4>Dịch Vụ</h4>
+          <ul>
+            <li><a href="services.html">Xét nghiệm ADN Cha Con</a></li>
+            <li><a href="services.html">Xét nghiệm ADN Mẹ Con</a></li>
+            <li><a href="services.html">Xét nghiệm ADN Anh Chị Em</a></li>
+            <li><a href="services.html">Xét nghiệm ADN Ông Bà Cháu</a></li>
+          </ul>
         </div>
+
+        <!-- Support -->
+        <div class="footer-links">
+          <h4>Hỗ Trợ</h4>
+          <ul>
+            <li><a href="sample-collection.html">Hướng dẫn lấy mẫu</a></li>
+            <li><a href="knowledge.html">Quy trình xét nghiệm</a></li>
+            <li><a href="knowledge.html">Câu hỏi thường gặp</a></li>
+            <li>
+              <a href="https://gentis.vn/chinh_sach_bao_mat/"
+                >Chính sách bảo mật</a
+              >
+            </li>
+          </ul>
+        </div>
+
+        <!-- Working Hours -->
+        <div class="footer-links">
+          <h4>Giờ Làm Việc</h4>
+          <ul>
+            <li>Thứ 2 - Thứ 6: 8:00 - 17:30</li>
+            <li>Thứ 7: 8:00 - 12:00</li>
+            <li>Chủ nhật: Đóng cửa</li>
+            <li>Hotline: 24/7</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Footer Bottom -->
+      <div class="footer-container">
+        <div class="footer-bottom">
+          <p>&copy; 2024 Trung Tâm Xét Nghiệm ADN GenX. All rights reserved.</p>
+        </div>
+      </div>
     </footer>
 
     <!-- Add before closing body tag -->
     <div class="quick-contact">
-        <a href="booking.html" class="quick-contact-btn booking">
-            <i class="fas fa-calendar-alt"></i>
-            <span>Đặt lịch ngay</span>
-        </a>
-        <a href="login.html" class="quick-contact-btn register">
-            <i class="fas fa-user-plus"></i>
-            <span>Đăng ký</span>
-        </a>
-        <div class="quick-contact-btn hotline">
-            <i class="fas fa-phone-alt"></i>
-            <span class="phone-number">1900 xxxx</span>
-        </div>
+      <a href="booking.html" class="quick-contact-btn booking">
+        <i class="fas fa-calendar-alt"></i>
+        <span>Đặt lịch ngay</span>
+      </a>
+      <a href="login.html" class="quick-contact-btn register">
+        <i class="fas fa-user-plus"></i>
+        <span>Đăng ký</span>
+      </a>
+      <div class="quick-contact-btn hotline">
+        <i class="fas fa-phone-alt"></i>
+        <span class="phone-number">1900 xxxx</span>
+      </div>
     </div>
-</body>
+
+    <script src="assets/js/auth.js"></script>
+    <script>
+      // Xử lý đăng nhập/đăng xuất giống index.html
+      document.addEventListener("DOMContentLoaded", function () {
+        updateAuthUI();
+      });
+      function updateAuthUI() {
+        const loginButton = document.querySelector(".nav-link.login-button");
+        const registerBtn = document.querySelector(
+          ".quick-contact-btn.register"
+        );
+        const authStatus =
+          Auth && Auth.checkLoginStatus
+            ? Auth.checkLoginStatus()
+            : { isLoggedIn: false };
+
+        if (authStatus.isLoggedIn) {
+          const user = authStatus.user;
+          const defaultAvatar = "assets/images/user-avatar.jpg";
+          loginButton.innerHTML = `
+            <div class="user-dropdown">
+              <span class="user-name">
+                <img src="${
+                  user.avatar || defaultAvatar
+                }" class="user-avatar" alt="avatar" />
+                ${user.fullName || user.name || "Tài khoản"}
+                <i class="fas fa-caret-down"></i>
+              </span>
+              <div class="dropdown-content">
+                <a href="newprofile.html">Thông tin tài khoản</a>
+                <a href="historytest.html">Lịch sử xét nghiệm</a>
+                <a href="appoinments.html">Lịch hẹn của tôi</a>
+                <a href="#" onclick="handleLogout(); return false;">Đăng xuất</a>
+              </div>
+            </div>
+          `;
+          loginButton.classList.add("logged-in");
+          loginButton.removeAttribute("href");
+          if (registerBtn) {
+            registerBtn.setAttribute("href", "newprofile.html");
+            registerBtn.querySelector("span").textContent = "Tài khoản";
+          }
+        } else {
+          loginButton.innerHTML = "Đăng nhập";
+          loginButton.classList.remove("logged-in");
+          loginButton.setAttribute("href", "login.html");
+          if (registerBtn) {
+            registerBtn.setAttribute("href", "login.html");
+            registerBtn.querySelector("span").textContent = "Đăng ký";
+          }
+        }
+      }
+      function handleLogout() {
+        if (confirm("Bạn có chắc chắn muốn đăng xuất?")) {
+          Auth.logout && Auth.logout();
+        }
+      }
+    </script>
+  </body>
 </html>

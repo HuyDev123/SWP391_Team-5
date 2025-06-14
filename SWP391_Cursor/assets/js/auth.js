@@ -118,6 +118,7 @@ function loginWithGoogle(googleUser = null) {
           fullName: "Lê Thị C",
           email: "user.google@gmail.com",
           avatar: "assets/images/google-avatar.jpg",
+          phone: "0987654321",
         };
 
         // Tạo token giả lập

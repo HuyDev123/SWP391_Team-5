@@ -1,603 +1,712 @@
 <!DOCTYPE html>
 <html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Hướng dẫn lấy mẫu - Genx</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="assets/css/styles.css">
-    <link rel="stylesheet" href="assets/css/header.css">
-    <link rel="stylesheet" href="assets/css/footer.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Poppins:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <link rel="stylesheet" href="assets/css/styles.css" />
+    <link rel="stylesheet" href="assets/css/header.css" />
+    <link rel="stylesheet" href="assets/css/footer.css" />
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Poppins", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
 
-        .content {
-            margin-top: 80px;
-        }
+      .content {
+        margin-top: 80px;
+      }
 
-        .sample-hero {
-            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('assets/images/dna-hero-bg.jpg') center/cover no-repeat;
-            position: relative;
-            color: white;
-            padding: 100px 0;
-            text-align: center;
-            margin-bottom: 50px;
-            overflow: hidden;
-        }
+      .sample-hero {
+        background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+          url("assets/images/dna-hero-bg.jpg") center/cover no-repeat;
+        position: relative;
+        color: white;
+        padding: 100px 0;
+        text-align: center;
+        margin-bottom: 50px;
+        overflow: hidden;
+      }
 
-        .sample-hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(33, 150, 243, 0.3), rgba(0, 0, 0, 0.5));
-            z-index: 1;
-        }
+      .sample-hero::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(
+          135deg,
+          rgba(33, 150, 243, 0.3),
+          rgba(0, 0, 0, 0.5)
+        );
+        z-index: 1;
+      }
 
-        .sample-hero .sample-container {
-            position: relative;
-            z-index: 2;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
+      .sample-hero .sample-container {
+        position: relative;
+        z-index: 2;
+        max-width: 1000px;
+        margin: 0 auto;
+      }
 
-        .sample-hero h1 {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 3.5em;
-            font-weight: 700;
-            margin-bottom: 25px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            animation: fadeInDown 1s ease;
-        }
+      .sample-hero h1 {
+        font-family: "Montserrat", sans-serif;
+        font-size: 3.5em;
+        font-weight: 700;
+        margin-bottom: 25px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        animation: fadeInDown 1s ease;
+      }
 
-        .sample-hero p {
-            font-family: 'Poppins', sans-serif;
-            font-size: 1.4em;
-            max-width: 800px;
-            margin: 0 auto;
-            line-height: 1.6;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
-            color: rgba(255, 255, 255, 0.95);
-            animation: fadeInUp 1s ease;
-        }
+      .sample-hero p {
+        font-family: "Poppins", sans-serif;
+        font-size: 1.4em;
+        max-width: 800px;
+        margin: 0 auto;
+        line-height: 1.6;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        color: rgba(255, 255, 255, 0.95);
+        animation: fadeInUp 1s ease;
+      }
 
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+      @keyframes fadeInDown {
+        from {
+          opacity: 0;
+          transform: translateY(-30px);
         }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        to {
+          opacity: 1;
+          transform: translateY(0);
         }
+      }
 
-        .sample-hero::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 100px;
-            background: linear-gradient(to top, rgba(255,255,255,1), rgba(255,255,255,0));
-            z-index: 1;
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
         }
-
-        .sample-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
+        to {
+          opacity: 1;
+          transform: translateY(0);
         }
+      }
 
+      .sample-hero::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 100px;
+        background: linear-gradient(
+          to top,
+          rgba(255, 255, 255, 1),
+          rgba(255, 255, 255, 0)
+        );
+        z-index: 1;
+      }
+
+      .sample-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      .video-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 30px;
+        margin: 50px 0;
+      }
+
+      .video-card {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+      }
+
+      .video-wrapper {
+        position: relative;
+        padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+        height: 0;
+        overflow: hidden;
+      }
+
+      .video-wrapper iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: none;
+      }
+
+      .video-title {
+        padding: 15px;
+        color: #333;
+        font-weight: 500;
+        text-align: center;
+      }
+
+      .info-section {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        padding: 60px 0;
+        margin-top: 40px;
+        border-radius: 20px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+      }
+
+      .info-section h2 {
+        color: #0288d1;
+        font-size: 32px;
+        text-align: center;
+        margin-bottom: 40px;
+        position: relative;
+        padding-bottom: 15px;
+      }
+
+      .info-section h2::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100px;
+        height: 3px;
+        background: linear-gradient(90deg, #0288d1, #26c6da);
+        border-radius: 3px;
+      }
+
+      .info-cards {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 30px;
+        margin: 0 auto;
+        max-width: 1000px;
+        padding: 0 20px;
+      }
+
+      .info-card {
+        background: white;
+        padding: 25px;
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .info-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      }
+
+      .info-icon {
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(135deg, #0288d1, #26c6da);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 20px;
+      }
+
+      .info-icon i {
+        font-size: 28px;
+        color: white;
+      }
+
+      .info-card h3 {
+        color: #333;
+        font-size: 20px;
+        margin: 0 0 15px;
+        text-align: center;
+      }
+
+      .info-card p {
+        color: #666;
+        line-height: 1.6;
+        margin: 0;
+        text-align: center;
+      }
+
+      .contact-info {
+        text-align: center;
+        margin-top: 50px;
+        background: white;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .contact-info p {
+        color: #666;
+        margin: 10px 0;
+      }
+
+      .contact-info p:first-child {
+        font-size: 22px;
+        color: #333;
+        font-weight: 600;
+      }
+
+      .contact-info .hotline {
+        font-size: 24px;
+        color: #0288d1;
+        font-weight: bold;
+        margin: 15px 0;
+      }
+
+      .see-more {
+        display: inline-block;
+        background: linear-gradient(45deg, #0288d1, #26c6da);
+        color: white;
+        text-decoration: none;
+        padding: 15px 40px;
+        border-radius: 30px;
+        font-weight: bold;
+        margin-top: 25px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .see-more:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(38, 198, 218, 0.3);
+      }
+
+      @media (max-width: 768px) {
         .video-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 30px;
-            margin: 50px 0;
-        }
-
-        .video-card {
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-        }
-
-        .video-wrapper {
-            position: relative;
-            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
-            height: 0;
-            overflow: hidden;
-        }
-
-        .video-wrapper iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        .video-title {
-            padding: 15px;
-            color: #333;
-            font-weight: 500;
-            text-align: center;
-        }
-
-        .info-section {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            padding: 60px 0;
-            margin-top: 40px;
-            border-radius: 20px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
-        }
-
-        .info-section h2 {
-            color: #0288D1;
-            font-size: 32px;
-            text-align: center;
-            margin-bottom: 40px;
-            position: relative;
-            padding-bottom: 15px;
-        }
-
-        .info-section h2::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100px;
-            height: 3px;
-            background: linear-gradient(90deg, #0288D1, #26C6DA);
-            border-radius: 3px;
+          grid-template-columns: 1fr;
         }
 
         .info-cards {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
-            margin: 0 auto;
-            max-width: 1000px;
-            padding: 0 20px;
+          grid-template-columns: 1fr;
+          gap: 20px;
         }
 
-        .info-card {
-            background: white;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .info-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-        }
-
-        .info-icon {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #0288D1, #26C6DA);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 20px;
-        }
-
-        .info-icon i {
-            font-size: 28px;
-            color: white;
-        }
-
-        .info-card h3 {
-            color: #333;
-            font-size: 20px;
-            margin: 0 0 15px;
-            text-align: center;
-        }
-
-        .info-card p {
-            color: #666;
-            line-height: 1.6;
-            margin: 0;
-            text-align: center;
+        .info-section h2 {
+          font-size: 28px;
         }
 
         .contact-info {
-            text-align: center;
-            margin-top: 50px;
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
+          margin: 40px 20px;
         }
+      }
 
-        .contact-info p {
-            color: #666;
-            margin: 10px 0;
-        }
+      .quick-contact {
+        position: fixed;
+        right: 20px;
+        bottom: 20%;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        z-index: 1000;
+      }
 
-        .contact-info p:first-child {
-            font-size: 22px;
-            color: #333;
-            font-weight: 600;
-        }
+      .quick-contact-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
 
-        .contact-info .hotline {
-            font-size: 24px;
-            color: #0288D1;
-            font-weight: bold;
-            margin: 15px 0;
-        }
+      .quick-contact-btn i {
+        font-size: 24px;
+        margin: 0;
+      }
 
-        .see-more {
-            display: inline-block;
-            background: linear-gradient(45deg, #0288D1, #26C6DA);
-            color: white;
-            text-decoration: none;
-            padding: 15px 40px;
-            border-radius: 30px;
-            font-weight: bold;
-            margin-top: 25px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
+      .quick-contact-btn:hover {
+        transform: translateX(-5px);
+        width: auto;
+        padding: 0 20px;
+        border-radius: 30px;
+      }
 
-        .see-more:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(38, 198, 218, 0.3);
-        }
+      .quick-contact-btn:hover i {
+        margin-right: 8px;
+      }
 
-        @media (max-width: 768px) {
-            .video-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .info-cards {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-            
-            .info-section h2 {
-                font-size: 28px;
-            }
-            
-            .contact-info {
-                margin: 40px 20px;
-            }
-        }
+      .quick-contact-btn span {
+        display: none;
+        white-space: nowrap;
+      }
 
+      .quick-contact-btn:hover span {
+        display: inline;
+      }
+
+      .quick-contact-btn.booking {
+        background-color: #ff4444;
+      }
+
+      .quick-contact-btn.register {
+        background-color: #2196f3;
+      }
+
+      .quick-contact-btn.hotline {
+        background-color: #4caf50;
+        cursor: default;
+      }
+
+      .quick-contact-btn.hotline:hover {
+        transform: translateX(-5px);
+        width: auto;
+        padding: 0 20px;
+      }
+
+      .quick-contact-btn.hotline .phone-number {
+        display: none;
+        white-space: nowrap;
+        font-weight: bold;
+      }
+
+      .quick-contact-btn.hotline:hover .phone-number {
+        display: inline;
+      }
+
+      @media (max-width: 768px) {
         .quick-contact {
-            position: fixed;
-            right: 20px;
-            bottom: 20%;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            z-index: 1000;
+          display: none;
         }
+      }
 
-        .quick-contact-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
+      .footer .contact-info {
+        background: transparent;
+        box-shadow: none;
+        border-radius: 0;
+        color: #e0e0e0;
+        padding: 0;
+        text-align: left;
+        margin: 15px 0;
+      }
 
-        .quick-contact-btn i {
-            font-size: 24px;
-            margin: 0;
-        }
+      .footer .contact-info .contact-item {
+        margin-bottom: 10px;
+      }
 
-        .quick-contact-btn:hover {
-            transform: translateX(-5px);
-            width: auto;
-            padding: 0 20px;
-            border-radius: 30px;
-        }
+      .footer .contact-info .contact-item i {
+        color: #2196f3;
+        margin-right: 10px;
+      }
 
-        .quick-contact-btn:hover i {
-            margin-right: 8px;
-        }
-
-        .quick-contact-btn span {
-            display: none;
-            white-space: nowrap;
-        }
-
-        .quick-contact-btn:hover span {
-            display: inline;
-        }
-
-        .quick-contact-btn.booking {
-            background-color: #ff4444;
-        }
-
-        .quick-contact-btn.register {
-            background-color: #2196F3;
-        }
-
-        .quick-contact-btn.hotline {
-            background-color: #4CAF50;
-            cursor: default;
-        }
-
-        .quick-contact-btn.hotline:hover {
-            transform: translateX(-5px);
-            width: auto;
-            padding: 0 20px;
-        }
-
-        .quick-contact-btn.hotline .phone-number {
-            display: none;
-            white-space: nowrap;
-            font-weight: bold;
-        }
-
-        .quick-contact-btn.hotline:hover .phone-number {
-            display: inline;
-        }
-
-        @media (max-width: 768px) {
-            .quick-contact {
-                display: none;
-            }
-        }
-
-        .footer .contact-info {
-            background: transparent;
-            box-shadow: none;
-            border-radius: 0;
-            color: #e0e0e0;
-            padding: 0;
-            text-align: left;
-            margin: 15px 0;
-        }
-
-        .footer .contact-info .contact-item {
-            margin-bottom: 10px;
-        }
-
-        .footer .contact-info .contact-item i {
-            color: #2196F3;
-            margin-right: 10px;
-        }
-
-        .footer .contact-info .contact-item span {
-            color: #e0e0e0;
-        }
+      .footer .contact-info .contact-item span {
+        color: #e0e0e0;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <!-- Header -->
     <header>
-        <div class="header-container">
-            <div class="logo-section">
-                <img src="assets/images/logo.png" alt="Genx Logo">
-                <div class="brand-text">
-                    <h1 class="brand-name">Genx</h1>
-                    <p class="brand-description">Trung Tâm Xét Nghiệm ADN Huyết Thống</p>
-                </div>
-            </div>
-            <nav class="nav-links">
-                <a href="index.html" class="nav-link">Trang chủ</a>
-                <a href="booking.html" class="nav-link">Đặt lịch xét nghiệm</a>
-                <a href="services.html" class="nav-link">Giới thiệu dịch vụ</a>
-                <a href="knowledge.html" class="nav-link">Kiến thức ADN</a>
-                <a href="sample-collection.html" class="nav-link active">Hướng dẫn lấy mẫu</a>
-                <a href="login.html" class="nav-link login-button">Đăng nhập</a>
-            </nav>
+      <div class="header-container">
+        <div class="logo-section">
+          <img src="assets/images/logo.png" alt="Genx Logo" />
+          <div class="brand-text">
+            <h1 class="brand-name">Genx</h1>
+            <p class="brand-description">
+              Trung Tâm Xét Nghiệm ADN Huyết Thống
+            </p>
+          </div>
         </div>
+        <nav class="nav-links">
+          <a href="index.html" class="nav-link">Trang chủ</a>
+          <a href="booking.html" class="nav-link">Đặt lịch xét nghiệm</a>
+          <a href="services.html" class="nav-link">Giới thiệu dịch vụ</a>
+          <a href="knowledge.html" class="nav-link">Kiến thức ADN</a>
+          <a href="sample-collection.html" class="nav-link active"
+            >Hướng dẫn lấy mẫu</a
+          >
+          <a href="login.html" class="nav-link login-button">Đăng nhập</a>
+        </nav>
+      </div>
     </header>
 
     <!-- Main Content -->
     <main class="content">
-        <!-- Sample Collection Hero -->
-        <div class="sample-hero">
-            <div class="sample-container">
-                <h1>Hướng dẫn thu mẫu tại nhà</h1>
-                <p>Hướng dẫn chi tiết các phương pháp thu mẫu xét nghiệm ADN tại nhà cho 30 tỉnh thành</p>
-            </div>
-        </div>
-
-        <!-- Main Content -->
+      <!-- Sample Collection Hero -->
+      <div class="sample-hero">
         <div class="sample-container">
-            <!-- Video Grid -->
-            <div class="video-grid">
-                <div class="video-card">
-                    <div class="video-wrapper">
-                        <iframe src="https://www.youtube.com/embed/lLIrvJBcM8k" title="Hướng dẫn thu mẫu niêm mạc miệng" allowfullscreen></iframe>
-                    </div>
-                    <div class="video-title">Hướng dẫn thu mẫu niêm mạc miệng</div>
-                </div>
-
-                <div class="video-card">
-                    <div class="video-wrapper">
-                        <iframe src="https://www.youtube.com/embed/sWwRCcq1rJY" title="Hướng dẫn thu mẫu móng tay" allowfullscreen></iframe>
-                    </div>
-                    <div class="video-title">Hướng dẫn thu mẫu móng tay</div>
-                </div>
-
-                <div class="video-card">
-                    <div class="video-wrapper">
-                        <iframe src="https://www.youtube.com/embed/t7yNt6iHgaA" title="Hướng dẫn thu mẫu máu" allowfullscreen></iframe>
-                    </div>
-                    <div class="video-title">Hướng dẫn thu mẫu máu</div>
-                </div>
-
-                <div class="video-card">
-                    <div class="video-wrapper">
-                        <iframe src="https://www.youtube.com/embed/Vcm5flpBSqk" title="Hướng dẫn thu mẫu tóc có chân" allowfullscreen></iframe>
-                    </div>
-                    <div class="video-title">Hướng dẫn thu mẫu tóc có chân</div>
-                </div>
-            </div>
-
-            <!-- Information Section -->
-            <div class="info-section">
-                <h2>Hướng dẫn thu mẫu tại nhà 30 tỉnh thành</h2>
-                <div class="info-cards">
-                    <div class="info-card">
-                        <div class="info-icon">
-                            <i class="fas fa-vial"></i>
-                        </div>
-                        <h3>Đa dạng mẫu xét nghiệm</h3>
-                        <p>Mẫu máu, niêm mạc miệng, tóc có chân, móng tay/chân, cương rốn, xương, răng và nhiều loại mẫu khác.</p>
-                    </div>
-
-                    <div class="info-card">
-                        <div class="info-icon">
-                            <i class="fas fa-headset"></i>
-                        </div>
-                        <h3>Tư vấn miễn phí 24/24</h3>
-                        <p>Đội ngũ chuyên gia sẵn sàng tư vấn qua tổng đài 1800 2010 hoặc 0888 40 2010</p>
-                    </div>
-
-                    <div class="info-card">
-                        <div class="info-icon">
-                            <i class="fas fa-truck"></i>
-                        </div>
-                        <h3>Thu mẫu tận nơi</h3>
-                        <p>Miễn phí dịch vụ thu mẫu tại nhà trong phạm vi 10 km</p>
-                    </div>
-                </div>
-
-                <div class="contact-info">
-                    <p>Liên hệ ngay để được tư vấn chi tiết</p>
-                    <div class="hotline">
-                        <i class="fas fa-phone-alt"></i> 1800 2010 - 0888 40 2010
-                    </div>
-                    <a href="#" class="see-more">
-                        <i class="fas fa-arrow-right"></i> Xem thêm
-                    </a>
-                </div>
-            </div>
+          <h1>Hướng dẫn thu mẫu tại nhà</h1>
+          <p>
+            Hướng dẫn chi tiết các phương pháp thu mẫu xét nghiệm ADN tại nhà
+            cho 30 tỉnh thành
+          </p>
         </div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="sample-container">
+        <!-- Video Grid -->
+        <div class="video-grid">
+          <div class="video-card">
+            <div class="video-wrapper">
+              <iframe
+                src="https://www.youtube.com/embed/lLIrvJBcM8k"
+                title="Hướng dẫn thu mẫu niêm mạc miệng"
+                allowfullscreen
+              ></iframe>
+            </div>
+            <div class="video-title">Hướng dẫn thu mẫu niêm mạc miệng</div>
+          </div>
+
+          <div class="video-card">
+            <div class="video-wrapper">
+              <iframe
+                src="https://www.youtube.com/embed/sWwRCcq1rJY"
+                title="Hướng dẫn thu mẫu móng tay"
+                allowfullscreen
+              ></iframe>
+            </div>
+            <div class="video-title">Hướng dẫn thu mẫu móng tay</div>
+          </div>
+
+          <div class="video-card">
+            <div class="video-wrapper">
+              <iframe
+                src="https://www.youtube.com/embed/t7yNt6iHgaA"
+                title="Hướng dẫn thu mẫu máu"
+                allowfullscreen
+              ></iframe>
+            </div>
+            <div class="video-title">Hướng dẫn thu mẫu máu</div>
+          </div>
+
+          <div class="video-card">
+            <div class="video-wrapper">
+              <iframe
+                src="https://www.youtube.com/embed/Vcm5flpBSqk"
+                title="Hướng dẫn thu mẫu tóc có chân"
+                allowfullscreen
+              ></iframe>
+            </div>
+            <div class="video-title">Hướng dẫn thu mẫu tóc có chân</div>
+          </div>
+        </div>
+
+        <!-- Information Section -->
+        <div class="info-section">
+          <h2>Hướng dẫn thu mẫu tại nhà 30 tỉnh thành</h2>
+          <div class="info-cards">
+            <div class="info-card">
+              <div class="info-icon">
+                <i class="fas fa-vial"></i>
+              </div>
+              <h3>Đa dạng mẫu xét nghiệm</h3>
+              <p>
+                Mẫu máu, niêm mạc miệng, tóc có chân, móng tay/chân, cương rốn,
+                xương, răng và nhiều loại mẫu khác.
+              </p>
+            </div>
+
+            <div class="info-card">
+              <div class="info-icon">
+                <i class="fas fa-headset"></i>
+              </div>
+              <h3>Tư vấn miễn phí 24/24</h3>
+              <p>
+                Đội ngũ chuyên gia sẵn sàng tư vấn qua tổng đài 1800 2010 hoặc
+                0888 40 2010
+              </p>
+            </div>
+
+            <div class="info-card">
+              <div class="info-icon">
+                <i class="fas fa-truck"></i>
+              </div>
+              <h3>Thu mẫu tận nơi</h3>
+              <p>Miễn phí dịch vụ thu mẫu tại nhà trong phạm vi 10 km</p>
+            </div>
+          </div>
+
+          <div class="contact-info">
+            <p>Liên hệ ngay để được tư vấn chi tiết</p>
+            <div class="hotline">
+              <i class="fas fa-phone-alt"></i> 1800 2010 - 0888 40 2010
+            </div>
+            <a href="#" class="see-more">
+              <i class="fas fa-arrow-right"></i> Xem thêm
+            </a>
+          </div>
+        </div>
+      </div>
     </main>
 
     <!-- Footer -->
     <footer class="footer">
-        <div class="footer-container">
-            <!-- Company Info -->
-            <div class="footer-info">
-                <h3>TRUNG TÂM XÉT NGHIỆM ADN GENX</h3>
-                <p>Trung tâm xét nghiệm ADN hàng đầu tại Việt Nam với hơn 10 năm kinh nghiệm. Cam kết mang đến dịch vụ xét nghiệm ADN chính xác và uy tín.</p>
-                <div class="contact-info">
-                    <div class="contact-item">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <span>123 Đường ABC, Quận 1, TP.HCM</span>
-                    </div>
-                    <div class="contact-item">
-                        <i class="fas fa-phone"></i>
-                        <span>1900 xxxx</span>
-                    </div>
-                    <div class="contact-item">
-                        <i class="fas fa-envelope"></i>
-                        <span>info@genx.com</span>
-                    </div>
-                </div>
-                <div class="social-links">
-                    <a href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                    <a href="#"><i class="fab fa-youtube"></i></a>
-                </div>
+      <div class="footer-container">
+        <!-- Company Info -->
+        <div class="footer-info">
+          <h3>TRUNG TÂM XÉT NGHIỆM ADN GENX</h3>
+          <p>
+            Trung tâm xét nghiệm ADN hàng đầu tại Việt Nam với hơn 10 năm kinh
+            nghiệm. Cam kết mang đến dịch vụ xét nghiệm ADN chính xác và uy tín.
+          </p>
+          <div class="contact-info">
+            <div class="contact-item">
+              <i class="fas fa-map-marker-alt"></i>
+              <span>123 Đường ABC, Quận 1, TP.HCM</span>
             </div>
-
-            <!-- Quick Links -->
-            <div class="footer-links">
-                <h4>Dịch Vụ</h4>
-                <ul>
-                    <li><a href="services.html">Xét nghiệm ADN Cha Con</a></li>
-                    <li><a href="services.html">Xét nghiệm ADN Mẹ Con</a></li>
-                    <li><a href="services.html">Xét nghiệm ADN Anh Chị Em</a></li>
-                    <li><a href="services.html">Xét nghiệm ADN Ông Bà Cháu</a></li>
-                </ul>
+            <div class="contact-item">
+              <i class="fas fa-phone"></i>
+              <span>1900 xxxx</span>
             </div>
-
-            <!-- Support -->
-            <div class="footer-links">
-                <h4>Hỗ Trợ</h4>
-                <ul>
-                    <li><a href="sample-collection.html">Hướng dẫn lấy mẫu</a></li>
-                    <li><a href="knowledge.html">Quy trình xét nghiệm</a></li>
-                    <li><a href="knowledge.html">Câu hỏi thường gặp</a></li>
-                    <li><a href="https://gentis.vn/chinh_sach_bao_mat/">Chính sách bảo mật</a></li>
-                </ul>
+            <div class="contact-item">
+              <i class="fas fa-envelope"></i>
+              <span>info@genx.com</span>
             </div>
-
-            <!-- Working Hours -->
-            <div class="footer-links">
-                <h4>Giờ Làm Việc</h4>
-                <ul>
-                    <li>Thứ 2 - Thứ 6: 8:00 - 17:30</li>
-                    <li>Thứ 7: 8:00 - 12:00</li>
-                    <li>Chủ nhật: Đóng cửa</li>
-                    <li>Hotline: 24/7</li>
-                </ul>
-            </div>
+          </div>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+          </div>
         </div>
 
-        <!-- Footer Bottom -->
-        <div class="footer-container">
-            <div class="footer-bottom">
-                <p>&copy; 2024 Trung Tâm Xét Nghiệm ADN GenX. All rights reserved.</p>
-            </div>
+        <!-- Quick Links -->
+        <div class="footer-links">
+          <h4>Dịch Vụ</h4>
+          <ul>
+            <li><a href="services.html">Xét nghiệm ADN Cha Con</a></li>
+            <li><a href="services.html">Xét nghiệm ADN Mẹ Con</a></li>
+            <li><a href="services.html">Xét nghiệm ADN Anh Chị Em</a></li>
+            <li><a href="services.html">Xét nghiệm ADN Ông Bà Cháu</a></li>
+          </ul>
         </div>
+
+        <!-- Support -->
+        <div class="footer-links">
+          <h4>Hỗ Trợ</h4>
+          <ul>
+            <li><a href="sample-collection.html">Hướng dẫn lấy mẫu</a></li>
+            <li><a href="knowledge.html">Quy trình xét nghiệm</a></li>
+            <li><a href="knowledge.html">Câu hỏi thường gặp</a></li>
+            <li>
+              <a href="https://gentis.vn/chinh_sach_bao_mat/"
+                >Chính sách bảo mật</a
+              >
+            </li>
+          </ul>
+        </div>
+
+        <!-- Working Hours -->
+        <div class="footer-links">
+          <h4>Giờ Làm Việc</h4>
+          <ul>
+            <li>Thứ 2 - Thứ 6: 8:00 - 17:30</li>
+            <li>Thứ 7: 8:00 - 12:00</li>
+            <li>Chủ nhật: Đóng cửa</li>
+            <li>Hotline: 24/7</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Footer Bottom -->
+      <div class="footer-container">
+        <div class="footer-bottom">
+          <p>&copy; 2024 Trung Tâm Xét Nghiệm ADN GenX. All rights reserved.</p>
+        </div>
+      </div>
     </footer>
 
     <!-- Add before closing body tag -->
     <div class="quick-contact">
-        <a href="booking.html" class="quick-contact-btn booking">
-            <i class="fas fa-calendar-alt"></i>
-            <span>Đặt lịch ngay</span>
-        </a>
-        <a href="login.html" class="quick-contact-btn register">
-            <i class="fas fa-user-plus"></i>
-            <span>Đăng ký</span>
-        </a>
-        <div class="quick-contact-btn hotline">
-            <i class="fas fa-phone-alt"></i>
-            <span class="phone-number">1900 xxxx</span>
-        </div>
+      <a href="booking.html" class="quick-contact-btn booking">
+        <i class="fas fa-calendar-alt"></i>
+        <span>Đặt lịch ngay</span>
+      </a>
+      <a href="login.html" class="quick-contact-btn register">
+        <i class="fas fa-user-plus"></i>
+        <span>Đăng ký</span>
+      </a>
+      <div class="quick-contact-btn hotline">
+        <i class="fas fa-phone-alt"></i>
+        <span class="phone-number">1900 xxxx</span>
+      </div>
     </div>
-</body>
+    <script src="assets/js/auth.js"></script>
+    <script>
+      // Xử lý đăng nhập/đăng xuất giống index.html
+      document.addEventListener("DOMContentLoaded", function () {
+        updateAuthUI();
+      });
+      function updateAuthUI() {
+        const loginButton = document.querySelector(".nav-link.login-button");
+        const registerBtn = document.querySelector(
+          ".quick-contact-btn.register"
+        );
+        const authStatus =
+          Auth && Auth.checkLoginStatus
+            ? Auth.checkLoginStatus()
+            : { isLoggedIn: false };
+
+        if (authStatus.isLoggedIn) {
+          const user = authStatus.user;
+          const defaultAvatar = "assets/images/user-avatar.jpg";
+          loginButton.innerHTML = `
+            <div class="user-dropdown">
+              <span class="user-name">
+                <img src="${
+                  user.avatar || defaultAvatar
+                }" class="user-avatar" alt="avatar" />
+                ${user.fullName || user.name || "Tài khoản"}
+                <i class="fas fa-caret-down"></i>
+              </span>
+              <div class="dropdown-content">
+                <a href="newprofile.html">Thông tin tài khoản</a>
+                <a href="historytest.html">Lịch sử xét nghiệm</a>
+                <a href="appoinments.html">Lịch hẹn của tôi</a>
+                <a href="#" onclick="handleLogout(); return false;">Đăng xuất</a>
+              </div>
+            </div>
+          `;
+          loginButton.classList.add("logged-in");
+          loginButton.removeAttribute("href");
+          if (registerBtn) {
+            registerBtn.setAttribute("href", "newprofile.html");
+            registerBtn.querySelector("span").textContent = "Tài khoản";
+          }
+        } else {
+          loginButton.innerHTML = "Đăng nhập";
+          loginButton.classList.remove("logged-in");
+          loginButton.setAttribute("href", "login.html");
+          if (registerBtn) {
+            registerBtn.setAttribute("href", "login.html");
+            registerBtn.querySelector("span").textContent = "Đăng ký";
+          }
+        }
+      }
+      function handleLogout() {
+        if (confirm("Bạn có chắc chắn muốn đăng xuất?")) {
+          Auth.logout && Auth.logout();
+        }
+      }
+    </script>
+  </body>
 </html>
