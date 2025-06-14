@@ -444,16 +444,39 @@
                 required
               />
             </div>
-
             <div class="form-group">
               <label class="form-label" for="service">Chọn dịch vụ *</label>
-              <select id="service" class="form-control" required>
-                <option value="">-- Chọn dịch vụ xét nghiệm --</option>
-                <option value="father-child">Xét nghiệm cha con</option>
-                <option value="mother-child">Xét nghiệm mẹ con</option>
-                <option value="siblings">Xét nghiệm anh chị em</option>
-                <option value="grandparent">Xét nghiệm ông bà cháu</option>
-              </select>
+              <div id="service-select-list">
+                <div class="service-select-item" style="margin-bottom: 8px">
+                  <select
+                    id="service"
+                    name="services[]"
+                    class="form-control service-dropdown"
+                    required
+                  >
+                    <option value="">-- Chọn dịch vụ xét nghiệm --</option>
+                    <option value="father-child">Xét nghiệm cha con</option>
+                    <option value="mother-child">Xét nghiệm mẹ con</option>
+                    <option value="siblings">Xét nghiệm anh chị em</option>
+                    <option value="grandparent">Xét nghiệm ông bà cháu</option>
+                  </select>
+                </div>
+              </div>
+              <button
+                type="button"
+                id="add-service-btn"
+                style="
+                  margin-top: 8px;
+                  margin-bottom: 16px;
+                  padding: 5px 10px;
+                  background-color: #f0f0f0;
+                  border: 1px solid #ddd;
+                  border-radius: 4px;
+                  cursor: pointer;
+                "
+              >
+                <i class="fas fa-plus"></i> Thêm dịch vụ
+              </button>
             </div>
 
             <div class="form-group">
@@ -879,6 +902,46 @@
               }
             }
           }
+        }
+      });
+
+      // Thêm chức năng để thêm dropdown dịch vụ mới
+      document.addEventListener("DOMContentLoaded", function () {
+        const addServiceBtn = document.getElementById("add-service-btn");
+        const serviceSelectList = document.getElementById(
+          "service-select-list"
+        );
+
+        if (addServiceBtn && serviceSelectList) {
+          addServiceBtn.addEventListener("click", function () {
+            // Tạo dropdown mới
+            const newItem = document.createElement("div");
+            newItem.className = "service-select-item";
+            newItem.style.marginBottom = "8px";
+            newItem.innerHTML = `
+              <select name="services[]" class="form-control service-dropdown" required>
+                <option value="">-- Chọn dịch vụ xét nghiệm --</option>
+                <option value="father-child">Xét nghiệm cha con</option>
+                <option value="mother-child">Xét nghiệm mẹ con</option>
+                <option value="siblings">Xét nghiệm anh chị em</option>
+                <option value="grandparent">Xét nghiệm ông bà cháu</option>
+              </select>
+              <button type="button" class="remove-service-btn" style="margin-left: 5px; color: red; background: none; border: none; cursor: pointer;">
+                <i class="fas fa-times"></i>
+              </button>
+            `;
+
+            // Thêm dropdown mới vào danh sách
+            serviceSelectList.appendChild(newItem);
+
+            // Thêm sự kiện xóa cho nút xóa
+            const removeBtn = newItem.querySelector(".remove-service-btn");
+            if (removeBtn) {
+              removeBtn.addEventListener("click", function () {
+                newItem.remove();
+              });
+            }
+          });
         }
       });
     </script>
