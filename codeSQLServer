@@ -112,8 +112,8 @@ CREATE TABLE Participant (
     relationship VARCHAR(50),
     photo_url VARCHAR(255),
     note TEXT,
-    FOREIGN KEY (booking_id) REFERENCES Booking(booking_id)
-    FOREIGN KEY (user_id) REFERENCES User(id)
+    FOREIGN KEY (booking_id) REFERENCES Booking(id),
+    FOREIGN KEY (user_id) REFERENCES [User](id)
 );
 
 CREATE TABLE TestSample (
@@ -125,7 +125,7 @@ CREATE TABLE TestSample (
     collected_by INT,
     collected_at DATETIME,
     note TEXT,
-    FOREIGN KEY (service_id) REFERENCES Service(service_id),
+    FOREIGN KEY (service_id) REFERENCES Service(id),
     FOREIGN KEY (participant_id) REFERENCES Participant(id),
     FOREIGN KEY (collected_by) REFERENCES [User](id)
 );
@@ -141,9 +141,9 @@ CREATE TABLE Feedback (
     created_at DATETIME,
     FOREIGN KEY (booking_id, service_id) REFERENCES Booking_Service(booking_id, service_id),
     FOREIGN KEY (user_id) REFERENCES [User](id),
-    FOREIGN KEY (staff_id) REFERENCES [User](id)
+    FOREIGN KEY (staff_id) REFERENCES [User](id),
 
-    UNIQUE (booking_id, service_id, customer_id)
+    UNIQUE (booking_id, service_id, user_id)
 );
 
 CREATE TABLE Blog (
