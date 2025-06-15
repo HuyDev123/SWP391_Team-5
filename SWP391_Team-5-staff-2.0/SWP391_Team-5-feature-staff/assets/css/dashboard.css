@@ -1,0 +1,388 @@
+/* Dashboard styles */
+.welcome-section {
+  background: linear-gradient(135deg, #2196F3, #1976D2);
+  color: white;
+  padding: 30px;
+  border-radius: 10px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 15px rgba(33, 150, 243, 0.2);
+}
+
+.welcome-section h1 {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.welcome-section p {
+  font-size: 16px;
+  opacity: 0.9;
+  margin-bottom: 10px;
+}
+
+.welcome-section p:last-child {
+  margin-bottom: 0;
+}
+
+/* Section title */
+.section-title {
+  margin-bottom: 20px;
+}
+
+.section-title h2 {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+}
+
+.section-title h2 i {
+  margin-right: 10px;
+  color: #2196F3;
+}
+
+.section-title p {
+  color: #666;
+  font-size: 14px;
+}
+
+/* Stats Container */
+.stats-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.stat-card {
+  background: white;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease;
+  position: relative;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+}
+
+.stat-title {
+  color: #666;
+  font-size: 16px;
+  margin-bottom: 15px;
+}
+
+.stat-value {
+  font-size: 36px;
+  font-weight: bold;
+  color: #2196F3;
+  margin-bottom: 10px;
+}
+
+.stat-trend {
+  font-size: 14px;
+  color: #666;
+}
+
+.stat-icon {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
+
+/* Quick Actions */
+.quick-actions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.action-card {
+  background: white;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  align-items: flex-start;
+}
+
+.action-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 20px rgba(33, 150, 243, 0.15);
+}
+
+.action-icon {
+  width: 60px;
+  height: 60px;
+  background: #E3F2FD;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 20px;
+  font-size: 24px;
+  color: #2196F3;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.action-card:hover .action-icon {
+  background: #2196F3;
+  color: white;
+}
+
+.action-content {
+  flex: 1;
+}
+
+.action-content h3 {
+  font-size: 18px;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.action-content p {
+  color: #666;
+  font-size: 14px;
+  margin: 0;
+  margin-bottom: 10px;
+}
+
+.action-status {
+  display: inline-block;
+  padding: 4px 8px;
+  background: #E3F2FD;
+  color: #2196F3;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+/* Recent Section */
+.recent-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 20px;
+}
+
+.panel {
+  background: white;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.panel-header h3 {
+  font-size: 18px;
+  color: #333;
+  margin: 0;
+  display: flex;
+  align-items: center;
+}
+
+.panel-header h3 i {
+  margin-right: 10px;
+  color: #2196F3;
+}
+
+.view-all {
+  color: #2196F3;
+  text-decoration: none;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+}
+
+.view-all i {
+  margin-left: 5px;
+}
+
+/* Appointment Items */
+.appointment-item {
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  background: #F8F9FA;
+  transition: all 0.3s ease;
+}
+
+.appointment-item:hover {
+  background: #E3F2FD;
+}
+
+.appointment-details h4 {
+  margin: 10px 0;
+  color: #333;
+}
+
+.appointment-info {
+  color: #666;
+  font-size: 14px;
+}
+
+.appointment-info div {
+  margin-bottom: 5px;
+}
+
+.appointment-info div i {
+  width: 20px;
+  margin-right: 5px;
+  color: #2196F3;
+}
+
+.appointment-status {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.appointment-status.pending {
+  background: #FFF3E0;
+  color: #FF9800;
+}
+
+.appointment-status.confirmed {
+  background: #E8F5E9;
+  color: #4CAF50;
+}
+
+.appointment-status.completed {
+  background: #E3F2FD;
+  color: #2196F3;
+}
+
+/* Progress Items */
+.progress-item {
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  background: #F8F9FA;
+}
+
+.progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.progress-header h4 {
+  margin: 0;
+  font-size: 16px;
+  color: #333;
+}
+
+.progress-percent {
+  font-weight: 500;
+  color: #2196F3;
+}
+
+.progress-bar {
+  height: 8px;
+  background: #E9ECEF;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: #2196F3;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.progress-steps {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.progress-steps span {
+  display: flex;
+  align-items: center;
+}
+
+.progress-steps span i {
+  margin-right: 5px;
+}
+
+.progress-steps .completed {
+  color: #4CAF50;
+}
+
+.progress-steps .current {
+  color: #2196F3;
+}
+
+.progress-steps .pending {
+  color: #9E9E9E;
+}
+
+.progress-date {
+  font-size: 12px;
+  color: #666;
+  text-align: right;
+}
+
+/* Icon colors */
+.blue-icon {
+  background: #E3F2FD;
+  color: #2196F3;
+}
+
+.orange-icon {
+  background: #FFF3E0;
+  color: #FF9800;
+}
+
+.green-icon {
+  background: #E8F5E9;
+  color: #4CAF50;
+}
+
+.gold-icon {
+  background: #FFF8E1;
+  color: #FFC107;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .stats-container,
+  .quick-actions,
+  .recent-section {
+    grid-template-columns: 1fr;
+  }
+
+  .progress-steps {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .progress-steps span {
+    margin-bottom: 5px;
+  }
+} 

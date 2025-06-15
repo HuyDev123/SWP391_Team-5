@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Đặt lịch xét nghiệm - Hệ Thống Quản Lý Xét Nghiệm ADN</title>
+    <!-- Common CSS -->
+    <link rel="stylesheet" href="assets/css/common.css" />
+    <!-- Dashboard CSS -->
+    <link rel="stylesheet" href="assets/css/dashboard.css" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <style>
+      /* Page specific styles */
+      .instruction-container {
+        background-color: white;
+        border-radius: 10px;
+        padding: 30px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        margin-bottom: 30px;
+      }
+
+      .instruction-title {
+        font-size: 24px;
+        color: #2196f3;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #eee;
+      }
+
+      /* Booking Form Styles */
+      .booking-container {
+        background: white;
+        border-radius: 10px;
+        padding: 30px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        margin: 0 auto 30px;
+        max-width: 800px;
+      }
+
+      .booking-form {
+        max-width: 100%;
+      }
+
+      .form-section {
+        margin-bottom: 30px;
+      }
+
+      .section-title {
+        font-size: 20px;
+        color: #2196f3;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #eee;
+      }
+
+      .form-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .form-group {
+        margin-bottom: 0;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        color: #333;
+        font-weight: 500;
+      }
+
+      .required {
+        color: #f44336;
+      }
+
+      .form-group input,
+      .form-group select,
+      .form-group textarea {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 14px;
+        transition: all 0.3s ease;
+      }
+
+      .form-group input:focus,
+      .form-group select:focus,
+      .form-group textarea:focus {
+        border-color: #2196f3;
+        box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.1);
+        outline: none;
+      }
+
+      .form-buttons {
+        display: flex;
+        gap: 15px;
+        margin-top: 30px;
+        justify-content: center;
+      }
+
+      .btn-primary,
+      .btn-secondary {
+        padding: 12px 30px;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        min-width: 150px;
+        justify-content: center;
+      }
+
+      .btn-primary {
+        background: #2196f3;
+        color: white;
+        border: none;
+      }
+
+      .btn-primary:hover {
+        background: #1976d2;
+      }
+
+      .btn-secondary {
+        background: #f5f5f5;
+        color: #333;
+        border: 1px solid #ddd;
+      }
+
+      .btn-secondary:hover {
+        background: #e0e0e0;
+      }
+
+      /* Filter form styles */
+      #filterForm {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      #filterForm label {
+        font-weight: 500;
+        color: #333;
+      }
+
+      #filterForm select,
+      #filterForm input[type="date"] {
+        padding: 6px 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+
+      #filterForm button {
+        background: #2196f3;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        padding: 8px 18px;
+        cursor: pointer;
+      }
+
+      /* Table styles */
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+      }
+
+      thead tr {
+        background: #e3f2fd;
+      }
+
+      th, td {
+        padding: 12px 8px;
+        border-bottom: 1px solid #eee;
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        #filterForm {
+          flex-direction: column;
+          align-items: stretch;
+        }
+
+        #filterForm > div {
+          width: 100%;
+        }
+
+        #filterForm select,
+        #filterForm input[type="date"] {
+          width: 100%;
+        }
+
+        .booking-container {
+          padding: 20px;
+          margin: 0 15px 30px;
+        }
+
+        .form-buttons {
+          flex-direction: column;
+          gap: 10px;
+        }
+
+        .btn-primary,
+        .btn-secondary {
+          width: 100%;
+        }
+      }
+
+      .chart-container {
+        margin-bottom: 30px;
+      }
+
+      /* User Info Styles */
+      .user-info {
+        background-color: #f0f8ff;
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+      }
+
+      .user-header {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        position: relative;
+      }
+
+      .user-avatar {
+        width: 50px;
+        height: 50px;
+        background-color: #2196f3;
+        border-radius: 50%;
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: bold;
+        font-size: 24px;
+      }
+
+      .user-details {
+        flex-grow: 1;
+      }
+
+      .user-name {
+        font-size: 16px;
+        font-weight: 600;
+        color: #333;
+        margin: 0 0 5px 0;
+      }
+
+      .user-role {
+        font-size: 13px;
+        color: #666;
+        margin: 0;
+      }
+
+      .user-status {
+        display: flex;
+        align-items: center;
+        color: #4CAF50;
+        font-size: 13px;
+      }
+
+      .status-dot {
+        width: 8px;
+        height: 8px;
+        background-color: #4CAF50;
+        border-radius: 50%;
+        margin-right: 6px;
+      }
+
+      .logout-btn {
+        background: none;
+        border: none;
+        color: #666;
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        padding: 0;
+        font-size: 18px;
+      }
+
+      .logout-btn:hover {
+        background: #f1f1f1;
+        color: #f44336;
+        transform: rotate(180deg);
+      }
+
+      /* Filter form styles */
+    </style>
+  </head>
+    <body>
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <div class="logo-container">
+          <img src="assets/images/Logo.jpg" alt="Logo" class="logo" />
+          <div class="text-container">
+            <div class="logo-text">Genx</div>
+          <div class="logo-subtext">Hệ thống quản lý xét nghiệm ADN</div>
+          </div>
+        </div>
+
+        <!-- User Info Section -->
+        <div class="user-info">
+          <div class="user-header">
+            <div class="user-avatar">
+              <span id="avatar-letter">T</span>
+            </div>
+            <div class="user-details">
+              <h3 class="user-name" id="user-fullname">Tran Ngoc B</h3>
+              <p class="user-role" id="user-role">Nhân viên</p>
+            </div>
+            <button id="logoutBtn" class="logout-btn" title="Đăng xuất">
+              <i class="fas fa-sign-out-alt"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="menu-title">MAIN MENU</div>
+        <div id="mainMenu">
+          <!-- Menu sẽ được thêm bằng JavaScript -->
+        </div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="main-content">
+      <div class="welcome-section">
+        <h1>Đặt lịch xét nghiệm</h1>
+        <p>Tạo lịch hẹn xét nghiệm ADN mới cho khách hàng</p>
+      </div>
+
+      <!-- Booking Form -->
+      <div class="booking-container">
+        <form id="bookingForm" class="booking-form">
+          <!-- Thông tin khách hàng -->
+          <div class="form-section">
+            <h2 class="section-title">Thông tin khách hàng</h2>
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="customerName">Họ và tên <span class="required">*</span></label>
+                <input type="text" id="customerName" name="customerName" required>
+              </div>
+              <div class="form-group">
+                <label for="customerPhone">Số điện thoại <span class="required">*</span></label>
+                <input type="tel" id="customerPhone" name="customerPhone" required>
+              </div>
+              <div class="form-group">
+                <label for="customerEmail">Email</label>
+                <input type="email" id="customerEmail" name="customerEmail">
+              </div>
+              <div class="form-group">
+                <label for="customerAddress">Địa chỉ</label>
+                <input type="text" id="customerAddress" name="customerAddress">
+              </div>
+            </div>
+          </div>
+
+          <!-- Thông tin dịch vụ -->
+          <div class="form-section">
+            <h2 class="section-title">Thông tin dịch vụ</h2>
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="serviceType">Loại dịch vụ <span class="required">*</span></label>
+                <select id="serviceType" name="serviceType" required>
+                  <option value="">Chọn loại dịch vụ</option>
+                  <option value="father-child">Xét nghiệm huyết thống (Cha - Con)</option>
+                  <option value="mother-child">Xét nghiệm huyết thống (Mẹ - Con)</option>
+                  <option value="sibling">Xét nghiệm huyết thống (Anh, Chị - Em)</option>
+                  <option value="grandparent-child">Xét nghiệm huyết thống (Ông, Bà - Cháu)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="appointmentDate">Ngày hẹn <span class="required">*</span></label>
+                <input type="date" id="appointmentDate" name="appointmentDate" required>
+              </div>
+              <div class="form-group">
+                <label for="appointmentTime">Giờ hẹn <span class="required">*</span></label>
+                <select id="appointmentTime" name="appointmentTime" required>
+                  <option value="">Chọn giờ hẹn</option>
+                  <option value="09:00">09:00</option>
+                  <option value="09:30">09:30</option>
+                  <option value="10:00">10:00</option>
+                  <option value="10:30">10:30</option>
+                  <option value="11:00">11:00</option>
+                  <option value="11:30">11:30</option>
+                  <option value="14:00">14:00</option>
+                  <option value="14:30">14:30</option>
+                  <option value="15:00">15:00</option>
+                  <option value="15:30">15:30</option>
+                  <option value="16:00">16:00</option>
+                  <option value="16:30">16:30</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="serviceCategory">Phân loại <span class="required">*</span></label>
+                <select id="serviceCategory" name="serviceCategory" required>
+                  <option value="">Chọn phân loại</option>
+                  <option value="civil">Dân sự</option>
+                  <option value="administrative">Hành chính</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Ghi chú -->
+          <div class="form-section">
+            <h2 class="section-title">Ghi chú bổ sung</h2>
+            <div class="form-group">
+              <label for="notes">Ghi chú</label>
+              <textarea id="notes" name="notes" rows="4"></textarea>
+            </div>
+          </div>
+
+          <!-- Buttons -->
+          <div class="form-buttons">
+            <button type="submit" class="btn-primary">
+              <i class="fas fa-calendar-check"></i>
+              Đặt lịch
+            </button>
+            <button type="reset" class="btn-secondary">
+              <i class="fas fa-redo"></i>
+              Làm mới
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Dashboard Stats -->
+      <div class="stats-container">
+        <div class="stat-card">
+          <div class="stat-icon">
+            <i class="fas fa-calendar-check"></i>
+          </div>
+          <div class="stat-info">
+            <h3>Lịch hẹn hôm nay</h3>
+            <p class="stat-number">8</p>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon">
+            <i class="fas fa-clock"></i>
+          </div>
+          <div class="stat-info">
+            <h3>Đang chờ xử lý</h3>
+            <p class="stat-number">12</p>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon">
+            <i class="fas fa-calendar"></i>
+          </div>
+          <div class="stat-info">
+            <h3>Lịch hẹn tuần này</h3>
+            <p class="stat-number">35</p>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon">
+            <i class="fas fa-check-circle"></i>
+          </div>
+          <div class="stat-info">
+            <h3>Đã hoàn thành</h3>
+            <p class="stat-number">156</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Nội dung trang đặt lịch -->
+        <div class="instruction-container" style="margin-top: 10px">
+          <div class="instruction-title">
+            <i class="fas fa-calendar-alt" style="color: #2196f3"></i>
+            Danh sách lịch hẹn xét nghiệm ADN
+          </div>
+          <!-- Bộ lọc -->
+          <form
+            id="filterForm"
+            style="
+              display: flex;
+              flex-wrap: wrap;
+              gap: 16px;
+              align-items: center;
+              margin-bottom: 20px;
+            "
+          >
+            <div>
+              <label for="dateFilter" style="font-weight: 500; color: #333"
+                >Ngày hẹn:</label
+              >
+              <input
+                type="date"
+                id="dateFilter"
+                name="dateFilter"
+                style="
+                  padding: 6px 10px;
+                  border: 1px solid #ccc;
+                  border-radius: 4px;
+                "
+              />
+            </div>
+            <div>
+              <label for="serviceFilter" style="font-weight: 500; color: #333"
+                >Dịch vụ:</label
+              >
+              <select
+                id="serviceFilter"
+                name="serviceFilter"
+                style="
+                  padding: 6px 10px;
+                  border: 1px solid #ccc;
+                  border-radius: 4px;
+                "
+              >
+                <option value="">Tất cả</option>
+                <option value="ADN cha-con">Xét nghiệm ADN cha-con</option>
+                <option value="ADN mẹ-con">Xét nghiệm ADN mẹ-con</option>
+                <option value="ADN anh,chi-em">
+                  Xét nghiệm ADN anh,chị-em
+                </option>
+                <option value="ADN ông,bà-cháu">
+                  Xét nghiệm ADN ông, bà - cháu
+                </option>
+              </select>
+            </div>
+            <div>
+              <label
+                for="serviceDetailFilter"
+                style="font-weight: 500; color: #333"
+                >Mục đích:</label
+              >
+              <select
+                id="serviceDetailFilter"
+                name="serviceDetailFilter"
+                style="
+                  padding: 6px 10px;
+                  border: 1px solid #ccc;
+                  border-radius: 4px;
+                "
+              >
+                <option value="">Tất cả</option>
+                <option value="Dân sự">Dân sự</option>
+                <option value="Hành chính">Hành chính</option>
+              </select>
+            </div>
+            <div>
+              <label for="methodFilter" style="font-weight: 500; color: #333"
+                >Phương thức lấy mẫu:</label
+              >
+              <select
+                id="methodFilter"
+                name="methodFilter"
+                style="
+                  padding: 6px 10px;
+                  border: 1px solid #ccc;
+                  border-radius: 4px;
+                "
+              >
+                <option value="">Tất cả</option>
+                <option value="Tại nhà">Tại nhà</option>
+                <option value="Tại cơ sở">Tại cơ sở</option>
+              </select>
+            </div>
+            <div>
+              <label for="statusFilter" style="font-weight: 500; color: #333"
+                >Trạng thái:</label
+              >
+              <select
+                id="statusFilter"
+                name="statusFilter"
+                style="
+                  padding: 6px 10px;
+                  border: 1px solid #ccc;
+                  border-radius: 4px;
+                "
+              >
+                <option value="">Tất cả</option>
+                <optgroup label="Tại nhà">
+                  <option value="Đã đặt (Tại nhà)">Đã đặt</option>
+                  <option value="Đã gửi kit">Đã gửi kit</option>
+                  <option value="Đã thu mẫu (Tại nhà)">Đã thu mẫu</option>
+                  <option value="Đã nhận mẫu">Đã nhận mẫu</option>
+                  <option value="Đã hoàn thành (Tại nhà)">Đã hoàn thành</option>
+                  <option value="Đã trả kết quả (Tại nhà)">
+                    Đã trả kết quả
+                  </option>
+                </optgroup>
+                <optgroup label="Tại cơ sở">
+                  <option value="Đã đặt (Tại cơ sở)">Đã đặt</option>
+                  <option value="Đã thu mẫu (Tại cơ sở)">Đã thu mẫu</option>
+                  <option value="Đã hoàn thành (Tại cơ sở)">
+                    Đã hoàn thành
+                  </option>
+                  <option value="Đã trả kết quả (Tại cơ sở)">
+                    Đã trả kết quả
+                  </option>
+                </optgroup>
+                <option value="Đã hủy">Đã hủy</option>
+              </select>
+            </div>
+            <div>
+              <button
+                type="submit"
+                style="
+                  background: #2196f3;
+                  color: white;
+                  border: none;
+                  border-radius: 4px;
+                  padding: 8px 18px;
+                  cursor: pointer;
+                "
+              >
+                <i class="fas fa-search"></i> Tìm kiếm
+              </button>
+            </div>
+          </form>
+          <div style="overflow-x: auto">
+            <table
+              style="width: 100%; border-collapse: collapse; margin-top: 10px"
+            >
+              <thead>
+                <tr style="background: #e3f2fd">
+                  <th style="padding: 12px 8px; border-bottom: 1px solid #eee">
+                    Mã
+                  </th>
+                  <th style="padding: 12px 8px; border-bottom: 1px solid #eee">
+                    Tên khách hàng
+                  </th>
+                  <th style="padding: 12px 8px; border-bottom: 1px solid #eee">
+                    Dịch vụ
+                  </th>
+                  <th style="padding: 12px 8px; border-bottom: 1px solid #eee">
+                    Phương thức lấy mẫu
+                  </th>
+                  <th style="padding: 12px 8px; border-bottom: 1px solid #eee">
+                    Ngày hẹn
+                  </th>
+                  <th style="padding: 12px 8px; border-bottom: 1px solid #eee">
+                    Trạng thái
+                  </th>
+                  <th style="padding: 12px 8px; border-bottom: 1px solid #eee">
+                    Thao tác
+                  </th>
+                </tr>
+              </thead>
+              <tbody id="appointmentTableBody">
+                <tr>
+                  <td style="padding: 12px 8px; border-bottom: 1px solid #eee">#APT001</td>
+                  <td style="padding: 12px 8px; border-bottom: 1px solid #eee">Nguyễn Văn A</td>
+                  <td style="padding: 12px 8px; border-bottom: 1px solid #eee">Xét nghiệm huyết thống (Cha - Con)</td>
+                  <td style="padding: 12px 8px; border-bottom: 1px solid #eee">Tại nhà</td>
+                  <td style="padding: 12px 8px; border-bottom: 1px solid #eee">28/02/2024 09:00</td>
+                  <td style="padding: 12px 8px; border-bottom: 1px solid #eee">
+                    <span style="background: #E3F2FD; color: #2196F3; padding: 4px 8px; border-radius: 12px; font-size: 12px;">
+                      Đã gửi kit
+                    </span>
+                  </td>
+                  <td style="padding: 12px 8px; border-bottom: 1px solid #eee">
+                    <div style="display: flex; gap: 8px;">
+                      <button style="background: #E3F2FD; color: #2196F3; border: none; width: 32px; height: 32px; border-radius: 6px; cursor: pointer;" title="Xem chi tiết">
+                        <i class="fas fa-eye"></i>
+                      </button>
+                      <button style="background: #FFF3E0; color: #FF9800; border: none; width: 32px; height: 32px; border-radius: 6px; cursor: pointer;" title="Chỉnh sửa">
+                        <i class="fas fa-edit"></i>
+                      </button>
+                      <button style="background: #FFEBEE; color: #F44336; border: none; width: 32px; height: 32px; border-radius: 6px; cursor: pointer;" title="Hủy">
+                        <i class="fas fa-times"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td style="padding: 12px 8px; border-bottom: 1px solid #eee">#APT002</td>
+                  <td style="padding: 12px 8px; border-bottom: 1px solid #eee">Trần Thị B</td>
+                  <td style="padding: 12px 8px; border-bottom: 1px solid #eee">Xét nghiệm huyết thống (Mẹ - Con)</td>
+                  <td style="padding: 12px 8px; border-bottom: 1px solid #eee">Tại cơ sở</td>
+                  <td style="padding: 12px 8px; border-bottom: 1px solid #eee">28/02/2024 14:30</td>
+                  <td style="padding: 12px 8px; border-bottom: 1px solid #eee">
+                    <span style="background: #E8F5E9; color: #4CAF50; padding: 4px 8px; border-radius: 12px; font-size: 12px;">
+                      Đã thu mẫu
+                    </span>
+                  </td>
+                  <td style="padding: 12px 8px; border-bottom: 1px solid #eee">
+                    <div style="display: flex; gap: 8px;">
+                      <button style="background: #E3F2FD; color: #2196F3; border: none; width: 32px; height: 32px; border-radius: 6px; cursor: pointer;" title="Xem chi tiết">
+                        <i class="fas fa-eye"></i>
+                      </button>
+                      <button style="background: #FFF3E0; color: #FF9800; border: none; width: 32px; height: 32px; border-radius: 6px; cursor: pointer;" title="Chỉnh sửa">
+                        <i class="fas fa-edit"></i>
+                      </button>
+                      <button style="background: #FFEBEE; color: #F44336; border: none; width: 32px; height: 32px; border-radius: 6px; cursor: pointer;" title="Hủy">
+                        <i class="fas fa-times"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td style="padding: 12px 8px; border-bottom: 1px solid #eee">#APT003</td>
+                  <td style="padding: 12px 8px; border-bottom: 1px solid #eee">Lê Văn C</td>
+                  <td style="padding: 12px 8px; border-bottom: 1px solid #eee">Xét nghiệm huyết thống (Anh, Chị - Em)</td>
+                  <td style="padding: 12px 8px; border-bottom: 1px solid #eee">Tại nhà</td>
+                  <td style="padding: 12px 8px; border-bottom: 1px solid #eee">29/02/2024 10:00</td>
+                  <td style="padding: 12px 8px; border-bottom: 1px solid #eee">
+                    <span style="background: #FFF3E0; color: #FF9800; padding: 4px 8px; border-radius: 12px; font-size: 12px;">
+                      Đã đặt
+                    </span>
+                  </td>
+                  <td style="padding: 12px 8px; border-bottom: 1px solid #eee">
+                    <div style="display: flex; gap: 8px;">
+                      <button style="background: #E3F2FD; color: #2196F3; border: none; width: 32px; height: 32px; border-radius: 6px; cursor: pointer;" title="Xem chi tiết">
+                        <i class="fas fa-eye"></i>
+                      </button>
+                      <button style="background: #FFF3E0; color: #FF9800; border: none; width: 32px; height: 32px; border-radius: 6px; cursor: pointer;" title="Chỉnh sửa">
+                        <i class="fas fa-edit"></i>
+                      </button>
+                      <button style="background: #FFEBEE; color: #F44336; border: none; width: 32px; height: 32px; border-radius: 6px; cursor: pointer;" title="Hủy">
+                        <i class="fas fa-times"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td style="padding: 12px 8px; border-bottom: 1px solid #eee">#APT004</td>
+                  <td style="padding: 12px 8px; border-bottom: 1px solid #eee">Phạm Thị D</td>
+                  <td style="padding: 12px 8px; border-bottom: 1px solid #eee">Xét nghiệm huyết thống (Ông, Bà - Cháu)</td>
+                  <td style="padding: 12px 8px; border-bottom: 1px solid #eee">Tại cơ sở</td>
+                  <td style="padding: 12px 8px; border-bottom: 1px solid #eee">29/02/2024 15:30</td>
+                  <td style="padding: 12px 8px; border-bottom: 1px solid #eee">
+                    <span style="background: #FFEBEE; color: #F44336; padding: 4px 8px; border-radius: 12px; font-size: 12px;">
+                      Đã hủy
+                    </span>
+                  </td>
+                  <td style="padding: 12px 8px; border-bottom: 1px solid #eee">
+                    <div style="display: flex; gap: 8px;">
+                      <button style="background: #E3F2FD; color: #2196F3; border: none; width: 32px; height: 32px; border-radius: 6px; cursor: pointer;" title="Xem chi tiết">
+                        <i class="fas fa-eye"></i>
+                      </button>
+                      <button style="background: #FFF3E0; color: #FF9800; border: none; width: 32px; height: 32px; border-radius: 6px; cursor: pointer;" title="Chỉnh sửa">
+                        <i class="fas fa-edit"></i>
+                      </button>
+                      <button style="background: #FFEBEE; color: #F44336; border: none; width: 32px; height: 32px; border-radius: 6px; cursor: pointer;" title="Hủy">
+                        <i class="fas fa-times"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td style="padding: 12px 8px; border-bottom: 1px solid #eee">#APT005</td>
+                  <td style="padding: 12px 8px; border-bottom: 1px solid #eee">Hoàng Văn E</td>
+                  <td style="padding: 12px 8px; border-bottom: 1px solid #eee">Xét nghiệm huyết thống (Cha - Con)</td>
+                  <td style="padding: 12px 8px; border-bottom: 1px solid #eee">Tại nhà</td>
+                  <td style="padding: 12px 8px; border-bottom: 1px solid #eee">01/03/2024 09:30</td>
+                  <td style="padding: 12px 8px; border-bottom: 1px solid #eee">
+                    <span style="background: #E8F5E9; color: #4CAF50; padding: 4px 8px; border-radius: 12px; font-size: 12px;">
+                      Đã hoàn thành
+                    </span>
+                  </td>
+                  <td style="padding: 12px 8px; border-bottom: 1px solid #eee">
+                    <div style="display: flex; gap: 8px;">
+                      <button style="background: #E3F2FD; color: #2196F3; border: none; width: 32px; height: 32px; border-radius: 6px; cursor: pointer;" title="Xem chi tiết">
+                        <i class="fas fa-eye"></i>
+                      </button>
+                      <button style="background: #FFF3E0; color: #FF9800; border: none; width: 32px; height: 32px; border-radius: 6px; cursor: pointer;" title="Chỉnh sửa">
+                        <i class="fas fa-edit"></i>
+                      </button>
+                      <button style="background: #FFEBEE; color: #F44336; border: none; width: 32px; height: 32px; border-radius: 6px; cursor: pointer;" title="Hủy">
+                        <i class="fas fa-times"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <script>
+        // Menu initialization
+        function checkLoggedIn() {
+          const mainMenuDiv = document.getElementById("mainMenu");
+          const currentPage = window.location.pathname.split("/").pop();
+          
+          mainMenuDiv.innerHTML = `
+              <a href="index.html" class="menu-item${currentPage === "index.html" ? " active" : ""}">
+                  <span class="menu-icon"><i class="fas fa-home"></i></span>
+                Trang chủ
+            </a>
+            
+              <a href="appoinments.html" class="menu-item${currentPage === "appoinments.html" ? " active" : ""}">
+                  <span class="menu-icon"><i class="fas fa-calendar-plus"></i></span>
+                Đặt lịch xét nghiệm
+            </a>
+
+              <a href="list-appointments.html" class="menu-item${currentPage === "list-appointments.html" ? " active" : ""}">
+                  <span class="menu-icon"><i class="fas fa-calendar-check"></i></span>
+                Danh sách lịch hẹn
+            </a>
+
+              <a href="list-kit.html" class="menu-item${currentPage === "list-kit.html" ? " active" : ""}">
+                <span class="menu-icon"><i class="fas fa-vials"></i></span>
+                Danh sách kit xét nghiệm
+              </a>
+          `;
+        }
+
+        // Initialize when page loads
+        document.addEventListener("DOMContentLoaded", function() {
+          checkLoggedIn();
+          
+          // User info
+          const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+          if (currentUser) {
+            document.getElementById("avatar-letter").textContent = currentUser.fullname.charAt(0).toUpperCase();
+            document.getElementById("user-fullname").textContent = currentUser.fullname;
+            document.getElementById("user-role").textContent = currentUser.role || "Nhân viên";
+          }
+
+          // Set min date for appointment date
+          const appointmentDateInput = document.getElementById('appointmentDate');
+          const today = new Date();
+          const tomorrow = new Date(today);
+          tomorrow.setDate(tomorrow.getDate() + 1);
+          appointmentDateInput.min = tomorrow.toISOString().split('T')[0];
+
+          // Form submission handler
+          const bookingForm = document.getElementById('bookingForm');
+          bookingForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Validate form
+            const requiredFields = bookingForm.querySelectorAll('[required]');
+            let isValid = true;
+            requiredFields.forEach(field => {
+              if (!field.value.trim()) {
+                isValid = false;
+                field.classList.add('error');
+              } else {
+                field.classList.remove('error');
+              }
+            });
+
+            if (!isValid) {
+              alert('Vui lòng điền đầy đủ thông tin bắt buộc');
+              return;
+            }
+
+            // Collect form data
+            const formData = {
+              customerName: document.getElementById('customerName').value,
+              customerPhone: document.getElementById('customerPhone').value,
+              customerEmail: document.getElementById('customerEmail').value,
+              customerAddress: document.getElementById('customerAddress').value,
+              serviceType: document.getElementById('serviceType').value,
+              appointmentDate: document.getElementById('appointmentDate').value,
+              appointmentTime: document.getElementById('appointmentTime').value,
+              serviceCategory: document.getElementById('serviceCategory').value,
+              notes: document.getElementById('notes').value,
+              status: 'pending',
+              createdBy: currentUser ? currentUser.fullname : 'Unknown',
+              createdAt: new Date().toISOString()
+            };
+
+            // Save to localStorage (temporary storage)
+            let appointments = JSON.parse(localStorage.getItem('appointments') || '[]');
+            formData.id = 'APT' + (appointments.length + 1).toString().padStart(3, '0');
+            appointments.push(formData);
+            localStorage.setItem('appointments', JSON.stringify(appointments));
+
+            // Show success message
+            alert('Đặt lịch thành công! Mã lịch hẹn: ' + formData.id);
+
+            // Reset form
+            bookingForm.reset();
+
+            // Redirect to list page after 1 second
+            setTimeout(() => {
+              window.location.href = 'list-appointments.html';
+            }, 1000);
+          });
+
+          // Phone number validation
+          const phoneInput = document.getElementById('customerPhone');
+          phoneInput.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 10) value = value.slice(0, 10);
+            e.target.value = value;
+          });
+
+          // Email validation
+          const emailInput = document.getElementById('customerEmail');
+          emailInput.addEventListener('blur', function(e) {
+            const email = e.target.value;
+            if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+              alert('Email không hợp lệ');
+              e.target.focus();
+            }
+          });
+
+          // Logout button
+          const logoutBtn = document.getElementById('logoutBtn');
+          logoutBtn.addEventListener('click', function() {
+            localStorage.removeItem('currentUser');
+            alert('Đăng xuất thành công');
+            setTimeout(() => {
+              window.location.href = 'login.html';
+            }, 1000);
+          });
+        });
+      </script>
+    </div>
+    </body>
+  </html>

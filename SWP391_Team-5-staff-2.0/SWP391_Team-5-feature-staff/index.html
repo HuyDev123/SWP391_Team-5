@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Trang Chủ - Hệ Thống Quản Lý Xét Nghiệm ADN</title>
+    <!-- Common CSS -->
+    <link rel="stylesheet" href="assets/css/common.css" />
+    <!-- Dashboard CSS -->
+    <link rel="stylesheet" href="assets/css/dashboard.css" />
+    <style>
+      .user-info {
+        background-color: #f0f8ff;
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+      }
+
+      .user-header {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        position: relative;
+      }
+
+      .user-avatar {
+        width: 50px;
+        height: 50px;
+        background-color: #2196f3;
+        border-radius: 50%;
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: bold;
+        font-size: 24px;
+      }
+
+      .user-details {
+        flex-grow: 1;
+      }
+
+      .user-name {
+        font-size: 16px;
+        font-weight: 600;
+        color: #333;
+        margin: 0 0 5px 0;
+      }
+
+      .user-role {
+        font-size: 13px;
+        color: #666;
+        margin: 0;
+      }
+
+      .logout-btn {
+        background: none;
+        border: none;
+        color: #666;
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        padding: 0;
+        font-size: 18px;
+      }
+
+      .logout-btn:hover {
+        background: #f1f1f1;
+        color: #f44336;
+        transform: rotate(180deg);
+      }
+    </style>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+  </head>
+  <body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="logo-container">
+        <img src="assets/images/Logo.jpg" alt="Logo" class="logo" />
+        <div class="text-container">
+          <div class="logo-text">Genx</div>
+          <div class="logo-subtext">Hệ thống quản lý xét nghiệm ADN</div>
+        </div>
+      </div>
+
+      <!-- User Info Section -->
+      <div class="user-info">
+        <div class="user-header">
+          <div class="user-avatar">
+            <span id="avatar-letter">T</span>
+          </div>
+          <div class="user-details">
+            <h3 class="user-name" id="user-fullname">Tran Ngoc B</h3>
+            <p class="user-role" id="user-role">Nhân viên</p>
+          </div>
+          <button id="logoutBtn" class="logout-btn" title="Đăng xuất">
+            <i class="fas fa-sign-out-alt"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="menu-title">MAIN MENU</div>
+      <div id="mainMenu">
+        <!-- Menu sẽ được thêm bằng JavaScript -->
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <div class="dashboard">
+        <!-- Welcome Section -->
+        <div class="welcome-section">
+          <h1>Xin chào, <span id="welcome-name">Nhân viên</span>!</h1>
+          <p>Chào mừng bạn đến với hệ thống quản lý xét nghiệm ADN. Hôm nay là ngày <span id="current-date"></span></p>
+          <p>Bảng điều khiển này giúp bạn theo dõi và quản lý các hoạt động xét nghiệm ADN một cách hiệu quả.</p>
+        </div>
+
+        <!-- Stats Container -->
+        <div class="stats-container">
+          <div class="stat-card">
+            <div class="stat-title">Lịch hẹn hôm nay</div>
+            <div class="stat-value">12</div>
+            <div class="stat-trend">+2 so với hôm qua</div>
+            <div class="stat-icon blue-icon">
+              <i class="fas fa-calendar-check"></i>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-title">Đang xử lý</div>
+            <div class="stat-value">5</div>
+            <div class="stat-trend">2 mẫu mới</div>
+            <div class="stat-icon orange-icon">
+              <i class="fas fa-spinner"></i>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-title">Hoàn thành</div>
+            <div class="stat-value">8</div>
+            <div class="stat-trend">Hoàn thành hôm nay</div>
+            <div class="stat-icon green-icon">
+              <i class="fas fa-check-circle"></i>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-title">Kit còn lại</div>
+            <div class="stat-value">45</div>
+            <div class="stat-trend">Cần bổ sung thêm</div>
+            <div class="stat-icon gold-icon">
+              <i class="fas fa-vial"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="section-title">
+        <h2><i class="fas fa-bolt"></i> Thao tác nhanh</h2>
+        <p>Các chức năng thường xuyên sử dụng</p>
+      </div>
+      
+      <div class="quick-actions">
+        <a href="appoinments.html" class="action-card">
+          <div class="action-icon">
+            <i class="fas fa-calendar-plus"></i>
+          </div>
+          <div class="action-content">
+            <h3>Quản lý lịch hẹn</h3>
+            <p>Tạo và quản lý các lịch hẹn xét nghiệm ADN</p>
+            <span class="action-status">12 lịch hẹn mới</span>
+        </div>
+        </a>
+
+        <a href="test-results.html" class="action-card">
+          <div class="action-icon">
+            <i class="fas fa-file-medical-alt"></i>
+          </div>
+          <div class="action-content">
+            <h3>Kết quả xét nghiệm</h3>
+            <p>Cập nhật và theo dõi tiến độ xét nghiệm</p>
+            <span class="action-status">5 kết quả chờ duyệt</span>
+          </div>
+        </a>
+
+        <a href="list-kit.html" class="action-card">
+          <div class="action-icon">
+            <i class="fas fa-vials"></i>
+          </div>
+          <div class="action-content">
+            <h3>Quản lý kit xét nghiệm</h3>
+            <p>Kiểm tra và cập nhật tình trạng kit</p>
+            <span class="action-status">45 kit còn lại</span>
+          </div>
+        </a>
+
+        <a href="reports.html" class="action-card">
+          <div class="action-icon">
+            <i class="fas fa-chart-bar"></i>
+          </div>
+          <div class="action-content">
+            <h3>Báo cáo thống kê</h3>
+            <p>Xem báo cáo và thống kê hoạt động</p>
+            <span class="action-status">Cập nhật hôm nay</span>
+          </div>
+        </a>
+      </div>
+
+      <!-- Recent Activities -->
+      <div class="section-title">
+        <h2><i class="fas fa-clock"></i> Hoạt động gần đây</h2>
+        <p>Cập nhật về các hoạt động mới nhất</p>
+      </div>
+
+      <div class="recent-section">
+        <div class="panel">
+          <div class="panel-header">
+            <h3><i class="fas fa-calendar-check"></i> Lịch hẹn gần đây</h3>
+            <a href="appoinments.html" class="view-all">Xem tất cả <i class="fas fa-arrow-right"></i></a>
+          </div>
+          <div class="appointment-item">
+            <div class="appointment-details">
+              <div class="appointment-status pending">Đang chờ</div>
+              <h4>Nguyễn Văn A</h4>
+              <div class="appointment-info">
+                <div><i class="far fa-clock"></i> 09:00 AM - 28/02/2024</div>
+                <div><i class="fas fa-map-marker-alt"></i> Phòng xét nghiệm 1</div>
+                <div><i class="fas fa-tag"></i> Xét nghiệm ADN cha-con</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="appointment-item">
+            <div class="appointment-details">
+              <div class="appointment-status confirmed">Đã xác nhận</div>
+              <h4>Trần Thị B</h4>
+              <div class="appointment-info">
+                <div><i class="far fa-clock"></i> 10:30 AM - 28/02/2024</div>
+                <div><i class="fas fa-map-marker-alt"></i> Phòng xét nghiệm 2</div>
+                <div><i class="fas fa-tag"></i> Xét nghiệm ADN mẹ-con</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="appointment-item">
+            <div class="appointment-details">
+              <div class="appointment-status completed">Đã hoàn thành</div>
+              <h4>Lê Văn C</h4>
+              <div class="appointment-info">
+                <div><i class="far fa-clock"></i> 14:00 PM - 27/02/2024</div>
+                <div><i class="fas fa-map-marker-alt"></i> Phòng xét nghiệm 1</div>
+                <div><i class="fas fa-tag"></i> Xét nghiệm ADN anh-em</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header">
+            <h3><i class="fas fa-vial"></i> Tiến độ xét nghiệm</h3>
+            <a href="test-results.html" class="view-all">Xem tất cả <i class="fas fa-arrow-right"></i></a>
+          </div>
+          <div class="progress-item">
+            <div class="progress-header">
+              <h4>Mẫu #12345 - Nguyễn Văn A</h4>
+              <span class="progress-percent">75%</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: 75%"></div>
+            </div>
+            <div class="progress-steps">
+              <span class="completed"><i class="fas fa-check-circle"></i> Nhận mẫu</span>
+              <span class="completed"><i class="fas fa-check-circle"></i> Xét nghiệm</span>
+              <span class="current"><i class="fas fa-spinner fa-spin"></i> Phân tích</span>
+              <span class="pending"><i class="far fa-circle"></i> Hoàn thành</span>
+            </div>
+            <div class="progress-date">Cập nhật: 27/02/2024 15:30</div>
+          </div>
+
+          <div class="progress-item">
+            <div class="progress-header">
+              <h4>Mẫu #12346 - Trần Thị B</h4>
+              <span class="progress-percent">50%</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: 50%"></div>
+            </div>
+            <div class="progress-steps">
+              <span class="completed"><i class="fas fa-check-circle"></i> Nhận mẫu</span>
+              <span class="current"><i class="fas fa-spinner fa-spin"></i> Xét nghiệm</span>
+              <span class="pending"><i class="far fa-circle"></i> Phân tích</span>
+              <span class="pending"><i class="far fa-circle"></i> Hoàn thành</span>
+            </div>
+            <div class="progress-date">Cập nhật: 27/02/2024 14:45</div>
+          </div>
+
+          <div class="progress-item">
+            <div class="progress-header">
+              <h4>Mẫu #12347 - Lê Văn C</h4>
+              <span class="progress-percent">25%</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: 25%"></div>
+            </div>
+            <div class="progress-steps">
+              <span class="completed"><i class="fas fa-check-circle"></i> Nhận mẫu</span>
+              <span class="pending"><i class="far fa-circle"></i> Xét nghiệm</span>
+              <span class="pending"><i class="far fa-circle"></i> Phân tích</span>
+              <span class="pending"><i class="far fa-circle"></i> Hoàn thành</span>
+            </div>
+            <div class="progress-date">Cập nhật: 27/02/2024 10:15</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Custom Notification -->
+  <div
+    id="custom-notification"
+    style="
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    "
+  >
+    <div
+      style="
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        padding: 25px;
+        max-width: 400px;
+        width: 90%;
+        text-align: center;
+      "
+    >
+      <div
+        id="notification-icon"
+        style="margin-bottom: 15px; font-size: 40px"
+      >
+        ✅
+      </div>
+      <h3
+        id="notification-title"
+        style="margin-bottom: 10px; font-size: 20px; color: #333"
+      >
+        Thành công
+      </h3>
+      <p id="notification-message" style="margin-bottom: 20px; color: #666">
+        Thao tác đã được thực hiện thành công.
+      </p>
+      <button
+        onclick="closeNotification()"
+        style="
+          background-color: #2196f3;
+          color: white;
+          border: none;
+          padding: 10px 25px;
+          border-radius: 5px;
+          font-weight: bold;
+          cursor: pointer;
+        "
+      >
+        OK
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // Initialize when page loads
+    document.addEventListener("DOMContentLoaded", function() {
+      checkLoggedIn();
+      initializeUserInfo();
+    });
+
+    function initializeUserInfo() {
+      const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+      if (currentUser) {
+        document.getElementById("avatar-letter").textContent = 
+          currentUser.fullname.charAt(0).toUpperCase();
+        document.getElementById("user-fullname").textContent = 
+          currentUser.fullname;
+        document.getElementById("user-role").textContent = 
+          currentUser.role || "Nhân viên";
+      }
+    }
+
+    function checkLoggedIn() {
+      const mainMenuDiv = document.getElementById("mainMenu");
+      const currentPage = window.location.pathname.split("/").pop();
+      
+      mainMenuDiv.innerHTML = `
+          <a href="index.html" class="menu-item${currentPage === "index.html" ? " active" : ""}">
+              <span class="menu-icon"><i class="fas fa-home"></i></span>
+              Trang chủ
+          </a>
+          
+          <a href="appoinments.html" class="menu-item${currentPage === "appoinments.html" ? " active" : ""}">
+              <span class="menu-icon"><i class="fas fa-calendar-plus"></i></span>
+              Đặt lịch xét nghiệm
+          </a>
+
+          <a href="list-appointments.html" class="menu-item${currentPage === "list-appointments.html" ? " active" : ""}">
+              <span class="menu-icon"><i class="fas fa-calendar-check"></i></span>
+              Danh sách lịch hẹn
+          </a>
+
+          <a href="list-kit.html" class="menu-item${currentPage === "list-kit.html" ? " active" : ""}">
+              <span class="menu-icon"><i class="fas fa-vials"></i></span>
+              Danh sách kit xét nghiệm
+          </a>
+
+        
+      `;
+    }
+
+    // Hàm đóng thông báo tùy chỉnh
+    function closeNotification() {
+      document.getElementById("custom-notification").style.display = "none";
+    }
+
+    // Hàm hiển thị thông báo tùy chỉnh
+    function showNotification(message, type = "success") {
+      const notification = document.getElementById("custom-notification");
+      const notificationTitle = document.getElementById("notification-title");
+      const notificationMessage = document.getElementById(
+        "notification-message"
+      );
+      const notificationIcon = document.getElementById("notification-icon");
+
+      // Đặt nội dung và kiểu thông báo
+      if (type === "success") {
+        notificationTitle.textContent = "Thành công";
+        notificationIcon.textContent = "✅";
+        notificationIcon.style.color = "#4CAF50";
+      } else if (type === "error") {
+        notificationTitle.textContent = "Lỗi";
+        notificationIcon.textContent = "❌";
+        notificationIcon.style.color = "#f44336";
+      } else if (type === "info") {
+        notificationTitle.textContent = "Thông báo";
+        notificationIcon.textContent = "ℹ️";
+        notificationIcon.style.color = "#2196F3";
+      }
+
+      notificationMessage.textContent = message;
+
+      // Hiển thị thông báo
+      notification.style.display = "flex";
+    }
+
+    // Update current date
+    document.addEventListener('DOMContentLoaded', function() {
+      const currentDate = new Date();
+      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+      document.getElementById('current-date').textContent = currentDate.toLocaleDateString('vi-VN', options);
+    });
+
+    // Logout button handler
+    document.getElementById('logoutBtn').addEventListener('click', function() {
+      localStorage.removeItem('currentUser');
+      alert('Đăng xuất thành công');
+      setTimeout(() => {
+        window.location.href = 'login.html';
+      }, 1000);
+    });
+  </script>
+</body>
+</html>
