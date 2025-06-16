@@ -1,11 +1,11 @@
 CREATE TABLE Role (
     id INT IDENTITY(1,1) PRIMARY KEY,
-    name VARCHAR(255) NOT NULL
+    name NVARCHAR(255) NOT NULL
 );
 
 CREATE TABLE [User] (
     id INT IDENTITY(1,1) PRIMARY KEY,
-    full_name VARCHAR(255),
+    full_name NVARCHAR(255),
     email VARCHAR(255) NOT NULL UNIQUE,
     role_id INT NOT NULL,
     is_active BIT,
@@ -15,8 +15,8 @@ CREATE TABLE [User] (
 
 CREATE TABLE Service (
     id INT IDENTITY(1,1) PRIMARY KEY,
-    name VARCHAR(255),
-    description TEXT,
+    name NVARCHAR(255),
+    description NVARCHAR(MAX),
     price DECIMAL(18,2),
     is_active BIT
 );
@@ -25,9 +25,9 @@ CREATE TABLE Booking (
     id INT IDENTITY(1,1) PRIMARY KEY,
     user_id INT,
     booking_date DATETIME,
-    status VARCHAR(100),
+    status NVARCHAR(100),
     staff_id INT,
-    note TEXT,
+    note NVARCHAR(MAX),
 
     -- Thông tin khách hàng
     full_name NVARCHAR(255),
@@ -53,8 +53,8 @@ CREATE TABLE Booking (
 
 CREATE TABLE KitType (
     id INT IDENTITY(1,1) PRIMARY KEY,
-    name VARCHAR(255),
-    description TEXT
+    name NVARCHAR(255),
+    description NVARCHAR(MAX)
 );
 
 CREATE TABLE Service_KitType (
@@ -67,10 +67,10 @@ CREATE TABLE Service_KitType (
 
 CREATE TABLE TestResult (
     id INT IDENTITY(1,1) PRIMARY KEY,
-    result_summary VARCHAR(255),
+    result_summary NVARCHAR(255),
     result_file VARCHAR(255),
     user_id INT,
-    note TEXT,
+    note NVARCHAR(MAX),
     FOREIGN KEY (user_id) REFERENCES [User](id)
 );
 
@@ -90,7 +90,7 @@ CREATE TABLE KitItem (
     service_id INT NOT NULL,
     kit_code VARCHAR(255),
     kit_type_id INT NOT NULL,
-    delivery_status VARCHAR(100),
+    delivery_status NVARCHAR(100),
     FOREIGN KEY (booking_id, service_id) REFERENCES Booking_Service(booking_id, service_id),
     FOREIGN KEY (kit_type_id) REFERENCES KitType(id)
 );
@@ -99,19 +99,19 @@ CREATE TABLE Participant (
     id INT IDENTITY(1,1) PRIMARY KEY,
     booking_id INT NOT NULL,
     user_id INT,
-    full_name VARCHAR(255),
-    gender VARCHAR(10),
+    full_name NVARCHAR(255),
+    gender NVARCHAR(10),
     birthday DATE,
     phone VARCHAR(20),
     email VARCHAR(255),
-    address TEXT,
-    id_type VARCHAR(50),
+    address NVARCHAR(MAX),
+    id_type NVARCHAR(50),
     id_number VARCHAR(50),
     id_issued_date DATE,
-    id_issued_place VARCHAR(255),
-    relationship VARCHAR(50),
+    id_issued_place NVARCHAR(255),
+    relationship NVARCHAR(50),
     photo_url VARCHAR(255),
-    note TEXT,
+    note NVARCHAR(MAX),
     FOREIGN KEY (booking_id) REFERENCES Booking(id),
     FOREIGN KEY (user_id) REFERENCES [User](id)
 );
@@ -121,10 +121,10 @@ CREATE TABLE TestSample (
     service_id INT NOT NULL,
     participant_id INT NOT NULL,
     sample_code VARCHAR(100),
-    sample_type VARCHAR(50),
+    sample_type NVARCHAR(50),
     collected_by INT,
     collected_at DATETIME,
-    note TEXT,
+    note NVARCHAR(MAX),
     FOREIGN KEY (service_id) REFERENCES Service(id),
     FOREIGN KEY (participant_id) REFERENCES Participant(id),
     FOREIGN KEY (collected_by) REFERENCES [User](id)
@@ -137,7 +137,7 @@ CREATE TABLE Feedback (
     user_id INT,
     staff_id INT,
     rating INT,
-    comment TEXT,
+    comment NVARCHAR(MAX),
     created_at DATETIME,
     FOREIGN KEY (booking_id, service_id) REFERENCES Booking_Service(booking_id, service_id),
     FOREIGN KEY (user_id) REFERENCES [User](id),
@@ -149,8 +149,8 @@ CREATE TABLE Feedback (
 CREATE TABLE Blog (
     id INT IDENTITY(1,1) PRIMARY KEY,
     author_id INT NOT NULL,
-    title VARCHAR(255) NOT NULL,
-    content TEXT,
+    title NVARCHAR(255) NOT NULL,
+    content NVARCHAR(MAX),
     is_published BIT,
     created_at DATETIME,
     FOREIGN KEY (author_id) REFERENCES [User](id)
