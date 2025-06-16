@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Hướng dẫn lấy mẫu - Dịch Vụ Xét Nghiệm ADN</title>
+    <title>Danh sách lịch hẹn - Dịch Vụ Xét Nghiệm ADN</title>
     <style>
       * {
         margin: 0;
@@ -39,51 +39,134 @@
       }
 
       .logo {
-        width: 40px;
-        height: 40px;
-        margin-right: 10px;
+        width: 45px;
+        height: 45px;
+        margin-right: 12px;
       }
 
-      .logo-text {
-        font-size: 22px;
-        color: #2196f3;
-        font-weight: bold;
-      }
-
-      .login-register {
-        padding: 15px;
-        background-color: #f9f9f9;
-        border-bottom: 1px solid #eee;
+      .text-container {
         display: flex;
         flex-direction: column;
       }
 
-      .login-register-btn {
-        background-color: #2196f3;
+      .logo-text {
+        font-size: 28px;
+        color: #2196f3;
+        font-weight: bold;
+        letter-spacing: 1px;
+        margin-bottom: 3px;
+        line-height: 1;
+      }
+
+      .logo-subtext {
+        font-size: 15px;
+        color: #444;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+        line-height: 1.2;
+        text-transform: capitalize;
+        max-width: 180px;
+      }
+
+      .login-register {
+        padding: 20px;
+        background: linear-gradient(145deg, #ffffff, #f5f5f5);
+        border-bottom: 1px solid #eee;
+        border-radius: 12px;
+        margin: 15px;
+      }
+
+      .user-info {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 15px;
+      }
+
+      .avatar {
+        width: 45px;
+        height: 45px;
+        background: linear-gradient(135deg, #2196f3, #1976d2);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        color: white;
+        font-weight: bold;
+        box-shadow: 0 4px 15px rgba(33, 150, 243, 0.2);
+      }
+
+      .user-details {
+        flex: 1;
+      }
+
+      .user-name {
+        font-weight: 600;
+        color: #333;
+        font-size: 16px;
+        margin-bottom: 4px;
+      }
+
+      .user-role {
+        color: #666;
+        font-size: 13px;
+      }
+
+      .logout-btn {
+        width: 100%;
+        padding: 12px;
+        background: linear-gradient(135deg, #ff4b4b, #ff0000);
         color: white;
         border: none;
-        padding: 10px;
-        border-radius: 5px;
+        border-radius: 8px;
         cursor: pointer;
-        margin-bottom: 8px;
-        text-align: center;
-        text-decoration: none;
-        font-weight: bold;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(255, 75, 75, 0.2);
+      }
+
+      .logout-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(255, 75, 75, 0.3);
+        background: linear-gradient(135deg, #ff0000, #cc0000);
+      }
+
+      .logout-btn i {
+        font-size: 16px;
       }
 
       .menu-title {
         padding: 15px;
         color: #888;
         font-size: 14px;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      #mainMenu {
+        padding: 10px;
       }
 
       .menu-item {
-        padding: 15px;
+        padding: 12px 15px;
         display: flex;
         align-items: center;
         color: #333;
         text-decoration: none;
-        transition: background-color 0.3s;
+        border-radius: 8px;
+        margin-bottom: 5px;
+        transition: all 0.3s ease;
+      }
+
+      .menu-item:hover {
+        background-color: #e3f2fd;
+        color: #2196f3;
       }
 
       .menu-item.active {
@@ -91,16 +174,28 @@
         color: white;
       }
 
-      .menu-item:hover {
-        background-color: #e3f2fd;
-      }
-
-      .menu-item.active:hover {
-        background-color: #1976d2;
-      }
-
       .menu-icon {
-        margin-right: 10px;
+        width: 35px;
+        height: 35px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 12px;
+        border-radius: 8px;
+        background-color: rgba(33, 150, 243, 0.1);
+        transition: all 0.3s ease;
+      }
+
+      .menu-item:hover .menu-icon {
+        background-color: white;
+      }
+
+      .menu-item.active .menu-icon {
+        background-color: rgba(255, 255, 255, 0.2);
+      }
+
+      .menu-icon i {
+        font-size: 18px;
         width: 20px;
         text-align: center;
       }
@@ -547,6 +642,24 @@
         transform: scale(1.2);
         transition: transform 0.3s ease;
       }
+
+      /* Scrollbar styling */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: #2196f3;
+        border-radius: 10px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: #1976d2;
+      }
     </style>
     <!-- Thêm vào phần <head> của mỗi trang -->
     <link
@@ -665,24 +778,6 @@
         transform: scale(1.2);
       }
 
-      /* Scrollbar styling */
-      ::-webkit-scrollbar {
-        width: 8px;
-      }
-
-      ::-webkit-scrollbar-track {
-        background: #f1f1f1;
-      }
-
-      ::-webkit-scrollbar-thumb {
-        background: #2196f3;
-        border-radius: 10px;
-      }
-
-      ::-webkit-scrollbar-thumb:hover {
-        background: #1976d2;
-      }
-
       /* Sidebar menu hover effect */
       .menu-item {
         transition: all 0.3s ease;
@@ -716,47 +811,6 @@
           transform: translateY(0);
         }
       }
-      .logo-container {
-        display: flex;
-        align-items: center;
-        flex-direction: row; /* Thay đổi từ column thành row */
-        padding: 15px;
-        border-bottom: 1px solid #eee;
-      }
-
-      .logo {
-        width: 45px;
-        height: 45px;
-        margin-right: 12px; /* Thêm khoảng cách giữa logo và text */
-        margin-bottom: 0;
-      }
-
-      .text-container {
-        display: flex;
-        flex-direction: column;
-      }
-
-      .logo-text {
-        font-size: 28px;
-        color: #2196f3;
-        font-weight: bold;
-        letter-spacing: 1px;
-        margin-bottom: 3px;
-        line-height: 1;
-      }
-
-      .logo-subtext {
-        font-size: 15px;
-        color: #444;
-        font-weight: 500;
-        letter-spacing: 0.5px;
-        line-height: 1.2;
-        text-transform: capitalize;
-        /* background: linear-gradient(to right, #2196F3, #1976D2); */
-        /* -webkit-background-clip: text; */
-        /* -webkit-text-fill-color: transparent; */
-        max-width: 180px;
-      }
     </style>
   </head>
 
@@ -773,66 +827,22 @@
         </div>
 
         <div class="login-register">
-          <div
-            style="background-color: #f0f8ff; padding: 15px; border-radius: 5px"
-          >
-            <div
-              style="display: flex; align-items: center; margin-bottom: 10px"
-            >
-              <div
-                style="
-                  width: 40px;
-                  height: 40px;
-                  background-color: #2196f3;
-                  border-radius: 50%;
-                  color: white;
-                  display: flex;
-                  justify-content: center;
-                  align-items: center;
-                  margin-right: 10px;
-                  font-weight: bold;
-                  font-size: 20px;
-                "
-              >
-                <span id="avatar-letter">G</span>
-              </div>
-              <div>
-                <div id="avatar-fullname" style="font-weight: bold"></div>
-                <div
-                  id="avatar-role"
-                  style="font-size: 12px; color: #888"
-                ></div>
-              </div>
+          <div class="user-info">
+            <div class="avatar" id="avatar-letter">T</div>
+            <div class="user-details">
+              <div class="user-name" id="avatar-fullname">Tran Ngoc B</div>
+              <div class="user-role" id="avatar-role">staff</div>
             </div>
           </div>
+          <button onclick="handleLogout()" class="logout-btn">
+            <i class="fas fa-sign-out-alt"></i>
+            Đăng xuất
+          </button>
         </div>
-        <script>
-          // Biến lưu thông tin người dùng (giả lập, sau này lấy từ API/database)
-          let userInfo = {
-            fullname: "Tran Ngoc B",
-            role: "Nhân viên",
-          };
-
-          // Khi có dữ liệu thật, chỉ cần cập nhật userInfo từ API
-          document.addEventListener("DOMContentLoaded", function () {
-            // Nếu có currentUser trong localStorage thì lấy ra
-            const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-            if (currentUser) {
-              userInfo.fullname = currentUser.fullname;
-              userInfo.role = currentUser.role || "Khách hàng";
-            }
-            // Gán lên giao diện
-            document.getElementById("avatar-letter").textContent =
-              userInfo.fullname.charAt(0).toUpperCase();
-            document.getElementById("avatar-fullname").textContent =
-              userInfo.fullname;
-            document.getElementById("avatar-role").textContent = userInfo.role;
-          });
-        </script>
 
         <div class="menu-title">MAIN MENU</div>
         <div id="mainMenu">
-          <!-- Menu sẽ được thêm bằng JavaScript -->
+          <!-- Menu items will be inserted by JavaScript -->
         </div>
       </div>
 
@@ -1408,36 +1418,14 @@
                     </a>
                 `;
 
-            // Nếu đã đăng nhập, hiển thị thông tin người dùng
-            loginRegisterDiv.innerHTML = `
-                    <div style="background-color: #f0f8ff; padding: 15px; border-radius: 5px;">
-                        <div style="display: flex; align-items: center; margin-bottom: 10px;">
-                            <div style="width: 40px; height: 40px; background-color: #2196F3; border-radius: 50%; 
-                                 color: white; display: flex; justify-content: center; align-items: center; 
-                                 margin-right: 10px; font-weight: bold;">
-                                ${currentUser.fullname.charAt(0)}
-                            </div>
-                            <div>
-                                <div style="font-weight: bold;">${
-                                  currentUser.fullname
-                                }</div>
-                                <div style="font-size: 12px; color: #888;">Khách hàng</div>
-                            </div>
-                        </div>
-                        <button id="logout-btn" style="width: 100%; padding: 10px; background-color: #f44336; 
-                                color: white; border: none; border-radius: 5px; cursor: pointer;">
-                            Đăng xuất
-                        </button>
-                    </div>
-                `;
+            document.getElementById("avatar-letter").textContent = 
+              currentUser.fullname.charAt(0).toUpperCase();
+            document.getElementById("avatar-fullname").textContent = 
+              currentUser.fullname;
+            document.getElementById("avatar-role").textContent = 
+              currentUser.role || "staff";
 
-            // Thêm sự kiện đăng xuất
-            document
-              .getElementById("logout-btn")
-              .addEventListener("click", function () {
-                localStorage.removeItem("currentUser");
-                window.location.reload();
-              });
+            // Thêm sự kiện đăng xuất đã được xử lý bởi hàm handleLogout()
           } else {
             // Menu cho người dùng chưa đăng nhập - chỉ hiện các mục cơ bản
             mainMenuDiv.innerHTML = `
@@ -1602,6 +1590,47 @@
             }
           };
         }
+
+        // Add this function to handle logout
+        function handleLogout() {
+          // Clear user data from localStorage
+          localStorage.removeItem('currentUser');
+          
+          // Redirect to login page
+          window.location.href = 'login.html';
+        }
+      </script>
+
+      <script>
+        function initializeMenu() {
+          const mainMenuDiv = document.getElementById("mainMenu");
+          if (!mainMenuDiv) return;
+
+          const currentPage = window.location.pathname.split("/").pop();
+          mainMenuDiv.innerHTML = `
+            <a href="index.html" class="menu-item${currentPage === "index.html" ? " active" : ""}">
+              <span class="menu-icon"><i class="fas fa-home"></i></span>
+              Trang chủ
+            </a>
+            <a href="booking.html" class="menu-item${currentPage === "booking.html" ? " active" : ""}">
+              <span class="menu-icon"><i class="fas fa-calendar-plus"></i></span>
+              Đặt lịch xét nghiệm
+            </a>
+            <a href="appoinments.html" class="menu-item${currentPage === "appoinments.html" ? " active" : ""}">
+              <span class="menu-icon"><i class="fas fa-list-alt"></i></span>
+              Danh sách lịch hẹn
+            </a>
+            <a href="list-kit.html" class="menu-item${currentPage === "list-kit.html" ? " active" : ""}">
+              <span class="menu-icon"><i class="fas fa-vials"></i></span>
+              Danh sách kít xét nghiệm
+            </a>
+          `;
+        }
+
+        // Gọi hàm khởi tạo menu khi trang được tải
+        document.addEventListener("DOMContentLoaded", function() {
+          initializeMenu();
+        });
       </script>
     </body>
   </html>

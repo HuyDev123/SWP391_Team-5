@@ -51,39 +51,100 @@
       }
 
       .login-register {
-        padding: 15px;
-        background-color: #f9f9f9;
+        padding: 20px;
+        background: linear-gradient(145deg, #ffffff, #f5f5f5);
         border-bottom: 1px solid #eee;
-        display: flex;
-        flex-direction: column;
+        border-radius: 12px;
+        margin: 15px;
       }
 
-      .login-register-btn {
-        background-color: #2196f3;
+      .user-info {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 15px;
+      }
+
+      .avatar {
+        width: 45px;
+        height: 45px;
+        background: linear-gradient(135deg, #2196f3, #1976d2);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        color: white;
+        font-weight: bold;
+        box-shadow: 0 4px 15px rgba(33, 150, 243, 0.2);
+      }
+
+      .user-details {
+        flex: 1;
+      }
+
+      .user-name {
+        font-weight: 600;
+        color: #333;
+        font-size: 16px;
+        margin-bottom: 4px;
+      }
+
+      .user-role {
+        color: #666;
+        font-size: 13px;
+      }
+
+      .logout-btn {
+        width: 100%;
+        padding: 12px;
+        background: linear-gradient(135deg, #ff4b4b, #ff0000);
         color: white;
         border: none;
-        padding: 10px;
-        border-radius: 5px;
+        border-radius: 8px;
         cursor: pointer;
-        margin-bottom: 8px;
-        text-align: center;
-        text-decoration: none;
-        font-weight: bold;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(255, 75, 75, 0.2);
+      }
+
+      .logout-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(255, 75, 75, 0.3);
+        background: linear-gradient(135deg, #ff0000, #cc0000);
+      }
+
+      .logout-btn i {
+        font-size: 16px;
       }
 
       .menu-title {
         padding: 15px;
         color: #888;
         font-size: 14px;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
       }
 
       .menu-item {
-        padding: 15px;
+        padding: 12px 15px;
         display: flex;
         align-items: center;
         color: #333;
         text-decoration: none;
-        transition: background-color 0.3s;
+        border-radius: 8px;
+        margin-bottom: 5px;
+        transition: all 0.3s ease;
+      }
+
+      .menu-item:hover {
+        background-color: #e3f2fd;
+        color: #2196f3;
       }
 
       .menu-item.active {
@@ -91,18 +152,38 @@
         color: white;
       }
 
-      .menu-item:hover {
-        background-color: #e3f2fd;
-      }
-
-      .menu-item.active:hover {
-        background-color: #1976d2;
-      }
-
       .menu-icon {
-        margin-right: 10px;
-        width: 20px;
-        text-align: center;
+        width: 35px;
+        height: 35px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 12px;
+        border-radius: 8px;
+        background-color: rgba(33, 150, 243, 0.1);
+        transition: all 0.3s ease;
+      }
+
+      .menu-item:hover .menu-icon {
+        background-color: white;
+      }
+
+      .menu-item.active .menu-icon {
+        background-color: rgba(255, 255, 255, 0.2);
+      }
+
+      .menu-icon i {
+        font-size: 18px;
+        transition: transform 0.3s ease;
+      }
+
+      .menu-item:hover .menu-icon i {
+        transform: scale(1.1);
+        color: #2196f3;
+      }
+
+      .menu-item.active .menu-icon i {
+        color: white;
       }
 
       /* Main content styles */
@@ -210,94 +291,129 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        z-index: 1000;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 9999;
         justify-content: center;
         align-items: center;
       }
 
       .modal-content {
-        background-color: white;
-        border-radius: 8px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-        padding: 30px;
+        background: white;
+        padding: 40px;
+        border-radius: 20px;
+        text-align: center;
         max-width: 500px;
         width: 90%;
-        text-align: center;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+        position: relative;
       }
 
       .success-icon {
-        font-size: 60px;
-        color: #4caf50;
-        margin-bottom: 20px;
-      }
-
-      .modal-title {
-        font-size: 24px;
-        margin-bottom: 15px;
-        color: #333;
-      }
-
-      .modal-message {
-        margin-bottom: 25px;
-        color: #666;
-        line-height: 1.6;
-      }
-      .modal {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.7);
-        z-index: 99999; /* Tăng z-index lên cao hơn */
+        width: 80px;
+        height: 80px;
+        margin: 0 auto 20px;
+        border-radius: 50%;
+        background: linear-gradient(45deg, #4CAF50, #45a049);
+        display: flex;
         align-items: center;
         justify-content: center;
       }
 
-      .modal-content {
-        background-color: white;
-        border-radius: 8px;
-        box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5);
-        padding: 30px;
-        max-width: 500px;
-        width: 90%;
-        position: relative;
-        transform: translateY(0);
-        animation: modalFadeIn 0.5s;
+      .success-icon i {
+        font-size: 40px;
+        color: white;
       }
 
-      @keyframes modalFadeIn {
-        from {
-          opacity: 0;
-          transform: translateY(-30px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
+      .modal-title {
+        color: #333;
+        font-size: 24px;
+        margin-bottom: 15px;
+        font-weight: 600;
+      }
+
+      .modal-message {
+        color: #666;
+        font-size: 16px;
+        line-height: 1.6;
+        margin-bottom: 30px;
+      }
+
+      .modal-actions {
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+      }
+
+      .modal-btn {
+        padding: 12px 25px;
+        border: none;
+        border-radius: 25px;
+        font-size: 15px;
+        font-weight: 600;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.3s ease;
+        text-decoration: none;
+      }
+
+      .close-btn {
+        background: linear-gradient(45deg, #2196F3, #1976D2);
+        color: white;
+      }
+
+      .view-btn {
+        background: linear-gradient(45deg, #4CAF50, #45a049);
+        color: white;
+      }
+
+      .modal-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .close-btn:hover {
+        background: linear-gradient(45deg, #1976D2, #1565C0);
+      }
+
+      .view-btn:hover {
+        background: linear-gradient(45deg, #45a049, #388E3C);
+      }
+
+      /* Animation classes */
+      .animate__animated {
+        animation-duration: 0.5s;
+      }
+
+      .animate__fadeInDown {
+        animation-name: fadeInDown;
       }
 
       @keyframes fadeInDown {
         from {
           opacity: 0;
-          transform: translateY(-50px);
+          transform: translate3d(0, -30px, 0);
         }
         to {
           opacity: 1;
-          transform: translateY(0);
+          transform: translate3d(0, 0, 0);
         }
       }
-      .close-btn {
-        padding: 12px 30px;
-        background-color: #2196f3;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 16px;
-        font-weight: bold;
+
+      @media (max-width: 480px) {
+        .modal-content {
+          padding: 30px 20px;
+        }
+
+        .modal-actions {
+          flex-direction: column;
+        }
+
+        .modal-btn {
+          width: 100%;
+          justify-content: center;
+        }
       }
 
       /* Responsive adjustments */
@@ -379,6 +495,84 @@
           flex-direction: row;
           gap: 30px;
         }
+      }
+
+      /* Menu styles */
+      #mainMenu {
+        padding: 10px;
+      }
+
+      .menu-item {
+        padding: 12px 15px;
+        display: flex;
+        align-items: center;
+        color: #333;
+        text-decoration: none;
+        border-radius: 8px;
+        margin-bottom: 5px;
+        transition: all 0.3s ease;
+      }
+
+      .menu-item:hover {
+        background-color: #e3f2fd;
+        color: #2196f3;
+      }
+
+      .menu-item.active {
+        background-color: #2196f3;
+        color: white;
+      }
+
+      .menu-icon {
+        width: 35px;
+        height: 35px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 12px;
+        border-radius: 8px;
+        background-color: rgba(33, 150, 243, 0.1);
+        transition: all 0.3s ease;
+      }
+
+      .menu-item:hover .menu-icon {
+        background-color: white;
+      }
+
+      .menu-item.active .menu-icon {
+        background-color: rgba(255, 255, 255, 0.2);
+      }
+
+      .menu-icon i {
+        font-size: 18px;
+        transition: transform 0.3s ease;
+      }
+
+      .menu-item:hover .menu-icon i {
+        transform: scale(1.1);
+        color: #2196f3;
+      }
+
+      .menu-item.active .menu-icon i {
+        color: white;
+      }
+
+      /* Scrollbar styling */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: #2196f3;
+        border-radius: 10px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: #1976d2;
       }
     </style>
     <!-- Thêm vào phần <head> của mỗi trang -->
@@ -664,61 +858,40 @@
       </div>
 
       <div class="login-register">
-        <div
-          style="background-color: #f0f8ff; padding: 15px; border-radius: 5px"
-        >
-          <div style="display: flex; align-items: center; margin-bottom: 10px">
-            <div
-              style="
-                width: 40px;
-                height: 40px;
-                background-color: #2196f3;
-                border-radius: 50%;
-                color: white;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                margin-right: 10px;
-                font-weight: bold;
-                font-size: 20px;
-              "
-            >
-              <span id="avatar-letter">G</span>
-            </div>
-            <div>
-              <div id="avatar-fullname" style="font-weight: bold"></div>
-              <div id="avatar-role" style="font-size: 12px; color: #888"></div>
-            </div>
+        <div class="user-info">
+          <div class="avatar" id="avatar-letter">T</div>
+          <div class="user-details">
+            <div class="user-name" id="avatar-fullname">Tran Ngoc B</div>
+            <div class="user-role" id="avatar-role">staff</div>
           </div>
         </div>
+        <button onclick="handleLogout()" class="logout-btn">
+          <i class="fas fa-sign-out-alt"></i>
+          Đăng xuất
+        </button>
       </div>
-      <script>
-        // Biến lưu thông tin người dùng (giả lập, sau này lấy từ API/database)
-        let userInfo = {
-          fullname: "Tran Ngoc B",
-          role: "Nhân viên",
-        };
-
-        // Khi có dữ liệu thật, chỉ cần cập nhật userInfo từ API
-        document.addEventListener("DOMContentLoaded", function () {
-          // Nếu có currentUser trong localStorage thì lấy ra
-          const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-          if (currentUser) {
-            userInfo.fullname = currentUser.fullname;
-            userInfo.role = currentUser.role || "Khách hàng";
-          }
-          // Gán lên giao diện
-          document.getElementById("avatar-letter").textContent =
-            userInfo.fullname.charAt(0).toUpperCase();
-          document.getElementById("avatar-fullname").textContent =
-            userInfo.fullname;
-          document.getElementById("avatar-role").textContent = userInfo.role;
-        });
-      </script>
 
       <div class="menu-title">MAIN MENU</div>
       <div id="mainMenu">
-        <!-- Menu sẽ được thêm bằng JavaScript -->
+        <a href="index.html" class="menu-item">
+          <span class="menu-icon"><i class="fas fa-home"></i></span>
+          Trang chủ
+        </a>
+        
+        <a href="booking.html" class="menu-item active">
+          <span class="menu-icon"><i class="fas fa-notes-medical"></i></span>
+          Đặt lịch xét nghiệm
+        </a>
+
+        <a href="appoinments.html" class="menu-item">
+          <span class="menu-icon"><i class="fas fa-clipboard-list"></i></span>
+          Danh sách lịch hẹn
+        </a>
+
+        <a href="list-kit.html" class="menu-item">
+          <span class="menu-icon"><i class="fas fa-vials"></i></span>
+          Danh sách kít xét nghiệm
+        </a>
       </div>
     </div>
 
@@ -733,7 +906,7 @@
       <div class="form-section">
         <h1 class="page-title">Tạo Lịch Hẹn Xét Nghiệm ADN</h1>
 
-        <form id="booking-form" action="/appointments">
+        <form id="booking-form">
           <div class="form-group">
             <label for="fullname">Họ và tên khách hàng *</label>
             <input
@@ -841,23 +1014,8 @@
               />
             </div>
 
-            <div class="form-group">
-              <label for="test-quantity">Số người xét nghiệm <span style="color: red">*</span></label>
-              <div class="quantity-input-container">
-                <button type="button" class="quantity-btn minus-btn" onclick="decreaseQuantity()">-</button>
-                <input
-                  type="number"
-                  id="test-quantity"
-                  name="test-quantity"
-                  min="2"
-                  value="2"
-                  required
-                  readonly
-                />
-                <button type="button" class="quantity-btn plus-btn" onclick="increaseQuantity()">+</button>
+            
               </div>
-            </div>
-          </div>
 
           <!-- Thông tin lấy mẫu tại trung tâm -->
           <div id="center-details" style="display: none">
@@ -916,293 +1074,263 @@
               placeholder="Nhập ghi chú nội bộ về lịch hẹn này"
               style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;"
             ></textarea>
-          </div>
+    </div>
 
           <button type="submit">Tạo lịch hẹn</button>
         </form>
       </div>
     </div>
 
-    
+    <!-- Modal Thông Báo Thành Công -->
+    <div id="successModal" class="modal">
+      <div class="modal-content animate__animated animate__fadeInDown">
+        <div class="success-icon">
+          <i class="fas fa-check-circle"></i>
+        </div>
+        <h2 class="modal-title">Tạo Lịch Hẹn Thành Công!</h2>
+        <p class="modal-message">
+          Lịch hẹn đã được tạo và lưu vào hệ thống. Bạn có thể xem chi tiết trong mục Danh sách lịch hẹn.
+        </p>
+        <div class="modal-actions">
+          <button onclick="closeSuccessModal()" class="modal-btn close-btn">
+            <i class="fas fa-check"></i> Đóng
+        </button>
+          <a href="appoinments.html" class="modal-btn view-btn">
+            <i class="fas fa-list"></i> Xem Danh Sách
+          </a>
+        </div>
+      </div>
+    </div>
 
     <script>
-      // Kiểm tra xem người dùng đã đăng nhập hay chưa
-      function checkLoggedIn() {
-        const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-        const loginRegisterDiv = document.querySelector(".login-register");
-        const mainMenuDiv = document.getElementById("mainMenu");
-        const topNavbarDiv = document.getElementById("topNavbar");
-        // Lấy tên file hiện tại để xác định trang đang active
-        const currentPage = window.location.pathname.split("/").pop();
-        // Menu cho người dùng chưa đăng nhập - chỉ hiện các mục cơ bản
-        mainMenuDiv.innerHTML = `
-          <a href="index.html" class="menu-item${
-            currentPage === "index.html" ? " active" : ""
-          }">
-              <span class="menu-icon"><i class="fas fa-home"></i></span>
-              Trang chủ
-          </a>
-          
-          <a href="booking.html" class="menu-item${
-            currentPage === "booking.html" ? " active" : ""
-          }">
-              <span class="menu-icon"><i class="fas fa-notes-medical"></i></span>
-              Đặt lịch xét nghiệm
-          </a>
-
-          <a href="appoinments.html" class="menu-item${
-            currentPage === "appoinments.html" ? " active" : ""
-          }">
-              <span class="menu-icon"><i class="fas fa-clipboard-list"></i></span>
-              Danh sách lịch hẹn
-          </a>
-
-          <a href="list-kit.html" class="menu-item${
-            currentPage === "list-kit.html" ? " active" : ""
-          }">
-          <span class="menu-icon"><i class="fas fa-vials"></i></span>
-          Danh sách kít xét nghiệm
-          </a>
-        `;
-      }
-
-      // Xử lý form đặt lịch
       document.addEventListener("DOMContentLoaded", function () {
-        console.clear();
-        console.log("Trang đã tải xong, đang thiết lập...");
-
-        // Chạy một lần checkLoggedIn
-        checkLoggedIn();
-
-        // Thiết lập các radio buttons
-        setupRadioHandlers();
-
-        // Xử lý tham số URL
-        handleURLParams();
-
-        // Thiết lập form submit
-        setupFormSubmit();
+        // Khởi tạo menu
+        initializeMenu();
+        // Khởi tạo form
+        initializeForm();
       });
 
-      function setupFormSubmit() {
-        const form = document.getElementById("booking-form");
-        if (!form) {
-          console.error("Không tìm thấy form booking!");
-          return;
+      function initializeMenu() {
+        const mainMenuDiv = document.getElementById("mainMenu");
+        if (!mainMenuDiv) return;
+
+        const currentPage = window.location.pathname.split("/").pop();
+          mainMenuDiv.innerHTML = `
+          <a href="index.html" class="menu-item${currentPage === "index.html" ? " active" : ""}">
+                <span class="menu-icon"><i class="fas fa-home"></i></span>
+                Trang chủ
+            </a>
+          <a href="booking.html" class="menu-item${currentPage === "booking.html" ? " active" : ""}">
+                <span class="menu-icon"><i class="fas fa-notes-medical"></i></span>
+                Đặt lịch xét nghiệm
+            </a>
+          <a href="appoinments.html" class="menu-item${currentPage === "appoinments.html" ? " active" : ""}">
+                <span class="menu-icon"><i class="fas fa-clipboard-list"></i></span>
+                Danh sách lịch hẹn
+            </a>
+          <a href="list-kit.html" class="menu-item${currentPage === "list-kit.html" ? " active" : ""}">
+            <span class="menu-icon"><i class="fas fa-vials"></i></span>
+            Danh sách kít xét nghiệm
+            </a>
+        `;
+
+        // Hiển thị thông tin người dùng
+        const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+        if (currentUser) {
+          document.getElementById("avatar-letter").textContent = currentUser.fullname.charAt(0).toUpperCase();
+          document.getElementById("avatar-fullname").textContent = currentUser.fullname;
+          document.getElementById("avatar-role").textContent = currentUser.role || "Nhân viên";
         }
-
-        // Loại bỏ event listeners cũ
-        const newForm = form.cloneNode(true);
-        form.parentNode.replaceChild(newForm, form);
-
-        // Thêm event listener mới
-        newForm.addEventListener("submit", async function (e) {
-          e.preventDefault();
-          console.log("Form đã được submit");
-
-          try {
-            // Lấy dữ liệu từ form
-            const fullname = document.getElementById("fullname").value;
-            const email = document.getElementById("email").value;
-            const phone = document.getElementById("phone").value;
-            const serviceType = document.getElementById("service-type").value;
-            const note = document.getElementById("note").value || "";
-            const staffNote = document.getElementById("staff-note").value || "";
-            const status = document.getElementById("status").value;
-
-            // Lấy giá trị mục đích xét nghiệm
-            const purposeAdministrative = document.getElementById(
-              "purpose-administrative"
-            );
-            const type = purposeAdministrative.checked
-              ? "administrative"
-              : "civil";
-
-            // Lấy giá trị phương thức lấy mẫu
-            const locationHome = document.getElementById("location-home");
-            const sampleMethod = locationHome.checked ? "home" : "center";
-
-            // Dữ liệu bổ sung dựa trên phương thức lấy mẫu
-            let address = "";
-            let appointmentDate = "";
-            let appointmentTime = "";
-
-            if (sampleMethod === "home") {
-              address = document.getElementById("home-address").value;
-            } else {
-              appointmentDate =
-                document.getElementById("appointment-date").value;
-              appointmentTime =
-                document.getElementById("appointment-time").value;
-            }
-
-            // Tạo đối tượng dữ liệu đầy đủ để gửi đến API
-            const bookingData = {
-              fullName: fullname,
-              email: email,
-              phone: phone,
-              serviceId: serviceType,
-              type: type,
-              sampleMethod: sampleMethod,
-              address: address || undefined,
-              appointmentDate: appointmentDate || undefined,
-              appointmentTime: appointmentTime || undefined,
-              note: note,
-              staffNote: staffNote,
-              status: status
-            };
-
-            // Hiển thị trạng thái đang xử lý
-            const submitBtn = this.querySelector('button[type="submit"]');
-            const originalBtnText = submitBtn.innerText;
-            submitBtn.innerText = "Đang xử lý...";
-            submitBtn.disabled = true;
-
-            console.log("Gửi dữ liệu đến API:", bookingData);
-
-            // Gọi API đặt lịch
-            const response = await fetch("/appointments", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify(bookingData),
-            });
-
-            // Khôi phục trạng thái nút
-            submitBtn.innerText = originalBtnText;
-            submitBtn.disabled = false;
-
-            if (response.ok) {
-              const data = await response.json();
-              console.log("Phản hồi từ API:", data);
-              alert("Tạo lịch hẹn thành công!");
-              this.reset();
-
-              // Ẩn các chi tiết bổ sung
-              const homeDetails = document.getElementById("home-details");
-              const centerDetails = document.getElementById("center-details");
-              if (homeDetails) homeDetails.style.display = "none";
-              if (centerDetails) centerDetails.style.display = "none";
-            } else {
-              // Xử lý lỗi từ API
-              const errorData = await response.json();
-              throw new Error(
-                errorData.message || "Có lỗi xảy ra khi tạo lịch hẹn"
-              );
-            }
-          } catch (error) {
-            console.error("Lỗi khi xử lý form:", error);
-            alert("Có lỗi xảy ra khi tạo lịch hẹn: " + error.message);
-          }
-        });
-
-        console.log("Đã thiết lập xử lý form thành công");
       }
 
-      // Xử lý khi mục đích xét nghiệm thay đổi
-      document
-        .getElementById("purpose-administrative")
-        .addEventListener("change", function () {
-          if (this.checked) {
-            document.getElementById("location-home").disabled = true;
-            document.getElementById(
-              "location-home"
-            ).parentElement.style.opacity = "0.5";
-            document.getElementById(
-              "location-home"
-            ).parentElement.style.cursor = "not-allowed";
+      function initializeForm() {
+        const form = document.getElementById("booking-form");
+        if (!form) return;
 
-            if (!document.getElementById("admin-notice")) {
-              const notice = document.createElement("div");
-              notice.id = "admin-notice";
-              notice.style.color = "#ff5722";
-              notice.style.fontSize = "13px";
-              notice.style.marginTop = "5px";
-              notice.innerHTML =
-                "* Xét nghiệm có giá trị pháp lý bắt buộc phải lấy mẫu tại trung tâm";
-              document
-                .querySelector(".radio-group:nth-of-type(2)")
-                .appendChild(notice);
-            }
+        // Khởi tạo các elements
+        const elements = {
+          purposeAdmin: document.getElementById("purpose-administrative"),
+          purposeCivil: document.getElementById("purpose-civil"),
+          locationHome: document.getElementById("location-home"),
+          locationCenter: document.getElementById("location-center"),
+          homeDetails: document.getElementById("home-details"),
+          centerDetails: document.getElementById("center-details"),
+          homeAddress: document.getElementById("home-address"),
+          testQuantity: document.getElementById("test-quantity"),
+          appointmentDate: document.getElementById("appointment-date"),
+          appointmentTime: document.getElementById("appointment-time")
+        };
+
+        // Xử lý khi chọn loại xét nghiệm
+        if (elements.purposeAdmin) {
+          elements.purposeAdmin.addEventListener("change", () => handlePurposeChange(elements, true));
+        }
+        if (elements.purposeCivil) {
+          elements.purposeCivil.addEventListener("change", () => handlePurposeChange(elements, false));
+        }
+
+        // Xử lý khi chọn phương thức lấy mẫu
+        if (elements.locationHome) {
+          elements.locationHome.addEventListener("change", () => handleLocationChange(elements, true));
+        }
+        if (elements.locationCenter) {
+          elements.locationCenter.addEventListener("change", () => handleLocationChange(elements, false));
+        }
+
+        // Xử lý submit form
+        form.addEventListener("submit", (e) => handleFormSubmit(e, elements));
+
+        // Xử lý đóng modal
+        setupModalHandlers();
+      }
+
+      function handlePurposeChange(elements, isAdministrative) {
+        if (!elements.locationHome) return;
+
+        elements.locationHome.disabled = isAdministrative;
+        elements.locationHome.parentElement.style.opacity = isAdministrative ? "0.5" : "1";
+        elements.locationHome.parentElement.style.cursor = isAdministrative ? "not-allowed" : "pointer";
+
+        if (isAdministrative) {
+          elements.locationCenter.checked = true;
+          elements.centerDetails.style.display = "block";
+          elements.homeDetails.style.display = "none";
+          addAdminNotice();
+            } else {
+          const notice = document.getElementById("admin-notice");
+          if (notice) notice.remove();
+        }
+      }
+
+      function handleLocationChange(elements, isHome) {
+        elements.homeDetails.style.display = isHome ? "block" : "none";
+        elements.centerDetails.style.display = isHome ? "none" : "block";
+
+        // Toggle required fields
+        if (elements.homeAddress) elements.homeAddress.required = isHome;
+        if (elements.testQuantity) elements.testQuantity.required = isHome;
+        if (elements.appointmentDate) elements.appointmentDate.required = !isHome;
+        if (elements.appointmentTime) elements.appointmentTime.required = !isHome;
+      }
+
+      async function handleFormSubmit(e, elements) {
+        e.preventDefault();
+
+        try {
+          // Validate form
+          const formData = validateAndGetFormData(elements);
+
+          // Show loading state
+          const submitBtn = e.target.querySelector('button[type="submit"]');
+          const originalBtnText = submitBtn.innerHTML;
+          submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang xử lý...';
+          submitBtn.disabled = true;
+
+          // Simulate API call
+          await new Promise(resolve => setTimeout(resolve, 1000));
+
+          // Show success modal
+          document.getElementById("successModal").style.display = "flex";
+
+          // Reset form
+          e.target.reset();
+          elements.homeDetails.style.display = "none";
+          elements.centerDetails.style.display = "none";
+          if (elements.testQuantity) elements.testQuantity.value = "2";
+
+          // Restore button
+          submitBtn.innerHTML = originalBtnText;
+          submitBtn.disabled = false;
+
+        } catch (error) {
+          alert(error.message);
+        }
+      }
+
+      function validateAndGetFormData(elements) {
+        const formData = {
+          fullName: getRequiredValue("fullname", "họ tên"),
+          phone: getRequiredValue("phone", "số điện thoại"),
+          email: document.getElementById("email").value,
+          serviceId: getRequiredValue("service-type", "loại dịch vụ"),
+          type: elements.purposeAdmin.checked ? "administrative" : "civil",
+          sampleMethod: elements.locationHome.checked ? "home" : "center",
+          note: document.getElementById("note").value || "",
+          staffNote: document.getElementById("staff-note").value || "",
+          status: document.getElementById("status").value
+        };
+
+        // Validate location specific fields
+        if (formData.sampleMethod === "home") {
+          formData.address = getRequiredValue("home-address", "địa chỉ");
+          formData.testQuantity = elements.testQuantity.value;
+        } else {
+          formData.appointmentDate = getRequiredValue("appointment-date", "ngày hẹn");
+          formData.appointmentTime = getRequiredValue("appointment-time", "giờ hẹn");
+      }
+
+        return formData;
+      }
+
+      function getRequiredValue(id, fieldName) {
+        const value = document.getElementById(id).value;
+        if (!value) throw new Error(`Vui lòng nhập ${fieldName}`);
+        return value;
+      }
+
+      function setupModalHandlers() {
+        const modal = document.getElementById("successModal");
+        const closeBtn = document.querySelector(".close-btn");
+
+        if (closeBtn) {
+          closeBtn.addEventListener("click", () => modal.style.display = "none");
+        }
+
+        window.addEventListener("click", (event) => {
+          if (event.target === modal) {
+            modal.style.display = "none";
           }
         });
+      }
 
-      document
-        .getElementById("purpose-civil")
-        .addEventListener("change", function () {
-          if (this.checked) {
-            document.getElementById("location-home").disabled = false;
-            document.getElementById(
-              "location-home"
-            ).parentElement.style.opacity = "1";
-            document.getElementById(
-              "location-home"
-            ).parentElement.style.cursor = "pointer";
+      function addAdminNotice() {
+        if (document.getElementById("admin-notice")) return;
 
-            const notice = document.getElementById("admin-notice");
-            if (notice) {
-              notice.remove();
-            }
-          }
-        });
+        const notice = document.createElement("div");
+        notice.id = "admin-notice";
+        notice.style.cssText = "color: #ff5722; font-size: 13px; margin-top: 5px;";
+        notice.textContent = "* Xét nghiệm có giá trị pháp lý bắt buộc phải lấy mẫu tại trung tâm";
 
-      // Xử lý hiển thị/ẩn thông tin tương ứng với phương thức lấy mẫu
-      document
-        .getElementById("location-home")
-        .addEventListener("change", function () {
-          if (this.checked) {
-            document.getElementById("home-details").style.display = "block";
-            document.getElementById("center-details").style.display = "none";
-
-            document
-              .getElementById("home-address")
-              .setAttribute("required", "required");
-            document
-              .getElementById("test-quantity")
-              .setAttribute("required", "required");
-
-            document
-              .getElementById("appointment-date")
-              .removeAttribute("required");
-            document
-              .getElementById("appointment-time")
-              .removeAttribute("required");
-          }
-        });
-
-      document
-        .getElementById("location-center")
-        .addEventListener("change", function () {
-          if (this.checked) {
-            document.getElementById("center-details").style.display = "block";
-            document.getElementById("home-details").style.display = "none";
-
-            document
-              .getElementById("appointment-date")
-              .setAttribute("required", "required");
-            document
-              .getElementById("appointment-time")
-              .setAttribute("required", "required");
-
-            document.getElementById("home-address").removeAttribute("required");
-            document.getElementById("test-quantity").removeAttribute("required");
-          }
-        });
+        const radioGroup = document.querySelector('input[name="sample-location"]');
+        if (radioGroup) {
+          const parentGroup = radioGroup.closest('.radio-group');
+          if (parentGroup) parentGroup.appendChild(notice);
+        }
+      }
 
       function increaseQuantity() {
         const quantityInput = document.getElementById("test-quantity");
-        let currentValue = parseInt(quantityInput.value);
-        quantityInput.value = currentValue + 1;
+        if (quantityInput) {
+          quantityInput.value = parseInt(quantityInput.value) + 1;
+        }
       }
 
       function decreaseQuantity() {
         const quantityInput = document.getElementById("test-quantity");
-        let currentValue = parseInt(quantityInput.value);
-        if (currentValue > 2) {
-          quantityInput.value = currentValue - 1;
+        if (quantityInput && parseInt(quantityInput.value) > 2) {
+          quantityInput.value = parseInt(quantityInput.value) - 1;
         }
+      }
+
+      // Add this function to handle logout
+      function handleLogout() {
+        // Clear user data from localStorage
+        localStorage.removeItem('currentUser');
+        
+        // Redirect to login page
+        window.location.href = 'login.html';
       }
     </script>
   </body>
 </html>
+

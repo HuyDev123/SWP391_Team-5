@@ -51,39 +51,104 @@
       }
 
       .login-register {
-        padding: 15px;
-        background-color: #f9f9f9;
+        padding: 20px;
+        background: linear-gradient(145deg, #ffffff, #f5f5f5);
         border-bottom: 1px solid #eee;
-        display: flex;
-        flex-direction: column;
+        border-radius: 12px;
+        margin: 15px;
       }
 
-      .login-register-btn {
-        background-color: #2196f3;
+      .user-info {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 15px;
+      }
+
+      .avatar {
+        width: 45px;
+        height: 45px;
+        background: linear-gradient(135deg, #2196f3, #1976d2);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        color: white;
+        font-weight: bold;
+        box-shadow: 0 4px 15px rgba(33, 150, 243, 0.2);
+      }
+
+      .user-details {
+        flex: 1;
+      }
+
+      .user-name {
+        font-weight: 600;
+        color: #333;
+        font-size: 16px;
+        margin-bottom: 4px;
+      }
+
+      .user-role {
+        color: #666;
+        font-size: 13px;
+      }
+
+      .logout-btn {
+        width: 100%;
+        padding: 12px;
+        background: linear-gradient(135deg, #ff4b4b, #ff0000);
         color: white;
         border: none;
-        padding: 10px;
-        border-radius: 5px;
+        border-radius: 8px;
         cursor: pointer;
-        margin-bottom: 8px;
-        text-align: center;
-        text-decoration: none;
-        font-weight: bold;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(255, 75, 75, 0.2);
+      }
+
+      .logout-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(255, 75, 75, 0.3);
+        background: linear-gradient(135deg, #ff0000, #cc0000);
+      }
+
+      .logout-btn i {
+        font-size: 16px;
       }
 
       .menu-title {
         padding: 15px;
         color: #888;
         font-size: 14px;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      #mainMenu {
+        padding: 10px;
       }
 
       .menu-item {
-        padding: 15px;
+        padding: 12px 15px;
         display: flex;
         align-items: center;
         color: #333;
         text-decoration: none;
-        transition: background-color 0.3s;
+        border-radius: 8px;
+        margin-bottom: 5px;
+        transition: all 0.3s ease;
+      }
+
+      .menu-item:hover {
+        background-color: #e3f2fd;
+        color: #2196f3;
       }
 
       .menu-item.active {
@@ -91,18 +156,38 @@
         color: white;
       }
 
-      .menu-item:hover {
-        background-color: #e3f2fd;
-      }
-
-      .menu-item.active:hover {
-        background-color: #1976d2;
-      }
-
       .menu-icon {
-        margin-right: 10px;
-        width: 20px;
-        text-align: center;
+        width: 35px;
+        height: 35px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 12px;
+        border-radius: 8px;
+        background-color: rgba(33, 150, 243, 0.1);
+        transition: all 0.3s ease;
+      }
+
+      .menu-item:hover .menu-icon {
+        background-color: white;
+      }
+
+      .menu-item.active .menu-icon {
+        background-color: rgba(255, 255, 255, 0.2);
+      }
+
+      .menu-icon i {
+        font-size: 18px;
+        transition: transform 0.3s ease;
+      }
+
+      .menu-item:hover .menu-icon i {
+        transform: scale(1.1);
+        color: #2196f3;
+      }
+
+      .menu-item.active .menu-icon i {
+        color: white;
       }
 
       /* Main content styles */
@@ -643,20 +728,6 @@
           margin-bottom: 15px;
         }
       }
-      .menu-icon i {
-        font-size: 18px;
-        width: 20px;
-        text-align: center;
-      }
-
-      .menu-item.active .menu-icon i {
-        color: white;
-      }
-
-      .menu-item:hover .menu-icon i {
-        transform: scale(1.2);
-        transition: transform 0.3s ease;
-      }
     </style>
 
     <!-- Font Awesome để hiển thị icons -->
@@ -884,57 +955,18 @@
       </div>
 
       <div class="login-register">
-        <div
-          style="background-color: #f0f8ff; padding: 15px; border-radius: 5px"
-        >
-          <div style="display: flex; align-items: center; margin-bottom: 10px">
-            <div
-              style="
-                width: 40px;
-                height: 40px;
-                background-color: #2196f3;
-                border-radius: 50%;
-                color: white;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                margin-right: 10px;
-                font-weight: bold;
-                font-size: 20px;
-              "
-            >
-              <span id="avatar-letter">G</span>
-            </div>
-            <div>
-              <div id="avatar-fullname" style="font-weight: bold"></div>
-              <div id="avatar-role" style="font-size: 12px; color: #888"></div>
-            </div>
+        <div class="user-info">
+          <div class="avatar" id="avatar-letter">T</div>
+          <div class="user-details">
+            <div class="user-name" id="avatar-fullname">Tran Ngoc B</div>
+            <div class="user-role" id="avatar-role">staff</div>
           </div>
         </div>
+        <button onclick="handleLogout()" class="logout-btn">
+          <i class="fas fa-sign-out-alt"></i>
+          Đăng xuất
+        </button>
       </div>
-      <script>
-        // Biến lưu thông tin người dùng (giả lập, sau này lấy từ API/database)
-        let userInfo = {
-          fullname: "Tran Ngoc B",
-          role: "Nhân viên",
-        };
-
-        // Khi có dữ liệu thật, chỉ cần cập nhật userInfo từ API
-        document.addEventListener("DOMContentLoaded", function () {
-          // Nếu có currentUser trong localStorage thì lấy ra
-          const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-          if (currentUser) {
-            userInfo.fullname = currentUser.fullname;
-            userInfo.role = currentUser.role || "Khách hàng";
-          }
-          // Gán lên giao diện
-          document.getElementById("avatar-letter").textContent =
-            userInfo.fullname.charAt(0).toUpperCase();
-          document.getElementById("avatar-fullname").textContent =
-            userInfo.fullname;
-          document.getElementById("avatar-role").textContent = userInfo.role;
-        });
-      </script>
 
       <div class="menu-title">MAIN MENU</div>
       <div id="mainMenu">
@@ -1021,71 +1053,149 @@
       </div>
 
       <!-- Tasks Section -->
-      <div class="dashboard-section">
+      <div class="dashboard-section tasks-section">
         <div class="section-header">
-          <h2><i class="fas fa-tasks"></i> Công việc cần xử lý</h2>
+          <div class="header-left">
+            <h2><i class="fas fa-tasks"></i> Công việc cần xử lý</h2>
+            <span class="task-count">3 công việc</span>
+          </div>
           <div class="section-actions">
-            <button class="action-btn">
+            <div class="search-box">
+              <i class="fas fa-search"></i>
+              <input type="text" placeholder="Tìm kiếm công việc...">
+            </div>
+            <button class="action-btn filter">
               <i class="fas fa-filter"></i> Lọc
             </button>
-            <button class="action-btn primary">
+            <button class="action-btn add">
               <i class="fas fa-plus"></i> Thêm mới
             </button>
           </div>
         </div>
         <div class="tasks-grid">
           <div class="task-card urgent">
-            <div class="task-priority">
-              <span class="priority-badge">Khẩn cấp</span>
-            </div>
-            <h3>Xử lý mẫu #ADN123</h3>
-            <p>Khách hàng: Nguyễn Văn A</p>
-            <p>Deadline: 15:00 hôm nay</p>
-            <div class="task-progress">
-              <div class="progress-bar">
-                <div class="progress" style="width: 75%"></div>
+            <div class="task-header">
+              <div class="task-priority">
+                <i class="fas fa-exclamation-circle"></i>
+                <span class="priority-badge">Khẩn cấp</span>
               </div>
-              <span>75%</span>
+              <div class="task-menu">
+                <i class="fas fa-ellipsis-v"></i>
+              </div>
+            </div>
+            <div class="task-content">
+              <h3>Xử lý mẫu #ADN123</h3>
+              <div class="task-info">
+                <div class="info-item">
+                  <i class="fas fa-user"></i>
+                  <span>Nguyễn Văn A</span>
+                </div>
+                <div class="info-item">
+                  <i class="fas fa-clock"></i>
+                  <span>15:00 hôm nay</span>
+                </div>
+              </div>
+              <div class="task-progress">
+                <div class="progress-info">
+                  <span>Tiến độ</span>
+                  <span>75%</span>
+                </div>
+                <div class="progress-bar">
+                  <div class="progress" style="width: 75%"></div>
+                </div>
+              </div>
             </div>
             <div class="task-actions">
-              <button class="btn-view">Chi tiết</button>
-              <button class="btn-complete">Hoàn thành</button>
+              <button class="btn-view">
+                <i class="fas fa-eye"></i> Chi tiết
+              </button>
+              <button class="btn-complete">
+                <i class="fas fa-check"></i> Hoàn thành
+              </button>
             </div>
           </div>
+
           <div class="task-card">
-            <div class="task-priority">
-              <span class="priority-badge normal">Bình thường</span>
-            </div>
-            <h3>Kiểm tra kit #KIT456</h3>
-            <p>Khách hàng: Trần Thị B</p>
-            <p>Deadline: Ngày mai</p>
-            <div class="task-progress">
-              <div class="progress-bar">
-                <div class="progress" style="width: 30%"></div>
+            <div class="task-header">
+              <div class="task-priority">
+                <i class="fas fa-info-circle"></i>
+                <span class="priority-badge normal">Bình thường</span>
               </div>
-              <span>30%</span>
+              <div class="task-menu">
+                <i class="fas fa-ellipsis-v"></i>
+              </div>
+            </div>
+            <div class="task-content">
+              <h3>Kiểm tra kit #KIT456</h3>
+              <div class="task-info">
+                <div class="info-item">
+                  <i class="fas fa-user"></i>
+                  <span>Trần Thị B</span>
+                </div>
+                <div class="info-item">
+                  <i class="fas fa-clock"></i>
+                  <span>Ngày mai</span>
+                </div>
+              </div>
+              <div class="task-progress">
+                <div class="progress-info">
+                  <span>Tiến độ</span>
+                  <span>30%</span>
+                </div>
+                <div class="progress-bar">
+                  <div class="progress" style="width: 30%"></div>
+                </div>
+              </div>
             </div>
             <div class="task-actions">
-              <button class="btn-view">Chi tiết</button>
-              <button class="btn-complete">Hoàn thành</button>
+              <button class="btn-view">
+                <i class="fas fa-eye"></i> Chi tiết
+              </button>
+              <button class="btn-complete">
+                <i class="fas fa-check"></i> Hoàn thành
+              </button>
             </div>
           </div>
+
           <div class="task-card">
-            <div class="task-priority">
-              <span class="priority-badge normal">Bình thường</span>
-            </div>
-            <h3>Cập nhật kết quả #KQ789</h3>
-            <p>Khách hàng: Lê Văn C</p>
-            <p>Deadline: 2 ngày nữa</p>
-            <div class="task-progress">
-              <div class="progress-bar">
-                <div class="progress" style="width: 50%"></div>
+            <div class="task-header">
+              <div class="task-priority">
+                <i class="fas fa-info-circle"></i>
+                <span class="priority-badge normal">Bình thường</span>
               </div>
-              <span>50%</span>
+              <div class="task-menu">
+                <i class="fas fa-ellipsis-v"></i>
+              </div>
+            </div>
+            <div class="task-content">
+              <h3>Cập nhật kết quả #KQ789</h3>
+              <div class="task-info">
+                <div class="info-item">
+                  <i class="fas fa-user"></i>
+                  <span>Lê Văn C</span>
+                </div>
+                <div class="info-item">
+                  <i class="fas fa-clock"></i>
+                  <span>2 ngày nữa</span>
+                </div>
+              </div>
+              <div class="task-progress">
+                <div class="progress-info">
+                  <span>Tiến độ</span>
+                  <span>50%</span>
+                </div>
+                <div class="progress-bar">
+                  <div class="progress" style="width: 50%"></div>
+                </div>
+              </div>
             </div>
             <div class="task-actions">
-              <button class="btn-view">Chi tiết</button>
-              <button class="btn-complete">Hoàn thành</button>
+              <button class="btn-view">
+                <i class="fas fa-eye"></i> Chi tiết
+              </button>
+              <button class="btn-complete">
+                <i class="fas fa-check"></i> Hoàn thành
+              </button>
             </div>
           </div>
         </div>
@@ -1616,6 +1726,15 @@
           }
         }
       });
+
+      // Add this function to handle logout
+      function handleLogout() {
+        // Clear user data from localStorage
+        localStorage.removeItem('currentUser');
+        
+        // Redirect to login page
+        window.location.href = 'login.html';
+      }
     </script>
   </body>
 </html>
