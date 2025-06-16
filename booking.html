@@ -1,0 +1,1208 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Đặt lịch xét nghiệm - Dịch Vụ Xét Nghiệm ADN</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+      }
+
+      body {
+        display: flex;
+        min-height: 100vh;
+        background-color: #f5f5f5;
+      }
+
+      /* Sidebar styles */
+      .sidebar {
+        width: 260px;
+        background-color: white;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+        position: fixed;
+        height: 100vh;
+        left: 0;
+        top: 0;
+        z-index: 100;
+        overflow-y: auto;
+      }
+
+      .logo-container {
+        display: flex;
+        align-items: center;
+        padding: 15px;
+        border-bottom: 1px solid #eee;
+      }
+
+      .logo {
+        width: 40px;
+        height: 40px;
+        margin-right: 10px;
+      }
+
+      .logo-text {
+        font-size: 22px;
+        color: #2196f3;
+        font-weight: bold;
+      }
+
+      .login-register {
+        padding: 15px;
+        background-color: #f9f9f9;
+        border-bottom: 1px solid #eee;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .login-register-btn {
+        background-color: #2196f3;
+        color: white;
+        border: none;
+        padding: 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-bottom: 8px;
+        text-align: center;
+        text-decoration: none;
+        font-weight: bold;
+      }
+
+      .menu-title {
+        padding: 15px;
+        color: #888;
+        font-size: 14px;
+      }
+
+      .menu-item {
+        padding: 15px;
+        display: flex;
+        align-items: center;
+        color: #333;
+        text-decoration: none;
+        transition: background-color 0.3s;
+      }
+
+      .menu-item.active {
+        background-color: #2196f3;
+        color: white;
+      }
+
+      .menu-item:hover {
+        background-color: #e3f2fd;
+      }
+
+      .menu-item.active:hover {
+        background-color: #1976d2;
+      }
+
+      .menu-icon {
+        margin-right: 10px;
+        width: 20px;
+        text-align: center;
+      }
+
+      /* Main content styles */
+      .main-content {
+        margin-left: 260px;
+        padding: 20px;
+        width: calc(100% - 260px);
+      }
+
+      .navbar {
+        display: flex;
+        margin: 20px 0;
+        background-color: white;
+        border-radius: 5px;
+        overflow: hidden;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      .nav-item {
+        padding: 15px 20px;
+        text-decoration: none;
+        color: #333;
+        display: flex;
+        align-items: center;
+        border-bottom: 2px solid transparent;
+      }
+
+      .nav-item.active {
+        border-bottom: 2px solid #2196f3;
+        color: #2196f3;
+      }
+
+      .nav-icon {
+        margin-right: 10px;
+      }
+
+      /* Form styles */
+      .form-section {
+        background-color: white;
+        border-radius: 5px;
+        padding: 30px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      .page-title {
+        font-size: 24px;
+        margin-bottom: 25px;
+        color: #333;
+        text-align: center;
+      }
+
+      form {
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      form label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: bold;
+        color: #555;
+      }
+
+      form input,
+      form select {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 16px;
+      }
+
+      form select {
+        cursor: pointer;
+      }
+
+      form button {
+        padding: 14px;
+        background-color: #2196f3;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 10px;
+        width: 100%;
+        font-size: 16px;
+        font-weight: bold;
+        transition: background-color 0.3s;
+      }
+
+      form button:hover {
+        background-color: #1976d2;
+      }
+
+      /* Modal styles */
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .modal-content {
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        padding: 30px;
+        max-width: 500px;
+        width: 90%;
+        text-align: center;
+      }
+
+      .success-icon {
+        font-size: 60px;
+        color: #4caf50;
+        margin-bottom: 20px;
+      }
+
+      .modal-title {
+        font-size: 24px;
+        margin-bottom: 15px;
+        color: #333;
+      }
+
+      .modal-message {
+        margin-bottom: 25px;
+        color: #666;
+        line-height: 1.6;
+      }
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        z-index: 99999; /* Tăng z-index lên cao hơn */
+        align-items: center;
+        justify-content: center;
+      }
+
+      .modal-content {
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5);
+        padding: 30px;
+        max-width: 500px;
+        width: 90%;
+        position: relative;
+        transform: translateY(0);
+        animation: modalFadeIn 0.5s;
+      }
+
+      @keyframes modalFadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(-30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeInDown {
+        from {
+          opacity: 0;
+          transform: translateY(-50px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .close-btn {
+        padding: 12px 30px;
+        background-color: #2196f3;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: bold;
+      }
+
+      /* Responsive adjustments */
+      @media (max-width: 768px) {
+        body {
+          flex-direction: column;
+        }
+
+        .sidebar {
+          width: 100%;
+          height: auto;
+          position: relative;
+        }
+
+        .main-content {
+          margin-left: 0;
+          width: 100%;
+        }
+      }
+      /* Radio button styles - thêm vào cuối phần style */
+      .radio-group {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-top: 10px;
+      }
+
+      .radio-option {
+        display: flex;
+        align-items: center;
+      }
+
+      .radio-option input[type="radio"] {
+        width: auto;
+        margin-right: 10px;
+      }
+
+      .radio-option label {
+        margin-bottom: 0;
+        font-weight: normal;
+        cursor: pointer;
+      }
+
+      /* Improved radio button appearance */
+      .radio-option input[type="radio"] {
+        appearance: none;
+        -webkit-appearance: none;
+        width: 20px;
+        height: 20px;
+        border: 2px solid #ddd;
+        border-radius: 50%;
+        outline: none;
+        position: relative;
+        margin-right: 10px;
+      }
+
+      .radio-option input[type="radio"]:checked {
+        border-color: #2196f3;
+      }
+
+      .radio-option input[type="radio"]:checked::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background-color: #2196f3;
+      }
+
+      .radio-option:hover input[type="radio"] {
+        border-color: #2196f3;
+      }
+
+      @media (min-width: 768px) {
+        .radio-group {
+          flex-direction: row;
+          gap: 30px;
+        }
+      }
+    </style>
+    <!-- Thêm vào phần <head> của mỗi trang -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+
+    <style>
+      /* Hiệu ứng chuyển động mượt mà */
+      .hero-banner,
+      .content-section,
+      .service-card,
+      .step-item,
+      .contact-btn {
+        transition: all 0.5s ease;
+      }
+
+      /* Cải thiện hero banner */
+      .hero-banner {
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+      }
+
+      .hero-banner:hover {
+        transform: translateY(-5px);
+      }
+
+      /* Hiệu ứng cho các section */
+      .content-section {
+        transition: transform 0.4s ease, box-shadow 0.4s ease;
+      }
+
+      .content-section:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+      }
+
+      /* Hiệu ứng facility items */
+      .facility-item {
+        transition: all 0.4s ease;
+      }
+
+      .facility-item:hover {
+        transform: translateY(-8px);
+      }
+
+      .facility-item .icon-wrapper {
+        transition: all 0.5s ease;
+      }
+
+      .facility-item:hover .icon-wrapper {
+        transform: rotateY(180deg);
+      }
+
+      /* Card hover effects */
+      .service-card:hover {
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 15px 30px rgba(33, 150, 243, 0.1);
+      }
+
+      .service-card .card-icon {
+        transition: all 0.5s ease;
+      }
+
+      .service-card:hover .card-icon {
+        transform: rotateY(360deg);
+        background-color: #2196f3;
+        color: white;
+      }
+
+      /* Step item animations */
+      .step-item {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .step-item:hover {
+        background-color: #f9f9f9;
+        padding-left: 15px;
+        border-radius: 8px;
+      }
+
+      .step-item .step-number,
+      .step-item .step-icon {
+        transition: all 0.4s ease;
+      }
+
+      .step-item:hover .step-number {
+        transform: scale(1.2);
+      }
+
+      .step-item:hover .step-icon {
+        transform: rotate(360deg);
+      }
+
+      /* Contact button effects */
+      .contact-btn {
+        transform-origin: center;
+        transition: all 0.3s ease;
+      }
+
+      .contact-btn:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+      }
+
+      .contact-btn i {
+        transition: all 0.4s ease;
+      }
+
+      .contact-btn:hover i {
+        transform: scale(1.2);
+      }
+
+      /* Scrollbar styling */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: #2196f3;
+        border-radius: 10px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: #1976d2;
+      }
+
+      /* Sidebar menu hover effect */
+      .menu-item {
+        transition: all 0.3s ease;
+      }
+
+      .menu-item:hover .menu-icon {
+        transform: scale(1.2);
+        transition: transform 0.3s ease;
+      }
+
+      /* Gradient buttons */
+      .login-register-btn {
+        background-image: linear-gradient(45deg, #2196f3, #1976d2);
+        transition: all 0.3s ease;
+      }
+
+      .login-register-btn:hover {
+        background-image: linear-gradient(45deg, #1976d2, #0d47a1);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(33, 150, 243, 0.3);
+      }
+
+      /* Animation for facility section */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .menu-icon i {
+        font-size: 18px;
+        width: 20px;
+        text-align: center;
+      }
+
+      .menu-item.active .menu-icon i {
+        color: white;
+      }
+
+      .menu-item:hover .menu-icon i {
+        transform: scale(1.2);
+        transition: transform 0.3s ease;
+      }
+      .quantity-input-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+      }
+
+      .quantity-btn {
+        width: 40px;
+        height: 40px;
+        background-color: #2196f3;
+        color: white;
+        border: none;
+        font-size: 24px;
+        font-weight: bold;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background-color 0.3s;
+      }
+
+      .quantity-btn:hover {
+        background-color: #1976d2;
+      }
+
+      .quantity-btn:active {
+        background-color: #0d47a1;
+      }
+
+      .minus-btn {
+        border-radius: 5px 0 0 5px;
+      }
+
+      .plus-btn {
+        border-radius: 0 5px 5px 0;
+      }
+
+      .quantity-input-container input {
+        text-align: center;
+        border-radius: 5px;
+        width: 60%;
+        flex-grow: 0;
+        font-size: 18px;
+      }
+      .logo-container {
+        display: flex;
+        align-items: center;
+        flex-direction: row; /* Thay đổi từ column thành row */
+        padding: 15px;
+        border-bottom: 1px solid #eee;
+      }
+
+      .logo {
+        width: 45px;
+        height: 45px;
+        margin-right: 12px; /* Thêm khoảng cách giữa logo và text */
+        margin-bottom: 0;
+      }
+
+      .text-container {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .logo-text {
+        font-size: 28px;
+        color: #2196f3;
+        font-weight: bold;
+        letter-spacing: 1px;
+        margin-bottom: 3px;
+        line-height: 1;
+      }
+
+      .logo-subtext {
+        font-size: 15px;
+        color: #444;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+        line-height: 1.2;
+        text-transform: capitalize;
+        /* background: linear-gradient(to right, #2196F3, #1976D2); */
+        /* -webkit-background-clip: text; */
+        /* -webkit-text-fill-color: transparent; */
+        max-width: 180px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="logo-container">
+        <img src="assets/images/Logo.jpg" alt="Logo" class="logo" />
+        <div class="text-container">
+          <div class="logo-text">Genx</div>
+          <div class="logo-subtext">Trung tâm xét nghiệm ADN huyết thống</div>
+        </div>
+      </div>
+
+      <div class="login-register">
+        <div
+          style="background-color: #f0f8ff; padding: 15px; border-radius: 5px"
+        >
+          <div style="display: flex; align-items: center; margin-bottom: 10px">
+            <div
+              style="
+                width: 40px;
+                height: 40px;
+                background-color: #2196f3;
+                border-radius: 50%;
+                color: white;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-right: 10px;
+                font-weight: bold;
+                font-size: 20px;
+              "
+            >
+              <span id="avatar-letter">G</span>
+            </div>
+            <div>
+              <div id="avatar-fullname" style="font-weight: bold"></div>
+              <div id="avatar-role" style="font-size: 12px; color: #888"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+        // Biến lưu thông tin người dùng (giả lập, sau này lấy từ API/database)
+        let userInfo = {
+          fullname: "Tran Ngoc B",
+          role: "Nhân viên",
+        };
+
+        // Khi có dữ liệu thật, chỉ cần cập nhật userInfo từ API
+        document.addEventListener("DOMContentLoaded", function () {
+          // Nếu có currentUser trong localStorage thì lấy ra
+          const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+          if (currentUser) {
+            userInfo.fullname = currentUser.fullname;
+            userInfo.role = currentUser.role || "Khách hàng";
+          }
+          // Gán lên giao diện
+          document.getElementById("avatar-letter").textContent =
+            userInfo.fullname.charAt(0).toUpperCase();
+          document.getElementById("avatar-fullname").textContent =
+            userInfo.fullname;
+          document.getElementById("avatar-role").textContent = userInfo.role;
+        });
+      </script>
+
+      <div class="menu-title">MAIN MENU</div>
+      <div id="mainMenu">
+        <!-- Menu sẽ được thêm bằng JavaScript -->
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <!-- Navigation Bar -->
+      <div id="topNavbar" class="navbar">
+        <!-- Navbar sẽ được thêm bằng JavaScript -->
+      </div>
+
+      <!-- Booking Form -->
+      <div class="form-section">
+        <h1 class="page-title">Tạo Lịch Hẹn Xét Nghiệm ADN</h1>
+
+        <form id="booking-form" action="/appointments">
+          <div class="form-group">
+            <label for="fullname">Họ và tên khách hàng *</label>
+            <input
+              type="text"
+              id="fullname"
+              name="fullname"
+              required
+              placeholder="Nhập họ tên khách hàng"
+            />
+          </div>
+          <div class="form-group">
+            <label for="email">Email khách hàng</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Nhập email khách hàng (nếu có)"
+            />
+          </div>
+          <div class="form-group">
+            <label for="phone">Số điện thoại khách hàng *</label>
+            <input
+              type="tel"
+              id="phone"
+              name="phone"
+              required
+              placeholder="Nhập số điện thoại khách hàng"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="service-type">Loại dịch vụ xét nghiệm *</label>
+            <select id="service-type" name="service-type" required>
+              <option value="" disabled selected>
+                -- Chọn loại xét nghiệm --
+              </option>
+              <option value="father-child">Quan hệ Cha - Con</option>
+              <option value="mother-child">Quan hệ Mẹ - Con</option>
+              <option value="siblings">Quan hệ Anh,Chị - Em</option>
+              <option value="grandparent-child">Quan hệ Ông,Bà - Cháu</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Loại xét nghiệm *</label>
+            <div class="radio-group">
+              <div class="radio-option">
+                <input
+                  type="radio"
+                  id="purpose-administrative"
+                  name="purpose"
+                  value="administrative"
+                  required
+                />
+                <label for="purpose-administrative">Hành chính (có giá trị pháp lý)</label>
+              </div>
+              <div class="radio-option">
+                <input
+                  type="radio"
+                  id="purpose-civil"
+                  name="purpose"
+                  value="civil"
+                  required
+                />
+                <label for="purpose-civil">Dân sự (không có giá trị pháp lý)</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Phương thức lấy mẫu *</label>
+            <div class="radio-group">
+              <div class="radio-option">
+                <input
+                  type="radio"
+                  id="location-center"
+                  name="sample-location"
+                  value="center"
+                  required
+                />
+                <label for="location-center">Lấy mẫu tại trung tâm</label>
+              </div>
+              <div class="radio-option">
+                <input
+                  type="radio"
+                  id="location-home"
+                  name="sample-location"
+                  value="home"
+                  required
+                />
+                <label for="location-home">Lấy mẫu tại nhà</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Thông tin lấy mẫu tại nhà -->
+          <div id="home-details" style="display: none">
+            <div class="form-group">
+              <label for="home-address">Địa chỉ lấy mẫu <span style="color: red">*</span></label>
+              <input
+                type="text"
+                id="home-address"
+                name="home-address"
+                placeholder="Nhập địa chỉ đầy đủ để lấy mẫu"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="test-quantity">Số người xét nghiệm <span style="color: red">*</span></label>
+              <div class="quantity-input-container">
+                <button type="button" class="quantity-btn minus-btn" onclick="decreaseQuantity()">-</button>
+                <input
+                  type="number"
+                  id="test-quantity"
+                  name="test-quantity"
+                  min="2"
+                  value="2"
+                  required
+                  readonly
+                />
+                <button type="button" class="quantity-btn plus-btn" onclick="increaseQuantity()">+</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Thông tin lấy mẫu tại trung tâm -->
+          <div id="center-details" style="display: none">
+            <div class="form-group">
+              <label for="appointment-date">Ngày hẹn <span style="color: red">*</span></label>
+              <input
+                type="date"
+                id="appointment-date"
+                name="appointment-date"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="appointment-time">Giờ hẹn <span style="color: red">*</span></label>
+              <select id="appointment-time" name="appointment-time">
+                <option value="" disabled selected>-- Chọn giờ hẹn --</option>
+                <option value="08:00">08:00</option>
+                <option value="09:00">09:00</option>
+                <option value="10:00">10:00</option>
+                <option value="11:00">11:00</option>
+                <option value="13:30">13:30</option>
+                <option value="14:30">14:30</option>
+                <option value="15:30">15:30</option>
+                <option value="16:30">16:30</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="status">Trạng thái</label>
+            <select id="status" name="status">
+              <option value="pending">Chờ xác nhận</option>
+              <option value="confirmed">Đã xác nhận</option>
+              <option value="cancelled">Đã hủy</option>
+              <option value="completed">Hoàn thành</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="note">Ghi chú</label>
+            <textarea
+              id="note"
+              name="note"
+              rows="3"
+              placeholder="Nhập ghi chú về lịch hẹn (nếu có)"
+              style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;"
+            ></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="staff-note">Ghi chú nội bộ (chỉ staff nhìn thấy)</label>
+            <textarea
+              id="staff-note"
+              name="staff-note"
+              rows="3"
+              placeholder="Nhập ghi chú nội bộ về lịch hẹn này"
+              style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;"
+            ></textarea>
+          </div>
+
+          <button type="submit">Tạo lịch hẹn</button>
+        </form>
+      </div>
+    </div>
+
+    
+
+    <script>
+      // Kiểm tra xem người dùng đã đăng nhập hay chưa
+      function checkLoggedIn() {
+        const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+        const loginRegisterDiv = document.querySelector(".login-register");
+        const mainMenuDiv = document.getElementById("mainMenu");
+        const topNavbarDiv = document.getElementById("topNavbar");
+        // Lấy tên file hiện tại để xác định trang đang active
+        const currentPage = window.location.pathname.split("/").pop();
+        // Menu cho người dùng chưa đăng nhập - chỉ hiện các mục cơ bản
+        mainMenuDiv.innerHTML = `
+          <a href="index.html" class="menu-item${
+            currentPage === "index.html" ? " active" : ""
+          }">
+              <span class="menu-icon"><i class="fas fa-home"></i></span>
+              Trang chủ
+          </a>
+          
+          <a href="booking.html" class="menu-item${
+            currentPage === "booking.html" ? " active" : ""
+          }">
+              <span class="menu-icon"><i class="fas fa-notes-medical"></i></span>
+              Đặt lịch xét nghiệm
+          </a>
+
+          <a href="appoinments.html" class="menu-item${
+            currentPage === "appoinments.html" ? " active" : ""
+          }">
+              <span class="menu-icon"><i class="fas fa-clipboard-list"></i></span>
+              Danh sách lịch hẹn
+          </a>
+
+          <a href="list-kit.html" class="menu-item${
+            currentPage === "list-kit.html" ? " active" : ""
+          }">
+          <span class="menu-icon"><i class="fas fa-vials"></i></span>
+          Danh sách kít xét nghiệm
+          </a>
+        `;
+      }
+
+      // Xử lý form đặt lịch
+      document.addEventListener("DOMContentLoaded", function () {
+        console.clear();
+        console.log("Trang đã tải xong, đang thiết lập...");
+
+        // Chạy một lần checkLoggedIn
+        checkLoggedIn();
+
+        // Thiết lập các radio buttons
+        setupRadioHandlers();
+
+        // Xử lý tham số URL
+        handleURLParams();
+
+        // Thiết lập form submit
+        setupFormSubmit();
+      });
+
+      function setupFormSubmit() {
+        const form = document.getElementById("booking-form");
+        if (!form) {
+          console.error("Không tìm thấy form booking!");
+          return;
+        }
+
+        // Loại bỏ event listeners cũ
+        const newForm = form.cloneNode(true);
+        form.parentNode.replaceChild(newForm, form);
+
+        // Thêm event listener mới
+        newForm.addEventListener("submit", async function (e) {
+          e.preventDefault();
+          console.log("Form đã được submit");
+
+          try {
+            // Lấy dữ liệu từ form
+            const fullname = document.getElementById("fullname").value;
+            const email = document.getElementById("email").value;
+            const phone = document.getElementById("phone").value;
+            const serviceType = document.getElementById("service-type").value;
+            const note = document.getElementById("note").value || "";
+            const staffNote = document.getElementById("staff-note").value || "";
+            const status = document.getElementById("status").value;
+
+            // Lấy giá trị mục đích xét nghiệm
+            const purposeAdministrative = document.getElementById(
+              "purpose-administrative"
+            );
+            const type = purposeAdministrative.checked
+              ? "administrative"
+              : "civil";
+
+            // Lấy giá trị phương thức lấy mẫu
+            const locationHome = document.getElementById("location-home");
+            const sampleMethod = locationHome.checked ? "home" : "center";
+
+            // Dữ liệu bổ sung dựa trên phương thức lấy mẫu
+            let address = "";
+            let appointmentDate = "";
+            let appointmentTime = "";
+
+            if (sampleMethod === "home") {
+              address = document.getElementById("home-address").value;
+            } else {
+              appointmentDate =
+                document.getElementById("appointment-date").value;
+              appointmentTime =
+                document.getElementById("appointment-time").value;
+            }
+
+            // Tạo đối tượng dữ liệu đầy đủ để gửi đến API
+            const bookingData = {
+              fullName: fullname,
+              email: email,
+              phone: phone,
+              serviceId: serviceType,
+              type: type,
+              sampleMethod: sampleMethod,
+              address: address || undefined,
+              appointmentDate: appointmentDate || undefined,
+              appointmentTime: appointmentTime || undefined,
+              note: note,
+              staffNote: staffNote,
+              status: status
+            };
+
+            // Hiển thị trạng thái đang xử lý
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalBtnText = submitBtn.innerText;
+            submitBtn.innerText = "Đang xử lý...";
+            submitBtn.disabled = true;
+
+            console.log("Gửi dữ liệu đến API:", bookingData);
+
+            // Gọi API đặt lịch
+            const response = await fetch("/appointments", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(bookingData),
+            });
+
+            // Khôi phục trạng thái nút
+            submitBtn.innerText = originalBtnText;
+            submitBtn.disabled = false;
+
+            if (response.ok) {
+              const data = await response.json();
+              console.log("Phản hồi từ API:", data);
+              alert("Tạo lịch hẹn thành công!");
+              this.reset();
+
+              // Ẩn các chi tiết bổ sung
+              const homeDetails = document.getElementById("home-details");
+              const centerDetails = document.getElementById("center-details");
+              if (homeDetails) homeDetails.style.display = "none";
+              if (centerDetails) centerDetails.style.display = "none";
+            } else {
+              // Xử lý lỗi từ API
+              const errorData = await response.json();
+              throw new Error(
+                errorData.message || "Có lỗi xảy ra khi tạo lịch hẹn"
+              );
+            }
+          } catch (error) {
+            console.error("Lỗi khi xử lý form:", error);
+            alert("Có lỗi xảy ra khi tạo lịch hẹn: " + error.message);
+          }
+        });
+
+        console.log("Đã thiết lập xử lý form thành công");
+      }
+
+      // Xử lý khi mục đích xét nghiệm thay đổi
+      document
+        .getElementById("purpose-administrative")
+        .addEventListener("change", function () {
+          if (this.checked) {
+            document.getElementById("location-home").disabled = true;
+            document.getElementById(
+              "location-home"
+            ).parentElement.style.opacity = "0.5";
+            document.getElementById(
+              "location-home"
+            ).parentElement.style.cursor = "not-allowed";
+
+            if (!document.getElementById("admin-notice")) {
+              const notice = document.createElement("div");
+              notice.id = "admin-notice";
+              notice.style.color = "#ff5722";
+              notice.style.fontSize = "13px";
+              notice.style.marginTop = "5px";
+              notice.innerHTML =
+                "* Xét nghiệm có giá trị pháp lý bắt buộc phải lấy mẫu tại trung tâm";
+              document
+                .querySelector(".radio-group:nth-of-type(2)")
+                .appendChild(notice);
+            }
+          }
+        });
+
+      document
+        .getElementById("purpose-civil")
+        .addEventListener("change", function () {
+          if (this.checked) {
+            document.getElementById("location-home").disabled = false;
+            document.getElementById(
+              "location-home"
+            ).parentElement.style.opacity = "1";
+            document.getElementById(
+              "location-home"
+            ).parentElement.style.cursor = "pointer";
+
+            const notice = document.getElementById("admin-notice");
+            if (notice) {
+              notice.remove();
+            }
+          }
+        });
+
+      // Xử lý hiển thị/ẩn thông tin tương ứng với phương thức lấy mẫu
+      document
+        .getElementById("location-home")
+        .addEventListener("change", function () {
+          if (this.checked) {
+            document.getElementById("home-details").style.display = "block";
+            document.getElementById("center-details").style.display = "none";
+
+            document
+              .getElementById("home-address")
+              .setAttribute("required", "required");
+            document
+              .getElementById("test-quantity")
+              .setAttribute("required", "required");
+
+            document
+              .getElementById("appointment-date")
+              .removeAttribute("required");
+            document
+              .getElementById("appointment-time")
+              .removeAttribute("required");
+          }
+        });
+
+      document
+        .getElementById("location-center")
+        .addEventListener("change", function () {
+          if (this.checked) {
+            document.getElementById("center-details").style.display = "block";
+            document.getElementById("home-details").style.display = "none";
+
+            document
+              .getElementById("appointment-date")
+              .setAttribute("required", "required");
+            document
+              .getElementById("appointment-time")
+              .setAttribute("required", "required");
+
+            document.getElementById("home-address").removeAttribute("required");
+            document.getElementById("test-quantity").removeAttribute("required");
+          }
+        });
+
+      function increaseQuantity() {
+        const quantityInput = document.getElementById("test-quantity");
+        let currentValue = parseInt(quantityInput.value);
+        quantityInput.value = currentValue + 1;
+      }
+
+      function decreaseQuantity() {
+        const quantityInput = document.getElementById("test-quantity");
+        let currentValue = parseInt(quantityInput.value);
+        if (currentValue > 2) {
+          quantityInput.value = currentValue - 1;
+        }
+      }
+    </script>
+  </body>
+</html>
