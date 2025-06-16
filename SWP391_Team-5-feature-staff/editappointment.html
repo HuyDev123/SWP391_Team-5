@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chỉnh sửa Lịch hẹn - Dịch Vụ Xét Nghiệm ADN</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+      }
+
+      body {
+        background-color: #f5f5f5;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 20px;
+      }
+
+      .appointment-edit-container {
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        padding: 30px;
+        width: 100%;
+        max-width: 800px;
+      }
+
+      .form-header {
+        text-align: center;
+        margin-bottom: 25px;
+      }
+
+      .form-logo img {
+        width: 60px;
+        height: 60px;
+        margin-bottom: 15px;
+      }
+
+      .form-title {
+        color: #333;
+        font-size: 24px;
+        margin-bottom: 10px;
+      }
+
+      .form-subtitle {
+        color: #666;
+        font-size: 16px;
+      }
+
+      .form-row {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 20px;
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+        flex: 1;
+      }
+
+      .form-group.full-width {
+        flex: 100%;
+      }
+
+      .form-label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: bold;
+        color: #333;
+      }
+
+      .required {
+        color: #e74c3c;
+      }
+
+      .form-input,
+      .form-select {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 16px;
+        color: #333;
+        background-color: #f9f9f9;
+      }
+
+      .form-input:focus,
+      .form-select:focus {
+        border-color: #2196f3;
+        box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.2);
+        outline: none;
+      }
+
+      .form-input:disabled {
+        background-color: #e9ecef;
+        color: #6c757d;
+        cursor: not-allowed;
+      }
+
+      .form-textarea {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 16px;
+        color: #333;
+        background-color: #f9f9f9;
+        min-height: 100px;
+        resize: vertical;
+      }
+
+      .form-textarea:focus {
+        border-color: #2196f3;
+        box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.2);
+        outline: none;
+      }
+
+      .form-actions {
+        display: flex;
+        gap: 15px;
+        margin-top: 30px;
+      }
+
+      .btn {
+        flex: 1;
+        padding: 12px 20px;
+        border-radius: 5px;
+        font-size: 16px;
+        font-weight: 500;
+        cursor: pointer;
+        text-align: center;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background-color 0.3s;
+        border: none;
+      }
+
+      .btn i {
+        margin-right: 8px;
+      }
+
+      .btn-primary {
+        background-color: #2196f3;
+        color: white;
+      }
+
+      .btn-primary:hover {
+        background-color: #0b7dda;
+      }
+
+      .btn-secondary {
+        background-color: #6c757d;
+        color: white;
+      }
+
+      .btn-secondary:hover {
+        background-color: #545b62;
+      }
+
+      .btn-danger {
+        background-color: #dc3545;
+        color: white;
+      }
+
+      .btn-danger:hover {
+        background-color: #c82333;
+      }
+
+      .btn-success {
+        background-color: #28a745;
+        color: white;
+      }
+
+      .btn-success:hover {
+        background-color: #218838;
+      }
+
+      .status-badge {
+        display: inline-block;
+        padding: 4px 12px;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: bold;
+        text-transform: uppercase;
+      }
+
+      .status-booked {
+        background-color: #fff3cd;
+        color: #856404;
+      }
+      .status-waiting {
+        background-color: #cce7ff;
+        color: #004085;
+      }
+      .status-received {
+        background-color: #d4edda;
+        color: #155724;
+      }
+      .status-completed {
+        background-color: #c3e6cb;
+        color: #155724;
+      }
+      .status-cancelled {
+        background-color: #f8d7da;
+        color: #721c24;
+      }
+
+      .radio-group {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+      }
+
+      .radio-item {
+        display: flex;
+        align-items: center;
+      }
+
+      .radio-item input[type="radio"] {
+        margin-right: 8px;
+      }
+
+      .info-card {
+        background-color: #e3f2fd;
+        border: 1px solid #2196f3;
+        border-radius: 5px;
+        padding: 15px;
+        margin-bottom: 20px;
+      }
+
+      .info-card h4 {
+        color: #1976d2;
+        margin-bottom: 8px;
+        font-size: 16px;
+      }
+
+      .info-card p {
+        color: #555;
+        margin: 0;
+        font-size: 14px;
+      }
+
+      @media (max-width: 768px) {
+        .form-row {
+          flex-direction: column;
+        }
+
+        .form-actions {
+          flex-direction: column;
+        }
+
+        .radio-group {
+          flex-direction: column;
+          gap: 10px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="appointment-edit-container">
+      <div class="form-header">
+        <div class="form-logo">
+          <img src="assets/images/Logo.jpg" alt="ADN Logo" />
+        </div>
+        <h1 class="form-title">Chỉnh sửa thông tin lịch hẹn</h1>
+        <p class="form-subtitle">Cập nhật thông tin cuộc hẹn xét nghiệm ADN</p>
+      </div>
+
+      <form id="appointment-edit-form">
+        <!-- Thông tin cơ bản -->
+        <div class="info-card">
+          <h4>Mã lịch hẹn: <span id="appointment-id-display"></span></h4>
+          <p>
+            Thông tin lịch hẹn được tạo lúc: <span id="created-date"></span>
+          </p>
+        </div>
+
+        <!-- Thông tin khách hàng -->
+        <div class="form-row">
+          <div class="form-group">
+            <label for="full-name" class="form-label"
+              >Họ và tên <span class="required">*</span></label
+            >
+            <input
+              type="text"
+              id="full-name"
+              name="fullName"
+              class="form-input"
+              placeholder="Nhập họ và tên"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="email" class="form-label"
+              >Email <span class="required">*</span></label
+            >
+            <input
+              type="email"
+              id="email"
+              name="email"
+              class="form-input"
+              placeholder="Nhập địa chỉ email"
+              required
+              readonly
+            />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="phone" class="form-label">Số điện thoại</label>
+            <input
+              type="tel"
+              id="phone"
+              name="phone"
+              class="form-input"
+              placeholder="Nhập số điện thoại"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="staff-code" class="form-label"
+              >Mã nhân viên phụ trách <span class="required">*</span></label
+            >
+            <input
+              type="text"
+              id="staff-code"
+              name="staffCode"
+              class="form-input"
+              placeholder="Nhập mã nhân viên"
+              required
+            />
+          </div>
+        </div>
+
+        <!-- Thông tin dịch vụ -->
+        <div class="form-row">
+          <div class="form-group">
+            <label for="service-id" class="form-label"
+              >Dịch vụ <span class="required">*</span></label
+            >
+            <select
+              id="service-id"
+              name="serviceId"
+              class="form-select"
+              required
+            >
+              <option value="">-- Chọn dịch vụ --</option>
+              <option value="SV001">Xét nghiệm cha con (Dân sự)</option>
+              <option value="SV002">Xét nghiệm mẹ con (Dân sự)</option>
+              <option value="SV003">Xét nghiệm anh chị em (Dân sự)</option>
+              <option value="SV004">Xét nghiệm ông bà - cháu (Dân sự)</option>
+              <option value="SV005">Xét nghiệm cha con (Hành chính)</option>
+              <option value="SV006">Xét nghiệm mẹ con (Hành chính)</option>
+              <option value="SV007">Xét nghiệm anh chị em (Hành chính)</option>
+              <option value="SV008">
+                Xét nghiệm ông bà - cháu (Hành chính)
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="number-of-testers" class="form-label"
+              >Số người xét nghiệm <span class="required">*</span></label
+            >
+            <input
+              type="number"
+              id="number-of-testers"
+              name="numberOfTesters"
+              class="form-input"
+              min="2"
+              max="100"
+              placeholder="Nhập số người"
+              required
+            />
+          </div>
+        </div>
+
+        <!-- Ngày giờ hẹn -->
+        <div class="form-row">
+          <div class="form-group">
+            <label for="appointment-date" class="form-label"
+              >Ngày hẹn <span class="required">*</span></label
+            >
+            <input
+              type="date"
+              id="appointment-date"
+              name="appointmentDate"
+              class="form-input"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="appointment-time" class="form-label"
+              >Giờ hẹn <span class="required">*</span></label
+            >
+            <input
+              type="time"
+              id="appointment-time"
+              name="appointmentTime"
+              class="form-input"
+              required
+            />
+          </div>
+        </div>
+
+        <!-- Loại xét nghiệm -->
+        <div class="form-group">
+          <label class="form-label"
+            >Loại xét nghiệm <span class="required">*</span></label
+          >
+          <div class="radio-group">
+            <div class="radio-item">
+              <input
+                type="radio"
+                id="test-type-civil"
+                name="testType"
+                value="Dân sự"
+                required
+              />
+              <label for="test-type-civil">Dân sự</label>
+            </div>
+            <div class="radio-item">
+              <input
+                type="radio"
+                id="test-type-admin"
+                name="testType"
+                value="Hành chính"
+                required
+              />
+              <label for="test-type-admin">Hành chính</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Phương thức lấy mẫu -->
+        <div class="form-group">
+          <label class="form-label"
+            >Phương thức lấy mẫu <span class="required">*</span></label
+          >
+          <div class="radio-group">
+            <div class="radio-item">
+              <input
+                type="radio"
+                id="method-home"
+                name="sampleCollectionMethod"
+                value="Tại nhà"
+                required
+              />
+              <label for="method-home">Lấy mẫu tại nhà</label>
+            </div>
+            <div class="radio-item">
+              <input
+                type="radio"
+                id="method-center"
+                name="sampleCollectionMethod"
+                value="Tại cơ sở y tế"
+                required
+              />
+              <label for="method-center">Lấy mẫu tại trung tâm</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Địa chỉ -->
+        <div class="form-group full-width">
+          <label for="address" class="form-label"
+            >Địa chỉ <span class="required">*</span></label
+          >
+          <input
+            type="text"
+            id="address"
+            name="address"
+            class="form-input"
+            placeholder="Nhập địa chỉ lấy mẫu hoặc địa chỉ trung tâm"
+            required
+          />
+        </div>
+
+        <!-- Trạng thái -->
+        <div class="form-group">
+          <label for="status" class="form-label"
+            >Trạng thái <span class="required">*</span></label
+          >
+          <select id="status" name="status" class="form-select" required>
+            <option value="">-- Chọn trạng thái --</option>
+            <option value="Đã đặt">Đã đặt</option>
+            <option value="Đang chờ lấy mẫu">Đang chờ lấy mẫu</option>
+            <option value="Đã nhận mẫu">Đã nhận mẫu</option>
+            <option value="Đã hoàn thành">Đã hoàn thành</option>
+            <option value="Đã hủy">Đã hủy</option>
+          </select>
+        </div>
+
+        <!-- Ghi chú -->
+        <div class="form-group full-width">
+          <label for="notes" class="form-label">Ghi chú</label>
+          <textarea
+            id="notes"
+            name="notes"
+            class="form-textarea"
+            placeholder="Nhập ghi chú về cuộc hẹn (nếu có)"
+          ></textarea>
+        </div>
+
+        <!-- Buttons -->
+        <div class="form-actions">
+          <button type="button" class="btn btn-secondary" onclick="goBack()">
+            <i class="fas fa-arrow-left"></i>
+            Quay lại
+          </button>
+
+          <button type="submit" class="btn btn-primary">
+            <i class="fas fa-save"></i>
+            Lưu thay đổi
+          </button>
+
+          <button
+            type="button"
+            class="btn btn-success"
+            onclick="completeAppointment()"
+          >
+            <i class="fas fa-check"></i>
+            Hoàn thành
+          </button>
+
+          <button
+            type="button"
+            class="btn btn-danger"
+            onclick="cancelAppointment()"
+          >
+            <i class="fas fa-times"></i>
+            Hủy lịch hẹn
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <script>
+      // Lấy AppointmentID từ URL parameter
+      const urlParams = new URLSearchParams(window.location.search);
+      const appointmentId = urlParams.get("appointmentId");
+
+      // Load thông tin Appointment khi trang được tải
+      document.addEventListener("DOMContentLoaded", function () {
+        if (appointmentId) {
+          loadAppointmentInfo(appointmentId);
+        } else {
+          alert("Không tìm thấy mã lịch hẹn!");
+          goBack();
+        }
+
+        // Set up form validation
+        setupFormValidation();
+      });
+
+      // Load thông tin Appointment từ server
+      async function loadAppointmentInfo(appointmentId) {
+        try {
+          const response = await fetch(`/api/appointments/${appointmentId}`);
+          if (response.ok) {
+            const appointmentData = await response.json();
+            populateForm(appointmentData);
+          } else {
+            throw new Error("Không thể tải thông tin lịch hẹn");
+          }
+        } catch (error) {
+          console.error("Error:", error);
+          alert("Lỗi khi tải thông tin lịch hẹn: " + error.message);
+        }
+      }
+
+      // Điền thông tin vào form
+      function populateForm(appointmentData) {
+        document.getElementById("appointment-id-display").textContent =
+          appointmentData.appointmentID;
+        document.getElementById("created-date").textContent = new Date(
+          appointmentData.createdDate
+        ).toLocaleString("vi-VN");
+
+        document.getElementById("full-name").value = appointmentData.fullName;
+        document.getElementById("email").value = appointmentData.email;
+        document.getElementById("phone").value = appointmentData.phone || "";
+        document.getElementById("staff-code").value = appointmentData.staffCode;
+        document.getElementById("service-id").value = appointmentData.serviceID;
+        document.getElementById("appointment-date").value =
+          appointmentData.appointmentDate;
+        document.getElementById("appointment-time").value =
+          appointmentData.appointmentTime;
+        document.getElementById("number-of-testers").value =
+          appointmentData.numberOfTesters;
+        document.getElementById("address").value = appointmentData.address;
+        document.getElementById("status").value = appointmentData.status;
+        document.getElementById("notes").value = appointmentData.notes || "";
+
+        // Set radio buttons
+        if (appointmentData.testType) {
+          document.querySelector(
+            `input[name="testType"][value="${appointmentData.testType}"]`
+          ).checked = true;
+        }
+
+        if (appointmentData.sampleCollectionMethod) {
+          document.querySelector(
+            `input[name="sampleCollectionMethod"][value="${appointmentData.sampleCollectionMethod}"]`
+          ).checked = true;
+        }
+      }
+
+      // Setup form validation
+      function setupFormValidation() {
+        // Validation cho loại xét nghiệm và phương thức lấy mẫu
+        const testTypeInputs = document.querySelectorAll(
+          'input[name="testType"]'
+        );
+        const sampleMethodInputs = document.querySelectorAll(
+          'input[name="sampleCollectionMethod"]'
+        );
+
+        testTypeInputs.forEach((input) => {
+          input.addEventListener("change", function () {
+            if (this.value === "Hành chính") {
+              // Tự động chọn "Tại cơ sở y tế" cho hành chính
+              document.getElementById("method-center").checked = true;
+              document.getElementById("method-home").disabled = true;
+            } else {
+              document.getElementById("method-home").disabled = false;
+            }
+          });
+        });
+      }
+
+      // Xử lý submit form
+      document
+        .getElementById("appointment-edit-form")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
+
+          const formData = {
+            appointmentID: appointmentId,
+            fullName: document.getElementById("full-name").value,
+            email: document.getElementById("email").value,
+            phone: document.getElementById("phone").value,
+            staffCode: document.getElementById("staff-code").value,
+            serviceID: document.getElementById("service-id").value,
+            appointmentDate: document.getElementById("appointment-date").value,
+            appointmentTime: document.getElementById("appointment-time").value,
+            numberOfTesters: parseInt(
+              document.getElementById("number-of-testers").value
+            ),
+            testType: document.querySelector('input[name="testType"]:checked')
+              ?.value,
+            sampleCollectionMethod: document.querySelector(
+              'input[name="sampleCollectionMethod"]:checked'
+            )?.value,
+            address: document.getElementById("address").value,
+            status: document.getElementById("status").value,
+            notes: document.getElementById("notes").value,
+          };
+
+          try {
+            const response = await fetch(`/api/appointments/${appointmentId}`, {
+              method: "PUT",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(formData),
+            });
+
+            if (response.ok) {
+              alert("Cập nhật thông tin lịch hẹn thành công!");
+              goBack();
+            } else {
+              const errorData = await response.json();
+              alert(
+                "Lỗi: " +
+                  (errorData.message ||
+                    "Không thể cập nhật thông tin lịch hẹn.")
+              );
+            }
+          } catch (error) {
+            console.error("Error:", error);
+            alert("Lỗi kết nối server.");
+          }
+        });
+
+      // Hoàn thành lịch hẹn
+      async function completeAppointment() {
+        if (
+          confirm("Bạn có chắc chắn muốn đánh dấu lịch hẹn này là hoàn thành?")
+        ) {
+          try {
+            const response = await fetch(
+              `/api/appointments/${appointmentId}/complete`,
+              {
+                method: "PUT",
+              }
+            );
+
+            if (response.ok) {
+              alert("Đánh dấu hoàn thành lịch hẹn thành công!");
+              document.getElementById("status").value = "Đã hoàn thành";
+            } else {
+              const errorData = await response.json();
+              alert(
+                "Lỗi: " +
+                  (errorData.message || "Không thể hoàn thành lịch hẹn.")
+              );
+            }
+          } catch (error) {
+            console.error("Error:", error);
+            alert("Lỗi kết nối server.");
+          }
+        }
+      }
+
+      // Hủy lịch hẹn
+      async function cancelAppointment() {
+        if (confirm("Bạn có chắc chắn muốn hủy lịch hẹn này?")) {
+          try {
+            const response = await fetch(
+              `/api/appointments/${appointmentId}/cancel`,
+              {
+                method: "PUT",
+              }
+            );
+
+            if (response.ok) {
+              alert("Hủy lịch hẹn thành công!");
+              document.getElementById("status").value = "Đã hủy";
+            } else {
+              const errorData = await response.json();
+              alert("Lỗi: " + (errorData.message || "Không thể hủy lịch hẹn."));
+            }
+          } catch (error) {
+            console.error("Error:", error);
+            alert("Lỗi kết nối server.");
+          }
+        }
+      }
+
+      // Quay lại trang trước
+      function goBack() {
+        window.history.back();
+      }
+
+      // Load danh sách dịch vụ từ API
+      async function loadServices() {
+        try {
+          const response = await fetch("/api/services");
+          if (response.ok) {
+            const services = await response.json();
+            const serviceSelect = document.getElementById("service-id");
+
+            // Clear existing options except first one
+            serviceSelect.innerHTML =
+              '<option value="">-- Chọn dịch vụ --</option>';
+
+            services.forEach((service) => {
+              const option = document.createElement("option");
+              option.value = service.serviceID;
+              option.textContent = `${service.serviceName} (${service.category})`;
+              serviceSelect.appendChild(option);
+            });
+          }
+        } catch (error) {
+          console.error("Error loading services:", error);
+        }
+      }
+
+      // Load services khi trang được tải
+      document.addEventListener("DOMContentLoaded", loadServices);
+    </script>
+  </body>
+</html>
