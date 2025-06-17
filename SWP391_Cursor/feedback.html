@@ -12,101 +12,232 @@
       body {
         background: transparent;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: #37474f;
       }
       .main-content {
         max-width: 500px;
         margin: 20px auto;
         padding: 35px;
         background: #fff;
-        border-radius: 16px;
-        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+        border-radius: 24px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+        transition: all 0.3s ease;
+      }
+      .main-content:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
       }
       .page-title {
-        font-size: 26px;
+        font-size: 28px;
         color: #1976d2;
         margin-bottom: 35px;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-weight: 600;
+        font-weight: 700;
         letter-spacing: -0.5px;
+        position: relative;
+        padding-bottom: 15px;
+      }
+      .page-title:after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60px;
+        height: 4px;
+        background: linear-gradient(45deg, #1976d2, #2196f3);
+        border-radius: 2px;
       }
       .page-title i {
         margin-right: 14px;
         color: #ffd700;
-        font-size: 28px;
+        font-size: 32px;
+        animation: starPulse 2s infinite;
       }
-      .feedback-form label {
-        font-weight: 500;
-        margin-bottom: 10px;
+      @keyframes starPulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.2); }
+        100% { transform: scale(1); }
+      }
+      .service-info {
+        margin-bottom: 30px !important;
+        position: relative;
+      }
+      .service-info label {
+        font-weight: 600 !important;
+        color: #37474f !important;
+        margin-bottom: 12px !important;
         display: block;
-        color: #37474f;
-        font-size: 15px;
+        font-size: 16px !important;
       }
-      .feedback-form textarea {
+      #serviceSelect {
         width: 100%;
-        padding: 14px;
-        border: 1px solid #e0e0e0;
-        border-radius: 12px;
-        font-size: 15px;
-        margin-bottom: 25px;
-        background: #f8f9fa;
+        padding: 16px !important;
+        border: 2px solid #e0e0e0 !important;
+        border-radius: 12px !important;
+        font-size: 15px !important;
+        color: #1976d2 !important;
+        background-color: white;
+        cursor: pointer;
         transition: all 0.3s ease;
-        min-height: 120px;
-        resize: vertical;
-        font-family: inherit;
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231976d2' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 16px center;
+        background-size: 20px;
       }
-      .feedback-form textarea:focus {
-        border-color: #1976d2;
+      #serviceSelect:hover {
+        border-color: #1976d2 !important;
+      }
+      #serviceSelect:focus {
+        border-color: #1976d2 !important;
         box-shadow: 0 0 0 4px rgba(25, 118, 210, 0.1);
         outline: none;
+      }
+      .reviewed-option {
+        color: #9e9e9e !important;
+        font-style: italic;
+        background-color: #f5f5f5;
       }
       .star-rating {
         direction: rtl;
         display: flex;
-        gap: 12px;
-        margin-bottom: 30px;
+        gap: 1px;
+        margin: 35px 0;
         justify-content: center;
         padding: 20px 0;
+        background: #f8f9fa;
+        border-radius: 16px;
+        position: relative;
+      }
+      .star-rating:hover {
+        background: #f3f4f6;
       }
       .star-rating input[type="radio"] {
         display: none;
       }
       .star-rating label {
         color: #e0e0e0;
-        font-size: 2.4rem;
+        font-size: 38px;
         cursor: pointer;
-        transition: all 0.2s ease-in-out;
+        transition: all 0.3s ease;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        z-index: 1;
+        margin: 0;
+      }
+      .star-rating label:before {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: transparent;
+        border-radius: 50%;
+        transform: scale(1.2);
+        z-index: -1;
+        transition: background-color 0.3s ease;
+      }
+      .star-rating label:hover:before {
+        background-color: rgba(0, 0, 0, 0.05);
       }
       .star-rating input[type="radio"]:checked ~ label,
       .star-rating label:hover,
       .star-rating label:hover ~ label {
         color: #ffd700;
-        transform: scale(1.15);
+        transform: scale(1.1);
+        text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+      }
+      .rating-label {
+        text-align: center;
+        color: #37474f;
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 15px;
+        position: relative;
+      }
+      .feedback-form textarea {
+        width: 100%;
+        padding: 16px;
+        border: 2px solid #e0e0e0;
+        border-radius: 16px;
+        font-size: 15px;
+        margin-bottom: 30px;
+        background: #f8f9fa;
+        transition: all 0.3s ease;
+        min-height: 140px;
+        resize: vertical;
+        font-family: inherit;
+      }
+      .feedback-form textarea:hover {
+        border-color: #1976d2;
+      }
+      .feedback-form textarea:focus {
+        border-color: #1976d2;
+        box-shadow: 0 0 0 4px rgba(25, 118, 210, 0.1);
+        outline: none;
+        background: #fff;
+      }
+      .feedback-form label {
+        font-weight: 600;
+        margin-bottom: 12px;
+        display: block;
+        color: #37474f;
+        font-size: 16px;
       }
       .submit-btn {
         background: linear-gradient(45deg, #1976d2, #2196f3);
         color: #fff;
         border: none;
-        padding: 16px 32px;
-        border-radius: 12px;
+        padding: 18px 32px;
+        border-radius: 16px;
         font-size: 16px;
         font-weight: 600;
         cursor: pointer;
         transition: all 0.3s ease;
         width: 100%;
-        margin-top: 15px;
+        margin-top: 20px;
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 10px;
+        gap: 12px;
         text-transform: uppercase;
         letter-spacing: 0.5px;
+        position: relative;
+        overflow: hidden;
+      }
+      .submit-btn:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.2),
+          transparent
+        );
+        transition: 0.5s;
+      }
+      .submit-btn:hover:before {
+        left: 100%;
       }
       .submit-btn:hover {
-        background: linear-gradient(45deg, #1565c0, #1976d2);
         transform: translateY(-2px);
-        box-shadow: 0 6px 16px rgba(33, 150, 243, 0.25);
+        box-shadow: 0 8px 20px rgba(33, 150, 243, 0.3);
+      }
+      .submit-btn.next-review {
+        background: linear-gradient(45deg, #43a047, #66bb6a);
+      }
+      .submit-btn.next-review:hover {
+        background: linear-gradient(45deg, #388e3c, #43a047);
+        box-shadow: 0 8px 20px rgba(67, 160, 71, 0.3);
       }
       .submit-btn.submitted {
         background: #9e9e9e;
@@ -115,17 +246,22 @@
         box-shadow: none;
         opacity: 0.8;
       }
+      .submit-btn.submitted:before {
+        display: none;
+      }
       .submit-btn i {
-        font-size: 18px;
+        font-size: 20px;
       }
       .form-message {
-        margin-top: 20px;
-        padding: 14px;
-        border-radius: 10px;
+        margin-top: 25px;
+        padding: 16px;
+        border-radius: 12px;
         font-weight: 500;
         text-align: center;
         transition: all 0.3s ease;
         font-size: 15px;
+        display: flex;
+        align-items: center;
       }
       .form-message.success {
         background-color: #e8f5e9;
@@ -144,6 +280,33 @@
         font-weight: 500;
         margin-bottom: 10px;
       }
+      .submit-btn.next-review {
+        background: linear-gradient(45deg, #43a047, #66bb6a);
+      }
+      
+      .submit-btn.next-review:hover {
+        background: linear-gradient(45deg, #388e3c, #43a047);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(67, 160, 71, 0.25);
+      }
+
+      /* Thêm style cho các dịch vụ đã đánh giá */
+      .reviewed-option {
+        color: #9e9e9e !important;
+        font-style: italic;
+      }
+
+      /* Thêm media query cho màn hình cảm ứng */
+      @media (max-width: 768px) {
+        .star-rating label {
+          font-size: 48px;
+          padding: 0;
+        }
+        .star-rating {
+          gap: 2px;
+          padding: 25px 0;
+        }
+      }
     </style>
   </head>
   <body>
@@ -151,7 +314,15 @@
       <h1 class="page-title"><i class="fas fa-star"></i> Đánh giá dịch vụ</h1>
       <form class="feedback-form" id="feedbackForm">
         <input type="hidden" id="booking_id" name="booking_id" value="" />
+        <input type="hidden" id="service_id" name="service_id" value="" />
         
+        <div class="service-info" style="margin-bottom: 25px;">
+          <label style="font-weight: 500; color: #37474f; margin-bottom: 10px; display: block;">Dịch vụ đã đăng ký:</label>
+          <div id="serviceInfo" style="padding: 14px; border: 1px solid #e0e0e0; border-radius: 12px; background: #f8f9fa; color: #1976d2; font-size: 15px;">
+            <!-- Thông tin dịch vụ sẽ được điền bằng JavaScript -->
+          </div>
+        </div>
+
         <div class="rating-label">Mức độ hài lòng của bạn về dịch vụ:</div>
         <div class="star-rating" id="starRating">
           <input type="radio" id="star5" name="rating" value="5" />
@@ -187,6 +358,111 @@
     <script src="assets/js/main.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
     <script>
+      // Thêm dữ liệu mẫu từ appointments.html
+      const serviceNames = [
+        { name: "Xét nghiệm ADN cha-con", type: "Dân sự" },
+        { name: "Xét nghiệm ADN cha-con", type: "Hành chính" },
+        { name: "Xét nghiệm ADN mẹ-con", type: "Dân sự" },
+        { name: "Xét nghiệm ADN mẹ-con", type: "Hành chính" },
+        { name: "Xét nghiệm ADN anh,chị - em", type: "Dân sự" },
+        { name: "Xét nghiệm ADN anh,chị - em", type: "Hành chính" },
+        { name: "Xét nghiệm ADN ông, bà - cháu", type: "Dân sự" },
+        { name: "Xét nghiệm ADN ông, bà - cháu", type: "Hành chính" },
+      ];
+
+      const fakeAppointments = [
+        {
+          id: "AP001",
+          customerName: "Nguyễn Thị Hương",
+          services: [
+            {
+              service: serviceNames[0].name,
+              serviceType: serviceNames[0].type,
+              price: 4500000
+            },
+            {
+              service: serviceNames[4].name,
+              serviceType: serviceNames[4].type,
+              price: 5200000
+            }
+          ],
+          bookingDate: "2025-05-25",
+          method: "Tại nhà",
+          status: "Đã trả kết quả",
+          staff_name: "Nguyễn Văn A"
+        },
+        {
+          id: "AP005",
+          customerName: "Trần Minh Đức",
+          services: [
+            {
+              service: serviceNames[6].name,
+              serviceType: serviceNames[6].type,
+              price: 4500000
+            },
+            {
+              service: serviceNames[2].name,
+              serviceType: serviceNames[2].type,
+              price: 4800000
+            },
+            {
+              service: serviceNames[4].name,
+              serviceType: serviceNames[4].type,
+              price: 5200000
+            }
+          ],
+          bookingDate: "2025-04-20",
+          method: "Tại nhà",
+          status: "Đã trả kết quả",
+          staff_name: "Trần Thị B"
+        },
+        {
+          id: "AP008",
+          customerName: "Lê Thanh Hà",
+          services: [
+            {
+              service: serviceNames[4].name,
+              serviceType: serviceNames[4].type,
+              price: 5200000
+            }
+          ],
+          bookingDate: "2025-03-15",
+          method: "Tại cơ sở",
+          status: "Đã trả kết quả",
+          staff_name: "Lê Văn C"
+        },
+        {
+          id: "AP012",
+          customerName: "Phạm Văn Tuấn",
+          services: [
+            {
+              service: serviceNames[2].name,
+              serviceType: serviceNames[2].type,
+              price: 4800000
+            }
+          ],
+          bookingDate: "2025-02-10",
+          method: "Tại cơ sở",
+          status: "Đã trả kết quả",
+          staff_name: "Nguyễn Văn A"
+        },
+        {
+          id: "AP015",
+          customerName: "Hoàng Thị Mai",
+          services: [
+            {
+              service: serviceNames[1].name,
+              serviceType: serviceNames[1].type,
+              price: 5000000
+            }
+          ],
+          bookingDate: "2025-01-25",
+          method: "Tại nhà",
+          status: "Đã trả kết quả",
+          staff_name: "Trần Thị B"
+        }
+      ];
+
       // Lấy booking_id từ URL
       function getBookingIdFromUrl() {
         const params = new URLSearchParams(window.location.search);
@@ -194,20 +470,110 @@
       }
       document.getElementById("booking_id").value = getBookingIdFromUrl();
 
+      // Hàm format ngày tháng
+      function formatDate(dateString) {
+        const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+        return new Date(dateString).toLocaleDateString('vi-VN', options);
+      }
+
+      // Thêm biến để theo dõi các dịch vụ đã đánh giá
+      let reviewedServices = new Set();
+
+      // Hiển thị thông tin dịch vụ
+      function displayServiceInfo() {
+        const bookingId = getBookingIdFromUrl();
+        const serviceInfoDiv = document.getElementById("serviceInfo");
+        
+        // Tìm thông tin lịch hẹn từ dữ liệu mẫu
+        const booking = fakeAppointments.find(item => item.id === bookingId);
+        
+        if (booking) {
+          if (booking.services.length === 1) {
+            // Nếu chỉ có một dịch vụ, hiển thị như cũ
+            const service = booking.services[0];
+            serviceInfoDiv.innerHTML = `
+              <div style="font-size: 16px; color: #1976d2; text-align: center;">${service.service}</div>
+            `;
+          } else {
+            // Nếu có nhiều dịch vụ, hiển thị dropdown
+            const selectHtml = `
+              <select id="serviceSelect" style="width: 100%; padding: 12px; border: 1px solid #e0e0e0; border-radius: 8px; font-size: 15px; color: #1976d2; background-color: white; cursor: pointer;">
+                <option value="" disabled selected>Chọn dịch vụ cần đánh giá</option>
+                ${booking.services.map((service, index) => `
+                  <option value="${index}" ${reviewedServices.has(index) ? 'class="reviewed-option"' : ''}>
+                    ${service.service}${reviewedServices.has(index) ? ' (Đã đánh giá)' : ''}
+                  </option>
+                `).join('')}
+              </select>
+            `;
+            serviceInfoDiv.innerHTML = selectHtml;
+
+            // Thêm sự kiện onChange cho select
+            document.getElementById('serviceSelect').addEventListener('change', function(e) {
+              const selectedService = booking.services[e.target.value];
+              document.getElementById('service_id').value = e.target.value;
+              
+              // Reset form khi chọn dịch vụ mới
+              resetFormForNewReview();
+            });
+          }
+        } else {
+          serviceInfoDiv.innerHTML = `
+            <div style="color: #c62828; text-align: center;">
+              Không tìm thấy thông tin dịch vụ cho mã đơn ${bookingId}
+            </div>
+          `;
+        }
+      }
+
+      // Hàm reset form cho đánh giá mới
+      function resetFormForNewReview() {
+        // Reset rating
+        document.querySelectorAll('input[name="rating"]')
+          .forEach((i) => (i.checked = false));
+        
+        // Reset comment
+        document.getElementById('comment').value = '';
+        
+        // Reset message
+        const formMessage = document.getElementById('formMessage');
+        formMessage.className = 'form-message';
+        formMessage.textContent = '';
+        
+        // Reset submit button
+        const submitBtn = document.querySelector('.submit-btn');
+        submitBtn.classList.remove('submitted', 'next-review');
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Gửi đánh giá';
+      }
+
+      // Gọi hàm hiển thị thông tin dịch vụ khi trang được tải
+      document.addEventListener("DOMContentLoaded", displayServiceInfo);
+
       // Xử lý submit form
       document
         .getElementById("feedbackForm")
         .addEventListener("submit", async function (e) {
           e.preventDefault();
           const booking_id = document.getElementById("booking_id").value;
+          const service_id = document.getElementById("service_id").value;
           const rating = document.querySelector(
             'input[name="rating"]:checked'
           )?.value;
           const comment = document.getElementById("comment").value.trim();
           const formMessage = document.getElementById("formMessage");
+          const submitBtn = document.querySelector('.submit-btn');
 
           // Reset message classes
           formMessage.className = 'form-message';
+          
+          // Kiểm tra xem có phải chọn dịch vụ không
+          const booking = fakeAppointments.find(item => item.id === booking_id);
+          if (booking && booking.services.length > 1 && !service_id) {
+            formMessage.textContent = "Vui lòng chọn dịch vụ cần đánh giá";
+            formMessage.classList.add('error');
+            return;
+          }
           
           if (!rating) {
             formMessage.textContent = "Vui lòng chọn số sao đánh giá";
@@ -220,28 +586,39 @@
             formMessage.textContent = "Cảm ơn bạn đã đánh giá dịch vụ!";
             formMessage.classList.add('success');
             
-            // Reset form
-            this.reset();
-            document.querySelectorAll('input[name="rating"]')
-              .forEach((i) => (i.checked = false));
+            // Thêm service_id vào danh sách đã đánh giá
+            reviewedServices.add(parseInt(service_id));
             
-            // Disable nút và đổi style
-            const submitBtn = document.querySelector('.submit-btn');
-            submitBtn.classList.add('submitted');
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '<i class="fas fa-check"></i> Đã gửi đánh giá';
+            // Kiểm tra xem còn dịch vụ nào chưa được đánh giá không
+            const hasUnreviewedServices = booking.services.some((_, index) => !reviewedServices.has(index));
+            
+            if (hasUnreviewedServices) {
+              // Nếu còn dịch vụ chưa đánh giá, đổi style nút submit
+              submitBtn.classList.remove('submitted');
+              submitBtn.classList.add('next-review');
+              submitBtn.disabled = false;
+              submitBtn.innerHTML = '<i class="fas fa-plus-circle"></i> Đánh giá dịch vụ khác';
+              
+              // Cập nhật lại dropdown để đánh dấu dịch vụ đã đánh giá
+              displayServiceInfo();
+            } else {
+              // Nếu đã đánh giá hết, disable nút và đổi style
+              submitBtn.classList.add('submitted');
+              submitBtn.disabled = true;
+              submitBtn.innerHTML = '<i class="fas fa-check"></i> Đã đánh giá tất cả dịch vụ';
+              
+              // Tự động đóng modal sau 2 giây
+              setTimeout(() => {
+                if (window.parent && window.parent.document.querySelector('.modal-feedback-iframe')) {
+                  window.parent.document.querySelector('.modal-feedback-iframe').remove();
+                }
+              }, 2000);
+            }
 
             // Cập nhật trạng thái đánh giá trong parent window
             if (window.parent && window.parent.updateReviewStatus) {
               window.parent.updateReviewStatus(booking_id);
             }
-
-            // Tự động đóng modal sau 2 giây
-            setTimeout(() => {
-              if (window.parent && window.parent.document.querySelector('.modal-feedback-iframe')) {
-                window.parent.document.querySelector('.modal-feedback-iframe').remove();
-              }
-            }, 2000);
           } catch (error) {
             formMessage.textContent = "Có lỗi xảy ra, vui lòng thử lại sau";
             formMessage.classList.add('error');
