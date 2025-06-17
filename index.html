@@ -4,6 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Trang Chủ - Dịch Vụ Xét Nghiệm ADN</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <link rel="stylesheet" href="assets/css/auth.css" />
     <style>
       * {
         margin: 0;
@@ -58,6 +63,11 @@
         margin: 15px;
       }
 
+      /* User info container */
+      #user-info-container {
+        display: none;
+      }
+
       .user-info {
         display: flex;
         align-items: center;
@@ -68,8 +78,18 @@
       .avatar {
         width: 45px;
         height: 45px;
-        background: linear-gradient(135deg, #2196f3, #1976d2);
         border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .avatar-letter {
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, #2196f3, #1976d2);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -77,6 +97,12 @@
         color: white;
         font-weight: bold;
         box-shadow: 0 4px 15px rgba(33, 150, 243, 0.2);
+      }
+
+      #user-avatar {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
       }
 
       .user-details {
@@ -93,6 +119,13 @@
       .user-role {
         color: #666;
         font-size: 13px;
+      }
+
+      /* Login buttons container */
+      #login-buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
       }
 
       .logout-btn {
@@ -953,19 +986,67 @@
           <div class="logo-subtext">Trung tâm xét nghiệm ADN huyết thống</div>
         </div>
       </div>
-
       <div class="login-register">
-        <div class="user-info">
-          <div class="avatar" id="avatar-letter">T</div>
-          <div class="user-details">
-            <div class="user-name" id="avatar-fullname">Tran Ngoc B</div>
-            <div class="user-role" id="avatar-role">staff</div>
+        <!-- User info container (hiển thị khi đã đăng nhập) -->
+        <div id="user-info-container">
+          <div class="user-info">
+            <div class="avatar">
+              <div id="avatar-letter" class="avatar-letter">T</div>
+              <img
+                id="user-avatar"
+                src=""
+                alt="User Avatar"
+                style="display: none"
+              />
+            </div>
+            <div class="user-details">
+              <div id="avatar-fullname" class="user-name">Tran Ngoc B</div>
+              <div id="avatar-role" class="user-role">Staff</div>
+            </div>
+          </div>
+          <button id="logout-btn" class="logout-btn" onclick="handleLogout()">
+            <i class="fas fa-sign-out-alt"></i>
+            Đăng xuất
+          </button>
+        </div>
+
+        <!-- Dropdown menu cho demo accounts -->
+        <div
+          id="demo-accounts-dropdown"
+          class="demo-accounts-dropdown"
+          style="display: none"
+        >
+          <div
+            class="demo-account-item"
+            onclick="loginWithDemoAccount('staff')"
+          >
+            <div class="demo-avatar" style="background-color: #4285f4">S</div>
+            <div class="demo-info">
+              <div class="demo-name">Nguyễn Văn Nhân Viên</div>
+              <div class="demo-role">Staff</div>
+            </div>
+          </div>
+          <div
+            class="demo-account-item"
+            onclick="loginWithDemoAccount('manager')"
+          >
+            <div class="demo-avatar" style="background-color: #34a853">M</div>
+            <div class="demo-info">
+              <div class="demo-name">Trần Thị Quản Lý</div>
+              <div class="demo-role">Manager</div>
+            </div>
+          </div>
+          <div
+            class="demo-account-item"
+            onclick="loginWithDemoAccount('admin')"
+          >
+            <div class="demo-avatar" style="background-color: #ea4335">A</div>
+            <div class="demo-info">
+              <div class="demo-name">Lê Văn Quản Trị</div>
+              <div class="demo-role">Admin</div>
+            </div>
           </div>
         </div>
-        <button onclick="handleLogout()" class="logout-btn">
-          <i class="fas fa-sign-out-alt"></i>
-          Đăng xuất
-        </button>
       </div>
 
       <div class="menu-title">MAIN MENU</div>
@@ -974,7 +1055,7 @@
           <span class="menu-icon"><i class="fas fa-home"></i></span>
           Trang chủ
         </a>
-        
+
         <a href="booking.html" class="menu-item">
           <span class="menu-icon"><i class="fas fa-notes-medical"></i></span>
           Đặt lịch xét nghiệm
@@ -998,11 +1079,16 @@
       <div class="welcome-section">
         <div class="welcome-header">
           <h1>Xin chào, <span id="staff-name">Nhân viên</span>!</h1>
-          <p class="current-time" id="current-time">Thứ 2, 01/01/2024 - 09:00 AM</p>
+          <p class="current-time" id="current-time">
+            Thứ 2, 01/01/2024 - 09:00 AM
+          </p>
         </div>
         <div class="quick-stats">
           <div class="stat-card">
-            <div class="stat-icon" style="background: linear-gradient(45deg, #2196f3, #1976d2);">
+            <div
+              class="stat-icon"
+              style="background: linear-gradient(45deg, #2196f3, #1976d2)"
+            >
               <i class="fas fa-calendar-check"></i>
             </div>
             <div class="stat-info">
@@ -1014,7 +1100,10 @@
             </div>
           </div>
           <div class="stat-card">
-            <div class="stat-icon" style="background: linear-gradient(45deg, #4caf50, #388e3c);">
+            <div
+              class="stat-icon"
+              style="background: linear-gradient(45deg, #4caf50, #388e3c)"
+            >
               <i class="fas fa-vials"></i>
             </div>
             <div class="stat-info">
@@ -1026,7 +1115,10 @@
             </div>
           </div>
           <div class="stat-card">
-            <div class="stat-icon" style="background: linear-gradient(45deg, #ff9800, #f57c00);">
+            <div
+              class="stat-icon"
+              style="background: linear-gradient(45deg, #ff9800, #f57c00)"
+            >
               <i class="fas fa-clock"></i>
             </div>
             <div class="stat-info">
@@ -1038,7 +1130,10 @@
             </div>
           </div>
           <div class="stat-card">
-            <div class="stat-icon" style="background: linear-gradient(45deg, #9c27b0, #7b1fa2);">
+            <div
+              class="stat-icon"
+              style="background: linear-gradient(45deg, #9c27b0, #7b1fa2)"
+            >
               <i class="fas fa-check-circle"></i>
             </div>
             <div class="stat-info">
@@ -1062,7 +1157,7 @@
           <div class="section-actions">
             <div class="search-box">
               <i class="fas fa-search"></i>
-              <input type="text" placeholder="Tìm kiếm công việc...">
+              <input type="text" placeholder="Tìm kiếm công việc..." />
             </div>
             <button class="action-btn filter">
               <i class="fas fa-filter"></i> Lọc
@@ -1209,8 +1304,8 @@
         </div>
         <div class="activities-list">
           <div class="activity-item">
-            <div class="activity-icon" style="background-color: #e3f2fd;">
-              <i class="fas fa-flask" style="color: #2196f3;"></i>
+            <div class="activity-icon" style="background-color: #e3f2fd">
+              <i class="fas fa-flask" style="color: #2196f3"></i>
             </div>
             <div class="activity-content">
               <h4>Mẫu xét nghiệm mới</h4>
@@ -1220,8 +1315,8 @@
             <button class="btn-view">Xem</button>
           </div>
           <div class="activity-item">
-            <div class="activity-icon" style="background-color: #e8f5e9;">
-              <i class="fas fa-check-circle" style="color: #4caf50;"></i>
+            <div class="activity-icon" style="background-color: #e8f5e9">
+              <i class="fas fa-check-circle" style="color: #4caf50"></i>
             </div>
             <div class="activity-content">
               <h4>Hoàn thành xét nghiệm</h4>
@@ -1231,8 +1326,8 @@
             <button class="btn-view">Xem</button>
           </div>
           <div class="activity-item">
-            <div class="activity-icon" style="background-color: #fff3e0;">
-              <i class="fas fa-exclamation-triangle" style="color: #ff9800;"></i>
+            <div class="activity-icon" style="background-color: #fff3e0">
+              <i class="fas fa-exclamation-triangle" style="color: #ff9800"></i>
             </div>
             <div class="activity-content">
               <h4>Cảnh báo hệ thống</h4>
@@ -1455,7 +1550,8 @@
         margin-top: 15px;
       }
 
-      .btn-view, .btn-complete {
+      .btn-view,
+      .btn-complete {
         padding: 6px 12px;
         border: none;
         border-radius: 6px;
@@ -1561,35 +1657,43 @@
       // Cập nhật thời gian hiện tại
       function updateCurrentTime() {
         const now = new Date();
-        const days = ['Chủ nhật', 'Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7'];
+        const days = [
+          "Chủ nhật",
+          "Thứ 2",
+          "Thứ 3",
+          "Thứ 4",
+          "Thứ 5",
+          "Thứ 6",
+          "Thứ 7",
+        ];
         const day = days[now.getDay()];
-        const date = now.getDate().toString().padStart(2, '0');
-        const month = (now.getMonth() + 1).toString().padStart(2, '0');
+        const date = now.getDate().toString().padStart(2, "0");
+        const month = (now.getMonth() + 1).toString().padStart(2, "0");
         const year = now.getFullYear();
-        const hours = now.getHours().toString().padStart(2, '0');
-        const minutes = now.getMinutes().toString().padStart(2, '0');
-        
-        document.getElementById('current-time').textContent = 
-          `${day}, ${date}/${month}/${year} - ${hours}:${minutes}`;
+        const hours = now.getHours().toString().padStart(2, "0");
+        const minutes = now.getMinutes().toString().padStart(2, "0");
+
+        document.getElementById(
+          "current-time"
+        ).textContent = `${day}, ${date}/${month}/${year} - ${hours}:${minutes}`;
       }
 
       // Cập nhật tên nhân viên
       function updateStaffName() {
-        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        const currentUser = JSON.parse(localStorage.getItem("currentUser"));
         if (currentUser) {
-          document.getElementById('staff-name').textContent = currentUser.fullname;
+          document.getElementById("staff-name").textContent =
+            currentUser.fullname;
         }
       }
 
       // Khởi tạo khi trang load
-      document.addEventListener('DOMContentLoaded', function() {
+      document.addEventListener("DOMContentLoaded", function () {
         updateCurrentTime();
         updateStaffName();
         setInterval(updateCurrentTime, 60000); // Cập nhật mỗi phút
       });
     </script>
-
-      
 
     <!-- Custom Notification -->
     <div
@@ -1651,8 +1755,8 @@
     </div>
 
     <script>
-            // Kiểm tra đăng nhập khi trang được tải
-      document.addEventListener("DOMContentLoaded", function() {
+      // Kiểm tra đăng nhập khi trang được tải
+      document.addEventListener("DOMContentLoaded", function () {
         // Thêm logic xử lý đăng nhập ở đây nếu cần
       });
 
@@ -1727,14 +1831,14 @@
         }
       });
 
-      // Add this function to handle logout
-      function handleLogout() {
-        // Clear user data from localStorage
-        localStorage.removeItem('currentUser');
-        
-        // Redirect to login page
-        window.location.href = 'login.html';
-      }
+      // NOTE: handleLogout is now provided by auth.js
+      // We can remove this function as it's now exported by the Auth module
     </script>
+    <!-- Include the auth and API JS files -->
+    <script src="assets/js/api.js"></script>
+    <script src="assets/js/auth.js"></script>
+
+    <!-- Include main.js after auth for any dashboard specific functionality -->
+    <script src="assets/js/main.js"></script>
   </body>
 </html>

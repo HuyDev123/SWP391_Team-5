@@ -8,6 +8,7 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
     />
+    <link rel="stylesheet" href="assets/css/auth.css" />
     <style>
       * {
         margin: 0;
@@ -79,6 +80,14 @@
         line-height: 1.6;
       }
 
+      /* Login buttons styling from auth.css, with some overrides for login page */
+      .login-buttons {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        gap: 15px;
+      }
+
       .google-login-btn {
         display: flex;
         align-items: center;
@@ -102,15 +111,38 @@
         background: linear-gradient(45deg, #3367d6, #2850a7);
       }
 
-      .google-login-btn:active {
-        transform: translateY(1px);
-      }
-
       .google-login-btn img {
         width: 24px;
         height: 24px;
         margin-right: 12px;
         filter: brightness(0) invert(1);
+      }
+
+      .demo-login-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(45deg, #34a853, #2e7d32);
+        color: white;
+        border: none;
+        padding: 16px 24px;
+        border-radius: 12px;
+        font-size: 16px;
+        font-weight: 500;
+        cursor: pointer;
+        width: 100%;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px rgba(52, 168, 83, 0.2);
+      }
+
+      .demo-login-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(52, 168, 83, 0.3);
+        background: linear-gradient(45deg, #2e7d32, #1b5e20);
+      }
+
+      .demo-login-btn i {
+        margin-right: 12px;
       }
 
       .login-footer {
@@ -125,15 +157,17 @@
         margin-right: 5px;
       }
 
-      /* Loading animation */
-      @keyframes spin {
-        to {
-          transform: rotate(360deg);
-        }
-      }
-
-      .loading-spinner {
-        animation: spin 1s linear infinite;
+      /* Demo accounts dropdown - customized for login page */
+      .demo-accounts-dropdown {
+        margin-top: 10px;
+        background: white;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        border-radius: 8px;
+        overflow: hidden;
+        z-index: 100;
+        width: 100%;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        display: none;
       }
 
       /* Error message style */
@@ -156,19 +190,22 @@
         <img src="assets/images/Logo.jpg" alt="Genx Logo" />
       </div>
 
-      <h1 class="login-title">Staff Portal</h1>
+      <h1 class="login-title">Đăng nhập nội bộ</h1>
       <p class="login-subtitle">
-        Chào mừng bạn đến với hệ thống quản lý Genx DNA Testing Center.<br>
+        Chào mừng bạn đến với hệ thống quản lý xét nghiệm ADN huyết thống
+        Genx<br />
         Vui lòng đăng nhập để tiếp tục.
       </p>
 
-      <button class="google-login-btn" onclick="signInWithGoogle()">
-        <img
-          src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"
-          alt="Google logo"
-        />
-        Đăng nhập với tài khoản công ty
-      </button>
+      <div class="login-buttons">
+        <button id="google-login-btn" class="google-login-btn">
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"
+            alt="Google logo"
+          />
+          Đăng nhập với tài khoản Google
+        </button>
+      </div>
 
       <div id="error-message" class="error-message">
         <i class="fas fa-exclamation-circle"></i>
@@ -181,52 +218,7 @@
       </div>
     </div>
 
-    <script>
-      async function signInWithGoogle() {
-        try {
-          // Vô hiệu hóa nút trong khi xử lý
-          const loginBtn = document.querySelector(".google-login-btn");
-          const originalText = loginBtn.innerHTML;
-          loginBtn.innerHTML =
-            '<i class="fas fa-spinner fa-spin loading-spinner"></i> Đang xử lý...';
-          loginBtn.disabled = true;
-
-          // Ẩn thông báo lỗi nếu có
-          document.getElementById("error-message").style.display = "none";
-
-          // Giả lập API call - trong thực tế sẽ gọi API thật
-          await new Promise(resolve => setTimeout(resolve, 1500));
-
-          // Giả lập dữ liệu người dùng - trong thực tế sẽ lấy từ response
-          const userData = {
-            id: "staff123",
-            fullname: "Tran Ngoc B",
-            email: "staff@genx.com",
-            role: "staff",
-            accessToken: "dummy_token"
-          };
-
-          // Lưu thông tin người dùng
-          localStorage.setItem("currentUser", JSON.stringify(userData));
-
-          // Chuyển hướng đến trang dashboard
-          window.location.href = "index.html";
-
-        } catch (error) {
-          console.error("Lỗi đăng nhập:", error);
-          
-          // Hiển thị thông báo lỗi
-          const errorMessage = document.getElementById("error-message");
-          errorMessage.style.display = "block";
-          errorMessage.querySelector("span").textContent = 
-            "Đăng nhập không thành công. Vui lòng thử lại sau.";
-
-          // Khôi phục nút
-          const loginBtn = document.querySelector(".google-login-btn");
-          loginBtn.innerHTML = originalText;
-          loginBtn.disabled = false;
-        }
-      }
-    </script>
+    <script src="assets/js/api.js"></script>
+    <script src="assets/js/auth.js"></script>
   </body>
 </html>
