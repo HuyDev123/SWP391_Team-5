@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chỉnh sửa Kit - Dịch Vụ Xét Nghiệm ADN</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .kit-edit-container {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 40px;
+            width: 100%;
+            max-width: 800px;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .form-header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+        
+        .form-logo {
+            margin-bottom: 20px;
+        }
+
+        .form-logo img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .form-logo img:hover {
+            transform: scale(1.05);
+        }
+        
+        .form-title {
+            color: #2c3e50;
+            font-size: 28px;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+        
+        .form-subtitle {
+            color: #7f8c8d;
+            font-size: 16px;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+            flex: 1;
+            position: relative;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 500;
+            color: #2c3e50;
+            font-size: 15px;
+            transition: color 0.3s ease;
+        }
+        
+        .required {
+            color: #e74c3c;
+            margin-left: 4px;
+        }
+        
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 15px;
+            color: #2c3e50;
+            background-color: #fff;
+            transition: all 0.3s ease;
+        }
+        
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+            outline: none;
+        }
+        
+        .form-input:hover, .form-select:hover, .form-textarea:hover {
+            border-color: #bdc3c7;
+        }
+        
+        .form-input:disabled {
+            background-color: #f8f9fa;
+            color: #6c757d;
+            cursor: not-allowed;
+            border-color: #dee2e6;
+        }
+        
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .form-actions {
+            display: flex;
+            gap: 20px;
+            margin-top: 35px;
+        }
+        
+        .btn {
+            flex: 1;
+            padding: 14px 25px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            border: none;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .btn i {
+            margin-right: 10px;
+            font-size: 18px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(52, 152, 219, 0.3);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, #95a5a6 0%, #7f8c8d 100%);
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(127, 140, 141, 0.3);
+        }
+        
+        .btn-danger {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(231, 76, 60, 0.3);
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+        }
+        
+        .status-pending { 
+            background-color: #fff3cd; 
+            color: #856404;
+            border: 1px solid #ffeeba;
+        }
+        .status-sent { 
+            background-color: #d4edda; 
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .status-received { 
+            background-color: #cce7ff; 
+            color: #004085;
+            border: 1px solid #b8daff;
+        }
+        .status-error { 
+            background-color: #f8d7da; 
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .status-processed { 
+            background-color: #d1ecf1; 
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        .status-completed { 
+            background-color: #c3e6cb; 
+            color: #155724;
+            border: 1px solid #b1dfbb;
+        }
+        
+        .file-upload {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+        
+        .file-input {
+            display: none;
+        }
+        
+        .file-label {
+            display: flex;
+            align-items: center;
+            padding: 14px;
+            border: 2px dashed #3498db;
+            border-radius: 8px;
+            background-color: #f8fafc;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .file-label:hover {
+            background-color: #edf2f7;
+            border-color: #2980b9;
+        }
+        
+        .file-label i {
+            margin-right: 10px;
+            font-size: 20px;
+            color: #3498db;
+        }
+        
+        .current-file {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #e3f2fd;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #1976d2;
+            display: flex;
+            align-items: center;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .current-file i {
+            margin-right: 8px;
+            font-size: 16px;
+        }
+
+        /* Loading spinner */
+        .loading {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #fff;
+            border-top: 2px solid transparent;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Success message */
+        .success-message {
+            display: none;
+            color: #27ae60;
+            text-align: center;
+            margin-top: 15px;
+            font-weight: 500;
+            padding: 10px;
+            background-color: #d4edda;
+            border-radius: 8px;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .success-message.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .success-message i {
+            margin-right: 8px;
+            font-size: 18px;
+        }
+
+        /* Confirmation dialog styling */
+        .dialog-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .dialog {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            z-index: 1001;
+            max-width: 400px;
+            width: 90%;
+            animation: scaleIn 0.3s ease-out;
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+        .dialog-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .dialog-content {
+            color: #7f8c8d;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .dialog-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .dialog-btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        .dialog-btn-confirm {
+            background-color: #e74c3c;
+            color: white;
+        }
+
+        .dialog-btn-cancel {
+            background-color: #95a5a6;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="kit-edit-container">
+        <div class="form-header">
+            <div class="form-logo">
+                <img src="assets/images/Logo.jpg" alt="ADN Logo">
+            </div>
+            <h1 class="form-title">Chỉnh sửa thông tin Kit</h1>
+            <p class="form-subtitle">Cập nhật thông tin Kit xét nghiệm</p>
+        </div>
+
+        <form id="kit-edit-form">
+            <!-- Thông tin cơ bản -->
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="kit-code" class="form-label">Mã Kit <span class="required">*</span></label>
+                    <input type="text" id="kit-code" name="kitCode" class="form-input" readonly>
+                </div>
+                
+                <div class="form-group">
+                    <label for="staff-code" class="form-label">Mã nhân viên <span class="required">*</span></label>
+                    <input type="text" id="staff-code" name="staffCode" class="form-input" placeholder="Nhập mã nhân viên" required>
+                </div>
+            </div>
+            
+            <!-- Ngày tháng -->
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="sent-date" class="form-label">Ngày gửi <span class="required">*</span></label>
+                    <input type="date" id="sent-date" name="sentDate" class="form-input" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="received-date" class="form-label">Ngày nhận</label>
+                    <input type="date" id="received-date" name="receivedDate" class="form-input">
+                </div>
+            </div>
+            
+            <!-- Số mẫu và trạng thái -->
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="sample-count" class="form-label">Số lượng mẫu <span class="required">*</span></label>
+                    <input type="number" id="sample-count" name="sampleCount" class="form-input" min="2" placeholder="Nhập số lượng mẫu (tối thiểu 2)" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="status" class="form-label">Trạng thái <span class="required">*</span></label>
+                    <select id="status" name="status" class="form-select" required>
+                        <option value="">-- Chọn trạng thái --</option>
+                        <option value="Chờ gửi">Chờ gửi</option>
+                        <option value="Đã gửi">Đã gửi</option>
+                        <option value="Đã nhận mẫu">Đã nhận mẫu</option>
+                        <option value="Lỗi mẫu">Lỗi mẫu</option>
+                        <option value="Đã xử lý">Đã xử lý</option>
+                        <option value="Đã trả kết quả">Đã trả kết quả</option>
+                    </select>
+                </div>
+            </div>
+            
+            <!-- File kết quả -->
+            <div class="form-group">
+                <label for="result-file" class="form-label">File kết quả xét nghiệm</label>
+                <div class="file-upload">
+                    <input type="file" id="result-file" name="resultFile" class="file-input" accept=".pdf,.doc,.docx,.jpg,.png">
+                    <label for="result-file" class="file-label">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <span>Kéo thả file vào đây hoặc click để chọn file</span>
+                    </label>
+                </div>
+                <div id="current-file" class="current-file" style="display: none;">
+                    <i class="fas fa-file-alt"></i>
+                    <span id="current-file-name"></span>
+                </div>
+            </div>
+            
+            <!-- Ghi chú -->
+            <div class="form-group">
+                <label for="notes" class="form-label">Ghi chú</label>
+                <textarea id="notes" name="notes" class="form-textarea" placeholder="Nhập ghi chú về Kit (không bắt buộc)"></textarea>
+            </div>
+            
+            <!-- Buttons -->
+            <div class="form-actions">
+                <button type="button" class="btn btn-secondary" onclick="goBack()">
+                    <i class="fas fa-arrow-left"></i>
+                    Quay lại
+                </button>
+                
+                <button type="submit" class="btn btn-primary">
+                    <div class="loading"></div>
+                    <i class="fas fa-save"></i>
+                    Lưu thay đổi
+                </button>
+                
+                <button type="button" class="btn btn-danger" onclick="showDeleteConfirmation()">
+                    <i class="fas fa-trash"></i>
+                    Xóa Kit
+                </button>
+            </div>
+        </form>
+
+        <div class="success-message">
+            <i class="fas fa-check-circle"></i>
+            <span>Cập nhật thông tin Kit thành công!</span>
+        </div>
+    </div>
+
+    <!-- Confirmation Dialog -->
+    <div id="delete-dialog" class="dialog-overlay">
+        <div class="dialog">
+            <h3 class="dialog-title">Xác nhận xóa Kit</h3>
+            <p class="dialog-content">Bạn có chắc chắn muốn xóa Kit này? Hành động này không thể hoàn tác.</p>
+            <div class="dialog-actions">
+                <button class="dialog-btn dialog-btn-cancel" onclick="hideDeleteConfirmation()">Hủy bỏ</button>
+                <button class="dialog-btn dialog-btn-confirm" onclick="confirmDelete()">Xóa Kit</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Lấy KitCode từ URL parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const kitCode = urlParams.get('kitCode');
+        
+        // Load thông tin Kit khi trang được tải
+        document.addEventListener('DOMContentLoaded', function() {
+            if (kitCode) {
+                loadKitInfo(kitCode);
+            } else {
+                showError('Không tìm thấy mã Kit!');
+                goBack();
+            }
+            
+            // Set up file input change event
+            document.getElementById('result-file').addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                const label = document.querySelector('.file-label span');
+                if (file) {
+                    label.textContent = file.name;
+                    showCurrentFile(file.name);
+                } else {
+                    label.textContent = 'Kéo thả file vào đây hoặc click để chọn file';
+                }
+            });
+
+            // Set up drag and drop for file upload
+            const fileLabel = document.querySelector('.file-label');
+            
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                fileLabel.addEventListener(eventName, preventDefaults, false);
+            });
+
+            function preventDefaults (e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+
+            ['dragenter', 'dragover'].forEach(eventName => {
+                fileLabel.addEventListener(eventName, highlight, false);
+            });
+
+            ['dragleave', 'drop'].forEach(eventName => {
+                fileLabel.addEventListener(eventName, unhighlight, false);
+            });
+
+            function highlight(e) {
+                fileLabel.style.backgroundColor = '#edf2f7';
+                fileLabel.style.borderColor = '#2980b9';
+            }
+
+            function unhighlight(e) {
+                fileLabel.style.backgroundColor = '#f8fafc';
+                fileLabel.style.borderColor = '#3498db';
+            }
+
+            fileLabel.addEventListener('drop', handleDrop, false);
+
+            function handleDrop(e) {
+                const dt = e.dataTransfer;
+                const file = dt.files[0];
+                const fileInput = document.getElementById('result-file');
+                
+                fileInput.files = dt.files;
+                document.querySelector('.file-label span').textContent = file.name;
+                showCurrentFile(file.name);
+            }
+        });
+        
+        // Load thông tin Kit từ server
+        async function loadKitInfo(kitCode) {
+            try {
+                const response = await fetch(`/api/kits/${kitCode}`);
+                if (response.ok) {
+                    const kitData = await response.json();
+                    populateForm(kitData);
+                } else {
+                    throw new Error('Không thể tải thông tin Kit');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showError('Lỗi khi tải thông tin Kit: ' + error.message);
+            }
+        }
+        
+        // Điền thông tin vào form
+        function populateForm(kitData) {
+            document.getElementById('kit-code').value = kitData.kitCode;
+            document.getElementById('staff-code').value = kitData.staffCode;
+            document.getElementById('sent-date').value = kitData.sentDate;
+            document.getElementById('received-date').value = kitData.receivedDate || '';
+            document.getElementById('sample-count').value = kitData.sampleCount;
+            document.getElementById('status').value = kitData.status;
+            document.getElementById('notes').value = kitData.notes || '';
+            
+            // Hiển thị file hiện tại nếu có
+            if (kitData.resultFilePath) {
+                showCurrentFile(kitData.resultFilePath);
+            }
+        }
+
+        function showCurrentFile(fileName) {
+            const currentFile = document.getElementById('current-file');
+            const currentFileName = document.getElementById('current-file-name');
+            currentFile.style.display = 'flex';
+            currentFileName.textContent = fileName;
+        }
+        
+        // Xử lý submit form
+        document.getElementById('kit-edit-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const submitButton = this.querySelector('button[type="submit"]');
+            const loadingSpinner = submitButton.querySelector('.loading');
+            const buttonIcon = submitButton.querySelector('i');
+            
+            // Show loading state
+            submitButton.disabled = true;
+            loadingSpinner.style.display = 'block';
+            buttonIcon.style.display = 'none';
+            
+            const formData = new FormData();
+            formData.append('kitCode', document.getElementById('kit-code').value);
+            formData.append('staffCode', document.getElementById('staff-code').value);
+            formData.append('sentDate', document.getElementById('sent-date').value);
+            formData.append('receivedDate', document.getElementById('received-date').value);
+            formData.append('sampleCount', document.getElementById('sample-count').value);
+            formData.append('status', document.getElementById('status').value);
+            formData.append('notes', document.getElementById('notes').value);
+            
+            // Thêm file nếu có
+            const fileInput = document.getElementById('result-file');
+            if (fileInput.files[0]) {
+                formData.append('resultFile', fileInput.files[0]);
+            }
+            
+            try {
+                const response = await fetch(`/api/kits/${kitCode}`, {
+                    method: 'PUT',
+                    body: formData
+                });
+                
+                if (response.ok) {
+                    showSuccess('Cập nhật thông tin Kit thành công!');
+                    setTimeout(goBack, 2000);
+                } else {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Không thể cập nhật thông tin Kit.');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showError('Lỗi kết nối server: ' + error.message);
+            } finally {
+                // Reset button state
+                submitButton.disabled = false;
+                loadingSpinner.style.display = 'none';
+                buttonIcon.style.display = 'inline';
+            }
+        });
+        
+        // Hiển thị dialog xác nhận xóa
+        function showDeleteConfirmation() {
+            document.getElementById('delete-dialog').style.display = 'block';
+        }
+        
+        // Ẩn dialog xác nhận xóa
+        function hideDeleteConfirmation() {
+            document.getElementById('delete-dialog').style.display = 'none';
+        }
+        
+        // Xác nhận và thực hiện xóa
+        async function confirmDelete() {
+            try {
+                const response = await fetch(`/api/kits/${kitCode}`, {
+                    method: 'DELETE'
+                });
+                
+                if (response.ok) {
+                    showSuccess('Xóa Kit thành công!');
+                    setTimeout(goBack, 2000);
+                } else {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Không thể xóa Kit.');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showError('Lỗi kết nối server: ' + error.message);
+            } finally {
+                hideDeleteConfirmation();
+            }
+        }
+        
+        // Quay lại trang trước
+        function goBack() {
+            window.history.back();
+        }
+        
+        // Hiển thị thông báo thành công
+        function showSuccess(message) {
+            const successMessage = document.querySelector('.success-message');
+            successMessage.querySelector('span').textContent = message;
+            successMessage.classList.add('show');
+            setTimeout(() => {
+                successMessage.classList.remove('show');
+            }, 3000);
+        }
+        
+        // Hiển thị thông báo lỗi
+        function showError(message) {
+            // Tạo và hiển thị thông báo lỗi
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'error-message show';
+            errorDiv.innerHTML = `<i class="fas fa-exclamation-circle"></i><span>${message}</span>`;
+            document.querySelector('.kit-edit-container').appendChild(errorDiv);
+            
+            // Tự động ẩn sau 3 giây
+            setTimeout(() => {
+                errorDiv.remove();
+            }, 3000);
+        }
+        
+        // Cập nhật giao diện dựa trên trạng thái
+        document.getElementById('status').addEventListener('change', function() {
+            const status = this.value;
+            const receivedDateInput = document.getElementById('received-date');
+            
+            // Tự động set ngày nhận nếu trạng thái là "Đã nhận mẫu" trở lên
+            if (['Đã nhận mẫu', 'Lỗi mẫu', 'Đã xử lý', 'Đã trả kết quả'].includes(status)) {
+                if (!receivedDateInput.value) {
+                    receivedDateInput.value = new Date().toISOString().split('T')[0];
+                }
+            }
+        });
+    </script>
+</body>
+</html>
