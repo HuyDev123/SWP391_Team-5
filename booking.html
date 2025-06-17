@@ -4,7 +4,19 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Đặt lịch xét nghiệm - Dịch Vụ Xét Nghiệm ADN</title>
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <!-- Animate CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+    
     <style>
+      /* Reset CSS */
       * {
         margin: 0;
         padding: 0;
@@ -15,7 +27,7 @@
       body {
         display: flex;
         min-height: 100vh;
-        background-color: #f5f5f5;
+        background: linear-gradient(135deg, #f5f7fa 0%, #e4e9f2 100%);
       }
 
       /* Sidebar styles */
@@ -39,17 +51,36 @@
       }
 
       .logo {
-        width: 40px;
-        height: 40px;
-        margin-right: 10px;
+        width: 45px;
+        height: 45px;
+        margin-right: 12px;
+      }
+
+      .text-container {
+        display: flex;
+        flex-direction: column;
       }
 
       .logo-text {
-        font-size: 22px;
+        font-size: 28px;
         color: #2196f3;
         font-weight: bold;
+        letter-spacing: 1px;
+        margin-bottom: 3px;
+        line-height: 1;
       }
 
+      .logo-subtext {
+        font-size: 15px;
+        color: #444;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+        line-height: 1.2;
+        text-transform: capitalize;
+        max-width: 180px;
+      }
+
+      /* User Info Section */
       .login-register {
         padding: 20px;
         background: linear-gradient(145deg, #ffffff, #f5f5f5);
@@ -115,13 +146,9 @@
       .logout-btn:hover {
         transform: translateY(-2px);
         box-shadow: 0 6px 20px rgba(255, 75, 75, 0.3);
-        background: linear-gradient(135deg, #ff0000, #cc0000);
       }
 
-      .logout-btn i {
-        font-size: 16px;
-      }
-
+      /* Menu Styles */
       .menu-title {
         padding: 15px;
         color: #888;
@@ -138,7 +165,7 @@
         color: #333;
         text-decoration: none;
         border-radius: 8px;
-        margin-bottom: 5px;
+        margin: 5px 10px;
         transition: all 0.3s ease;
       }
 
@@ -186,104 +213,270 @@
         color: white;
       }
 
-      /* Main content styles */
+      /* Main Content Area */
       .main-content {
         margin-left: 260px;
-        padding: 20px;
+        padding: 30px;
         width: calc(100% - 260px);
       }
 
-      .navbar {
-        display: flex;
-        margin: 20px 0;
-        background-color: white;
-        border-radius: 5px;
-        overflow: hidden;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      /* Scrollbar Styling */
+      ::-webkit-scrollbar {
+        width: 8px;
       }
 
-      .nav-item {
-        padding: 15px 20px;
-        text-decoration: none;
-        color: #333;
-        display: flex;
-        align-items: center;
-        border-bottom: 2px solid transparent;
+      ::-webkit-scrollbar-track {
+        background: #f1f1f1;
       }
 
-      .nav-item.active {
-        border-bottom: 2px solid #2196f3;
-        color: #2196f3;
+      ::-webkit-scrollbar-thumb {
+        background: #2196f3;
+        border-radius: 10px;
       }
 
-      .nav-icon {
-        margin-right: 10px;
+      ::-webkit-scrollbar-thumb:hover {
+        background: #1976d2;
       }
 
-      /* Form styles */
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .sidebar {
+          width: 100%;
+          height: auto;
+          position: relative;
+        }
+
+        .main-content {
+          margin-left: 0;
+          width: 100%;
+          padding: 20px;
+        }
+
+        .menu-item {
+          margin: 5px;
+        }
+      }
+
+      /* Form Section Styles */
       .form-section {
-        background-color: white;
-        border-radius: 5px;
-        padding: 30px;
-        margin-bottom: 20px;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 20px;
+        padding: 40px;
+        margin-bottom: 30px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
       }
 
       .page-title {
-        font-size: 24px;
-        margin-bottom: 25px;
-        color: #333;
+        font-size: 32px;
+        margin-bottom: 35px;
+        color: #1a237e;
         text-align: center;
+        font-weight: 700;
       }
 
+      .page-title:after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 4px;
+        background: linear-gradient(90deg, #2196f3, #1976d2);
+        border-radius: 2px;
+      }
+
+      /* Form Elements */
       form {
-        max-width: 600px;
+        max-width: 800px;
         margin: 0 auto;
       }
 
       .form-group {
-        margin-bottom: 20px;
+        margin-bottom: 25px;
+        position: relative;
       }
 
       form label {
         display: block;
-        margin-bottom: 8px;
-        font-weight: bold;
-        color: #555;
+        margin-bottom: 10px;
+        font-weight: 600;
+        color: #37474f;
+        font-size: 15px;
       }
 
       form input,
-      form select {
+      form select,
+      form textarea {
         width: 100%;
-        padding: 12px;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        font-size: 16px;
+        padding: 14px;
+        border: 2px solid #e0e0e0;
+        border-radius: 12px;
+        font-size: 15px;
+        transition: all 0.3s ease;
+        background: white;
       }
 
+      form input:focus,
+      form select:focus,
+      form textarea:focus {
+        border-color: #2196f3;
+        box-shadow: 0 0 0 4px rgba(33, 150, 243, 0.1);
+        outline: none;
+      }
+
+      /* Select Styling */
       form select {
         cursor: pointer;
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 15px center;
+        background-size: 18px;
+        padding-right: 45px;
       }
 
-      form button {
-        padding: 14px;
-        background-color: #2196f3;
+      /* Radio Button Styling */
+      .radio-group {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+        margin-top: 12px;
+      }
+
+      .radio-option {
+        position: relative;
+        padding: 15px 25px;
+        background: white;
+        border: 2px solid #e0e0e0;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        flex: 1;
+        min-width: 200px;
+      }
+
+      .radio-option:hover {
+        border-color: #2196f3;
+        background: rgba(33, 150, 243, 0.02);
+      }
+
+      .radio-option.disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+        background: #f5f5f5;
+        border-color: #e0e0e0;
+        position: relative;
+        transition: all 0.3s ease;
+      }
+
+      .radio-option.disabled:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(245, 245, 245, 0.6);
+        border-radius: 12px;
+        backdrop-filter: blur(1px);
+      }
+
+      .radio-option.disabled label {
+        cursor: not-allowed;
+      }
+
+      .radio-option.disabled:hover {
+        border-color: #e0e0e0;
+        background: #f5f5f5;
+        transform: none;
+      }
+
+      .radio-option input[type="radio"] {
+        position: absolute;
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
+
+      .radio-option label {
+        margin: 0;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        color: #37474f;
+      }
+
+      .radio-option label:before {
+        content: '';
+        width: 22px;
+        height: 22px;
+        border: 2px solid #e0e0e0;
+        border-radius: 50%;
+        display: inline-block;
+        transition: all 0.3s ease;
+      }
+
+      .radio-option input[type="radio"]:checked + label:before {
+        border-color: #2196f3;
+        background: #2196f3;
+        box-shadow: inset 0 0 0 6px white;
+      }
+
+      /* Notice Text */
+      .notice-text {
+        font-size: 13px;
+        color: #ff5722;
+        margin-top: 8px;
+        display: none;
+        padding: 8px 12px;
+        border-radius: 6px;
+        background-color: rgba(255, 87, 34, 0.1);
+        border-left: 3px solid #ff5722;
+      }
+
+      .notice-text.slideDown {
+        display: block;
+        animation: slideDown 0.3s ease-out;
+      }
+
+      .notice-text i {
+        margin-right: 6px;
+      }
+
+      @keyframes slideDown {
+        from {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Submit Button */
+      form button[type="submit"] {
+        width: 100%;
+        padding: 16px;
+        background: linear-gradient(135deg, #2196f3, #1976d2);
         color: white;
         border: none;
-        border-radius: 5px;
+        border-radius: 12px;
         cursor: pointer;
-        margin-top: 10px;
-        width: 100%;
         font-size: 16px;
-        font-weight: bold;
-        transition: background-color 0.3s;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        margin-top: 20px;
       }
 
-      form button:hover {
-        background-color: #1976d2;
+      form button[type="submit"]:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(33, 150, 243, 0.25);
       }
 
-      /* Modal styles */
+      /* Modal Styles */
       .modal {
         display: none;
         position: fixed;
@@ -295,65 +488,77 @@
         z-index: 9999;
         justify-content: center;
         align-items: center;
+        backdrop-filter: blur(5px);
       }
 
       .modal-content {
         background: white;
-        padding: 40px;
-        border-radius: 20px;
+        padding: 50px;
+        border-radius: 24px;
         text-align: center;
-        max-width: 500px;
+        max-width: 550px;
         width: 90%;
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
-        position: relative;
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
+        transform: scale(0.95);
+        opacity: 0;
+        animation: modalShow 0.3s forwards;
+      }
+
+      @keyframes modalShow {
+        to {
+          transform: scale(1);
+          opacity: 1;
+        }
       }
 
       .success-icon {
-        width: 80px;
-        height: 80px;
-        margin: 0 auto 20px;
+        width: 100px;
+        height: 100px;
+        margin: 0 auto 30px;
         border-radius: 50%;
         background: linear-gradient(45deg, #4caf50, #45a049);
         display: flex;
         align-items: center;
         justify-content: center;
+        box-shadow: 0 15px 35px rgba(76, 175, 80, 0.2);
+        animation: iconPop 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.2s backwards;
       }
 
       .success-icon i {
-        font-size: 40px;
+        font-size: 50px;
         color: white;
       }
 
       .modal-title {
-        color: #333;
-        font-size: 24px;
-        margin-bottom: 15px;
-        font-weight: 600;
+        color: #1a237e;
+        font-size: 28px;
+        margin-bottom: 20px;
+        font-weight: 700;
       }
 
       .modal-message {
-        color: #666;
+        color: #546e7a;
         font-size: 16px;
         line-height: 1.6;
-        margin-bottom: 30px;
+        margin-bottom: 35px;
       }
 
       .modal-actions {
         display: flex;
-        gap: 15px;
+        gap: 20px;
         justify-content: center;
       }
 
       .modal-btn {
-        padding: 12px 25px;
+        padding: 14px 30px;
         border: none;
-        border-radius: 25px;
-        font-size: 15px;
+        border-radius: 30px;
+        font-size: 16px;
         font-weight: 600;
         cursor: pointer;
         display: flex;
         align-items: center;
-        gap: 8px;
+        gap: 10px;
         transition: all 0.3s ease;
         text-decoration: none;
       }
@@ -370,40 +575,25 @@
 
       .modal-btn:hover {
         transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
       }
 
-      .close-btn:hover {
-        background: linear-gradient(45deg, #1976d2, #1565c0);
-      }
-
-      .view-btn:hover {
-        background: linear-gradient(45deg, #45a049, #388e3c);
-      }
-
-      /* Animation classes */
-      .animate__animated {
-        animation-duration: 0.5s;
-      }
-
-      .animate__fadeInDown {
-        animation-name: fadeInDown;
-      }
-
-      @keyframes fadeInDown {
-        from {
-          opacity: 0;
-          transform: translate3d(0, -30px, 0);
+      /* Responsive Adjustments */
+      @media (max-width: 768px) {
+        .form-section {
+          padding: 25px;
         }
-        to {
-          opacity: 1;
-          transform: translate3d(0, 0, 0);
-        }
-      }
 
-      @media (max-width: 480px) {
+        .radio-group {
+          flex-direction: column;
+        }
+
+        .radio-option {
+          width: 100%;
+        }
+
         .modal-content {
-          padding: 30px 20px;
+          padding: 30px;
         }
 
         .modal-actions {
@@ -414,434 +604,6 @@
           width: 100%;
           justify-content: center;
         }
-      }
-
-      /* Responsive adjustments */
-      @media (max-width: 768px) {
-        body {
-          flex-direction: column;
-        }
-
-        .sidebar {
-          width: 100%;
-          height: auto;
-          position: relative;
-        }
-
-        .main-content {
-          margin-left: 0;
-          width: 100%;
-        }
-      }
-      /* Radio button styles - thêm vào cuối phần style */
-      .radio-group {
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-        margin-top: 10px;
-      }
-
-      .radio-option {
-        display: flex;
-        align-items: center;
-      }
-
-      .radio-option input[type="radio"] {
-        width: auto;
-        margin-right: 10px;
-      }
-
-      .radio-option label {
-        margin-bottom: 0;
-        font-weight: normal;
-        cursor: pointer;
-      }
-
-      /* Improved radio button appearance */
-      .radio-option input[type="radio"] {
-        appearance: none;
-        -webkit-appearance: none;
-        width: 20px;
-        height: 20px;
-        border: 2px solid #ddd;
-        border-radius: 50%;
-        outline: none;
-        position: relative;
-        margin-right: 10px;
-      }
-
-      .radio-option input[type="radio"]:checked {
-        border-color: #2196f3;
-      }
-
-      .radio-option input[type="radio"]:checked::after {
-        content: "";
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-        background-color: #2196f3;
-      }
-
-      .radio-option:hover input[type="radio"] {
-        border-color: #2196f3;
-      }
-
-      @media (min-width: 768px) {
-        .radio-group {
-          flex-direction: row;
-          gap: 30px;
-        }
-      }
-
-      /* Menu styles */
-      #mainMenu {
-        padding: 10px;
-      }
-
-      .menu-item {
-        padding: 12px 15px;
-        display: flex;
-        align-items: center;
-        color: #333;
-        text-decoration: none;
-        border-radius: 8px;
-        margin-bottom: 5px;
-        transition: all 0.3s ease;
-      }
-
-      .menu-item:hover {
-        background-color: #e3f2fd;
-        color: #2196f3;
-      }
-
-      .menu-item.active {
-        background-color: #2196f3;
-        color: white;
-      }
-
-      .menu-icon {
-        width: 35px;
-        height: 35px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-right: 12px;
-        border-radius: 8px;
-        background-color: rgba(33, 150, 243, 0.1);
-        transition: all 0.3s ease;
-      }
-
-      .menu-item:hover .menu-icon {
-        background-color: white;
-      }
-
-      .menu-item.active .menu-icon {
-        background-color: rgba(255, 255, 255, 0.2);
-      }
-
-      .menu-icon i {
-        font-size: 18px;
-        transition: transform 0.3s ease;
-      }
-
-      .menu-item:hover .menu-icon i {
-        transform: scale(1.1);
-        color: #2196f3;
-      }
-
-      .menu-item.active .menu-icon i {
-        color: white;
-      }
-
-      /* Scrollbar styling */
-      ::-webkit-scrollbar {
-        width: 8px;
-      }
-
-      ::-webkit-scrollbar-track {
-        background: #f1f1f1;
-      }
-
-      ::-webkit-scrollbar-thumb {
-        background: #2196f3;
-        border-radius: 10px;
-      }
-
-      ::-webkit-scrollbar-thumb:hover {
-        background: #1976d2;
-      }
-    </style>
-    <!-- Thêm vào phần <head> của mỗi trang -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
-    />
-
-    <style>
-      /* Hiệu ứng chuyển động mượt mà */
-      .hero-banner,
-      .content-section,
-      .service-card,
-      .step-item,
-      .contact-btn {
-        transition: all 0.5s ease;
-      }
-
-      /* Cải thiện hero banner */
-      .hero-banner {
-        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
-        overflow: hidden;
-      }
-
-      .hero-banner:hover {
-        transform: translateY(-5px);
-      }
-
-      /* Hiệu ứng cho các section */
-      .content-section {
-        transition: transform 0.4s ease, box-shadow 0.4s ease;
-      }
-
-      .content-section:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-      }
-
-      /* Hiệu ứng facility items */
-      .facility-item {
-        transition: all 0.4s ease;
-      }
-
-      .facility-item:hover {
-        transform: translateY(-8px);
-      }
-
-      .facility-item .icon-wrapper {
-        transition: all 0.5s ease;
-      }
-
-      .facility-item:hover .icon-wrapper {
-        transform: rotateY(180deg);
-      }
-
-      /* Card hover effects */
-      .service-card:hover {
-        transform: translateY(-8px) scale(1.02);
-        box-shadow: 0 15px 30px rgba(33, 150, 243, 0.1);
-      }
-
-      .service-card .card-icon {
-        transition: all 0.5s ease;
-      }
-
-      .service-card:hover .card-icon {
-        transform: rotateY(360deg);
-        background-color: #2196f3;
-        color: white;
-      }
-
-      /* Step item animations */
-      .step-item {
-        position: relative;
-        overflow: hidden;
-      }
-
-      .step-item:hover {
-        background-color: #f9f9f9;
-        padding-left: 15px;
-        border-radius: 8px;
-      }
-
-      .step-item .step-number,
-      .step-item .step-icon {
-        transition: all 0.4s ease;
-      }
-
-      .step-item:hover .step-number {
-        transform: scale(1.2);
-      }
-
-      .step-item:hover .step-icon {
-        transform: rotate(360deg);
-      }
-
-      /* Contact button effects */
-      .contact-btn {
-        transform-origin: center;
-        transition: all 0.3s ease;
-      }
-
-      .contact-btn:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-      }
-
-      .contact-btn i {
-        transition: all 0.4s ease;
-      }
-
-      .contact-btn:hover i {
-        transform: scale(1.2);
-      }
-
-      /* Scrollbar styling */
-      ::-webkit-scrollbar {
-        width: 8px;
-      }
-
-      ::-webkit-scrollbar-track {
-        background: #f1f1f1;
-      }
-
-      ::-webkit-scrollbar-thumb {
-        background: #2196f3;
-        border-radius: 10px;
-      }
-
-      ::-webkit-scrollbar-thumb:hover {
-        background: #1976d2;
-      }
-
-      /* Sidebar menu hover effect */
-      .menu-item {
-        transition: all 0.3s ease;
-      }
-
-      .menu-item:hover .menu-icon {
-        transform: scale(1.2);
-        transition: transform 0.3s ease;
-      }
-
-      /* Gradient buttons */
-      .login-register-btn {
-        background-image: linear-gradient(45deg, #2196f3, #1976d2);
-        transition: all 0.3s ease;
-      }
-
-      .login-register-btn:hover {
-        background-image: linear-gradient(45deg, #1976d2, #0d47a1);
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(33, 150, 243, 0.3);
-      }
-
-      /* Animation for facility section */
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-          transform: translateY(20px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-      .menu-icon i {
-        font-size: 18px;
-        width: 20px;
-        text-align: center;
-      }
-
-      .menu-item.active .menu-icon i {
-        color: white;
-      }
-
-      .menu-item:hover .menu-icon i {
-        transform: scale(1.2);
-        transition: transform 0.3s ease;
-      }
-      .quantity-input-container {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        width: 100%;
-      }
-
-      .quantity-btn {
-        width: 40px;
-        height: 40px;
-        background-color: #2196f3;
-        color: white;
-        border: none;
-        font-size: 24px;
-        font-weight: bold;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: background-color 0.3s;
-      }
-
-      .quantity-btn:hover {
-        background-color: #1976d2;
-      }
-
-      .quantity-btn:active {
-        background-color: #0d47a1;
-      }
-
-      .minus-btn {
-        border-radius: 5px 0 0 5px;
-      }
-
-      .plus-btn {
-        border-radius: 0 5px 5px 0;
-      }
-
-      .quantity-input-container input {
-        text-align: center;
-        border-radius: 5px;
-        width: 60%;
-        flex-grow: 0;
-        font-size: 18px;
-      }
-      .logo-container {
-        display: flex;
-        align-items: center;
-        flex-direction: row; /* Thay đổi từ column thành row */
-        padding: 15px;
-        border-bottom: 1px solid #eee;
-      }
-
-      .logo {
-        width: 45px;
-        height: 45px;
-        margin-right: 12px; /* Thêm khoảng cách giữa logo và text */
-        margin-bottom: 0;
-      }
-
-      .text-container {
-        display: flex;
-        flex-direction: column;
-      }
-
-      .logo-text {
-        font-size: 28px;
-        color: #2196f3;
-        font-weight: bold;
-        letter-spacing: 1px;
-        margin-bottom: 3px;
-        line-height: 1;
-      }
-
-      .logo-subtext {
-        font-size: 15px;
-        color: #444;
-        font-weight: 500;
-        letter-spacing: 0.5px;
-        line-height: 1.2;
-        text-transform: capitalize;
-        /* background: linear-gradient(to right, #2196F3, #1976D2); */
-        /* -webkit-background-clip: text; */
-        /* -webkit-text-fill-color: transparent; */
-        max-width: 180px;
       }
     </style>
   </head>
@@ -877,17 +639,14 @@
           <span class="menu-icon"><i class="fas fa-home"></i></span>
           Trang chủ
         </a>
-
         <a href="booking.html" class="menu-item active">
           <span class="menu-icon"><i class="fas fa-notes-medical"></i></span>
           Đặt lịch xét nghiệm
         </a>
-
         <a href="appoinments.html" class="menu-item">
           <span class="menu-icon"><i class="fas fa-clipboard-list"></i></span>
           Danh sách lịch hẹn
         </a>
-
         <a href="list-kit.html" class="menu-item">
           <span class="menu-icon"><i class="fas fa-vials"></i></span>
           Danh sách kít xét nghiệm
@@ -938,10 +697,10 @@
           </div>
 
           <div class="form-group">
-            <label for="service-type">Loại dịch vụ xét nghiệm *</label>
+            <label for="service-type">Dịch vụ xét nghiệm *</label>
             <select id="service-type" name="service-type" required>
               <option value="" disabled selected>
-                -- Chọn loại xét nghiệm --
+                -- Chọn dịch vụ xét nghiệm --
               </option>
               <option value="father-child">Quan hệ Cha - Con</option>
               <option value="mother-child">Quan hệ Mẹ - Con</option>
@@ -983,7 +742,7 @@
           <div class="form-group">
             <label>Phương thức lấy mẫu *</label>
             <div class="radio-group">
-              <div class="radio-option">
+              <div class="radio-option" id="center-option">
                 <input
                   type="radio"
                   id="location-center"
@@ -993,11 +752,7 @@
                 />
                 <label for="location-center">Lấy mẫu tại trung tâm</label>
               </div>
-              <div
-                class="radio-option"
-                id="home-option-wrapper"
-                style="position: relative"
-              >
+              <div class="radio-option" id="home-option">
                 <input
                   type="radio"
                   id="location-home"
@@ -1005,25 +760,12 @@
                   value="home"
                   required
                 />
-                <label for="location-home" id="home-label"
-                  >Lấy mẫu tại nhà</label
-                >
-                <span
-                  id="admin-notice"
-                  style="
-                    display: none;
-                    color: #ff5722;
-                    font-size: 13px;
-                    margin-left: 8px;
-                    position: absolute;
-                    top: 50%;
-                    transform: translateY(-50%);
-                    white-space: nowrap;
-                  "
-                  >* Xét nghiệm có giá trị pháp lý bắt buộc phải lấy mẫu tại
-                  trung tâm</span
-                >
+                <label for="location-home">Lấy mẫu tại nhà</label>
               </div>
+            </div>
+            <div class="notice-text" id="admin-notice">
+              <i class="fas fa-exclamation-circle"></i>
+              Xét nghiệm có giá trị pháp lý bắt buộc phải lấy mẫu tại trung tâm
             </div>
           </div>
 
@@ -1118,58 +860,106 @@
           <button type="submit">Tạo lịch hẹn</button>
         </form>
       </div>
-    </div>
 
-    <!-- Modal Thông Báo Thành Công -->
-    <div id="successModal" class="modal">
-      <div class="modal-content animate__animated animate__fadeInDown">
-        <div class="success-icon">
-          <i class="fas fa-check-circle"></i>
-        </div>
-        <h2 class="modal-title">Tạo Lịch Hẹn Thành Công!</h2>
-        <p class="modal-message">
-          Lịch hẹn đã được tạo và lưu vào hệ thống. Bạn có thể xem chi tiết
-          trong mục Danh sách lịch hẹn.
-        </p>
-        <div class="modal-actions">
-          <button onclick="closeSuccessModal()" class="modal-btn close-btn">
-            <i class="fas fa-check"></i> Đóng
-          </button>
-          <a href="appoinments.html" class="modal-btn view-btn">
-            <i class="fas fa-list"></i> Xem Danh Sách
-          </a>
+      <!-- Success Modal -->
+      <div id="successModal" class="modal">
+        <div class="modal-content animate__animated animate__fadeInDown">
+          <div class="success-icon">
+            <i class="fas fa-check-circle"></i>
+          </div>
+          <h2 class="modal-title">Tạo Lịch Hẹn Thành Công!</h2>
+          <p class="modal-message">
+            Lịch hẹn đã được tạo và lưu vào hệ thống. Bạn có thể xem chi tiết
+            trong mục Danh sách lịch hẹn.
+          </p>
+          <div class="modal-actions">
+            <button onclick="closeSuccessModal()" class="modal-btn close-btn">
+              <i class="fas fa-check"></i> Đóng
+            </button>
+            <a href="appoinments.html" class="modal-btn view-btn">
+              <i class="fas fa-list"></i> Xem Danh Sách
+            </a>
+          </div>
         </div>
       </div>
     </div>
 
     <script>
       document.addEventListener("DOMContentLoaded", function () {
-        // Khởi tạo menu
         initializeMenu();
-        // Khởi tạo form
-        initializeForm();
 
-        // Kiểm tra tình trạng ban đầu của form sau khi đã tải xong
-        setTimeout(function () {
-          const purposeAdmin = document.getElementById(
-            "purpose-administrative"
-          );
-          const purposeCivil = document.getElementById("purpose-civil");
-          const elements = {
-            purposeAdmin: document.getElementById("purpose-administrative"),
-            purposeCivil: document.getElementById("purpose-civil"),
-            locationHome: document.getElementById("location-home"),
-            locationCenter: document.getElementById("location-center"),
-            homeDetails: document.getElementById("home-details"),
-            centerDetails: document.getElementById("center-details"),
-          };
+        // Lấy các elements
+        const form = document.getElementById("booking-form");
+        const purposeInputs = document.querySelectorAll('input[name="purpose"]');
+        const locationHome = document.getElementById("location-home");
+        const locationCenter = document.getElementById("location-center");
+        const homeOption = document.getElementById("home-option");
+        const adminNotice = document.getElementById("admin-notice");
+        const homeDetails = document.getElementById("home-details");
+        const centerDetails = document.getElementById("center-details");
 
-          if (purposeAdmin && purposeAdmin.checked) {
-            handlePurposeChange(elements, true);
-          } else if (purposeCivil && purposeCivil.checked) {
-            handlePurposeChange(elements, false);
-          }
-        }, 100);
+        // Xử lý khi chọn loại xét nghiệm
+        purposeInputs.forEach(input => {
+          input.addEventListener("change", function() {
+            if (this.value === "administrative") {
+              // Khóa và vô hiệu hóa lấy mẫu tại nhà
+              locationHome.disabled = true;
+              locationHome.checked = false;
+              homeOption.classList.add("disabled");
+              
+              // Tự động chọn và hiển thị lấy mẫu tại trung tâm
+              locationCenter.checked = true;
+              homeDetails.style.display = "none";
+              centerDetails.style.display = "block";
+              
+              // Hiển thị thông báo
+              adminNotice.style.display = "block";
+            } else {
+              // Mở khóa lấy mẫu tại nhà
+              locationHome.disabled = false;
+              homeOption.classList.remove("disabled");
+              adminNotice.style.display = "none";
+            }
+          });
+        });
+
+        // Xử lý khi chọn phương thức lấy mẫu
+        document.querySelectorAll('input[name="sample-location"]').forEach(input => {
+          input.addEventListener("change", function() {
+            // Nếu đang chọn xét nghiệm hành chính, không cho phép chọn lấy mẫu tại nhà
+            if (document.getElementById("purpose-administrative").checked && this.value === "home") {
+              this.checked = false;
+              locationCenter.checked = true;
+              return;
+            }
+
+            // Hiển thị form tương ứng
+            if (this.value === "home") {
+              homeDetails.style.display = "block";
+              centerDetails.style.display = "none";
+            } else {
+              homeDetails.style.display = "none";
+              centerDetails.style.display = "block";
+            }
+          });
+        });
+
+        // Set ngày tối thiểu cho date picker
+        const appointmentDate = document.getElementById("appointment-date");
+        if (appointmentDate) {
+          const tomorrow = new Date();
+          tomorrow.setDate(tomorrow.getDate() + 1);
+          appointmentDate.min = tomorrow.toISOString().split("T")[0];
+        }
+
+        // Xử lý submit form
+        form.addEventListener("submit", function(e) {
+          e.preventDefault();
+          alert("Đã tạo lịch hẹn thành công!");
+          this.reset();
+          homeDetails.style.display = "none";
+          centerDetails.style.display = "none";
+        });
       });
 
       function initializeMenu() {
@@ -1177,286 +967,31 @@
         if (!mainMenuDiv) return;
 
         const currentPage = window.location.pathname.split("/").pop();
-        mainMenuDiv.innerHTML = `
-          <a href="index.html" class="menu-item${
-            currentPage === "index.html" ? " active" : ""
-          }">
-                <span class="menu-icon"><i class="fas fa-home"></i></span>
-                Trang chủ
-            </a>
-          <a href="booking.html" class="menu-item${
-            currentPage === "booking.html" ? " active" : ""
-          }">
-                <span class="menu-icon"><i class="fas fa-notes-medical"></i></span>
-                Đặt lịch xét nghiệm
-            </a>
-          <a href="appoinments.html" class="menu-item${
-            currentPage === "appoinments.html" ? " active" : ""
-          }">
-                <span class="menu-icon"><i class="fas fa-clipboard-list"></i></span>
-                Danh sách lịch hẹn
-            </a>
-          <a href="list-kit.html" class="menu-item${
-            currentPage === "list-kit.html" ? " active" : ""
-          }">
-            <span class="menu-icon"><i class="fas fa-vials"></i></span>
-            Danh sách kít xét nghiệm
-            </a>
-        `;
+        const menuItems = [
+          { href: "index.html", icon: "fas fa-home", text: "Trang chủ" },
+          { href: "booking.html", icon: "fas fa-notes-medical", text: "Đặt lịch xét nghiệm" },
+          { href: "appoinments.html", icon: "fas fa-clipboard-list", text: "Danh sách lịch hẹn" },
+          { href: "list-kit.html", icon: "fas fa-vials", text: "Danh sách kít xét nghiệm" }
+        ];
+
+        mainMenuDiv.innerHTML = menuItems.map(item => `
+          <a href="${item.href}" class="menu-item${currentPage === item.href ? " active" : ""}">
+            <span class="menu-icon"><i class="${item.icon}"></i></span>
+            ${item.text}
+          </a>
+        `).join("");
 
         // Hiển thị thông tin người dùng
         const currentUser = JSON.parse(localStorage.getItem("currentUser"));
         if (currentUser) {
-          document.getElementById("avatar-letter").textContent =
-            currentUser.fullname.charAt(0).toUpperCase();
-          document.getElementById("avatar-fullname").textContent =
-            currentUser.fullname;
-          document.getElementById("avatar-role").textContent =
-            currentUser.role || "Nhân viên";
-        }
-      }
-      function initializeForm() {
-        const form = document.getElementById("booking-form");
-        if (!form) return;
-
-        // Khởi tạo các elements
-        const elements = {
-          purposeAdmin: document.getElementById("purpose-administrative"),
-          purposeCivil: document.getElementById("purpose-civil"),
-          locationHome: document.getElementById("location-home"),
-          locationCenter: document.getElementById("location-center"),
-          homeDetails: document.getElementById("home-details"),
-          centerDetails: document.getElementById("center-details"),
-          homeAddress: document.getElementById("home-address"),
-          testQuantity: document.getElementById("test-quantity"),
-          appointmentDate: document.getElementById("appointment-date"),
-          appointmentTime: document.getElementById("appointment-time"),
-        };
-
-        // Xử lý khi chọn loại xét nghiệm
-        if (elements.purposeAdmin) {
-          elements.purposeAdmin.addEventListener("change", () =>
-            handlePurposeChange(elements, true)
-          );
-
-          // Kiểm tra ngay khi tải trang
-          if (elements.purposeAdmin.checked) {
-            handlePurposeChange(elements, true);
-          }
-        }
-        if (elements.purposeCivil) {
-          elements.purposeCivil.addEventListener("change", () =>
-            handlePurposeChange(elements, false)
-          );
-
-          // Kiểm tra ngay khi tải trang
-          if (elements.purposeCivil.checked) {
-            handlePurposeChange(elements, false);
-          }
-        } // Xử lý khi chọn phương thức lấy mẫu
-        if (elements.locationHome) {
-          elements.locationHome.addEventListener("change", () => {
-            // Kiểm tra xem có phải là xét nghiệm hành chính không
-            if (elements.purposeAdmin && elements.purposeAdmin.checked) {
-              // Nếu là hành chính thì không cho phép chọn lấy mẫu tại nhà
-              elements.locationCenter.checked = true;
-              handleLocationChange(elements, false);
-              return;
-            }
-            handleLocationChange(elements, true);
-          });
-
-          // Thêm sự kiện click cho label của radio button để ngăn chặn click khi bị vô hiệu hóa
-          const homeLabel = elements.locationHome.parentElement;
-          if (homeLabel) {
-            homeLabel.addEventListener("click", (e) => {
-              if (elements.purposeAdmin && elements.purposeAdmin.checked) {
-                e.preventDefault();
-                return false;
-              }
-            });
-          }
-        }
-        if (elements.locationCenter) {
-          elements.locationCenter.addEventListener("change", () =>
-            handleLocationChange(elements, false)
-          );
-        }
-
-        // Xử lý submit form
-        form.addEventListener("submit", (e) => handleFormSubmit(e, elements));
-
-        // Xử lý đóng modal
-        setupModalHandlers();
-      }
-      function handlePurposeChange(elements, isAdministrative) {
-        if (!elements.locationHome) return;
-
-        elements.locationHome.disabled = isAdministrative;
-        const homeLabel = document.getElementById("home-label");
-        const notice = document.getElementById("admin-notice");
-        if (isAdministrative) {
-          elements.locationCenter.checked = true;
-          elements.centerDetails.style.display = "block";
-          elements.homeDetails.style.display = "none";
-          if (homeLabel) {
-            homeLabel.style.opacity = "0.5";
-            homeLabel.style.cursor = "not-allowed";
-          }
-          if (notice) notice.style.display = "inline";
-          // Đảm bảo không thể chọn radio bằng phím tab
-          elements.locationHome.tabIndex = -1;
-        } else {
-          if (homeLabel) {
-            homeLabel.style.opacity = "1";
-            homeLabel.style.cursor = "pointer";
-          }
-          if (notice) notice.style.display = "none";
-          elements.locationHome.tabIndex = 0;
+          document.getElementById("avatar-letter").textContent = currentUser.fullname.charAt(0).toUpperCase();
+          document.getElementById("avatar-fullname").textContent = currentUser.fullname;
+          document.getElementById("avatar-role").textContent = currentUser.role || "Nhân viên";
         }
       }
 
-      function handleLocationChange(elements, isHome) {
-        elements.homeDetails.style.display = isHome ? "block" : "none";
-        elements.centerDetails.style.display = isHome ? "none" : "block";
-
-        // Toggle required fields
-        if (elements.homeAddress) elements.homeAddress.required = isHome;
-        if (elements.testQuantity) elements.testQuantity.required = isHome;
-        if (elements.appointmentDate)
-          elements.appointmentDate.required = !isHome;
-        if (elements.appointmentTime)
-          elements.appointmentTime.required = !isHome;
-      }
-
-      async function handleFormSubmit(e, elements) {
-        e.preventDefault();
-
-        try {
-          // Validate form
-          const formData = validateAndGetFormData(elements);
-
-          // Show loading state
-          const submitBtn = e.target.querySelector('button[type="submit"]');
-          const originalBtnText = submitBtn.innerHTML;
-          submitBtn.innerHTML =
-            '<i class="fas fa-spinner fa-spin"></i> Đang xử lý...';
-          submitBtn.disabled = true;
-
-          // Simulate API call
-          await new Promise((resolve) => setTimeout(resolve, 1000));
-
-          // Show success modal
-          document.getElementById("successModal").style.display = "flex";
-
-          // Reset form
-          e.target.reset();
-          elements.homeDetails.style.display = "none";
-          elements.centerDetails.style.display = "none";
-          if (elements.testQuantity) elements.testQuantity.value = "2";
-
-          // Restore button
-          submitBtn.innerHTML = originalBtnText;
-          submitBtn.disabled = false;
-        } catch (error) {
-          alert(error.message);
-        }
-      }
-
-      function validateAndGetFormData(elements) {
-        const formData = {
-          fullName: getRequiredValue("fullname", "họ tên"),
-          phone: getRequiredValue("phone", "số điện thoại"),
-          email: document.getElementById("email").value,
-          serviceId: getRequiredValue("service-type", "loại dịch vụ"),
-          type: elements.purposeAdmin.checked ? "administrative" : "civil",
-          sampleMethod: elements.locationHome.checked ? "home" : "center",
-          note: document.getElementById("note").value || "",
-          staffNote: document.getElementById("staff-note").value || "",
-          status: document.getElementById("status").value,
-        };
-
-        // Validate location specific fields
-        if (formData.sampleMethod === "home") {
-          formData.address = getRequiredValue("home-address", "địa chỉ");
-          formData.testQuantity = elements.testQuantity.value;
-        } else {
-          formData.appointmentDate = getRequiredValue(
-            "appointment-date",
-            "ngày hẹn"
-          );
-          formData.appointmentTime = getRequiredValue(
-            "appointment-time",
-            "giờ hẹn"
-          );
-        }
-
-        return formData;
-      }
-
-      function getRequiredValue(id, fieldName) {
-        const value = document.getElementById(id).value;
-        if (!value) throw new Error(`Vui lòng nhập ${fieldName}`);
-        return value;
-      }
-
-      function setupModalHandlers() {
-        const modal = document.getElementById("successModal");
-        const closeBtn = document.querySelector(".close-btn");
-
-        if (closeBtn) {
-          closeBtn.addEventListener(
-            "click",
-            () => (modal.style.display = "none")
-          );
-        }
-
-        window.addEventListener("click", (event) => {
-          if (event.target === modal) {
-            modal.style.display = "none";
-          }
-        });
-      }
-
-      function addAdminNotice() {
-        if (document.getElementById("admin-notice")) return;
-
-        const notice = document.createElement("div");
-        notice.id = "admin-notice";
-        notice.style.cssText =
-          "color: #ff5722; font-size: 13px; margin-top: 5px;";
-        notice.textContent =
-          "* Xét nghiệm có giá trị pháp lý bắt buộc phải lấy mẫu tại trung tâm";
-
-        const radioGroup = document.querySelector(
-          'input[name="sample-location"]'
-        );
-        if (radioGroup) {
-          const parentGroup = radioGroup.closest(".radio-group");
-          if (parentGroup) parentGroup.appendChild(notice);
-        }
-      }
-
-      function increaseQuantity() {
-        const quantityInput = document.getElementById("test-quantity");
-        if (quantityInput) {
-          quantityInput.value = parseInt(quantityInput.value) + 1;
-        }
-      }
-
-      function decreaseQuantity() {
-        const quantityInput = document.getElementById("test-quantity");
-        if (quantityInput && parseInt(quantityInput.value) > 2) {
-          quantityInput.value = parseInt(quantityInput.value) - 1;
-        }
-      }
-
-      // Add this function to handle logout
       function handleLogout() {
-        // Clear user data from localStorage
         localStorage.removeItem("currentUser");
-
-        // Redirect to login page
         window.location.href = "login.html";
       }
     </script>
