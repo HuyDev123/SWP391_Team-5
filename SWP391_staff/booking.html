@@ -313,7 +313,7 @@
         height: 80px;
         margin: 0 auto 20px;
         border-radius: 50%;
-        background: linear-gradient(45deg, #4CAF50, #45a049);
+        background: linear-gradient(45deg, #4caf50, #45a049);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -359,12 +359,12 @@
       }
 
       .close-btn {
-        background: linear-gradient(45deg, #2196F3, #1976D2);
+        background: linear-gradient(45deg, #2196f3, #1976d2);
         color: white;
       }
 
       .view-btn {
-        background: linear-gradient(45deg, #4CAF50, #45a049);
+        background: linear-gradient(45deg, #4caf50, #45a049);
         color: white;
       }
 
@@ -374,11 +374,11 @@
       }
 
       .close-btn:hover {
-        background: linear-gradient(45deg, #1976D2, #1565C0);
+        background: linear-gradient(45deg, #1976d2, #1565c0);
       }
 
       .view-btn:hover {
-        background: linear-gradient(45deg, #45a049, #388E3C);
+        background: linear-gradient(45deg, #45a049, #388e3c);
       }
 
       /* Animation classes */
@@ -877,7 +877,7 @@
           <span class="menu-icon"><i class="fas fa-home"></i></span>
           Trang chủ
         </a>
-        
+
         <a href="booking.html" class="menu-item active">
           <span class="menu-icon"><i class="fas fa-notes-medical"></i></span>
           Đặt lịch xét nghiệm
@@ -961,7 +961,9 @@
                   value="administrative"
                   required
                 />
-                <label for="purpose-administrative">Hành chính (có giá trị pháp lý)</label>
+                <label for="purpose-administrative"
+                  >Hành chính (có giá trị pháp lý)</label
+                >
               </div>
               <div class="radio-option">
                 <input
@@ -971,7 +973,9 @@
                   value="civil"
                   required
                 />
-                <label for="purpose-civil">Dân sự (không có giá trị pháp lý)</label>
+                <label for="purpose-civil"
+                  >Dân sự (không có giá trị pháp lý)</label
+                >
               </div>
             </div>
           </div>
@@ -989,7 +993,11 @@
                 />
                 <label for="location-center">Lấy mẫu tại trung tâm</label>
               </div>
-              <div class="radio-option">
+              <div
+                class="radio-option"
+                id="home-option-wrapper"
+                style="position: relative"
+              >
                 <input
                   type="radio"
                   id="location-home"
@@ -997,7 +1005,24 @@
                   value="home"
                   required
                 />
-                <label for="location-home">Lấy mẫu tại nhà</label>
+                <label for="location-home" id="home-label"
+                  >Lấy mẫu tại nhà</label
+                >
+                <span
+                  id="admin-notice"
+                  style="
+                    display: none;
+                    color: #ff5722;
+                    font-size: 13px;
+                    margin-left: 8px;
+                    position: absolute;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    white-space: nowrap;
+                  "
+                  >* Xét nghiệm có giá trị pháp lý bắt buộc phải lấy mẫu tại
+                  trung tâm</span
+                >
               </div>
             </div>
           </div>
@@ -1005,7 +1030,9 @@
           <!-- Thông tin lấy mẫu tại nhà -->
           <div id="home-details" style="display: none">
             <div class="form-group">
-              <label for="home-address">Địa chỉ lấy mẫu <span style="color: red">*</span></label>
+              <label for="home-address"
+                >Địa chỉ lấy mẫu <span style="color: red">*</span></label
+              >
               <input
                 type="text"
                 id="home-address"
@@ -1013,14 +1040,14 @@
                 placeholder="Nhập địa chỉ đầy đủ để lấy mẫu"
               />
             </div>
-
-            
-              </div>
+          </div>
 
           <!-- Thông tin lấy mẫu tại trung tâm -->
           <div id="center-details" style="display: none">
             <div class="form-group">
-              <label for="appointment-date">Ngày hẹn <span style="color: red">*</span></label>
+              <label for="appointment-date"
+                >Ngày hẹn <span style="color: red">*</span></label
+              >
               <input
                 type="date"
                 id="appointment-date"
@@ -1029,7 +1056,9 @@
             </div>
 
             <div class="form-group">
-              <label for="appointment-time">Giờ hẹn <span style="color: red">*</span></label>
+              <label for="appointment-time"
+                >Giờ hẹn <span style="color: red">*</span></label
+              >
               <select id="appointment-time" name="appointment-time">
                 <option value="" disabled selected>-- Chọn giờ hẹn --</option>
                 <option value="08:00">08:00</option>
@@ -1061,7 +1090,12 @@
               name="note"
               rows="3"
               placeholder="Nhập ghi chú về lịch hẹn (nếu có)"
-              style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;"
+              style="
+                width: 100%;
+                padding: 10px;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+              "
             ></textarea>
           </div>
 
@@ -1072,9 +1106,14 @@
               name="staff-note"
               rows="3"
               placeholder="Nhập ghi chú nội bộ về lịch hẹn này"
-              style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;"
+              style="
+                width: 100%;
+                padding: 10px;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+              "
             ></textarea>
-    </div>
+          </div>
 
           <button type="submit">Tạo lịch hẹn</button>
         </form>
@@ -1089,12 +1128,13 @@
         </div>
         <h2 class="modal-title">Tạo Lịch Hẹn Thành Công!</h2>
         <p class="modal-message">
-          Lịch hẹn đã được tạo và lưu vào hệ thống. Bạn có thể xem chi tiết trong mục Danh sách lịch hẹn.
+          Lịch hẹn đã được tạo và lưu vào hệ thống. Bạn có thể xem chi tiết
+          trong mục Danh sách lịch hẹn.
         </p>
         <div class="modal-actions">
           <button onclick="closeSuccessModal()" class="modal-btn close-btn">
             <i class="fas fa-check"></i> Đóng
-        </button>
+          </button>
           <a href="appoinments.html" class="modal-btn view-btn">
             <i class="fas fa-list"></i> Xem Danh Sách
           </a>
@@ -1108,6 +1148,28 @@
         initializeMenu();
         // Khởi tạo form
         initializeForm();
+
+        // Kiểm tra tình trạng ban đầu của form sau khi đã tải xong
+        setTimeout(function () {
+          const purposeAdmin = document.getElementById(
+            "purpose-administrative"
+          );
+          const purposeCivil = document.getElementById("purpose-civil");
+          const elements = {
+            purposeAdmin: document.getElementById("purpose-administrative"),
+            purposeCivil: document.getElementById("purpose-civil"),
+            locationHome: document.getElementById("location-home"),
+            locationCenter: document.getElementById("location-center"),
+            homeDetails: document.getElementById("home-details"),
+            centerDetails: document.getElementById("center-details"),
+          };
+
+          if (purposeAdmin && purposeAdmin.checked) {
+            handlePurposeChange(elements, true);
+          } else if (purposeCivil && purposeCivil.checked) {
+            handlePurposeChange(elements, false);
+          }
+        }, 100);
       });
 
       function initializeMenu() {
@@ -1115,20 +1177,28 @@
         if (!mainMenuDiv) return;
 
         const currentPage = window.location.pathname.split("/").pop();
-          mainMenuDiv.innerHTML = `
-          <a href="index.html" class="menu-item${currentPage === "index.html" ? " active" : ""}">
+        mainMenuDiv.innerHTML = `
+          <a href="index.html" class="menu-item${
+            currentPage === "index.html" ? " active" : ""
+          }">
                 <span class="menu-icon"><i class="fas fa-home"></i></span>
                 Trang chủ
             </a>
-          <a href="booking.html" class="menu-item${currentPage === "booking.html" ? " active" : ""}">
+          <a href="booking.html" class="menu-item${
+            currentPage === "booking.html" ? " active" : ""
+          }">
                 <span class="menu-icon"><i class="fas fa-notes-medical"></i></span>
                 Đặt lịch xét nghiệm
             </a>
-          <a href="appoinments.html" class="menu-item${currentPage === "appoinments.html" ? " active" : ""}">
+          <a href="appoinments.html" class="menu-item${
+            currentPage === "appoinments.html" ? " active" : ""
+          }">
                 <span class="menu-icon"><i class="fas fa-clipboard-list"></i></span>
                 Danh sách lịch hẹn
             </a>
-          <a href="list-kit.html" class="menu-item${currentPage === "list-kit.html" ? " active" : ""}">
+          <a href="list-kit.html" class="menu-item${
+            currentPage === "list-kit.html" ? " active" : ""
+          }">
             <span class="menu-icon"><i class="fas fa-vials"></i></span>
             Danh sách kít xét nghiệm
             </a>
@@ -1137,12 +1207,14 @@
         // Hiển thị thông tin người dùng
         const currentUser = JSON.parse(localStorage.getItem("currentUser"));
         if (currentUser) {
-          document.getElementById("avatar-letter").textContent = currentUser.fullname.charAt(0).toUpperCase();
-          document.getElementById("avatar-fullname").textContent = currentUser.fullname;
-          document.getElementById("avatar-role").textContent = currentUser.role || "Nhân viên";
+          document.getElementById("avatar-letter").textContent =
+            currentUser.fullname.charAt(0).toUpperCase();
+          document.getElementById("avatar-fullname").textContent =
+            currentUser.fullname;
+          document.getElementById("avatar-role").textContent =
+            currentUser.role || "Nhân viên";
         }
       }
-
       function initializeForm() {
         const form = document.getElementById("booking-form");
         if (!form) return;
@@ -1158,23 +1230,57 @@
           homeAddress: document.getElementById("home-address"),
           testQuantity: document.getElementById("test-quantity"),
           appointmentDate: document.getElementById("appointment-date"),
-          appointmentTime: document.getElementById("appointment-time")
+          appointmentTime: document.getElementById("appointment-time"),
         };
 
         // Xử lý khi chọn loại xét nghiệm
         if (elements.purposeAdmin) {
-          elements.purposeAdmin.addEventListener("change", () => handlePurposeChange(elements, true));
+          elements.purposeAdmin.addEventListener("change", () =>
+            handlePurposeChange(elements, true)
+          );
+
+          // Kiểm tra ngay khi tải trang
+          if (elements.purposeAdmin.checked) {
+            handlePurposeChange(elements, true);
+          }
         }
         if (elements.purposeCivil) {
-          elements.purposeCivil.addEventListener("change", () => handlePurposeChange(elements, false));
-        }
+          elements.purposeCivil.addEventListener("change", () =>
+            handlePurposeChange(elements, false)
+          );
 
-        // Xử lý khi chọn phương thức lấy mẫu
+          // Kiểm tra ngay khi tải trang
+          if (elements.purposeCivil.checked) {
+            handlePurposeChange(elements, false);
+          }
+        } // Xử lý khi chọn phương thức lấy mẫu
         if (elements.locationHome) {
-          elements.locationHome.addEventListener("change", () => handleLocationChange(elements, true));
+          elements.locationHome.addEventListener("change", () => {
+            // Kiểm tra xem có phải là xét nghiệm hành chính không
+            if (elements.purposeAdmin && elements.purposeAdmin.checked) {
+              // Nếu là hành chính thì không cho phép chọn lấy mẫu tại nhà
+              elements.locationCenter.checked = true;
+              handleLocationChange(elements, false);
+              return;
+            }
+            handleLocationChange(elements, true);
+          });
+
+          // Thêm sự kiện click cho label của radio button để ngăn chặn click khi bị vô hiệu hóa
+          const homeLabel = elements.locationHome.parentElement;
+          if (homeLabel) {
+            homeLabel.addEventListener("click", (e) => {
+              if (elements.purposeAdmin && elements.purposeAdmin.checked) {
+                e.preventDefault();
+                return false;
+              }
+            });
+          }
         }
         if (elements.locationCenter) {
-          elements.locationCenter.addEventListener("change", () => handleLocationChange(elements, false));
+          elements.locationCenter.addEventListener("change", () =>
+            handleLocationChange(elements, false)
+          );
         }
 
         // Xử lý submit form
@@ -1183,22 +1289,30 @@
         // Xử lý đóng modal
         setupModalHandlers();
       }
-
       function handlePurposeChange(elements, isAdministrative) {
         if (!elements.locationHome) return;
 
         elements.locationHome.disabled = isAdministrative;
-        elements.locationHome.parentElement.style.opacity = isAdministrative ? "0.5" : "1";
-        elements.locationHome.parentElement.style.cursor = isAdministrative ? "not-allowed" : "pointer";
-
+        const homeLabel = document.getElementById("home-label");
+        const notice = document.getElementById("admin-notice");
         if (isAdministrative) {
           elements.locationCenter.checked = true;
           elements.centerDetails.style.display = "block";
           elements.homeDetails.style.display = "none";
-          addAdminNotice();
-            } else {
-          const notice = document.getElementById("admin-notice");
-          if (notice) notice.remove();
+          if (homeLabel) {
+            homeLabel.style.opacity = "0.5";
+            homeLabel.style.cursor = "not-allowed";
+          }
+          if (notice) notice.style.display = "inline";
+          // Đảm bảo không thể chọn radio bằng phím tab
+          elements.locationHome.tabIndex = -1;
+        } else {
+          if (homeLabel) {
+            homeLabel.style.opacity = "1";
+            homeLabel.style.cursor = "pointer";
+          }
+          if (notice) notice.style.display = "none";
+          elements.locationHome.tabIndex = 0;
         }
       }
 
@@ -1209,8 +1323,10 @@
         // Toggle required fields
         if (elements.homeAddress) elements.homeAddress.required = isHome;
         if (elements.testQuantity) elements.testQuantity.required = isHome;
-        if (elements.appointmentDate) elements.appointmentDate.required = !isHome;
-        if (elements.appointmentTime) elements.appointmentTime.required = !isHome;
+        if (elements.appointmentDate)
+          elements.appointmentDate.required = !isHome;
+        if (elements.appointmentTime)
+          elements.appointmentTime.required = !isHome;
       }
 
       async function handleFormSubmit(e, elements) {
@@ -1223,11 +1339,12 @@
           // Show loading state
           const submitBtn = e.target.querySelector('button[type="submit"]');
           const originalBtnText = submitBtn.innerHTML;
-          submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang xử lý...';
+          submitBtn.innerHTML =
+            '<i class="fas fa-spinner fa-spin"></i> Đang xử lý...';
           submitBtn.disabled = true;
 
           // Simulate API call
-          await new Promise(resolve => setTimeout(resolve, 1000));
+          await new Promise((resolve) => setTimeout(resolve, 1000));
 
           // Show success modal
           document.getElementById("successModal").style.display = "flex";
@@ -1241,7 +1358,6 @@
           // Restore button
           submitBtn.innerHTML = originalBtnText;
           submitBtn.disabled = false;
-
         } catch (error) {
           alert(error.message);
         }
@@ -1257,7 +1373,7 @@
           sampleMethod: elements.locationHome.checked ? "home" : "center",
           note: document.getElementById("note").value || "",
           staffNote: document.getElementById("staff-note").value || "",
-          status: document.getElementById("status").value
+          status: document.getElementById("status").value,
         };
 
         // Validate location specific fields
@@ -1265,9 +1381,15 @@
           formData.address = getRequiredValue("home-address", "địa chỉ");
           formData.testQuantity = elements.testQuantity.value;
         } else {
-          formData.appointmentDate = getRequiredValue("appointment-date", "ngày hẹn");
-          formData.appointmentTime = getRequiredValue("appointment-time", "giờ hẹn");
-      }
+          formData.appointmentDate = getRequiredValue(
+            "appointment-date",
+            "ngày hẹn"
+          );
+          formData.appointmentTime = getRequiredValue(
+            "appointment-time",
+            "giờ hẹn"
+          );
+        }
 
         return formData;
       }
@@ -1283,7 +1405,10 @@
         const closeBtn = document.querySelector(".close-btn");
 
         if (closeBtn) {
-          closeBtn.addEventListener("click", () => modal.style.display = "none");
+          closeBtn.addEventListener(
+            "click",
+            () => (modal.style.display = "none")
+          );
         }
 
         window.addEventListener("click", (event) => {
@@ -1298,12 +1423,16 @@
 
         const notice = document.createElement("div");
         notice.id = "admin-notice";
-        notice.style.cssText = "color: #ff5722; font-size: 13px; margin-top: 5px;";
-        notice.textContent = "* Xét nghiệm có giá trị pháp lý bắt buộc phải lấy mẫu tại trung tâm";
+        notice.style.cssText =
+          "color: #ff5722; font-size: 13px; margin-top: 5px;";
+        notice.textContent =
+          "* Xét nghiệm có giá trị pháp lý bắt buộc phải lấy mẫu tại trung tâm";
 
-        const radioGroup = document.querySelector('input[name="sample-location"]');
+        const radioGroup = document.querySelector(
+          'input[name="sample-location"]'
+        );
         if (radioGroup) {
-          const parentGroup = radioGroup.closest('.radio-group');
+          const parentGroup = radioGroup.closest(".radio-group");
           if (parentGroup) parentGroup.appendChild(notice);
         }
       }
@@ -1325,12 +1454,11 @@
       // Add this function to handle logout
       function handleLogout() {
         // Clear user data from localStorage
-        localStorage.removeItem('currentUser');
-        
+        localStorage.removeItem("currentUser");
+
         // Redirect to login page
-        window.location.href = 'login.html';
+        window.location.href = "login.html";
       }
     </script>
   </body>
 </html>
-
