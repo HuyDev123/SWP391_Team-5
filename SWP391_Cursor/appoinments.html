@@ -1910,17 +1910,17 @@
           const defaultAvatar = "assets/images/user-avatar.jpg";
           loginButton.innerHTML = `
             <div class="user-dropdown">
-              <span class="user-name">
+                <span class="user-name">
                 <img src="${user.avatar || defaultAvatar}" alt="Avatar" class="user-avatar">
-                ${user.fullName || "Người dùng"}
-                <i class="fas fa-caret-down"></i>
-              </span>
-              <div class="dropdown-content">
-                <a href="newprofile.html">Tài khoản</a>
-                <a href="appoinments.html">Lịch hẹn</a>
-                <a href="historytest.html">Lịch sử xét nghiệm</a>
-                <a href="#" onclick="handleLogout(); return false;">Đăng xuất</a>
-              </div>
+                    ${user.fullName || "Người dùng"}
+                    <i class="fas fa-caret-down"></i>
+                </span>
+                <div class="dropdown-content">
+                    <a href="newprofile.html">Tài khoản</a>
+                    <a href="appoinments.html">Lịch hẹn</a>
+                    <a href="historytest.html">Lịch sử xét nghiệm</a>
+                    <a href="#" onclick="handleLogout(); return false;">Đăng xuất</a>
+                </div>
             </div>
           `;
           loginButton.classList.add("logged-in");
