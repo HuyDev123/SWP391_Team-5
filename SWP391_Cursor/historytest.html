@@ -21,130 +21,155 @@
         background-color: #f5f5f5;
         margin: 0;
         padding: 0;
-        font-family: Arial, sans-serif;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       }
 
       .main-content {
         max-width: 1200px;
         margin: 0 auto;
-        padding: 20px;
+        padding: 30px;
         margin-top: 80px;
       }
 
       .page-title {
-        font-size: 28px;
-        color: #0288d1;
-        margin-bottom: 20px;
+        font-size: 32px;
+        color: #1976d2;
+        margin-bottom: 30px;
         display: flex;
         align-items: center;
+        letter-spacing: -0.5px;
       }
 
       .page-title i {
-        margin-right: 10px;
+        margin-right: 15px;
+        color: #1976d2;
       }
 
       .history-container {
         background-color: white;
-        border-radius: 8px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        padding: 25px;
-        margin-bottom: 20px;
+        border-radius: 16px;
+        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+        padding: 30px;
+        margin-bottom: 30px;
       }
 
       .history-title {
-        font-size: 20px;
-        color: #0288d1;
-        margin-bottom: 20px;
-        border-bottom: 1px solid #eee;
-        padding-bottom: 10px;
+        font-size: 22px;
+        color: #1976d2;
+        margin-bottom: 25px;
+        border-bottom: 1px solid #e0e0e0;
+        padding-bottom: 15px;
         display: flex;
         align-items: center;
       }
 
       .history-title i {
-        margin-right: 10px;
+        margin-right: 12px;
       }
 
       .filter-form {
         display: flex;
         flex-wrap: wrap;
-        gap: 15px;
-        margin-bottom: 20px;
+        gap: 20px;
+        margin-bottom: 30px;
       }
 
       .filter-group {
         display: flex;
         flex-direction: column;
-        min-width: 200px;
+        min-width: 220px;
       }
 
       .filter-label {
         font-weight: 500;
-        margin-bottom: 5px;
-        color: #555;
+        margin-bottom: 8px;
+        color: #37474f;
+        font-size: 14px;
       }
 
       .filter-input,
       .filter-select {
-        padding: 8px 12px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
+        padding: 12px 16px;
+        border: 1px solid #e0e0e0;
+        border-radius: 12px;
         font-size: 14px;
+        transition: all 0.3s ease;
+        background-color: #fff;
+      }
+
+      .filter-input:focus,
+      .filter-select:focus {
+        border-color: #1976d2;
+        box-shadow: 0 0 0 4px rgba(25, 118, 210, 0.1);
+        outline: none;
       }
 
       .filter-button {
-        background-color: #0288d1;
+        background: linear-gradient(45deg, #1976d2, #2196f3);
         color: white;
         border: none;
-        padding: 8px 15px;
-        border-radius: 4px;
+        padding: 12px 24px;
+        border-radius: 12px;
         cursor: pointer;
         display: flex;
         align-items: center;
-        font-weight: 500;
-        transition: background-color 0.3s;
+        font-weight: 600;
+        transition: all 0.3s ease;
         align-self: flex-end;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-size: 14px;
       }
 
       .filter-button i {
-        margin-right: 8px;
+        margin-right: 10px;
       }
 
       .filter-button:hover {
-        background-color: #0277bd;
+        background: linear-gradient(45deg, #1565c0, #1976d2);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(33, 150, 243, 0.25);
       }
 
       .history-table {
         width: 100%;
-        border-collapse: collapse;
+        border-collapse: separate;
+        border-spacing: 0;
         margin-top: 20px;
       }
 
       .history-table th {
-        background-color: #e3f2fd;
-        padding: 12px 15px;
+        background-color: #f5f5f5;
+        padding: 16px 20px;
         text-align: left;
-        font-weight: 500;
-        color: #444;
-        border-bottom: 1px solid #ddd;
+        font-weight: 600;
+        color: #37474f;
+        border-bottom: 2px solid #e0e0e0;
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
       }
 
       .history-table td {
-        padding: 12px 15px;
-        border-bottom: 1px solid #eee;
-        color: #555;
+        padding: 16px 20px;
+        border-bottom: 1px solid #e0e0e0;
+        color: #37474f;
+        font-size: 14px;
+        vertical-align: middle;
       }
 
       .history-table tr:hover {
-        background-color: #f9f9f9;
+        background-color: #f8f9fa;
       }
 
       .status-badge {
-        display: inline-block;
-        padding: 4px 8px;
-        border-radius: 4px;
-        font-size: 12px;
-        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 13px;
+        font-weight: 600;
+        line-height: 1;
       }
 
       .status-completed {
@@ -154,7 +179,7 @@
 
       .status-processing {
         background-color: #fff8e1;
-        color: #ff8f00;
+        color: #f57c00;
       }
 
       .status-cancelled {
@@ -163,25 +188,56 @@
       }
 
       .action-button {
-        background-color: #0288d1;
+        background: linear-gradient(45deg, #1976d2, #2196f3);
         color: white;
         border: none;
-        padding: 6px 12px;
-        border-radius: 4px;
+        padding: 8px 16px;
+        border-radius: 20px;
         cursor: pointer;
         font-size: 13px;
-        transition: background-color 0.3s;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
       }
 
       .action-button:hover {
-        background-color: #0277bd;
+        background: linear-gradient(45deg, #1565c0, #1976d2);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(33, 150, 243, 0.2);
+      }
+
+      .action-button.disabled {
+        background: #9e9e9e;
+        cursor: default;
+        opacity: 0.8;
+      }
+
+      .action-button i {
+        font-size: 14px;
       }
 
       .no-results {
         text-align: center;
-        padding: 20px;
-        color: #777;
+        padding: 40px;
+        color: #78909c;
         font-style: italic;
+        font-size: 15px;
+      }
+
+      .modal-feedback-iframe {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 99999;
+        backdrop-filter: blur(4px);
       }
 
       @media (max-width: 768px) {
@@ -191,6 +247,17 @@
 
         .filter-group {
           width: 100%;
+        }
+
+        .filter-button {
+          width: 100%;
+          justify-content: center;
+        }
+
+        .history-table {
+          display: block;
+          overflow-x: auto;
+          white-space: nowrap;
         }
       }
     </style>
@@ -376,6 +443,7 @@
 
     <!-- Script xác thực -->
     <script src="assets/js/auth.js"></script>
+    <script src="assets/js/main.js"></script>
     <script>
       // Danh sách dịch vụ mẫu (đồng bộ với appoinments.html)
       const serviceNames = [
@@ -503,10 +571,9 @@
                 item.status
               }</span></td>
               <td>
-                
                 ${
                   !item.isReviewed
-                    ? `<button class="action-button" style="background-color: #4caf50; margin-left: 5px;" onclick="openFeedbackIframe('${item.id}', '${item.user_id}', '${item.staff_id}')">
+                    ? `<button class="action-button" style="background-color: #4caf50; margin-left: 5px;" onclick="openFeedbackIframe('${item.id}', '${item.customerId}', '${item.staff_id}')">
       <i class="fas fa-star"></i> Đánh giá dịch vụ
      </button>`
                     : `<button class="action-button" style="background-color: #9e9e9e; margin-left: 5px; cursor: default;" disabled>
@@ -619,43 +686,40 @@
 
       // Xử lý đăng nhập và phân quyền
       document.addEventListener("DOMContentLoaded", function () {
-        // Cập nhật trạng thái đăng nhập từ auth.js
-        updateAuthUI();
-
         // Kiểm tra quyền truy cập
         const authStatus = Auth.checkLoginStatus();
         if (!authStatus.isLoggedIn) {
-          // Nếu chưa đăng nhập, chuyển hướng về trang đăng nhập
           alert("Vui lòng đăng nhập để xem lịch sử xét nghiệm!");
           window.location.href = "login.html";
-        } else {
-          // Nếu đã đăng nhập, hiển thị dữ liệu
-          renderTestHistory(testHistoryData);
+          return;
         }
+
+        // Hiển thị dữ liệu mẫu ban đầu
+        renderTestHistory(testHistoryData);
+        
+        // Cập nhật UI đăng nhập
+        updateAuthUI();
       });
 
-      // Hàm cập nhật giao diện đăng nhập
       function updateAuthUI() {
         const loginButton = document.querySelector(".nav-link.login-button");
         const authStatus = Auth.checkLoginStatus();
         if (authStatus.isLoggedIn) {
           const user = authStatus.user;
-          const defaultAvatar = "assets/images/auth/user-avatar.jpg";
+          const defaultAvatar = "assets/images/user-avatar.jpg";
           loginButton.innerHTML = `
             <div class="user-dropdown">
-                <span class="user-name">
-                    <img src="${
-                      user.avatar || defaultAvatar
-                    }" alt="Avatar" class="user-avatar">
-                    ${user.fullName || "Người dùng"}
-                    <i class="fas fa-caret-down"></i>
-                </span>
-                <div class="dropdown-content">
-                    <a href="newprofile.html">Tài khoản</a>
-                    <a href="appoinments.html">Lịch hẹn</a>
-                    <a href="historytest.html">Lịch sử xét nghiệm</a>
-                    <a href="#" onclick="handleLogout(); return false;">Đăng xuất</a>
-                </div>
+              <span class="user-name">
+                <img src="${user.avatar || defaultAvatar}" alt="Avatar" class="user-avatar">
+                ${user.fullName || "Người dùng"}
+                <i class="fas fa-caret-down"></i>
+              </span>
+              <div class="dropdown-content">
+                <a href="newprofile.html">Tài khoản</a>
+                <a href="appoinments.html">Lịch hẹn</a>
+                <a href="historytest.html">Lịch sử xét nghiệm</a>
+                <a href="#" onclick="handleLogout(); return false;">Đăng xuất</a>
+              </div>
             </div>
           `;
           loginButton.classList.add("logged-in");
@@ -667,14 +731,13 @@
         }
       }
 
-      // Hàm xử lý đăng xuất
       function handleLogout() {
         if (confirm("Bạn có chắc chắn muốn đăng xuất?")) {
           Auth.logout()
             .then(() => {
               updateAuthUI();
               alert("Đăng xuất thành công!");
-              window.location.href = "login.html"; // Chuyển hướng về trang đăng nhập sau khi đăng xuất
+              window.location.reload();
             })
             .catch((error) => {
               alert("Có lỗi xảy ra khi đăng xuất.");

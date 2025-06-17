@@ -19,6 +19,7 @@
   color: #333;
   font-weight: 500;
   border-radius: 5px;
+  cursor: pointer;
 }
 
 .user-avatar {
@@ -62,8 +63,8 @@
   border-left: 3px solid #0288d1;
 }
 
-/* Hiển thị dropdown khi hover */
-.user-dropdown:hover .dropdown-content {
+/* Class để hiển thị dropdown khi click */
+.dropdown-content.show {
   display: block;
   animation: fadeIn 0.2s ease;
 }
@@ -92,8 +93,8 @@
   box-shadow: -2px -2px 5px rgba(0, 0, 0, 0.04);
 }
 
-/* Hiệu ứng hover cho user name */
-.user-dropdown:hover .user-name {
+/* Style khi user name được click */
+.user-name.active {
   background-color: rgba(0, 0, 0, 0.04);
 }
 

@@ -652,6 +652,7 @@
         color: #333 !important;
         font-weight: 500 !important;
         border-radius: 5px !important;
+        cursor: pointer !important;
       }
 
       .user-avatar {
@@ -696,8 +697,8 @@
         color: #0288d1 !important;
       }
 
-      /* Hiển thị dropdown khi hover */
-      .user-dropdown:hover .dropdown-content {
+      /* Class để hiển thị dropdown khi click */
+      .dropdown-content.show {
         display: block !important;
         animation: fadeIn 0.2s ease !important;
       }
@@ -726,8 +727,8 @@
         box-shadow: -2px -2px 5px rgba(0, 0, 0, 0.04) !important;
       }
 
-      /* Hiệu ứng hover cho user name */
-      .user-dropdown:hover .user-name {
+      /* Style khi user name được click */
+      .user-name.active {
         background-color: rgba(0, 0, 0, 0.04) !important;
       }
 
@@ -1159,6 +1160,26 @@
 
           loginButton.classList.add("logged-in");
           loginButton.removeAttribute("href");
+
+          // Thêm xử lý sự kiện click cho dropdown
+          const userDropdown = loginButton.querySelector('.user-name');
+          const dropdownContent = loginButton.querySelector('.dropdown-content');
+
+          if (userDropdown && dropdownContent) {
+              userDropdown.addEventListener('click', function(e) {
+                  e.stopPropagation();
+                  this.classList.toggle('active');
+                  dropdownContent.classList.toggle('show');
+              });
+
+              // Đóng dropdown khi click ra ngoài
+              document.addEventListener('click', function(e) {
+                  if (!userDropdown.contains(e.target)) {
+                      userDropdown.classList.remove('active');
+                      dropdownContent.classList.remove('show');
+                  }
+              });
+          }
 
           // Cập nhật nút đăng ký ở sidebar (nếu có)
           if (registerBtn) {

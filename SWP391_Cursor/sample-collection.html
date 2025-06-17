@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="assets/css/styles.css" />
     <link rel="stylesheet" href="assets/css/header.css" />
     <link rel="stylesheet" href="assets/css/footer.css" />
+    <link rel="stylesheet" href="assets/css/user-dropdown.css" />
     <style>
       body {
         margin: 0;
@@ -651,60 +652,53 @@
       </div>
     </div>
     <script src="assets/js/auth.js"></script>
+    <script src="assets/js/main.js"></script>
     <script>
-      // Xử lý đăng nhập/đăng xuất giống index.html
       document.addEventListener("DOMContentLoaded", function () {
         updateAuthUI();
       });
+
       function updateAuthUI() {
         const loginButton = document.querySelector(".nav-link.login-button");
-        const registerBtn = document.querySelector(
-          ".quick-contact-btn.register"
-        );
-        const authStatus =
-          Auth && Auth.checkLoginStatus
-            ? Auth.checkLoginStatus()
-            : { isLoggedIn: false };
-
+        const authStatus = Auth.checkLoginStatus();
         if (authStatus.isLoggedIn) {
           const user = authStatus.user;
           const defaultAvatar = "assets/images/user-avatar.jpg";
           loginButton.innerHTML = `
             <div class="user-dropdown">
               <span class="user-name">
-                <img src="${
-                  user.avatar || defaultAvatar
-                }" class="user-avatar" alt="avatar" />
-                ${user.fullName || user.name || "Tài khoản"}
+                <img src="${user.avatar || defaultAvatar}" alt="Avatar" class="user-avatar">
+                ${user.fullName || "Người dùng"}
                 <i class="fas fa-caret-down"></i>
               </span>
               <div class="dropdown-content">
-                <a href="newprofile.html">Thông tin tài khoản</a>
+                <a href="newprofile.html">Tài khoản</a>
+                <a href="appoinments.html">Lịch hẹn</a>
                 <a href="historytest.html">Lịch sử xét nghiệm</a>
-                <a href="appoinments.html">Lịch hẹn của tôi</a>
                 <a href="#" onclick="handleLogout(); return false;">Đăng xuất</a>
               </div>
             </div>
           `;
           loginButton.classList.add("logged-in");
           loginButton.removeAttribute("href");
-          if (registerBtn) {
-            registerBtn.setAttribute("href", "newprofile.html");
-            registerBtn.querySelector("span").textContent = "Tài khoản";
-          }
         } else {
           loginButton.innerHTML = "Đăng nhập";
           loginButton.classList.remove("logged-in");
           loginButton.setAttribute("href", "login.html");
-          if (registerBtn) {
-            registerBtn.setAttribute("href", "login.html");
-            registerBtn.querySelector("span").textContent = "Đăng ký";
-          }
         }
       }
+
       function handleLogout() {
         if (confirm("Bạn có chắc chắn muốn đăng xuất?")) {
-          Auth.logout && Auth.logout();
+          Auth.logout()
+            .then(() => {
+              updateAuthUI();
+              alert("Đăng xuất thành công!");
+              window.location.reload();
+            })
+            .catch((error) => {
+              alert("Có lỗi xảy ra khi đăng xuất.");
+            });
         }
       }
     </script>

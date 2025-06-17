@@ -61,11 +61,9 @@ header {
   color: #444;
   font-size: 1em;
   font-weight: 500;
-  transition: background-color 0.2s ease;
   white-space: nowrap;
   padding: 8px 16px;
   border-radius: 20px;
-  position: relative;
 }
 
 .nav-link:hover {
@@ -84,39 +82,35 @@ header {
   padding: 10px 24px !important;
   border-radius: 20px;
   font-weight: 500;
-  transition: background-color 0.2s ease;
 }
 
 .login-button:hover {
   background: linear-gradient(135deg, #1976D2, #0D47A1);
 }
 
-/* Kiểu dáng cho người dùng đã đăng nhập */
+/* User Dropdown Styles */
 .nav-link.login-button.logged-in {
   background: transparent;
   padding: 0 !important;
   margin: 0;
-  cursor: default;
-  color: inherit !important;
-  box-shadow: none;
+  cursor: pointer;
+  position: relative;
 }
 
 .user-dropdown {
   position: relative;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  height: 100%;
+  display: inline-block;
 }
 
 .user-name {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 15px;
+  padding: 8px 12px;
   color: #333;
-  border-radius: 20px;
-  transition: background-color 0.2s ease;
+  font-weight: 500;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 .user-avatar {
@@ -132,34 +126,55 @@ header {
   position: absolute;
   right: 0;
   top: 100%;
-  background-color: white;
-  min-width: 180px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-  border-radius: 12px;
+  margin-top: 5px;
+  background-color: #fff;
+  min-width: 200px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
   padding: 8px 0;
   z-index: 1000;
+  overflow: hidden;
 }
 
 .dropdown-content a {
-  color: #333;
-  padding: 10px 15px;
-  text-decoration: none;
   display: block;
+  text-align: left;
+  padding: 12px 16px;
+  text-decoration: none;
+  color: #333;
   font-size: 14px;
-  transition: background-color 0.2s ease;
+  border-left: 3px solid transparent;
 }
 
 .dropdown-content a:hover {
   background-color: rgba(33, 150, 243, 0.1);
+  border-left: 3px solid #2196F3;
   color: #2196F3;
 }
 
-.user-dropdown:hover .dropdown-content {
+.dropdown-content.show {
   display: block;
 }
 
-.user-dropdown:hover .user-name {
+.dropdown-content::before {
+  content: "";
+  position: absolute;
+  top: -6px;
+  right: 15px;
+  width: 12px;
+  height: 12px;
+  background: white;
+  transform: rotate(45deg);
+  box-shadow: -2px -2px 5px rgba(0, 0, 0, 0.04);
+}
+
+.user-name.active {
   background-color: rgba(33, 150, 243, 0.1);
+}
+
+.user-dropdown .user-name i {
+  color: #777;
+  margin-left: 5px;
 }
 
 /* Content spacing for all pages */
@@ -167,6 +182,7 @@ header {
   margin-top: 80px !important;
 }
 
+/* Responsive Design */
 @media (max-width: 768px) {
   header {
     padding: 8px 15px;

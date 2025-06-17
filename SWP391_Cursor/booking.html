@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="assets/css/styles.css" />
     <link rel="stylesheet" href="assets/css/service-pages.css" />
     <link rel="stylesheet" href="assets/css/header.css" />
+    <link rel="stylesheet" href="assets/css/user-dropdown.css" />
     <style>
       body {
         margin: 0;
@@ -629,6 +630,7 @@
     </div>
 
     <script src="assets/js/auth.js"></script>
+    <script src="assets/js/main.js"></script>
     <script>
       // Cập nhật UI đăng nhập/đăng xuất và tự động điền thông tin user
       document.addEventListener("DOMContentLoaded", function () {
@@ -645,9 +647,7 @@
           loginButton.innerHTML = `
             <div class="user-dropdown">
               <span class="user-name">
-                <img src="${
-                  user.avatar || defaultAvatar
-                }" alt="Avatar" class="user-avatar">
+                <img src="${user.avatar || defaultAvatar}" alt="Avatar" class="user-avatar">
                 ${user.fullName || "Người dùng"}
                 <i class="fas fa-caret-down"></i>
               </span>
