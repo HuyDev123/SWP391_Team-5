@@ -849,40 +849,40 @@
       const urlParams = new URLSearchParams(window.location.search);
       const appointmentId = urlParams.get("appointmentId");
 
-      // Load thông tin Appointment khi trang được tải
-      document.addEventListener("DOMContentLoaded", function () {
-        if (appointmentId) {
-          loadAppointmentInfo(appointmentId);
-        } else {
-          alert("Không tìm thấy mã lịch hẹn!");
-          goBack();
-        }
+      // // Load thông tin Appointment khi trang được tải
+      // document.addEventListener("DOMContentLoaded", function () {
+      //   if (appointmentId) {
+      //     loadAppointmentInfo(appointmentId);
+      //   } else {
+      //     alert("Không tìm thấy mã lịch hẹn!");
+      //     goBack();
+      //   }
 
-        // Set up form validation
-        setupFormValidation();
+      //   // Set up form validation
+      //   setupFormValidation();
         
-        // Thiết lập ngày tối thiểu cho input date
-        const today = new Date().toISOString().split("T")[0];
-        if (document.getElementById("appointment-date")) {
-          document.getElementById("appointment-date").min = today;
-        }
-      });
+      //   // Thiết lập ngày tối thiểu cho input date
+      //   const today = new Date().toISOString().split("T")[0];
+      //   if (document.getElementById("appointment-date")) {
+      //     document.getElementById("appointment-date").min = today;
+      //   }
+      // });
 
-      // Load thông tin Appointment từ server
-      async function loadAppointmentInfo(appointmentId) {
-        try {
-          const response = await fetch(`/api/appointments/${appointmentId}`);
-          if (response.ok) {
-            const appointmentData = await response.json();
-            populateForm(appointmentData);
-          } else {
-            throw new Error("Không thể tải thông tin lịch hẹn");
-          }
-        } catch (error) {
-          console.error("Error:", error);
-          alert("Lỗi khi tải thông tin lịch hẹn: " + error.message);
-        }
-      }
+      // // Load thông tin Appointment từ server
+      // async function loadAppointmentInfo(appointmentId) {
+      //   try {
+      //     const response = await fetch(`/api/appointments/${appointmentId}`);
+      //     if (response.ok) {
+      //       const appointmentData = await response.json();
+      //       populateForm(appointmentData);
+      //     } else {
+      //       throw new Error("Không thể tải thông tin lịch hẹn");
+      //     }
+      //   } catch (error) {
+      //     console.error("Error:", error);
+      //     alert("Lỗi khi tải thông tin lịch hẹn: " + error.message);
+      //   }
+      // }
 
       // Điền thông tin vào form
       function populateForm(appointmentData) {

@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chi Tiết Lịch Hẹn - Dịch Vụ Xét Nghiệm ADN</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Segoe UI', Arial, sans-serif;
+      }
+
+      body {
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 20px;
+      }
+
+      .appointment-details-container {
+        background-color: white;
+        border-radius: 15px;
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        padding: 40px;
+        width: 100%;
+        max-width: 800px;
+        animation: fadeIn 0.5s ease-out;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .details-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 30px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #e0e0e0;
+      }
+
+      .header-left {
+        display: flex;
+        align-items: center;
+      }
+
+      .logo {
+        width: 50px;
+        height: 50px;
+        margin-right: 15px;
+      }
+
+      .header-title {
+        font-size: 24px;
+        font-weight: bold;
+        color: #2196f3;
+      }
+
+      .appointment-badge {
+        background-color: #e3f2fd;
+        color: #2196f3;
+        padding: 8px 15px;
+        border-radius: 20px;
+        font-weight: 500;
+        font-size: 14px;
+      }
+
+      .details-section {
+        margin-bottom: 30px;
+      }
+
+      .section-title {
+        font-size: 18px;
+        color: #333;
+        margin-bottom: 15px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #eee;
+        display: flex;
+        align-items: center;
+      }
+
+      .section-title i {
+        margin-right: 10px;
+        color: #2196f3;
+      }
+
+      .info-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+      }
+
+      .info-item {
+        margin-bottom: 15px;
+      }
+
+      .info-label {
+        font-size: 14px;
+        color: #666;
+        margin-bottom: 5px;
+      }
+
+      .info-value {
+        font-size: 16px;
+        color: #333;
+        font-weight: 500;
+      }
+
+      .services-list {
+        margin-top: 15px;
+        list-style: none;
+      }
+
+      .service-item {
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .service-name {
+        font-weight: 500;
+        color: #333;
+        display: flex;
+        align-items: center;
+      }
+
+      .service-name i {
+        margin-right: 10px;
+        color: #2196f3;
+      }
+
+      .service-purpose {
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 500;
+      }
+
+      .purpose-admin {
+        background-color: #e8f5e9;
+        color: #388e3c;
+      }
+
+      .purpose-civil {
+        background-color: #fff8e1;
+        color: #ff8f00;
+      }
+
+      .status-badge {
+        display: inline-block;
+        padding: 8px 15px;
+        border-radius: 20px;
+        font-size: 14px;
+        font-weight: 500;
+        text-align: center;
+        margin-top: 10px;
+      }
+
+      .status-scheduled {
+        background-color: #fff8e1;
+        color: #ff8f00;
+      }
+
+      .status-completed {
+        background-color: #e8f5e9;
+        color: #388e3c;
+      }
+
+      .status-cancelled {
+        background-color: #ffebee;
+        color: #d32f2f;
+      }
+
+      .status-processing {
+        background-color: #e3f2fd;
+        color: #1976d2;
+      }
+
+      .action-buttons {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 30px;
+      }
+
+      .btn {
+        padding: 12px 20px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .btn i {
+        margin-right: 8px;
+      }
+
+      .btn-primary {
+        background-color: #2196f3;
+        color: white;
+        border: none;
+      }
+
+      .btn-secondary {
+        background-color: #f5f5f5;
+        color: #333;
+        border: 1px solid #ddd;
+      }
+
+      .btn-primary:hover {
+        background-color: #1976d2;
+      }
+
+      .btn-secondary:hover {
+        background-color: #eee;
+      }
+
+      @media (max-width: 600px) {
+        .appointment-details-container {
+          padding: 20px;
+        }
+
+        .details-header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .appointment-badge {
+          margin-top: 15px;
+        }
+
+        .action-buttons {
+          flex-direction: column;
+          gap: 15px;
+        }
+
+        .btn {
+          width: 100%;
+        }
+
+        .info-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="appointment-details-container">
+      <div class="details-header">
+        <div class="header-left">
+          <img src="assets/images/Logo.jpg" alt="Logo" class="logo" />
+          <h1 class="header-title">Chi Tiết Lịch Hẹn</h1>
+        </div>
+        <div class="appointment-badge" id="appointment-id">Mã: AP001</div>
+      </div>
+
+      <div class="details-section">
+        <h2 class="section-title">
+          <i class="fas fa-info-circle"></i> Thông Tin Khách Hàng
+        </h2>
+        <div class="info-grid">
+          <div class="info-item">
+            <div class="info-label">Mã Khách Hàng</div>
+            <div class="info-value" id="customer-id">KH001</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">Tên Khách Hàng</div>
+            <div class="info-value" id="customer-name">Nguyễn Văn A</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="details-section">
+        <h2 class="section-title">
+          <i class="fas fa-calendar-alt"></i> Thông Tin Lịch Hẹn
+        </h2>
+        <div class="info-grid">
+          <div class="info-item">
+            <div class="info-label">Ngày Hẹn</div>
+            <div class="info-value" id="appointment-date">18/06/2025</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">Giờ Hẹn</div>
+            <div class="info-value" id="appointment-time">09:30</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">Phương Thức Lấy Mẫu</div>
+            <div class="info-value" id="collection-method">Tại nhà</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">Nhân Viên Thực Hiện</div>
+            <div class="info-value" id="staff-name">Trần Thị B</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">Trạng Thái</div>
+            <div class="status-badge status-scheduled" id="status-badge">Đã đặt</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="details-section">
+        <h2 class="section-title">
+          <i class="fas fa-flask"></i> Dịch Vụ Xét Nghiệm
+        </h2>
+        <ul class="services-list" id="services-list">
+          <!-- Danh sách dịch vụ sẽ được thêm bằng JavaScript -->
+        </ul>
+      </div>
+
+      <div class="details-section">
+        <h2 class="section-title">
+          <i class="fas fa-clipboard"></i> Ghi Chú
+        </h2>
+        <div class="info-item">
+          <div class="info-value" id="notes">
+            Khách hàng yêu cầu kết quả sớm.
+          </div>
+        </div>
+      </div>
+
+      <div class="action-buttons">
+        <a href="appoinments.html" class="btn btn-secondary">
+          <i class="fas fa-arrow-left"></i>Quay lại
+        </a>
+        <button class="btn btn-primary" onclick="editAppointment()" id="edit-btn">
+          <i class="fas fa-edit"></i>Chỉnh sửa
+        </button>
+      </div>
+    </div>
+
+    <script src="assets/js/api.js"></script>
+    <script src="assets/js/auth-check.js"></script>
+    <script>
+    //   // Lấy ID từ URL
+    //   function getAppointmentIdFromUrl() {
+    //     const urlParams = new URLSearchParams(window.location.search);
+    //     return urlParams.get('id');
+    //   }
+
+      // Hiển thị trạng thái
+      function displayStatus(status) {
+        const statusBadge = document.getElementById('status-badge');
+        statusBadge.textContent = status;
+        
+        // Xóa tất cả class status cũ
+        statusBadge.classList.remove('status-scheduled', 'status-completed', 'status-cancelled', 'status-processing');
+        
+        // Thêm class thích hợp
+        if (status === 'Đã đặt') {
+          statusBadge.classList.add('status-scheduled');
+        } else if (status === 'Đã hoàn thành' || status === 'Đã trả kết quả') {
+          statusBadge.classList.add('status-completed');
+        } else if (status === 'Đã hủy') {
+          statusBadge.classList.add('status-cancelled');
+        } else {
+          statusBadge.classList.add('status-processing');
+        }
+      }
+
+      // Chuyển đổi tên dịch vụ
+      function getServiceDisplay(service) {
+        switch (service) {
+          case "ADN cha-con":
+            return "Xét nghiệm ADN cha-con";
+          case "ADN mẹ-con":
+            return "Xét nghiệm ADN mẹ-con";
+          case "ADN anh,chi-em":
+            return "Xét nghiệm ADN anh,chị-em";
+          case "ADN ông,bà-cháu":
+            return "Xét nghiệm ADN ông, bà - cháu";
+          default:
+            return service;
+        }
+      }
+
+      // Hiển thị dịch vụ
+      function displayServices(services) {
+        const servicesList = document.getElementById('services-list');
+        servicesList.innerHTML = ''; // Xóa nội dung cũ
+        
+        if (services && services.length > 0) {
+          services.forEach(service => {
+            const li = document.createElement('li');
+            li.className = 'service-item';
+            
+            const purposeClass = service.purpose === 'Hành chính' ? 'purpose-admin' : 'purpose-civil';
+            
+            li.innerHTML = `
+              <div class="service-name">
+                <i class="fas fa-dna"></i>
+                ${getServiceDisplay(service.name)}
+              </div>
+              <span class="service-purpose ${purposeClass}">
+                ${service.purpose}
+              </span>
+            `;
+            
+            servicesList.appendChild(li);
+          });
+        } else {
+          // Nếu không có dịch vụ
+          const li = document.createElement('li');
+          li.className = 'service-item';
+          li.innerHTML = '<div>Không có dịch vụ</div>';
+          servicesList.appendChild(li);
+        }
+      }
+
+      // Chuyển đến trang chỉnh sửa lịch hẹn
+      function editAppointment() {
+        const id = getAppointmentIdFromUrl();
+        window.location.href = `editappointment.html?id=${id}`;
+      }
+
+      // Khi trang được tải
+      document.addEventListener('DOMContentLoaded', function() {
+        const appointmentId = getAppointmentIdFromUrl();
+        
+        if (!appointmentId) {
+          alert('Không tìm thấy mã lịch hẹn!');
+          window.location.href = 'appoinments.html';
+          return;
+        }
+        
+        // Hiển thị mã lịch hẹn
+        document.getElementById('appointment-id').textContent = `Mã: ${appointmentId}`;
+        
+        // Trong môi trường thực tế, bạn sẽ gọi API để lấy dữ liệu
+        // Giả lập lấy dữ liệu từ parent window nếu đang trong iframe
+        let appointmentData;
+        
+        if (window.parent && window.parent.fakeAppointments) {
+          appointmentData = window.parent.fakeAppointments.find(a => a.id === appointmentId);
+        }
+        
+        // Nếu không tìm thấy, dùng dữ liệu mẫu
+        if (!appointmentData) {
+          // Dữ liệu mẫu cho demo
+          appointmentData = {
+            id: appointmentId,
+            customerId: "KH001",
+            name: "Nguyễn Văn A",
+            date: "2025-06-18",
+            time: "09:30",
+            method: "Tại nhà",
+            status: "Đã đặt",
+            staff: "Trần Thị B",
+            services: [
+              {
+                name: "ADN cha-con",
+                purpose: "Hành chính"
+              },
+              {
+                name: "ADN anh,chi-em",
+                purpose: "Dân sự"
+              }
+            ],
+            notes: "Khách hàng yêu cầu kết quả sớm."
+          };
+        }
+        
+        // Hiển thị dữ liệu
+        document.getElementById('customer-id').textContent = appointmentData.customerId || "Không có";
+        document.getElementById('customer-name').textContent = appointmentData.name || "Không có";
+        
+        // Định dạng ngày
+        if (appointmentData.date) {
+          const date = new Date(appointmentData.date);
+          document.getElementById('appointment-date').textContent = date.toLocaleDateString('vi-VN');
+        }
+        
+        document.getElementById('appointment-time').textContent = appointmentData.time || "Không có";
+        document.getElementById('collection-method').textContent = appointmentData.method || "Không có";
+        document.getElementById('staff-name').textContent = appointmentData.staff || "Chưa phân công";
+        document.getElementById('notes').textContent = appointmentData.notes || "Không có ghi chú";
+        
+        // Hiển thị trạng thái
+        displayStatus(appointmentData.status);
+        
+        // Hiển thị dịch vụ
+        displayServices(appointmentData.services);
+      });
+    </script>
+  </body>
+</html>

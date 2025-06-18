@@ -1363,8 +1363,7 @@
           const { method, status, id, hasKit } = appointment; // Thêm hasKit ở đây
           const statusShort = status
             .replace(/\s*\(Tại (nhà|cơ sở)\)/, "")
-            .trim();
-          let actions = ""; // Thêm nút Xem chi tiết
+            .trim();          let actions = ""; // Thêm nút Xem chi tiết
           actions += `
             <button onclick="viewAppointmentDetails('${id}')" style="background:#4caf50; color:white; border:none; border-radius:4px; padding:6px 14px; cursor:pointer; margin-right:6px;">
               <i class="fas fa-eye"></i> Xem
@@ -1838,7 +1837,7 @@
     <!-- Include main.js after auth for any dashboard specific functionality -->
     <script src="assets/js/main.js"></script>
 
-    <script>
+    <!-- <script>
       // Thêm xử lý lỗi cho iframe
       document.addEventListener("DOMContentLoaded", function () {
         // Bắt lỗi từ iframe
@@ -1896,7 +1895,7 @@
           }
         });
       });
-    </script>
+    </script> -->
     <script>
       // Hàm buộc render lịch hẹn từ bất kỳ đâu
       window.forceRenderAppointments = function () {
@@ -1946,8 +1945,7 @@
             console.error("Error in force render:", error);
           }
         }
-      };
-    </script>
+      };    </script>
     <script>
       // Final attempt to render appointments
       setTimeout(function () {
@@ -1958,6 +1956,285 @@
           renderAppointments();
         }
       }, 500);
+    </script>
+
+    <!-- Modal HTML cho chi tiết lịch hẹn -->
+    <div id="appointment-details-modal" style="
+      display:none;position:fixed;z-index:10000;top:0;left:0;width:100vw;height:100vh;
+      background:rgba(30,42,60,0.5);backdrop-filter:blur(3px);
+      justify-content:center;align-items:center;transition:background 0.3s;overflow:auto;">
+      
+      <div class="appointment-details-container" style="
+        background:white;border-radius:15px;box-shadow:0 15px 30px rgba(0,0,0,0.15);
+        padding:30px;width:100%;max-width:800px;margin:20px auto;animation:modalFadeIn 0.4s ease-out;">
+        
+        <div class="details-header" style="
+          display:flex;align-items:center;justify-content:space-between;
+          margin-bottom:30px;padding-bottom:15px;border-bottom:1px solid #e0e0e0;">
+          
+          <div class="header-left" style="display:flex;align-items:center;">
+            <img src="assets/images/logo.svg" alt="GenX Logo" class="logo" style="width:40px;height:40px;margin-right:15px;">
+            <div class="header-title" style="font-size:24px;font-weight:bold;color:#2196f3;">Chi Tiết Lịch Hẹn</div>
+          </div>
+          
+          <div class="appointment-badge" id="modal-appointment-id" style="
+            background-color:#e3f2fd;color:#2196f3;padding:8px 15px;
+            border-radius:20px;font-weight:500;font-size:14px;">Mã: AP001</div>
+          
+          <button id="appointment-details-close" style="
+            background:rgba(33,150,243,0.08);border:none;font-size:22px;
+            cursor:pointer;color:#2196f3;border-radius:50%;width:36px;height:36px;
+            transition:background 0.2s;margin-left:15px;">&times;</button>
+        </div>
+
+        <div class="details-section" style="margin-bottom:25px;">
+          <h2 class="section-title" style="
+            font-size:18px;color:#333;margin-bottom:15px;padding-bottom:10px;
+            border-bottom:1px solid #eee;display:flex;align-items:center;">
+            <i class="fas fa-user" style="margin-right:10px;"></i> Thông Tin Khách Hàng
+          </h2>
+          <div class="info-grid" style="
+            display:grid;grid-template-columns:repeat(auto-fill, minmax(250px, 1fr));
+            gap:15px;">
+            <div class="info-item" style="margin-bottom:15px;">
+              <div class="info-label" style="font-size:14px;color:#777;margin-bottom:5px;">Mã Khách Hàng</div>
+              <div class="info-value" id="modal-customer-id" style="font-weight:500;color:#333;">KH001</div>
+            </div>
+            <div class="info-item" style="margin-bottom:15px;">
+              <div class="info-label" style="font-size:14px;color:#777;margin-bottom:5px;">Tên Khách Hàng</div>
+              <div class="info-value" id="modal-customer-name" style="font-weight:500;color:#333;">Nguyễn Văn A</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="details-section" style="margin-bottom:25px;">
+          <h2 class="section-title" style="
+            font-size:18px;color:#333;margin-bottom:15px;padding-bottom:10px;
+            border-bottom:1px solid #eee;display:flex;align-items:center;">
+            <i class="fas fa-calendar-alt" style="margin-right:10px;"></i> Thông Tin Lịch Hẹn
+          </h2>
+          <div class="info-grid" style="
+            display:grid;grid-template-columns:repeat(auto-fill, minmax(250px, 1fr));
+            gap:15px;">
+            <div class="info-item" style="margin-bottom:15px;">
+              <div class="info-label" style="font-size:14px;color:#777;margin-bottom:5px;">Ngày Hẹn</div>
+              <div class="info-value" id="modal-appointment-date" style="font-weight:500;color:#333;">18/06/2025</div>
+            </div>
+            <div class="info-item" style="margin-bottom:15px;">
+              <div class="info-label" style="font-size:14px;color:#777;margin-bottom:5px;">Giờ Hẹn</div>
+              <div class="info-value" id="modal-appointment-time" style="font-weight:500;color:#333;">09:30</div>
+            </div>
+            <div class="info-item" style="margin-bottom:15px;">
+              <div class="info-label" style="font-size:14px;color:#777;margin-bottom:5px;">Phương Thức Lấy Mẫu</div>
+              <div class="info-value" id="modal-collection-method" style="font-weight:500;color:#333;">Tại nhà</div>
+            </div>
+            <div class="info-item" style="margin-bottom:15px;">
+              <div class="info-label" style="font-size:14px;color:#777;margin-bottom:5px;">Nhân Viên Thực Hiện</div>
+              <div class="info-value" id="modal-staff-name" style="font-weight:500;color:#333;">Trần Thị B</div>
+            </div>
+            <div class="info-item" style="margin-bottom:15px;">
+              <div class="info-label" style="font-size:14px;color:#777;margin-bottom:5px;">Trạng Thái</div>
+              <div class="status-badge" id="modal-status-badge" style="
+                display:inline-block;padding:6px 12px;border-radius:15px;font-size:14px;
+                font-weight:500;background:#ffecb3;color:#ff9800;">Đã đặt</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="details-section" style="margin-bottom:25px;">
+          <h2 class="section-title" style="
+            font-size:18px;color:#333;margin-bottom:15px;padding-bottom:10px;
+            border-bottom:1px solid #eee;display:flex;align-items:center;">
+            <i class="fas fa-flask" style="margin-right:10px;"></i> Dịch Vụ Xét Nghiệm
+          </h2>
+          <ul class="services-list" id="modal-services-list" style="list-style:none;padding:0;">
+            <!-- Dịch vụ sẽ được thêm bằng JavaScript -->
+          </ul>
+        </div>
+
+        <div class="details-section" style="margin-bottom:25px;">
+          <h2 class="section-title" style="
+            font-size:18px;color:#333;margin-bottom:15px;padding-bottom:10px;
+            border-bottom:1px solid #eee;display:flex;align-items:center;">
+            <i class="fas fa-clipboard" style="margin-right:10px;"></i> Ghi Chú
+          </h2>
+          <div class="info-item">
+            <div class="info-value" id="modal-notes" style="color:#555;line-height:1.5;">
+              Khách hàng yêu cầu kết quả sớm.
+            </div>
+          </div>
+        </div>
+
+        <div class="action-buttons" style="
+          display:flex;justify-content:flex-end;gap:15px;margin-top:25px;">
+          <button id="modal-edit-btn" class="btn-primary" style="
+            background:#2196f3;color:white;border:none;padding:10px 20px;
+            border-radius:5px;cursor:pointer;display:flex;align-items:center;
+            font-weight:500;transition:background 0.2s;">
+            <i class="fas fa-edit" style="margin-right:8px;"></i>Chỉnh sửa
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Hàm hiển thị modal chi tiết lịch hẹn
+      function viewAppointmentDetails(id) {
+        // Truy vấn dữ liệu lịch hẹn từ danh sách
+        const appointment = window.fakeAppointments.find(a => a.id === id);
+        if (!appointment) {
+          alert('Không tìm thấy thông tin lịch hẹn!');
+          return;
+        }
+
+        // Hiển thị các thông tin vào modal
+        document.getElementById('modal-appointment-id').textContent = `Mã: ${appointment.id}`;
+        document.getElementById('modal-customer-id').textContent = appointment.customerId || "Không có";
+        document.getElementById('modal-customer-name').textContent = appointment.name || "Không có";
+        
+        // Định dạng ngày
+        if (appointment.date) {
+          const date = new Date(appointment.date);
+          document.getElementById('modal-appointment-date').textContent = date.toLocaleDateString('vi-VN');
+        }
+        
+        document.getElementById('modal-appointment-time').textContent = appointment.time || "Không có";
+        document.getElementById('modal-collection-method').textContent = appointment.method || "Không có";
+        document.getElementById('modal-staff-name').textContent = appointment.staff || "Chưa phân công";
+        document.getElementById('modal-notes').textContent = appointment.notes || "Không có ghi chú";
+        
+        // Hiển thị trạng thái
+        const statusBadge = document.getElementById('modal-status-badge');
+        statusBadge.textContent = appointment.status;
+        
+        // Thiết lập màu cho trạng thái
+        let statusColor = "#888";
+        let statusBg = "#eee";
+        
+        if (appointment.status === "Đã đặt") {
+          statusColor = "#ff9800";
+          statusBg = "#ffecb3";
+        } else if (appointment.status === "Đã gửi kit") {
+          statusColor = "#1976d2";
+          statusBg = "#e3f2fd";
+        } else if (appointment.status === "Đã thu mẫu") {
+          statusColor = "#2196f3";
+          statusBg = "#e3f2fd";
+        } else if (appointment.status === "Đã nhận mẫu") {
+          statusColor = "#00bcd4";
+          statusBg = "#e0f7fa";
+        } else if (appointment.status === "Đã hoàn thành") {
+          statusColor = "#4caf50";
+          statusBg = "#e8f5e9";
+        } else if (appointment.status === "Đã trả kết quả") {
+          statusColor = "#673ab7";
+          statusBg = "#ede7f6";
+        } else if (appointment.status === "Đã hủy") {
+          statusColor = "#f44336";
+          statusBg = "#ffebee";
+        }
+        
+        statusBadge.style.color = statusColor;
+        statusBadge.style.backgroundColor = statusBg;
+        
+        // Hiển thị dịch vụ
+        const servicesList = document.getElementById('modal-services-list');
+        servicesList.innerHTML = ''; // Xóa nội dung cũ
+        
+        if (appointment.services && appointment.services.length > 0) {
+          appointment.services.forEach(service => {
+            const li = document.createElement('li');
+            li.style.padding = "10px 15px";
+            li.style.borderRadius = "8px";
+            li.style.backgroundColor = "#f5f5f5";
+            li.style.marginBottom = "8px";
+            li.style.display = "flex";
+            li.style.justifyContent = "space-between";
+            li.style.alignItems = "center";
+            
+            // Tạo tên dịch vụ và loại
+            const serviceName = document.createElement('div');
+            serviceName.style.display = "flex";
+            serviceName.style.alignItems = "center";
+            
+            const icon = document.createElement('i');
+            icon.className = "fas fa-dna";
+            icon.style.marginRight = "10px";
+            icon.style.color = "#2196f3";
+            
+            serviceName.appendChild(icon);
+            serviceName.appendChild(document.createTextNode(getServiceDisplayName(service.name)));
+            
+            // Tạo badge cho mục đích
+            const purposeBadge = document.createElement('span');
+            purposeBadge.textContent = service.purpose;
+            purposeBadge.style.padding = "4px 10px";
+            purposeBadge.style.borderRadius = "12px";
+            purposeBadge.style.fontSize = "12px";
+            purposeBadge.style.fontWeight = "500";
+            
+            if (service.purpose === "Hành chính") {
+              purposeBadge.style.backgroundColor = "#e8f5e9";
+              purposeBadge.style.color = "#4caf50";
+            } else {
+              purposeBadge.style.backgroundColor = "#e3f2fd";
+              purposeBadge.style.color = "#1976d2";
+            }
+            
+            li.appendChild(serviceName);
+            li.appendChild(purposeBadge);
+            
+            servicesList.appendChild(li);
+          });
+        } else {
+          const li = document.createElement('li');
+          li.style.padding = "10px";
+          li.style.color = "#888";
+          li.textContent = "Không có dịch vụ";
+          servicesList.appendChild(li);
+        }
+        
+        // Thiết lập nút chỉnh sửa để chuyển đến trang editappointment.html
+        document.getElementById('modal-edit-btn').onclick = function() {
+          window.location.href = `editappointment.html?id=${id}`;
+        };
+        
+        // Hiển thị modal
+        document.getElementById('appointment-details-modal').style.display = 'flex';
+      }
+      
+      // Hàm chuyển đổi tên dịch vụ
+      function getServiceDisplayName(service) {
+        switch (service) {
+          case "ADN cha-con":
+            return "Xét nghiệm ADN cha-con";
+          case "ADN mẹ-con":
+            return "Xét nghiệm ADN mẹ-con";
+          case "ADN anh,chi-em":
+            return "Xét nghiệm ADN anh,chị-em";
+          case "ADN ông,bà-cháu":
+            return "Xét nghiệm ADN ông, bà - cháu";
+          case "ADN họ hàng":
+            return "Xét nghiệm ADN họ hàng";
+          default:
+            return service;
+        }
+      }
+
+      // Khởi tạo modal chi tiết lịch hẹn
+      document.addEventListener('DOMContentLoaded', function() {
+        // Thêm sự kiện đóng modal khi nhấp vào nút đóng
+        document.getElementById('appointment-details-close').addEventListener('click', function() {
+          document.getElementById('appointment-details-modal').style.display = 'none';
+        });
+        
+        // Thêm sự kiện đóng modal khi nhấp vào nền
+        document.getElementById('appointment-details-modal').addEventListener('click', function(e) {
+          if (e.target === this) {
+            this.style.display = 'none';
+          }
+        });
+      });
     </script>
   </body>
 </html>
