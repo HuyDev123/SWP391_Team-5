@@ -12,11 +12,17 @@
     <link rel="stylesheet" href="assets/css/header.css" />
     <link rel="stylesheet" href="assets/css/auth.css" />
     <style>
-      body {
+      * {
         margin: 0;
         padding: 0;
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        background: #f8f9fa;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+      }
+
+      body {
+        display: flex;
+        min-height: 100vh;
+        background-color: #f5f5f5;
       }
 
       .content {
@@ -441,88 +447,9 @@
         margin: 15px;
       }
 
-      /* User info container */
-      #user-info-container {
-        display: none;
-        width: 100%;
-        flex-direction: column;
-        align-items: center;
-      }
-
-      .user-info {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        gap: 16px;
-        margin-bottom: 0;
-        width: 100%;
-        justify-content: center;
-      }
-
-      .avatar {
-        min-width: 56px;
-        min-height: 56px;
-        width: 56px;
-        height: 56px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: relative;
-        overflow: hidden;
-      }
-
-      .avatar-letter {
-        width: 100%;
-        height: 100%;
-        background-color: #ffc107;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 20px;
-        font-weight: 700;
-        color: black;
-      }
-
-      #user-avatar {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
-
       .user-details {
         text-align: left;
         flex: 1;
-      }
-
-      .user-name {
-        font-weight: 600;
-        font-size: 16px;
-        color: #333;
-        margin-bottom: 4px;
-      }
-
-      .user-role {
-        color: #666;
-        font-size: 13px;
-        cursor: pointer;
-        transition: all 0.2s;
-      }
-
-      #logout-btn.logout-btn {
-        margin-top: 20px;
-        width: 90%;
-        align-self: center;
-        justify-content: center;
-        box-shadow: 0 4px 15px rgba(255, 75, 75, 0.3);
-        font-size: 16px;
-        padding: 12px 0;
-        display: flex;
-        border-radius: 12px;
-        background: linear-gradient(135deg, #ff4b4b, #ff0000);
-        color: white;
-        border: none;
-        cursor: pointer;
       }
 
       #logout-btn.logout-btn i {
@@ -719,7 +646,12 @@
           <div class="user-info">
             <div class="avatar">
               <div id="avatar-letter" class="avatar-letter">T</div>
-              <img id="user-avatar" src="" alt="User Avatar" style="display: none" />
+              <img
+                id="user-avatar"
+                src=""
+                alt="User Avatar"
+                style="display: none"
+              />
             </div>
             <div class="user-details">
               <div id="avatar-fullname" class="user-name">Tran Ngoc B</div>
@@ -741,8 +673,8 @@
         </a>
 
         <a href="booking.html" class="menu-item active">
-          <span class="menu-icon"><i class="fas fa-calendar-plus"></i></span>
-          Tạo lịch hẹn
+          <span class="menu-icon"><ii class="fas fa-notes-medical"></ii></span>
+          Đặt lịch xét nghiệm
         </a>
 
         <a href="appoinments.html" class="menu-item">
@@ -762,7 +694,7 @@
       <div class="booking-section">
         <div class="booking-form">
           <h2 class="form-title">
-            <i class="fas fa-calendar-plus"></i>
+            <i class="fas fa-notes-medical"></i>
             Tạo lịch hẹn mới
             <span class="status-badge status-new">
               <i class="fas fa-plus-circle"></i>
@@ -770,7 +702,8 @@
             </span>
           </h2>
           <p class="form-description">
-            Điền thông tin khách hàng và chi tiết lịch hẹn xét nghiệm ADN vào form bên dưới.
+            Điền thông tin khách hàng và chi tiết lịch hẹn xét nghiệm ADN vào
+            form bên dưới.
           </p>
 
           <form id="bookingForm" onsubmit="return handleSubmit(event);">
@@ -792,7 +725,9 @@
                   />
                 </div>
                 <div class="form-group">
-                  <label class="form-label" for="customerCode">Mã khách hàng</label>
+                  <label class="form-label" for="customerCode"
+                    >Mã khách hàng</label
+                  >
                   <input
                     type="text"
                     id="customerCode"
@@ -847,7 +782,9 @@
                         <option value="father-child">Xét nghiệm cha con</option>
                         <option value="mother-child">Xét nghiệm mẹ con</option>
                         <option value="siblings">Xét nghiệm anh chị em</option>
-                        <option value="grandparent">Xét nghiệm ông bà cháu</option>
+                        <option value="grandparent">
+                          Xét nghiệm ông bà cháu
+                        </option>
                       </select>
                     </div>
                   </div>
@@ -919,7 +856,9 @@
               <div id="homeCollectionInfo" class="info-box hidden">
                 <div class="form-row">
                   <div class="form-group">
-                    <label class="form-label" for="address">Địa chỉ lấy mẫu *</label>
+                    <label class="form-label" for="address"
+                      >Địa chỉ lấy mẫu *</label
+                    >
                     <textarea
                       id="address"
                       class="form-control"
@@ -929,7 +868,9 @@
                     ></textarea>
                   </div>
                   <div class="form-group">
-                    <label class="form-label" for="preferredDate">Ngày mong muốn *</label>
+                    <label class="form-label" for="preferredDate"
+                      >Ngày mong muốn *</label
+                    >
                     <input
                       type="date"
                       id="preferredDate"
@@ -945,7 +886,9 @@
               <div id="centerCollectionInfo" class="info-box hidden">
                 <div class="form-row">
                   <div class="form-group">
-                    <label class="form-label" for="appointmentDate">Ngày hẹn *</label>
+                    <label class="form-label" for="appointmentDate"
+                      >Ngày hẹn *</label
+                    >
                     <input
                       type="date"
                       id="appointmentDate"
@@ -955,7 +898,9 @@
                     />
                   </div>
                   <div class="form-group">
-                    <label class="form-label" for="appointmentTime">Giờ hẹn *</label>
+                    <label class="form-label" for="appointmentTime"
+                      >Giờ hẹn *</label
+                    >
                     <select id="appointmentTime" class="form-control" required>
                       <option value="">-- Chọn giờ --</option>
                       <option value="08:00">08:00</option>
@@ -1014,7 +959,8 @@
         </div>
         <h3 class="modal-title">Tạo lịch hẹn thành công!</h3>
         <p class="modal-message">
-          Lịch hẹn đã được tạo thành công. Bạn có thể xem chi tiết trong danh sách lịch hẹn.
+          Lịch hẹn đã được tạo thành công. Bạn có thể xem chi tiết trong danh
+          sách lịch hẹn.
         </p>
         <div class="modal-actions">
           <button class="modal-button view-btn" onclick="viewAppointment()">
@@ -1047,7 +993,9 @@
           loginButton.innerHTML = `
             <div class="user-dropdown">
               <span class="user-name">
-                <img src="${user.avatar || defaultAvatar}" alt="Avatar" class="user-avatar">
+                <img src="${
+                  user.avatar || defaultAvatar
+                }" alt="Avatar" class="user-avatar">
                 ${user.fullName || "Người dùng"}
                 <i class="fas fa-caret-down"></i>
               </span>
