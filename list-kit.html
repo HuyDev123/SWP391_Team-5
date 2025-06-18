@@ -3,19 +3,20 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Danh sách kit xét nghiệm - Dịch Vụ Xét Nghiệm ADN</title>
+    <title>Danh sách kit xét nghiệm - Genx</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <link rel="stylesheet" href="assets/css/auth.css" />
     <style>
-      * {
+      body {
         margin: 0;
         padding: 0;
-        box-sizing: border-box;
-        font-family: Arial, sans-serif;
-      }
-
-      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: #f8f9fa;
         display: flex;
-        min-height: 100vh;
-        background-color: #f5f5f5;
       }
 
       /* Sidebar styles */
@@ -156,7 +157,7 @@
         color: #333;
         text-decoration: none;
         border-radius: 8px;
-        margin-bottom: 5px;
+        margin: 5px 10px;
         transition: all 0.3s ease;
       }
 
@@ -201,6 +202,62 @@
         margin-left: 260px;
         padding: 20px;
         width: calc(100% - 260px);
+      }
+
+      /* Search form styles */
+      .search-form {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 20px;
+        flex-wrap: nowrap;
+        background: white;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      }
+
+      .form-group {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .form-group label {
+        font-weight: 500;
+        color: #333;
+        white-space: nowrap;
+      }
+
+      .form-group input,
+      .form-group select {
+        padding: 8px 12px;
+        border: 1px solid #e0e0e0;
+        border-radius: 4px;
+        font-size: 14px;
+        min-width: 150px;
+      }
+
+      .search-btn {
+        background: #2196f3;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        padding: 8px 20px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+      }
+
+      .search-btn:hover {
+        background: #1976d2;
+      }
+
+      .search-btn i {
+        font-size: 14px;
       }
 
       .navbar {
@@ -693,126 +750,9 @@
       ::-webkit-scrollbar-thumb:hover {
         background: #1976d2;
       }
-    </style>
-    <!-- Thêm vào phần <head> của mỗi trang -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
-    />
 
-    <style>
-      /* Hiệu ứng chuyển động mượt mà */
-      .hero-banner,
-      .content-section,
-      .service-card,
-      .step-item,
-      .contact-btn {
-        transition: all 0.5s ease;
-      }
-
-      /* Cải thiện hero banner */
-      .hero-banner {
-        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
-        overflow: hidden;
-      }
-
-      .hero-banner:hover {
-        transform: translateY(-5px);
-      }
-
-      /* Hiệu ứng cho các section */
-      .content-section {
-        transition: transform 0.4s ease, box-shadow 0.4s ease;
-      }
-
-      .content-section:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-      }
-
-      /* Hiệu ứng facility items */
-      .facility-item {
-        transition: all 0.4s ease;
-      }
-
-      .facility-item:hover {
-        transform: translateY(-8px);
-      }
-
-      .facility-item .icon-wrapper {
-        transition: all 0.5s ease;
-      }
-
-      .facility-item:hover .icon-wrapper {
-        transform: rotateY(180deg);
-      }
-
-      /* Card hover effects */
-      .service-card:hover {
-        transform: translateY(-8px) scale(1.02);
-        box-shadow: 0 15px 30px rgba(33, 150, 243, 0.1);
-      }
-
-      .service-card .card-icon {
-        transition: all 0.5s ease;
-      }
-
-      .service-card:hover .card-icon {
-        transform: rotateY(360deg);
-        background-color: #2196f3;
-        color: white;
-      }
-
-      /* Step item animations */
-      .step-item {
-        position: relative;
-        overflow: hidden;
-      }
-
-      .step-item:hover {
-        background-color: #f9f9f9;
-        padding-left: 15px;
-        border-radius: 8px;
-      }
-
-      .step-item .step-number,
-      .step-item .step-icon {
-        transition: all 0.4s ease;
-      }
-
-      .step-item:hover .step-number {
-        transform: scale(1.2);
-      }
-
-      .step-item:hover .step-icon {
-        transform: rotate(360deg);
-      }
-
-      /* Contact button effects */
-      .contact-btn {
-        transform-origin: center;
-        transition: all 0.3s ease;
-      }
-
-      .contact-btn:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-      }
-
-      .contact-btn i {
-        transition: all 0.4s ease;
-      }
-
-      .contact-btn:hover i {
-        transform: scale(1.2);
-      }
-
-      /* Animation for facility section */
-      @keyframes fadeIn {
+      /* Modal animation */
+      @keyframes modalFadeIn {
         from {
           opacity: 0;
           transform: translateY(20px);
@@ -822,46 +762,36 @@
           transform: translateY(0);
         }
       }
-      .logo-container {
-        display: flex;
-        align-items: center;
-        flex-direction: row; /* Thay đổi từ column thành row */
-        padding: 15px;
-        border-bottom: 1px solid #eee;
+
+      /* Modal responsive styles */
+      @media (max-width: 768px) {
+        #kit-modal-content {
+          width: 95%;
+          margin: 10px;
+        }
+        
+        #kit-modal-iframe {
+          height: 85vh;
+        }
       }
 
-      .logo {
-        width: 45px;
-        height: 45px;
-        margin-right: 12px; /* Thêm khoảng cách giữa logo và text */
-        margin-bottom: 0;
+      /* Custom scrollbar for modal */
+      #kit-modal-overlay::-webkit-scrollbar {
+        width: 8px;
       }
 
-      .text-container {
-        display: flex;
-        flex-direction: column;
+      #kit-modal-overlay::-webkit-scrollbar-track {
+        background: rgba(255,255,255,0.1);
+        border-radius: 10px;
       }
 
-      .logo-text {
-        font-size: 28px;
-        color: #2196f3;
-        font-weight: bold;
-        letter-spacing: 1px;
-        margin-bottom: 3px;
-        line-height: 1;
+      #kit-modal-overlay::-webkit-scrollbar-thumb {
+        background: rgba(33,150,243,0.5);
+        border-radius: 10px;
       }
 
-      .logo-subtext {
-        font-size: 15px;
-        color: #444;
-        font-weight: 500;
-        letter-spacing: 0.5px;
-        line-height: 1.2;
-        text-transform: capitalize;
-        /* background: linear-gradient(to right, #2196F3, #1976D2); */
-        /* -webkit-background-clip: text; */
-        /* -webkit-text-fill-color: transparent; */
-        max-width: 180px;
+      #kit-modal-overlay::-webkit-scrollbar-thumb:hover {
+        background: rgba(33,150,243,0.7);
       }
     </style>
   </head>
@@ -893,7 +823,25 @@
 
       <div class="menu-title">MAIN MENU</div>
       <div id="mainMenu">
-        <!-- Menu items will be inserted by JavaScript -->
+        <a href="index.html" class="menu-item">
+          <span class="menu-icon"><i class="fas fa-home"></i></span>
+          Trang chủ
+        </a>
+
+        <a href="booking.html" class="menu-item">
+          <span class="menu-icon"><i class="fas fa-calendar-plus"></i></span>
+          Tạo lịch hẹn
+        </a>
+
+        <a href="appoinments.html" class="menu-item">
+          <span class="menu-icon"><i class="fas fa-clipboard-list"></i></span>
+          Danh sách lịch hẹn
+        </a>
+
+        <a href="list-kit.html" class="menu-item active">
+          <span class="menu-icon"><i class="fas fa-vials"></i></span>
+          Danh sách kít xét nghiệm
+        </a>
       </div>
     </div>
 
@@ -909,64 +857,30 @@
           <i class="fas fa-vial" style="color: #2196f3"></i>
           Danh sách kit xét nghiệm ADN
         </div>
-        <!-- Bộ lọc -->
-        <form
-          id="filterForm"
-          style="
-            display: flex;
-            flex-wrap: wrap;
-            gap: 16px;
-            align-items: center;
-            margin-bottom: 20px;
-          "
-        >
-          <div>
-            <label for="kitCodeFilter" style="font-weight: 500; color: #333"
-              >Mã Kit:</label
-            >
+        
+        <!-- Search Form -->
+        <form id="filterForm" class="search-form">
+          <div class="form-group">
+            <label for="kitCodeFilter">Mã Kit:</label>
             <input
               type="text"
               id="kitCodeFilter"
               name="kitCodeFilter"
               placeholder="Nhập mã Kit"
-              style="
-                padding: 6px 10px;
-                border: 1px solid #ccc;
-                border-radius: 4px;
-              "
             />
           </div>
-          <div>
-            <label
-              for="appointmentIdFilter"
-              style="font-weight: 500; color: #333"
-              >Mã cuộc hẹn:</label
-            >
+          <div class="form-group">
+            <label for="appointmentIdFilter">Mã cuộc hẹn:</label>
             <input
               type="text"
               id="appointmentIdFilter"
               name="appointmentIdFilter"
               placeholder="Nhập mã cuộc hẹn"
-              style="
-                padding: 6px 10px;
-                border: 1px solid #ccc;
-                border-radius: 4px;
-              "
             />
           </div>
-          <div>
-            <label for="statusFilter" style="font-weight: 500; color: #333"
-              >Trạng thái:</label
-            >
-            <select
-              id="statusFilter"
-              name="statusFilter"
-              style="
-                padding: 6px 10px;
-                border: 1px solid #ccc;
-                border-radius: 4px;
-              "
-            >
+          <div class="form-group">
+            <label for="statusFilter">Trạng thái:</label>
+            <select id="statusFilter" name="statusFilter">
               <option value="">Tất cả</option>
               <option value="Chờ gửi">Chờ gửi</option>
               <option value="Đã gửi">Đã gửi</option>
@@ -976,36 +890,14 @@
               <option value="Đã trả kết quả">Đã trả kết quả</option>
             </select>
           </div>
-          <div>
-            <label for="sendDateFilter" style="font-weight: 500; color: #333"
-              >Ngày gửi:</label
-            >
-            <input
-              type="date"
-              id="sendDateFilter"
-              name="sendDateFilter"
-              style="
-                padding: 6px 10px;
-                border: 1px solid #ccc;
-                border-radius: 4px;
-              "
-            />
+          <div class="form-group">
+            <label for="sendDateFilter">Ngày gửi:</label>
+            <input type="date" id="sendDateFilter" name="sendDateFilter" />
           </div>
-          <div>
-            <button
-              type="submit"
-              style="
-                background: #2196f3;
-                color: white;
-                border: none;
-                border-radius: 4px;
-                padding: 8px 18px;
-                cursor: pointer;
-              "
-            >
-              <i class="fas fa-search"></i> Tìm kiếm
-            </button>
-          </div>
+          <button type="submit" class="search-btn">
+            <i class="fas fa-search"></i>
+            Tìm kiếm
+          </button>
         </form>
         <div style="overflow-x: auto">
           <table
@@ -1041,6 +933,61 @@
             </tbody>
           </table>
         </div>
+
+        <!-- Modal Overlay -->
+        <div id="kit-modal-overlay" style="
+          display: none;
+          position: fixed;
+          z-index: 9999;
+          top: 0;
+          left: 0;
+          width: 100vw;
+          height: 100vh;
+          background: rgba(30,42,60,0.35);
+          backdrop-filter: blur(2px);
+          justify-content: center;
+          align-items: center;
+          transition: background 0.3s;
+          overflow-y: auto;
+          padding: 20px;">
+          <div id="kit-modal-content" style="
+            background: linear-gradient(135deg,#fff 80%,#e3f0ff 100%);
+            border-radius: 18px;
+            max-width: 800px;
+            width: 95%;
+            margin: auto;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.18),0 1.5px 8px rgba(33,150,243,0.08);
+            position: relative;
+            overflow: hidden;
+            animation: modalFadeIn 0.35s;">
+            <button id="kit-modal-close" style="
+              position: absolute;
+              top: 12px;
+              right: 18px;
+              background: rgba(33,150,243,0.08);
+              border: none;
+              font-size: 26px;
+              cursor: pointer;
+              color: #2196f3;
+              border-radius: 50%;
+              width: 36px;
+              height: 36px;
+              transition: background 0.2s;
+              z-index: 1000;">
+              &times;
+            </button>
+            <iframe id="kit-modal-iframe" style="
+              width: 100%;
+              height: 90vh;
+              border: none;
+              display: block;
+              border-radius: 18px;
+              overflow: visible;
+              background: transparent;">
+            </iframe>
+          </div>
+        </div>
+
         <script>
           const fakeKits = [
             {
@@ -1109,29 +1056,30 @@
           function renderKitActions(kit) {
             let actions = "";
 
-            // Nút Xem chỉ xuất hiện khi trạng thái là "Chờ gửi" hoặc "Đã gửi"
+            // Nút Xem
             actions += `
-      <button onclick="openKitModal('sample.html?kitCode=${encodeURIComponent(
-        kit.kitCode
-      )}')" style="background:#e3f2fd;color:#1976d2;border:none;border-radius:4px;padding:6px 12px;cursor:pointer;margin-right:4px;">
-        <i class="fas fa-eye"></i> Xem
-      </button>
-    `;
+              <button onclick="openKitModal('sample.html?kitCode=${encodeURIComponent(kit.kitCode)}')" 
+                style="background:#e3f2fd;color:#1976d2;border:none;border-radius:4px;padding:6px 12px;cursor:pointer;margin-right:4px;">
+                <i class="fas fa-eye"></i> Xem
+              </button>
+            `;
 
-            // Nút Sửa luôn xuất hiện
+            // Nút Sửa
             actions += `
-    <button onclick="editKit('${kit.kitCode}')" style="background:#fff3e0;color:#ff9800;border:none;border-radius:4px;padding:6px 12px;cursor:pointer;margin-right:4px;">
-      <i class="fas fa-edit"></i> Sửa
-    </button>
-  `;
+              <button onclick="editKit('${kit.kitCode}')" 
+                style="background:#fff3e0;color:#ff9800;border:none;border-radius:4px;padding:6px 12px;cursor:pointer;margin-right:4px;">
+                <i class="fas fa-edit"></i> Sửa
+              </button>
+            `;
 
             // Nút Thêm mẫu chỉ xuất hiện khi trạng thái là "Đã gửi"
             if (kit.status === "Đã gửi") {
               actions += `
-      <button onclick="addSampleToKit('${kit.kitCode}')" style="background:#e8f5e9;color:#388e3c;border:none;border-radius:4px;padding:6px 12px;cursor:pointer;">
-        <i class="fas fa-plus"></i> Thêm mẫu xét nghiệm
-      </button>
-    `;
+                <button onclick="addSampleToKit('${kit.kitCode}')" 
+                  style="background:#e8f5e9;color:#388e3c;border:none;border-radius:4px;padding:6px 12px;cursor:pointer;">
+                  <i class="fas fa-plus"></i> Thêm mẫu xét nghiệm
+                </button>
+              `;
             }
 
             return actions;
@@ -1142,118 +1090,79 @@
             const tbody = document.getElementById("kitTableBody");
             const data = filteredData || fakeKits;
             tbody.innerHTML = data.length
-              ? data
-                  .map(
-                    (k) => `
-        <tr>
-          <td style="padding:10px 8px; border-bottom:1px solid #eee;">${
-            k.appointmentId
-          }</td>
-          <td style="padding:10px 8px; border-bottom:1px solid #eee;">${
-            k.kitCode
-          }</td>
-          <td style="padding:10px 8px; border-bottom:1px solid #eee;">${
-            k.sampleCount
-          }</td>
-          <td style="padding:10px 8px; border-bottom:1px solid #eee;">${
-            k.sendDate || "-"
-          }</td>
-          <td style="padding:10px 8px; border-bottom:1px solid #eee;">${
-            k.receiveDate || "-"
-          }</td>
-          <td style="padding:10px 8px; border-bottom:1px solid #eee;">${renderKitStatus(
-            k.status
-          )}</td>
-          <td style="padding:10px 8px; border-bottom:1px solid #eee;">${renderKitActions(
-            k
-          )}</td>
-        </tr>
-      `
-                  )
-                  .join("")
+              ? data.map((k) => `
+                  <tr>
+                    <td style="padding:10px 8px; border-bottom:1px solid #eee;">${k.appointmentId}</td>
+                    <td style="padding:10px 8px; border-bottom:1px solid #eee;">${k.kitCode}</td>
+                    <td style="padding:10px 8px; border-bottom:1px solid #eee;">${k.sampleCount}</td>
+                    <td style="padding:10px 8px; border-bottom:1px solid #eee;">${k.sendDate || "-"}</td>
+                    <td style="padding:10px 8px; border-bottom:1px solid #eee;">${k.receiveDate || "-"}</td>
+                    <td style="padding:10px 8px; border-bottom:1px solid #eee;">${renderKitStatus(k.status)}</td>
+                    <td style="padding:10px 8px; border-bottom:1px solid #eee;">${renderKitActions(k)}</td>
+                  </tr>
+                `).join("")
               : `<tr><td colspan="7" style="text-align:center; color:#888; padding:20px;">Không có kit phù hợp</td></tr>`;
           }
 
-          // Xử lý filter
-          document
-            .getElementById("filterForm")
-            .addEventListener("submit", function (e) {
-              e.preventDefault();
-              const kitCode = document
-                .getElementById("kitCodeFilter")
-                .value.trim()
-                .toLowerCase();
-              const appointmentId = document
-                .getElementById("appointmentIdFilter")
-                .value.trim()
-                .toLowerCase();
-              const status = document.getElementById("statusFilter").value;
-              const sendDate = document.getElementById("sendDateFilter").value;
-              let filtered = fakeKits;
-              if (kitCode) {
-                filtered = filtered.filter((k) =>
-                  k.kitCode.toLowerCase().includes(kitCode)
-                );
-              }
-              if (appointmentId) {
-                filtered = filtered.filter((k) =>
-                  k.appointmentId.toLowerCase().includes(appointmentId)
-                );
-              }
-              if (status) {
-                filtered = filtered.filter((k) => k.status === status);
-              }
-              if (sendDate) {
-                filtered = filtered.filter((k) => k.sendDate === sendDate);
-              }
-              renderKits(filtered);
-            });
+          // Xử lý filter form
+          document.getElementById("filterForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+            const kitCode = document.getElementById("kitCodeFilter").value.trim().toLowerCase();
+            const appointmentId = document.getElementById("appointmentIdFilter").value.trim().toLowerCase();
+            const status = document.getElementById("statusFilter").value;
+            const sendDate = document.getElementById("sendDateFilter").value;
+            
+            let filtered = fakeKits;
+            if (kitCode) {
+              filtered = filtered.filter(k => k.kitCode.toLowerCase().includes(kitCode));
+            }
+            if (appointmentId) {
+              filtered = filtered.filter(k => k.appointmentId.toLowerCase().includes(appointmentId));
+            }
+            if (status) {
+              filtered = filtered.filter(k => k.status === status);
+            }
+            if (sendDate) {
+              filtered = filtered.filter(k => k.sendDate === sendDate);
+            }
+            renderKits(filtered);
+          });
 
-          // Các hàm thao tác (chuẩn bị cho kết nối API thực tế)
-          function viewKit(kitCode) {
-            // Sau này có thể mở modal hoặc trang chi tiết, truyền kitCode
-            alert(
-              "Xem thông tin Kit: " +
-                kitCode +
-                " (sau này sẽ mở modal hoặc trang chi tiết)"
-            );
-          }
+          // Các hàm thao tác
           function editKit(kitCode) {
-            // Mở modal chỉnh sửa kit, truyền kitCode qua query string
             openKitModal("editkit.html?kitCode=" + encodeURIComponent(kitCode));
           }
+
           function addSampleToKit(kitCode) {
-            // Lấy sampleCount từ fakeKits (hoặc từ API thực tế)
-            const kit = fakeKits.find((k) => k.kitCode === kitCode);
+            const kit = fakeKits.find(k => k.kitCode === kitCode);
             const sampleCount = kit ? kit.sampleCount : 1;
-            openKitModal(
-              "infosample.html?kitCode=" +
-                encodeURIComponent(kitCode) +
-                "&sampleCount=" +
-                sampleCount
-            );
+            openKitModal("infosample.html?kitCode=" + encodeURIComponent(kitCode) + "&sampleCount=" + sampleCount);
           }
 
-          //   // Thêm mẫu xét nghiệm cho kit
-          //   function addSampleToKit(kitCode) {
-          //   // Có thể truyền thêm các tham số khác nếu cần cho API
-          //   openKitModal('infosample.html?kitCode=' + encodeURIComponent(kitCode));
-          // }
-
-          // // Sửa hàm editKit để mở modal với editkit.html và truyền mã kit qua query string
-          // function editKit(kitCode) {
-          //   // Có thể truyền thêm các tham số khác nếu cần cho API
-          //   openKitModal('editkit.html?kitCode=' + encodeURIComponent(kitCode));
-          // }
-          // Modal logic (chỉ tạo 1 lần)
+          // Modal functions
           function openKitModal(url) {
             const modal = document.getElementById("kit-modal-overlay");
             const iframe = document.getElementById("kit-modal-iframe");
             iframe.src = url;
             modal.style.display = "flex";
           }
-          // Render mặc định khi load trang
-          document.addEventListener("DOMContentLoaded", function () {
+
+          // Close modal when clicking outside or on close button
+          document.addEventListener("DOMContentLoaded", function() {
+            const modal = document.getElementById("kit-modal-overlay");
+            const closeBtn = document.getElementById("kit-modal-close");
+            
+            closeBtn.onclick = function() {
+              modal.style.display = "none";
+            }
+            
+            modal.onclick = function(e) {
+              if (e.target === modal) {
+                modal.style.display = "none";
+              }
+            }
+
+            // Initial render
             renderKits();
           });
         </script>
