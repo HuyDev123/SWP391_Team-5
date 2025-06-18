@@ -11,12 +11,17 @@
     <link rel="stylesheet" href="assets/css/style.css" />
     <link rel="stylesheet" href="assets/css/auth.css" />
     <style>
-      body {
+      * {
         margin: 0;
         padding: 0;
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        background: #f8f9fa;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+      }
+
+      body {
         display: flex;
+        min-height: 100vh;
+        background-color: #f5f5f5;
       }
 
       /* Sidebar styles */
@@ -68,7 +73,6 @@
         text-transform: capitalize;
         max-width: 180px;
       }
-
       .login-register {
         padding: 20px;
         background: linear-gradient(145deg, #ffffff, #f5f5f5);
@@ -77,64 +81,18 @@
         margin: 15px;
       }
 
-      .user-info {
-        display: flex;
-        align-items: center;
-        gap: 15px;
-        margin-bottom: 15px;
-      }
-
-      .avatar {
-        width: 45px;
-        height: 45px;
-        background: linear-gradient(135deg, #2196f3, #1976d2);
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 20px;
-        color: white;
-        font-weight: bold;
-        box-shadow: 0 4px 15px rgba(33, 150, 243, 0.2);
+      #user-avatar {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
       }
 
       .user-details {
         flex: 1;
       }
 
-      .user-name {
-        font-weight: 600;
-        color: #333;
-        font-size: 16px;
-        margin-bottom: 4px;
-      }
-
-      .user-role {
-        color: #666;
-        font-size: 13px;
-      }
-
-      .logout-btn {
-        width: 100%;
-        padding: 12px;
-        background: linear-gradient(135deg, #ff4b4b, #ff0000);
-        color: white;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        font-weight: 600;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 15px rgba(255, 75, 75, 0.2);
-      }
-
       .logout-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(255, 75, 75, 0.3);
-        background: linear-gradient(135deg, #ff0000, #cc0000);
+        background-color: #d32f2f;
       }
 
       .logout-btn i {
@@ -202,62 +160,6 @@
         margin-left: 260px;
         padding: 20px;
         width: calc(100% - 260px);
-      }
-
-      /* Search form styles */
-      .search-form {
-        display: flex;
-        align-items: center;
-        gap: 16px;
-        margin-bottom: 20px;
-        flex-wrap: nowrap;
-        background: white;
-        padding: 15px;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-      }
-
-      .form-group {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-      }
-
-      .form-group label {
-        font-weight: 500;
-        color: #333;
-        white-space: nowrap;
-      }
-
-      .form-group input,
-      .form-group select {
-        padding: 8px 12px;
-        border: 1px solid #e0e0e0;
-        border-radius: 4px;
-        font-size: 14px;
-        min-width: 150px;
-      }
-
-      .search-btn {
-        background: #2196f3;
-        color: white;
-        border: none;
-        border-radius: 4px;
-        padding: 8px 20px;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        font-weight: 500;
-        transition: all 0.3s ease;
-      }
-
-      .search-btn:hover {
-        background: #1976d2;
-      }
-
-      .search-btn i {
-        font-size: 14px;
       }
 
       .navbar {
@@ -685,52 +587,9 @@
         font-size: 18px;
         width: 20px;
         text-align: center;
-      }
-
-      /* Menu styles */
+      } /* Menu styles */
       #mainMenu {
         padding: 10px;
-      }
-
-      .menu-item {
-        padding: 12px 15px;
-        display: flex;
-        align-items: center;
-        color: #333;
-        text-decoration: none;
-        border-radius: 8px;
-        margin-bottom: 5px;
-        transition: all 0.3s ease;
-      }
-
-      .menu-item:hover {
-        background-color: #e3f2fd;
-        color: #2196f3;
-      }
-
-      .menu-item.active {
-        background-color: #2196f3;
-        color: white;
-      }
-
-      .menu-icon {
-        width: 35px;
-        height: 35px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-right: 12px;
-        border-radius: 8px;
-        background-color: rgba(33, 150, 243, 0.1);
-        transition: all 0.3s ease;
-      }
-
-      .menu-item:hover .menu-icon {
-        background-color: white;
-      }
-
-      .menu-item.active .menu-icon {
-        background-color: rgba(255, 255, 255, 0.2);
       }
 
       /* Scrollbar styling */
@@ -769,7 +628,7 @@
           width: 95%;
           margin: 10px;
         }
-        
+
         #kit-modal-iframe {
           height: 85vh;
         }
@@ -781,17 +640,17 @@
       }
 
       #kit-modal-overlay::-webkit-scrollbar-track {
-        background: rgba(255,255,255,0.1);
+        background: rgba(255, 255, 255, 0.1);
         border-radius: 10px;
       }
 
       #kit-modal-overlay::-webkit-scrollbar-thumb {
-        background: rgba(33,150,243,0.5);
+        background: rgba(33, 150, 243, 0.5);
         border-radius: 10px;
       }
 
       #kit-modal-overlay::-webkit-scrollbar-thumb:hover {
-        background: rgba(33,150,243,0.7);
+        background: rgba(33, 150, 243, 0.7);
       }
     </style>
   </head>
@@ -806,19 +665,34 @@
           <div class="logo-subtext">Trung tâm xét nghiệm ADN huyết thống</div>
         </div>
       </div>
-
       <div class="login-register">
-        <div class="user-info">
-          <div class="avatar" id="avatar-letter">T</div>
-          <div class="user-details">
-            <div class="user-name" id="avatar-fullname">Tran Ngoc B</div>
-            <div class="user-role" id="avatar-role">staff</div>
+        <!-- User info container (hiển thị khi đã đăng nhập) -->
+        <div id="user-info-container">
+          <div class="user-info">
+            <div class="avatar" style="background-color: #ffca28 !important">
+              <div id="avatar-letter" class="avatar-letter">TU</div>
+              <img
+                id="user-avatar"
+                src=""
+                alt="User Avatar"
+                style="display: none"
+              />
+            </div>
+            <div class="user-details">
+              <div id="avatar-fullname" class="user-name">Test User</div>
+              <div id="avatar-role" class="user-role">Nhân Viên</div>
+            </div>
           </div>
+          <button id="logout-btn" class="logout-btn" onclick="handleLogout()">
+            <i class="fas fa-sign-out-alt"></i>
+            Đăng xuất
+          </button>
         </div>
-        <button onclick="handleLogout()" class="logout-btn">
-          <i class="fas fa-sign-out-alt"></i>
-          Đăng xuất
-        </button>
+        <div id="login-buttons" style="display: none">
+          <button id="google-login-btn" class="btn-google">
+            <i class="fab fa-google"></i> Đăng nhập với Google
+          </button>
+        </div>
       </div>
 
       <div class="menu-title">MAIN MENU</div>
@@ -857,48 +731,168 @@
           <i class="fas fa-vial" style="color: #2196f3"></i>
           Danh sách kit xét nghiệm ADN
         </div>
-        
-        <!-- Search Form -->
-        <form id="filterForm" class="search-form">
-          <div class="form-group">
-            <label for="kitCodeFilter">Mã Kit:</label>
-            <input
-              type="text"
-              id="kitCodeFilter"
-              name="kitCodeFilter"
-              placeholder="Nhập mã Kit"
-            />
+        <!-- Search and Filter Section -->
+        <div
+          style="
+            margin-bottom: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+          "
+        >
+          <!-- Top Row with Search and Status Filter -->
+          <div
+            style="
+              display: flex;
+              flex-wrap: wrap;
+              gap: 15px;
+              margin-bottom: 15px;
+            "
+          >
+            <!-- Combined Search for Appointment and Kit Code -->
+            <div style="flex: 0.6; min-width: 300px; max-width: 45%">
+              <label
+                for="searchCombined"
+                style="display: block; margin-bottom: 5px; font-weight: 500"
+                >Tìm kiếm (Mã cuộc hẹn hoặc Mã kit):</label
+              >
+              <div style="display: flex">
+                <input
+                  type="text"
+                  id="searchCombined"
+                  placeholder="Nhập mã cuộc hẹn hoặc mã kit..."
+                  style="
+                    flex: 1;
+                    padding: 8px 10px;
+                    border: 1px solid #ddd;
+                    border-radius: 4px 0 0 4px;
+                    outline: none;
+                  "
+                />
+                <button
+                  onclick="searchKits()"
+                  style="
+                    background: #2196f3;
+                    color: white;
+                    border: none;
+                    border-radius: 0 4px 4px 0;
+                    padding: 8px 15px;
+                    cursor: pointer;
+                  "
+                >
+                  <i class="fas fa-search"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Filter by Status -->
+            <div style="flex: 0.4; min-width: 200px; max-width: 35%">
+              <label
+                for="filterStatus"
+                style="display: block; margin-bottom: 5px; font-weight: 500"
+                >Lọc theo trạng thái:</label
+              >
+              <select
+                id="filterStatus"
+                onchange="searchKits()"
+                style="
+                  width: 100%;
+                  padding: 8px 10px;
+                  border: 1px solid #ddd;
+                  border-radius: 4px;
+                  outline: none;
+                "
+              >
+                <option value="">Tất cả trạng thái</option>
+                <option value="Chờ gửi">Chờ gửi</option>
+                <option value="Đã gửi">Đã gửi</option>
+                <option value="Đã nhận mẫu">Đã nhận mẫu</option>
+                <option value="Lỗi mẫu">Lỗi mẫu</option>
+                <option value="Đã xử lý">Đã xử lý</option>
+                <option value="Đã trả kết quả">Đã trả kết quả</option>
+              </select>
+            </div>
           </div>
-          <div class="form-group">
-            <label for="appointmentIdFilter">Mã cuộc hẹn:</label>
-            <input
-              type="text"
-              id="appointmentIdFilter"
-              name="appointmentIdFilter"
-              placeholder="Nhập mã cuộc hẹn"
-            />
+          <!-- Bottom Row with Date Filters and Reset Button -->
+          <div
+            style="display: flex; flex-wrap: wrap; gap: 15px; margin-top: 5px"
+          >
+            <!-- Date Filter Row 3-column layout -->
+            <div
+              style="
+                display: flex;
+                width: 100%;
+                justify-content: space-between;
+                gap: 20px;
+              "
+            >
+              <!-- From Date -->
+              <div style="flex: 1">
+                <label
+                  for="fromDate"
+                  style="display: block; margin-bottom: 5px; font-weight: 500"
+                  >Từ ngày:</label
+                >
+                <div style="display: flex; align-items: center">
+                  <input
+                    type="date"
+                    id="fromDate"
+                    onchange="searchKits()"
+                    style="
+                      width: 100%;
+                      padding: 8px 10px;
+                      border: 1px solid #ddd;
+                      border-radius: 4px;
+                      outline: none;
+                    "
+                  />
+                </div>
+              </div>
+
+              <!-- To Date -->
+              <div style="flex: 1">
+                <label
+                  for="toDate"
+                  style="display: block; margin-bottom: 5px; font-weight: 500"
+                  >Đến ngày:</label
+                >
+                <div style="display: flex; align-items: center">
+                  <input
+                    type="date"
+                    id="toDate"
+                    onchange="searchKits()"
+                    style="
+                      width: 100%;
+                      padding: 8px 10px;
+                      border: 1px solid #ddd;
+                      border-radius: 4px;
+                      outline: none;
+                    "
+                  />
+                </div>
+              </div>
+              <!-- Reset Filters Button -->
+              <div style="flex: 0.6; display: flex; align-items: flex-end">
+                <button
+                  onclick="resetFilters()"
+                  style="
+                    background: #f44336;
+                    color: white;
+                    border: none;
+                    border-radius: 4px;
+                    padding: 8px 15px;
+                    cursor: pointer;
+                    height: 38px;
+                    width: 100%;
+                  "
+                >
+                  <i class="fas fa-undo-alt"></i> Đặt lại
+                </button>
+              </div>
+            </div>
           </div>
-          <div class="form-group">
-            <label for="statusFilter">Trạng thái:</label>
-            <select id="statusFilter" name="statusFilter">
-              <option value="">Tất cả</option>
-              <option value="Chờ gửi">Chờ gửi</option>
-              <option value="Đã gửi">Đã gửi</option>
-              <option value="Đã nhận mẫu">Đã nhận mẫu</option>
-              <option value="Lỗi mẫu">Lỗi mẫu</option>
-              <option value="Đã xử lý">Đã xử lý</option>
-              <option value="Đã trả kết quả">Đã trả kết quả</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="sendDateFilter">Ngày gửi:</label>
-            <input type="date" id="sendDateFilter" name="sendDateFilter" />
-          </div>
-          <button type="submit" class="search-btn">
-            <i class="fas fa-search"></i>
-            Tìm kiếm
-          </button>
-        </form>
+        </div>
+
         <div style="overflow-x: auto">
           <table
             style="width: 100%; border-collapse: collapse; margin-top: 10px"
@@ -935,55 +929,72 @@
         </div>
 
         <!-- Modal Overlay -->
-        <div id="kit-modal-overlay" style="
-          display: none;
-          position: fixed;
-          z-index: 9999;
-          top: 0;
-          left: 0;
-          width: 100vw;
-          height: 100vh;
-          background: rgba(30,42,60,0.35);
-          backdrop-filter: blur(2px);
-          justify-content: center;
-          align-items: center;
-          transition: background 0.3s;
-          overflow-y: auto;
-          padding: 20px;">
-          <div id="kit-modal-content" style="
-            background: linear-gradient(135deg,#fff 80%,#e3f0ff 100%);
-            border-radius: 18px;
-            max-width: 800px;
-            width: 95%;
-            margin: auto;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.18),0 1.5px 8px rgba(33,150,243,0.08);
-            position: relative;
-            overflow: hidden;
-            animation: modalFadeIn 0.35s;">
-            <button id="kit-modal-close" style="
-              position: absolute;
-              top: 12px;
-              right: 18px;
-              background: rgba(33,150,243,0.08);
-              border: none;
-              font-size: 26px;
-              cursor: pointer;
-              color: #2196f3;
-              border-radius: 50%;
-              width: 36px;
-              height: 36px;
-              transition: background 0.2s;
-              z-index: 1000;">
+        <div
+          id="kit-modal-overlay"
+          style="
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(30, 42, 60, 0.35);
+            backdrop-filter: blur(2px);
+            justify-content: center;
+            align-items: center;
+            transition: background 0.3s;
+            overflow-y: auto;
+            padding: 20px;
+          "
+        >
+          <div
+            id="kit-modal-content"
+            style="
+              background: linear-gradient(135deg, #fff 80%, #e3f0ff 100%);
+              border-radius: 18px;
+              max-width: 800px;
+              width: 95%;
+              margin: auto;
+              box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18),
+                0 1.5px 8px rgba(33, 150, 243, 0.08);
+              position: relative;
+              overflow: hidden;
+              animation: modalFadeIn 0.35s;
+            "
+          >
+            <button
+              id="kit-modal-close"
+              style="
+                position: absolute;
+                top: 12px;
+                right: 18px;
+                background: rgba(33, 150, 243, 0.08);
+                border: none;
+                font-size: 26px;
+                cursor: pointer;
+                color: #2196f3;
+                border-radius: 50%;
+                width: 36px;
+                height: 36px;
+                transition: background 0.2s;
+                z-index: 1000;
+              "
+            >
               &times;
             </button>
-            <iframe id="kit-modal-iframe" style="
-              width: 100%;
-              height: 90vh;
-              border: none;
-              display: block;
-              border-radius: 18px;
-              overflow: visible;
-              background: transparent;">
+            <iframe
+              id="kit-modal-iframe"
+              style="
+                width: 100%;
+                height: 90vh;
+                border: none;
+                display: block;
+                border-radius: 18px;
+                overflow: visible;
+                background: transparent;
+              "
+            >
             </iframe>
           </div>
         </div>
@@ -1058,7 +1069,9 @@
 
             // Nút Xem
             actions += `
-              <button onclick="openKitModal('sample.html?kitCode=${encodeURIComponent(kit.kitCode)}')" 
+              <button onclick="openKitModal('sample.html?kitCode=${encodeURIComponent(
+                kit.kitCode
+              )}')" 
                 style="background:#e3f2fd;color:#1976d2;border:none;border-radius:4px;padding:6px 12px;cursor:pointer;margin-right:4px;">
                 <i class="fas fa-eye"></i> Xem
               </button>
@@ -1090,43 +1103,81 @@
             const tbody = document.getElementById("kitTableBody");
             const data = filteredData || fakeKits;
             tbody.innerHTML = data.length
-              ? data.map((k) => `
+              ? data
+                  .map(
+                    (k) => `
                   <tr>
-                    <td style="padding:10px 8px; border-bottom:1px solid #eee;">${k.appointmentId}</td>
-                    <td style="padding:10px 8px; border-bottom:1px solid #eee;">${k.kitCode}</td>
-                    <td style="padding:10px 8px; border-bottom:1px solid #eee;">${k.sampleCount}</td>
-                    <td style="padding:10px 8px; border-bottom:1px solid #eee;">${k.sendDate || "-"}</td>
-                    <td style="padding:10px 8px; border-bottom:1px solid #eee;">${k.receiveDate || "-"}</td>
-                    <td style="padding:10px 8px; border-bottom:1px solid #eee;">${renderKitStatus(k.status)}</td>
-                    <td style="padding:10px 8px; border-bottom:1px solid #eee;">${renderKitActions(k)}</td>
+                    <td style="padding:10px 8px; border-bottom:1px solid #eee;">${
+                      k.appointmentId
+                    }</td>
+                    <td style="padding:10px 8px; border-bottom:1px solid #eee;">${
+                      k.kitCode
+                    }</td>
+                    <td style="padding:10px 8px; border-bottom:1px solid #eee;">${
+                      k.sampleCount
+                    }</td>
+                    <td style="padding:10px 8px; border-bottom:1px solid #eee;">${
+                      k.sendDate || "-"
+                    }</td>
+                    <td style="padding:10px 8px; border-bottom:1px solid #eee;">${
+                      k.receiveDate || "-"
+                    }</td>
+                    <td style="padding:10px 8px; border-bottom:1px solid #eee;">${renderKitStatus(
+                      k.status
+                    )}</td>
+                    <td style="padding:10px 8px; border-bottom:1px solid #eee;">${renderKitActions(
+                      k
+                    )}</td>
                   </tr>
-                `).join("")
+                `
+                  )
+                  .join("")
               : `<tr><td colspan="7" style="text-align:center; color:#888; padding:20px;">Không có kit phù hợp</td></tr>`;
+          } // Search and filter function
+          function searchKits() {
+            const combinedSearch = document
+              .getElementById("searchCombined")
+              .value.toLowerCase();
+            const statusFilter = document.getElementById("filterStatus").value;
+            const fromDate = document.getElementById("fromDate").value;
+            const toDate = document.getElementById("toDate").value;
+
+            // Apply filters
+            const filteredKits = fakeKits.filter((kit) => {
+              // Combined search for appointment ID and kit code
+              const matchSearch =
+                !combinedSearch ||
+                kit.appointmentId.toLowerCase().includes(combinedSearch) ||
+                kit.kitCode.toLowerCase().includes(combinedSearch);
+
+              // Filter by status
+              const matchStatus = !statusFilter || kit.status === statusFilter; // Filter by date range (send date)
+              let matchDateRange = true;
+              if (fromDate) {
+                matchDateRange = matchDateRange && kit.sendDate >= fromDate;
+              }
+              if (toDate) {
+                matchDateRange = matchDateRange && kit.sendDate <= toDate;
+              }
+
+              // Combined filter result
+              return matchSearch && matchStatus && matchDateRange;
+            });
+
+            // Render filtered results
+            renderKits(filteredKits);
           }
 
-          // Xử lý filter form
-          document.getElementById("filterForm").addEventListener("submit", function(e) {
-            e.preventDefault();
-            const kitCode = document.getElementById("kitCodeFilter").value.trim().toLowerCase();
-            const appointmentId = document.getElementById("appointmentIdFilter").value.trim().toLowerCase();
-            const status = document.getElementById("statusFilter").value;
-            const sendDate = document.getElementById("sendDateFilter").value;
-            
-            let filtered = fakeKits;
-            if (kitCode) {
-              filtered = filtered.filter(k => k.kitCode.toLowerCase().includes(kitCode));
-            }
-            if (appointmentId) {
-              filtered = filtered.filter(k => k.appointmentId.toLowerCase().includes(appointmentId));
-            }
-            if (status) {
-              filtered = filtered.filter(k => k.status === status);
-            }
-            if (sendDate) {
-              filtered = filtered.filter(k => k.sendDate === sendDate);
-            }
-            renderKits(filtered);
-          });
+          // Reset all filters
+          function resetFilters() {
+            document.getElementById("searchCombined").value = "";
+            document.getElementById("filterStatus").value = "";
+            document.getElementById("fromDate").value = "";
+            document.getElementById("toDate").value = "";
+
+            // Render original data
+            renderKits();
+          }
 
           // Các hàm thao tác
           function editKit(kitCode) {
@@ -1134,9 +1185,14 @@
           }
 
           function addSampleToKit(kitCode) {
-            const kit = fakeKits.find(k => k.kitCode === kitCode);
+            const kit = fakeKits.find((k) => k.kitCode === kitCode);
             const sampleCount = kit ? kit.sampleCount : 1;
-            openKitModal("infosample.html?kitCode=" + encodeURIComponent(kitCode) + "&sampleCount=" + sampleCount);
+            openKitModal(
+              "infosample.html?kitCode=" +
+                encodeURIComponent(kitCode) +
+                "&sampleCount=" +
+                sampleCount
+            );
           }
 
           // Modal functions
@@ -1148,65 +1204,89 @@
           }
 
           // Close modal when clicking outside or on close button
-          document.addEventListener("DOMContentLoaded", function() {
+          document.addEventListener("DOMContentLoaded", function () {
             const modal = document.getElementById("kit-modal-overlay");
             const closeBtn = document.getElementById("kit-modal-close");
-            
-            closeBtn.onclick = function() {
+
+            closeBtn.onclick = function () {
               modal.style.display = "none";
-            }
-            
-            modal.onclick = function(e) {
+            };
+
+            modal.onclick = function (e) {
               if (e.target === modal) {
                 modal.style.display = "none";
               }
-            }
+            };
 
-            // Initial render
-            renderKits();
+            // Set initial date range values (current month)
+            const today = new Date();
+            const firstDayOfMonth = new Date(
+              today.getFullYear(),
+              today.getMonth(),
+              1
+            );
+
+            // Format dates as YYYY-MM-DD for input elements
+            const formatDate = (date) => {
+              const year = date.getFullYear();
+              const month = String(date.getMonth() + 1).padStart(2, "0");
+              const day = String(date.getDate()).padStart(2, "0");
+              return `${year}-${month}-${day}`;
+            };
+
+            // Set default date values
+            document.getElementById("fromDate").value =
+              formatDate(firstDayOfMonth);
+            document.getElementById("toDate").value = formatDate(today); // Add event listener for combined search field
+            document
+              .getElementById("searchCombined")
+              .addEventListener("keyup", function (event) {
+                if (event.key === "Enter") {
+                  searchKits();
+                }
+              });
+
+            // Initial render with default date filters
+            searchKits();
           });
         </script>
       </div>
     </div>
     <!-- Phần code ở đây -->
 
+    <!-- Include the auth and API JS files -->
+    <script src="assets/js/api.js"></script>
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/auth-check.js"></script>
+
     <script>
-      document.addEventListener("DOMContentLoaded", function() {
-        const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-        if (currentUser) {
-          document.getElementById("avatar-letter").textContent = 
-            currentUser.fullname.charAt(0).toUpperCase();
-          document.getElementById("avatar-fullname").textContent = 
-            currentUser.fullname;
-          document.getElementById("avatar-role").textContent = 
-            currentUser.role || "staff";
-        }
-      });
-
-      function handleLogout() {
-        localStorage.removeItem("currentUser");
-        window.location.href = "login.html";
-      }
-
       function initializeMenu() {
         const mainMenuDiv = document.getElementById("mainMenu");
         if (!mainMenuDiv) return;
 
         const currentPage = window.location.pathname.split("/").pop();
         mainMenuDiv.innerHTML = `
-          <a href="index.html" class="menu-item${currentPage === "index.html" ? " active" : ""}">
+          <a href="index.html" class="menu-item${
+            currentPage === "index.html" ? " active" : ""
+          }">
             <span class="menu-icon"><i class="fas fa-home"></i></span>
             Trang chủ
           </a>
-          <a href="booking.html" class="menu-item${currentPage === "booking.html" ? " active" : ""}">
+          <a href="booking.html" class="menu-item${
+            currentPage === "booking.html" ? " active" : ""
+          }">
             <span class="menu-icon"><i class="fas fa-calendar-plus"></i></span>
             Đặt lịch xét nghiệm
           </a>
-          <a href="appoinments.html" class="menu-item${currentPage === "appoinments.html" ? " active" : ""}">
+          <a href="appoinments.html" class="menu-item${
+            currentPage === "appoinments.html" ? " active" : ""
+          }">
             <span class="menu-icon"><i class="fas fa-list-alt"></i></span>
             Danh sách lịch hẹn
           </a>
-          <a href="list-kit.html" class="menu-item${currentPage === "list-kit.html" ? " active" : ""}">
+          <a href="list-kit.html" class="menu-item${
+            currentPage === "list-kit.html" ? " active" : ""
+          }">
             <span class="menu-icon"><i class="fas fa-vials"></i></span>
             Danh sách kít xét nghiệm
           </a>
@@ -1214,7 +1294,7 @@
       }
 
       // Initialize menu when page loads
-      document.addEventListener("DOMContentLoaded", function() {
+      document.addEventListener("DOMContentLoaded", function () {
         initializeMenu();
       });
     </script>
