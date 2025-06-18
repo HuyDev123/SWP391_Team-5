@@ -192,6 +192,59 @@
         padding: 10px;
         margin: 10px -10px 20px -10px;
       }
+      
+      #add-service-btn {
+        background: #f5f5f5;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 8px 16px;
+        color: #1976d2;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        margin-top: 10px;
+      }
+
+      #add-service-btn:hover {
+        background: #e3f2fd;
+        border-color: #1976d2;
+        transform: translateY(-2px);
+      }
+
+      .remove-service-btn {
+        color: #f44336;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 4px 8px;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-left: 10px;
+      }
+
+      .remove-service-btn:hover {
+        background: #ffebee;
+        transform: scale(1.1);
+      }
+
+      .service-select-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 10px;
+      }
+      
+      #service-select-list {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
 
       .radio-group {
         display: grid;
@@ -581,24 +634,34 @@
           <div class="form-row">
             <div class="form-group">
               <label class="form-label" for="service-id">Dịch vụ <span class="required">*</span></label>
-              <select
-                id="service-id"
-                name="serviceId"
-                class="form-control"
-                required
-              >
-                <option value="">-- Chọn dịch vụ --</option>
-                <option value="SV001">Xét nghiệm cha con (Dân sự)</option>
-                <option value="SV002">Xét nghiệm mẹ con (Dân sự)</option>
-                <option value="SV003">Xét nghiệm anh chị em (Dân sự)</option>
-                <option value="SV004">Xét nghiệm ông bà - cháu (Dân sự)</option>
-                <option value="SV005">Xét nghiệm cha con (Hành chính)</option>
-                <option value="SV006">Xét nghiệm mẹ con (Hành chính)</option>
-                <option value="SV007">Xét nghiệm anh chị em (Hành chính)</option>
-                <option value="SV008">
-                  Xét nghiệm ông bà - cháu (Hành chính)
-                </option>
-              </select>
+              <div id="service-select-list">
+                <div class="service-select-item">
+                  <select
+                    id="service-id"
+                    name="services[]"
+                    class="form-control service-dropdown"
+                    required
+                  >
+                    <option value="">-- Chọn dịch vụ --</option>
+                    <option value="SV001">Xét nghiệm cha con (Dân sự)</option>
+                    <option value="SV002">Xét nghiệm mẹ con (Dân sự)</option>
+                    <option value="SV003">Xét nghiệm anh chị em (Dân sự)</option>
+                    <option value="SV004">Xét nghiệm ông bà - cháu (Dân sự)</option>
+                    <option value="SV005">Xét nghiệm cha con (Hành chính)</option>
+                    <option value="SV006">Xét nghiệm mẹ con (Hành chính)</option>
+                    <option value="SV007">Xét nghiệm anh chị em (Hành chính)</option>
+                    <option value="SV008">
+                      Xét nghiệm ông bà - cháu (Hành chính)
+                    </option>
+                  </select>
+                  <button type="button" class="remove-service-btn" style="display: none;">
+                    <i class="fas fa-times"></i>
+                  </button>
+                </div>
+              </div>
+              <button type="button" id="add-service-btn">
+                <i class="fas fa-plus"></i> Thêm dịch vụ
+              </button>
             </div>
             
           
@@ -837,7 +900,15 @@
         document.getElementById("email").value = appointmentData.email;
         document.getElementById("phone").value = appointmentData.phone || "";
         // Không cần thêm mã nhân viên staffCode nữa
-        document.getElementById("service-id").value = appointmentData.serviceID;
+        
+        // Xử lý dịch vụ (có thể đơn hoặc đa dịch vụ)
+        if (appointmentData.services && Array.isArray(appointmentData.services)) {
+          // Nếu có nhiều dịch vụ
+          updateServiceSelections(appointmentData.services);
+        } else if (appointmentData.serviceID) {
+          // Nếu chỉ có một dịch vụ (trường hợp legacy)
+          document.getElementById("service-id").value = appointmentData.serviceID;
+        }
         document.getElementById("appointment-date").value =
           appointmentData.appointmentDate;
         document.getElementById("appointment-time").value =
@@ -916,13 +987,17 @@
         .addEventListener("submit", async function (e) {
           e.preventDefault();
 
+          // Lấy danh sách tất cả các dịch vụ đã chọn
+          const serviceSelects = document.querySelectorAll('#service-select-list select');
+          const selectedServices = Array.from(serviceSelects).map(select => select.value).filter(val => val);
+          
           const formData = {
             appointmentID: appointmentId,
             fullName: document.getElementById("full-name").value,
             email: document.getElementById("email").value,
             phone: document.getElementById("phone").value,
             // staffCode không còn cần thiết
-            serviceID: document.getElementById("service-id").value,
+            services: selectedServices,
             appointmentDate: document.getElementById("appointment-date").value,
             appointmentTime: document.getElementById("appointment-time").value,
             numberOfTesters: parseInt(
@@ -1047,7 +1122,101 @@
       }
 
       // Load services khi trang được tải
-      document.addEventListener("DOMContentLoaded", loadServices);
+      document.addEventListener("DOMContentLoaded", function() {
+        loadServices();
+        setupServiceControls();
+      });
+      
+      // Thiết lập xử lý thêm/xóa dịch vụ
+      function setupServiceControls() {
+        const addServiceBtn = document.getElementById("add-service-btn");
+        const serviceSelectList = document.getElementById("service-select-list");
+        
+        if (addServiceBtn && serviceSelectList) {
+          addServiceBtn.addEventListener("click", function() {
+            // Tạo clone của item dịch vụ đầu tiên
+            const firstServiceItem = serviceSelectList.querySelector(".service-select-item");
+            const newServiceItem = firstServiceItem.cloneNode(true);
+            
+            // Reset giá trị của dropdown trong item mới
+            const newSelect = newServiceItem.querySelector("select");
+            newSelect.value = "";
+            
+            // Hiển thị nút xóa
+            const removeBtn = newServiceItem.querySelector(".remove-service-btn");
+            removeBtn.style.display = "block";
+            
+            // Xử lý sự kiện xóa
+            removeBtn.addEventListener("click", function() {
+              serviceSelectList.removeChild(newServiceItem);
+              
+              // Ẩn nút xóa nếu chỉ còn một dịch vụ
+              if (serviceSelectList.querySelectorAll(".service-select-item").length === 1) {
+                serviceSelectList.querySelector(".remove-service-btn").style.display = "none";
+              }
+            });
+            
+            // Thêm item mới vào danh sách
+            serviceSelectList.appendChild(newServiceItem);
+            
+            // Hiển thị nút xóa cho tất cả các items nếu có nhiều hơn 1 dịch vụ
+            if (serviceSelectList.querySelectorAll(".service-select-item").length > 1) {
+              const allRemoveBtns = serviceSelectList.querySelectorAll(".remove-service-btn");
+              allRemoveBtns.forEach(btn => {
+                btn.style.display = "block";
+              });
+            }
+          });
+        }
+      }
+      
+      // Cập nhật hàm populateForm để hỗ trợ nhiều dịch vụ
+      function updateServiceSelections(services) {
+        if (!services || services.length === 0) {
+          return;
+        }
+        
+        const serviceSelectList = document.getElementById("service-select-list");
+        const firstServiceItem = serviceSelectList.querySelector(".service-select-item");
+        const firstSelect = firstServiceItem.querySelector("select");
+        
+        // Đặt giá trị cho dịch vụ đầu tiên
+        firstSelect.value = services[0];
+        
+        // Thêm các dịch vụ bổ sung nếu có
+        for (let i = 1; i < services.length; i++) {
+          const serviceID = services[i];
+          
+          // Tạo một item dịch vụ mới
+          const newServiceItem = firstServiceItem.cloneNode(true);
+          const newSelect = newServiceItem.querySelector("select");
+          newSelect.value = serviceID;
+          
+          // Hiển thị nút xóa
+          const removeBtn = newServiceItem.querySelector(".remove-service-btn");
+          removeBtn.style.display = "block";
+          
+          // Xử lý sự kiện xóa
+          removeBtn.addEventListener("click", function() {
+            serviceSelectList.removeChild(newServiceItem);
+            
+            // Ẩn nút xóa nếu chỉ còn một dịch vụ
+            if (serviceSelectList.querySelectorAll(".service-select-item").length === 1) {
+              serviceSelectList.querySelector(".remove-service-btn").style.display = "none";
+            }
+          });
+          
+          serviceSelectList.appendChild(newServiceItem);
+        }
+        
+        // Hiển thị nút xóa cho tất cả các items nếu có nhiều hơn 1 dịch vụ
+        if (serviceSelectList.querySelectorAll(".service-select-item").length > 1) {
+          const allRemoveBtns = serviceSelectList.querySelectorAll(".remove-service-btn");
+          allRemoveBtns.forEach(btn => {
+            btn.style.display = "block";
+          });
+        }
+      }
     </script>
   </body>
 </html>
