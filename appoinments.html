@@ -1211,7 +1211,7 @@
       </div>
       <script>
         // Dữ liệu mẫu minh bạch, dễ map với DB
-        const fakeAppointments = [
+        window.fakeAppointments = [
           {
             id: "AP001",
             name: "Nguyễn Văn A",
@@ -1374,22 +1374,43 @@
                       // Nếu không có thao tác nào thì hiển thị dấu gạch ngang
                       if (!actions) actions = `<span style="color:#bbb;">-</span>`;*/
           return actions;
-        }
-
-        // Hàm mở modal chỉnh sửa lịch hẹn
+        } // Hàm mở modal chỉnh sửa lịch hẹn
         function openEditAppointmentModal(id) {
-          document.getElementById(
-            "edit-appointment-iframe"
-          ).src = `editappointment.html?id=${encodeURIComponent(id)}`;
-          document.getElementById("edit-appointment-modal").style.display =
-            "flex";
-        }
+          // Kiểm tra ID tồn tại
+          if (!id) {
+            console.error("ID lịch hẹn không hợp lệ:", id);
+            alert("Không tìm thấy mã lịch hẹn!");
+            return; // Dừng việc thực thi hàm, không mở modal
+          }
 
-        // Hàm cập nhật trạng thái (giả lập, thực tế gọi API)
+          try {
+            // Thiết lập iframe source với xử lý lỗi
+            const iframe = document.getElementById("edit-appointment-iframe");
+            iframe.src = `editappointment.html?id=${encodeURIComponent(id)}`;
+
+            // Lưu ID hiện tại để xử lý trong trường hợp lỗi
+            iframe.dataset.currentAppointmentId = id;
+
+            // Hiển thị modal
+            document.getElementById("edit-appointment-modal").style.display =
+              "flex";
+
+            // Xử lý lỗi khi iframe không load được
+            iframe.onerror = function () {
+              console.error("Không thể tải iframe cho lịch hẹn:", id);
+              alert("Không thể tải trang chỉnh sửa. Vui lòng thử lại sau.");
+              document.getElementById("edit-appointment-modal").style.display =
+                "none";
+            };
+          } catch (error) {
+            console.error("Lỗi khi mở modal chỉnh sửa:", error);
+            alert("Có lỗi xảy ra khi mở form chỉnh sửa");
+          }
+        } // Hàm cập nhật trạng thái (giả lập, thực tế gọi API)
         function updateStatus(id, newStatus) {
-          const idx = fakeAppointments.findIndex((a) => a.id === id);
+          const idx = window.fakeAppointments.findIndex((a) => a.id === id);
           if (idx !== -1 && newStatus) {
-            fakeAppointments[idx].status = newStatus;
+            window.fakeAppointments[idx].status = newStatus;
             renderAppointments();
             alert("Cập nhật trạng thái thành công!");
           }
@@ -1409,52 +1430,58 @@
           const iframe = document.getElementById("kit-modal-iframe");
           iframe.src = `kit-view.html?appointmentId=${encodeURIComponent(id)}`;
           modal.style.display = "flex";
-        }
-
-        // Khi thêm kit thành công, cập nhật hasKit = true cho lịch hẹn đó và render lại bảng
+        } // Khi thêm kit thành công, cập nhật hasKit = true cho lịch hẹn đó và render lại bảng
         function onKitAdded(appointmentId) {
-          const idx = fakeAppointments.findIndex((a) => a.id === appointmentId);
+          const idx = window.fakeAppointments.findIndex(
+            (a) => a.id === appointmentId
+          );
           if (idx !== -1) {
-            fakeAppointments[idx].hasKit = true;
+            window.fakeAppointments[idx].hasKit = true;
             renderAppointments();
           }
-        }
-
-        // Render bảng
+        }        // Render bảng
         function renderAppointments(filteredData) {
-          const tbody = document.getElementById("appointmentTableBody");
-          const data = filteredData || fakeAppointments;
-          tbody.innerHTML = data.length
-            ? data
-                .map(
-                  (a) => `
-                          <tr>
-                            <td style="padding:10px 8px; border-bottom:1px solid #eee;">${
-                              a.id
-                            }</td>
-                            <td style="padding:10px 8px; border-bottom:1px solid #eee;">${
-                              a.name
-                            }</td>
-                            <td style="padding:10px 8px; border-bottom:1px solid #eee;">
-  ${getServiceFullDisplay(a.service, a.serviceDetail)}
-</td>
-                            <td style="padding:10px 8px; border-bottom:1px solid #eee;">${
-                              a.method
-                            }</td>
-                            <td style="padding:10px 8px; border-bottom:1px solid #eee;">${
-                              a.date
-                            }</td>
-                            <td style="padding:10px 8px; border-bottom:1px solid #eee;">${renderStatus(
-                              a.status
-                            )}</td>
-                            <td style="padding:10px 8px; border-bottom:1px solid #eee;">${renderActions(
-                              a
-                            )}</td>
-                          </tr>
-                        `
-                )
-                .join("")
-            : `<tr><td colspan="7" style="text-align:center; color:#888; padding:20px;">Không có lịch hẹn phù hợp</td></tr>`;
+          console.log("renderAppointments called with:", filteredData ? "filtered data" : "default data");
+          
+          try {
+            const tbody = document.getElementById("appointmentTableBody");
+            if (!tbody) {
+              console.error("Table body element not found!");
+              return;
+            }
+            
+            const data = filteredData || window.fakeAppointments;
+            
+            // Debug: Kiểm tra dữ liệu đang được render
+            console.log("Rendering appointments with data:", data);
+            console.log("Table body element:", tbody);
+            
+            if (!data || !data.length) {
+              console.log("No data to render");
+              tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; color:#888; padding:20px;">Không có lịch hẹn phù hợp</td></tr>`;
+              return;
+            }
+            
+            let htmlContent = "";
+            // Map data to HTML
+            for (const a of data) {
+              htmlContent += `
+                <tr>
+                  <td style="padding:10px 8px; border-bottom:1px solid #eee;">${a.id}</td>
+                  <td style="padding:10px 8px; border-bottom:1px solid #eee;">${a.name}</td>
+                  <td style="padding:10px 8px; border-bottom:1px solid #eee;">${getServiceFullDisplay(a.service, a.serviceDetail)}</td>
+                  <td style="padding:10px 8px; border-bottom:1px solid #eee;">${a.method}</td>
+                  <td style="padding:10px 8px; border-bottom:1px solid #eee;">${a.date}</td>
+                  <td style="padding:10px 8px; border-bottom:1px solid #eee;">${renderStatus(a.status)}</td>
+                  <td style="padding:10px 8px; border-bottom:1px solid #eee;">${renderActions(a)}</td>
+                </tr>
+              `;
+            }            
+            tbody.innerHTML = htmlContent;
+            console.log("Table rendered successfully!");
+          } catch (error) {
+            console.error("Error in renderAppointments:", error);
+          }
         }
 
         // Hiển thị tên dịch vụ cho bảng (giữ nguyên value để tiện API)
@@ -1505,7 +1532,7 @@
             const status = document.getElementById("statusFilter").value;
             const service = document.getElementById("serviceFilter").value;
             const method = document.getElementById("methodFilter").value;
-            let filtered = fakeAppointments;
+            let filtered = window.fakeAppointments;
             if (date) {
               filtered = filtered.filter((a) => a.date === date);
             }
@@ -1527,11 +1554,33 @@
               );
             }
             renderAppointments(filtered);
-          });
-
-        // Render mặc định khi load trang
+          }); // Render mặc định khi load trang
         document.addEventListener("DOMContentLoaded", function () {
-          renderAppointments();
+          console.log(
+            "DOMContentLoaded event fired, about to render appointments"
+          );
+          console.log("fakeAppointments data:", window.fakeAppointments);
+
+          // Đảm bảo DOM đã được tải đầy đủ
+          setTimeout(() => {
+            console.log(
+              "Timeout elapsed, attempting to render appointments now"
+            );
+            renderAppointments();
+          }, 100);
+        });        // Thêm gọi hàm render trực tiếp ở cuối script để đảm bảo nó luôn được gọi
+        // sau khi tất cả các hàm đã được định nghĩa
+        window.addEventListener("load", function () {
+          console.log(
+            "Window load event - calling forceRenderAppointments"
+          );
+          if (window.forceRenderAppointments) {
+            window.forceRenderAppointments();
+          } else if (typeof renderAppointments === "function") {
+            renderAppointments();
+          } else {
+            console.error("renderAppointments function is not defined");
+          }
         });
       </script>
     </div>
@@ -1621,18 +1670,41 @@
 `;
       if (!document.getElementById("edit-appointment-modal")) {
         document.body.insertAdjacentHTML("beforeend", editAppointmentModalHtml);
-        document.getElementById("edit-appointment-close").onclick =
-          function () {
-            document.getElementById("edit-appointment-modal").style.display =
-              "none";
-            document.getElementById("edit-appointment-iframe").src = "";
-          };
+        document.getElementById("edit-appointment-close").onclick = function (
+          e
+        ) {
+          // Ngăn chặn sự kiện mặc định để tránh redirect
+          if (e && e.preventDefault) e.preventDefault();
+          if (e && e.stopPropagation) e.stopPropagation();
+
+          // Xóa src trước khi ẩn modal để tránh các redirect từ frame
+          const iframe = document.getElementById("edit-appointment-iframe");
+          iframe.src = "about:blank";
+
+          // Ẩn modal
+          document.getElementById("edit-appointment-modal").style.display =
+            "none";
+
+          // Trả về false để ngăn chặn các hành vi mặc định khác
+          return false;
+        };
+
         document.getElementById("edit-appointment-modal").onclick = function (
           e
         ) {
           if (e.target === this) {
+            // Ngăn chặn sự kiện mặc định và lan truyền
+            if (e && e.preventDefault) e.preventDefault();
+            if (e && e.stopPropagation) e.stopPropagation();
+
+            // Xóa src trước khi ẩn modal
+            const iframe = document.getElementById("edit-appointment-iframe");
+            iframe.src = "about:blank";
+
+            // Ẩn modal
             this.style.display = "none";
-            document.getElementById("edit-appointment-iframe").src = "";
+
+            return false;
           }
         };
       }
@@ -1684,5 +1756,127 @@
 
     <!-- Include main.js after auth for any dashboard specific functionality -->
     <script src="assets/js/main.js"></script>
+
+    <script>
+      // Thêm xử lý lỗi cho iframe
+      document.addEventListener("DOMContentLoaded", function () {
+        // Bắt lỗi từ iframe
+        const iframe = document.getElementById("edit-appointment-iframe");
+        if (iframe) {
+          iframe.onload = function () {
+            try {
+              // Kiểm tra nếu iframe đã load xong nhưng có lỗi
+              if (
+                iframe.contentWindow.document.title.includes("Error") ||
+                iframe.contentWindow.document.body.textContent.includes(
+                  "không tìm thấy"
+                ) ||
+                iframe.contentWindow.document.body.textContent.includes(
+                  "Không tìm thấy"
+                )
+              ) {
+                console.warn("Iframe loaded with error content");
+                // Đóng modal và hiển thị lỗi
+                document.getElementById(
+                  "edit-appointment-modal"
+                ).style.display = "none";
+                alert(
+                  "Không tìm thấy thông tin lịch hẹn hoặc đã có lỗi xảy ra!"
+                );
+                iframe.src = "about:blank";
+              }
+            } catch (e) {
+              // Lỗi cross-origin khi truy cập iframe - bỏ qua
+              console.log(
+                "Không thể kiểm tra nội dung iframe (có thể do cross-origin)"
+              );
+            }
+          };
+
+          // Bắt lỗi khi iframe không load được
+          iframe.onerror = function (e) {
+            console.error("Lỗi khi tải iframe:", e);
+            document.getElementById("edit-appointment-modal").style.display =
+              "none";
+            alert("Không thể tải trang chỉnh sửa. Vui lòng thử lại sau.");
+            iframe.src = "about:blank";
+          };
+        }
+
+        // Thêm bộ lọc window.onbeforeunload để ngăn chặn redirect không mong muốn từ iframe
+        window.addEventListener("beforeunload", function (e) {
+          const modal = document.getElementById("edit-appointment-modal");
+          // Nếu modal đang mở và có hành động redirect
+          if (modal && modal.style.display === "flex") {
+            // Chỉ hỏi xác nhận nếu đang trong modal
+            const message = "Bạn có chắc muốn rời khỏi trang này?";
+            e.returnValue = message;
+            return message;
+          }
+        });
+      });
+    </script>
+    <script>
+      // Hàm buộc render lịch hẹn từ bất kỳ đâu
+      window.forceRenderAppointments = function () {
+        console.log("Force rendering appointments");
+        if (typeof renderAppointments === "function") {
+          renderAppointments();
+        } else {
+          console.error(
+            "renderAppointments function is not defined or not accessible"
+          );
+
+          // Cố gắng render bằng code inline nếu hàm không được tìm thấy
+          try {
+            const tbody = document.getElementById("appointmentTableBody");
+            if (!tbody) {
+              console.error("appointmentTableBody element not found");
+              return;
+            }
+
+            const data = window.fakeAppointments || [];
+            console.log("Attempting direct render with data:", data);
+
+            if (data.length > 0) {
+              let html = "";
+              for (const a of data) {
+                html += `
+                  <tr>
+                    <td style="padding:10px 8px; border-bottom:1px solid #eee;">${a.id}</td>
+                    <td style="padding:10px 8px; border-bottom:1px solid #eee;">${a.name}</td>
+                    <td style="padding:10px 8px; border-bottom:1px solid #eee;">${a.service}</td>
+                    <td style="padding:10px 8px; border-bottom:1px solid #eee;">${a.method}</td>
+                    <td style="padding:10px 8px; border-bottom:1px solid #eee;">${a.date}</td>
+                    <td style="padding:10px 8px; border-bottom:1px solid #eee;">${a.status}</td>
+                    <td style="padding:10px 8px; border-bottom:1px solid #eee;">
+                      <button style="background:#ff9800; color:white; border:none; border-radius:4px; padding:6px 14px; cursor:pointer; margin-right:6px;">
+                        <i class="fas fa-edit"></i> Sửa
+                      </button>
+                    </td>
+                  </tr>
+                `;
+              }
+              tbody.innerHTML = html;
+            } else {
+              tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; color:#888; padding:20px;">Không có lịch hẹn phù hợp</td></tr>`;
+            }
+          } catch (error) {
+            console.error("Error in force render:", error);
+          }
+        }
+      };
+    </script>
+    <script>
+      // Final attempt to render appointments
+      setTimeout(function () {
+        console.log("Final attempt to render appointments");
+        if (window.forceRenderAppointments) {
+          window.forceRenderAppointments();
+        } else if (typeof renderAppointments === "function") {
+          renderAppointments();
+        }
+      }, 500);
+    </script>
   </body>
 </html>
