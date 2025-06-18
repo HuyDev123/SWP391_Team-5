@@ -62,58 +62,119 @@
 
       .form-control {
         width: 100%;
-        padding: 12px 15px;
+        padding: 14px 18px;
         border: 1px solid #e0e0e0;
         border-radius: 8px;
         font-size: 1em;
         transition: all 0.3s ease;
         box-sizing: border-box;
         background: #fff;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02) inset;
       }
 
       .form-control:focus {
         border-color: #1976d2;
-        box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.1);
+        box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.15);
         outline: none;
+        transform: translateY(-1px);
+      }
+      
+      .form-control:disabled,
+      .form-control[readonly] {
+        background-color: #f8f9fa;
+        border: 1px dashed #ccc;
+        color: #6c757d;
+        opacity: 0.8;
+      }
+      
+      select.form-control {
+        cursor: pointer;
+        background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%231976d2'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+        background-position: right 10px center;
+        background-repeat: no-repeat;
+        background-size: 24px;
+        padding-right: 40px;
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
       }
 
       .form-title {
-        font-size: 2em;
-        margin: 0 0 20px;
-        font-weight: 600;
+        font-size: 2.2em;
+        margin: 0 0 15px;
+        font-weight: 700;
         color: #1976d2;
         display: flex;
         align-items: center;
-        gap: 10px;
+        gap: 15px;
+        position: relative;
       }
 
       .form-title i {
-        font-size: 0.9em;
+        font-size: 0.8em;
+        background: #e3f2fd;
+        padding: 12px;
+        border-radius: 50%;
+        color: #1976d2;
+        box-shadow: 0 4px 10px rgba(25, 118, 210, 0.2);
       }
 
       .form-description {
-        font-size: 1em;
+        font-size: 1.1em;
         line-height: 1.6;
         margin-bottom: 30px;
         color: #666;
+        max-width: 80%;
+        position: relative;
+        padding-left: 20px;
+        border-left: 4px solid #e3f2fd;
       }
 
       .form-section {
-        background: #f8f9fa;
-        border-radius: 8px;
-        padding: 20px;
-        margin-bottom: 25px;
-        border: 1px solid #e0e0e0;
+        background: #ffffff;
+        border-radius: 12px;
+        padding: 25px;
+        margin-bottom: 30px;
+        border: none;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .form-section:hover {
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+        transform: translateY(-2px);
+      }
+
+      .form-section::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 4px;
+        width: 100%;
+        background: linear-gradient(to right, #1976d2, #64b5f6);
       }
 
       .section-title {
-        font-size: 1.1em;
-        font-weight: 500;
+        font-size: 1.2em;
+        font-weight: 600;
         color: #1976d2;
-        margin-bottom: 15px;
+        margin-bottom: 20px;
         display: flex;
         align-items: center;
-        gap: 8px;
+        gap: 10px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #f0f0f0;
+      }
+      
+      .section-title i {
+        background: #e3f2fd;
+        padding: 10px;
+        border-radius: 50%;
+        color: #1976d2;
+        font-size: 16px;
       }
 
       .form-row {
@@ -121,6 +182,68 @@
         grid-template-columns: 1fr 1fr;
         gap: 20px;
         margin-bottom: 20px;
+        padding: 10px 0;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+      }
+      
+      .form-row:hover {
+        background-color: #f8f9fa;
+        padding: 10px;
+        margin: 10px -10px 20px -10px;
+      }
+      
+      #add-service-btn {
+        background: #f5f5f5;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 8px 16px;
+        color: #1976d2;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        margin-top: 10px;
+      }
+
+      #add-service-btn:hover {
+        background: #e3f2fd;
+        border-color: #1976d2;
+        transform: translateY(-2px);
+      }
+
+      .remove-service-btn {
+        color: #f44336;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 4px 8px;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-left: 10px;
+      }
+
+      .remove-service-btn:hover {
+        background: #ffebee;
+        transform: scale(1.1);
+      }
+
+      .service-select-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 10px;
+      }
+      
+      #service-select-list {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
       }
 
       .radio-group {
@@ -135,30 +258,73 @@
         align-items: center;
         padding: 15px 20px;
         border: 1px solid #e0e0e0;
-        border-radius: 8px;
+        border-radius: 12px;
         cursor: pointer;
         transition: all 0.3s ease;
         background: white;
+        position: relative;
+        overflow: hidden;
       }
 
       .radio-label:hover {
-        background: #f5f5f5;
+        background: #f5f9ff;
         border-color: #1976d2;
+        transform: translateY(-2px);
+      }
+      
+      .radio-label:active {
+        transform: scale(0.98);
       }
 
       .radio-label input[type="radio"] {
-        margin-right: 10px;
+        margin-right: 12px;
+        transform: scale(1.2);
+        accent-color: #1976d2;
       }
 
       .radio-label input[type="radio"]:checked + span {
         color: #1976d2;
-        font-weight: 500;
+        font-weight: 600;
+      }
+      
+      .radio-label input[type="radio"]:checked {
+        box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.5);
+      }
+      
+      .radio-label:has(input[type="radio"]:checked) {
+        border-color: #1976d2;
+        border-width: 2px;
+        background-color: #f0f7ff;
+        box-shadow: 0 4px 10px rgba(25, 118, 210, 0.1);
       }
 
       .form-actions {
         display: flex;
         gap: 15px;
-        margin-top: 30px;
+        margin-top: 20px;
+      }
+      
+      .action-section {
+        background: #f9f9f9;
+      }
+      
+      .action-section .section-title {
+        color: #333;
+      }
+      
+      .action-section .section-title i {
+        background: #eee;
+        color: #333;
+      }
+      
+      .button-description {
+        margin-bottom: 20px;
+      }
+      
+      .button-description p {
+        font-size: 15px;
+        color: #666;
+        line-height: 1.5;
       }
 
       .submit-btn {
@@ -166,8 +332,8 @@
         background: linear-gradient(135deg, #1976d2, #1565c0);
         color: white;
         border: none;
-        padding: 15px 30px;
-        border-radius: 8px;
+        padding: 16px 30px;
+        border-radius: 12px;
         font-size: 1.1em;
         font-weight: 600;
         cursor: pointer;
@@ -176,12 +342,37 @@
         align-items: center;
         justify-content: center;
         gap: 10px;
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+      }
+      
+      .submit-btn::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0));
+        transform: translateY(-100%);
+        transition: all 0.4s ease;
+        z-index: -1;
       }
 
       .submit-btn:hover {
         background: linear-gradient(135deg, #1565c0, #0d47a1);
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(25, 118, 210, 0.3);
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(25, 118, 210, 0.4);
+      }
+      
+      .submit-btn:hover::before {
+        transform: translateY(0);
+      }
+      
+      .submit-btn:active {
+        transform: translateY(0);
+        box-shadow: 0 4px 15px rgba(25, 118, 210, 0.3);
       }
 
       .btn-secondary {
@@ -190,6 +381,7 @@
 
       .btn-secondary:hover {
         background: linear-gradient(135deg, #5a6268, #495057);
+        box-shadow: 0 8px 25px rgba(108, 117, 125, 0.4);
       }
 
       .btn-danger {
@@ -198,6 +390,7 @@
 
       .btn-danger:hover {
         background: linear-gradient(135deg, #c82333, #bd2130);
+        box-shadow: 0 8px 25px rgba(220, 53, 69, 0.4);
       }
 
       .btn-success {
@@ -206,30 +399,80 @@
 
       .btn-success:hover {
         background: linear-gradient(135deg, #218838, #1e7e34);
+        box-shadow: 0 8px 25px rgba(40, 167, 69, 0.4);
       }
 
       .submit-btn i {
-        margin-right: 8px;
+        margin-right: 10px;
+        font-size: 1.2em;
       }
 
       .info-card {
+        background-color: #f0f7ff;
+        border: none;
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 30px;
+        box-shadow: 0 4px 15px rgba(25, 118, 210, 0.1);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .info-card::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 5px;
+        background: linear-gradient(to bottom, #2196f3, #64b5f6);
+      }
+
+      .appointment-info-header {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 20px;
+      }
+
+      .appointment-info-item {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .appointment-info-item i {
+        font-size: 24px;
+        color: #1976d2;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         background-color: #e3f2fd;
-        border: 1px solid #2196f3;
-        border-radius: 8px;
-        padding: 15px;
-        margin-bottom: 20px;
+        border-radius: 50%;
       }
 
       .info-card h4 {
-        color: #1976d2;
+        color: #5c5c5c;
         margin-bottom: 8px;
-        font-size: 16px;
+        font-size: 14px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
       }
 
       .info-card p {
-        color: #555;
+        color: #333;
         margin: 0;
-        font-size: 14px;
+        font-size: 16px;
+        font-weight: 500;
+      }
+
+      .highlight-text {
+        color: #1976d2;
+        font-weight: 600;
+        font-size: 18px;
       }
 
       @media (max-width: 768px) {
@@ -290,10 +533,22 @@
 
         <!-- Thông tin cơ bản -->
         <div class="info-card">
-          <h4>Mã lịch hẹn: <span id="appointment-id-display"></span></h4>
-          <p>
-            Thông tin lịch hẹn được tạo lúc: <span id="created-date"></span>
-          </p>
+          <div class="appointment-info-header">
+            <div class="appointment-info-item">
+              <i class="fas fa-hashtag"></i>
+              <div>
+                <h4>Mã lịch hẹn</h4>
+                <p><span id="appointment-id-display" class="highlight-text"></span></p>
+              </div>
+            </div>
+            <div class="appointment-info-item">
+              <i class="fas fa-calendar-alt"></i>
+              <div>
+                <h4>Ngày tạo</h4>
+                <p><span id="created-date"></span></p>
+              </div>
+            </div>
+          </div>
         </div>
 
         <form id="appointment-edit-form">
@@ -304,6 +559,29 @@
             <i class="fas fa-user"></i>
             Thông tin khách hàng
           </h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="appointment-code">Mã lịch hẹn</label>
+              <input
+                type="text"
+                id="appointment-code"
+                name="appointmentCode"
+                class="form-control"
+                readonly
+              />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="customer-code">Mã khách hàng</label>
+              <input
+                type="text"
+                id="customer-code"
+                name="customerCode"
+                class="form-control"
+                readonly
+              />
+            </div>
+          </div>
+          
           <div class="form-row">
             <div class="form-group">
               <label class="form-label" for="full-name">Họ và tên <span class="required">*</span></label>
@@ -325,7 +603,7 @@
                 class="form-control"
                 placeholder="Nhập địa chỉ email"
                 required
-                
+              
               />
             </div>
           </div>
@@ -341,7 +619,9 @@
                 placeholder="Nhập số điện thoại"
               />
             </div>
-            
+            <div class="form-group">
+              <!-- Trường này được giữ trống để cân bằng layout -->
+            </div>
           </div>
         </div>
 
@@ -354,24 +634,34 @@
           <div class="form-row">
             <div class="form-group">
               <label class="form-label" for="service-id">Dịch vụ <span class="required">*</span></label>
-              <select
-                id="service-id"
-                name="serviceId"
-                class="form-control"
-                required
-              >
-                <option value="">-- Chọn dịch vụ --</option>
-                <option value="SV001">Xét nghiệm cha con (Dân sự)</option>
-                <option value="SV002">Xét nghiệm mẹ con (Dân sự)</option>
-                <option value="SV003">Xét nghiệm anh chị em (Dân sự)</option>
-                <option value="SV004">Xét nghiệm ông bà - cháu (Dân sự)</option>
-                <option value="SV005">Xét nghiệm cha con (Hành chính)</option>
-                <option value="SV006">Xét nghiệm mẹ con (Hành chính)</option>
-                <option value="SV007">Xét nghiệm anh chị em (Hành chính)</option>
-                <option value="SV008">
-                  Xét nghiệm ông bà - cháu (Hành chính)
-                </option>
-              </select>
+              <div id="service-select-list">
+                <div class="service-select-item">
+                  <select
+                    id="service-id"
+                    name="services[]"
+                    class="form-control service-dropdown"
+                    required
+                  >
+                    <option value="">-- Chọn dịch vụ --</option>
+                    <option value="SV001">Xét nghiệm cha con (Dân sự)</option>
+                    <option value="SV002">Xét nghiệm mẹ con (Dân sự)</option>
+                    <option value="SV003">Xét nghiệm anh chị em (Dân sự)</option>
+                    <option value="SV004">Xét nghiệm ông bà - cháu (Dân sự)</option>
+                    <option value="SV005">Xét nghiệm cha con (Hành chính)</option>
+                    <option value="SV006">Xét nghiệm mẹ con (Hành chính)</option>
+                    <option value="SV007">Xét nghiệm anh chị em (Hành chính)</option>
+                    <option value="SV008">
+                      Xét nghiệm ông bà - cháu (Hành chính)
+                    </option>
+                  </select>
+                  <button type="button" class="remove-service-btn" style="display: none;">
+                    <i class="fas fa-times"></i>
+                  </button>
+                </div>
+              </div>
+              <button type="button" id="add-service-btn">
+                <i class="fas fa-plus"></i> Thêm dịch vụ
+              </button>
             </div>
             
           
@@ -511,34 +801,43 @@
         </div>
 
         <!-- Buttons -->
-        <div class="form-actions">
-          <button type="button" class="submit-btn btn-secondary" onclick="goBack()">
-            <i class="fas fa-arrow-left"></i>
-            Quay lại
-          </button>
+        <div class="form-section action-section">
+          <h3 class="section-title">
+            <i class="fas fa-tasks"></i>
+            Tác vụ
+          </h3>
+          <div class="button-description">
+            <p>Chọn tác vụ bạn muốn thực hiện với lịch hẹn này. Lưu ý rằng một số tác vụ không thể hoàn tác.</p>
+          </div>
+          <div class="form-actions">
+            <button type="button" class="submit-btn btn-secondary" onclick="goBack()">
+              <i class="fas fa-arrow-left"></i>
+              Quay lại
+            </button>
 
-          <button type="submit" class="submit-btn">
-            <i class="fas fa-save"></i>
-            Lưu thay đổi
-          </button>
+            <button type="submit" class="submit-btn">
+              <i class="fas fa-save"></i>
+              Lưu thay đổi
+            </button>
 
-          <button
-            type="button"
-            class="submit-btn btn-success"
-            onclick="completeAppointment()"
-          >
-            <i class="fas fa-check"></i>
-            Hoàn thành
-          </button>
+            <button
+              type="button"
+              class="submit-btn btn-success"
+              onclick="completeAppointment()"
+            >
+              <i class="fas fa-check-circle"></i>
+              Hoàn thành
+            </button>
 
-          <button
-            type="button"
-            class="submit-btn btn-danger"
-            onclick="cancelAppointment()"
-          >
-            <i class="fas fa-times"></i>
-            Hủy lịch hẹn
-          </button>
+            <button
+              type="button"
+              class="submit-btn btn-danger"
+              onclick="cancelAppointment()"
+            >
+              <i class="fas fa-ban"></i>
+              Hủy lịch hẹn
+            </button>
+          </div>
         </div>
       </form>
     </div>
@@ -593,11 +892,23 @@
           appointmentData.createdDate
         ).toLocaleString("vi-VN");
 
+        // Điền mã lịch hẹn và mã khách hàng
+        document.getElementById("appointment-code").value = appointmentData.appointmentID || "";
+        document.getElementById("customer-code").value = appointmentData.customerCode || "";
+
         document.getElementById("full-name").value = appointmentData.fullName;
         document.getElementById("email").value = appointmentData.email;
         document.getElementById("phone").value = appointmentData.phone || "";
-        document.getElementById("staff-code").value = appointmentData.staffCode;
-        document.getElementById("service-id").value = appointmentData.serviceID;
+        // Không cần thêm mã nhân viên staffCode nữa
+        
+        // Xử lý dịch vụ (có thể đơn hoặc đa dịch vụ)
+        if (appointmentData.services && Array.isArray(appointmentData.services)) {
+          // Nếu có nhiều dịch vụ
+          updateServiceSelections(appointmentData.services);
+        } else if (appointmentData.serviceID) {
+          // Nếu chỉ có một dịch vụ (trường hợp legacy)
+          document.getElementById("service-id").value = appointmentData.serviceID;
+        }
         document.getElementById("appointment-date").value =
           appointmentData.appointmentDate;
         document.getElementById("appointment-time").value =
@@ -676,13 +987,17 @@
         .addEventListener("submit", async function (e) {
           e.preventDefault();
 
+          // Lấy danh sách tất cả các dịch vụ đã chọn
+          const serviceSelects = document.querySelectorAll('#service-select-list select');
+          const selectedServices = Array.from(serviceSelects).map(select => select.value).filter(val => val);
+          
           const formData = {
             appointmentID: appointmentId,
             fullName: document.getElementById("full-name").value,
             email: document.getElementById("email").value,
             phone: document.getElementById("phone").value,
-            staffCode: document.getElementById("staff-code").value,
-            serviceID: document.getElementById("service-id").value,
+            // staffCode không còn cần thiết
+            services: selectedServices,
             appointmentDate: document.getElementById("appointment-date").value,
             appointmentTime: document.getElementById("appointment-time").value,
             numberOfTesters: parseInt(
@@ -807,7 +1122,101 @@
       }
 
       // Load services khi trang được tải
-      document.addEventListener("DOMContentLoaded", loadServices);
+      document.addEventListener("DOMContentLoaded", function() {
+        loadServices();
+        setupServiceControls();
+      });
+      
+      // Thiết lập xử lý thêm/xóa dịch vụ
+      function setupServiceControls() {
+        const addServiceBtn = document.getElementById("add-service-btn");
+        const serviceSelectList = document.getElementById("service-select-list");
+        
+        if (addServiceBtn && serviceSelectList) {
+          addServiceBtn.addEventListener("click", function() {
+            // Tạo clone của item dịch vụ đầu tiên
+            const firstServiceItem = serviceSelectList.querySelector(".service-select-item");
+            const newServiceItem = firstServiceItem.cloneNode(true);
+            
+            // Reset giá trị của dropdown trong item mới
+            const newSelect = newServiceItem.querySelector("select");
+            newSelect.value = "";
+            
+            // Hiển thị nút xóa
+            const removeBtn = newServiceItem.querySelector(".remove-service-btn");
+            removeBtn.style.display = "block";
+            
+            // Xử lý sự kiện xóa
+            removeBtn.addEventListener("click", function() {
+              serviceSelectList.removeChild(newServiceItem);
+              
+              // Ẩn nút xóa nếu chỉ còn một dịch vụ
+              if (serviceSelectList.querySelectorAll(".service-select-item").length === 1) {
+                serviceSelectList.querySelector(".remove-service-btn").style.display = "none";
+              }
+            });
+            
+            // Thêm item mới vào danh sách
+            serviceSelectList.appendChild(newServiceItem);
+            
+            // Hiển thị nút xóa cho tất cả các items nếu có nhiều hơn 1 dịch vụ
+            if (serviceSelectList.querySelectorAll(".service-select-item").length > 1) {
+              const allRemoveBtns = serviceSelectList.querySelectorAll(".remove-service-btn");
+              allRemoveBtns.forEach(btn => {
+                btn.style.display = "block";
+              });
+            }
+          });
+        }
+      }
+      
+      // Cập nhật hàm populateForm để hỗ trợ nhiều dịch vụ
+      function updateServiceSelections(services) {
+        if (!services || services.length === 0) {
+          return;
+        }
+        
+        const serviceSelectList = document.getElementById("service-select-list");
+        const firstServiceItem = serviceSelectList.querySelector(".service-select-item");
+        const firstSelect = firstServiceItem.querySelector("select");
+        
+        // Đặt giá trị cho dịch vụ đầu tiên
+        firstSelect.value = services[0];
+        
+        // Thêm các dịch vụ bổ sung nếu có
+        for (let i = 1; i < services.length; i++) {
+          const serviceID = services[i];
+          
+          // Tạo một item dịch vụ mới
+          const newServiceItem = firstServiceItem.cloneNode(true);
+          const newSelect = newServiceItem.querySelector("select");
+          newSelect.value = serviceID;
+          
+          // Hiển thị nút xóa
+          const removeBtn = newServiceItem.querySelector(".remove-service-btn");
+          removeBtn.style.display = "block";
+          
+          // Xử lý sự kiện xóa
+          removeBtn.addEventListener("click", function() {
+            serviceSelectList.removeChild(newServiceItem);
+            
+            // Ẩn nút xóa nếu chỉ còn một dịch vụ
+            if (serviceSelectList.querySelectorAll(".service-select-item").length === 1) {
+              serviceSelectList.querySelector(".remove-service-btn").style.display = "none";
+            }
+          });
+          
+          serviceSelectList.appendChild(newServiceItem);
+        }
+        
+        // Hiển thị nút xóa cho tất cả các items nếu có nhiều hơn 1 dịch vụ
+        if (serviceSelectList.querySelectorAll(".service-select-item").length > 1) {
+          const allRemoveBtns = serviceSelectList.querySelectorAll(".remove-service-btn");
+          allRemoveBtns.forEach(btn => {
+            btn.style.display = "block";
+          });
+        }
+      }
     </script>
   </body>
 </html>

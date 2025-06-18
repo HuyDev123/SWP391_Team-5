@@ -3,10 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Thông tin Kit - Dịch Vụ Xét Nghiệm ADN</title>
+    <title>Thêm Kit Mới - Dịch Vụ Xét Nghiệm ADN</title>
     <link
       rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
     />
     <style>
       * {
@@ -28,10 +33,10 @@
       .kit-form-container {
         background-color: white;
         border-radius: 15px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
         padding: 40px;
         width: 100%;
-        max-width: 600px;
+        max-width: 800px;
         animation: fadeIn 0.5s ease-out;
       }
 
@@ -134,10 +139,28 @@
         font-size: 16px;
         font-weight: 600;
         cursor: pointer;
-        width: 100%;
-        margin-top: 15px;
+        flex-grow: 1;
+        margin-left: 10px;
         transition: all 0.3s ease;
         box-shadow: 0 4px 6px rgba(52, 152, 219, 0.2);
+      }
+      
+      .button-group {
+        display: flex;
+        margin-top: 25px;
+      }
+      
+      .cancel-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 14px 20px;
+        font-size: 16px;
+        font-weight: 600;
+      }
+      
+      .cancel-button i, .submit-button i {
+        margin-right: 8px;
       }
 
       .submit-button:hover {
@@ -227,6 +250,106 @@
       .error-message.show {
         display: block;
       }
+      
+      /* Thêm styles mới */
+      .input-group {
+        display: flex;
+        width: 100%;
+      }
+      
+      .input-group-text {
+        display: flex;
+        align-items: center;
+        padding: 12px 15px;
+        background-color: #f8f9fa;
+        border: 2px solid #e0e0e0;
+        border-right: none;
+        border-radius: 8px 0 0 8px;
+        color: #7f8c8d;
+      }
+      
+      .input-group .form-input, 
+      .input-group .form-textarea,
+      .input-group select {
+        border-radius: 0 8px 8px 0;
+      }
+      
+      .row {
+        display: flex;
+        margin: 0 -15px;
+        flex-wrap: wrap;
+      }
+      
+      .col-md-6 {
+        flex: 0 0 50%;
+        padding: 0 15px;
+      }
+      
+      .status-options {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-top: 10px;
+      }
+      
+      .status-badge {
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 14px;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+      }
+      
+      .status-badge.status-new {
+        background-color: #e3f2fd;
+        color: #1976d2;
+      }
+      
+      .status-badge.status-sent {
+        background-color: #e8f5e9;
+        color: #388e3c;
+      }
+      
+      .form-check-input {
+        margin-right: 6px;
+      }
+      
+      .form-check-inline {
+        display: inline-flex;
+        align-items: center;
+        margin-right: 15px;
+      }
+      
+      .action-links {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+        font-size: 14px;
+      }
+      
+      .action-link {
+        color: #7f8c8d;
+        text-decoration: none;
+        transition: color 0.3s;
+      }
+      
+      .action-link:hover {
+        color: #3498db;
+      }
+      
+      .separator {
+        margin: 0 10px;
+        color: #bdc3c7;
+      }
+      
+      .card {
+        border: 1px solid #eaeaea;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 20px;
+        background-color: #f9f9f9;
+      }
     </style>
   </head>
 
@@ -245,66 +368,217 @@
       <form id="kit-form">
         <div class="form-group">
           <label for="kit-code" class="form-label required-field">Mã Kit</label>
-          <input
-            type="text"
-            id="kit-code"
-            name="kitCode"
-            class="form-input"
-            placeholder="Nhập mã Kit (VD: KIT001)"
-            required
-          />
-          <div class="error-message">Vui lòng nhập mã Kit</div>
+          <div class="input-group">
+            <span class="input-group-text"><i class="fas fa-barcode"></i></span>
+            <input
+              type="text"
+              id="kit-code"
+              name="kitCode"
+              class="form-input"
+              placeholder="Nhập mã Kit (VD: KIT001)"
+              required
+            />
+          </div>
+          <div class="error-message">Vui lòng nhập mã Kit hợp lệ</div>
         </div>
-
-        <div class="form-group">
-          <label for="send-date" class="form-label required-field">Ngày gửi</label>
-          <input
-            type="date"
-            id="send-date"
-            name="sendDate"
-            class="form-input"
-            required
-          />
-          <div class="error-message">Vui lòng chọn ngày gửi</div>
+        
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="kit-type" class="form-label required-field">Loại Kit</label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-vial"></i></span>
+                <select id="kit-type" name="kitType" class="form-input" required>
+                  <option value="" disabled selected>Chọn loại Kit</option>
+                  <option value="paternity">Xác định huyết thống Cha - Con</option>
+                  <option value="paternity">Xác định huyết thống Mẹ - Con</option>
+                  <option value="paternity">Xác định huyết thống Anh, Chị - Em</option>
+                  <option value="paternity">Xác định huyết thống Ông, bà - Em</option>
+                  
+                </select>
+              </div>
+              <div class="error-message">Vui lòng chọn loại Kit</div>
+            </div>
+          </div>
+          
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="send-date" class="form-label required-field">Ngày gửi</label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
+                <input
+                  type="date"
+                  id="send-date"
+                  name="sendDate"
+                  class="form-input"
+                  required
+                />
+              </div>
+              <div class="error-message">Vui lòng chọn ngày gửi</div>
+            </div>
+          </div>
         </div>
-
+        
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="sample-count" class="form-label required-field">Số lượng mẫu</label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-flask"></i></span>
+                <input
+                  type="number"
+                  id="sample-count"
+                  name="sampleCount"
+                  class="form-input"
+                  min="2"
+                  max="10"
+                  placeholder="Nhập số lượng mẫu (2-10)"
+                  required
+                />
+              </div>
+              <div class="error-message">Vui lòng nhập số lượng mẫu (tối thiểu 2)</div>
+            </div>
+          </div>
+          
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="expected-days" class="form-label required-field">Số ngày dự kiến</label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-clock"></i></span>
+                <input
+                  type="number"
+                  id="expected-days"
+                  name="expectedDays"
+                  class="form-input"
+                  min="7"
+                  max="30"
+                  value="14"
+                  placeholder="Số ngày xử lý dự kiến"
+                  required
+                />
+              </div>
+              <div class="error-message">Vui lòng nhập số ngày dự kiến (7-30 ngày)</div>
+            </div>
+          </div>
+        </div>
+        
         <div class="form-group">
-          <label for="sample-count" class="form-label required-field">Số lượng mẫu</label>
-          <input
-            type="number"
-            id="sample-count"
-            name="sampleCount"
-            class="form-input"
-            min="2"
-            placeholder="Nhập số lượng mẫu (tối thiểu 2)"
-            required
-          />
-          <div class="error-message">Vui lòng nhập số lượng mẫu (tối thiểu 2)</div>
+          <label for="customer-name" class="form-label required-field">Tên khách hàng</label>
+          <div class="input-group">
+            <span class="input-group-text"><i class="fas fa-user"></i></span>
+            <input
+              type="text"
+              id="customer-name"
+              name="customerName"
+              class="form-input"
+              placeholder="Nhập tên khách hàng"
+              required
+            />
+          </div>
+          <div class="error-message">Vui lòng nhập tên khách hàng</div>
+        </div>
+        
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="customer-phone" class="form-label required-field">Số điện thoại</label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                <input
+                  type="tel"
+                  id="customer-phone"
+                  name="customerPhone"
+                  class="form-input"
+                  placeholder="0xxxxxxxxx"
+                  pattern="[0-9]{10}"
+                  required
+                />
+              </div>
+              <div class="error-message">Vui lòng nhập số điện thoại hợp lệ</div>
+            </div>
+          </div>
+          
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="customer-email" class="form-label">Email khách hàng</label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                <input
+                  type="email"
+                  id="customer-email"
+                  name="customerEmail"
+                  class="form-input"
+                  placeholder="email@example.com"
+                />
+              </div>
+              <div class="error-message">Vui lòng nhập email hợp lệ</div>
+            </div>
+          </div>
         </div>
 
         <div class="form-group">
           <label for="notes" class="form-label">Ghi chú</label>
-          <textarea
-            id="notes"
-            name="notes"
-            class="form-textarea"
-            placeholder="Nhập ghi chú về Kit (không bắt buộc)"
-          ></textarea>
+          <div class="input-group">
+            <span class="input-group-text"><i class="fas fa-sticky-note"></i></span>
+            <textarea
+              id="notes"
+              name="notes"
+              class="form-textarea"
+              placeholder="Nhập ghi chú về Kit (không bắt buộc)"
+            ></textarea>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Trạng thái mẫu</label>
+          <div class="status-options">
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="status" id="status-new" value="new" checked />
+              <label class="form-check-label" for="status-new">
+                <span class="status-badge status-new">Mới tạo</span>
+              </label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="status" id="status-sent" value="sent" />
+              <label class="form-check-label" for="status-sent">
+                <span class="status-badge status-sent">Đã gửi</span>
+              </label>
+            </div>
+          </div>
         </div>
 
-        <button type="submit" class="submit-button">
-          <div class="loading"></div>
-          <i class="fas fa-save"></i>
-          Thêm Kit
-        </button>
+        <div class="button-group">
+          <button type="button" class="btn btn-secondary cancel-button" onclick="window.location.href='list-kit.html'">
+            <i class="fas fa-times"></i>
+            Hủy
+          </button>
+          <button type="submit" class="submit-button">
+            <div class="loading"></div>
+            <i class="fas fa-save"></i>
+            Tạo Kit Mới
+          </button>
+        </div>
       </form>
 
       <div class="success-message">
         <i class="fas fa-check-circle"></i>
         Lưu thông tin Kit thành công!
       </div>
+      
+      <div class="action-links">
+        <a href="list-kit.html" class="action-link">
+          <i class="fas fa-list"></i> Danh sách Kit
+        </a>
+        <span class="separator">|</span>
+        <a href="index.html" class="action-link">
+          <i class="fas fa-home"></i> Trang chủ
+        </a>
+      </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/api.js"></script>
+    <script src="assets/js/auth-check.js"></script>
     <script>
       document.addEventListener("DOMContentLoaded", function () {
         const form = document.getElementById("kit-form");
@@ -315,15 +589,40 @@
         // Set today as default date
         const today = new Date().toISOString().split("T")[0];
         document.getElementById("send-date").value = today;
-
+        
+        // Tự động tạo mã Kit
+        function generateKitCode() {
+          const prefix = "KIT";
+          const timestamp = new Date().getTime().toString().slice(-6);
+          const randomNum = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
+          return `${prefix}${timestamp}${randomNum}`;
+        }
+        
+        document.getElementById("kit-code").value = generateKitCode();
+        
         // Validate form fields
         function validateField(input) {
-          const errorMessage = input.parentElement.querySelector(".error-message");
+          const errorMessage = input.closest('.form-group').querySelector(".error-message");
+          
           if (!input.value.trim()) {
             input.classList.add("error");
             errorMessage.classList.add("show");
             return false;
           }
+          
+          if (input.id === "customer-phone" && !/^[0-9]{10}$/.test(input.value)) {
+            input.classList.add("error");
+            errorMessage.classList.add("show");
+            return false;
+          }
+          
+          if (input.id === "customer-email" && input.value.trim() !== "" && 
+              !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value)) {
+            input.classList.add("error");
+            errorMessage.classList.add("show");
+            return false;
+          }
+          
           input.classList.remove("error");
           errorMessage.classList.remove("show");
           return true;
@@ -359,14 +658,31 @@
           submitButton.querySelector("i").style.display = "none";
 
           try {
+            const kitType = document.getElementById("kit-type").value;
+            const expectedDays = document.getElementById("expected-days").value;
+            const customerName = document.getElementById("customer-name").value;
+            const customerPhone = document.getElementById("customer-phone").value;
+            const customerEmail = document.getElementById("customer-email").value;
+            const status = document.querySelector('input[name="status"]:checked').value;
+            
             const response = await fetch("/api/kits", {
               method: "POST",
-              headers: { "Content-Type": "application/json" },
+              headers: { 
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem('token')}`
+              },
               body: JSON.stringify({
                 kitCode,
+                kitType,
                 sendDate,
                 sampleCount,
+                expectedDays,
+                customerName,
+                customerPhone,
+                customerEmail,
                 notes,
+                status,
+                createdAt: new Date().toISOString()
               }),
             });
 
@@ -375,11 +691,14 @@
               successMessage.classList.add("show");
               form.reset();
               document.getElementById("send-date").value = today;
+              document.getElementById("kit-code").value = generateKitCode();
 
               // Hide success message after 3 seconds
               setTimeout(() => {
                 successMessage.classList.remove("show");
-              }, 3000);
+                // Redirect to kit list after successful creation
+                window.location.href = 'list-kit.html';
+              }, 2000);
             } else {
               const errorData = await response.json();
               throw new Error(errorData.message || "Không thể lưu thông tin Kit.");
