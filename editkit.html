@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chỉnh sửa Kit - Dịch Vụ Xét Nghiệm ADN</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -319,10 +320,12 @@
             text-align: center;
             margin-top: 15px;
             font-weight: 500;
-            padding: 10px;
+            padding: 15px;
             background-color: #d4edda;
-            border-radius: 8px;
-            animation: fadeIn 0.3s ease-out;
+            border-radius: 10px;
+            animation: fadeIn 0.5s ease-out;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid #27ae60;
         }
 
         .success-message.show {
@@ -332,8 +335,8 @@
         }
 
         .success-message i {
-            margin-right: 8px;
-            font-size: 18px;
+            margin-right: 10px;
+            font-size: 20px;
         }
 
         /* Confirmation dialog styling */
@@ -414,6 +417,527 @@
             background-color: #95a5a6;
             color: white;
         }
+
+        /* Error message */
+        .error-message {
+            color: #e74c3c;
+            text-align: center;
+            margin-top: 15px;
+            font-weight: 500;
+            padding: 10px;
+            background-color: #f8d7da;
+            border-radius: 8px;
+            animation: fadeIn 0.3s ease-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .error-message i {
+            margin-right: 8px;
+            font-size: 18px;
+        }
+
+        .error-message.show {
+            display: flex;
+        }
+
+        /* CSS cho phần dịch vụ và kit */
+        .service-section {
+            margin-bottom: 30px;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .service-section:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+        }
+        
+        .service-header {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            padding: 18px 25px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        
+        .service-header:hover {
+            background: linear-gradient(135deg, #2980b9 0%, #2471a3 100%);
+        }
+        
+        .service-title {
+            display: flex;
+            align-items: center;
+            font-size: 19px;
+            font-weight: 600;
+        }
+        
+        .service-title i {
+            margin-right: 12px;
+            font-size: 22px;
+        }
+        
+        .service-actions {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .service-actions button {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            padding: 6px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+        
+        .service-actions button:hover {
+            background-color: rgba(255, 255, 255, 0.25);
+            transform: scale(1.1);
+        }
+        
+        .service-body {
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0, 1, 0, 1), padding 0.5s ease;
+            background-color: #fcfcfc;
+        }
+        
+        .service-body.open {
+            padding: 25px;
+            max-height: 3000px;
+            transition: max-height 0.5s ease-in-out, padding 0.5s ease;
+        }
+        
+        .service-info {
+            margin-bottom: 22px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed #e0e0e0;
+        }
+        
+        .service-description p {
+            font-size: 14px;
+            line-height: 1.5;
+            color: #7f8c8d;
+        }
+        
+        .kit-section {
+            margin-bottom: 18px;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .kit-section:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .kit-header {
+            background-color: #edf2f7;
+            padding: 14px 18px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #2c3e50;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+        }
+        
+        .kit-header:hover {
+            background-color: #e2e8f0;
+        }
+        
+        .kit-body {
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0, 1, 0, 1), padding 0.4s ease;
+            background-color: #ffffff;
+        }
+        
+        .kit-body.open {
+            padding: 18px;
+            max-height: 1000px;
+            transition: max-height 0.4s ease-in-out, padding 0.4s ease;
+        }
+        
+        .add-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 18px;
+            background-color: #e6f7ff;
+            color: #1890ff;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 15px;
+            font-weight: 600;
+            border: 1px dashed #91d5ff;
+            position: relative;
+        }
+        
+        .add-button:hover {
+            background-color: #bae7ff;
+            color: #096dd9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(24, 144, 255, 0.2);
+        }
+        
+        .add-button::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 10px;
+            animation: pulse 1.5s infinite;
+            z-index: -1;
+        }
+        
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(24, 144, 255, 0.4);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(24, 144, 255, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(24, 144, 255, 0);
+            }
+        }
+        
+        .add-button i {
+            margin-right: 10px;
+            font-size: 16px;
+            animation: bounceIcon 1s infinite alternate;
+        }
+        
+        @keyframes bounceIcon {
+            from {
+                transform: scale(1);
+            }
+            to {
+                transform: scale(1.2);
+            }
+        }
+        
+        .collapsible-arrow {
+            transition: transform 0.4s ease;
+        }
+        
+        .open .collapsible-arrow {
+            transform: rotate(90deg);
+        }
+        
+        .no-services-message {
+            text-align: center;
+            padding: 35px;
+            color: #7f8c8d;
+            font-style: italic;
+            background-color: #f8fafc;
+            border-radius: 10px;
+            border: 1px dashed #cbd5e0;
+        }
+        
+        /* Service form styles */
+        .service-form, .kit-form {
+            background-color: #f8fafc;
+            padding: 25px;
+            border-radius: 12px;
+            margin-top: 22px;
+            border: 1px dashed #3498db;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            animation: fadeIn 0.4s ease-out;
+        }
+        
+        .form-title {
+            margin-bottom: 18px;
+            font-size: 19px;
+            color: #2c3e50;
+            font-weight: 600;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 10px;
+        }
+        
+        .form-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 25px;
+            justify-content: flex-end;
+        }
+        
+        .form-input, .form-select, .form-textarea {
+            transition: all 0.3s ease;
+            border: 2px solid #e0e0e0;
+        }
+        
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+
+        /* Nút thêm dịch vụ với hiệu ứng đặc biệt */
+        .add-service-button {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            padding: 15px 20px;
+            font-weight: 600;
+            border: none;
+            margin: 25px 0;
+            animation: pulse 2s infinite;
+        }
+        
+        .add-service-button:hover {
+            background: linear-gradient(135deg, #2980b9 0%, #2471a3 100%);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+            animation: none;
+        }
+        
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(52, 152, 219, 0.4);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(52, 152, 219, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(52, 152, 219, 0);
+            }
+        }
+
+        /* Timeline styling */
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+        
+        .timeline:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 15px;
+            width: 2px;
+            background-color: #e2e8f0;
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 25px;
+            padding-left: 40px;
+        }
+        
+        .timeline-date {
+            font-size: 14px;
+            color: #718096;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        
+        .timeline-content {
+            background-color: #f7fafc;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            border-left: 3px solid #3498db;
+        }
+        
+        .timeline-content h5 {
+            margin: 0 0 10px;
+            font-size: 16px;
+            color: #2d3748;
+        }
+        
+        .timeline-content p {
+            margin: 0;
+            color: #4a5568;
+            font-size: 14px;
+        }
+        
+        .timeline-item:before {
+            content: '';
+            position: absolute;
+            left: 8px;
+            top: 5px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: #3498db;
+            border: 3px solid #edf2f7;
+            z-index: 1;
+        }
+        
+        .kit-header.active {
+            background-color: #ebf8ff;
+            border-left: 3px solid #3498db;
+        }
+        
+        #kit-code-badge {
+            font-size: 14px;
+            font-weight: normal;
+            padding: 5px 10px;
+            border-radius: 20px;
+        }
+        
+        .file-upload {
+            border: 2px dashed #cbd5e0;
+            border-radius: 8px;
+            background-color: #f8fafc;
+            transition: all 0.3s ease;
+        }
+        
+        .file-upload:hover {
+            border-color: #3498db;
+            background-color: #ebf8ff;
+        }
+        
+        .file-label {
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            color: #4a5568;
+            display: block;
+        }
+        
+        .file-label i {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #3498db;
+            display: block;
+        }
+        
+        .current-file {
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            background-color: #ebf8ff;
+            border-radius: 6px;
+            color: #2d3748;
+        }
+        
+        .current-file i {
+            color: #3498db;
+            font-size: 18px;
+            margin-right: 10px;
+        }
+        
+        .kit-card {
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+            background-color: white;
+        }
+        
+        .kit-card:hover {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .kit-card-header {
+            background-color: #f8fafc;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .kit-card-body {
+            background-color: #fff;
+        }
+        
+        .add-kit-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            background-color: #f1f5f9;
+            color: #4a5568;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px dashed #cbd5e0;
+            margin-top: 20px;
+        }
+        
+        .add-kit-button:hover {
+            background-color: #e2e8f0;
+            color: #2d3748;
+            transform: translateY(-2px);
+        }
+        
+        .add-kit-button i {
+            margin-right: 10px;
+            font-size: 20px;
+            color: #3182ce;
+        }
+        
+        .kit-confirmation-dialog {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .kit-confirmation-dialog-content {
+            background-color: white;
+            padding: 25px;
+            border-radius: 10px;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            animation: dialogFadeIn 0.3s ease;
+        }
+        
+        @keyframes dialogFadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        .kit-confirmation-actions {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            gap: 15px;
+        }
+        
+        .kit-badge {
+            font-size: 14px;
+            font-weight: 600;
+            padding: 5px 10px;
+            border-radius: 20px;
+            background-color: #3182ce;
+            color: white;
+            display: inline-block;
+            margin-left: 10px;
+        }
     </style>
 </head>
 
@@ -424,81 +948,325 @@
                 <img src="assets/images/Logo.jpg" alt="ADN Logo">
             </div>
             <h1 class="form-title">Chỉnh sửa thông tin Kit</h1>
-            <p class="form-subtitle">Cập nhật thông tin Kit xét nghiệm</p>
+            <p class="form-subtitle">Cập nhật thông tin chi tiết Kit xét nghiệm ADN</p>
         </div>
 
         <form id="kit-edit-form">
             <!-- Thông tin cơ bản -->
             <div class="form-row">
                 <div class="form-group">
-                    <label for="kit-code" class="form-label">Mã Kit <span class="required">*</span></label>
-                    <input type="text" id="kit-code" name="kitCode" class="form-input" readonly>
-                </div>
-                
-                <div class="form-group">
                     <label for="staff-code" class="form-label">Mã nhân viên <span class="required">*</span></label>
                     <input type="text" id="staff-code" name="staffCode" class="form-input" placeholder="Nhập mã nhân viên" required>
                 </div>
             </div>
             
-            <!-- Ngày tháng -->
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="sent-date" class="form-label">Ngày gửi <span class="required">*</span></label>
-                    <input type="date" id="sent-date" name="sentDate" class="form-input" required>
+            <!-- Phần thông tin kit -->
+            <h3 class="section-title mt-4 mb-3">Thông tin Chi tiết Kit</h3>
+            
+            <!-- Thông tin kit cần chỉnh sửa -->
+            <div class="kit-detail-container" id="services-container">
+                <!-- Dịch vụ 1 -->
+                <div class="service-section mb-4" id="service-1" data-service-id="1">
+                    <div class="service-header" onclick="toggleServiceBody(this)">
+                        <div class="service-title">
+                            <i class="fas fa-dna"></i>
+                            <span>▼ Dịch vụ 1: Xét nghiệm huyết thống Cha - Con</span>
+                        </div>
+                        <div class="service-actions">
+                            <i class="fas fa-chevron-down collapsible-arrow open"></i>
+                        </div>
+                    </div>
+                    <div class="service-body open">
+                        <div class="service-info">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">Tên dịch vụ</label>
+                                        <input type="text" class="form-input" id="service-name" value="Xét nghiệm huyết thống Cha - Con" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">Mã dịch vụ</label>
+                                        <input type="text" class="form-input" id="service-code" value="DV001" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="service-description mt-2">
+                                <p class="text-muted">Xác định mối quan hệ huyết thống giữa cha và con thông qua ADN</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Vùng chứa các kit -->
+                        <div class="kits-container mt-4" id="kits-container-1">
+                            <!-- Kit 1 -->
+                            <div class="kit-section mb-3" id="kit-1-1" data-kit-id="1">
+                                <div class="kit-header d-flex justify-content-between align-items-center" onclick="toggleKitBody(this)">
+                                    <div class="d-flex align-items-center">
+                                        <i class="fas fa-vial me-2 text-primary"></i>
+                                        <span>▼ Kit 1: <span class="badge bg-primary" id="kit-code-badge-1">PC001</span></span>
+                                    </div>
+                                    <div>
+                                        <button type="button" class="btn btn-outline-danger btn-sm" onclick="confirmRemoveKit(1); event.stopPropagation();">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                        <i class="fas fa-chevron-down collapsible-arrow"></i>
+                                    </div>
+                                </div>
+                                <div class="kit-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="form-label">Mã Kit <span class="required">*</span></label>
+                                                <input type="text" class="form-input" id="kit-code-1" value="PC001" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="form-label">Trạng thái <span class="required">*</span></label>
+                                                <select class="form-select" id="kit-status-1">
+                                                    <option value="Chờ gửi">Chờ gửi</option>
+                                                    <option value="Đã gửi" selected>Đã gửi</option>
+                                                    <option value="Đã nhận mẫu">Đã nhận mẫu</option>
+                                                    <option value="Lỗi mẫu">Lỗi mẫu</option>
+                                                    <option value="Đã xử lý">Đã xử lý</option>
+                                                    <option value="Đã trả kết quả">Đã trả kết quả</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row mt-3">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="form-label">Ngày gửi <span class="required">*</span></label>
+                                                <input type="date" class="form-input" id="sent-date-1" value="2025-06-15" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="form-label">Ngày nhận</label>
+                                                <input type="date" class="form-input" id="received-date-1">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row mt-3">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="form-label">Số lượng mẫu <span class="required">*</span></label>
+                                                <input type="number" class="form-input" id="sample-count-1" min="2" value="2" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="form-label">Người thực hiện</label>
+                                                <input type="text" class="form-input" id="staff-name-1" value="Nguyễn Văn A" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- File kết quả -->
+                                    <div class="form-group mt-3">
+                                        <label for="result-file-1" class="form-label">File kết quả xét nghiệm</label>
+                                        <div class="file-upload">
+                                            <input type="file" id="result-file-1" name="resultFile1" class="file-input" accept=".pdf,.doc,.docx,.jpg,.png">
+                                            <label for="result-file-1" class="file-label">
+                                                <i class="fas fa-cloud-upload-alt"></i>
+                                                <span>Kéo thả file vào đây hoặc click để chọn file</span>
+                                            </label>
+                                        </div>
+                                        <div id="current-file-1" class="current-file mt-2" style="display: none;">
+                                            <i class="fas fa-file-alt"></i>
+                                            <span id="current-file-name-1"></span>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Ghi chú -->
+                                    <div class="form-group mt-3">
+                                        <label for="notes-1" class="form-label">Ghi chú</label>
+                                        <textarea id="notes-1" name="notes1" class="form-textarea" rows="3" placeholder="Nhập ghi chú về Kit (không bắt buộc)">Kit đầu tiên cho xét nghiệm cha con</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Kit 2 -->
+                            <div class="kit-section mb-3" id="kit-1-2" data-kit-id="2">
+                                <div class="kit-header d-flex justify-content-between align-items-center" onclick="toggleKitBody(this)">
+                                    <div class="d-flex align-items-center">
+                                        <i class="fas fa-vial me-2 text-primary"></i>
+                                        <span>▼ Kit 2: <span class="badge bg-primary" id="kit-code-badge-2">PC002</span></span>
+                                    </div>
+                                    <div>
+                                        <button type="button" class="btn btn-outline-danger btn-sm" onclick="confirmRemoveKit(2); event.stopPropagation();">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                        <i class="fas fa-chevron-right collapsible-arrow"></i>
+                                    </div>
+                                </div>
+                                <div class="kit-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="form-label">Mã Kit <span class="required">*</span></label>
+                                                <input type="text" class="form-input" id="kit-code-2" value="PC002" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="form-label">Trạng thái <span class="required">*</span></label>
+                                                <select class="form-select" id="kit-status-2">
+                                                    <option value="Chờ gửi" selected>Chờ gửi</option>
+                                                    <option value="Đã gửi">Đã gửi</option>
+                                                    <option value="Đã nhận mẫu">Đã nhận mẫu</option>
+                                                    <option value="Lỗi mẫu">Lỗi mẫu</option>
+                                                    <option value="Đã xử lý">Đã xử lý</option>
+                                                    <option value="Đã trả kết quả">Đã trả kết quả</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row mt-3">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="form-label">Ngày gửi <span class="required">*</span></label>
+                                                <input type="date" class="form-input" id="sent-date-2" value="2025-06-20" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="form-label">Ngày nhận</label>
+                                                <input type="date" class="form-input" id="received-date-2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row mt-3">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="form-label">Số lượng mẫu <span class="required">*</span></label>
+                                                <input type="number" class="form-input" id="sample-count-2" min="2" value="2" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="form-label">Người thực hiện</label>
+                                                <input type="text" class="form-input" id="staff-name-2" value="Nguyễn Văn A" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- File kết quả -->
+                                    <div class="form-group mt-3">
+                                        <label for="result-file-2" class="form-label">File kết quả xét nghiệm</label>
+                                        <div class="file-upload">
+                                            <input type="file" id="result-file-2" name="resultFile2" class="file-input" accept=".pdf,.doc,.docx,.jpg,.png">
+                                            <label for="result-file-2" class="file-label">
+                                                <i class="fas fa-cloud-upload-alt"></i>
+                                                <span>Kéo thả file vào đây hoặc click để chọn file</span>
+                                            </label>
+                                        </div>
+                                        <div id="current-file-2" class="current-file mt-2" style="display: none;">
+                                            <i class="fas fa-file-alt"></i>
+                                            <span id="current-file-name-2"></span>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Ghi chú -->
+                                    <div class="form-group mt-3">
+                                        <label for="notes-2" class="form-label">Ghi chú</label>
+                                        <textarea id="notes-2" name="notes2" class="form-textarea" rows="3" placeholder="Nhập ghi chú về Kit (không bắt buộc)">Kit bổ sung cho cùng dịch vụ</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Nút thêm kit mới -->
+                            <div class="add-button" onclick="addNewKit(1, event)">
+                                <i class="fas fa-plus"></i> Thêm Kit mới
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 
-                <div class="form-group">
-                    <label for="received-date" class="form-label">Ngày nhận</label>
-                    <input type="date" id="received-date" name="receivedDate" class="form-input">
-                </div>
-            </div>
-            
-            <!-- Số mẫu và trạng thái -->
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="sample-count" class="form-label">Số lượng mẫu <span class="required">*</span></label>
-                    <input type="number" id="sample-count" name="sampleCount" class="form-input" min="2" placeholder="Nhập số lượng mẫu (tối thiểu 2)" required>
+                <!-- Thông tin khách hàng -->
+                <div class="kit-section mt-4">
+                    <div class="kit-header" onclick="toggleKitBody(this)">
+                        <span>Thông tin khách hàng</span>
+                        <div>
+                            <i class="fas fa-chevron-right collapsible-arrow"></i>
+                        </div>
+                    </div>
+                    <div class="kit-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">Họ tên khách hàng</label>
+                                    <input type="text" class="form-input" id="customer-name" value="Trần Văn B" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">Số điện thoại</label>
+                                    <input type="text" class="form-input" id="customer-phone" value="0912345678" readonly>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">Email</label>
+                                    <input type="email" class="form-input" id="customer-email" value="tranvanb@example.com" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">Địa chỉ</label>
+                                    <input type="text" class="form-input" id="customer-address" value="123 Đường ABC, Quận 1, TP.HCM" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 
-                <div class="form-group">
-                    <label for="status" class="form-label">Trạng thái <span class="required">*</span></label>
-                    <select id="status" name="status" class="form-select" required>
-                        <option value="">-- Chọn trạng thái --</option>
-                        <option value="Chờ gửi">Chờ gửi</option>
-                        <option value="Đã gửi">Đã gửi</option>
-                        <option value="Đã nhận mẫu">Đã nhận mẫu</option>
-                        <option value="Lỗi mẫu">Lỗi mẫu</option>
-                        <option value="Đã xử lý">Đã xử lý</option>
-                        <option value="Đã trả kết quả">Đã trả kết quả</option>
-                    </select>
+                <!-- Lịch sử cập nhật -->
+                <div class="kit-section mt-4">
+                    <div class="kit-header" onclick="toggleKitBody(this)">
+                        <span>Lịch sử cập nhật</span>
+                        <div>
+                            <i class="fas fa-chevron-right collapsible-arrow"></i>
+                        </div>
+                    </div>
+                    <div class="kit-body">
+                        <div class="timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-date">15/06/2025</div>
+                                <div class="timeline-content">
+                                    <h5>Tạo mới Kit</h5>
+                                    <p>Kit được tạo bởi nhân viên Nguyễn Văn A</p>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-date">16/06/2025</div>
+                                <div class="timeline-content">
+                                    <h5>Cập nhật trạng thái</h5>
+                                    <p>Trạng thái thay đổi từ "Chờ gửi" sang "Đã gửi"</p>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-date">19/06/2025</div>
+                                <div class="timeline-content">
+                                    <h5>Chỉnh sửa thông tin</h5>
+                                    <p>Đang cập nhật...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            
-            <!-- File kết quả -->
-            <div class="form-group">
-                <label for="result-file" class="form-label">File kết quả xét nghiệm</label>
-                <div class="file-upload">
-                    <input type="file" id="result-file" name="resultFile" class="file-input" accept=".pdf,.doc,.docx,.jpg,.png">
-                    <label for="result-file" class="file-label">
-                        <i class="fas fa-cloud-upload-alt"></i>
-                        <span>Kéo thả file vào đây hoặc click để chọn file</span>
-                    </label>
-                </div>
-                <div id="current-file" class="current-file" style="display: none;">
-                    <i class="fas fa-file-alt"></i>
-                    <span id="current-file-name"></span>
-                </div>
-            </div>
-            
-            <!-- Ghi chú -->
-            <div class="form-group">
-                <label for="notes" class="form-label">Ghi chú</label>
-                <textarea id="notes" name="notes" class="form-textarea" placeholder="Nhập ghi chú về Kit (không bắt buộc)"></textarea>
             </div>
             
             <!-- Buttons -->
-            <div class="form-actions">
+            <div class="form-actions mt-4">
                 <button type="button" class="btn btn-secondary" onclick="goBack()">
                     <i class="fas fa-arrow-left"></i>
                     Quay lại
@@ -509,11 +1277,6 @@
                     <i class="fas fa-save"></i>
                     Lưu thay đổi
                 </button>
-                
-                <button type="button" class="btn btn-danger" onclick="showDeleteConfirmation()">
-                    <i class="fas fa-trash"></i>
-                    Xóa Kit
-                </button>
             </div>
         </form>
 
@@ -522,223 +1285,996 @@
             <span>Cập nhật thông tin Kit thành công!</span>
         </div>
     </div>
-
-    <!-- Confirmation Dialog -->
-    <div id="delete-dialog" class="dialog-overlay">
-        <div class="dialog">
-            <h3 class="dialog-title">Xác nhận xóa Kit</h3>
-            <p class="dialog-content">Bạn có chắc chắn muốn xóa Kit này? Hành động này không thể hoàn tác.</p>
-            <div class="dialog-actions">
-                <button class="dialog-btn dialog-btn-cancel" onclick="hideDeleteConfirmation()">Hủy bỏ</button>
-                <button class="dialog-btn dialog-btn-confirm" onclick="confirmDelete()">Xóa Kit</button>
+    
+    <!-- Dialog xác nhận xóa kit -->
+    <div class="kit-confirmation-dialog" id="remove-kit-dialog">
+        <div class="kit-confirmation-dialog-content">
+            <h4 class="mb-3">Xác nhận xóa Kit</h4>
+            <p>Bạn có chắc chắn muốn xóa Kit này không? Hành động này không thể hoàn tác.</p>
+            <div class="kit-confirmation-actions">
+                <button class="btn btn-secondary" onclick="cancelRemoveKit()">Hủy</button>
+                <button class="btn btn-danger" id="confirm-remove-kit-btn">Xóa</button>
             </div>
         </div>
     </div>
+
+
     
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+        // Biến lưu trữ số lượng kit và dịch vụ
+        let kitCount = 2; // Đã có 2 kit
+        let kitToRemove = null;
+        let serviceCount = 1;
+        const kitCounters = { 1: 3 }; // Bắt đầu đếm từ 3 cho service 1 vì đã có 2 kit
+        
         // Lấy KitCode từ URL parameter
         const urlParams = new URLSearchParams(window.location.search);
         const kitCode = urlParams.get('kitCode');
         
-        // Load thông tin Kit khi trang được tải
         document.addEventListener('DOMContentLoaded', function() {
             if (kitCode) {
                 loadKitInfo(kitCode);
             } else {
-                showError('Không tìm thấy mã Kit!');
-                goBack();
+                console.log('Không có mã Kit trong URL, hiển thị dữ liệu demo');
+                // Thiết lập sự kiện cho các file input có sẵn
+                setupFileInputEvent(1);
+                setupFileInputEvent(2);
             }
             
-            // Set up file input change event
-            document.getElementById('result-file').addEventListener('change', function(e) {
-                const file = e.target.files[0];
-                const label = document.querySelector('.file-label span');
-                if (file) {
-                    label.textContent = file.name;
-                    showCurrentFile(file.name);
-                } else {
-                    label.textContent = 'Kéo thả file vào đây hoặc click để chọn file';
+            // Mở tự động phần thông tin dịch vụ
+            const firstServiceHeader = document.querySelector('.service-header');
+            if (firstServiceHeader) {
+                // Đã được mở trong HTML
+                // toggleServiceBody(firstServiceHeader);
+            }
+            
+            // Thiết lập sự kiện xác nhận xóa kit
+            document.getElementById('confirm-remove-kit-btn').addEventListener('click', function() {
+                if (kitToRemove !== null) {
+                    removeKit(kitToRemove);
+                    kitToRemove = null;
+                    document.getElementById('remove-kit-dialog').style.display = 'none';
                 }
             });
-
-            // Set up drag and drop for file upload
-            const fileLabel = document.querySelector('.file-label');
-            
-            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-                fileLabel.addEventListener(eventName, preventDefaults, false);
-            });
-
-            function preventDefaults (e) {
-                e.preventDefault();
-                e.stopPropagation();
-            }
-
-            ['dragenter', 'dragover'].forEach(eventName => {
-                fileLabel.addEventListener(eventName, highlight, false);
-            });
-
-            ['dragleave', 'drop'].forEach(eventName => {
-                fileLabel.addEventListener(eventName, unhighlight, false);
-            });
-
-            function highlight(e) {
-                fileLabel.style.backgroundColor = '#edf2f7';
-                fileLabel.style.borderColor = '#2980b9';
-            }
-
-            function unhighlight(e) {
-                fileLabel.style.backgroundColor = '#f8fafc';
-                fileLabel.style.borderColor = '#3498db';
-            }
-
-            fileLabel.addEventListener('drop', handleDrop, false);
-
-            function handleDrop(e) {
-                const dt = e.dataTransfer;
-                const file = dt.files[0];
-                const fileInput = document.getElementById('result-file');
-                
-                fileInput.files = dt.files;
-                document.querySelector('.file-label span').textContent = file.name;
-                showCurrentFile(file.name);
-            }
         });
-        
-        // Load thông tin Kit từ server
-        async function loadKitInfo(kitCode) {
-            try {
-                const response = await fetch(`/api/kits/${kitCode}`);
-                if (response.ok) {
-                    const kitData = await response.json();
-                    populateForm(kitData);
-                } else {
-                    throw new Error('Không thể tải thông tin Kit');
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                showError('Lỗi khi tải thông tin Kit: ' + error.message);
-            }
-        }
-        
-        // Điền thông tin vào form
-        function populateForm(kitData) {
-            document.getElementById('kit-code').value = kitData.kitCode;
-            document.getElementById('staff-code').value = kitData.staffCode;
-            document.getElementById('sent-date').value = kitData.sentDate;
-            document.getElementById('received-date').value = kitData.receivedDate || '';
-            document.getElementById('sample-count').value = kitData.sampleCount;
-            document.getElementById('status').value = kitData.status;
-            document.getElementById('notes').value = kitData.notes || '';
-            
-            // Hiển thị file hiện tại nếu có
-            if (kitData.resultFilePath) {
-                showCurrentFile(kitData.resultFilePath);
-            }
-        }
 
-        function showCurrentFile(fileName) {
-            const currentFile = document.getElementById('current-file');
-            const currentFileName = document.getElementById('current-file-name');
-            currentFile.style.display = 'flex';
-            currentFileName.textContent = fileName;
+        // Toggle mở/đóng thân dịch vụ
+        function toggleServiceBody(element) {
+            const serviceBody = element.nextElementSibling;
+            const arrow = element.querySelector('.collapsible-arrow');
+            const serviceTitle = element.querySelector('.service-title span');
+            const serviceTitleText = serviceTitle ? serviceTitle.innerText : '';
+            
+            if (serviceBody.classList.contains('open')) {
+                serviceBody.classList.remove('open');
+                arrow.classList.remove('open');
+                
+                // Thay đổi ký hiệu từ ▼ thành ► trong tiêu đề dịch vụ
+                if (serviceTitle && serviceTitleText.startsWith('▼')) {
+                    serviceTitle.innerText = serviceTitleText.replace('▼', '►');
+                }
+            } else {
+                serviceBody.classList.add('open');
+                arrow.classList.add('open');
+                
+                // Thay đổi ký hiệu từ ► thành ▼ trong tiêu đề dịch vụ
+                if (serviceTitle && serviceTitleText.startsWith('►')) {
+                    serviceTitle.innerText = serviceTitleText.replace('►', '▼');
+                }
+            }
+            
+            // Ngăn chặn việc lan truyền sự kiện click khi nhấp vào các nút hành động
+            event.stopPropagation();
+        }
+        
+        // Toggle mở/đóng thân kit
+        function toggleKitBody(element) {
+            if (event) event.stopPropagation();
+            const kitBody = element.nextElementSibling;
+            const arrow = element.querySelector('.collapsible-arrow');
+            const kitTitle = element.querySelector('.d-flex.align-items-center span');
+            const kitTitleText = kitTitle ? kitTitle.innerText : '';
+            
+            if (kitBody.classList.contains('open')) {
+                kitBody.classList.remove('open');
+                arrow.classList.remove('fa-chevron-down');
+                arrow.classList.add('fa-chevron-right');
+                
+                // Thay đổi ký hiệu từ ▼ thành ► trong tiêu đề Kit
+                if (kitTitle && kitTitleText.startsWith('▼')) {
+                    kitTitle.innerText = kitTitleText.replace('▼', '►');
+                }
+            } else {
+                kitBody.classList.add('open');
+                arrow.classList.remove('fa-chevron-right');
+                arrow.classList.add('fa-chevron-down');
+                
+                // Thay đổi ký hiệu từ ► thành ▼ trong tiêu đề Kit
+                if (kitTitle && kitTitleText.startsWith('►')) {
+                    kitTitle.innerText = kitTitleText.replace('►', '▼');
+                }
+            }
+        }
+        
+        // Hiện/Ẩn chi tiết kit
+        function toggleKitDetails(kitId) {
+            event.stopPropagation();
+            const kitDetails = document.getElementById(`kit-details-${kitId}`);
+            const toggleIcon = document.getElementById(`kit-toggle-icon-${kitId}`);
+            
+            if (kitDetails && toggleIcon) {
+                if (kitDetails.style.display === 'none') {
+                    kitDetails.style.display = 'block';
+                    toggleIcon.classList.remove('fa-chevron-down');
+                    toggleIcon.classList.add('fa-chevron-up');
+                } else {
+                    kitDetails.style.display = 'none';
+                    toggleIcon.classList.remove('fa-chevron-up');
+                    toggleIcon.classList.add('fa-chevron-down');
+                }
+            }
+        }
+        
+        // Thiết lập sự kiện cho file input
+        function setupFileInputEvent(kitId) {
+            const fileInput = document.getElementById(`result-file-${kitId}`);
+            
+            if (fileInput) {
+                fileInput.addEventListener('change', function(e) {
+                    const file = e.target.files[0];
+                    const label = document.querySelector(`label[for="result-file-${kitId}"] span`);
+                    
+                    if (file) {
+                        label.textContent = file.name;
+                        
+                        // Hiển thị file đã chọn
+                        const currentFile = document.getElementById(`current-file-${kitId}`);
+                        const currentFileName = document.getElementById(`current-file-name-${kitId}`);
+                        
+                        currentFileName.textContent = file.name;
+                        currentFile.style.display = 'flex';
+                    } else {
+                        label.textContent = 'Kéo thả file vào đây hoặc click để chọn file';
+                        document.getElementById(`current-file-${kitId}`).style.display = 'none';
+                    }
+                });
+            }
+        }
+        
+        // Hiện dialog xác nhận xóa kit
+        function confirmRemoveKit(kitId) {
+            event.stopPropagation();
+            kitToRemove = kitId;
+            document.getElementById('remove-kit-dialog').style.display = 'flex';
+        }
+        
+        // Hủy xóa kit
+        function cancelRemoveKit() {
+            kitToRemove = null;
+            document.getElementById('remove-kit-dialog').style.display = 'none';
+        }
+        
+        // Xóa kit
+        function removeKit(kitId) {
+            // Tìm kit theo ID trong cả hai cấu trúc (cũ & mới)
+            let kit = document.getElementById(`kit-${kitId}`);
+            if (!kit) {
+                kit = document.getElementById(`kit-1-${kitId}`);
+            }
+            
+            if (kit && document.querySelectorAll('.kit-section, .kit-card').length > 1) {
+                // Animation xóa
+                kit.style.opacity = '0';
+                kit.style.transform = 'translateY(-20px)';
+                kit.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+                
+                setTimeout(() => {
+                    kit.remove();
+                    showSuccess('Đã xóa Kit thành công');
+                }, 300);
+            } else {
+                showError('Phải có ít nhất một Kit trong dịch vụ');
+            }
+        }
+        
+        // Tạo Kit mới
+        function addNewKit(serviceId, e) {
+            // Ngăn sự kiện lan truyền
+            if (e) e.stopPropagation(); 
+            else if (event) event.stopPropagation();
+            
+            // Tăng số đếm kit
+            kitCount++;
+            const kitId = kitCounters[serviceId]++;
+            
+            // Tạo mã prefix cho kit dựa trên loại dịch vụ
+            let kitPrefix = "PC"; // Mặc định là PC (Cha - Con)
+            const kitNumber = kitId.toString().padStart(3, '0');
+            const kitCode = `${kitPrefix}${kitNumber}`;
+            const today = new Date().toISOString().split('T')[0];
+            
+            // Tạo HTML cho kit mới
+            const kitHTML = `
+                <div class="kit-section mb-3" id="kit-${serviceId}-${kitId}" data-kit-id="${kitId}">
+                    <div class="kit-header d-flex justify-content-between align-items-center" onclick="toggleKitBody(this)">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-vial me-2 text-primary"></i>
+                            <span>▼ Kit ${kitId}: <span class="badge bg-primary" id="kit-code-badge-${kitId}">${kitCode}</span></span>
+                        </div>
+                        <div>
+                            <button type="button" class="btn btn-outline-danger btn-sm" onclick="confirmRemoveKit(${kitId}); event.stopPropagation();">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                            <i class="fas fa-chevron-right collapsible-arrow"></i>
+                        </div>
+                    </div>
+                    <div class="kit-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">Mã Kit <span class="required">*</span></label>
+                                    <input type="text" class="form-input" id="kit-code-${kitId}" value="${kitCode}" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">Trạng thái <span class="required">*</span></label>
+                                    <select class="form-select" id="kit-status-${kitId}">
+                                        <option value="Chờ gửi" selected>Chờ gửi</option>
+                                        <option value="Đã gửi">Đã gửi</option>
+                                        <option value="Đã nhận mẫu">Đã nhận mẫu</option>
+                                        <option value="Lỗi mẫu">Lỗi mẫu</option>
+                                        <option value="Đã xử lý">Đã xử lý</option>
+                                        <option value="Đã trả kết quả">Đã trả kết quả</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">Ngày gửi <span class="required">*</span></label>
+                                    <input type="date" class="form-input" id="sent-date-${kitId}" value="${today}" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">Ngày nhận</label>
+                                    <input type="date" class="form-input" id="received-date-${kitId}">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">Số lượng mẫu <span class="required">*</span></label>
+                                    <input type="number" class="form-input" id="sample-count-${kitId}" min="2" value="2" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">Người thực hiện</label>
+                                    <input type="text" class="form-input" id="staff-name-${kitId}" value="Nguyễn Văn A" readonly>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- File kết quả -->
+                        <div class="form-group mt-3">
+                            <label for="result-file-${kitId}" class="form-label">File kết quả xét nghiệm</label>
+                            <div class="file-upload">
+                                <input type="file" id="result-file-${kitId}" name="resultFile${kitId}" class="file-input" accept=".pdf,.doc,.docx,.jpg,.png">
+                                <label for="result-file-${kitId}" class="file-label">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                    <span>Kéo thả file vào đây hoặc click để chọn file</span>
+                                </label>
+                            </div>
+                            <div id="current-file-${kitId}" class="current-file mt-2" style="display: none;">
+                                <i class="fas fa-file-alt"></i>
+                                <span id="current-file-name-${kitId}"></span>
+                            </div>
+                        </div>
+                        
+                        <!-- Ghi chú -->
+                        <div class="form-group mt-3">
+                            <label for="notes-${kitId}" class="form-label">Ghi chú</label>
+                            <textarea id="notes-${kitId}" name="notes${kitId}" class="form-textarea" rows="3" placeholder="Nhập ghi chú về Kit (không bắt buộc)"></textarea>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Thêm kit mới vào container của dịch vụ
+            const kitsContainer = document.getElementById(`kits-container-${serviceId}`);
+            const addButton = kitsContainer.querySelector('.add-button');
+            addButton.insertAdjacentHTML('beforebegin', kitHTML);
+            
+            // Thiết lập sự kiện cho file input mới
+            setupFileInputEvent(kitId);
+            
+            // Thông báo thành công
+            showSuccess(`Đã thêm Kit mới (${kitCode})`);
+            
+            // Cuộn đến kit mới
+            document.getElementById(`kit-${serviceId}-${kitId}`).scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+        
+        // Thêm dịch vụ mới
+        function addNewService() {
+            const servicesContainer = document.getElementById('services-container');
+            const serviceId = nextServiceId++;
+            
+            // Format mã dịch vụ với số có leading zeros
+            const serviceNumber = serviceId.toString().padStart(3, '0');
+            
+            const serviceHTML = `
+                <div class="service-section" id="service-${serviceId}" data-service-id="${serviceId}">
+                    <div class="service-header" onclick="toggleServiceBody(this)">
+                        <div class="service-title">
+                            <i class="fas fa-dna"></i>
+                            <span>Dịch vụ xét nghiệm mới</span>
+                        </div>
+                        <div class="service-actions">
+                            <button type="button" onclick="editService(${serviceId})" title="Chỉnh sửa"><i class="fas fa-edit"></i></button>
+                            <button type="button" onclick="removeService(${serviceId})" title="Xóa"><i class="fas fa-trash"></i></button>
+                            <i class="fas fa-chevron-right collapsible-arrow"></i>
+                        </div>
+                    </div>
+                    <div class="service-body">
+                        <div class="service-info">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">Tên dịch vụ</label>
+                                        <input type="text" class="form-input" value="Dịch vụ xét nghiệm mới" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">Mã dịch vụ</label>
+                                        <input type="text" class="form-input" value="DV${serviceNumber}" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="service-description mt-2">
+                                <p class="text-muted">Mô tả chi tiết về dịch vụ xét nghiệm</p>
+                            </div>
+                        </div>
+                        
+                        <div class="kits-container mt-3">
+                            <!-- Nút thêm Kit -->
+                            <div class="add-button" onclick="addNewKit(${serviceId}, event)">
+                                <i class="fas fa-plus"></i> Thêm Kit
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            servicesContainer.insertAdjacentHTML('beforeend', serviceHTML);
+            kitCounters[serviceId] = 1; // Bắt đầu với kit số 1 cho dịch vụ mới
+            
+            // Mở dịch vụ mới
+            const newServiceHeader = document.querySelector(`#service-${serviceId} .service-header`);
+            toggleServiceBody(newServiceHeader);
+        }
+        
+        // Chỉnh sửa dịch vụ
+        function editService(serviceId) {
+            event.stopPropagation();
+            
+            const serviceSection = document.getElementById(`service-${serviceId}`);
+            const serviceName = serviceSection.querySelector('.service-title span').textContent;
+            const serviceCode = serviceSection.querySelector('.service-info input[value^="DV"]').value;
+            const serviceDesc = serviceSection.querySelector('.service-description p').textContent;
+            
+            // Hiển thị form chỉnh sửa
+            const serviceBody = serviceSection.querySelector('.service-body');
+            const existingForm = serviceBody.querySelector('.service-form');
+            
+            if (existingForm) {
+                existingForm.remove();
+            } else {
+                const formHTML = `
+                    <div class="service-form">
+                        <h4 class="form-title">Chỉnh sửa thông tin dịch vụ</h4>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">Tên dịch vụ</label>
+                                    <input type="text" class="form-input" id="edit-service-name-${serviceId}" value="${serviceName}">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">Mã dịch vụ</label>
+                                    <input type="text" class="form-input" id="edit-service-code-${serviceId}" value="${serviceCode}" readonly>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group mt-3">
+                            <label class="form-label">Mô tả dịch vụ</label>
+                            <textarea class="form-textarea" id="edit-service-description-${serviceId}" rows="3">${serviceDesc}</textarea>
+                        </div>
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-secondary" onclick="cancelEditService(${serviceId})">
+                                <i class="fas fa-times"></i> Hủy
+                            </button>
+                            <button type="button" class="btn btn-primary" onclick="saveServiceChanges(${serviceId})">
+                                <i class="fas fa-save"></i> Lưu thay đổi
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                serviceBody.insertAdjacentHTML('afterbegin', formHTML);
+                
+                // Mở service body nếu đang đóng
+                if (!serviceBody.classList.contains('open')) {
+                    toggleServiceBody(serviceSection.querySelector('.service-header'));
+                }
+            }
+        }
+        
+        // Hủy chỉnh sửa dịch vụ
+        function cancelEditService(serviceId) {
+            const serviceSection = document.getElementById(`service-${serviceId}`);
+            const serviceForm = serviceSection.querySelector('.service-form');
+            if (serviceForm) {
+                serviceForm.remove();
+            }
+        }
+        
+        // Lưu thay đổi dịch vụ
+        function saveServiceChanges(serviceId) {
+            const serviceSection = document.getElementById(`service-${serviceId}`);
+            const newName = document.getElementById(`edit-service-name-${serviceId}`).value;
+            const newDescription = document.getElementById(`edit-service-description-${serviceId}`).value || 'Mô tả chi tiết về dịch vụ';
+            
+            if (newName.trim() === '') {
+                showError('Tên dịch vụ không được để trống');
+                return;
+            }
+            
+            // Cập nhật tên hiển thị
+            serviceSection.querySelector('.service-title span').textContent = newName;
+            
+            // Cập nhật trong thông tin dịch vụ
+            const serviceNameInput = serviceSection.querySelector('.service-info input[type="text"]');
+            serviceNameInput.value = newName;
+            
+            // Cập nhật mô tả
+            const serviceDescription = serviceSection.querySelector('.service-description p');
+            serviceDescription.textContent = newDescription;
+            
+            // Thông báo thành công
+            showSuccess('Cập nhật thông tin dịch vụ thành công!');
+            
+            // Xóa form
+            cancelEditService(serviceId);
+        }
+        
+        // Xóa dịch vụ
+        function removeService(serviceId) {
+            event.stopPropagation();
+            
+            if (confirm('Bạn có chắc muốn xóa dịch vụ này và tất cả kit của nó?')) {
+                const serviceSection = document.getElementById(`service-${serviceId}`);
+                serviceSection.remove();
+            }
+        }
+        
+        // Thêm kit mới
+        function addNewKit(serviceId, e) {
+            // Ngăn sự kiện lan truyền
+            if (e) e.stopPropagation(); 
+            else if (event) event.stopPropagation();
+            
+            const serviceSection = document.getElementById(`service-${serviceId}`);
+            const kitsContainer = serviceSection.querySelector('.kits-container');
+            const kitId = kitCounters[serviceId]++;
+            
+            // Tạo mã prefix cho kit dựa trên loại dịch vụ
+            let kitPrefix = "";
+            switch(serviceId) {
+                case 1:
+                    kitPrefix = "PC"; // Cha - Con
+                    break;
+                case 2:
+                    kitPrefix = "MC"; // Mẹ - Con
+                    break;
+                case 3:
+                    kitPrefix = "AE"; // Anh, Chị, Em
+                    break;
+                case 4:
+                    kitPrefix = "OB"; // Ông, Bà - Cháu
+                    break;
+                default:
+                    kitPrefix = "KIT";
+            }
+            
+            // Format số kit với padding zeros
+            const kitNumber = kitId.toString().padStart(3, '0');
+            const kitCode = `${kitPrefix}${kitNumber}`;
+            
+            const kitHTML = `
+                <div class="kit-section" id="kit-${serviceId}-${kitId}" data-kit-id="${kitId}">
+                    <div class="kit-header" onclick="toggleKitBody(this)">
+                        <span>Kit ${kitCode}</span>
+                        <div>
+                            <button type="button" class="btn btn-sm btn-link p-0 me-2" onclick="editKit(${serviceId}, ${kitId})" title="Chỉnh sửa">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button type="button" class="btn btn-sm btn-link p-0 me-2" onclick="removeKit(${serviceId}, ${kitId})" title="Xóa">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                            <i class="fas fa-chevron-right collapsible-arrow"></i>
+                        </div>
+                    </div>
+                    <div class="kit-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">Mã Kit</label>
+                                    <input type="text" class="form-input" value="${kitCode}" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">Trạng thái</label>
+                                    <select class="form-select">
+                                        <option value="Chờ gửi" selected>Chờ gửi</option>
+                                        <option value="Đã gửi">Đã gửi</option>
+                                        <option value="Đã nhận mẫu">Đã nhận mẫu</option>
+                                        <option value="Lỗi mẫu">Lỗi mẫu</option>
+                                        <option value="Đã xử lý">Đã xử lý</option>
+                                        <option value="Đã trả kết quả">Đã trả kết quả</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">Ngày gửi</label>
+                                    <input type="date" class="form-input" value="${new Date().toISOString().split('T')[0]}">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">Ngày nhận</label>
+                                    <input type="date" class="form-input">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Chèn kit mới trước nút "Thêm Kit"
+            const addButton = kitsContainer.querySelector('.add-button');
+            addButton.insertAdjacentHTML('beforebegin', kitHTML);
+            
+            // Mở kit mới
+            const newKitHeader = document.querySelector(`#kit-${serviceId}-${kitId} .kit-header`);
+            toggleKitBody(newKitHeader);
+        }
+        
+        // Chỉnh sửa kit
+        function editKit(serviceId, kitId) {
+            event.stopPropagation();
+            
+            const kitSection = document.getElementById(`kit-${serviceId}-${kitId}`);
+            const kitName = kitSection.querySelector('.kit-header span').textContent;
+            
+            // Hiển thị form chỉnh sửa
+            const kitBody = kitSection.querySelector('.kit-body');
+            const existingForm = kitBody.querySelector('.kit-form');
+            
+            if (existingForm) {
+                existingForm.remove();
+            } else {
+                const formHTML = `
+                    <div class="kit-form mt-3">
+                        <h5 class="form-title">Chỉnh sửa thông tin kit</h5>
+                        <div class="form-group">
+                            <label class="form-label">Tên Kit</label>
+                            <input type="text" class="form-input" id="edit-kit-name-${serviceId}-${kitId}" value="${kitName}">
+                        </div>
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-sm btn-secondary" onclick="cancelEditKit(${serviceId}, ${kitId})">Hủy</button>
+                            <button type="button" class="btn btn-sm btn-primary" onclick="saveKitChanges(${serviceId}, ${kitId})">Lưu thay đổi</button>
+                        </div>
+                    </div>
+                `;
+                
+                kitBody.insertAdjacentHTML('beforeend', formHTML);
+                
+                // Mở kit body nếu đang đóng
+                if (!kitBody.classList.contains('open')) {
+                    toggleKitBody(kitSection.querySelector('.kit-header'));
+                }
+            }
+        }
+        
+        // Hủy chỉnh sửa kit
+        function cancelEditKit(serviceId, kitId) {
+            const kitSection = document.getElementById(`kit-${serviceId}-${kitId}`);
+            const kitForm = kitSection.querySelector('.kit-form');
+            if (kitForm) {
+                kitForm.remove();
+            }
+        }
+        
+        // Lưu thay đổi kit
+        function saveKitChanges(serviceId, kitId) {
+            const kitSection = document.getElementById(`kit-${serviceId}-${kitId}`);
+            const newName = document.getElementById(`edit-kit-name-${serviceId}-${kitId}`).value;
+            
+            if (newName.trim() === '') {
+                alert('Tên kit không được để trống');
+                return;
+            }
+            
+            // Cập nhật tên hiển thị
+            kitSection.querySelector('.kit-header span').textContent = newName;
+            
+            // Xóa form
+            cancelEditKit(serviceId, kitId);
+        }
+        
+        // Xóa kit
+        function removeKit(serviceId, kitId) {
+            event.stopPropagation();
+            
+            if (confirm('Bạn có chắc muốn xóa kit này?')) {
+                const kitSection = document.getElementById(`kit-${serviceId}-${kitId}`);
+                kitSection.remove();
+            }
         }
         
         // Xử lý submit form
         document.getElementById('kit-edit-form').addEventListener('submit', async function(e) {
             e.preventDefault();
             
-            const submitButton = this.querySelector('button[type="submit"]');
-            const loadingSpinner = submitButton.querySelector('.loading');
-            const buttonIcon = submitButton.querySelector('i');
+            // Hiển thị loading spinner
+            const submitBtn = document.querySelector('button[type="submit"]');
+            const loadingSpinner = submitBtn.querySelector('.loading');
+            const submitIcon = submitBtn.querySelector('i');
+            const submitText = submitBtn.textContent.trim();
             
-            // Show loading state
-            submitButton.disabled = true;
-            loadingSpinner.style.display = 'block';
-            buttonIcon.style.display = 'none';
-            
-            const formData = new FormData();
-            formData.append('kitCode', document.getElementById('kit-code').value);
-            formData.append('staffCode', document.getElementById('staff-code').value);
-            formData.append('sentDate', document.getElementById('sent-date').value);
-            formData.append('receivedDate', document.getElementById('received-date').value);
-            formData.append('sampleCount', document.getElementById('sample-count').value);
-            formData.append('status', document.getElementById('status').value);
-            formData.append('notes', document.getElementById('notes').value);
-            
-            // Thêm file nếu có
-            const fileInput = document.getElementById('result-file');
-            if (fileInput.files[0]) {
-                formData.append('resultFile', fileInput.files[0]);
-            }
+            submitIcon.style.display = 'none';
+            loadingSpinner.style.display = 'inline-block';
+            submitBtn.textContent = ' Đang xử lý...';
+            submitBtn.disabled = true;
             
             try {
-                const response = await fetch(`/api/kits/${kitCode}`, {
-                    method: 'PUT',
-                    body: formData
-                });
+                // Thu thập dữ liệu từ form
+                const formData = {
+                    staffCode: document.getElementById('staff-code').value,
+                    serviceInfo: {
+                        serviceName: document.getElementById('service-name').value,
+                        serviceCode: document.getElementById('service-code').value
+                    },
+                    customerInfo: {
+                        name: document.getElementById('customer-name').value,
+                        phone: document.getElementById('customer-phone').value,
+                        email: document.getElementById('customer-email').value,
+                        address: document.getElementById('customer-address').value
+                    },
+                    kits: []
+                };
                 
-                if (response.ok) {
-                    showSuccess('Cập nhật thông tin Kit thành công!');
-                    setTimeout(goBack, 2000);
-                } else {
-                    const errorData = await response.json();
-                    throw new Error(errorData.message || 'Không thể cập nhật thông tin Kit.');
+                // Thu thập dữ liệu từ tất cả kit
+                for (let i = 1; i <= kitCount; i++) {
+                    const kitElement = document.getElementById(`kit-${i}`);
+                    
+                    if (kitElement) {
+                        const kitData = {
+                            kitId: i,
+                            kitCode: document.getElementById(`kit-code-${i}`).value,
+                            status: document.getElementById(`kit-status-${i}`).value,
+                            sentDate: document.getElementById(`sent-date-${i}`).value,
+                            receivedDate: document.getElementById(`received-date-${i}`).value || null,
+                            sampleCount: document.getElementById(`sample-count-${i}`).value,
+                            staffName: document.getElementById(`staff-name-${i}`).value,
+                            notes: document.getElementById(`notes-${i}`).value || ""
+                        };
+                        
+                        // Thêm thông tin file nếu có
+                        const fileElement = document.getElementById(`current-file-name-${i}`);
+                        if (fileElement && fileElement.textContent) {
+                            kitData.resultFile = fileElement.textContent;
+                        }
+                        
+                        formData.kits.push(kitData);
+                    }
                 }
+                
+                // Hiển thị dữ liệu trong console (phục vụ kiểm tra)
+                console.log("Dữ liệu gửi đi:", formData);
+                
+                // Code gửi dữ liệu lên server (được comment do tính chất demo)
+                // const response = await fetch('/api/kits/update', {
+                //     method: 'POST',
+                //     headers: { 'Content-Type': 'application/json' },
+                //     body: JSON.stringify(formData)
+                // });
+                
+                // if (!response.ok) {
+                //     throw new Error('Lỗi khi gửi dữ liệu');
+                // }
+                
+                // Giả lập gửi thành công
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                
+                // Hiển thị thông báo thành công
+                showSuccess('Cập nhật thông tin Kit thành công!');
+                
+                // Chuyển hướng sau 2 giây
             } catch (error) {
-                console.error('Error:', error);
-                showError('Lỗi kết nối server: ' + error.message);
+                console.error('Lỗi khi xử lý form:', error);
+                showError('Có lỗi xảy ra khi cập nhật thông tin Kit');
             } finally {
-                // Reset button state
-                submitButton.disabled = false;
-                loadingSpinner.style.display = 'none';
-                buttonIcon.style.display = 'inline';
+                // Khôi phục trạng thái nút submit
+                setTimeout(() => {
+                    loadingSpinner.style.display = 'none';
+                    submitIcon.style.display = 'inline-block';
+                    submitBtn.innerHTML = `<i class="fas fa-save"></i> Lưu thay đổi`;
+                    submitBtn.disabled = false;
+                }, 1000);
             }
+            setTimeout(() => {
+                goBack();
+            }, 2000);
         });
-        
-        // Hiển thị dialog xác nhận xóa
-        function showDeleteConfirmation() {
-            document.getElementById('delete-dialog').style.display = 'block';
-        }
-        
-        // Ẩn dialog xác nhận xóa
-        function hideDeleteConfirmation() {
-            document.getElementById('delete-dialog').style.display = 'none';
-        }
-        
-        // Xác nhận và thực hiện xóa
-        async function confirmDelete() {
-            try {
-                const response = await fetch(`/api/kits/${kitCode}`, {
-                    method: 'DELETE'
-                });
-                
-                if (response.ok) {
-                    showSuccess('Xóa Kit thành công!');
-                    setTimeout(goBack, 2000);
-                } else {
-                    const errorData = await response.json();
-                    throw new Error(errorData.message || 'Không thể xóa Kit.');
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                showError('Lỗi kết nối server: ' + error.message);
-            } finally {
-                hideDeleteConfirmation();
-            }
-        }
         
         // Quay lại trang trước
         function goBack() {
             window.history.back();
         }
         
+        // Tải thông tin Kit từ API
+        async function loadKitInfo(kitCode) {
+            try {
+                // Trong tương lai sẽ gọi API để lấy thông tin Kit
+                console.log(`Loading kit info for: ${kitCode}`);
+                
+                // Mô phỏng việc gọi API (trong thực tế sẽ fetch dữ liệu từ server)
+                // const response = await fetch(`/api/kits/${kitCode}`);
+                // if (!response.ok) throw new Error('Không thể tải thông tin kit');
+                // const data = await response.json();
+                
+                // Dữ liệu mẫu (sẽ thay bằng dữ liệu từ API thực tế)
+                const data = {
+                    serviceInfo: {
+                        serviceName: "Xét nghiệm huyết thống Cha - Con",
+                        serviceCode: "DV001",
+                        description: "Xác định mối quan hệ huyết thống giữa cha và con thông qua ADN"
+                    },
+                    kits: [
+                        {
+                            kitId: 1,
+                            kitCode: "PC001",
+                            status: "Đã gửi",
+                            sentDate: "2025-06-15",
+                            receivedDate: null,
+                            sampleCount: 2,
+                            staffName: "Nguyễn Văn A",
+                            notes: "Kit đầu tiên cho xét nghiệm cha con"
+                        },
+                        {
+                            kitId: 2,
+                            kitCode: "PC002",
+                            status: "Chờ gửi",
+                            sentDate: "2025-06-20",
+                            receivedDate: null,
+                            sampleCount: 2,
+                            staffName: "Nguyễn Văn A",
+                            notes: "Kit bổ sung cho cùng dịch vụ"
+                        }
+                    ],
+                    customerInfo: {
+                        name: "Trần Văn B",
+                        phone: "0912345678",
+                        email: "tranvanb@example.com",
+                        address: "123 Đường ABC, Quận 1, TP.HCM"
+                    },
+                    timeline: [
+                        {
+                            date: "2025-06-15",
+                            title: "Tạo mới Kit",
+                            description: "Kit được tạo bởi nhân viên Nguyễn Văn A"
+                        },
+                        {
+                            date: "2025-06-16",
+                            title: "Cập nhật trạng thái",
+                            description: "Trạng thái thay đổi từ \"Chờ gửi\" sang \"Đã gửi\""
+                        },
+                        {
+                            date: "2025-06-19",
+                            title: "Chỉnh sửa thông tin",
+                            description: "Đang cập nhật..."
+                        }
+                    ]
+                };
+                
+                // Hiển thị thông tin dịch vụ trong phần header dịch vụ
+                document.querySelector('.service-title span').textContent = `Dịch vụ 1: ${data.serviceInfo.serviceName}`;
+                
+                // Hiển thị thông tin dịch vụ trong form
+                document.getElementById('service-name').value = data.serviceInfo.serviceName;
+                document.getElementById('service-code').value = data.serviceInfo.serviceCode;
+                
+                // Hiển thị thông tin khách hàng
+                document.getElementById('customer-name').value = data.customerInfo.name;
+                document.getElementById('customer-phone').value = data.customerInfo.phone;
+                document.getElementById('customer-email').value = data.customerInfo.email;
+                document.getElementById('customer-address').value = data.customerInfo.address;
+                
+                // Cập nhật thông tin cho các kit đã được tạo mẫu trong HTML
+                if (data.kits && data.kits.length > 0) {
+                    // Cập nhật kit 1
+                    document.getElementById('kit-code-badge-1').textContent = data.kits[0].kitCode;
+                    document.getElementById('kit-code-1').value = data.kits[0].kitCode;
+                    document.getElementById('kit-status-1').value = data.kits[0].status;
+                    document.getElementById('sent-date-1').value = data.kits[0].sentDate;
+                    document.getElementById('sample-count-1').value = data.kits[0].sampleCount;
+                    document.getElementById('staff-name-1').value = data.kits[0].staffName;
+                    document.getElementById('notes-1').value = data.kits[0].notes || '';
+                    if (data.kits[0].receivedDate) {
+                        document.getElementById('received-date-1').value = data.kits[0].receivedDate;
+                    }
+                    
+                    // Cập nhật kit 2 nếu có dữ liệu
+                    if (data.kits.length > 1) {
+                        document.getElementById('kit-code-badge-2').textContent = data.kits[1].kitCode;
+                        document.getElementById('kit-code-2').value = data.kits[1].kitCode;
+                        document.getElementById('kit-status-2').value = data.kits[1].status;
+                        document.getElementById('sent-date-2').value = data.kits[1].sentDate;
+                        document.getElementById('sample-count-2').value = data.kits[1].sampleCount;
+                        document.getElementById('staff-name-2').value = data.kits[1].staffName;
+                        document.getElementById('notes-2').value = data.kits[1].notes || '';
+                        if (data.kits[1].receivedDate) {
+                            document.getElementById('received-date-2').value = data.kits[1].receivedDate;
+                        }
+                    }
+                }
+                
+                // Nếu có kit thứ 3 trở đi, thêm vào giao diện
+                if (data.kits && data.kits.length > 2) {
+                    for (let i = 2; i < data.kits.length; i++) {
+                        const kitData = data.kits[i];
+                        const kitId = kitData.kitId;
+                        
+                        // Tạo HTML cho kit mới
+                        const kitHTML = `
+                            <div class="kit-section mb-3" id="kit-1-${kitId}" data-kit-id="${kitId}">
+                                <div class="kit-header d-flex justify-content-between align-items-center" onclick="toggleKitBody(this)">
+                                    <div class="d-flex align-items-center">
+                                        <i class="fas fa-vial me-2 text-primary"></i>
+                                        <span>Kit ${i+1}: <span class="badge bg-primary" id="kit-code-badge-${kitId}">${kitData.kitCode}</span></span>
+                                    </div>
+                                    <div>
+                                        <button type="button" class="btn btn-outline-danger btn-sm" onclick="confirmRemoveKit(${kitId}); event.stopPropagation();">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                        <i class="fas fa-chevron-right collapsible-arrow"></i>
+                                    </div>
+                                </div>
+                                <div class="kit-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="form-label">Mã Kit <span class="required">*</span></label>
+                                                <input type="text" class="form-input" id="kit-code-${kitId}" value="${kitData.kitCode}" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="form-label">Trạng thái <span class="required">*</span></label>
+                                                <select class="form-select" id="kit-status-${kitId}">
+                                                    <option value="Chờ gửi" ${kitData.status === 'Chờ gửi' ? 'selected' : ''}>Chờ gửi</option>
+                                                    <option value="Đã gửi" ${kitData.status === 'Đã gửi' ? 'selected' : ''}>Đã gửi</option>
+                                                    <option value="Đã nhận mẫu" ${kitData.status === 'Đã nhận mẫu' ? 'selected' : ''}>Đã nhận mẫu</option>
+                                                    <option value="Lỗi mẫu" ${kitData.status === 'Lỗi mẫu' ? 'selected' : ''}>Lỗi mẫu</option>
+                                                    <option value="Đã xử lý" ${kitData.status === 'Đã xử lý' ? 'selected' : ''}>Đã xử lý</option>
+                                                    <option value="Đã trả kết quả" ${kitData.status === 'Đã trả kết quả' ? 'selected' : ''}>Đã trả kết quả</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row mt-3">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="form-label">Ngày gửi <span class="required">*</span></label>
+                                                <input type="date" class="form-input" id="sent-date-${kitId}" value="${kitData.sentDate}" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="form-label">Ngày nhận</label>
+                                                <input type="date" class="form-input" id="received-date-${kitId}" ${kitData.receivedDate ? `value="${kitData.receivedDate}"` : ''}>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row mt-3">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="form-label">Số lượng mẫu <span class="required">*</span></label>
+                                                <input type="number" class="form-input" id="sample-count-${kitId}" min="2" value="${kitData.sampleCount}" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="form-label">Người thực hiện</label>
+                                                <input type="text" class="form-input" id="staff-name-${kitId}" value="${kitData.staffName}" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- File kết quả -->
+                                    <div class="form-group mt-3">
+                                        <label for="result-file-${kitId}" class="form-label">File kết quả xét nghiệm</label>
+                                        <div class="file-upload">
+                                            <input type="file" id="result-file-${kitId}" name="resultFile${kitId}" class="file-input" accept=".pdf,.doc,.docx,.jpg,.png">
+                                            <label for="result-file-${kitId}" class="file-label">
+                                                <i class="fas fa-cloud-upload-alt"></i>
+                                                <span>Kéo thả file vào đây hoặc click để chọn file</span>
+                                            </label>
+                                        </div>
+                                        <div id="current-file-${kitId}" class="current-file mt-2" style="display: none;">
+                                            <i class="fas fa-file-alt"></i>
+                                            <span id="current-file-name-${kitId}"></span>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Ghi chú -->
+                                    <div class="form-group mt-3">
+                                        <label for="notes-${kitId}" class="form-label">Ghi chú</label>
+                                        <textarea id="notes-${kitId}" name="notes${kitId}" class="form-textarea" rows="3" placeholder="Nhập ghi chú về Kit (không bắt buộc)">${kitData.notes || ''}</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        
+                        // Thêm kit mới vào container
+                        const kitsContainer = document.getElementById('kits-container-1');
+                        const addButton = kitsContainer.querySelector('.add-button');
+                        addButton.insertAdjacentHTML('beforebegin', kitHTML);
+                        
+                        // Cập nhật số đếm kit
+                        if (kitId >= kitCount) {
+                            kitCount = kitId;
+                            kitCounters[1] = kitCount + 1;
+                        }
+                        
+                        // Thiết lập sự kiện cho file input
+                        setupFileInputEvent(kitId);
+                    }
+                }
+            } catch (error) {
+                console.error('Lỗi khi tải thông tin Kit:', error);
+                showError('Không thể tải thông tin Kit. Vui lòng thử lại sau.');
+            }
+        }
+        
         // Hiển thị thông báo thành công
         function showSuccess(message) {
-            const successMessage = document.querySelector('.success-message');
-            successMessage.querySelector('span').textContent = message;
-            successMessage.classList.add('show');
+            // Tạo và hiển thị thông báo thành công
+            const successDiv = document.createElement('div');
+            successDiv.className = 'success-message show';
+            successDiv.innerHTML = `<i class="fas fa-check-circle"></i><span>${message}</span>`;
+            document.querySelector('.kit-edit-container').appendChild(successDiv);
+            
+            // Tự động ẩn sau 3 giây
             setTimeout(() => {
-                successMessage.classList.remove('show');
+                successDiv.remove();
             }, 3000);
         }
         
@@ -755,19 +2291,6 @@
                 errorDiv.remove();
             }, 3000);
         }
-        
-        // Cập nhật giao diện dựa trên trạng thái
-        document.getElementById('status').addEventListener('change', function() {
-            const status = this.value;
-            const receivedDateInput = document.getElementById('received-date');
-            
-            // Tự động set ngày nhận nếu trạng thái là "Đã nhận mẫu" trở lên
-            if (['Đã nhận mẫu', 'Lỗi mẫu', 'Đã xử lý', 'Đã trả kết quả'].includes(status)) {
-                if (!receivedDateInput.value) {
-                    receivedDateInput.value = new Date().toISOString().split('T')[0];
-                }
-            }
-        });
     </script>
 </body>
 </html>
