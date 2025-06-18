@@ -18,7 +18,7 @@
         margin: 0;
         padding: 0;
         box-sizing: border-box;
-        font-family: 'Segoe UI', Arial, sans-serif;
+        font-family: "Segoe UI", Arial, sans-serif;
       }
 
       body {
@@ -144,12 +144,12 @@
         transition: all 0.3s ease;
         box-shadow: 0 4px 6px rgba(52, 152, 219, 0.2);
       }
-      
+
       .button-group {
         display: flex;
         margin-top: 25px;
       }
-      
+
       .cancel-button {
         display: flex;
         align-items: center;
@@ -158,8 +158,9 @@
         font-size: 16px;
         font-weight: 600;
       }
-      
-      .cancel-button i, .submit-button i {
+
+      .cancel-button i,
+      .submit-button i {
         margin-right: 8px;
       }
 
@@ -223,8 +224,12 @@
       }
 
       @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
       }
 
       /* Required field indicator */
@@ -250,48 +255,84 @@
       .error-message.show {
         display: block;
       }
-      
+
       /* Thêm styles mới */
       .input-group {
         display: flex;
+        flex-direction: row;
+        align-items: stretch;
         width: 100%;
       }
-      
       .input-group-text {
         display: flex;
         align-items: center;
-        padding: 12px 15px;
-        background-color: #f8f9fa;
-        border: 2px solid #e0e0e0;
+        justify-content: center;
+        background: #f8f9fa;
+        border: 1px solid #e0e0e0;
         border-right: none;
         border-radius: 8px 0 0 8px;
         color: #7f8c8d;
+        min-width: 44px;
+        font-size: 1.2em;
+        height: 44px;
+        margin: 0;
       }
-      
-      .input-group .form-input, 
-      .input-group .form-textarea,
-      .input-group select {
+      .input-group .form-input,
+      .input-group select,
+      .input-group input,
+      .input-group textarea {
         border-radius: 0 8px 8px 0;
+        border: 1px solid #e0e0e0;
+        border-left: none;
+        height: 44px;
+        font-size: 1em;
+        flex: 1 1 0%;
+        margin: 0;
+        box-sizing: border-box;
+        display: block;
       }
-      
+      .input-group input:focus,
+      .input-group select:focus,
+      .input-group textarea:focus {
+        outline: none;
+        border-color: #2196f3;
+        box-shadow: 0 0 0 2px #e3f2fd;
+      }
+      /* Xóa khoảng trắng giữa icon và input */
+      .input-group > .input-group-text + .form-input,
+      .input-group > .input-group-text + input,
+      .input-group > .input-group-text + select,
+      .input-group > .input-group-text + textarea {
+        margin-left: 0;
+      }
+      /* Responsive fix */
+      @media (max-width: 600px) {
+        .input-group-text,
+        .input-group .form-input,
+        .input-group select {
+          font-size: 1em;
+          height: 38px;
+        }
+      }
+
       .row {
         display: flex;
         margin: 0 -15px;
         flex-wrap: wrap;
       }
-      
+
       .col-md-6 {
         flex: 0 0 50%;
         padding: 0 15px;
       }
-      
+
       .status-options {
         display: flex;
         flex-wrap: wrap;
         gap: 15px;
         margin-top: 10px;
       }
-      
+
       .status-badge {
         padding: 5px 12px;
         border-radius: 20px;
@@ -300,55 +341,89 @@
         display: inline-flex;
         align-items: center;
       }
-      
+
       .status-badge.status-new {
         background-color: #e3f2fd;
         color: #1976d2;
       }
-      
+
       .status-badge.status-sent {
         background-color: #e8f5e9;
         color: #388e3c;
       }
-      
+
       .form-check-input {
         margin-right: 6px;
       }
-      
+
       .form-check-inline {
         display: inline-flex;
         align-items: center;
         margin-right: 15px;
       }
-      
+
       .action-links {
         display: flex;
         justify-content: center;
         margin-top: 20px;
         font-size: 14px;
       }
-      
+
       .action-link {
         color: #7f8c8d;
         text-decoration: none;
         transition: color 0.3s;
       }
-      
+
       .action-link:hover {
         color: #3498db;
       }
-      
+
       .separator {
         margin: 0 10px;
         color: #bdc3c7;
       }
-      
+
       .card {
         border: 1px solid #eaeaea;
         border-radius: 8px;
         padding: 15px;
         margin-bottom: 20px;
         background-color: #f9f9f9;
+      }
+
+      /* Fix riêng cho input-group chứa textarea */
+      .input-group textarea.form-textarea {
+        border-radius: 0 8px 8px 0;
+        border-left: none;
+        min-height: 120px;
+        height: 120px;
+        resize: vertical;
+        display: block;
+      }
+      .input-group .input-group-text {
+        align-items: flex-start;
+        padding-top: 12px;
+        height: auto;
+        min-height: 44px;
+        border-radius: 8px 0 0 8px;
+      }
+      .input-group textarea.form-textarea:focus {
+        border-color: #2196f3;
+        box-shadow: 0 0 0 2px #e3f2fd;
+      }
+      @media (max-width: 600px) {
+        .input-group textarea.form-textarea {
+          min-height: 80px;
+          height: 80px;
+        }
+        .input-group .input-group-text {
+          padding-top: 10px;
+        }
+      }
+
+      .input-group-text i {
+        color: #2196f3 !important; /* xanh y tế */
       }
     </style>
   </head>
@@ -381,31 +456,51 @@
           </div>
           <div class="error-message">Vui lòng nhập mã Kit hợp lệ</div>
         </div>
-        
+
         <div class="row">
           <div class="col-md-6">
             <div class="form-group">
-              <label for="kit-type" class="form-label required-field">Loại Kit</label>
+              <label for="kit-type" class="form-label required-field"
+                >Loại Kit</label
+              >
               <div class="input-group">
-                <span class="input-group-text"><i class="fas fa-vial"></i></span>
-                <select id="kit-type" name="kitType" class="form-input" required>
+                <span class="input-group-text"
+                  ><i class="fas fa-vial"></i
+                ></span>
+                <select
+                  id="kit-type"
+                  name="kitType"
+                  class="form-input"
+                  required
+                >
                   <option value="" disabled selected>Chọn loại Kit</option>
-                  <option value="paternity">Xác định huyết thống Cha - Con</option>
-                  <option value="paternity">Xác định huyết thống Mẹ - Con</option>
-                  <option value="paternity">Xác định huyết thống Anh, Chị - Em</option>
-                  <option value="paternity">Xác định huyết thống Ông, bà - Em</option>
-                  
+                  <option value="paternity">
+                    Xác định huyết thống Cha - Con
+                  </option>
+                  <option value="paternity">
+                    Xác định huyết thống Mẹ - Con
+                  </option>
+                  <option value="paternity">
+                    Xác định huyết thống Anh, Chị - Em
+                  </option>
+                  <option value="paternity">
+                    Xác định huyết thống Ông, bà - Em
+                  </option>
                 </select>
               </div>
               <div class="error-message">Vui lòng chọn loại Kit</div>
             </div>
           </div>
-          
+
           <div class="col-md-6">
             <div class="form-group">
-              <label for="send-date" class="form-label required-field">Ngày gửi</label>
+              <label for="send-date" class="form-label required-field"
+                >Ngày gửi</label
+              >
               <div class="input-group">
-                <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
+                <span class="input-group-text"
+                  ><i class="fas fa-calendar-alt"></i
+                ></span>
                 <input
                   type="date"
                   id="send-date"
@@ -418,13 +513,17 @@
             </div>
           </div>
         </div>
-        
+
         <div class="row">
           <div class="col-md-6">
             <div class="form-group">
-              <label for="sample-count" class="form-label required-field">Số lượng mẫu</label>
+              <label for="sample-count" class="form-label required-field"
+                >Số lượng mẫu</label
+              >
               <div class="input-group">
-                <span class="input-group-text"><i class="fas fa-flask"></i></span>
+                <span class="input-group-text"
+                  ><i class="fas fa-flask"></i
+                ></span>
                 <input
                   type="number"
                   id="sample-count"
@@ -436,15 +535,21 @@
                   required
                 />
               </div>
-              <div class="error-message">Vui lòng nhập số lượng mẫu (tối thiểu 2)</div>
+              <div class="error-message">
+                Vui lòng nhập số lượng mẫu (tối thiểu 2)
+              </div>
             </div>
           </div>
-          
+
           <div class="col-md-6">
             <div class="form-group">
-              <label for="expected-days" class="form-label required-field">Số ngày dự kiến</label>
+              <label for="expected-days" class="form-label required-field"
+                >Số ngày dự kiến</label
+              >
               <div class="input-group">
-                <span class="input-group-text"><i class="fas fa-clock"></i></span>
+                <span class="input-group-text"
+                  ><i class="fas fa-clock"></i
+                ></span>
                 <input
                   type="number"
                   id="expected-days"
@@ -457,13 +562,17 @@
                   required
                 />
               </div>
-              <div class="error-message">Vui lòng nhập số ngày dự kiến (7-30 ngày)</div>
+              <div class="error-message">
+                Vui lòng nhập số ngày dự kiến (7-30 ngày)
+              </div>
             </div>
           </div>
         </div>
-        
+
         <div class="form-group">
-          <label for="customer-name" class="form-label required-field">Tên khách hàng</label>
+          <label for="customer-name" class="form-label required-field"
+            >Tên khách hàng</label
+          >
           <div class="input-group">
             <span class="input-group-text"><i class="fas fa-user"></i></span>
             <input
@@ -477,13 +586,17 @@
           </div>
           <div class="error-message">Vui lòng nhập tên khách hàng</div>
         </div>
-        
+
         <div class="row">
           <div class="col-md-6">
             <div class="form-group">
-              <label for="customer-phone" class="form-label required-field">Số điện thoại</label>
+              <label for="customer-phone" class="form-label required-field"
+                >Số điện thoại</label
+              >
               <div class="input-group">
-                <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                <span class="input-group-text"
+                  ><i class="fas fa-phone"></i
+                ></span>
                 <input
                   type="tel"
                   id="customer-phone"
@@ -494,15 +607,21 @@
                   required
                 />
               </div>
-              <div class="error-message">Vui lòng nhập số điện thoại hợp lệ</div>
+              <div class="error-message">
+                Vui lòng nhập số điện thoại hợp lệ
+              </div>
             </div>
           </div>
-          
+
           <div class="col-md-6">
             <div class="form-group">
-              <label for="customer-email" class="form-label">Email khách hàng</label>
+              <label for="customer-email" class="form-label"
+                >Email khách hàng</label
+              >
               <div class="input-group">
-                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                <span class="input-group-text"
+                  ><i class="fas fa-envelope"></i
+                ></span>
                 <input
                   type="email"
                   id="customer-email"
@@ -519,7 +638,9 @@
         <div class="form-group">
           <label for="notes" class="form-label">Ghi chú</label>
           <div class="input-group">
-            <span class="input-group-text"><i class="fas fa-sticky-note"></i></span>
+            <span class="input-group-text"
+              ><i class="fas fa-sticky-note"></i
+            ></span>
             <textarea
               id="notes"
               name="notes"
@@ -528,18 +649,31 @@
             ></textarea>
           </div>
         </div>
-        
+
         <div class="form-group">
           <label class="form-label">Trạng thái mẫu</label>
           <div class="status-options">
             <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="status" id="status-new" value="new" checked />
+              <input
+                class="form-check-input"
+                type="radio"
+                name="status"
+                id="status-new"
+                value="new"
+                checked
+              />
               <label class="form-check-label" for="status-new">
                 <span class="status-badge status-new">Mới tạo</span>
               </label>
             </div>
             <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="status" id="status-sent" value="sent" />
+              <input
+                class="form-check-input"
+                type="radio"
+                name="status"
+                id="status-sent"
+                value="sent"
+              />
               <label class="form-check-label" for="status-sent">
                 <span class="status-badge status-sent">Đã gửi</span>
               </label>
@@ -548,7 +682,11 @@
         </div>
 
         <div class="button-group">
-          <button type="button" class="btn btn-secondary cancel-button" onclick="window.location.href='list-kit.html'">
+          <button
+            type="button"
+            class="btn btn-secondary cancel-button"
+            onclick="window.location.href='list-kit.html'"
+          >
             <i class="fas fa-times"></i>
             Hủy
           </button>
@@ -564,7 +702,7 @@
         <i class="fas fa-check-circle"></i>
         Lưu thông tin Kit thành công!
       </div>
-      
+
       <div class="action-links">
         <a href="list-kit.html" class="action-link">
           <i class="fas fa-list"></i> Danh sách Kit
@@ -585,44 +723,54 @@
         const submitButton = form.querySelector(".submit-button");
         const loadingSpinner = submitButton.querySelector(".loading");
         const successMessage = document.querySelector(".success-message");
-        
+
         // Set today as default date
         const today = new Date().toISOString().split("T")[0];
         document.getElementById("send-date").value = today;
-        
+
         // Tự động tạo mã Kit
         function generateKitCode() {
           const prefix = "KIT";
           const timestamp = new Date().getTime().toString().slice(-6);
-          const randomNum = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
+          const randomNum = Math.floor(Math.random() * 1000)
+            .toString()
+            .padStart(3, "0");
           return `${prefix}${timestamp}${randomNum}`;
         }
-        
+
         document.getElementById("kit-code").value = generateKitCode();
-        
+
         // Validate form fields
         function validateField(input) {
-          const errorMessage = input.closest('.form-group').querySelector(".error-message");
-          
+          const errorMessage = input
+            .closest(".form-group")
+            .querySelector(".error-message");
+
           if (!input.value.trim()) {
             input.classList.add("error");
             errorMessage.classList.add("show");
             return false;
           }
-          
-          if (input.id === "customer-phone" && !/^[0-9]{10}$/.test(input.value)) {
+
+          if (
+            input.id === "customer-phone" &&
+            !/^[0-9]{10}$/.test(input.value)
+          ) {
             input.classList.add("error");
             errorMessage.classList.add("show");
             return false;
           }
-          
-          if (input.id === "customer-email" && input.value.trim() !== "" && 
-              !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value)) {
+
+          if (
+            input.id === "customer-email" &&
+            input.value.trim() !== "" &&
+            !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value)
+          ) {
             input.classList.add("error");
             errorMessage.classList.add("show");
             return false;
           }
-          
+
           input.classList.remove("error");
           errorMessage.classList.remove("show");
           return true;
@@ -630,7 +778,7 @@
 
         // Add input event listeners for real-time validation
         const requiredInputs = form.querySelectorAll("[required]");
-        requiredInputs.forEach(input => {
+        requiredInputs.forEach((input) => {
           input.addEventListener("input", () => validateField(input));
         });
 
@@ -639,7 +787,7 @@
 
           // Validate all required fields
           let isValid = true;
-          requiredInputs.forEach(input => {
+          requiredInputs.forEach((input) => {
             if (!validateField(input)) {
               isValid = false;
             }
@@ -661,15 +809,19 @@
             const kitType = document.getElementById("kit-type").value;
             const expectedDays = document.getElementById("expected-days").value;
             const customerName = document.getElementById("customer-name").value;
-            const customerPhone = document.getElementById("customer-phone").value;
-            const customerEmail = document.getElementById("customer-email").value;
-            const status = document.querySelector('input[name="status"]:checked').value;
-            
+            const customerPhone =
+              document.getElementById("customer-phone").value;
+            const customerEmail =
+              document.getElementById("customer-email").value;
+            const status = document.querySelector(
+              'input[name="status"]:checked'
+            ).value;
+
             const response = await fetch("/api/kits", {
               method: "POST",
-              headers: { 
+              headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${localStorage.getItem('token')}`
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
               },
               body: JSON.stringify({
                 kitCode,
@@ -682,7 +834,7 @@
                 customerEmail,
                 notes,
                 status,
-                createdAt: new Date().toISOString()
+                createdAt: new Date().toISOString(),
               }),
             });
 
@@ -697,11 +849,13 @@
               setTimeout(() => {
                 successMessage.classList.remove("show");
                 // Redirect to kit list after successful creation
-                window.location.href = 'list-kit.html';
+                window.location.href = "list-kit.html";
               }, 2000);
             } else {
               const errorData = await response.json();
-              throw new Error(errorData.message || "Không thể lưu thông tin Kit.");
+              throw new Error(
+                errorData.message || "Không thể lưu thông tin Kit."
+              );
             }
           } catch (error) {
             console.error("Error:", error);

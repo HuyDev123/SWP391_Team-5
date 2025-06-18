@@ -18,7 +18,7 @@
         margin: 0;
         padding: 0;
         box-sizing: border-box;
-        font-family: 'Segoe UI', Arial, sans-serif;
+        font-family: "Segoe UI", Arial, sans-serif;
       }
 
       body {
@@ -313,7 +313,7 @@
       }
 
       .timeline-item::before {
-        content: '';
+        content: "";
         width: 15px;
         height: 15px;
         border-radius: 50%;
@@ -350,26 +350,26 @@
         .kit-view-container {
           padding: 25px 20px;
         }
-        
+
         .info-item {
           flex: 0 0 100%;
         }
-        
+
         .view-header {
           flex-direction: column;
           align-items: flex-start;
         }
-        
+
         .kit-id {
           margin-top: 15px;
           margin-left: 0;
         }
-        
+
         .button-group {
           flex-direction: column;
           gap: 10px;
         }
-        
+
         .btn {
           width: 100%;
         }
@@ -392,7 +392,10 @@
         <div>
           <div id="kit-code" class="kit-id">KIT20250618001</div>
           <span id="kit-status" class="kit-status status-sent">
-            <i class="fas fa-circle mr-2" style="font-size: 10px; margin-right: 5px;"></i>
+            <i
+              class="fas fa-circle mr-2"
+              style="font-size: 10px; margin-right: 5px"
+            ></i>
             Đã gửi
           </span>
         </div>
@@ -468,7 +471,7 @@
             </div>
             <span class="sample-status received">Đã nhận</span>
           </li>
-          
+
           <li class="sample-item">
             <div class="sample-info">
               <div class="sample-icon">
@@ -491,7 +494,8 @@
         <div class="info-row">
           <div class="info-item full-width">
             <div id="notes" class="info-value">
-              Kit đã được kiểm tra và ghi nhận đầy đủ thông tin. Khách hàng yêu cầu kết quả sớm.
+              Kit đã được kiểm tra và ghi nhận đầy đủ thông tin. Khách hàng yêu
+              cầu kết quả sớm.
             </div>
           </div>
         </div>
@@ -507,18 +511,18 @@
             <div class="timeline-content">Tạo Kit mới</div>
             <div class="timeline-note">Nhân viên: Nguyễn Văn A</div>
           </div>
-          
+
           <div class="timeline-item completed">
             <div class="timeline-date">18/06/2025 - 14:30</div>
             <div class="timeline-content">Gửi Kit cho khách hàng</div>
             <div class="timeline-note">Đã gửi qua đường bưu điện</div>
           </div>
-          
+
           <div class="timeline-item">
             <div class="timeline-date">20/06/2025 - 10:45</div>
             <div class="timeline-content">Nhận mẫu từ khách hàng</div>
           </div>
-          
+
           <div class="timeline-item">
             <div class="timeline-date">22/06/2025 - 08:00</div>
             <div class="timeline-content">Bắt đầu phân tích mẫu</div>
@@ -530,12 +534,12 @@
         <a href="list-kit.html" class="btn btn-secondary">
           <i class="fas fa-arrow-left"></i> Quay lại danh sách
         </a>
-        
+
         <a href="editkit.html" class="btn btn-primary" id="edit-kit-btn">
           <i class="fas fa-edit"></i> Chỉnh sửa Kit
         </a>
       </div>
-      
+
       <div class="action-links">
         <a href="#" class="action-link" id="print-kit">
           <i class="fas fa-print"></i> In thông tin
@@ -555,7 +559,7 @@
     <script src="assets/js/api.js"></script>
     <script src="assets/js/auth-check.js"></script>
     <script>
-      document.addEventListener('DOMContentLoaded', async function() {
+      document.addEventListener("DOMContentLoaded", async function () {
         // Lấy ID Kit từ URL
         // const urlParams = new URLSearchParams(window.location.search);
         // const kitId = urlParams.get('id');
@@ -565,139 +569,164 @@
         //   window.location.href = 'list-kit.html';
         //   return;
         // }
-        
+
         // Cập nhật URL của nút Edit
-        document.getElementById('edit-kit-btn').href = `editkit.html?id=${kitId}`;
-        
+        document.getElementById(
+          "edit-kit-btn"
+        ).href = `editkit.html?id=${kitId}`;
+
         try {
           // Lấy thông tin Kit từ API
           const response = await fetch(`/api/kits/${kitId}`, {
             headers: {
-              'Authorization': `Bearer ${localStorage.getItem('token')}`
-            }
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
           });
-          
+
           if (!response.ok) {
-            throw new Error('Không thể lấy thông tin Kit');
+            throw new Error("Không thể lấy thông tin Kit");
           }
-          
+
           const kitData = await response.json();
-          
+
           // Hiển thị thông tin Kit
           displayKitInfo(kitData);
-          
+
           // Hiển thị danh sách mẫu
           if (kitData.samples && kitData.samples.length > 0) {
             displaySamples(kitData.samples);
           }
-          
+
           // Hiển thị lịch sử cập nhật
           if (kitData.history && kitData.history.length > 0) {
             displayHistory(kitData.history);
           }
-          
         } catch (error) {
-          console.error('Lỗi:', error);
-          alert('Có lỗi khi tải thông tin Kit. Vui lòng thử lại sau.');
+          console.error("Lỗi:", error);
+          alert("Có lỗi khi tải thông tin Kit. Vui lòng thử lại sau.");
         }
-        
+
         // Xử lý sự kiện in thông tin
-        document.getElementById('print-kit').addEventListener('click', function(e) {
-          e.preventDefault();
-          window.print();
-        });
-        
+        document
+          .getElementById("print-kit")
+          .addEventListener("click", function (e) {
+            e.preventDefault();
+            window.print();
+          });
+
         // Xử lý sự kiện xuất PDF
-        document.getElementById('export-pdf').addEventListener('click', function(e) {
-          e.preventDefault();
-          alert('Tính năng xuất PDF đang được phát triển');
-        });
+        document
+          .getElementById("export-pdf")
+          .addEventListener("click", function (e) {
+            e.preventDefault();
+            alert("Tính năng xuất PDF đang được phát triển");
+          });
       });
-      
+
       function displayKitInfo(data) {
         // Hiển thị thông tin cơ bản
-        document.getElementById('kit-code').textContent = data.kitCode || '';
-        
+        document.getElementById("kit-code").textContent = data.kitCode || "";
+
         // Cập nhật trạng thái Kit
-        const kitStatus = document.getElementById('kit-status');
-        kitStatus.className = 'kit-status';
-        
-        switch(data.status) {
-          case 'new':
-            kitStatus.classList.add('status-new');
-            kitStatus.innerHTML = '<i class="fas fa-circle mr-2" style="font-size: 10px; margin-right: 5px;"></i> Mới tạo';
+        const kitStatus = document.getElementById("kit-status");
+        kitStatus.className = "kit-status";
+
+        switch (data.status) {
+          case "new":
+            kitStatus.classList.add("status-new");
+            kitStatus.innerHTML =
+              '<i class="fas fa-circle mr-2" style="font-size: 10px; margin-right: 5px;"></i> Mới tạo';
             break;
-          case 'sent':
-            kitStatus.classList.add('status-sent');
-            kitStatus.innerHTML = '<i class="fas fa-circle mr-2" style="font-size: 10px; margin-right: 5px;"></i> Đã gửi';
+          case "sent":
+            kitStatus.classList.add("status-sent");
+            kitStatus.innerHTML =
+              '<i class="fas fa-circle mr-2" style="font-size: 10px; margin-right: 5px;"></i> Đã gửi';
             break;
-          case 'processing':
-            kitStatus.classList.add('status-processing');
-            kitStatus.innerHTML = '<i class="fas fa-circle mr-2" style="font-size: 10px; margin-right: 5px;"></i> Đang xử lý';
+          case "processing":
+            kitStatus.classList.add("status-processing");
+            kitStatus.innerHTML =
+              '<i class="fas fa-circle mr-2" style="font-size: 10px; margin-right: 5px;"></i> Đang xử lý';
             break;
-          case 'completed':
-            kitStatus.classList.add('status-completed');
-            kitStatus.innerHTML = '<i class="fas fa-circle mr-2" style="font-size: 10px; margin-right: 5px;"></i> Đã hoàn thành';
+          case "completed":
+            kitStatus.classList.add("status-completed");
+            kitStatus.innerHTML =
+              '<i class="fas fa-circle mr-2" style="font-size: 10px; margin-right: 5px;"></i> Đã hoàn thành';
             break;
           default:
-            kitStatus.classList.add('status-new');
-            kitStatus.innerHTML = '<i class="fas fa-circle mr-2" style="font-size: 10px; margin-right: 5px;"></i> Không xác định';
+            kitStatus.classList.add("status-new");
+            kitStatus.innerHTML =
+              '<i class="fas fa-circle mr-2" style="font-size: 10px; margin-right: 5px;"></i> Không xác định';
         }
-        
+
         // Hiển thị loại Kit
         const kitTypeMap = {
-          'paternity': 'Xác định huyết thống',
-          'maternity': 'Xác định quan hệ mẹ con',
-          'sibling': 'Xác định anh chị em ruột',
-          'ancestry': 'Phân tích nguồn gốc',
-          'health': 'Sàng lọc gen bệnh'
+          paternity: "Xác định huyết thống",
+          maternity: "Xác định quan hệ mẹ con",
+          sibling: "Xác định anh chị em ruột",
+          ancestry: "Phân tích nguồn gốc",
+          health: "Sàng lọc gen bệnh",
         };
-        
-        document.getElementById('kit-type').textContent = kitTypeMap[data.kitType] || data.kitType || '';
-        
+
+        document.getElementById("kit-type").textContent =
+          kitTypeMap[data.kitType] || data.kitType || "";
+
         // Định dạng ngày gửi
         if (data.sendDate) {
           const sendDate = new Date(data.sendDate);
-          document.getElementById('send-date').textContent = sendDate.toLocaleDateString('vi-VN');
+          document.getElementById("send-date").textContent =
+            sendDate.toLocaleDateString("vi-VN");
         }
-        
+
         // Hiển thị số lượng mẫu
-        document.getElementById('sample-count').textContent = data.sampleCount || '0';
-        
+        document.getElementById("sample-count").textContent =
+          data.sampleCount || "0";
+
         // Hiển thị số ngày dự kiến
-        document.getElementById('expected-days').textContent = `${data.expectedDays || '14'} ngày`;
-        
+        document.getElementById("expected-days").textContent = `${
+          data.expectedDays || "14"
+        } ngày`;
+
         // Tính và hiển thị ngày hoàn thành dự kiến
         if (data.sendDate && data.expectedDays) {
           const sendDate = new Date(data.sendDate);
           const completionDate = new Date(sendDate);
-          completionDate.setDate(sendDate.getDate() + parseInt(data.expectedDays));
-          document.getElementById('expected-completion').textContent = completionDate.toLocaleDateString('vi-VN');
+          completionDate.setDate(
+            sendDate.getDate() + parseInt(data.expectedDays)
+          );
+          document.getElementById("expected-completion").textContent =
+            completionDate.toLocaleDateString("vi-VN");
         }
-        
+
         // Hiển thị thông tin người phụ trách
-        document.getElementById('staff-name').textContent = data.staffName || 'Chưa phân công';
-        
+        document.getElementById("staff-name").textContent =
+          data.staffName || "Chưa phân công";
+
         // Hiển thị thông tin khách hàng
-        document.getElementById('customer-name').textContent = data.customerName || '';
-        document.getElementById('customer-phone').textContent = data.customerPhone || '';
-        document.getElementById('customer-email').textContent = data.customerEmail || 'Không có';
-        
+        document.getElementById("customer-name").textContent =
+          data.customerName || "";
+        document.getElementById("customer-phone").textContent =
+          data.customerPhone || "";
+        document.getElementById("customer-email").textContent =
+          data.customerEmail || "Không có";
+
         // Hiển thị ghi chú
-        document.getElementById('notes').textContent = data.notes || 'Không có ghi chú';
+        document.getElementById("notes").textContent =
+          data.notes || "Không có ghi chú";
       }
-      
+
       function displaySamples(samples) {
-        const sampleList = document.getElementById('sample-list');
-        sampleList.innerHTML = ''; // Xóa mẫu có sẵn
-        
-        samples.forEach(sample => {
-          const sampleItem = document.createElement('li');
-          sampleItem.className = 'sample-item';
-          
-          const sampleStatus = sample.status === 'received' ? 'received' : 'pending';
-          const sampleStatusText = sample.status === 'received' ? 'Đã nhận' : 'Chưa nhận';
-          
+        const sampleList = document.getElementById("sample-list");
+        sampleList.innerHTML = ""; // Xóa mẫu có sẵn
+
+        samples.forEach((sample) => {
+          const sampleItem = document.createElement("li");
+          sampleItem.className = "sample-item";
+
+          const sampleStatus =
+            sample.status === "received" ? "received" : "pending";
+          const sampleStatusText =
+            sample.status === "received" ? "Đã nhận" : "Chưa nhận";
+
           sampleItem.innerHTML = `
             <div class="sample-info">
               <div class="sample-icon">
@@ -705,34 +734,41 @@
               </div>
               <div class="sample-details">
                 <h4>${sample.name || `Mẫu ${sample.sampleNumber}`}</h4>
-                <p>Mã mẫu: ${sample.sampleCode || 'Chưa có mã'}</p>
+                <p>Mã mẫu: ${sample.sampleCode || "Chưa có mã"}</p>
               </div>
             </div>
             <span class="sample-status ${sampleStatus}">${sampleStatusText}</span>
           `;
-          
+
           sampleList.appendChild(sampleItem);
         });
       }
-      
+
       function displayHistory(history) {
-        const timeline = document.querySelector('.timeline');
-        timeline.innerHTML = ''; // Xóa lịch sử mẫu
-        
-        history.forEach(item => {
-          const timelineItem = document.createElement('div');
-          timelineItem.className = item.completed ? 'timeline-item completed' : 'timeline-item';
-          
+        const timeline = document.querySelector(".timeline");
+        timeline.innerHTML = ""; // Xóa lịch sử mẫu
+
+        history.forEach((item) => {
+          const timelineItem = document.createElement("div");
+          timelineItem.className = item.completed
+            ? "timeline-item completed"
+            : "timeline-item";
+
           // Định dạng ngày giờ
           const date = new Date(item.timestamp);
-          const formattedDate = `${date.toLocaleDateString('vi-VN')} - ${date.toLocaleTimeString('vi-VN', {hour: '2-digit', minute:'2-digit'})}`;
-          
+          const formattedDate = `${date.toLocaleDateString(
+            "vi-VN"
+          )} - ${date.toLocaleTimeString("vi-VN", {
+            hour: "2-digit",
+            minute: "2-digit",
+          })}`;
+
           timelineItem.innerHTML = `
             <div class="timeline-date">${formattedDate}</div>
             <div class="timeline-content">${item.action}</div>
-            ${item.note ? `<div class="timeline-note">${item.note}</div>` : ''}
+            ${item.note ? `<div class="timeline-note">${item.note}</div>` : ""}
           `;
-          
+
           timeline.appendChild(timelineItem);
         });
       }
