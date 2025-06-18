@@ -24,6 +24,14 @@ document.addEventListener("DOMContentLoaded", function () {
       if (typeof window.setupUIByRole === "function") {
         window.setupUIByRole(user);
       }
+
+      // Kiểm tra và gọi hàm render lịch hẹn nếu có
+      setTimeout(function () {
+        if (window.forceRenderAppointments) {
+          console.log("Auth-check: Calling forceRenderAppointments");
+          window.forceRenderAppointments();
+        }
+      }, 200);
     }
   } else {
     // Nếu chưa load được Auth, báo lỗi trên console
