@@ -24,9 +24,9 @@ document.addEventListener("DOMContentLoaded", function () {
       if (typeof window.setupUIByRole === "function") {
         window.setupUIByRole(user);
       }
-      
+
       // Kiểm tra và gọi hàm render lịch hẹn nếu có
-      setTimeout(function() {
+      setTimeout(function () {
         if (window.forceRenderAppointments) {
           console.log("Auth-check: Calling forceRenderAppointments");
           window.forceRenderAppointments();
