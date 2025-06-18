@@ -2064,16 +2064,6 @@
             </div>
           </div>
         </div>
-
-        <div class="action-buttons" style="
-          display:flex;justify-content:flex-end;gap:15px;margin-top:25px;">
-          <button id="modal-edit-btn" class="btn-primary" style="
-            background:#2196f3;color:white;border:none;padding:10px 20px;
-            border-radius:5px;cursor:pointer;display:flex;align-items:center;
-            font-weight:500;transition:background 0.2s;">
-            <i class="fas fa-edit" style="margin-right:8px;"></i>Chỉnh sửa
-          </button>
-        </div>
       </div>
     </div>
 
@@ -2193,11 +2183,7 @@
           li.textContent = "Không có dịch vụ";
           servicesList.appendChild(li);
         }
-        
-        // Thiết lập nút chỉnh sửa để chuyển đến trang editappointment.html
-        document.getElementById('modal-edit-btn').onclick = function() {
-          window.location.href = `editappointment.html?id=${id}`;
-        };
+  
         
         // Hiển thị modal
         document.getElementById('appointment-details-modal').style.display = 'flex';
