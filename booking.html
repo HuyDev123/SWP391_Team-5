@@ -1015,19 +1015,15 @@
           loginButton.setAttribute("href", "login.html");
         }
       }
-
       function handleLogout() {
-        if (confirm("Bạn có chắc chắn muốn đăng xuất?")) {
-          Auth.logout()
-            .then(() => {
-              updateAuthUI();
-              alert("Đăng xuất thành công!");
-              window.location.reload();
-            })
-            .catch((error) => {
-              alert("Có lỗi xảy ra khi đăng xuất.");
-            });
-        }
+        Auth.logout()
+          .then(() => {
+            updateAuthUI();
+            window.location.reload();
+          })
+          .catch((error) => {
+            alert("Có lỗi xảy ra khi đăng xuất.");
+          });
       }
 
       // Tự động điền thông tin user vào form nếu đã đăng nhập
