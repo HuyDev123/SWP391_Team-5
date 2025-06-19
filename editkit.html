@@ -597,9 +597,7 @@
             border: 1px dashed #3498db;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
             animation: fadeIn 0.4s ease-out;
-        }
-
-        /* Service description */
+        }        /* Service description */
         .service-description p {
             font-size: 14px;
             line-height: 1.5;
@@ -611,15 +609,17 @@
             position: relative;
             display: flex;
             flex-wrap: wrap;
-            align-items: stretch;
+            align-items: center;
             width: 100%;
         }
-        
-        .input-group .input-group-text {
-            align-items: flex-start;
-            padding-top: 12px;
-            height: auto;
+          .input-group .input-group-text {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 15px;
+            height: 44px;
             min-height: 44px;
+            width: 46px;
             border-radius: 8px 0 0 8px;
             background-color: #f8f9fa;
             border: 2px solid #e0e0e0;
@@ -633,12 +633,20 @@
             flex: 1 1 auto;
             width: 1%;
             min-width: 0;
+            height: 44px;
+            padding: 0.375rem 0.75rem;
         }
-        
-        .input-group-text i {
+          .input-group-text i {
             color: #2196f3 !important; /* xanh y tế */
             font-size: 1.1rem;
             transition: transform 0.3s ease;
+            width: 16px;
+            height: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+            margin: 0;
         }
         
         .input-group:hover .input-group-text i {
@@ -816,16 +824,15 @@
                 <img src="assets/images/Logo.jpg" alt="ADN Logo">
             </div>
             <h1 class="form-title">Chỉnh sửa thông tin Kit</h1>
-            <p class="form-subtitle">Cập nhật thông tin khách hàng, dịch vụ và kit xét nghiệm ADN</p>
-        </div>
-
+            <p class="form-subtitle">Cập nhật thông tin khách hàng, dịch vụ và kit xét nghiệm ADN</p>        </div>
+        
         <form id="kit-edit-form">
-            <!-- Phần thông tin nhân viên đã được xóa -->
             <!-- Dịch vụ và Kit -->
             <div class="services-container">
                 <!-- Dịch vụ 1 -->
                 <div class="service-item card mb-4" id="service-1">
-                    <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">                                <h5 class="mb-0 service-title" data-bs-toggle="collapse" href="#service-1-content" role="button" aria-expanded="true">
+                    <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0 service-title" data-bs-toggle="collapse" href="#service-1-content" role="button" aria-expanded="true">
                             <i class="fas fa-chevron-circle-down me-2"></i> Dịch Vụ: Xét nghiệm huyết thống Cha - Con
                         </h5>
                     </div>
@@ -852,41 +859,39 @@
                                 </div>
                             </div>
                             <div class="service-description mt-2">
-                                <p class="text-muted"><i class="fas fa-info-circle me-2"></i> Xác định mối quan hệ huyết thống giữa cha và con thông qua ADN</p>
-                            </div>
+                                <p class="text-muted"><i class="fas fa-info-circle me-2"></i> Xác định mối quan hệ huyết thống giữa cha và con thông qua ADN</p>                            </div>
                             
                             <!-- Các Kit trong dịch vụ -->
                             <div class="kits-container mt-4" id="kits-container-1">
-                            <!-- Kit 1 -->
-                            <div class="kit-item card mb-3" id="kit-1-1" data-kit-id="1">
-                                <div class="card-header bg-light d-flex justify-content-between align-items-center">
-                                    <h6 class="mb-0" data-bs-toggle="collapse" href="#kit-1-1-content" role="button" aria-expanded="true">
-                                        <i class="fas fa-chevron-circle-down me-2"></i> Kit 1: <span class="badge bg-primary" id="kit-code-badge-1">PC001</span>
-                                    </h6>
-                                    <div>
-                                        <button type="button" class="btn btn-sm btn-danger" onclick="confirmRemoveKit(1); event.stopPropagation();">
-                                            <i class="fas fa-trash-alt"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="collapse show" id="kit-1-1-content">
+                                <!-- Kit 1 -->
+                                <div class="kit-item card mb-3" id="kit-1-1" data-kit-id="1">
+                                    <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                                        <h6 class="mb-0" data-bs-toggle="collapse" href="#kit-1-1-content" role="button" aria-expanded="true">
+                                            <i class="fas fa-chevron-circle-down me-2"></i> Kit 1: <span class="badge bg-primary" id="kit-code-badge-1">PC001</span>
+                                        </h6>
+                                        <div>
+                                            <button type="button" class="btn btn-sm btn-danger" onclick="confirmRemoveKit(1); event.stopPropagation();">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                        </div>
+                                    </div>                                <div class="collapse show" id="kit-1-1-content">
                                     <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="form-label">Mã Kit <span class="required">*</span></label>
-                                                <div class="input-group">
-                                                    <span class="input-group-text"><i class="fas fa-barcode"></i></span>
-                                                    <input type="text" class="form-input" id="kit-code-1" value="PC001" readonly>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="form-label">Mã Kit <span class="required">*</span></label>
+                                                    <div class="input-group">
+                                                        <span class="input-group-text"><i class="fas fa-barcode"></i></span>
+                                                        <input type="text" class="form-input" id="kit-code-1" value="PC001" readonly>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="form-label">Trạng thái <span class="required">*</span></label>
-                                                <div class="input-group">
-                                                    <span class="input-group-text"><i class="fas fa-tasks"></i></span>
-                                                    <select class="form-select" id="kit-status-1">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="form-label">Trạng thái <span class="required">*</span></label>
+                                                    <div class="input-group">
+                                                        <span class="input-group-text"><i class="fas fa-tasks"></i></span>
+                                                        <select class="form-select" id="kit-status-1">
                                                         <option value="Chờ gửi">Chờ gửi</option>
                                                         <option value="Đã gửi" selected>Đã gửi</option>
                                                         <option value="Đã nhận mẫu">Đã nhận mẫu</option>
@@ -1073,8 +1078,7 @@
                                                 <div class="file-actions">
                                                     <button type="button" title="Xem file"><i class="fas fa-eye"></i></button>
                                                     <button type="button" title="Tải xuống"><i class="fas fa-download"></i></button>
-                                                </div>
-                                            </div>
+                                                </div>                                        </div>
                                         </div>
                                         
                                         <!-- Ghi chú -->
@@ -1086,10 +1090,9 @@
                                 </div>
                             </div>
                             
-                                            <!-- Nút thêm kit mới -->
-                            <button class="btn btn-outline-primary w-100 mb-3 d-flex align-items-center justify-content-center add-kit-btn" onclick="addNewKit(1, event)">
-                                <i class="fas fa-plus-circle me-2"></i> Thêm Kit mới
-                            </button>
+                            <!-- Nút thêm kit mới -->                                <button type="button" class="btn btn-outline-primary w-100 mb-3 d-flex align-items-center justify-content-center add-kit-btn" onclick="addNewKit(1, event); return false;">
+                                    <i class="fas fa-plus-circle me-2"></i> Thêm Kit mới
+                                </button>
                         </div>
                     </div>
                 </div>
@@ -1184,21 +1187,19 @@
                                             <p class="mb-0 opacity-75">Đang cập nhật...</p>
                                         </div>
                                         <small class="text-nowrap text-primary"><i class="fas fa-calendar-alt me-1"></i>19/06/2025</small>
-                                    </div>
-                                </div>
+                                    </div>                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            
-            <!-- Buttons -->
+            <!-- End of services-container -->
+                  <!-- Buttons -->
             <div class="form-actions mt-4">
                 <button type="button" class="btn btn-secondary" onclick="goBack()">
                     <i class="fas fa-arrow-left"></i>
                     Quay lại
                 </button>
-                
                 <button type="submit" class="btn btn-primary">
                     <div class="loading"></div>
                     <i class="fas fa-save"></i>
@@ -1207,6 +1208,7 @@
             </div>
         </form>
 
+        <!-- Success message section -->
         <div class="success-message">
             <i class="fas fa-check-circle"></i>
             <span>Cập nhật thông tin Kit thành công!</span>
@@ -1255,11 +1257,12 @@
                 setupFileInputEvent(1);
                 setupFileInputEvent(2);
             }
-            
-            // Thiết lập sự kiện xác nhận xóa kit
-            document.getElementById('confirm-remove-kit-btn').addEventListener('click', function() {
+              // Thiết lập sự kiện xác nhận xóa kit
+            document.getElementById('confirm-remove-kit-btn').addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
                 if (kitToRemove !== null) {
-                    removeKit(kitToRemove);
+                    removeKit(kitToRemove, e);
                     document.getElementById('remove-kit-dialog').style.display = 'none';
                     kitToRemove = null;
                 }
@@ -1350,10 +1353,15 @@
                 });
             }
         }
-        
-        // Hiện dialog xác nhận xóa kit
-        function confirmRemoveKit(kitId) {
-            event.stopPropagation();
+          // Hiện dialog xác nhận xóa kit
+        function confirmRemoveKit(kitId, e) {
+            if (e) {
+                e.preventDefault();
+                e.stopPropagation();
+            } else if (typeof event !== 'undefined') {
+                event.preventDefault();
+                event.stopPropagation();
+            }
             kitToRemove = kitId;
             document.getElementById('remove-kit-dialog').style.display = 'flex';
         }
@@ -1363,9 +1371,17 @@
             kitToRemove = null;
             document.getElementById('remove-kit-dialog').style.display = 'none';
         }
-        
-        // Xóa kit
-        function removeKit(kitId) {
+          // Xóa kit
+        function removeKit(kitId, e) {
+            // Ngăn hành vi mặc định và lan truyền sự kiện
+            if (e) {
+                e.preventDefault();
+                e.stopPropagation();
+            } else if (typeof event !== 'undefined') {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            
             // Tìm kit theo ID (có thể có các định dạng khác nhau)
             let kit = document.querySelector(`[data-kit-id="${kitId}"]`);
             if (!kit) {
@@ -1578,9 +1594,15 @@
             // Cuộn đến kit mới
             document.getElementById(`kit-${serviceId}-${kitId}`).scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
-        
-        // Thêm dịch vụ mới
-        function addNewService() {
+          // Thêm dịch vụ mới
+        function addNewService(e) {
+            if (e) {
+                e.preventDefault();
+                e.stopPropagation();
+            } else if (typeof event !== 'undefined') {
+                event.preventDefault();
+                event.stopPropagation();
+            }
             const servicesContainer = document.getElementById('services-container');
             const serviceId = nextServiceId++;
             
@@ -1776,7 +1798,7 @@
                 
                 setTimeout(() => {
                     serviceSection.remove();
-                    showSuccess('Đã xóa dịch vụ thành công');
+                                       showSuccess('Đã xóa dịch vụ thành công');
                 }, 300);
             }
         }
@@ -1933,6 +1955,29 @@
                 //     submitButton.disabled = false;
                 // });
             }
+        });
+        
+        // Thêm script để ngăn chặn các nút trong form gây refresh trang
+        document.addEventListener('DOMContentLoaded', function() {
+            // Đảm bảo tất cả các nút trong form có type="button" và không gây refresh trang
+            document.querySelectorAll('#kit-edit-form button:not([type="submit"])').forEach(button => {
+                button.setAttribute('type', 'button');
+                
+                // Thêm sự kiện dừng lan truyền và hành vi mặc định
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                });
+            });
+            
+            // Đảm bảo form không tự submit khi nhấn Enter
+            document.getElementById('kit-edit-form').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                }
+            });
+            
+            console.log('Anti page refresh protection enabled for all form buttons.');
         });
     </script>
 </body>
