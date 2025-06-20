@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Đặt lịch xét nghiệm ADN - Genx</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <link rel="stylesheet" href="../static/assets/css/styles.css" />
+    <link rel="stylesheet" href="../static/assets/css/service-pages.css" />
+    <link rel="stylesheet" href="../static/assets/css/header.css" />
+    <link rel="stylesheet" href="../static/assets/css/user-dropdown.css" />
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: #f8f9fa;
+      }
+
+      .content {
+        margin-top: 80px;
+        padding: 40px 20px;
+      }
+
+      .booking-section {
+        max-width: 1200px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        display: grid;
+        grid-template-columns: 40% 60%;
+      }
+
+      .booking-info {
+        color: white;
+        padding: 60px 40px;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        overflow: hidden;
+      }
+
+      .booking-info::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(
+          135deg,
+          rgba(0, 0, 0, 0.5),
+          rgba(0, 0, 0, 0.3)
+        );
+        z-index: 1;
+      }
+
+      .booking-image-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: 0;
+      }
+
+      .booking-info-content {
+        position: relative;
+        z-index: 2;
+        max-width: 450px;
+        background: rgba(0, 0, 0, 0.4);
+        padding: 30px;
+        border-radius: 15px;
+        backdrop-filter: blur(5px);
+      }
+
+      .booking-info h2 {
+        font-size: 2.5em;
+        margin: 0 0 30px;
+        font-weight: 700;
+        line-height: 1.2;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      .booking-info p {
+        font-size: 1.1em;
+        line-height: 1.6;
+        margin-bottom: 40px;
+        opacity: 0.95;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+      }
+
+      .booking-features {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .booking-features li {
+        display: flex;
+        align-items: center;
+        margin-bottom: 25px;
+        font-size: 1.1em;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+      }
+
+      .booking-features i {
+        width: 36px;
+        height: 36px;
+        background: rgba(255, 255, 255, 0.25);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 15px;
+        font-size: 1.1em;
+        backdrop-filter: blur(5px);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      }
+
+      .booking-form {
+        padding: 50px;
+        background: white;
+      }
+
+      .form-group {
+        margin-bottom: 25px;
+      }
+
+      .form-label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        color: #333;
+      }
+
+      .form-control {
+        width: 100%;
+        padding: 12px 15px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 1em;
+        transition: all 0.3s ease;
+        box-sizing: border-box;
+      }
+
+      .form-control:focus {
+        border-color: #2196f3;
+        box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+        outline: none;
+      }
+
+      .radio-group {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+        margin-top: 10px;
+      }
+
+      .radio-label {
+        display: flex;
+        align-items: center;
+        padding: 15px 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        background: white;
+      }
+
+      .radio-label:hover {
+        background: #f8f9fa;
+        border-color: #2196f3;
+      }
+
+      .radio-label input[type="radio"] {
+        margin-right: 10px;
+      }
+
+      .radio-label input[type="radio"]:checked + span {
+        color: #2196f3;
+        font-weight: 500;
+      }
+
+      .info-box {
+        background: #f8f9fa;
+        border-radius: 12px;
+        padding: 20px;
+        margin-top: 20px;
+        border-left: 4px solid #2196f3;
+      }
+
+      .info-box h4 {
+        color: #2196f3;
+        margin: 0 0 15px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 1.1em;
+      }
+
+      .info-box ul {
+        margin: 0;
+        padding-left: 20px;
+        color: #666;
+      }
+
+      .info-box li {
+        margin-bottom: 8px;
+      }
+
+      .submit-btn {
+        background: linear-gradient(135deg, #2196f3, #1976d2);
+        color: white;
+        border: none;
+        padding: 15px 30px;
+        border-radius: 8px;
+        font-size: 1.1em;
+        font-weight: 600;
+        cursor: pointer;
+        width: 100%;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 20px;
+      }
+
+      .submit-btn:hover {
+        background: linear-gradient(135deg, #1976d2, #1565c0);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(33, 150, 243, 0.3);
+      }
+
+      @media (max-width: 768px) {
+        .booking-section {
+          grid-template-columns: 1fr;
+        }
+
+        .booking-info {
+          padding: 40px 20px;
+        }
+
+        .booking-form {
+          padding: 30px 20px;
+        }
+
+        .radio-group {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      .disabled {
+        opacity: 0.5;
+        pointer-events: none;
+        cursor: not-allowed;
+      }
+
+      /* CSS cho Modal Thông Báo */
+      .success-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .success-modal.show {
+        display: flex;
+      }
+
+      .modal-content {
+        background-color: white;
+        padding: 30px;
+        border-radius: 15px;
+        text-align: center;
+        max-width: 400px;
+        width: 90%;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        transform: scale(0.7);
+        opacity: 0;
+        transition: all 0.3s ease;
+      }
+
+      .success-modal.show .modal-content {
+        transform: scale(1);
+        opacity: 1;
+      }
+
+      .success-icon {
+        width: 80px;
+        height: 80px;
+        background-color: #4caf50;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 20px;
+      }
+
+      .success-icon i {
+        color: white;
+        font-size: 40px;
+      }
+
+      .modal-title {
+        color: #333;
+        font-size: 24px;
+        margin-bottom: 15px;
+      }
+
+      .modal-message {
+        color: #666;
+        font-size: 16px;
+        margin-bottom: 25px;
+        line-height: 1.5;
+      }
+
+      .modal-button {
+        background: #4caf50;
+        color: white;
+        border: none;
+        padding: 12px 30px;
+        border-radius: 25px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      .modal-button:hover {
+        background: #45a049;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <header>
+      <div class="header-container">
+        <div class="logo-section">
+          <img src="../static/assets/images/logo.png" alt="Genx Logo" />
+          <div class="brand-text">
+            <h1 class="brand-name">Genx</h1>
+            <p class="brand-description">
+              Trung Tâm Xét Nghiệm ADN Huyết Thống
+            </p>
+          </div>
+        </div>
+        <nav class="nav-links">
+          <a href="/home" class="nav-link active">Trang chủ</a>
+          <a href="/booking" class="nav-link">Đặt lịch xét nghiệm</a>
+          <a href="/services" class="nav-link">Giới thiệu dịch vụ</a>
+          <a href="/knowledge" class="nav-link">Kiến thức ADN</a>
+          <a href="/sampling-guide" class="nav-link">Hướng dẫn lấy mẫu</a>
+          <a href="/login" class="nav-link login-button">Đăng nhập</a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="content">
+      <div class="booking-section">
+        <div class="booking-info">
+          <img
+            src="../static/assets/images/dna-lab.jpg"
+            alt="DNA Testing Lab"
+            class="booking-image-bg"
+          />
+          <div class="booking-info-content">
+            <h2>Đặt lịch xét nghiệm ADN</h2>
+            <p>
+              Điền thông tin của bạn vào form bên cạnh để đặt lịch xét nghiệm
+              ADN. Chúng tôi sẽ liên hệ lại trong thời gian sớm nhất.
+            </p>
+            <ul class="booking-features">
+              <li>
+                <i class="fas fa-shield-alt"></i>
+                <span>Bảo mật thông tin</span>
+              </li>
+              <li>
+                <i class="fas fa-comments"></i>
+                <span>Tư vấn miễn phí</span>
+              </li>
+              <li>
+                <i class="fas fa-clock"></i>
+                <span>Kết quả nhanh chóng</span>
+              </li>
+              <li>
+                <i class="fas fa-user-md"></i>
+                <span>Đội ngũ chuyên nghiệp</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="booking-form">
+          <form id="bookingForm" onsubmit="return handleSubmit(event);">
+            <div class="form-group">
+              <label class="form-label" for="fullName">Họ và tên *</label>
+              <input
+                type="text"
+                id="fullName"
+                class="form-control"
+                placeholder="Nhập họ tên của bạn"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="email">Email *</label>
+              <input
+                type="email"
+                id="email"
+                class="form-control"
+                placeholder="Nhập email của bạn"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="phone">Số điện thoại *</label>
+              <input
+                type="tel"
+                id="phone"
+                class="form-control"
+                placeholder="Nhập số điện thoại liên hệ"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="service">Chọn dịch vụ *</label>
+              <div id="service-select-list">
+                <div class="service-select-item" style="margin-bottom: 8px">
+                  <select
+                    id="service"
+                    name="services[]"
+                    class="form-control service-dropdown"
+                    required
+                  >
+                    <option value="">-- Chọn dịch vụ xét nghiệm --</option>
+                    <option value="father-child">Xét nghiệm cha con</option>
+                    <option value="mother-child">Xét nghiệm mẹ con</option>
+                    <option value="siblings">Xét nghiệm anh chị em</option>
+                    <option value="grandparent">Xét nghiệm ông bà cháu</option>
+                  </select>
+                </div>
+              </div>
+              <button
+                type="button"
+                id="add-service-btn"
+                style="
+                  margin-top: 8px;
+                  margin-bottom: 16px;
+                  padding: 5px 10px;
+                  background-color: #f0f0f0;
+                  border: 1px solid #ddd;
+                  border-radius: 4px;
+                  cursor: pointer;
+                "
+              >
+                <i class="fas fa-plus"></i> Thêm dịch vụ
+              </button>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Dịch vụ xét nghiệm ADN *</label>
+              <div class="radio-group">
+                <label class="radio-label">
+                  <input
+                    type="radio"
+                    name="testType"
+                    value="legal"
+                    required
+                    onchange="handleTestTypeChange(this)"
+                  />
+                  Hành chính (có giá trị pháp lý)
+                </label>
+                <label class="radio-label">
+                  <input
+                    type="radio"
+                    name="testType"
+                    value="personal"
+                    required
+                    onchange="handleTestTypeChange(this)"
+                  />
+                  Dân sự (không có giá trị pháp lý)
+                </label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Phương thức lấy mẫu *</label>
+              <div class="radio-group" id="sampleMethodGroup">
+                <label class="radio-label">
+                  <input
+                    type="radio"
+                    name="sampleCollection"
+                    value="home"
+                    required
+                    onchange="handleSampleMethodChange(this)"
+                  />
+                  Lấy mẫu tại nhà
+                </label>
+                <label class="radio-label">
+                  <input
+                    type="radio"
+                    name="sampleCollection"
+                    value="center"
+                    required
+                    onchange="handleSampleMethodChange(this)"
+                  />
+                  Lấy mẫu tại trung tâm
+                </label>
+              </div>
+            </div>
+
+            <!-- Thông tin bổ sung cho lấy mẫu tại nhà -->
+            <div id="homeCollectionInfo" class="info-box hidden">
+              <h4>
+                <i class="fas fa-shipping-fast"></i> Thông tin gửi kit lấy mẫu
+              </h4>
+              <div class="form-group" style="margin-top: 15px">
+                <label class="form-label" for="address"
+                  >Nhập địa chỉ đầy đủ để gửi kit *</label
+                >
+                <textarea
+                  id="address"
+                  class="form-control"
+                  rows="3"
+                  placeholder="Vui lòng nhập địa chỉ đầy đủ bao gồm: Số nhà, đường, phường/xã, quận/huyện, tỉnh/thành phố"
+                  required
+                ></textarea>
+              </div>
+            </div>
+
+            <!-- Thông tin bổ sung cho lấy mẫu tại trung tâm -->
+            <div id="centerCollectionInfo" class="info-box hidden">
+              <h4>
+                <i class="fas fa-hospital-alt"></i> Thông tin lấy mẫu tại trung
+                tâm
+              </h4>
+              <ul>
+                <li>Địa chỉ: 123 Đường ABC, Quận XYZ, TP.HCM</li>
+              </ul>
+
+              <div class="form-group" style="margin-top: 20px">
+                <label class="form-label" for="appointmentDate"
+                  >Chọn ngày lấy mẫu *</label
+                >
+                <input
+                  type="date"
+                  id="appointmentDate"
+                  class="form-control"
+                  required
+                  min=""
+                  style="margin-bottom: 15px"
+                />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="appointmentTime"
+                  >Chọn giờ lấy mẫu *</label
+                >
+                <select id="appointmentTime" class="form-control" required>
+                  <option value="">-- Chọn giờ --</option>
+                  <option value="08:00">08:00</option>
+                  <option value="09:00">09:00</option>
+                  <option value="10:00">10:00</option>
+                  <option value="11:00">11:00</option>
+                  <option value="13:30">13:30</option>
+                  <option value="14:30">14:30</option>
+                  <option value="15:30">15:30</option>
+                  <option value="16:30">16:30</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="notes"
+                >Ghi chú (không bắt buộc)</label
+              >
+              <textarea
+                id="notes"
+                class="form-control"
+                rows="4"
+                placeholder="Ghi chú thêm (nếu có)"
+              ></textarea>
+            </div>
+
+            <button type="submit" class="submit-btn">
+              <i class="fas fa-calendar-check"></i>
+              Đặt lịch
+            </button>
+          </form>
+        </div>
+      </div>
+    </main>
+
+    <!-- Modal Thông Báo Thành Công -->
+    <div class="success-modal" id="successModal">
+      <div class="modal-content">
+        <div class="success-icon">
+          <i class="fas fa-check"></i>
+        </div>
+        <h3 class="modal-title">Đặt lịch thành công!</h3>
+        <p class="modal-message">
+          Cảm ơn bạn đã đặt lịch. Chúng tôi sẽ liên hệ lại với bạn trong thời
+          gian sớm nhất.
+        </p>
+        <button class="modal-button" onclick="closeSuccessModal()">Đóng</button>
+      </div>
+    </div>
+
+    <script src="/assets/js/auth.js"></script>
+    <script src="/assets/js/main.js"></script>
+    <script>
+      // Tự động điền thông tin user vào form nếu đã đăng nhập
+      function autofillUserInfo() {
+        const authStatus = Auth.checkLoginStatus();
+        if (!authStatus.isLoggedIn || !authStatus.user) return;
+        const user = authStatus.user;
+        // Chỉ điền nếu input còn trống (không ghi đè nếu user đã nhập)
+        if (
+          document.getElementById("fullName") &&
+          !document.getElementById("fullName").value
+        ) {
+          document.getElementById("fullName").value = user.fullName || "";
+        }
+        if (
+          document.getElementById("email") &&
+          !document.getElementById("email").value
+        ) {
+          document.getElementById("email").value = user.email || "";
+        }
+        if (
+          document.getElementById("phone") &&
+          !document.getElementById("phone").value
+        ) {
+          document.getElementById("phone").value = user.phone || "";
+        }
+      }
+
+      function handleTestTypeChange(radio) {
+        const sampleMethodGroup = document.getElementById("sampleMethodGroup");
+        const homeRadio = document.querySelector('input[value="home"]');
+
+        if (radio.value === "legal") {
+          // Nếu chọn hành chính, disable lấy mẫu tại nhà
+          homeRadio.checked = false;
+          homeRadio.parentElement.classList.add("disabled");
+          homeRadio.disabled = true; // Đảm bảo không chọn được
+          document.getElementById("homeCollectionInfo").classList.add("hidden");
+        } else {
+          // Nếu chọn dân sự, enable lại lấy mẫu tại nhà
+          homeRadio.parentElement.classList.remove("disabled");
+          homeRadio.disabled = false;
+        }
+      }
+
+      function handleSampleMethodChange(radio) {
+        // Ẩn tất cả các thông tin bổ sung
+        document.getElementById("homeCollectionInfo").classList.add("hidden");
+        document.getElementById("centerCollectionInfo").classList.add("hidden");
+
+        // Hiện thông tin tương ứng với lựa chọn
+        if (radio.value === "home") {
+          document
+            .getElementById("homeCollectionInfo")
+            .classList.remove("hidden");
+          document.getElementById("address").required = true;
+          document.getElementById("appointmentDate").required = false;
+          document.getElementById("appointmentTime").required = false;
+        } else if (radio.value === "center") {
+          document
+            .getElementById("centerCollectionInfo")
+            .classList.remove("hidden");
+          document.getElementById("address").required = false;
+          document.getElementById("appointmentDate").required = true;
+          document.getElementById("appointmentTime").required = true;
+        }
+      }
+
+      // Set min date là ngày hiện tại
+      const today = new Date().toISOString().split("T")[0];
+      document.getElementById("appointmentDate").min = today;
+
+      function handleSubmit(event) {
+        event.preventDefault(); // Ngăn chặn form submit mặc định
+        console.log("Form submitted"); // Debug log
+
+        // Kiểm tra các trường bắt buộc
+        const fullName = document.getElementById("fullName").value;
+        const email = document.getElementById("email").value;
+        const phone = document.getElementById("phone").value;
+        const service = document.getElementById("service").value;
+
+        if (!fullName || !email || !phone || !service) {
+          alert("Vui lòng điền đầy đủ thông tin bắt buộc");
+          return false;
+        }
+
+        // Kiểm tra radio button cho loại dịch vụ
+        const testType = document.querySelector(
+          'input[name="testType"]:checked'
+        );
+        if (!testType) {
+          alert("Vui lòng chọn loại dịch vụ xét nghiệm ADN");
+          return false;
+        }
+
+        // Kiểm tra phương thức lấy mẫu
+        const sampleMethod = document.querySelector(
+          'input[name="sampleCollection"]:checked'
+        );
+        if (!sampleMethod) {
+          alert("Vui lòng chọn phương thức lấy mẫu");
+          return false;
+        }
+
+        // Kiểm tra thông tin bổ sung dựa trên phương thức lấy mẫu
+        if (sampleMethod.value === "home") {
+          const address = document.getElementById("address").value.trim();
+          if (!address) {
+            alert("Vui lòng nhập địa chỉ lấy mẫu");
+            document.getElementById("address").focus();
+            return false;
+          }
+        } else if (sampleMethod.value === "center") {
+          const date = document.getElementById("appointmentDate").value;
+          const time = document.getElementById("appointmentTime").value;
+          if (!date || !time) {
+            alert("Vui lòng chọn ngày và giờ lấy mẫu");
+            return false;
+          }
+        }
+
+        console.log("Validation passed, showing success modal"); // Debug log
+
+        // Hiển thị modal thông báo thành công
+        showSuccessModal();
+
+        // Reset form và ẩn các thông tin bổ sung
+        setTimeout(() => {
+          event.target.reset();
+          document.getElementById("homeCollectionInfo").classList.add("hidden");
+          document
+            .getElementById("centerCollectionInfo")
+            .classList.add("hidden");
+        }, 100);
+
+        return false; // Ngăn chặn form submit
+      }
+
+      // Hàm hiển thị modal thông báo thành công
+      function showSuccessModal() {
+        console.log("Showing success modal"); // Debug log
+        const modal = document.getElementById("successModal");
+        if (!modal) {
+          console.error("Success modal not found!"); // Debug log
+          return;
+        }
+        modal.classList.add("show");
+        setTimeout(() => {
+          const modalContent = modal.querySelector(".modal-content");
+          if (modalContent) {
+            modalContent.style.transform = "scale(1)";
+            modalContent.style.opacity = "1";
+          }
+        }, 10);
+      }
+
+      // Hàm đóng modal thông báo
+      function closeSuccessModal() {
+        console.log("Closing success modal"); // Debug log
+        const modal = document.getElementById("successModal");
+        if (!modal) return;
+        const modalContent = modal.querySelector(".modal-content");
+        if (modalContent) {
+          modalContent.style.transform = "scale(0.7)";
+          modalContent.style.opacity = "0";
+        }
+        setTimeout(() => {
+          modal.classList.remove("show");
+        }, 300);
+      }
+
+      // Hàm lấy tham số từ URL
+      function getUrlParameter(name) {
+        name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+        var regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
+        var results = regex.exec(location.search);
+        return results === null
+          ? ""
+          : decodeURIComponent(results[1].replace(/\+/g, " "));
+      }
+
+      // Khi trang tải xong
+      document.addEventListener("DOMContentLoaded", function () {
+        // Lấy tham số service từ URL
+        var selectedService = getUrlParameter("service");
+
+        // Nếu có tham số service
+        if (selectedService) {
+          // Tìm select element
+          var serviceSelect = document.getElementById("service");
+          if (serviceSelect) {
+            // Map các giá trị từ URL sang giá trị trong select
+            var serviceMap = {
+              "father-child": "Xét nghiệm cha con",
+              "mother-child": "Xét nghiệm mẹ con",
+              siblings: "Xét nghiệm anh chị em",
+              grandparent: "Xét nghiệm ông bà cháu",
+            };
+
+            // Chọn option tương ứng
+            if (serviceMap[selectedService]) {
+              for (var i = 0; i < serviceSelect.options.length; i++) {
+                if (
+                  serviceSelect.options[i].text === serviceMap[selectedService]
+                ) {
+                  serviceSelect.selectedIndex = i;
+                  // Trigger change event để cập nhật form
+                  var event = new Event("change");
+                  serviceSelect.dispatchEvent(event);
+                  break;
+                }
+              }
+            }
+          }
+        }
+      });
+
+      // Thêm chức năng để thêm dropdown dịch vụ mới
+      document.addEventListener("DOMContentLoaded", function () {
+        const addServiceBtn = document.getElementById("add-service-btn");
+        const serviceSelectList = document.getElementById(
+          "service-select-list"
+        );
+
+        if (addServiceBtn && serviceSelectList) {
+          addServiceBtn.addEventListener("click", function () {
+            // Tạo dropdown mới
+            const newItem = document.createElement("div");
+            newItem.className = "service-select-item";
+            newItem.style.marginBottom = "8px";
+            newItem.innerHTML = `
+              <select name="services[]" class="form-control service-dropdown" required>
+                <option value="">-- Chọn dịch vụ xét nghiệm --</option>
+                <option value="father-child">Xét nghiệm cha con</option>
+                <option value="mother-child">Xét nghiệm mẹ con</option>
+                <option value="siblings">Xét nghiệm anh chị em</option>
+                <option value="grandparent">Xét nghiệm ông bà cháu</option>
+              </select>
+              <button type="button" class="remove-service-btn" style="margin-left: 5px; color: red; background: none; border: none; cursor: pointer;">
+                <i class="fas fa-times"></i>
+              </button>
+            `;
+
+            // Thêm dropdown mới vào danh sách
+            serviceSelectList.appendChild(newItem);
+
+            // Thêm sự kiện xóa cho nút xóa
+            const removeBtn = newItem.querySelector(".remove-service-btn");
+            if (removeBtn) {
+              removeBtn.addEventListener("click", function () {
+                newItem.remove();
+              });
+            }
+          });
+        }
+      });
+    </script>
+  </body>
+</html>
