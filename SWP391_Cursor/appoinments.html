@@ -1562,7 +1562,7 @@
               </button>
               ${
                 a.status === "Đã trả kết quả"
-                  ? `<button onclick="alert('Xem kết quả lịch hẹn ${a.id}')" 
+                  ? `<button onclick="showResultModal('${a.id}')" 
                       class="btn btn-success">
                       <i class='fas fa-file-medical-alt'></i> Xem kết quả
                     </button>`
@@ -1890,6 +1890,112 @@
         document.addEventListener("DOMContentLoaded", function () {
           renderAppointments();
         });
+
+        // Dữ liệu mẫu kết quả xét nghiệm
+        const testResults = {
+          'AP001': {
+            customerName: 'Nguyễn Văn A',
+            testDate: '2025-06-10',
+            completedDate: '2025-06-15',
+            services: [
+              {
+                name: 'Xét nghiệm ADN cha-con',
+                type: 'Dân sự',
+                probability: '99.99%',
+                conclusion: 'Kết quả xét nghiệm ADN cho thấy mối quan hệ cha-con giữa hai người được xét nghiệm là DƯƠNG TÍNH với độ chính xác 99.99%.',
+                pdfUrl: 'results/AP001-1.pdf'
+              },
+              {
+                name: 'Xét nghiệm ADN cha-con',
+                type: 'Hành chính',
+                probability: '99.99%',
+                conclusion: 'Kết quả xét nghiệm ADN cho thấy mối quan hệ cha-con giữa hai người được xét nghiệm là DƯƠNG TÍNH với độ chính xác 99.99%.',
+                pdfUrl: 'results/AP001-2.pdf'
+              }
+            ]
+          },
+          'AP005': {
+            customerName: 'Hoàng Văn E',
+            testDate: '2025-06-03',
+            completedDate: '2025-06-08',
+            services: [
+              {
+                name: 'Xét nghiệm ADN mẹ-con',
+                type: 'Dân sự',
+                probability: '99.99%',
+                conclusion: 'Kết quả xét nghiệm ADN cho thấy mối quan hệ mẹ-con giữa hai người được xét nghiệm là DƯƠNG TÍNH với độ chính xác 99.99%.',
+                pdfUrl: 'results/AP005.pdf'
+              }
+            ]
+          }
+        };
+
+        // Hàm hiển thị modal kết quả
+        function showResultModal(appointmentId) {
+          const result = testResults[appointmentId];
+          if (!result) {
+            alert('Không tìm thấy kết quả xét nghiệm cho lịch hẹn này.');
+            return;
+          }
+
+          const modal = document.getElementById('resultModal');
+          const resultInfo = document.getElementById('resultInfo');
+          const resultServicesList = document.getElementById('resultServicesList');
+
+          // Render thông tin cơ bản
+          resultInfo.innerHTML = `
+            <strong>Tên khách hàng:</strong>
+            <span>${result.customerName}</span>
+            
+            <strong>Mã lịch hẹn:</strong>
+            <span>${appointmentId}</span>
+            
+            <strong>Ngày xét nghiệm:</strong>
+            <span>${result.testDate}</span>
+            
+            <strong>Ngày có kết quả:</strong>
+            <span>${result.completedDate}</span>
+          `;
+
+          // Render danh sách dịch vụ và kết quả
+          resultServicesList.innerHTML = result.services.map(service => `
+            <div class="result-service-item">
+              <div class="result-service-header">
+                <div class="result-service-title">${service.name} (${service.type})</div>
+                <div class="result-service-probability">Độ chính xác: ${service.probability}</div>
+              </div>
+              <div class="result-service-conclusion">${service.conclusion}</div>
+              <div class="result-service-actions">
+                <button class="btn btn-primary" onclick="window.open('${service.pdfUrl}', '_blank')">
+                  <i class="fas fa-file-pdf"></i> Xem PDF kết quả
+                </button>
+              </div>
+            </div>
+          `).join('');
+
+          // Hiển thị modal với animation
+          modal.style.display = 'flex';
+          setTimeout(() => {
+            modal.classList.add('show');
+          }, 10);
+        }
+
+        // Hàm đóng modal
+        function closeResultModal() {
+          const modal = document.getElementById('resultModal');
+          modal.classList.remove('show');
+          setTimeout(() => {
+            modal.style.display = 'none';
+          }, 300);
+        }
+
+        // Đóng modal khi click ra ngoài
+        window.onclick = function(event) {
+          const modal = document.getElementById('resultModal');
+          if (event.target == modal) {
+            closeResultModal();
+          }
+        }
       </script>
     </div>
     <!-- Script kiểm tra đăng nhập đã được loại bỏ vì không cần thiết khi không có sidebar -->
@@ -2020,8 +2126,118 @@
         </div>
       </div>
     </footer>
+
+    <!-- Modal xem kết quả -->
+    <div id="resultModal" class="modal" style="display: none;">
+      <div class="modal-content" style="max-width: 800px; width: 90%;">
+        <div class="modal-header">
+          <div class="modal-title">Kết quả xét nghiệm ADN</div>
+          <button class="modal-close" onclick="closeResultModal()">×</button>
+        </div>
+        
+        <div id="resultInfo" class="result-info">
+          <!-- Thông tin sẽ được render bằng JavaScript -->
+        </div>
+
+        <div class="result-services">
+          <h4 style="color: #2196f3; margin: 20px 0; display: flex; align-items: center; gap: 8px;">
+            <i class="fas fa-list-ul"></i> Danh sách dịch vụ
+          </h4>
+          <div id="resultServicesList">
+            <!-- Danh sách dịch vụ sẽ được render bằng JavaScript -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <style>
+      /* Modal styles */
+      .modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+      }
+
+      .modal.show {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .modal-content {
+        background: white;
+        border-radius: 16px;
+        padding: 25px;
+        position: relative;
+        transform: translateY(-20px);
+        transition: all 0.3s ease;
+        max-height: 90vh;
+        overflow-y: auto;
+      }
+
+      .modal.show .modal-content {
+        transform: translateY(0);
+      }
+
+      .result-info {
+        display: grid;
+        grid-template-columns: 140px 1fr;
+        gap: 12px;
+        margin-bottom: 25px;
+      }
+
+      .result-info strong {
+        color: #666;
+      }
+
+      .result-service-item {
+        background: #f8f9fa;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 12px;
+      }
+
+      .result-service-item:hover {
+        background: #f1f3f5;
+      }
+
+      .result-service-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+
+      .result-service-title {
+        font-weight: 600;
+        color: #333;
+      }
+
+      .result-service-probability {
+        color: #2196f3;
+        font-weight: 500;
+      }
+
+      .result-service-conclusion {
+        color: #666;
+        font-size: 0.95em;
+        line-height: 1.5;
+      }
+
+      .result-service-actions {
+        margin-top: 12px;
+        display: flex;
+        gap: 10px;
+      }
+    </style>
   </body>
 </html>
-< ! - -   T e s t   c h a n g e   - - > 
- 
- 
