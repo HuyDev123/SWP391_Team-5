@@ -21,46 +21,68 @@
         display: flex;
         min-height: 100vh;
         background-color: #f5f5f5;
-      }
-
-      /* Sidebar styles */
+      }      /* Sidebar styles with glassmorphism */
       .sidebar {
-        width: 260px;
-        background-color: white;
-        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+        width: 280px;
+        background: linear-gradient(135deg, 
+          rgba(255, 255, 255, 0.95), 
+          rgba(255, 255, 255, 0.85)
+        );
+        backdrop-filter: blur(20px);
+        border-right: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 
+          0 8px 32px rgba(0, 0, 0, 0.1),
+          inset 0 1px 0 rgba(255, 255, 255, 0.5);
         position: fixed;
         height: 100vh;
         left: 0;
         top: 0;
         z-index: 100;
         overflow-y: auto;
-      }
-
-      .logo-container {
+        transition: all 0.3s ease;
+      }      .logo-container {
         display: flex;
         align-items: center;
-        padding: 15px;
-        border-bottom: 1px solid #eee;
+        padding: 20px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        background: linear-gradient(135deg, 
+          rgba(33, 150, 243, 0.1), 
+          rgba(33, 150, 243, 0.05)
+        );
+        margin: 15px 15px 20px 15px;
+        border-radius: 16px;
+        backdrop-filter: blur(10px);
       }
 
       .logo {
-        width: 40px;
-        height: 40px;
-        margin-right: 10px;
+        width: 45px;
+        height: 45px;
+        margin-right: 12px;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
       }
 
       .logo-text {
-        font-size: 22px;
-        color: #2196f3;
-        font-weight: bold;
-      }
-
-      .login-register {
+        font-size: 24px;
+        background: linear-gradient(135deg, #2196f3, #1976d2);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        font-weight: 700;
+        text-shadow: 0 2px 10px rgba(33, 150, 243, 0.3);
+      }      .login-register {
         padding: 20px;
-        background: linear-gradient(145deg, #ffffff, #f5f5f5);
-        border-bottom: 1px solid #eee;
-        border-radius: 12px;
+        background: linear-gradient(135deg, 
+          rgba(255, 255, 255, 0.8), 
+          rgba(245, 245, 245, 0.6)
+        );
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 16px;
         margin: 15px;
+        backdrop-filter: blur(15px);
+        box-shadow: 
+          0 8px 25px rgba(0, 0, 0, 0.1),
+          inset 0 1px 0 rgba(255, 255, 255, 0.6);
       }
 
       /* Login buttons container */
@@ -78,81 +100,164 @@
 
       .logout-btn i {
         font-size: 16px;
+      }      .menu-title {
+        padding: 20px 20px 10px 20px;
+        color: #666;
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        position: relative;
       }
 
-      .menu-title {
-        padding: 15px;
-        color: #888;
-        font-size: 14px;
-        font-weight: 500;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
+      .menu-title::after {
+        content: '';
+        position: absolute;
+        bottom: 5px;
+        left: 20px;
+        width: 30px;
+        height: 2px;
+        background: linear-gradient(90deg, #2196f3, #64b5f6);
+        border-radius: 1px;
       }
 
       #mainMenu {
-        padding: 10px;
+        padding: 10px 15px;
       }
 
       .menu-item {
-        padding: 12px 15px;
+        padding: 14px 16px;
         display: flex;
         align-items: center;
-        color: #333;
+        color: #555;
         text-decoration: none;
-        border-radius: 8px;
-        margin-bottom: 5px;
-        transition: all 0.3s ease;
+        border-radius: 12px;
+        margin-bottom: 6px;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        position: relative;
+        overflow: hidden;
+        font-weight: 500;
+      }
+
+      .menu-item::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, 
+          transparent, 
+          rgba(33, 150, 243, 0.1), 
+          transparent
+        );
+        transition: left 0.6s ease;
+      }
+
+      .menu-item:hover::before {
+        left: 100%;
       }
 
       .menu-item:hover {
-        background-color: #e3f2fd;
+        background: linear-gradient(135deg, 
+          rgba(33, 150, 243, 0.1), 
+          rgba(33, 150, 243, 0.05)
+        );
         color: #2196f3;
+        transform: translateX(8px);
+        box-shadow: 0 4px 20px rgba(33, 150, 243, 0.2);
       }
 
       .menu-item.active {
-        background-color: #2196f3;
+        background: linear-gradient(135deg, #2196f3, #1976d2);
         color: white;
+        transform: translateX(8px);
+        box-shadow: 
+          0 8px 25px rgba(33, 150, 243, 0.4),
+          0 0 0 1px rgba(255, 255, 255, 0.1);
       }
 
       .menu-icon {
-        width: 35px;
-        height: 35px;
+        width: 40px;
+        height: 40px;
         display: flex;
         align-items: center;
         justify-content: center;
-        margin-right: 12px;
-        border-radius: 8px;
-        background-color: rgba(33, 150, 243, 0.1);
+        margin-right: 14px;
+        border-radius: 10px;
+        background: linear-gradient(135deg, 
+          rgba(33, 150, 243, 0.15), 
+          rgba(33, 150, 243, 0.08)
+        );
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .menu-icon::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        background: radial-gradient(circle, 
+          rgba(255, 255, 255, 0.3), 
+          transparent 70%
+        );
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
         transition: all 0.3s ease;
       }
 
       .menu-item:hover .menu-icon {
-        background-color: white;
+        background: linear-gradient(135deg, 
+          rgba(255, 255, 255, 0.9), 
+          rgba(255, 255, 255, 0.7)
+        );
+        transform: scale(1.1) rotate(5deg);
+        box-shadow: 0 6px 20px rgba(33, 150, 243, 0.3);
+      }
+
+      .menu-item:hover .menu-icon::after {
+        width: 30px;
+        height: 30px;
       }
 
       .menu-item.active .menu-icon {
-        background-color: rgba(255, 255, 255, 0.2);
+        background: linear-gradient(135deg, 
+          rgba(255, 255, 255, 0.3), 
+          rgba(255, 255, 255, 0.1)
+        );
+        transform: scale(1.05);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
       }
 
       .menu-icon i {
         font-size: 18px;
-        transition: transform 0.3s ease;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        z-index: 1;
+        position: relative;
       }
 
       .menu-item:hover .menu-icon i {
-        transform: scale(1.1);
+        transform: scale(1.2);
         color: #2196f3;
       }
 
       .menu-item.active .menu-icon i {
         color: white;
-      }
-
-      /* Main content styles */
+        transform: scale(1.1);
+      }      /* Main content styles */
       .main-content {
-        margin-left: 260px;
-        padding: 20px;
-        width: calc(100% - 260px);
+        margin-left: 280px;
+        padding: 25px;
+        width: calc(100% - 280px);
+        min-height: 100vh;
+        background: linear-gradient(135deg, 
+          #f5f7fa 0%, 
+          #c3cfe2 100%
+        );
       }
 
       header {
@@ -934,9 +1039,8 @@
             Đăng xuất
           </button>
         </div>
-      </div>
-
-      <div class="menu-title">MAIN MENU</div>
+      </div> 
+           <div class="menu-title">MAIN MENU</div>
       <div id="mainMenu">
         <a href="index.html" class="menu-item active">
           <span class="menu-icon"><i class="fas fa-home"></i></span>
@@ -944,7 +1048,7 @@
         </a>
 
         <a href="booking.html" class="menu-item">
-          <span class="menu-icon"><i class="fas fa-notes-medical"></i></span>
+          <span class="menu-icon"><i class="fas fa-calendar-plus"></i></span>
           Đặt lịch xét nghiệm
         </a>
 
@@ -955,7 +1059,22 @@
 
         <a href="list-kit.html" class="menu-item">
           <span class="menu-icon"><i class="fas fa-vials"></i></span>
-          Danh sách kít xét nghiệm
+          Danh sách kit xét nghiệm
+        </a>
+
+        <a href="participants-management.html" class="menu-item">
+          <span class="menu-icon"><i class="fas fa-users"></i></span>
+          Quản lý người tham gia
+        </a>
+
+        <a href="sample-management.html" class="menu-item">
+          <span class="menu-icon"><i class="fas fa-flask"></i></span>
+          Quản lý mẫu xét nghiệm
+        </a>
+
+        <a href="results-management.html" class="menu-item">
+          <span class="menu-icon"><i class="fas fa-chart-line"></i></span>
+          Quản lý kết quả xét nghiệm
         </a>
       </div>
     </div>
