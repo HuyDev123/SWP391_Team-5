@@ -14,11 +14,11 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
     />
-    <link rel="stylesheet" href="../static/assets/css/styles.css" />
-    <link rel="stylesheet" href="../static/assets/css/header.css" />
-    <link rel="stylesheet" href="../static/assets/css/footer.css" />
-    <link rel="stylesheet" href="../static/assets/css/service-pages.css" />
-    <link rel="stylesheet" href="../static/assets/css/user-dropdown.css" />
+    <link rel="stylesheet" href="/assets/css/styles.css" />
+    <link rel="stylesheet" href="/assets/css/header.css" />
+    <link rel="stylesheet" href="/assets/css/footer.css" />
+    <link rel="stylesheet" href="/assets/css/service-pages.css" />
+    <link rel="stylesheet" href="/assets/css/user-dropdown.css" />
     <style>
       body {
         margin: 0;
@@ -32,7 +32,7 @@
 
       .services-hero {
         background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-          url("../static/assets/images/dna-hero-bg.jpg") center/cover no-repeat;
+          url("/assets/images/dna-hero-bg.jpg") center/cover no-repeat;
         position: relative;
         color: white;
         padding: 100px 0;
@@ -502,30 +502,35 @@
     </style>
   </head>
   <body>
-    <!-- Header -->
-    <header>
-      <div class="header-container">
-        <div class="logo-section">
-          <img src="../static/assets/images/logo.png" alt="Genx Logo" />
-          <div class="brand-text">
-            <h1 class="brand-name">Genx</h1>
-            <p class="brand-description">
-              Trung Tâm Xét Nghiệm ADN Huyết Thống
-            </p>
-          </div>
+  <script th:inline="javascript">
+    /*<![CDATA[*/
+    window.serverUser = /*[[${session.user}]]*/ null;
+    /*]]>*/
+  </script>
+  <!-- Header -->
+  <header>
+    <div class="header-container">
+      <div class="logo-section">
+        <img src="/assets/images/logo.png" alt="Genx Logo" />
+        <div class="brand-text">
+          <h1 class="brand-name">Genx</h1>
+          <p class="brand-description">
+            Trung Tâm Xét Nghiệm ADN Huyết Thống
+          </p>
         </div>
-        <nav class="nav-links">
-          <a href="/home" class="nav-link active">Trang chủ</a>
-          <a href="/booking" class="nav-link">Đặt lịch xét nghiệm</a>
-          <a href="/services" class="nav-link">Giới thiệu dịch vụ</a>
-          <a href="/knowledge" class="nav-link">Kiến thức ADN</a>
-          <a href="/sampling-guide" class="nav-link">Hướng dẫn lấy mẫu</a>
-          <a href="/login" class="nav-link login-button">Đăng nhập</a>
-        </nav>
       </div>
-    </header>
+      <nav class="nav-links">
+        <a href="/home" class="nav-link">Trang chủ</a>
+        <a href="/booking" class="nav-link">Đặt lịch xét nghiệm</a>
+        <a href="/services" class="nav-link active">Giới thiệu dịch vụ</a>
+        <a href="/knowledge" class="nav-link">Kiến thức ADN</a>
+        <a href="/sampling-guide" class="nav-link">Hướng dẫn lấy mẫu</a>
+        <a href="/login" class="nav-link login-button">Đăng nhập</a>
+      </nav>
+    </div>
+  </header>
 
-    <!-- Main Content -->
+  <!-- Main Content -->
     <main class="content">
       <!-- Services Hero -->
       <div class="services-hero">
@@ -544,7 +549,7 @@
           <div
             class="service-card"
             style="
-              background-image: url('../static/assets/images/father-child-banner.jpg');
+              background-image: url('/assets/images/father-child-banner.jpg');
             "
           >
             <h3 class="service-title">Xét nghiệm ADN</h3>
@@ -561,7 +566,7 @@
                 <li>Độ chính xác 99.99%.</li>
               </ul>
             </div>
-            <a href="booking.html?service=father-child" class="register-button"
+            <a href="/booking?service=father-child" class="register-button"
               >ĐẶT LỊCH NGAY</a
             >
           </div>
@@ -569,7 +574,7 @@
           <div
             class="service-card"
             style="
-              background-image: url('../static/assets/images/mother-child-banner.jpg');
+              background-image: url('/assets/images/mother-child-banner.jpg');
             "
           >
             <h3 class="service-title">Xét nghiệm ADN</h3>
@@ -593,7 +598,7 @@
 
           <div
             class="service-card"
-            style="background-image: url('../static/assets/images/siblings-banner.jpg')"
+            style="background-image: url('/assets/images/siblings-banner.jpg')"
           >
             <h3 class="service-title">Xét nghiệm ADN</h3>
             <h4 class="service-subtitle">Anh Chị Em</h4>
@@ -617,7 +622,7 @@
           <div
             class="service-card"
             style="
-              background-image: url('../static/assets/images/grandparent-banner.jpg');
+              background-image: url('/assets/images/grandparent-banner.jpg');
             "
           >
             <h3 class="service-title">Xét nghiệm ADN</h3>
@@ -646,14 +651,14 @@
           <div class="promotion-single">
             <div class="promotion-card">
               <img
-                src="../static/assets/images/promotion-1.jpg"
+                src="/assets/images/promotion-1.jpg"
                 alt="Ưu đãi xét nghiệm ADN"
               />
             </div>
           </div>
-          <a href="booking.html" class="register-promotion"
-            >ĐĂNG KÝ NGAY ĐỂ NHẬN ƯU ĐÃI</a
-          >
+          <a href="/booking" class="register-promotion">
+            ĐĂNG KÝ NGAY ĐỂ NHẬN ƯU ĐÃI
+          </a>
         </div>
 
         <!-- Pricing Section -->
@@ -892,64 +897,5 @@
 
     <script src="/assets/js/auth.js"></script>
     <script src="/assets/js/main.js"></script>
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        updateAuthUI();
-      });
-      function updateAuthUI() {
-        const loginButton = document.querySelector(".nav-link.login-button");
-        const registerBtn = document.querySelector(
-          ".quick-contact-btn.register"
-        );
-        const authStatus = Auth.checkLoginStatus();
-
-        if (authStatus.isLoggedIn) {
-          const user = authStatus.user;
-          const defaultAvatar = "assets/images/user-avatar.jpg";
-          loginButton.innerHTML = `
-            <div class="user-dropdown">
-              <span class="user-name">
-                <img src="${user.avatar || defaultAvatar}" alt="Avatar" class="user-avatar">
-                ${user.fullName || "Người dùng"}
-                <i class="fas fa-caret-down"></i>
-              </span>
-              <div class="dropdown-content">
-                <a href="newprofile.html">Tài khoản</a>
-                <a href="appoinments.html">Lịch hẹn</a>
-                <a href="historytest.html">Lịch sử xét nghiệm</a>
-                <a href="#" onclick="handleLogout(); return false;">Đăng xuất</a>
-              </div>
-            </div>
-          `;
-          loginButton.classList.add("logged-in");
-          loginButton.removeAttribute("href");
-          if (registerBtn) {
-            registerBtn.setAttribute("href", "newprofile.html");
-            registerBtn.querySelector("span").textContent = "Tài khoản";
-          }
-        } else {
-          loginButton.innerHTML = "Đăng nhập";
-          loginButton.classList.remove("logged-in");
-          loginButton.setAttribute("href", "login.html");
-          if (registerBtn) {
-            registerBtn.setAttribute("href", "login.html");
-            registerBtn.querySelector("span").textContent = "Đăng ký";
-          }
-        }
-      }
-      function handleLogout() {
-        if (confirm("Bạn có chắc chắn muốn đăng xuất?")) {
-          Auth.logout()
-            .then(() => {
-              updateAuthUI();
-              alert("Đăng xuất thành công!");
-              window.location.reload();
-            })
-            .catch((error) => {
-              alert("Có lỗi xảy ra khi đăng xuất.");
-            });
-        }
-      }
-    </script>
   </body>
 </html>

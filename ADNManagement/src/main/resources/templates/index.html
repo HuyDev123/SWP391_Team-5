@@ -8,9 +8,9 @@
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
   />
-  <link rel="stylesheet" href="assets/css/styles.css" />
-  <link rel="stylesheet" href="assets/css/header.css" />
-  <link rel="stylesheet" href="assets/css/footer.css" />
+  <link rel="stylesheet" href="/assets/css/styles.css" />
+  <link rel="stylesheet" href="/assets/css/header.css" />
+  <link rel="stylesheet" href="/assets/css/footer.css" />
   <style>
     /* Reset and base styles */
     * {
@@ -855,7 +855,6 @@
 <body>
 <script th:inline="javascript">
   /*<![CDATA[*/
-  // Pass user data from Spring model to JavaScript
   window.serverUser = /*[[${session.user}]]*/ null;
   /*]]>*/
 </script>
@@ -1019,7 +1018,7 @@
             Khẳng định quan hệ huyết thống cha con với độ chính xác tuyệt
             đối
           </p>
-          <a href="services.html" class="cta-button">TÌM HIỂU THÊM</a>
+          <a href="/services" class="cta-button">TÌM HIỂU THÊM</a>
         </div>
       </div>
 
@@ -1032,7 +1031,7 @@
         <div class="banner-overlay">
           <h3>Xét Nghiệm ADN Mẹ Con</h3>
           <p>Xác định chính xác mối quan hệ mẹ con qua xét nghiệm ADN</p>
-          <a href="services.html" class="cta-button">TÌM HIỂU THÊM</a>
+          <a href="/services" class="cta-button">TÌM HIỂU THÊM</a>
         </div>
       </div>
 
@@ -1045,7 +1044,7 @@
         <div class="banner-overlay">
           <h3>Xét Nghiệm ADN Anh Chị Em</h3>
           <p>Xác định mối quan hệ huyết thống giữa anh chị em ruột</p>
-          <a href="services.html" class="cta-button">TÌM HIỂU THÊM</a>
+          <a href="/services" class="cta-button">TÌM HIỂU THÊM</a>
         </div>
       </div>
 
@@ -1058,7 +1057,7 @@
         <div class="banner-overlay">
           <h3>Xét Nghiệm ADN Ông Bà Cháu</h3>
           <p>Xác định chính xác mối quan hệ huyết thống ông bà và cháu</p>
-          <a href="services.html" class="cta-button">TÌM HIỂU THÊM</a>
+          <a href="/services" class="cta-button">TÌM HIỂU THÊM</a>
         </div>
       </div>
     </div>
@@ -1085,7 +1084,7 @@
           <span>Ứng dụng Y học</span>
         </div>
       </div>
-      <a href="knowledge.html" class="knowledge-cta">Khám phá ngay <i class="fas fa-arrow-right"></i></a>
+      <a href="/knowledge" class="knowledge-cta">Khám phá ngay <i class="fas fa-arrow-right"></i></a>
     </div>
     <div class="knowledge-teaser-image">
       <img src="/assets/images/dna-knowledge.jpg" alt="Kiến thức ADN">
@@ -1158,10 +1157,10 @@
     <div class="footer-links">
       <h4>Dịch Vụ</h4>
       <ul>
-        <li><a href="services.html">Xét nghiệm ADN Cha Con</a></li>
-        <li><a href="services.html">Xét nghiệm ADN Mẹ Con</a></li>
-        <li><a href="services.html">Xét nghiệm ADN Anh Chị Em</a></li>
-        <li><a href="services.html">Xét nghiệm ADN Ông Bà Cháu</a></li>
+        <li><a href="/services">Xét nghiệm ADN Cha Con</a></li>
+        <li><a href="/services">Xét nghiệm ADN Mẹ Con</a></li>
+        <li><a href="/services">Xét nghiệm ADN Anh Chị Em</a></li>
+        <li><a href="/services">Xét nghiệm ADN Ông Bà Cháu</a></li>
       </ul>
     </div>
 
@@ -1169,9 +1168,9 @@
     <div class="footer-links">
       <h4>Hỗ Trợ</h4>
       <ul>
-        <li><a href="sample-collection.html">Hướng dẫn lấy mẫu</a></li>
-        <li><a href="knowledge.html">Quy trình xét nghiệm</a></li>
-        <li><a href="knowledge.html">Câu hỏi thường gặp</a></li>
+        <li><a href="/sampling-guide">Hướng dẫn lấy mẫu</a></li>
+        <li><a href="/knowledge">Quy trình xét nghiệm</a></li>
+        <li><a href="/knowledge">Câu hỏi thường gặp</a></li>
         <li><a href="https://gentis.vn/chinh_sach_bao_mat/">Chính sách bảo mật</a></li>
       </ul>
     </div>
