@@ -15,12 +15,6 @@
     <link rel="stylesheet" href="assets/css/footer.css" />
     <link rel="stylesheet" href="assets/css/user-dropdown.css" />
     <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: Arial, sans-serif;
-      }
       body {
         min-height: 100vh;
         background-color: #f5f5f5;
@@ -577,7 +571,7 @@
         background: linear-gradient(45deg, #0d47a1, #1976d2);
         color: rgb(255, 255, 255);
         font-weight: 600;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
       }
 
       th {
@@ -587,19 +581,19 @@
         font-size: 14px;
         letter-spacing: 0.5px;
         border: none !important;
-        text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
         color: #ffffff;
         position: relative;
       }
 
       th:after {
-        content: '';
+        content: "";
         position: absolute;
         bottom: 0;
         left: 0;
         width: 100%;
         height: 1px;
-        background: rgba(255,255,255,0.3);
+        background: rgba(255, 255, 255, 0.3);
       }
 
       tbody tr {
@@ -767,7 +761,7 @@
           flex-wrap: wrap;
           gap: 12px;
         }
-        
+
         .form-group {
           flex: 1 1 calc(33.333% - 12px);
           min-width: 200px;
@@ -1144,8 +1138,24 @@
     <!-- Main Content -->
     <div class="main-content">
       <!-- Phần cần code -->
-      <h1 style="margin-bottom: 20px; color: #0288d1; font-size: 32px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 3px solid #0288d1; padding-bottom: 10px; display: flex; align-items: center;">
-        <i class="fas fa-calendar-check" style="margin-right: 15px; font-size: 36px;"></i>
+      <h1
+        style="
+          margin-bottom: 20px;
+          color: #0288d1;
+          font-size: 32px;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          border-bottom: 3px solid #0288d1;
+          padding-bottom: 10px;
+          display: flex;
+          align-items: center;
+        "
+      >
+        <i
+          class="fas fa-calendar-check"
+          style="margin-right: 15px; font-size: 36px"
+        ></i>
         Danh sách lịch hẹn xét nghiệm ADN
       </h1>
       <div class="instruction-container" style="margin-top: 10px">
@@ -1313,13 +1323,13 @@
               {
                 service: serviceNames[0].name,
                 serviceType: serviceNames[0].type,
-                price: 4500000
+                price: 4500000,
               },
               {
                 service: serviceNames[1].name,
                 serviceType: serviceNames[1].type,
-                price: 5500000
-              }
+                price: 5500000,
+              },
             ],
             bookingDate: "2025-06-03",
             appointmentDateTime: "2025-06-10 09:30",
@@ -1336,8 +1346,8 @@
               {
                 service: serviceNames[3].name,
                 serviceType: serviceNames[3].type,
-                price: 4500000
-              }
+                price: 4500000,
+              },
             ],
             bookingDate: "2025-06-02",
             appointmentDateTime: "2025-06-08 14:00",
@@ -1354,18 +1364,18 @@
               {
                 service: serviceNames[4].name,
                 serviceType: serviceNames[4].type,
-                price: 4500000
+                price: 4500000,
               },
               {
                 service: serviceNames[5].name,
                 serviceType: serviceNames[5].type,
-                price: 5500000
+                price: 5500000,
               },
               {
                 service: serviceNames[6].name,
                 serviceType: serviceNames[6].type,
-                price: 6500000
-              }
+                price: 6500000,
+              },
             ],
             bookingDate: "2025-06-01",
             appointmentDateTime: "2025-06-05 15:30",
@@ -1382,8 +1392,8 @@
               {
                 service: serviceNames[7].name,
                 serviceType: serviceNames[7].type,
-                price: 4500000
-              }
+                price: 4500000,
+              },
             ],
             bookingDate: "2025-06-01",
             appointmentDateTime: "2025-06-07 10:00",
@@ -1400,8 +1410,8 @@
               {
                 service: serviceNames[2].name,
                 serviceType: serviceNames[2].type,
-                price: 4500000
-              }
+                price: 4500000,
+              },
             ],
             bookingDate: "2025-06-03",
             appointmentDateTime: null,
@@ -1418,37 +1428,37 @@
               {
                 service: serviceNames[5].name,
                 serviceType: serviceNames[5].type,
-                price: 4500000
-              }
+                price: 4500000,
+              },
             ],
             bookingDate: "2025-06-04",
             appointmentDateTime: "2025-06-12 13:30",
             method: "Tại trung tâm",
             status: "Đã hủy",
-          }
+          },
         ];
 
         // Cập nhật hàm renderStatus để sử dụng badge styles
         function renderStatus(status) {
-          let className = '';
-          switch(status) {
-            case 'Đã đặt':
-              className = 'status-booked';
+          let className = "";
+          switch (status) {
+            case "Đã đặt":
+              className = "status-booked";
               break;
-            case 'Đang chờ lấy mẫu':
-              className = 'status-waiting';
+            case "Đang chờ lấy mẫu":
+              className = "status-waiting";
               break;
-            case 'Đã nhận mẫu':
-              className = 'status-received';
+            case "Đã nhận mẫu":
+              className = "status-received";
               break;
-            case 'Đã hoàn thành':
-              className = 'status-completed';
+            case "Đã hoàn thành":
+              className = "status-completed";
               break;
-            case 'Đã trả kết quả':
-              className = 'status-delivered';
+            case "Đã trả kết quả":
+              className = "status-delivered";
               break;
-            case 'Đã hủy':
-              className = 'status-cancelled';
+            case "Đã hủy":
+              className = "status-cancelled";
               break;
           }
           return `<span class="status-badge ${className}"><i class="fas fa-circle" style="font-size: 8px"></i> ${status}</span>`;
@@ -1471,12 +1481,16 @@
             z-index: 1000;
           `;
 
-          const totalAmount = appointment.services.reduce((sum, service) => sum + service.price, 0);
+          const totalAmount = appointment.services.reduce(
+            (sum, service) => sum + service.price,
+            0
+          );
 
-          const appointmentInfo = appointment.method === "Tại nhà" 
-            ? `<strong style="color: #666;">Địa chỉ:</strong>
+          const appointmentInfo =
+            appointment.method === "Tại nhà"
+              ? `<strong style="color: #666;">Địa chỉ:</strong>
                <span>${appointment.address}</span>`
-            : `<strong style="color: #666;">Ngày giờ hẹn:</strong>
+              : `<strong style="color: #666;">Ngày giờ hẹn:</strong>
                <span>${appointment.appointmentDateTime}</span>`;
 
           modal.innerHTML = `
@@ -1518,14 +1532,18 @@
                 </h4>
                 
                 <div class="service-list">
-                  ${appointment.services.map((service, index) => `
+                  ${appointment.services
+                    .map(
+                      (service, index) => `
                     <div class="service-item">
                       <div>
                         <div style="font-weight: 500;">${service.service}</div>
                         <div style="color: #666; font-size: 0.9em;">${service.serviceType}</div>
                       </div>
                     </div>
-                  `).join('')}
+                  `
+                    )
+                    .join("")}
                 </div>
               </div>
             </div>
@@ -1533,9 +1551,9 @@
 
           document.body.appendChild(modal);
 
-          modal.addEventListener('click', (e) => {
+          modal.addEventListener("click", (e) => {
             if (e.target === modal) {
-              modal.style.opacity = '0';
+              modal.style.opacity = "0";
               setTimeout(() => modal.remove(), 300);
             }
           });
@@ -1555,19 +1573,12 @@
             <td>${a.method}</td>
             <td>${a.bookingDate}</td>
             <td>${renderStatus(a.status)}</td>
-            <td style="display: flex; gap: 8px;">
-              <button onclick="showAppointmentDetails(${JSON.stringify(a).replace(/"/g, '&quot;')})" 
+            <td style="display: flex; gap: 8px;">              <button onclick="showAppointmentDetails(${JSON.stringify(
+              a
+            ).replace(/"/g, "&quot;")})" 
                 class="btn btn-primary">
                 <i class="fas fa-info-circle"></i> Chi tiết
               </button>
-              ${
-                a.status === "Đã trả kết quả"
-                  ? `<button onclick="showResultModal('${a.id}')" 
-                      class="btn btn-success">
-                      <i class='fas fa-file-medical-alt'></i> Xem kết quả
-                    </button>`
-                  : ""
-              }
               ${
                 a.status === "Đã đặt" || a.status === "Đang chờ lấy mẫu"
                   ? `<button onclick="handleCancel('${a.id}')"
@@ -1585,15 +1596,19 @@
         }
 
         // Cập nhật form filter
-        document.getElementById('filterForm').innerHTML = `
+        document.getElementById("filterForm").innerHTML = `
           <div class="filter-container">
             <div class="form-group">
               <label>Dịch vụ:</label>
               <select id="serviceFilter" name="serviceFilter" class="form-control">
                 <option value="">Tất cả</option>
-                ${serviceNames.map(s => `
+                ${serviceNames
+                  .map(
+                    (s) => `
                   <option value="${s.name}|${s.type}">${s.name} (${s.type})</option>
-                `).join('')}
+                `
+                  )
+                  .join("")}
               </select>
             </div>
             
@@ -1642,8 +1657,10 @@
             }
             if (serviceValue) {
               const [service, type] = serviceValue.split("|");
-              filtered = filtered.filter(
-                (a) => a.services.some((s) => s.service === service && s.serviceType === type)
+              filtered = filtered.filter((a) =>
+                a.services.some(
+                  (s) => s.service === service && s.serviceType === type
+                )
               );
             }
             renderAppointments(filtered);
@@ -1717,16 +1734,20 @@
           document.body.appendChild(modal);
 
           // Thêm hiệu ứng khi đóng modal
-          modal.addEventListener('click', (e) => {
+          modal.addEventListener("click", (e) => {
             if (e.target === modal) {
-              modal.style.opacity = '0';
+              modal.style.opacity = "0";
               setTimeout(() => modal.remove(), 300);
             }
           });
 
           // Xử lý hiển thị textarea khi chọn "Khác"
-          const reasonRadios = document.querySelectorAll('input[name="cancel-reason"]');
-          const otherReasonContainer = document.getElementById("other-reason-container");
+          const reasonRadios = document.querySelectorAll(
+            'input[name="cancel-reason"]'
+          );
+          const otherReasonContainer = document.getElementById(
+            "other-reason-container"
+          );
 
           reasonRadios.forEach((radio) => {
             radio.addEventListener("change", function () {
@@ -1740,39 +1761,47 @@
           });
 
           // Xử lý đóng modal
-          document.getElementById("cancel-modal").addEventListener("click", function () {
-            modal.style.opacity = '0';
-            setTimeout(() => modal.remove(), 300);
-          });
+          document
+            .getElementById("cancel-modal")
+            .addEventListener("click", function () {
+              modal.style.opacity = "0";
+              setTimeout(() => modal.remove(), 300);
+            });
 
           // Xử lý xác nhận hủy
-          document.getElementById("confirm-cancel").addEventListener("click", function () {
-            let reason = "";
-            const selectedReason = document.querySelector('input[name="cancel-reason"]:checked');
+          document
+            .getElementById("confirm-cancel")
+            .addEventListener("click", function () {
+              let reason = "";
+              const selectedReason = document.querySelector(
+                'input[name="cancel-reason"]:checked'
+              );
 
-            if (!selectedReason) {
-              alert("Vui lòng chọn lý do hủy lịch hẹn");
-              return;
-            }
-
-            if (selectedReason.value === "Khác") {
-              const otherReasonText = document.getElementById("other-reason-text").value.trim();
-              if (!otherReasonText) {
-                alert("Vui lòng nhập lý do hủy lịch hẹn");
+              if (!selectedReason) {
+                alert("Vui lòng chọn lý do hủy lịch hẹn");
                 return;
               }
-              reason = otherReasonText;
-            } else {
-              reason = selectedReason.value;
-            }
 
-            // Gọi hàm xử lý hủy lịch hẹn với lý do đã chọn
-            confirmCancelAppointment(id, reason);
+              if (selectedReason.value === "Khác") {
+                const otherReasonText = document
+                  .getElementById("other-reason-text")
+                  .value.trim();
+                if (!otherReasonText) {
+                  alert("Vui lòng nhập lý do hủy lịch hẹn");
+                  return;
+                }
+                reason = otherReasonText;
+              } else {
+                reason = selectedReason.value;
+              }
 
-            // Đóng modal với animation
-            modal.style.opacity = '0';
-            setTimeout(() => modal.remove(), 300);
-          });
+              // Gọi hàm xử lý hủy lịch hẹn với lý do đã chọn
+              confirmCancelAppointment(id, reason);
+
+              // Đóng modal với animation
+              modal.style.opacity = "0";
+              setTimeout(() => modal.remove(), 300);
+            });
         }
 
         // Hàm xử lý hủy lịch hẹn với lý do đã chọn
@@ -1786,8 +1815,8 @@
               renderAppointments();
 
               // Hiển thị thông báo thành công với animation
-              const toast = document.createElement('div');
-              toast.className = 'toast-notification';
+              const toast = document.createElement("div");
+              toast.className = "toast-notification";
               toast.innerHTML = `
                 <div class="toast-content">
                   <i class="fas fa-check-circle" style="color: #4caf50; margin-right: 8px;"></i>
@@ -1798,7 +1827,7 @@
 
               // Tự động ẩn toast sau 3 giây
               setTimeout(() => {
-                toast.style.opacity = '0';
+                toast.style.opacity = "0";
                 setTimeout(() => toast.remove(), 300);
               }, 3000);
             }
@@ -1809,7 +1838,7 @@
         }
 
         // Thêm style cho radio buttons và toast notification
-        const style = document.createElement('style');
+        const style = document.createElement("style");
         style.textContent = `
           .radio-container {
             display: flex;
@@ -1893,54 +1922,58 @@
 
         // Dữ liệu mẫu kết quả xét nghiệm
         const testResults = {
-          'AP001': {
-            customerName: 'Nguyễn Văn A',
-            testDate: '2025-06-10',
-            completedDate: '2025-06-15',
+          AP001: {
+            customerName: "Nguyễn Văn A",
+            testDate: "2025-06-10",
+            completedDate: "2025-06-15",
             services: [
               {
-                name: 'Xét nghiệm ADN cha-con',
-                type: 'Dân sự',
-                probability: '99.99%',
-                conclusion: 'Kết quả xét nghiệm ADN cho thấy mối quan hệ cha-con giữa hai người được xét nghiệm là DƯƠNG TÍNH với độ chính xác 99.99%.',
-                pdfUrl: 'results/AP001-1.pdf'
+                name: "Xét nghiệm ADN cha-con",
+                type: "Dân sự",
+                probability: "99.99%",
+                conclusion:
+                  "Kết quả xét nghiệm ADN cho thấy mối quan hệ cha-con giữa hai người được xét nghiệm là DƯƠNG TÍNH với độ chính xác 99.99%.",
+                pdfUrl: "results/AP001-1.pdf",
               },
               {
-                name: 'Xét nghiệm ADN cha-con',
-                type: 'Hành chính',
-                probability: '99.99%',
-                conclusion: 'Kết quả xét nghiệm ADN cho thấy mối quan hệ cha-con giữa hai người được xét nghiệm là DƯƠNG TÍNH với độ chính xác 99.99%.',
-                pdfUrl: 'results/AP001-2.pdf'
-              }
-            ]
+                name: "Xét nghiệm ADN cha-con",
+                type: "Hành chính",
+                probability: "99.99%",
+                conclusion:
+                  "Kết quả xét nghiệm ADN cho thấy mối quan hệ cha-con giữa hai người được xét nghiệm là DƯƠNG TÍNH với độ chính xác 99.99%.",
+                pdfUrl: "results/AP001-2.pdf",
+              },
+            ],
           },
-          'AP005': {
-            customerName: 'Hoàng Văn E',
-            testDate: '2025-06-03',
-            completedDate: '2025-06-08',
+          AP005: {
+            customerName: "Hoàng Văn E",
+            testDate: "2025-06-03",
+            completedDate: "2025-06-08",
             services: [
               {
-                name: 'Xét nghiệm ADN mẹ-con',
-                type: 'Dân sự',
-                probability: '99.99%',
-                conclusion: 'Kết quả xét nghiệm ADN cho thấy mối quan hệ mẹ-con giữa hai người được xét nghiệm là DƯƠNG TÍNH với độ chính xác 99.99%.',
-                pdfUrl: 'results/AP005.pdf'
-              }
-            ]
-          }
+                name: "Xét nghiệm ADN mẹ-con",
+                type: "Dân sự",
+                probability: "99.99%",
+                conclusion:
+                  "Kết quả xét nghiệm ADN cho thấy mối quan hệ mẹ-con giữa hai người được xét nghiệm là DƯƠNG TÍNH với độ chính xác 99.99%.",
+                pdfUrl: "results/AP005.pdf",
+              },
+            ],
+          },
         };
 
         // Hàm hiển thị modal kết quả
         function showResultModal(appointmentId) {
           const result = testResults[appointmentId];
           if (!result) {
-            alert('Không tìm thấy kết quả xét nghiệm cho lịch hẹn này.');
+            alert("Không tìm thấy kết quả xét nghiệm cho lịch hẹn này.");
             return;
           }
 
-          const modal = document.getElementById('resultModal');
-          const resultInfo = document.getElementById('resultInfo');
-          const resultServicesList = document.getElementById('resultServicesList');
+          const modal = document.getElementById("resultModal");
+          const resultInfo = document.getElementById("resultInfo");
+          const resultServicesList =
+            document.getElementById("resultServicesList");
 
           // Render thông tin cơ bản
           resultInfo.innerHTML = `
@@ -1958,7 +1991,9 @@
           `;
 
           // Render danh sách dịch vụ và kết quả
-          resultServicesList.innerHTML = result.services.map(service => `
+          resultServicesList.innerHTML = result.services
+            .map(
+              (service) => `
             <div class="result-service-item">
               <div class="result-service-header">
                 <div class="result-service-title">${service.name} (${service.type})</div>
@@ -1971,31 +2006,33 @@
                 </button>
               </div>
             </div>
-          `).join('');
+          `
+            )
+            .join("");
 
           // Hiển thị modal với animation
-          modal.style.display = 'flex';
+          modal.style.display = "flex";
           setTimeout(() => {
-            modal.classList.add('show');
+            modal.classList.add("show");
           }, 10);
         }
 
         // Hàm đóng modal
         function closeResultModal() {
-          const modal = document.getElementById('resultModal');
-          modal.classList.remove('show');
+          const modal = document.getElementById("resultModal");
+          modal.classList.remove("show");
           setTimeout(() => {
-            modal.style.display = 'none';
+            modal.style.display = "none";
           }, 300);
         }
 
         // Đóng modal khi click ra ngoài
-        window.onclick = function(event) {
-          const modal = document.getElementById('resultModal');
+        window.onclick = function (event) {
+          const modal = document.getElementById("resultModal");
           if (event.target == modal) {
             closeResultModal();
           }
-        }
+        };
       </script>
     </div>
     <!-- Script kiểm tra đăng nhập đã được loại bỏ vì không cần thiết khi không có sidebar -->
@@ -2017,7 +2054,9 @@
           loginButton.innerHTML = `
             <div class="user-dropdown">
                 <span class="user-name">
-                <img src="${user.avatar || defaultAvatar}" alt="Avatar" class="user-avatar">
+                <img src="${
+                  user.avatar || defaultAvatar
+                }" alt="Avatar" class="user-avatar">
                     ${user.fullName || "Người dùng"}
                     <i class="fas fa-caret-down"></i>
                 </span>
@@ -2128,19 +2167,27 @@
     </footer>
 
     <!-- Modal xem kết quả -->
-    <div id="resultModal" class="modal" style="display: none;">
-      <div class="modal-content" style="max-width: 800px; width: 90%;">
+    <div id="resultModal" class="modal" style="display: none">
+      <div class="modal-content" style="max-width: 800px; width: 90%">
         <div class="modal-header">
           <div class="modal-title">Kết quả xét nghiệm ADN</div>
           <button class="modal-close" onclick="closeResultModal()">×</button>
         </div>
-        
+
         <div id="resultInfo" class="result-info">
           <!-- Thông tin sẽ được render bằng JavaScript -->
         </div>
 
         <div class="result-services">
-          <h4 style="color: #2196f3; margin: 20px 0; display: flex; align-items: center; gap: 8px;">
+          <h4
+            style="
+              color: #2196f3;
+              margin: 20px 0;
+              display: flex;
+              align-items: center;
+              gap: 8px;
+            "
+          >
             <i class="fas fa-list-ul"></i> Danh sách dịch vụ
           </h4>
           <div id="resultServicesList">

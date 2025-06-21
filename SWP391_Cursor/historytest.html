@@ -21,7 +21,7 @@
         background-color: #f5f5f5;
         margin: 0;
         padding: 0;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
       }
 
       .main-content {
@@ -141,7 +141,7 @@
       .history-table th {
         background-color: #f5f5f5;
         padding: 16px 20px;
-        text-align: left;
+        text-align: center;
         font-weight: 600;
         color: #37474f;
         border-bottom: 2px solid #e0e0e0;
@@ -218,6 +218,35 @@
         font-size: 14px;
       }
 
+      /* Thêm CSS mới với độ ưu tiên cao hơn */
+      .action-button.btn-review {
+        background: linear-gradient(45deg, #388e3c, #4caf50);
+      }
+
+      .action-button.btn-reviewed {
+        background: linear-gradient(45deg, #1565c0, #1976d2);
+      }
+
+      .action-button.btn-result {
+        background: linear-gradient(45deg, #e65100, #ff9800);
+      }
+
+      /* Hover states */
+      .action-button.btn-review:hover {
+        background: linear-gradient(45deg, #2e7d32, #388e3c);
+        box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+      }
+
+      .action-button.btn-reviewed:hover {
+        background: linear-gradient(45deg, #0d47a1, #1565c0);
+        box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3);
+      }
+
+      .action-button.btn-result:hover {
+        background: linear-gradient(45deg, #d84315, #e65100);
+        box-shadow: 0 4px 12px rgba(255, 152, 0, 0.3);
+      }
+
       .no-results {
         text-align: center;
         padding: 40px;
@@ -238,6 +267,255 @@
         justify-content: center;
         z-index: 99999;
         backdrop-filter: blur(4px);
+      }
+
+      /* Modal kết quả */
+      .modal-result {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        align-items: center;
+        justify-content: center;
+        z-index: 100000;
+      }
+
+      .modal-result.show {
+        display: flex;
+      }
+
+      .modal-result .modal-content {
+        background: #fff;
+        border-radius: 12px;
+        padding: 20px;
+        max-width: 800px;
+        width: 90%;
+        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+        position: relative;
+      }
+
+      .modal-result .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+      }
+
+      .modal-result .modal-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: #1976d2;
+      }
+
+      .modal-result .close-modal {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 18px;
+        color: #999;
+      }
+
+      .modal-result .close-modal:hover {
+        color: #333;
+      }
+
+      .modal-result .result-info {
+        margin-bottom: 20px;
+        font-size: 14px;
+        color: #555;
+      }
+
+      .modal-result .result-services {
+        border-top: 1px solid #e0e0e0;
+        padding-top: 15px;
+      }
+
+      .modal-result .result-service-item {
+        margin-bottom: 15px;
+      }
+
+      .modal-result .result-service-title {
+        font-weight: 500;
+        color: #333;
+      }
+
+      .modal-result .result-service-probability {
+        font-size: 13px;
+        color: #777;
+      }
+
+      .modal-result .result-service-conclusion {
+        margin: 10px 0;
+        font-size: 14px;
+        color: #333;
+      }
+
+      .modal-result .result-service-actions {
+        display: flex;
+        gap: 10px;
+      }
+
+      /* Modal styles */
+      .modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .modal.show {
+        opacity: 1;
+      }
+
+      .modal-content {
+        background-color: white;
+        border-radius: 12px;
+        padding: 25px;
+        box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+        transform: translateY(-20px);
+        transition: transform 0.3s ease;
+        max-height: 90vh;
+        overflow-y: auto;
+      }
+
+      .modal.show .modal-content {
+        transform: translateY(0);
+      }
+
+      .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #eee;
+      }
+
+      .modal-title {
+        font-size: 24px;
+        color: #2196f3;
+        font-weight: bold;
+      }
+
+      .modal-close {
+        background: none;
+        border: none;
+        font-size: 28px;
+        cursor: pointer;
+        color: #888;
+        transition: color 0.2s;
+      }
+
+      .modal-close:hover {
+        color: #f44336;
+      }
+
+      .result-info {
+        display: grid;
+        grid-template-columns: 160px 1fr;
+        gap: 12px;
+        margin-bottom: 20px;
+        background-color: #f9f9f9;
+        padding: 20px;
+        border-radius: 8px;
+      }
+
+      .result-info strong {
+        color: #555;
+      }
+
+      .result-service-item {
+        background-color: white;
+        border: 1px solid #eee;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 15px;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      }
+
+      .result-service-item:hover {
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        transform: translateY(-2px);
+      }
+
+      .result-service-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+      }
+
+      .result-service-title {
+        font-size: 18px;
+        font-weight: bold;
+        color: #333;
+      }
+
+      .result-service-probability {
+        font-size: 14px;
+        color: #2196f3;
+        background-color: #e3f2fd;
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-weight: 600;
+      }
+
+      .result-service-conclusion {
+        margin-bottom: 15px;
+        padding: 15px;
+        background-color: #f5f5f5;
+        border-radius: 5px;
+        color: #333;
+        line-height: 1.6;
+      }
+
+      .result-service-actions {
+        display: flex;
+        justify-content: flex-end;
+      }
+
+      .btn {
+        padding: 8px 16px;
+        border-radius: 4px;
+        border: none;
+        cursor: pointer;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        transition: all 0.3s ease;
+      }
+
+      .btn i {
+        margin-right: 6px;
+      }
+
+      .btn:hover i {
+        transform: translateX(-2px);
+      }
+
+      .btn-primary {
+        background-color: #2196f3;
+        color: white;
+      }
+
+      .btn-primary:hover {
+        background-color: #1976d2;
+        box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
       }
 
       @media (max-width: 768px) {
@@ -291,7 +569,6 @@
       <h1 class="page-title">
         <i class="fas fa-history"></i> Lịch sử xét nghiệm ADN
       </h1>
-
       <div class="history-container">
         <div class="history-title">
           <i class="fas fa-filter"></i> Tìm kiếm lịch sử xét nghiệm
@@ -344,7 +621,6 @@
               <option value="Đã trả kết quả" selected>Đã trả kết quả</option>
             </select>
           </div>
-
           <button type="submit" class="filter-button">
             <i class="fas fa-search"></i> Tìm kiếm
           </button>
@@ -440,6 +716,196 @@
         </div>
       </div>
     </footer>
+
+    <!-- Modal xem kết quả -->
+    <div id="resultModal" class="modal" style="display: none">
+      <div class="modal-content" style="max-width: 800px; width: 90%">
+        <div class="modal-header">
+          <div class="modal-title">Kết quả xét nghiệm ADN</div>
+          <button class="modal-close" onclick="closeResultModal()">×</button>
+        </div>
+
+        <div id="resultInfo" class="result-info">
+          <!-- Thông tin sẽ được render bằng JavaScript -->
+        </div>
+
+        <div class="result-services">
+          <h4
+            style="
+              color: #2196f3;
+              margin: 20px 0;
+              display: flex;
+              align-items: center;
+              gap: 8px;
+            "
+          >
+            <i class="fas fa-list-ul"></i> Danh sách dịch vụ
+          </h4>
+          <div id="resultServicesList">
+            <!-- Danh sách dịch vụ sẽ được render bằng JavaScript -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <style>
+      /* Modal styles */
+      .modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .modal.show {
+        opacity: 1;
+      }
+
+      .modal-content {
+        background-color: white;
+        border-radius: 12px;
+        padding: 25px;
+        box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+        transform: translateY(-20px);
+        transition: transform 0.3s ease;
+        max-height: 90vh;
+        overflow-y: auto;
+      }
+
+      .modal.show .modal-content {
+        transform: translateY(0);
+      }
+
+      .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #eee;
+      }
+
+      .modal-title {
+        font-size: 24px;
+        color: #2196f3;
+        font-weight: bold;
+      }
+
+      .modal-close {
+        background: none;
+        border: none;
+        font-size: 28px;
+        cursor: pointer;
+        color: #888;
+        transition: color 0.2s;
+      }
+
+      .modal-close:hover {
+        color: #f44336;
+      }
+
+      .result-info {
+        display: grid;
+        grid-template-columns: 160px 1fr;
+        gap: 12px;
+        margin-bottom: 20px;
+        background-color: #f9f9f9;
+        padding: 20px;
+        border-radius: 8px;
+      }
+
+      .result-info strong {
+        color: #555;
+      }
+
+      .result-service-item {
+        background-color: white;
+        border: 1px solid #eee;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 15px;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      }
+
+      .result-service-item:hover {
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        transform: translateY(-2px);
+      }
+
+      .result-service-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+      }
+
+      .result-service-title {
+        font-size: 18px;
+        font-weight: bold;
+        color: #333;
+      }
+
+      .result-service-probability {
+        font-size: 14px;
+        color: #2196f3;
+        background-color: #e3f2fd;
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-weight: 600;
+      }
+
+      .result-service-conclusion {
+        margin-bottom: 15px;
+        padding: 15px;
+        background-color: #f5f5f5;
+        border-radius: 5px;
+        color: #333;
+        line-height: 1.6;
+      }
+
+      .result-service-actions {
+        display: flex;
+        justify-content: flex-end;
+      }
+
+      .btn {
+        padding: 8px 16px;
+        border-radius: 4px;
+        border: none;
+        cursor: pointer;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        transition: all 0.3s ease;
+      }
+
+      .btn i {
+        margin-right: 6px;
+      }
+
+      .btn:hover i {
+        transform: translateX(-2px);
+      }
+
+      .btn-primary {
+        background-color: #2196f3;
+        color: white;
+      }
+
+      .btn-primary:hover {
+        background-color: #1976d2;
+        box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
+      }
+    </style>
 
     <!-- Script xác thực -->
     <script src="assets/js/auth.js"></script>
@@ -557,7 +1023,7 @@
           price: 5000000,
           staff_id: "S002",
           staff_name: "Trần Thị B",
-        }
+        },
       ];
 
       // Khai báo fakedata nhân viên
@@ -611,21 +1077,24 @@
               <td>
                 ${
                   !item.isReviewed
-                    ? `<button class="action-button" style="background-color: #4caf50; margin-right: 5px;" onclick="openFeedbackIframe('${item.id}', '${item.customerId}', '${item.staff_id}')">
+                    ? `<button class="action-button btn-review" style=" margin-right: 5px;" onclick="openFeedbackIframe('${item.id}', '${item.customerId}', '${item.staff_id}')">
       <i class="fas fa-star"></i> Đánh giá dịch vụ
      </button>`
-                    : `<button class="action-button" style="background-color: #1976d2; margin-right: 5px; cursor: pointer;" onclick="openFeedbackIframe('${item.id}', '${item.customerId}', '${item.staff_id}')">
+                    : `<button class="action-button btn-reviewed" style=" margin-right: 5px; cursor: pointer;" onclick="openFeedbackIframe('${item.id}', '${item.customerId}', '${item.staff_id}')">
       <i class="fas fa-check"></i> Đã đánh giá
      </button>`
                 }
-               
+                <button class="action-button btn-result"  onclick="showResultModal('${
+                  item.id
+                }')">
+                  <i class="fas fa-file-medical-alt"></i> Xem kết quả
+                </button>
               </td>
             </tr>
           `;
           })
           .join("");
       }
-
       function openFeedbackIframe(bookingId, userId, staffId) {
         // Tạo URL với tham số
         const params = new URLSearchParams({
@@ -637,6 +1106,7 @@
 
         // Tạo modal chứa iframe
         const modal = document.createElement("div");
+        modal.id = "feedback-modal-container";
         modal.className = "modal-feedback-iframe";
         modal.style.cssText = `
     position: fixed;
@@ -652,25 +1122,77 @@
   `;
         modal.innerHTML = `
     <div style="background:#fff; border-radius:12px; padding:0; min-width:700px; max-width:95vw; min-height:520px; box-shadow:0 2px 16px rgba(0,0,0,0.2); position:relative; overflow:hidden;">
-      <iframe src="${url}" style="width:700px;max-width:90vw;height:520px;border:none;border-radius:12px;overflow:hidden;"></iframe>
+      <iframe id="feedback-iframe" src="${url}" style="width:700px;max-width:90vw;height:520px;border:none;border-radius:12px;overflow:hidden;"></iframe>
       <button type="button" onclick="document.body.removeChild(this.closest('.modal-feedback-iframe'))"
         style="position:absolute;top:8px;right:16px;font-size:24px;background:none;border:none;cursor:pointer;">&times;</button>
     </div>
   `;
-        document.body.appendChild(modal);
-      }
+        document.body.appendChild(modal); // Thêm event listener để nhận thông báo từ iframe
+        window.addEventListener("message", function messageHandler(event) {
+          // Đảm bảo nguồn gốc tin nhắn là từ trang của chúng ta
+          if (event.origin === window.location.origin) {
+            console.log("Đã nhận thông báo từ iframe:", event.data);
+            if (event.data.type === "FEEDBACK_SUBMITTED") {
+              // Cập nhật trạng thái đánh giá
+              updateReviewStatus(event.data.bookingId, event.data.serviceId);
 
-      // Hàm cập nhật trạng thái đánh giá
-      function updateReviewStatus(bookingId) {
+              // Không tự động đóng modal sau khi nhận được thông báo
+              // Để người dùng chủ động bấm nút "x" để thoát
+              console.log(
+                "Đã cập nhật trạng thái đánh giá, người dùng có thể đóng form khi muốn"
+              );
+            }
+          }
+        });
+      } // Hàm cập nhật trạng thái đánh giá
+      function updateReviewStatus(bookingId, serviceId) {
+        console.log(
+          `Cập nhật trạng thái đánh giá cho booking ${bookingId}, dịch vụ ${serviceId}`
+        );
+
         // Tìm xét nghiệm trong dữ liệu
-        const testIndex = testHistoryData.findIndex(test => test.id === bookingId);
+        const testIndex = testHistoryData.findIndex(
+          (test) => test.id === bookingId
+        );
         if (testIndex !== -1) {
           // Cập nhật trạng thái đánh giá
           testHistoryData[testIndex].isReviewed = true;
-          testHistoryData[testIndex].reviewId = 'RV' + Date.now(); // Tạo một reviewId mới
+          testHistoryData[testIndex].reviewId = "RV" + Date.now(); // Tạo một reviewId mới
+
+          // Thêm thông tin serviceId vào localStorage để theo dõi các dịch vụ đã đánh giá
+          const reviewedServices = JSON.parse(
+            localStorage.getItem(`reviewed_services_${bookingId}`) || "[]"
+          );
+          if (!reviewedServices.includes(serviceId)) {
+            reviewedServices.push(serviceId);
+            localStorage.setItem(
+              `reviewed_services_${bookingId}`,
+              JSON.stringify(reviewedServices)
+            );
+          }
+
+          // Lưu trạng thái đánh giá vào localStorage để giữ giữa các lần tải trang
+          localStorage.setItem(`review_status_${bookingId}`, "true");
+          localStorage.setItem(
+            `review_id_${bookingId}`,
+            testHistoryData[testIndex].reviewId
+          );
+
           // Render lại danh sách
           renderTestHistory(testHistoryData);
         }
+      } // Hàm reset thủ công trạng thái đánh giá (chỉ giữ lại để đảm bảo khả năng tương thích)
+      function resetAllReviewStatus() {
+        // Reset trạng thái đánh giá trong dữ liệu
+        testHistoryData.forEach((test) => {
+          test.isReviewed = false;
+          test.reviewId = null;
+        });
+
+        // Render lại danh sách
+        renderTestHistory(testHistoryData);
+
+        console.log("Đã reset trạng thái đánh giá trong bộ nhớ");
       }
 
       // Hàm định dạng ngày tháng
@@ -721,9 +1243,7 @@
 
           // Render lại dữ liệu đã lọc
           renderTestHistory(filteredData);
-        });
-
-      // Xử lý đăng nhập và phân quyền
+        }); // Xử lý đăng nhập và phân quyền
       document.addEventListener("DOMContentLoaded", function () {
         // Kiểm tra quyền truy cập
         const authStatus = Auth.checkLoginStatus();
@@ -733,12 +1253,176 @@
           return;
         }
 
+        // Reset trạng thái đánh giá trong dữ liệu mẫu để luôn test được
+        // trường hợp "chưa đánh giá" khi tải lại trang
+        testHistoryData.forEach((test) => {
+          test.isReviewed = false;
+          test.reviewId = null;
+        });
+
+        // Set chế độ reset cho trang feedback.html
+        localStorage.setItem("reset_review_mode", "true");
+        console.log(
+          "Đã reset trạng thái đánh giá khi tải trang - chế độ test đã được bật"
+        );
+
         // Hiển thị dữ liệu mẫu ban đầu
         renderTestHistory(testHistoryData);
-        
+
         // Cập nhật UI đăng nhập
         updateAuthUI();
       });
+
+      // Dữ liệu mẫu kết quả xét nghiệm
+      const testResults = {
+        AP001: {
+          customerName: "Nguyễn Văn A",
+          testDate: "2025-05-25",
+          completedDate: "2025-05-30",
+          services: [
+            {
+              name: "Xét nghiệm ADN cha-con",
+              type: "Dân sự",
+              probability: "99.9999%",
+              conclusion:
+                "Kết quả xét nghiệm ADN cho thấy mối quan hệ cha-con giữa hai người được xét nghiệm là DƯƠNG TÍNH với độ chính xác 99.9999%.",
+              pdfUrl: "results/AP001_result.pdf",
+            },
+          ],
+        },
+        AP005: {
+          customerName: "Trần Minh Đức",
+          testDate: "2025-04-20",
+          completedDate: "2025-04-25",
+          services: [
+            {
+              name: "Xét nghiệm ADN ông, bà - cháu",
+              type: "Dân sự",
+              probability: "99.9985%",
+              conclusion:
+                "Kết quả xét nghiệm ADN cho thấy mối quan hệ ông, bà - cháu giữa những người được xét nghiệm là DƯƠNG TÍNH với độ chính xác 99.9985%.",
+              pdfUrl: "results/AP005.pdf",
+            },
+          ],
+        },
+        AP008: {
+          customerName: "Lê Thanh Hà",
+          testDate: "2025-03-15",
+          completedDate: "2025-03-20",
+          services: [
+            {
+              name: "Xét nghiệm ADN anh,chị - em",
+              type: "Dân sự",
+              probability: "99.9876%",
+              conclusion:
+                "Kết quả xét nghiệm ADN cho thấy mối quan hệ anh,chị - em giữa những người được xét nghiệm là DƯƠNG TÍNH với độ chính xác 99.9876%.",
+              pdfUrl: "results/AP008_result.pdf",
+            },
+          ],
+        },
+        AP012: {
+          customerName: "Phạm Văn Tuấn",
+          testDate: "2025-02-10",
+          completedDate: "2025-02-15",
+          services: [
+            {
+              name: "Xét nghiệm ADN mẹ-con",
+              type: "Dân sự",
+              probability: "99.9956%",
+              conclusion:
+                "Kết quả xét nghiệm ADN cho thấy mối quan hệ mẹ-con giữa hai người được xét nghiệm là DƯƠNG TÍNH với độ chính xác 99.9956%.",
+              pdfUrl: "results/AP012_result.pdf",
+            },
+          ],
+        },
+        AP015: {
+          customerName: "Hoàng Thị Mai",
+          testDate: "2025-01-25",
+          completedDate: "2025-01-30",
+          services: [
+            {
+              name: "Xét nghiệm ADN cha-con",
+              type: "Hành chính",
+              probability: "99.9812%",
+              conclusion:
+                "Kết quả xét nghiệm ADN cho thấy mối quan hệ cha-con giữa hai người được xét nghiệm là DƯƠNG TÍNH với độ chính xác 99.9812%.",
+              pdfUrl: "results/AP015_result.pdf",
+            },
+          ],
+        },
+      };
+
+      // Hàm hiển thị modal kết quả
+      function showResultModal(appointmentId) {
+        const result = testResults[appointmentId];
+        if (!result) {
+          alert("Không tìm thấy kết quả xét nghiệm cho lịch hẹn này.");
+          return;
+        }
+
+        const modal = document.getElementById("resultModal");
+        const resultInfo = document.getElementById("resultInfo");
+        const resultServicesList =
+          document.getElementById("resultServicesList");
+
+        // Render thông tin cơ bản
+        resultInfo.innerHTML = `
+          <strong>Tên khách hàng:</strong>
+          <span>${result.customerName}</span>
+          
+          <strong>Mã lịch hẹn:</strong>
+          <span>${appointmentId}</span>
+          
+          <strong>Ngày xét nghiệm:</strong>
+          <span>${result.testDate}</span>
+          
+          <strong>Ngày có kết quả:</strong>
+          <span>${result.completedDate}</span>
+        `;
+
+        // Render danh sách dịch vụ và kết quả
+        resultServicesList.innerHTML = result.services
+          .map(
+            (service) => `
+          <div class="result-service-item">
+            <div class="result-service-header">
+              <div class="result-service-title">${service.name} (${service.type})</div>
+              <div class="result-service-probability">Độ chính xác: ${service.probability}</div>
+            </div>
+            <div class="result-service-conclusion">${service.conclusion}</div>
+            <div class="result-service-actions">
+              <button class="btn btn-primary" onclick="window.open('${service.pdfUrl}', '_blank')">
+                <i class="fas fa-file-pdf"></i> Xem PDF kết quả
+              </button>
+            </div>
+          </div>
+        `
+          )
+          .join("");
+
+        // Hiển thị modal với animation
+        modal.style.display = "flex";
+        setTimeout(() => {
+          modal.classList.add("show");
+        }, 10);
+      }
+
+      // Hàm đóng modal
+      function closeResultModal() {
+        const modal = document.getElementById("resultModal");
+        modal.classList.remove("show");
+        setTimeout(() => {
+          modal.style.display = "none";
+        }, 300);
+      }
+
+      // Đóng modal khi click ra ngoài
+      window.onclick = function (event) {
+        const modal = document.getElementById("resultModal");
+        if (event.target == modal) {
+          closeResultModal();
+        }
+      };
 
       function updateAuthUI() {
         const loginButton = document.querySelector(".nav-link.login-button");
@@ -749,7 +1433,9 @@
           loginButton.innerHTML = `
             <div class="user-dropdown">
               <span class="user-name">
-                <img src="${user.avatar || defaultAvatar}" alt="Avatar" class="user-avatar">
+                <img src="${
+                  user.avatar || defaultAvatar
+                }" alt="Avatar" class="user-avatar">
                 ${user.fullName || "Người dùng"}
                 <i class="fas fa-caret-down"></i>
               </span>
