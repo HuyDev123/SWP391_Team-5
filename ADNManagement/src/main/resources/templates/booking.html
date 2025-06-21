@@ -8,10 +8,10 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
     />
-    <link rel="stylesheet" href="../static/assets/css/styles.css" />
-    <link rel="stylesheet" href="../static/assets/css/service-pages.css" />
-    <link rel="stylesheet" href="../static/assets/css/header.css" />
-    <link rel="stylesheet" href="../static/assets/css/user-dropdown.css" />
+    <link rel="stylesheet" href="/assets/css/styles.css" />
+    <link rel="stylesheet" href="/assets/css/service-pages.css" />
+    <link rel="stylesheet" href="/assets/css/header.css" />
+    <link rel="stylesheet" href="/assets/css/user-dropdown.css" />
     <style>
       body {
         margin: 0;
@@ -350,35 +350,40 @@
     </style>
   </head>
   <body>
-    <!-- Header -->
-    <header>
-      <div class="header-container">
-        <div class="logo-section">
-          <img src="../static/assets/images/logo.png" alt="Genx Logo" />
-          <div class="brand-text">
-            <h1 class="brand-name">Genx</h1>
-            <p class="brand-description">
-              Trung Tâm Xét Nghiệm ADN Huyết Thống
-            </p>
-          </div>
+  <script th:inline="javascript">
+    /*<![CDATA[*/
+    window.serverUser = /*[[${session.user}]]*/ null;
+    /*]]>*/
+  </script>
+  <!-- Header -->
+  <header>
+    <div class="header-container">
+      <div class="logo-section">
+        <img src="/assets/images/logo.png" alt="Genx Logo" />
+        <div class="brand-text">
+          <h1 class="brand-name">Genx</h1>
+          <p class="brand-description">
+            Trung Tâm Xét Nghiệm ADN Huyết Thống
+          </p>
         </div>
-        <nav class="nav-links">
-          <a href="/home" class="nav-link active">Trang chủ</a>
-          <a href="/booking" class="nav-link">Đặt lịch xét nghiệm</a>
-          <a href="/services" class="nav-link">Giới thiệu dịch vụ</a>
-          <a href="/knowledge" class="nav-link">Kiến thức ADN</a>
-          <a href="/sampling-guide" class="nav-link">Hướng dẫn lấy mẫu</a>
-          <a href="/login" class="nav-link login-button">Đăng nhập</a>
-        </nav>
       </div>
-    </header>
+      <nav class="nav-links">
+        <a href="/home" class="nav-link">Trang chủ</a>
+        <a href="/booking" class="nav-link active">Đặt lịch xét nghiệm</a>
+        <a href="/services" class="nav-link">Giới thiệu dịch vụ</a>
+        <a href="/knowledge" class="nav-link">Kiến thức ADN</a>
+        <a href="/sampling-guide" class="nav-link">Hướng dẫn lấy mẫu</a>
+        <a href="/login" class="nav-link login-button">Đăng nhập</a>
+      </nav>
+    </div>
+  </header>
 
-    <!-- Main Content -->
+  <!-- Main Content -->
     <main class="content">
       <div class="booking-section">
         <div class="booking-info">
           <img
-            src="../static/assets/images/dna-lab.jpg"
+            src="/assets/images/dna-lab.jpg"
             alt="DNA Testing Lab"
             class="booking-image-bg"
           />
