@@ -9,48 +9,12 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
     />
     <link rel="stylesheet" href="assets/css/auth.css" />
+    <link rel="stylesheet" href="assets/css/style.css" />
     <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: Arial, sans-serif;
-      }      body {
+      body {
         display: flex;
         min-height: 100vh;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        background-attachment: fixed;
-      }      /* Sidebar styles with glassmorphism */
-      .sidebar {
-        width: 280px;
-        background: linear-gradient(135deg, 
-          rgba(255, 255, 255, 0.95), 
-          rgba(255, 255, 255, 0.85)
-        );
-        backdrop-filter: blur(20px);
-        border-right: 1px solid rgba(255, 255, 255, 0.2);
-        box-shadow: 
-          0 8px 32px rgba(0, 0, 0, 0.1),
-          inset 0 1px 0 rgba(255, 255, 255, 0.5);
-        position: fixed;
-        height: 100vh;
-        left: 0;
-        top: 0;
-        z-index: 100;
-        overflow-y: auto;
-        transition: all 0.3s ease;
-      }      .logo-container {
-        display: flex;
-        align-items: center;
-        padding: 20px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-        background: linear-gradient(135deg, 
-          rgba(33, 150, 243, 0.1), 
-          rgba(33, 150, 243, 0.05)
-        );
-        margin: 15px 15px 20px 15px;
-        border-radius: 16px;
-        backdrop-filter: blur(10px);
+        background-color: #f5f5f5;
       }
 
       .logo {
@@ -66,28 +30,7 @@
         flex-direction: column;
       }
 
-      .logo-text {
-        font-size: 24px;
-        background: linear-gradient(135deg, #2196f3, #1976d2);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        font-weight: 700;
-        text-shadow: 0 2px 10px rgba(33, 150, 243, 0.3);
-        letter-spacing: 1px;
-        margin-bottom: 3px;
-        line-height: 1;
-      }
-
-      .logo-subtext {
-        font-size: 15px;
-        color: #444;
-        font-weight: 500;
-        letter-spacing: 0.5px;
-        line-height: 1.2;
-        text-transform: capitalize;
-        max-width: 180px;
-      }      .menu-title {
+      .menu-title {
         padding: 20px 20px 10px 20px;
         color: #666;
         font-size: 12px;
@@ -98,7 +41,7 @@
       }
 
       .menu-title::after {
-        content: '';
+        content: "";
         position: absolute;
         bottom: 5px;
         left: 20px;
@@ -127,15 +70,16 @@
       }
 
       .menu-item::before {
-        content: '';
+        content: "";
         position: absolute;
         top: 0;
         left: -100%;
         width: 100%;
         height: 100%;
-        background: linear-gradient(90deg, 
-          transparent, 
-          rgba(33, 150, 243, 0.1), 
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(33, 150, 243, 0.1),
           transparent
         );
         transition: left 0.6s ease;
@@ -146,8 +90,9 @@
       }
 
       .menu-item:hover {
-        background: linear-gradient(135deg, 
-          rgba(33, 150, 243, 0.1), 
+        background: linear-gradient(
+          135deg,
+          rgba(33, 150, 243, 0.1),
           rgba(33, 150, 243, 0.05)
         );
         color: #2196f3;
@@ -159,8 +104,7 @@
         background: linear-gradient(135deg, #2196f3, #1976d2);
         color: white;
         transform: translateX(8px);
-        box-shadow: 
-          0 8px 25px rgba(33, 150, 243, 0.4),
+        box-shadow: 0 8px 25px rgba(33, 150, 243, 0.4),
           0 0 0 1px rgba(255, 255, 255, 0.1);
       }
 
@@ -172,8 +116,9 @@
         justify-content: center;
         margin-right: 14px;
         border-radius: 10px;
-        background: linear-gradient(135deg, 
-          rgba(33, 150, 243, 0.15), 
+        background: linear-gradient(
+          135deg,
+          rgba(33, 150, 243, 0.15),
           rgba(33, 150, 243, 0.08)
         );
         transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -182,14 +127,15 @@
       }
 
       .menu-icon::after {
-        content: '';
+        content: "";
         position: absolute;
         top: 50%;
         left: 50%;
         width: 0;
         height: 0;
-        background: radial-gradient(circle, 
-          rgba(255, 255, 255, 0.3), 
+        background: radial-gradient(
+          circle,
+          rgba(255, 255, 255, 0.3),
           transparent 70%
         );
         border-radius: 50%;
@@ -198,8 +144,9 @@
       }
 
       .menu-item:hover .menu-icon {
-        background: linear-gradient(135deg, 
-          rgba(255, 255, 255, 0.9), 
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.9),
           rgba(255, 255, 255, 0.7)
         );
         transform: scale(1.1) rotate(5deg);
@@ -212,8 +159,9 @@
       }
 
       .menu-item.active .menu-icon {
-        background: linear-gradient(135deg, 
-          rgba(255, 255, 255, 0.3), 
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.3),
           rgba(255, 255, 255, 0.1)
         );
         transform: scale(1.05);
@@ -235,17 +183,9 @@
       .menu-item.active .menu-icon i {
         color: white;
         transform: scale(1.1);
-      }      /* Main content styles */
-      .main-content {
-        margin-left: 280px;
-        padding: 25px;
-        width: calc(100% - 280px);
-        min-height: 100vh;
-        background: linear-gradient(135deg, 
-          #f5f7fa 0%, 
-          #c3cfe2 100%
-        );
-      }.page-header {
+      }
+
+      .page-header {
         background: rgba(255, 255, 255, 0.95);
         backdrop-filter: blur(10px);
         padding: 30px;
@@ -269,7 +209,7 @@
       .page-subtitle {
         color: #666;
         font-size: 14px;
-      }      /* Content sections */
+      } /* Content sections */
       .content-section {
         background: rgba(255, 255, 255, 0.95);
         backdrop-filter: blur(10px);
@@ -307,7 +247,8 @@
         align-items: center;
         gap: 8px;
         transition: all 0.3s ease;
-      }      .btn-primary {
+      }
+      .btn-primary {
         background: linear-gradient(45deg, #667eea, #764ba2);
         color: white;
         border: none;
@@ -327,7 +268,8 @@
 
       .btn-success:hover {
         background-color: #388e3c;
-      }      .btn-info {
+      }
+      .btn-info {
         background: linear-gradient(45deg, #17a2b8, #20c997);
         color: white;
         border: none;
@@ -353,7 +295,7 @@
       .btn-large:hover {
         transform: translateY(-3px);
         box-shadow: 0 10px 25px rgba(102, 126, 234, 0.5);
-      }/* Table styles */
+      } /* Table styles */
       .participants-table {
         width: 100%;
         border-collapse: collapse;
@@ -384,13 +326,17 @@
       }
 
       .participants-table tr:hover {
-        background: linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(118, 75, 162, 0.05));
+        background: linear-gradient(
+          135deg,
+          rgba(102, 126, 234, 0.05),
+          rgba(118, 75, 162, 0.05)
+        );
         transform: scale(1.01);
       }
 
       .participants-table tr:nth-child(even) {
         background-color: rgba(102, 126, 234, 0.02);
-      }/* Modal styles */
+      } /* Modal styles */
       .modal {
         display: none;
         position: fixed;
@@ -453,7 +399,8 @@
         margin-bottom: 8px;
         font-weight: 600;
         color: #333;
-      }      .form-control {
+      }
+      .form-control {
         width: 100%;
         padding: 12px 15px;
         border: 2px solid rgba(102, 126, 234, 0.2);
@@ -485,13 +432,17 @@
 
       .form-col {
         flex: 1;
-      }      /* Service type section */
+      } /* Service type section */
       .service-type-section {
         border: 2px solid rgba(102, 126, 234, 0.2);
         border-radius: 15px;
         padding: 20px;
         margin-top: 15px;
-        background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+        background: linear-gradient(
+          135deg,
+          rgba(102, 126, 234, 0.1),
+          rgba(118, 75, 162, 0.1)
+        );
         backdrop-filter: blur(10px);
       }
 
@@ -504,7 +455,7 @@
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
-      }      /* Status badge */
+      } /* Status badge */
       .status-badge {
         padding: 6px 12px;
         border-radius: 20px;
@@ -539,57 +490,29 @@
       }
 
       @keyframes pulse {
-        0% { opacity: 1; }
-        50% { opacity: 0.5; }
-        100% { opacity: 1; }
-      }      /* User info styles */
+        0% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.5;
+        }
+        100% {
+          opacity: 1;
+        }
+      } /* User info styles */
       .login-register {
         padding: 20px;
-        background: linear-gradient(135deg, 
-          rgba(255, 255, 255, 0.8), 
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.8),
           rgba(245, 245, 245, 0.6)
         );
         border: 1px solid rgba(255, 255, 255, 0.3);
         border-radius: 16px;
         margin: 15px;
         backdrop-filter: blur(15px);
-        box-shadow: 
-          0 8px 25px rgba(0, 0, 0, 0.1),
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1),
           inset 0 1px 0 rgba(255, 255, 255, 0.6);
-      }
-
-      .user-info {
-        display: flex;
-        align-items: center;
-        margin-bottom: 10px;
-      }
-
-      .avatar {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        margin-right: 10px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background-color: #2196f3;
-        color: white;
-        font-weight: bold;
-      }
-
-      .user-details {
-        flex: 1;
-      }
-
-      .user-name {
-        font-weight: 600;
-        color: #333;
-        font-size: 14px;
-      }
-
-      .user-role {
-        color: #666;
-        font-size: 12px;
       }
 
       .logout-btn {
@@ -637,7 +560,7 @@
         font-size: 48px;
         color: #ddd;
         margin-bottom: 15px;
-      }      /* Responsive */
+      } /* Responsive */
       @media (max-width: 768px) {
         .sidebar {
           transform: translateX(-100%);
@@ -720,6 +643,24 @@
         animation: slideInRight 0.5s ease forwards;
       }
 
+      /* Scrollbar styling */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: #2196f3;
+        border-radius: 10px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: #1976d2;
+      }
+
       /* Loading spinner for better UX */
       .loading {
         display: inline-block;
@@ -732,7 +673,9 @@
       }
 
       @keyframes spin {
-        to { transform: rotate(360deg); }
+        to {
+          transform: rotate(360deg);
+        }
       }
     </style>
   </head>
@@ -746,7 +689,7 @@
           <div class="logo-subtext">Trung tâm xét nghiệm ADN huyết thống</div>
         </div>
       </div>
-      
+
       <div class="login-register">
         <div id="user-info-container">
           <div class="user-info">
@@ -769,7 +712,8 @@
             Đăng xuất
           </button>
         </div>
-      </div>      <div class="menu-title">MAIN MENU</div>
+      </div>
+      <div class="menu-title">MAIN MENU</div>
       <div id="mainMenu">
         <a href="index.html" class="menu-item">
           <span class="menu-icon"><i class="fas fa-home"></i></span>
@@ -813,7 +757,9 @@
       <!-- Page Header -->
       <div class="page-header">
         <h1 class="page-title">Quản Lý Người Tham Gia</h1>
-        <p class="page-subtitle">Quản lý danh sách người tham gia các cuộc hẹn xét nghiệm</p>
+        <p class="page-subtitle">
+          Quản lý danh sách người tham gia các cuộc hẹn xét nghiệm
+        </p>
       </div>
 
       <!-- Add Participant Section -->
@@ -821,7 +767,7 @@
         <div class="section-header">
           <h2 class="section-title">Thêm Người Tham Gia</h2>
         </div>
-        <div style="text-align: center;">
+        <div style="text-align: center">
           <button id="add-participant-btn" class="btn btn-primary btn-large">
             <i class="fas fa-user-plus"></i>
             Thêm Người Tham Gia
@@ -844,8 +790,8 @@
               class="form-control"
               placeholder="Tìm kiếm theo tên khách hàng, mã cuộc hẹn..."
             />
-          </div>        
-            <!-- <select id="service-filter" class="form-control filter-dropdown">
+          </div>
+          <!-- <select id="service-filter" class="form-control filter-dropdown">
             <option value="">Tất cả dịch vụ</option>
             <option value="father-child">Xét nghiệm huyết thống cha - con</option>
             <option value="mother-child">Xét nghiệm huyết thống mẹ - con</option>
@@ -861,7 +807,8 @@
 
         <!-- Participants Table -->
         <div id="participants-container">
-          <table class="participants-table">            <thead>
+          <table class="participants-table">
+            <thead>
               <tr>
                 <th>Mã Cuộc Hẹn</th>
                 <th>Tên Khách Hàng</th>
@@ -910,7 +857,9 @@
               />
             </div>
             <div class="form-col">
-              <label class="form-label" for="customer-code">Mã Người tham gia</label>
+              <label class="form-label" for="customer-code"
+                >Mã Người tham gia</label
+              >
               <input
                 type="text"
                 id="customer-code"
@@ -950,14 +899,23 @@
               class="form-control"
               placeholder="Nhập địa chỉ"
             />
-          </div>          <div class="form-group">
+          </div>
+          <div class="form-group">
             <label class="form-label" for="service-type">Loại dịch vụ *</label>
             <select id="service-type" class="form-control form-select" required>
               <option value="">Chọn loại dịch vụ</option>
-              <option value="father-child">Xét nghiệm huyết thống cha - con</option>
-              <option value="mother-child">Xét nghiệm huyết thống mẹ - con</option>
-              <option value="grandparent-grandchild">Xét nghiệm huyết thống ông, bà - cháu</option>
-              <option value="sibling">Xét nghiệm huyết thống anh, chị - em</option>
+              <option value="father-child">
+                Xét nghiệm huyết thống cha - con
+              </option>
+              <option value="mother-child">
+                Xét nghiệm huyết thống mẹ - con
+              </option>
+              <option value="grandparent-grandchild">
+                Xét nghiệm huyết thống ông, bà - cháu
+              </option>
+              <option value="sibling">
+                Xét nghiệm huyết thống anh, chị - em
+              </option>
             </select>
           </div>
 
@@ -971,9 +929,13 @@
           </div>
 
           <!-- Administrative purpose additional fields -->
-          <div id="administrative-fields" class="service-type-section" style="display: none;">
+          <div
+            id="administrative-fields"
+            class="service-type-section"
+            style="display: none"
+          >
             <div class="service-type-title">Thông tin hành chính</div>
-            
+
             <div class="form-row">
               <div class="form-col">
                 <label class="form-label" for="cccd">Số CCCD *</label>
@@ -985,12 +947,19 @@
                 />
               </div>
               <div class="form-col">
-                <label class="form-label" for="identity-verification">Định danh *</label>
-                <select id="identity-verification" class="form-control form-select">
+                <label class="form-label" for="identity-verification"
+                  >Định danh *</label
+                >
+                <select
+                  id="identity-verification"
+                  class="form-control form-select"
+                >
                   <option value="">Chọn phương thức định danh</option>
                   <option value="face-recognition">Nhận dạng khuôn mặt</option>
                   <option value="fingerprint">Vân tay</option>
-                  <option value="document-verification">Xác minh giấy tờ</option>
+                  <option value="document-verification">
+                    Xác minh giấy tờ
+                  </option>
                   <option value="biometric">Sinh trắc học</option>
                 </select>
               </div>
@@ -1008,26 +977,22 @@
 
             <div class="form-group">
               <label class="form-label" for="issued-date">Ngày cấp CCCD</label>
-              <input
-                type="date"
-                id="issued-date"
-                class="form-control"
-              />
+              <input type="date" id="issued-date" class="form-control" />
             </div>
           </div>
 
           <!-- Service specific fields -->
-          <div id="service-fields" class="service-type-section" style="display: none;">
+          <div
+            id="service-fields"
+            class="service-type-section"
+            style="display: none"
+          >
             <div class="service-type-title">Thông tin người tham gia</div>
-            
+
             <div class="form-row">
               <div class="form-col">
                 <label class="form-label" for="birth-date">Ngày sinh</label>
-                <input
-                  type="date"
-                  id="birth-date"
-                  class="form-control"
-                />
+                <input type="date" id="birth-date" class="form-control" />
               </div>
               <div class="form-col">
                 <label class="form-label" for="gender">Giới tính</label>
@@ -1040,7 +1005,9 @@
             </div>
 
             <div id="relationship-field" class="form-group">
-              <label class="form-label" for="relationship">Vai trò trong xét nghiệm</label>
+              <label class="form-label" for="relationship"
+                >Vai trò trong xét nghiệm</label
+              >
               <select id="relationship" class="form-control form-select">
                 <option value="">Chọn vai trò</option>
                 <!-- Options will be populated based on service type -->
@@ -1069,8 +1036,17 @@
             ></textarea>
           </div>
 
-          <div style="text-align: right; margin-top: 20px;">
-            <button type="button" class="btn" style="background-color: #6c757d; color: white; margin-right: 10px;" onclick="closeAddModal()">
+          <div style="text-align: right; margin-top: 20px">
+            <button
+              type="button"
+              class="btn"
+              style="
+                background-color: #6c757d;
+                color: white;
+                margin-right: 10px;
+              "
+              onclick="closeAddModal()"
+            >
               Hủy
             </button>
             <button type="submit" class="btn btn-primary">
@@ -1092,7 +1068,7 @@
         <div id="participant-details">
           <!-- Dynamic content will be inserted here -->
         </div>
-        <div style="text-align: right; margin-top: 20px;">
+        <div style="text-align: right; margin-top: 20px">
           <button type="button" class="btn btn-info" onclick="closeViewModal()">
             Đóng
           </button>
@@ -1100,7 +1076,8 @@
       </div>
     </div>
 
-    <script>      // Sample data for participants
+    <script>
+      // Sample data for participants
       let participants = [
         {
           id: 1,
@@ -1119,7 +1096,7 @@
           gender: "male",
           relationship: "father",
           sampleType: "blood",
-          note: "Khách hàng VIP"
+          note: "Khách hàng VIP",
         },
         {
           id: 2,
@@ -1142,7 +1119,7 @@
           identityVerification: "face-recognition",
           issuedPlace: "Cục Cảnh sát ĐKQL cư trú và DLQG về dân cư",
           issuedDate: "2020-01-15",
-          note: "Cần xử lý gấp"
+          note: "Cần xử lý gấp",
         },
         {
           id: 3,
@@ -1161,12 +1138,12 @@
           gender: "male",
           relationship: "grandfather",
           sampleType: "blood",
-          note: "Xét nghiệm định kỳ"
-        }
+          note: "Xét nghiệm định kỳ",
+        },
       ];
 
       // Initialize page
-      document.addEventListener('DOMContentLoaded', function() {
+      document.addEventListener("DOMContentLoaded", function () {
         loadParticipants();
         setupEventListeners();
         generateCustomerCode();
@@ -1174,32 +1151,46 @@
 
       function setupEventListeners() {
         // Add participant button
-        document.getElementById('add-participant-btn').addEventListener('click', openAddModal);
+        document
+          .getElementById("add-participant-btn")
+          .addEventListener("click", openAddModal);
 
         // Modal close buttons
-        document.querySelectorAll('.close').forEach(closeBtn => {
-          closeBtn.addEventListener('click', function() {
+        document.querySelectorAll(".close").forEach((closeBtn) => {
+          closeBtn.addEventListener("click", function () {
             closeAddModal();
             closeViewModal();
           });
-        });        // Service type change
-        document.getElementById('service-type').addEventListener('change', toggleServiceFields);
+        }); // Service type change
+        document
+          .getElementById("service-type")
+          .addEventListener("change", toggleServiceFields);
 
         // Purpose change
-        document.getElementById('purpose').addEventListener('change', toggleAdministrativeFields);
+        document
+          .getElementById("purpose")
+          .addEventListener("change", toggleAdministrativeFields);
 
         // Form submission
-        document.getElementById('add-participant-form').addEventListener('submit', handleAddParticipant);
+        document
+          .getElementById("add-participant-form")
+          .addEventListener("submit", handleAddParticipant);
 
         // Search and filter
-        document.getElementById('search-input').addEventListener('input', filterParticipants);
-        document.getElementById('service-filter').addEventListener('change', filterParticipants);
-        document.getElementById('status-filter').addEventListener('change', filterParticipants);
+        document
+          .getElementById("search-input")
+          .addEventListener("input", filterParticipants);
+        document
+          .getElementById("service-filter")
+          .addEventListener("change", filterParticipants);
+        document
+          .getElementById("status-filter")
+          .addEventListener("change", filterParticipants);
 
         // Click outside modal to close
-        window.addEventListener('click', function(event) {
-          const addModal = document.getElementById('add-participant-modal');
-          const viewModal = document.getElementById('view-participant-modal');
+        window.addEventListener("click", function (event) {
+          const addModal = document.getElementById("add-participant-modal");
+          const viewModal = document.getElementById("view-participant-modal");
           if (event.target === addModal) {
             closeAddModal();
           }
@@ -1210,10 +1201,11 @@
       }
 
       function loadParticipants() {
-        const tbody = document.getElementById('participants-list');
-        tbody.innerHTML = '';
+        const tbody = document.getElementById("participants-list");
+        tbody.innerHTML = "";
 
-        if (participants.length === 0) {          tbody.innerHTML = `
+        if (participants.length === 0) {
+          tbody.innerHTML = `
             <tr>
               <td colspan="6" class="empty-state">
                 <i class="fas fa-users"></i>
@@ -1224,158 +1216,172 @@
           return;
         }
 
-        participants.forEach(participant => {
+        participants.forEach((participant) => {
           const row = createParticipantRow(participant);
           tbody.appendChild(row);
         });
       }
 
       function createParticipantRow(participant) {
-        const row = document.createElement('tr');
-        
-        const statusClass = participant.status === 'active' ? 'status-active' : 'status-pending';
-        const statusText = participant.status === 'active' ? 'Đang hoạt động' : 'Chờ xử lý';
-          row.innerHTML = `
+        const row = document.createElement("tr");
+
+        const statusClass =
+          participant.status === "active" ? "status-active" : "status-pending";
+        const statusText =
+          participant.status === "active" ? "Đang hoạt động" : "Chờ xử lý";
+        row.innerHTML = `
           <td>${participant.appointmentId}</td>
           <td>${participant.fullName}</td>
           <td>${participant.customerCode}</td>
           <td><span class="status-badge ${statusClass}">${statusText}</span></td>
           <td>${formatDate(participant.createdDate)}</td>
           <td>
-            <button class="btn btn-info" onclick="viewParticipant(${participant.id})" style="padding: 5px 10px; font-size: 12px;">
+            <button class="btn btn-info" onclick="viewParticipant(${
+              participant.id
+            })" style="padding: 5px 10px; font-size: 12px;">
               <i class="fas fa-eye"></i> Xem
             </button>
           </td>
         `;
-        
+
         return row;
       }
 
       function openAddModal() {
-        document.getElementById('add-participant-modal').style.display = 'block';
+        document.getElementById("add-participant-modal").style.display =
+          "block";
         generateCustomerCode();
-      }      function closeAddModal() {
-        document.getElementById('add-participant-modal').style.display = 'none';
-        document.getElementById('add-participant-form').reset();
+      }
+      function closeAddModal() {
+        document.getElementById("add-participant-modal").style.display = "none";
+        document.getElementById("add-participant-form").reset();
         toggleServiceFields();
         toggleAdministrativeFields();
       }
 
       function closeViewModal() {
-        document.getElementById('view-participant-modal').style.display = 'none';
-      }      function toggleServiceFields() {
-        const serviceType = document.getElementById('service-type').value;
-        const serviceFields = document.getElementById('service-fields');
-        const relationshipSelect = document.getElementById('relationship');
+        document.getElementById("view-participant-modal").style.display =
+          "none";
+      }
+      function toggleServiceFields() {
+        const serviceType = document.getElementById("service-type").value;
+        const serviceFields = document.getElementById("service-fields");
+        const relationshipSelect = document.getElementById("relationship");
 
         if (serviceType) {
-          serviceFields.style.display = 'block';
-          
+          serviceFields.style.display = "block";
+
           // Clear previous options
-          relationshipSelect.innerHTML = '<option value="">Chọn vai trò</option>';
-          
+          relationshipSelect.innerHTML =
+            '<option value="">Chọn vai trò</option>';
+
           // Add options based on service type
           let options = [];
-          switch(serviceType) {
-            case 'father-child':
+          switch (serviceType) {
+            case "father-child":
               options = [
-                {value: 'father', text: 'Cha'},
-                {value: 'child', text: 'Con'}
+                { value: "father", text: "Cha" },
+                { value: "child", text: "Con" },
               ];
               break;
-            case 'mother-child':
+            case "mother-child":
               options = [
-                {value: 'mother', text: 'Mẹ'},
-                {value: 'child', text: 'Con'}
+                { value: "mother", text: "Mẹ" },
+                { value: "child", text: "Con" },
               ];
               break;
-            case 'grandparent-grandchild':
+            case "grandparent-grandchild":
               options = [
-                {value: 'grandfather', text: 'Ông'},
-                {value: 'grandmother', text: 'Bà'},
-                {value: 'grandchild', text: 'Cháu'}
+                { value: "grandfather", text: "Ông" },
+                { value: "grandmother", text: "Bà" },
+                { value: "grandchild", text: "Cháu" },
               ];
               break;
-            case 'sibling':
+            case "sibling":
               options = [
-                {value: 'older_brother', text: 'Anh'},
-                {value: 'older_sister', text: 'Chị'},
-                {value: 'younger_brother', text: 'Em trai'},
-                {value: 'younger_sister', text: 'Em gái'}
+                { value: "older_brother", text: "Anh" },
+                { value: "older_sister", text: "Chị" },
+                { value: "younger_brother", text: "Em trai" },
+                { value: "younger_sister", text: "Em gái" },
               ];
               break;
           }
-          
-          options.forEach(option => {
-            const optionElement = document.createElement('option');
+
+          options.forEach((option) => {
+            const optionElement = document.createElement("option");
             optionElement.value = option.value;
             optionElement.textContent = option.text;
             relationshipSelect.appendChild(optionElement);
           });
         } else {
-          serviceFields.style.display = 'none';
+          serviceFields.style.display = "none";
         }
       }
 
       function toggleAdministrativeFields() {
-        const purpose = document.getElementById('purpose').value;
-        const administrativeFields = document.getElementById('administrative-fields');
-        const cccdField = document.getElementById('cccd');
-        const identityField = document.getElementById('identity-verification');
+        const purpose = document.getElementById("purpose").value;
+        const administrativeFields = document.getElementById(
+          "administrative-fields"
+        );
+        const cccdField = document.getElementById("cccd");
+        const identityField = document.getElementById("identity-verification");
 
-        if (purpose === 'administrative') {
-          administrativeFields.style.display = 'block';
+        if (purpose === "administrative") {
+          administrativeFields.style.display = "block";
           // Make CCCD and identity verification required for administrative purpose
-          cccdField.setAttribute('required', 'required');
-          identityField.setAttribute('required', 'required');
+          cccdField.setAttribute("required", "required");
+          identityField.setAttribute("required", "required");
         } else {
-          administrativeFields.style.display = 'none';
+          administrativeFields.style.display = "none";
           // Remove required attribute for civil purpose
-          cccdField.removeAttribute('required');
-          identityField.removeAttribute('required');
+          cccdField.removeAttribute("required");
+          identityField.removeAttribute("required");
           // Clear the values
-          cccdField.value = '';
-          identityField.value = '';
-          document.getElementById('issued-place').value = '';
-          document.getElementById('issued-date').value = '';
+          cccdField.value = "";
+          identityField.value = "";
+          document.getElementById("issued-place").value = "";
+          document.getElementById("issued-date").value = "";
         }
       }
 
       function generateCustomerCode() {
         const nextId = participants.length + 1;
-        const customerCode = `KH${String(nextId).padStart(3, '0')}`;
-        document.getElementById('customer-code').value = customerCode;
-      }      function handleAddParticipant(event) {
+        const customerCode = `KH${String(nextId).padStart(3, "0")}`;
+        document.getElementById("customer-code").value = customerCode;
+      }
+      function handleAddParticipant(event) {
         event.preventDefault();
 
-        const serviceType = document.getElementById('service-type').value;
+        const serviceType = document.getElementById("service-type").value;
         const serviceNames = {
-          'father-child': 'Xét nghiệm huyết thống cha - con',
-          'mother-child': 'Xét nghiệm huyết thống mẹ - con',
-          'grandparent-grandchild': 'Xét nghiệm huyết thống ông, bà - cháu',
-          'sibling': 'Xét nghiệm huyết thống anh, chị - em'
-        };        const newParticipant = {
+          "father-child": "Xét nghiệm huyết thống cha - con",
+          "mother-child": "Xét nghiệm huyết thống mẹ - con",
+          "grandparent-grandchild": "Xét nghiệm huyết thống ông, bà - cháu",
+          sibling: "Xét nghiệm huyết thống anh, chị - em",
+        };
+        const newParticipant = {
           id: participants.length + 1,
-          appointmentId: document.getElementById('appointment-id').value,
-          fullName: document.getElementById('full-name').value,
-          customerCode: document.getElementById('customer-code').value,
+          appointmentId: document.getElementById("appointment-id").value,
+          fullName: document.getElementById("full-name").value,
+          customerCode: document.getElementById("customer-code").value,
           serviceType: serviceType,
           serviceName: serviceNames[serviceType],
-          purpose: document.getElementById('purpose').value,
-          status: 'active',
-          createdDate: new Date().toISOString().split('T')[0],
-          phone: document.getElementById('phone').value,
-          email: document.getElementById('email').value,
-          address: document.getElementById('address').value,
-          birthDate: document.getElementById('birth-date').value,
-          gender: document.getElementById('gender').value,
-          relationship: document.getElementById('relationship').value,
-          sampleType: document.getElementById('sample-type').value,
-          cccd: document.getElementById('cccd').value,
-          identityVerification: document.getElementById('identity-verification').value,
-          issuedPlace: document.getElementById('issued-place').value,
-          issuedDate: document.getElementById('issued-date').value,
-          note: document.getElementById('note').value
+          purpose: document.getElementById("purpose").value,
+          status: "active",
+          createdDate: new Date().toISOString().split("T")[0],
+          phone: document.getElementById("phone").value,
+          email: document.getElementById("email").value,
+          address: document.getElementById("address").value,
+          birthDate: document.getElementById("birth-date").value,
+          gender: document.getElementById("gender").value,
+          relationship: document.getElementById("relationship").value,
+          sampleType: document.getElementById("sample-type").value,
+          cccd: document.getElementById("cccd").value,
+          identityVerification: document.getElementById("identity-verification")
+            .value,
+          issuedPlace: document.getElementById("issued-place").value,
+          issuedDate: document.getElementById("issued-date").value,
+          note: document.getElementById("note").value,
         };
 
         participants.push(newParticipant);
@@ -1383,37 +1389,39 @@
         closeAddModal();
 
         // Show success message
-        alert('Thêm người tham gia thành công!');
-      }      function viewParticipant(id) {
-        const participant = participants.find(p => p.id === id);
+        alert("Thêm người tham gia thành công!");
+      }
+      function viewParticipant(id) {
+        const participant = participants.find((p) => p.id === id);
         if (!participant) return;
 
-        const detailsContainer = document.getElementById('participant-details');
-        
+        const detailsContainer = document.getElementById("participant-details");
+
         // Map relationship values to display text
         const relationshipMap = {
-          'father': 'Cha',
-          'mother': 'Mẹ',
-          'child': 'Con',
-          'grandfather': 'Ông',
-          'grandmother': 'Bà',
-          'grandchild': 'Cháu',
-          'older_brother': 'Anh',
-          'older_sister': 'Chị',
-          'younger_brother': 'Em trai',
-          'younger_sister': 'Em gái'
-        };        const sampleTypeMap = {
-          'blood': 'Máu',
-          'saliva': 'Nước bọt',
-          'hair': 'Tóc',
-          'nail': 'Móng tay'
+          father: "Cha",
+          mother: "Mẹ",
+          child: "Con",
+          grandfather: "Ông",
+          grandmother: "Bà",
+          grandchild: "Cháu",
+          older_brother: "Anh",
+          older_sister: "Chị",
+          younger_brother: "Em trai",
+          younger_sister: "Em gái",
+        };
+        const sampleTypeMap = {
+          blood: "Máu",
+          saliva: "Nước bọt",
+          hair: "Tóc",
+          nail: "Móng tay",
         };
 
         const identityVerificationMap = {
-          'face-recognition': 'Nhận dạng khuôn mặt',
-          'fingerprint': 'Vân tay',
-          'document-verification': 'Xác minh giấy tờ',
-          'biometric': 'Sinh trắc học'
+          "face-recognition": "Nhận dạng khuôn mặt",
+          fingerprint: "Vân tay",
+          "document-verification": "Xác minh giấy tờ",
+          biometric: "Sinh trắc học",
         };
 
         detailsContainer.innerHTML = `
@@ -1429,81 +1437,126 @@
             <strong>Loại dịch vụ:</strong> ${participant.serviceName}
           </div>
           <div class="form-group">
-            <strong>Mục đích:</strong> ${participant.purpose === 'civil' ? 'Dân sự' : participant.purpose === 'administrative' ? 'Hành chính' : 'Chưa cập nhật'}
+            <strong>Mục đích:</strong> ${
+              participant.purpose === "civil"
+                ? "Dân sự"
+                : participant.purpose === "administrative"
+                ? "Hành chính"
+                : "Chưa cập nhật"
+            }
           </div>
-          ${participant.purpose === 'administrative' ? `
+          ${
+            participant.purpose === "administrative"
+              ? `
           <div class="form-group">
-            <strong>Số CCCD:</strong> ${participant.cccd || 'Chưa cập nhật'}
-          </div>
-          <div class="form-group">
-            <strong>Định danh:</strong> ${identityVerificationMap[participant.identityVerification] || 'Chưa cập nhật'}
-          </div>
-          <div class="form-group">
-            <strong>Nơi cấp CCCD:</strong> ${participant.issuedPlace || 'Chưa cập nhật'}
-          </div>
-          <div class="form-group">
-            <strong>Ngày cấp CCCD:</strong> ${participant.issuedDate ? formatDate(participant.issuedDate) : 'Chưa cập nhật'}
-          </div>
-          ` : ''}
-          <div class="form-group">
-            <strong>Số điện thoại:</strong> ${participant.phone || 'Chưa cập nhật'}
+            <strong>Số CCCD:</strong> ${participant.cccd || "Chưa cập nhật"}
           </div>
           <div class="form-group">
-            <strong>Email:</strong> ${participant.email || 'Chưa cập nhật'}
+            <strong>Định danh:</strong> ${
+              identityVerificationMap[participant.identityVerification] ||
+              "Chưa cập nhật"
+            }
           </div>
           <div class="form-group">
-            <strong>Địa chỉ:</strong> ${participant.address || 'Chưa cập nhật'}
+            <strong>Nơi cấp CCCD:</strong> ${
+              participant.issuedPlace || "Chưa cập nhật"
+            }
           </div>
           <div class="form-group">
-            <strong>Ngày sinh:</strong> ${participant.birthDate || 'Chưa cập nhật'}
+            <strong>Ngày cấp CCCD:</strong> ${
+              participant.issuedDate
+                ? formatDate(participant.issuedDate)
+                : "Chưa cập nhật"
+            }
+          </div>
+          `
+              : ""
+          }
+          <div class="form-group">
+            <strong>Số điện thoại:</strong> ${
+              participant.phone || "Chưa cập nhật"
+            }
           </div>
           <div class="form-group">
-            <strong>Giới tính:</strong> ${participant.gender === 'male' ? 'Nam' : participant.gender === 'female' ? 'Nữ' : 'Chưa cập nhật'}
+            <strong>Email:</strong> ${participant.email || "Chưa cập nhật"}
           </div>
           <div class="form-group">
-            <strong>Vai trò trong xét nghiệm:</strong> ${relationshipMap[participant.relationship] || 'Chưa cập nhật'}
+            <strong>Địa chỉ:</strong> ${participant.address || "Chưa cập nhật"}
           </div>
           <div class="form-group">
-            <strong>Loại mẫu:</strong> ${sampleTypeMap[participant.sampleType] || 'Chưa cập nhật'}
+            <strong>Ngày sinh:</strong> ${
+              participant.birthDate || "Chưa cập nhật"
+            }
+          </div>
+          <div class="form-group">
+            <strong>Giới tính:</strong> ${
+              participant.gender === "male"
+                ? "Nam"
+                : participant.gender === "female"
+                ? "Nữ"
+                : "Chưa cập nhật"
+            }
+          </div>
+          <div class="form-group">
+            <strong>Vai trò trong xét nghiệm:</strong> ${
+              relationshipMap[participant.relationship] || "Chưa cập nhật"
+            }
+          </div>
+          <div class="form-group">
+            <strong>Loại mẫu:</strong> ${
+              sampleTypeMap[participant.sampleType] || "Chưa cập nhật"
+            }
           </div>
           <div class="form-group">
             <strong>Trạng thái:</strong> 
-            <span class="status-badge ${participant.status === 'active' ? 'status-active' : 'status-pending'}">
-              ${participant.status === 'active' ? 'Đang hoạt động' : 'Chờ xử lý'}
+            <span class="status-badge ${
+              participant.status === "active"
+                ? "status-active"
+                : "status-pending"
+            }">
+              ${
+                participant.status === "active" ? "Đang hoạt động" : "Chờ xử lý"
+              }
             </span>
           </div>
           <div class="form-group">
             <strong>Ngày tạo:</strong> ${formatDate(participant.createdDate)}
           </div>
           <div class="form-group">
-            <strong>Ghi chú:</strong> ${participant.note || 'Không có'}
+            <strong>Ghi chú:</strong> ${participant.note || "Không có"}
           </div>
         `;
 
-        document.getElementById('view-participant-modal').style.display = 'block';
+        document.getElementById("view-participant-modal").style.display =
+          "block";
       }
 
       function filterParticipants() {
-        const searchTerm = document.getElementById('search-input').value.toLowerCase();
-        const serviceFilter = document.getElementById('service-filter').value;
-        const statusFilter = document.getElementById('status-filter').value;
+        const searchTerm = document
+          .getElementById("search-input")
+          .value.toLowerCase();
+        const serviceFilter = document.getElementById("service-filter").value;
+        const statusFilter = document.getElementById("status-filter").value;
 
-        const filteredParticipants = participants.filter(participant => {
-          const matchesSearch = 
+        const filteredParticipants = participants.filter((participant) => {
+          const matchesSearch =
             participant.fullName.toLowerCase().includes(searchTerm) ||
             participant.appointmentId.toLowerCase().includes(searchTerm) ||
             participant.customerCode.toLowerCase().includes(searchTerm);
 
-          const matchesService = !serviceFilter || participant.serviceType === serviceFilter;
-          const matchesStatus = !statusFilter || participant.status === statusFilter;
+          const matchesService =
+            !serviceFilter || participant.serviceType === serviceFilter;
+          const matchesStatus =
+            !statusFilter || participant.status === statusFilter;
 
           return matchesSearch && matchesService && matchesStatus;
         });
 
-        const tbody = document.getElementById('participants-list');
-        tbody.innerHTML = '';
+        const tbody = document.getElementById("participants-list");
+        tbody.innerHTML = "";
 
-        if (filteredParticipants.length === 0) {          tbody.innerHTML = `
+        if (filteredParticipants.length === 0) {
+          tbody.innerHTML = `
             <tr>
               <td colspan="6" class="empty-state">
                 <i class="fas fa-search"></i>
@@ -1514,7 +1567,7 @@
           return;
         }
 
-        filteredParticipants.forEach(participant => {
+        filteredParticipants.forEach((participant) => {
           const row = createParticipantRow(participant);
           tbody.appendChild(row);
         });
@@ -1522,12 +1575,12 @@
 
       function formatDate(dateString) {
         const date = new Date(dateString);
-        return date.toLocaleDateString('vi-VN');
+        return date.toLocaleDateString("vi-VN");
       }
 
       function handleLogout() {
-        if (confirm('Bạn có chắc chắn muốn đăng xuất?')) {
-          window.location.href = 'login.html';
+        if (confirm("Bạn có chắc chắn muốn đăng xuất?")) {
+          window.location.href = "login.html";
         }
       }
     </script>

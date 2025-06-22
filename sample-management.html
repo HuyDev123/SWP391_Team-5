@@ -9,50 +9,12 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
     />
     <link rel="stylesheet" href="assets/css/auth.css" />
+    <link rel="stylesheet" href="assets/css/style.css" />
     <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: Arial, sans-serif;
-      }
-
       body {
         display: flex;
         min-height: 100vh;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        background-attachment: fixed;
-      }      /* Sidebar styles with glassmorphism */
-      .sidebar {
-        width: 280px;
-        background: linear-gradient(135deg, 
-          rgba(255, 255, 255, 0.95), 
-          rgba(255, 255, 255, 0.85)
-        );
-        backdrop-filter: blur(20px);
-        border-right: 1px solid rgba(255, 255, 255, 0.2);
-        box-shadow: 
-          0 8px 32px rgba(0, 0, 0, 0.1),
-          inset 0 1px 0 rgba(255, 255, 255, 0.5);
-        position: fixed;
-        height: 100vh;
-        left: 0;
-        top: 0;
-        z-index: 100;
-        overflow-y: auto;
-        transition: all 0.3s ease;
-      }      .logo-container {
-        display: flex;
-        align-items: center;
-        padding: 20px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-        background: linear-gradient(135deg, 
-          rgba(33, 150, 243, 0.1), 
-          rgba(33, 150, 243, 0.05)
-        );
-        margin: 15px 15px 20px 15px;
-        border-radius: 16px;
-        backdrop-filter: blur(10px);
+        background-color: #f5f5f5;
       }
 
       .logo {
@@ -68,28 +30,7 @@
         flex-direction: column;
       }
 
-      .logo-text {
-        font-size: 24px;
-        background: linear-gradient(135deg, #2196f3, #1976d2);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        font-weight: 700;
-        text-shadow: 0 2px 10px rgba(33, 150, 243, 0.3);
-        letter-spacing: 1px;
-        margin-bottom: 3px;
-        line-height: 1;
-      }
-
-      .logo-subtext {
-        font-size: 15px;
-        color: #444;
-        font-weight: 500;
-        letter-spacing: 0.5px;
-        line-height: 1.2;
-        text-transform: capitalize;
-        max-width: 180px;
-      }      .menu-title {
+      .menu-title {
         padding: 20px 20px 10px 20px;
         color: #666;
         font-size: 12px;
@@ -100,7 +41,7 @@
       }
 
       .menu-title::after {
-        content: '';
+        content: "";
         position: absolute;
         bottom: 5px;
         left: 20px;
@@ -129,15 +70,16 @@
       }
 
       .menu-item::before {
-        content: '';
+        content: "";
         position: absolute;
         top: 0;
         left: -100%;
         width: 100%;
         height: 100%;
-        background: linear-gradient(90deg, 
-          transparent, 
-          rgba(33, 150, 243, 0.1), 
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(33, 150, 243, 0.1),
           transparent
         );
         transition: left 0.6s ease;
@@ -148,8 +90,9 @@
       }
 
       .menu-item:hover {
-        background: linear-gradient(135deg, 
-          rgba(33, 150, 243, 0.1), 
+        background: linear-gradient(
+          135deg,
+          rgba(33, 150, 243, 0.1),
           rgba(33, 150, 243, 0.05)
         );
         color: #2196f3;
@@ -161,8 +104,7 @@
         background: linear-gradient(135deg, #2196f3, #1976d2);
         color: white;
         transform: translateX(8px);
-        box-shadow: 
-          0 8px 25px rgba(33, 150, 243, 0.4),
+        box-shadow: 0 8px 25px rgba(33, 150, 243, 0.4),
           0 0 0 1px rgba(255, 255, 255, 0.1);
       }
 
@@ -174,8 +116,9 @@
         justify-content: center;
         margin-right: 14px;
         border-radius: 10px;
-        background: linear-gradient(135deg, 
-          rgba(33, 150, 243, 0.15), 
+        background: linear-gradient(
+          135deg,
+          rgba(33, 150, 243, 0.15),
           rgba(33, 150, 243, 0.08)
         );
         transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -184,14 +127,15 @@
       }
 
       .menu-icon::after {
-        content: '';
+        content: "";
         position: absolute;
         top: 50%;
         left: 50%;
         width: 0;
         height: 0;
-        background: radial-gradient(circle, 
-          rgba(255, 255, 255, 0.3), 
+        background: radial-gradient(
+          circle,
+          rgba(255, 255, 255, 0.3),
           transparent 70%
         );
         border-radius: 50%;
@@ -200,8 +144,9 @@
       }
 
       .menu-item:hover .menu-icon {
-        background: linear-gradient(135deg, 
-          rgba(255, 255, 255, 0.9), 
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.9),
           rgba(255, 255, 255, 0.7)
         );
         transform: scale(1.1) rotate(5deg);
@@ -214,8 +159,9 @@
       }
 
       .menu-item.active .menu-icon {
-        background: linear-gradient(135deg, 
-          rgba(255, 255, 255, 0.3), 
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.3),
           rgba(255, 255, 255, 0.1)
         );
         transform: scale(1.05);
@@ -237,16 +183,6 @@
       .menu-item.active .menu-icon i {
         color: white;
         transform: scale(1.1);
-      }      /* Main content styles */
-      .main-content {
-        margin-left: 280px;
-        padding: 25px;
-        width: calc(100% - 280px);
-        min-height: 100vh;
-        background: linear-gradient(135deg, 
-          #f5f7fa 0%, 
-          #c3cfe2 100%
-        );
       }
 
       .page-header {
@@ -400,7 +336,11 @@
       }
 
       .samples-table tr:hover {
-        background: linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(118, 75, 162, 0.05));
+        background: linear-gradient(
+          135deg,
+          rgba(102, 126, 234, 0.05),
+          rgba(118, 75, 162, 0.05)
+        );
         transform: scale(1.01);
       }
 
@@ -577,54 +517,6 @@
 
       .status-completed::before {
         content: "✓";
-      }      /* User info styles */
-      .login-register {
-        padding: 20px;
-        background: linear-gradient(135deg, 
-          rgba(255, 255, 255, 0.8), 
-          rgba(245, 245, 245, 0.6)
-        );
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        border-radius: 16px;
-        margin: 15px;
-        backdrop-filter: blur(15px);
-        box-shadow: 
-          0 8px 25px rgba(0, 0, 0, 0.1),
-          inset 0 1px 0 rgba(255, 255, 255, 0.6);
-      }
-
-      .user-info {
-        display: flex;
-        align-items: center;
-        margin-bottom: 10px;
-      }
-
-      .avatar {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        margin-right: 10px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background-color: #2196f3;
-        color: white;
-        font-weight: bold;
-      }
-
-      .user-details {
-        flex: 1;
-      }
-
-      .user-name {
-        font-weight: 600;
-        color: #333;
-        font-size: 14px;
-      }
-
-      .user-role {
-        color: #666;
-        font-size: 12px;
       }
 
       .logout-btn {
@@ -767,6 +659,24 @@
           transform: translateX(0);
         }
       }
+
+      /* Scrollbar styling */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: #2196f3;
+        border-radius: 10px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: #1976d2;
+      }
     </style>
   </head>
   <body>
@@ -779,7 +689,7 @@
           <div class="logo-subtext">Trung tâm xét nghiệm ADN huyết thống</div>
         </div>
       </div>
-      
+
       <div class="login-register">
         <div id="user-info-container">
           <div class="user-info">
@@ -802,7 +712,8 @@
             Đăng xuất
           </button>
         </div>
-      </div>      <div class="menu-title">MAIN MENU</div>
+      </div>
+      <div class="menu-title">MAIN MENU</div>
       <div id="mainMenu">
         <a href="index.html" class="menu-item">
           <span class="menu-icon"><i class="fas fa-home"></i></span>
@@ -846,7 +757,9 @@
       <!-- Page Header -->
       <div class="page-header">
         <h1 class="page-title">Quản Lý Mẫu Xét Nghiệm</h1>
-        <p class="page-subtitle">Quản lý danh sách mẫu xét nghiệm và quá trình thu thập</p>
+        <p class="page-subtitle">
+          Quản lý danh sách mẫu xét nghiệm và quá trình thu thập
+        </p>
       </div>
 
       <!-- Add Sample Section -->
@@ -854,7 +767,7 @@
         <div class="section-header">
           <h2 class="section-title">Thêm Mẫu Xét Nghiệm</h2>
         </div>
-        <div style="text-align: center;">
+        <div style="text-align: center">
           <button id="add-sample-btn" class="btn btn-primary btn-large">
             <i class="fas fa-plus-circle"></i>
             Thêm Mẫu Xét Nghiệm
@@ -866,7 +779,8 @@
       <div class="content-section">
         <div class="section-header">
           <h2 class="section-title">Danh Sách Mẫu Xét Nghiệm</h2>
-        </div>        <!-- Search and Filter -->
+        </div>
+        <!-- Search and Filter -->
         <div class="filter-section">
           <div class="search-box">
             <input
@@ -893,7 +807,8 @@
 
         <!-- Samples Table -->
         <div id="samples-container">
-          <table class="samples-table">            <thead>
+          <table class="samples-table">
+            <thead>
               <tr>
                 <th>Mã Mẫu</th>
                 <th>Tên Người Cung Cấp</th>
@@ -921,7 +836,9 @@
         </div>
         <form id="add-sample-form">
           <div class="form-group">
-            <label class="form-label" for="provider-id">ID Người Cung Cấp Mẫu *</label>
+            <label class="form-label" for="provider-id"
+              >ID Người Cung Cấp Mẫu *</label
+            >
             <input
               type="text"
               id="provider-id"
@@ -933,7 +850,9 @@
 
           <div class="form-row">
             <div class="form-col">
-              <label class="form-label" for="provider-name">Tên Người Cung Cấp *</label>
+              <label class="form-label" for="provider-name"
+                >Tên Người Cung Cấp *</label
+              >
               <input
                 type="text"
                 id="provider-name"
@@ -957,17 +876,33 @@
           <div class="form-row">
             <div class="form-col">
               <label class="form-label" for="service-name">Tên Dịch Vụ *</label>
-              <select id="service-name" class="form-control form-select" required>
+              <select
+                id="service-name"
+                class="form-control form-select"
+                required
+              >
                 <option value="">Chọn dịch vụ</option>
-                <option value="father-child">Xét nghiệm huyết thống cha - con</option>
-                <option value="mother-child">Xét nghiệm huyết thống mẹ - con</option>
-                <option value="grandparent-grandchild">Xét nghiệm huyết thống ông, bà - cháu</option>
-                <option value="sibling">Xét nghiệm huyết thống anh, chị - em</option>
+                <option value="father-child">
+                  Xét nghiệm huyết thống cha - con
+                </option>
+                <option value="mother-child">
+                  Xét nghiệm huyết thống mẹ - con
+                </option>
+                <option value="grandparent-grandchild">
+                  Xét nghiệm huyết thống ông, bà - cháu
+                </option>
+                <option value="sibling">
+                  Xét nghiệm huyết thống anh, chị - em
+                </option>
               </select>
             </div>
             <div class="form-col">
               <label class="form-label" for="sample-type">Loại Mẫu *</label>
-              <select id="sample-type" class="form-control form-select" required>
+              <select
+                id="sample-type"
+                class="form-control form-select"
+                required
+              >
                 <option value="">Chọn loại mẫu</option>
                 <option value="blood">Máu</option>
                 <option value="saliva">Nước bọt</option>
@@ -979,15 +914,24 @@
 
           <div class="form-row">
             <div class="form-col">
-              <label class="form-label" for="collection-location">Địa Điểm Thu Thập *</label>
-              <select id="collection-location" class="form-control form-select" required onchange="updateCollectorField()">
+              <label class="form-label" for="collection-location"
+                >Địa Điểm Thu Thập *</label
+              >
+              <select
+                id="collection-location"
+                class="form-control form-select"
+                required
+                onchange="updateCollectorField()"
+              >
                 <option value="">Chọn địa điểm</option>
                 <option value="home">Tại nhà</option>
                 <option value="facility">Tại cơ sở</option>
               </select>
             </div>
             <div class="form-col">
-              <label class="form-label" for="collector">Người Thực Hiện *</label>
+              <label class="form-label" for="collector"
+                >Người Thực Hiện *</label
+              >
               <input
                 type="text"
                 id="collector"
@@ -1000,7 +944,9 @@
           </div>
 
           <div class="form-group">
-            <label class="form-label" for="collection-time">Thời Gian Lấy *</label>
+            <label class="form-label" for="collection-time"
+              >Thời Gian Lấy *</label
+            >
             <input
               type="datetime-local"
               id="collection-time"
@@ -1019,8 +965,17 @@
             ></textarea>
           </div>
 
-          <div style="text-align: right; margin-top: 20px;">
-            <button type="button" class="btn" style="background-color: #6c757d; color: white; margin-right: 10px;" onclick="closeAddModal()">
+          <div style="text-align: right; margin-top: 20px">
+            <button
+              type="button"
+              class="btn"
+              style="
+                background-color: #6c757d;
+                color: white;
+                margin-right: 10px;
+              "
+              onclick="closeAddModal()"
+            >
               Hủy
             </button>
             <button type="submit" class="btn btn-primary">
@@ -1042,7 +997,7 @@
         <div id="sample-details">
           <!-- Dynamic content will be inserted here -->
         </div>
-        <div style="text-align: right; margin-top: 20px;">
+        <div style="text-align: right; margin-top: 20px">
           <button type="button" class="btn btn-info" onclick="closeViewModal()">
             Đóng
           </button>
@@ -1066,7 +1021,7 @@
           collectionTime: "2024-06-21T09:30",
           status: "collected",
           createdDate: "2024-06-21",
-          note: "Mẫu chất lượng tốt"
+          note: "Mẫu chất lượng tốt",
         },
         {
           id: 2,
@@ -1081,7 +1036,7 @@
           collectionTime: "2024-06-20T14:15",
           status: "processing",
           createdDate: "2024-06-20",
-          note: "Thu thập tại nhà theo yêu cầu"
+          note: "Thu thập tại nhà theo yêu cầu",
         },
         {
           id: 3,
@@ -1096,12 +1051,12 @@
           collectionTime: "2024-06-19T10:00",
           status: "completed",
           createdDate: "2024-06-19",
-          note: "Xét nghiệm hoàn thành, kết quả đã gửi"
-        }
+          note: "Xét nghiệm hoàn thành, kết quả đã gửi",
+        },
       ];
 
       // Initialize page
-      document.addEventListener('DOMContentLoaded', function() {
+      document.addEventListener("DOMContentLoaded", function () {
         loadSamples();
         setupEventListeners();
         generateSampleCode();
@@ -1110,26 +1065,36 @@
 
       function setupEventListeners() {
         // Add sample button
-        document.getElementById('add-sample-btn').addEventListener('click', openAddModal);
+        document
+          .getElementById("add-sample-btn")
+          .addEventListener("click", openAddModal);
 
         // Modal close buttons
-        document.querySelectorAll('.close').forEach(closeBtn => {
-          closeBtn.addEventListener('click', function() {
+        document.querySelectorAll(".close").forEach((closeBtn) => {
+          closeBtn.addEventListener("click", function () {
             closeAddModal();
             closeViewModal();
           });
         });
 
         // Form submission
-        document.getElementById('add-sample-form').addEventListener('submit', handleAddSample);        // Search and filter
-        document.getElementById('search-input').addEventListener('input', filterSamples);
-        document.getElementById('service-filter').addEventListener('change', filterSamples);
-        document.getElementById('status-filter').addEventListener('change', filterSamples);
+        document
+          .getElementById("add-sample-form")
+          .addEventListener("submit", handleAddSample); // Search and filter
+        document
+          .getElementById("search-input")
+          .addEventListener("input", filterSamples);
+        document
+          .getElementById("service-filter")
+          .addEventListener("change", filterSamples);
+        document
+          .getElementById("status-filter")
+          .addEventListener("change", filterSamples);
 
         // Click outside modal to close
-        window.addEventListener('click', function(event) {
-          const addModal = document.getElementById('add-sample-modal');
-          const viewModal = document.getElementById('view-sample-modal');
+        window.addEventListener("click", function (event) {
+          const addModal = document.getElementById("add-sample-modal");
+          const viewModal = document.getElementById("view-sample-modal");
           if (event.target === addModal) {
             closeAddModal();
           }
@@ -1140,10 +1105,11 @@
       }
 
       function loadSamples() {
-        const tbody = document.getElementById('samples-list');
-        tbody.innerHTML = '';
+        const tbody = document.getElementById("samples-list");
+        tbody.innerHTML = "";
 
-        if (samples.length === 0) {          tbody.innerHTML = `
+        if (samples.length === 0) {
+          tbody.innerHTML = `
             <tr>
               <td colspan="7" class="empty-state">
                 <i class="fas fa-flask"></i>
@@ -1154,102 +1120,111 @@
           return;
         }
 
-        samples.forEach(sample => {
+        samples.forEach((sample) => {
           const row = createSampleRow(sample);
           tbody.appendChild(row);
         });
       }
 
       function createSampleRow(sample) {
-        const row = document.createElement('tr');
-        
+        const row = document.createElement("tr");
+
         const statusClasses = {
-          'collected': 'status-collected',
-          'processing': 'status-processing',
-          'completed': 'status-completed'
+          collected: "status-collected",
+          processing: "status-processing",
+          completed: "status-completed",
         };
 
         const statusTexts = {
-          'collected': 'Đã thu thập',
-          'processing': 'Đang xử lý',
-          'completed': 'Hoàn thành'
+          collected: "Đã thu thập",
+          processing: "Đang xử lý",
+          completed: "Hoàn thành",
         };
 
         const sampleTypeClasses = {
-          'blood': 'sample-blood',
-          'saliva': 'sample-saliva',
-          'hair': 'sample-hair',
-          'nail': 'sample-nail'
+          blood: "sample-blood",
+          saliva: "sample-saliva",
+          hair: "sample-hair",
+          nail: "sample-nail",
         };
 
         const sampleTypeTexts = {
-          'blood': 'Máu',
-          'saliva': 'Nước bọt',
-          'hair': 'Tóc',
-          'nail': 'Móng tay'
+          blood: "Máu",
+          saliva: "Nước bọt",
+          hair: "Tóc",
+          nail: "Móng tay",
         };
 
-        const locationBadge = sample.collectionLocation === 'home' ? 
-          '<span class="location-badge location-home">Tại nhà</span>' : 
-          '<span class="location-badge location-facility">Tại cơ sở</span>';
-          row.innerHTML = `
+        const locationBadge =
+          sample.collectionLocation === "home"
+            ? '<span class="location-badge location-home">Tại nhà</span>'
+            : '<span class="location-badge location-facility">Tại cơ sở</span>';
+        row.innerHTML = `
           <td><strong>${sample.sampleCode}</strong></td>
           <td>${sample.providerName}</td>
           <td>${sample.serviceDisplayName}</td>
           <td>${sample.collector} ${locationBadge}</td>
           <td>${formatDateTime(sample.collectionTime)}</td>
-          <td><span class="status-badge ${statusClasses[sample.status]}">${statusTexts[sample.status]}</span></td>
+          <td><span class="status-badge ${statusClasses[sample.status]}">${
+          statusTexts[sample.status]
+        }</span></td>
           <td>
-            <button class="btn btn-info" onclick="viewSample(${sample.id})" style="padding: 5px 10px; font-size: 12px;">
+            <button class="btn btn-info" onclick="viewSample(${
+              sample.id
+            })" style="padding: 5px 10px; font-size: 12px;">
               <i class="fas fa-eye"></i> Xem
             </button>
           </td>
         `;
-        
+
         return row;
       }
 
       function openAddModal() {
-        document.getElementById('add-sample-modal').style.display = 'block';
+        document.getElementById("add-sample-modal").style.display = "block";
         generateSampleCode();
         setDefaultDateTime();
       }
 
       function closeAddModal() {
-        document.getElementById('add-sample-modal').style.display = 'none';
-        document.getElementById('add-sample-form').reset();
+        document.getElementById("add-sample-modal").style.display = "none";
+        document.getElementById("add-sample-form").reset();
       }
 
       function closeViewModal() {
-        document.getElementById('view-sample-modal').style.display = 'none';
+        document.getElementById("view-sample-modal").style.display = "none";
       }
 
       function generateSampleCode() {
         const nextId = samples.length + 1;
-        const sampleCode = `S${String(nextId).padStart(3, '0')}`;
-        document.getElementById('sample-code').value = sampleCode;
+        const sampleCode = `S${String(nextId).padStart(3, "0")}`;
+        document.getElementById("sample-code").value = sampleCode;
       }
 
       function setDefaultDateTime() {
         const now = new Date();
-        const localDateTime = new Date(now.getTime() - now.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
-        document.getElementById('collection-time').value = localDateTime;
+        const localDateTime = new Date(
+          now.getTime() - now.getTimezoneOffset() * 60000
+        )
+          .toISOString()
+          .slice(0, 16);
+        document.getElementById("collection-time").value = localDateTime;
       }
 
       function updateCollectorField() {
-        const location = document.getElementById('collection-location').value;
-        const collectorField = document.getElementById('collector');
-        const providerId = document.getElementById('provider-id').value;
+        const location = document.getElementById("collection-location").value;
+        const collectorField = document.getElementById("collector");
+        const providerId = document.getElementById("provider-id").value;
 
-        if (location === 'home') {
-          collectorField.value = providerId || 'ID_Khách hàng';
-          collectorField.placeholder = 'ID_Khách hàng';
-        } else if (location === 'facility') {
-          collectorField.value = 'ST001'; // Default staff ID
-          collectorField.placeholder = 'ID_Staff';
+        if (location === "home") {
+          collectorField.value = providerId || "ID_Khách hàng";
+          collectorField.placeholder = "ID_Khách hàng";
+        } else if (location === "facility") {
+          collectorField.value = "ST001"; // Default staff ID
+          collectorField.placeholder = "ID_Staff";
         } else {
-          collectorField.value = '';
-          collectorField.placeholder = 'Sẽ tự động điền';
+          collectorField.value = "";
+          collectorField.placeholder = "Sẽ tự động điền";
         }
       }
 
@@ -1257,26 +1232,28 @@
         event.preventDefault();
 
         const serviceNames = {
-          'father-child': 'Xét nghiệm huyết thống cha - con',
-          'mother-child': 'Xét nghiệm huyết thống mẹ - con',
-          'grandparent-grandchild': 'Xét nghiệm huyết thống ông, bà - cháu',
-          'sibling': 'Xét nghiệm huyết thống anh, chị - em'
+          "father-child": "Xét nghiệm huyết thống cha - con",
+          "mother-child": "Xét nghiệm huyết thống mẹ - con",
+          "grandparent-grandchild": "Xét nghiệm huyết thống ông, bà - cháu",
+          sibling: "Xét nghiệm huyết thống anh, chị - em",
         };
 
         const newSample = {
           id: samples.length + 1,
-          sampleCode: document.getElementById('sample-code').value,
-          providerId: document.getElementById('provider-id').value,
-          providerName: document.getElementById('provider-name').value,
-          serviceName: document.getElementById('service-name').value,
-          serviceDisplayName: serviceNames[document.getElementById('service-name').value],
-          sampleType: document.getElementById('sample-type').value,
-          collectionLocation: document.getElementById('collection-location').value,
-          collector: document.getElementById('collector').value,
-          collectionTime: document.getElementById('collection-time').value,
-          status: 'collected',
-          createdDate: new Date().toISOString().split('T')[0],
-          note: document.getElementById('note').value
+          sampleCode: document.getElementById("sample-code").value,
+          providerId: document.getElementById("provider-id").value,
+          providerName: document.getElementById("provider-name").value,
+          serviceName: document.getElementById("service-name").value,
+          serviceDisplayName:
+            serviceNames[document.getElementById("service-name").value],
+          sampleType: document.getElementById("sample-type").value,
+          collectionLocation: document.getElementById("collection-location")
+            .value,
+          collector: document.getElementById("collector").value,
+          collectionTime: document.getElementById("collection-time").value,
+          status: "collected",
+          createdDate: new Date().toISOString().split("T")[0],
+          note: document.getElementById("note").value,
         };
 
         samples.push(newSample);
@@ -1284,31 +1261,31 @@
         closeAddModal();
 
         // Show success message
-        alert('Thêm mẫu xét nghiệm thành công!');
+        alert("Thêm mẫu xét nghiệm thành công!");
       }
 
       function viewSample(id) {
-        const sample = samples.find(s => s.id === id);
+        const sample = samples.find((s) => s.id === id);
         if (!sample) return;
 
-        const detailsContainer = document.getElementById('sample-details');
+        const detailsContainer = document.getElementById("sample-details");
 
         const sampleTypeTexts = {
-          'blood': 'Máu',
-          'saliva': 'Nước bọt',
-          'hair': 'Tóc',
-          'nail': 'Móng tay'
+          blood: "Máu",
+          saliva: "Nước bọt",
+          hair: "Tóc",
+          nail: "Móng tay",
         };
 
         const statusTexts = {
-          'collected': 'Đã thu thập',
-          'processing': 'Đang xử lý',
-          'completed': 'Hoàn thành'
+          collected: "Đã thu thập",
+          processing: "Đang xử lý",
+          completed: "Hoàn thành",
         };
 
         const locationTexts = {
-          'home': 'Tại nhà',
-          'facility': 'Tại cơ sở'
+          home: "Tại nhà",
+          facility: "Tại cơ sở",
         };
 
         detailsContainer.innerHTML = `
@@ -1328,13 +1305,17 @@
             <strong>Loại mẫu:</strong> ${sampleTypeTexts[sample.sampleType]}
           </div>
           <div class="form-group">
-            <strong>Địa điểm thu thập:</strong> ${locationTexts[sample.collectionLocation]}
+            <strong>Địa điểm thu thập:</strong> ${
+              locationTexts[sample.collectionLocation]
+            }
           </div>
           <div class="form-group">
             <strong>Người thực hiện:</strong> ${sample.collector}
           </div>
           <div class="form-group">
-            <strong>Thời gian lấy:</strong> ${formatDateTime(sample.collectionTime)}
+            <strong>Thời gian lấy:</strong> ${formatDateTime(
+              sample.collectionTime
+            )}
           </div>
           <div class="form-group">
             <strong>Trạng thái:</strong> 
@@ -1346,32 +1327,37 @@
             <strong>Ngày tạo:</strong> ${formatDate(sample.createdDate)}
           </div>
           <div class="form-group">
-            <strong>Ghi chú:</strong> ${sample.note || 'Không có'}
+            <strong>Ghi chú:</strong> ${sample.note || "Không có"}
           </div>
         `;
 
-        document.getElementById('view-sample-modal').style.display = 'block';
-      }      function filterSamples() {
-        const searchTerm = document.getElementById('search-input').value.toLowerCase();
-        const serviceFilter = document.getElementById('service-filter').value;
-        const statusFilter = document.getElementById('status-filter').value;
+        document.getElementById("view-sample-modal").style.display = "block";
+      }
+      function filterSamples() {
+        const searchTerm = document
+          .getElementById("search-input")
+          .value.toLowerCase();
+        const serviceFilter = document.getElementById("service-filter").value;
+        const statusFilter = document.getElementById("status-filter").value;
 
-        const filteredSamples = samples.filter(sample => {
-          const matchesSearch = 
+        const filteredSamples = samples.filter((sample) => {
+          const matchesSearch =
             sample.sampleCode.toLowerCase().includes(searchTerm) ||
             sample.providerName.toLowerCase().includes(searchTerm) ||
             sample.providerId.toLowerCase().includes(searchTerm);
 
-          const matchesService = !serviceFilter || sample.serviceName === serviceFilter;
+          const matchesService =
+            !serviceFilter || sample.serviceName === serviceFilter;
           const matchesStatus = !statusFilter || sample.status === statusFilter;
 
           return matchesSearch && matchesService && matchesStatus;
         });
 
-        const tbody = document.getElementById('samples-list');
-        tbody.innerHTML = '';
+        const tbody = document.getElementById("samples-list");
+        tbody.innerHTML = "";
 
-        if (filteredSamples.length === 0) {          tbody.innerHTML = `
+        if (filteredSamples.length === 0) {
+          tbody.innerHTML = `
             <tr>
               <td colspan="7" class="empty-state">
                 <i class="fas fa-search"></i>
@@ -1382,7 +1368,7 @@
           return;
         }
 
-        filteredSamples.forEach(sample => {
+        filteredSamples.forEach((sample) => {
           const row = createSampleRow(sample);
           tbody.appendChild(row);
         });
@@ -1390,25 +1376,27 @@
 
       function formatDate(dateString) {
         const date = new Date(dateString);
-        return date.toLocaleDateString('vi-VN');
+        return date.toLocaleDateString("vi-VN");
       }
 
       function formatDateTime(dateTimeString) {
         const date = new Date(dateTimeString);
-        return date.toLocaleString('vi-VN');
+        return date.toLocaleString("vi-VN");
       }
 
       function handleLogout() {
-        if (confirm('Bạn có chắc chắn muốn đăng xuất?')) {
-          window.location.href = 'login.html';
+        if (confirm("Bạn có chắc chắn muốn đăng xuất?")) {
+          window.location.href = "login.html";
         }
       }
 
       // Auto-update collector field when provider ID changes
-      document.addEventListener('DOMContentLoaded', function() {
-        document.getElementById('provider-id').addEventListener('input', function() {
-          updateCollectorField();
-        });
+      document.addEventListener("DOMContentLoaded", function () {
+        document
+          .getElementById("provider-id")
+          .addEventListener("input", function () {
+            updateCollectorField();
+          });
       });
     </script>
 

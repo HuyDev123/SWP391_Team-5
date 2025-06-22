@@ -9,52 +9,13 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
     />
     <link rel="stylesheet" href="assets/css/auth.css" />
+    <link rel="stylesheet" href="assets/css/style.css" />
     <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      }
-
       body {
         display: flex;
         min-height: 100vh;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        background-attachment: fixed;
-      }      /* Sidebar styles with glassmorphism */
-      .sidebar {
-        width: 280px;
-        background: linear-gradient(135deg, 
-          rgba(255, 255, 255, 0.95), 
-          rgba(255, 255, 255, 0.85)
-        );
-        backdrop-filter: blur(20px);
-        border-right: 1px solid rgba(255, 255, 255, 0.2);
-        box-shadow: 
-          0 8px 32px rgba(0, 0, 0, 0.1),
-          inset 0 1px 0 rgba(255, 255, 255, 0.5);
-        position: fixed;
-        height: 100vh;
-        left: 0;
-        top: 0;
-        z-index: 100;
-        overflow-y: auto;
-        transition: all 0.3s ease;
-      }      .logo-container {
-        display: flex;
-        align-items: center;
-        padding: 20px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-        background: linear-gradient(135deg, 
-          rgba(33, 150, 243, 0.1), 
-          rgba(33, 150, 243, 0.05)
-        );
-        margin: 15px 15px 20px 15px;
-        border-radius: 16px;
-        backdrop-filter: blur(10px);
+        background-color: #f5f5f5;
       }
-
       .logo {
         width: 45px;
         height: 45px;
@@ -68,41 +29,7 @@
         flex-direction: column;
       }
 
-      .logo-text {
-        font-size: 24px;
-        background: linear-gradient(135deg, #2196f3, #1976d2);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        font-weight: 700;
-        text-shadow: 0 2px 10px rgba(33, 150, 243, 0.3);
-        letter-spacing: 1px;
-        margin-bottom: 3px;
-        line-height: 1;
-      }
-
-      .logo-subtext {
-        font-size: 15px;
-        color: #444;
-        font-weight: 500;
-        letter-spacing: 0.5px;
-        line-height: 1.2;
-        text-transform: capitalize;
-        max-width: 180px;
-      }      .login-register {
-        padding: 20px;
-        background: linear-gradient(135deg, 
-          rgba(255, 255, 255, 0.8), 
-          rgba(245, 245, 245, 0.6)
-        );
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        border-radius: 16px;
-        margin: 15px;
-        backdrop-filter: blur(15px);
-        box-shadow: 
-          0 8px 25px rgba(0, 0, 0, 0.1),
-          inset 0 1px 0 rgba(255, 255, 255, 0.6);
-      }.menu-title {
+      .menu-title {
         padding: 20px 20px 10px 20px;
         color: #666;
         font-size: 12px;
@@ -113,7 +40,7 @@
       }
 
       .menu-title::after {
-        content: '';
+        content: "";
         position: absolute;
         bottom: 5px;
         left: 20px;
@@ -142,15 +69,16 @@
       }
 
       .menu-item::before {
-        content: '';
+        content: "";
         position: absolute;
         top: 0;
         left: -100%;
         width: 100%;
         height: 100%;
-        background: linear-gradient(90deg, 
-          transparent, 
-          rgba(33, 150, 243, 0.1), 
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(33, 150, 243, 0.1),
           transparent
         );
         transition: left 0.6s ease;
@@ -161,8 +89,9 @@
       }
 
       .menu-item:hover {
-        background: linear-gradient(135deg, 
-          rgba(33, 150, 243, 0.1), 
+        background: linear-gradient(
+          135deg,
+          rgba(33, 150, 243, 0.1),
           rgba(33, 150, 243, 0.05)
         );
         color: #2196f3;
@@ -174,8 +103,7 @@
         background: linear-gradient(135deg, #2196f3, #1976d2);
         color: white;
         transform: translateX(8px);
-        box-shadow: 
-          0 8px 25px rgba(33, 150, 243, 0.4),
+        box-shadow: 0 8px 25px rgba(33, 150, 243, 0.4),
           0 0 0 1px rgba(255, 255, 255, 0.1);
       }
 
@@ -187,8 +115,9 @@
         justify-content: center;
         margin-right: 14px;
         border-radius: 10px;
-        background: linear-gradient(135deg, 
-          rgba(33, 150, 243, 0.15), 
+        background: linear-gradient(
+          135deg,
+          rgba(33, 150, 243, 0.15),
           rgba(33, 150, 243, 0.08)
         );
         transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -197,14 +126,15 @@
       }
 
       .menu-icon::after {
-        content: '';
+        content: "";
         position: absolute;
         top: 50%;
         left: 50%;
         width: 0;
         height: 0;
-        background: radial-gradient(circle, 
-          rgba(255, 255, 255, 0.3), 
+        background: radial-gradient(
+          circle,
+          rgba(255, 255, 255, 0.3),
           transparent 70%
         );
         border-radius: 50%;
@@ -213,8 +143,9 @@
       }
 
       .menu-item:hover .menu-icon {
-        background: linear-gradient(135deg, 
-          rgba(255, 255, 255, 0.9), 
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.9),
           rgba(255, 255, 255, 0.7)
         );
         transform: scale(1.1) rotate(5deg);
@@ -227,8 +158,9 @@
       }
 
       .menu-item.active .menu-icon {
-        background: linear-gradient(135deg, 
-          rgba(255, 255, 255, 0.3), 
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.3),
           rgba(255, 255, 255, 0.1)
         );
         transform: scale(1.05);
@@ -250,16 +182,6 @@
       .menu-item.active .menu-icon i {
         color: white;
         transform: scale(1.1);
-      }      /* Main content styles */
-      .main-content {
-        margin-left: 280px;
-        padding: 25px;
-        width: calc(100% - 280px);
-        min-height: 100vh;
-        background: linear-gradient(135deg, 
-          #f5f7fa 0%, 
-          #c3cfe2 100%
-        );
       }
 
       .header-section {
@@ -439,10 +361,22 @@
         letter-spacing: 0.5px;
       }
 
-      .service-paternity { background: #e3f2fd; color: #1976d2; }
-      .service-maternity { background: #fce4ec; color: #c2185b; }
-      .service-grandparent { background: #f3e5f5; color: #7b1fa2; }
-      .service-sibling { background: #e8f5e8; color: #388e3c; }
+      .service-paternity {
+        background: #e3f2fd;
+        color: #1976d2;
+      }
+      .service-maternity {
+        background: #fce4ec;
+        color: #c2185b;
+      }
+      .service-grandparent {
+        background: #f3e5f5;
+        color: #7b1fa2;
+      }
+      .service-sibling {
+        background: #e8f5e8;
+        color: #388e3c;
+      }
 
       /* Status badges */
       .status-badge {
@@ -455,9 +389,18 @@
         letter-spacing: 0.5px;
       }
 
-      .status-completed { background: #e8f5e8; color: #2e7d32; }
-      .status-partial { background: #fff3e0; color: #f57c00; }
-      .status-pending { background: #fce4ec; color: #c2185b; }
+      .status-completed {
+        background: #e8f5e8;
+        color: #2e7d32;
+      }
+      .status-partial {
+        background: #fff3e0;
+        color: #f57c00;
+      }
+      .status-pending {
+        background: #fce4ec;
+        color: #c2185b;
+      }
 
       /* Action buttons */
       .action-btn {
@@ -655,7 +598,7 @@
         height: 24px;
         cursor: pointer;
         font-size: 12px;
-      }      /* Responsive design */
+      } /* Responsive design */
       @media (max-width: 768px) {
         .sidebar {
           width: 280px;
@@ -706,8 +649,14 @@
       }
 
       @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(20px); }
-        to { opacity: 1; transform: translateY(0); }
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
       }
 
       .slide-up {
@@ -715,8 +664,32 @@
       }
 
       @keyframes slideUp {
-        from { transform: translateY(30px); opacity: 0; }
-        to { transform: translateY(0); opacity: 1; }
+        from {
+          transform: translateY(30px);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      /* Scrollbar styling */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: #2196f3;
+        border-radius: 10px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: #1976d2;
       }
     </style>
   </head>
@@ -725,16 +698,16 @@
     <!-- Sidebar -->
     <div class="sidebar">
       <div class="logo-container">
-        <img src="assets/images/logo.svg" alt="DNA Lab Logo" class="logo" />
+        <img src="assets/images/Logo.jpg" alt="DNA Lab Logo" class="logo" />
         <div class="text-container">
-          <span class="logo-text">DNA</span>
-          <span class="logo-subtext">Xét nghiệm ADN chuyên nghiệp</span>
+          <span class="logo-text">Genx</span>
+          <span class="logo-subtext">Trung tâm xét nghiệm ADN huyết thống</span>
         </div>
       </div>
 
       <div class="login-register" id="userProfileSection">
         <!-- User profile will be loaded here -->
-         <div id="user-info-container">
+        <div id="user-info-container">
           <div class="user-info">
             <div class="avatar">
               <div id="avatar-letter" class="avatar-letter">T</div>
@@ -769,8 +742,8 @@
       <div class="header-section fade-in">
         <h1 class="page-title">Quản Lý Kết Quả Xét Nghiệm</h1>
         <p class="page-subtitle">
-          Quản lý và theo dõi kết quả xét nghiệm ADN cho các lịch hẹn đã hoàn thành.
-          Thêm kết quả, upload file báo cáo và submit kết quả cuối cùng.
+          Quản lý và theo dõi kết quả xét nghiệm ADN cho các lịch hẹn đã hoàn
+          thành. Thêm kết quả, upload file báo cáo và submit kết quả cuối cùng.
         </p>
       </div>
 
@@ -790,10 +763,18 @@
             <label class="filter-label">Dịch vụ</label>
             <select class="filter-input" id="serviceFilter">
               <option value="">Tất cả dịch vụ</option>
-              <option value="Xét nghiệm huyết thống cha-con">Xét nghiệm huyết thống cha-con</option>
-              <option value="Xét nghiệm huyết thống mẹ-con">Xét nghiệm huyết thống mẹ-con</option>
-              <option value="Xét nghiệm huyết thống ông/bà-cháu">Xét nghiệm huyết thống ông/bà-cháu</option>
-              <option value="Xét nghiệm huyết thống anh/chị-em">Xét nghiệm huyết thống anh/chị-em</option>
+              <option value="Xét nghiệm huyết thống cha-con">
+                Xét nghiệm huyết thống cha-con
+              </option>
+              <option value="Xét nghiệm huyết thống mẹ-con">
+                Xét nghiệm huyết thống mẹ-con
+              </option>
+              <option value="Xét nghiệm huyết thống ông/bà-cháu">
+                Xét nghiệm huyết thống ông/bà-cháu
+              </option>
+              <option value="Xét nghiệm huyết thống anh/chị-em">
+                Xét nghiệm huyết thống anh/chị-em
+              </option>
             </select>
           </div>
           <div class="filter-group">
@@ -831,7 +812,8 @@
           <span id="resultCount">0 kết quả</span>
         </div>
         <div class="table-responsive">
-          <table>            <thead>
+          <table>
+            <thead>
               <tr>
                 <th>Mã lịch hẹn</th>
                 <th>Khách hàng</th>
@@ -853,8 +835,12 @@
     <div class="modal-overlay" id="resultModal">
       <div class="modal">
         <div class="modal-header">
-          <h3 class="modal-title" id="modalTitle">Quản lý kết quả xét nghiệm</h3>
-          <button class="modal-close" onclick="closeResultModal()">&times;</button>
+          <h3 class="modal-title" id="modalTitle">
+            Quản lý kết quả xét nghiệm
+          </h3>
+          <button class="modal-close" onclick="closeResultModal()">
+            &times;
+          </button>
         </div>
         <div class="modal-body" id="modalBody">
           <!-- Modal content will be loaded here -->
@@ -867,7 +853,8 @@
     <script src="assets/js/auth.js"></script>
     <script src="assets/js/auth-check.js"></script>
 
-    <script>      // Sample data for completed appointments
+    <script>
+      // Sample data for completed appointments
       const completedAppointments = [
         {
           id: "AP001",
@@ -880,8 +867,8 @@
             status: "Đã có kết quả",
             uploadDate: "2024-01-20",
             files: ["result_AP001.pdf"],
-            notes: "Kết quả xét nghiệm đã hoàn thành"
-          }
+            notes: "Kết quả xét nghiệm đã hoàn thành",
+          },
         },
         {
           id: "AP002",
@@ -894,8 +881,8 @@
             status: "Chưa có kết quả",
             uploadDate: "",
             files: [],
-            notes: ""
-          }
+            notes: "",
+          },
         },
         {
           id: "AP003",
@@ -908,8 +895,8 @@
             status: "Chưa có kết quả",
             uploadDate: "",
             files: [],
-            notes: ""
-          }
+            notes: "",
+          },
         },
         {
           id: "AP004",
@@ -922,9 +909,9 @@
             status: "Đã có kết quả",
             uploadDate: "2024-01-25",
             files: ["result_AP004.pdf"],
-            notes: "Kết quả xét nghiệm đã hoàn thành"
-          }
-        }
+            notes: "Kết quả xét nghiệm đã hoàn thành",
+          },
+        },
       ];
 
       // Render service badge
@@ -932,9 +919,10 @@
         let className = "service-badge ";
         if (service.includes("cha-con")) className += "service-paternity";
         else if (service.includes("mẹ-con")) className += "service-maternity";
-        else if (service.includes("ông/bà-cháu")) className += "service-grandparent";
+        else if (service.includes("ông/bà-cháu"))
+          className += "service-grandparent";
         else if (service.includes("anh/chị-em")) className += "service-sibling";
-        
+
         return `<span class="${className}">${service}</span>`;
       }
 
@@ -942,9 +930,10 @@
       function renderStatusBadge(status) {
         let className = "status-badge ";
         if (status === "Đã hoàn thành") className += "status-completed";
-        else if (status === "Có kết quả một phần") className += "status-partial";
+        else if (status === "Có kết quả một phần")
+          className += "status-partial";
         else className += "status-pending";
-        
+
         return `<span class="${className}">${status}</span>`;
       }
 
@@ -956,7 +945,7 @@
           </div>
           <small style="color: #6c757d; font-size: 11px;">${progress}%</small>
         `;
-      }      // Render action buttons
+      } // Render action buttons
       function renderActions(appointment) {
         if (appointment.result.status === "Đã có kết quả") {
           return `
@@ -979,9 +968,9 @@
       function renderResults(data = completedAppointments) {
         const tbody = document.getElementById("resultsTableBody");
         const resultCount = document.getElementById("resultCount");
-        
+
         resultCount.textContent = `${data.length} kết quả`;
-          if (data.length === 0) {
+        if (data.length === 0) {
           tbody.innerHTML = `
             <tr>
               <td colspan="6" style="text-align: center; color: #6c757d; padding: 40px;">
@@ -993,7 +982,9 @@
           return;
         }
 
-        tbody.innerHTML = data.map(appointment => `
+        tbody.innerHTML = data
+          .map(
+            (appointment) => `
           <tr class="slide-up">
             <td><strong>${appointment.id}</strong></td>
             <td>${appointment.customerName}</td>
@@ -1002,7 +993,9 @@
             <td>${renderProgress(appointment.progress)}</td>
             <td>${renderActions(appointment)}</td>
           </tr>
-        `).join("");
+        `
+          )
+          .join("");
       }
 
       // Format date
@@ -1011,29 +1004,36 @@
         return date.toLocaleDateString("vi-VN", {
           day: "2-digit",
           month: "2-digit",
-          year: "numeric"
+          year: "numeric",
         });
       }
 
       // Search and filter
       function searchResults() {
-        const searchInput = document.getElementById("searchInput").value.toLowerCase();
+        const searchInput = document
+          .getElementById("searchInput")
+          .value.toLowerCase();
         const serviceFilter = document.getElementById("serviceFilter").value;
         const statusFilter = document.getElementById("statusFilter").value;
         const fromDate = document.getElementById("fromDate").value;
         const toDate = document.getElementById("toDate").value;
 
-        const filtered = completedAppointments.filter(appointment => {
-          const matchSearch = !searchInput || 
+        const filtered = completedAppointments.filter((appointment) => {
+          const matchSearch =
+            !searchInput ||
             appointment.id.toLowerCase().includes(searchInput) ||
             appointment.customerName.toLowerCase().includes(searchInput);
-          
-          const matchService = !serviceFilter || appointment.service === serviceFilter;
-          const matchStatus = !statusFilter || appointment.resultStatus === statusFilter;
-          
+
+          const matchService =
+            !serviceFilter || appointment.service === serviceFilter;
+          const matchStatus =
+            !statusFilter || appointment.resultStatus === statusFilter;
+
           let matchDate = true;
-          if (fromDate) matchDate = matchDate && appointment.completedDate >= fromDate;
-          if (toDate) matchDate = matchDate && appointment.completedDate <= toDate;
+          if (fromDate)
+            matchDate = matchDate && appointment.completedDate >= fromDate;
+          if (toDate)
+            matchDate = matchDate && appointment.completedDate <= toDate;
 
           return matchSearch && matchService && matchStatus && matchDate;
         });
@@ -1049,9 +1049,11 @@
         document.getElementById("fromDate").value = "";
         document.getElementById("toDate").value = "";
         renderResults();
-      }      // Open result management modal
+      } // Open result management modal
       function openResultModal(appointmentId) {
-        const appointment = completedAppointments.find(a => a.id === appointmentId);
+        const appointment = completedAppointments.find(
+          (a) => a.id === appointmentId
+        );
         if (!appointment) return;
 
         const modal = document.getElementById("resultModal");
@@ -1059,14 +1061,16 @@
         const modalBody = document.getElementById("modalBody");
 
         modalTitle.textContent = `Quản lý kết quả - ${appointment.id}`;
-        
+
         modalBody.innerHTML = `
           <div style="margin-bottom: 20px;">
             <h4 style="color: #2c3e50; margin-bottom: 10px;">Thông tin lịch hẹn</h4>
             <div style="background: #f8f9fa; padding: 15px; border-radius: 10px;">
               <p><strong>Khách hàng:</strong> ${appointment.customerName}</p>
               <p><strong>Dịch vụ:</strong> ${appointment.service}</p>
-              <p><strong>Ngày hoàn thành:</strong> ${formatDate(appointment.completedDate)}</p>
+              <p><strong>Ngày hoàn thành:</strong> ${formatDate(
+                appointment.completedDate
+              )}</p>
             </div>
           </div>
 
@@ -1074,17 +1078,26 @@
             <h4 style="color: #2c3e50; margin-bottom: 15px;">Kết quả xét nghiệm</h4>
             <div style="border: 1px solid #e9ecef; border-radius: 10px; padding: 15px;">
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                <h5 style="color: #495057; margin: 0;">${appointment.service}</h5>
-                ${appointment.result.status === "Đã có kết quả" ? 
-                  '<span class="status-badge status-completed">Đã có kết quả</span>' :
-                  '<span class="status-badge status-pending">Chưa có kết quả</span>'
+                <h5 style="color: #495057; margin: 0;">${
+                  appointment.service
+                }</h5>
+                ${
+                  appointment.result.status === "Đã có kết quả"
+                    ? '<span class="status-badge status-completed">Đã có kết quả</span>'
+                    : '<span class="status-badge status-pending">Chưa có kết quả</span>'
                 }
               </div>
               
-              ${appointment.result.status === "Đã có kết quả" ? `
+              ${
+                appointment.result.status === "Đã có kết quả"
+                  ? `
                 <div style="margin-bottom: 15px;">
-                  <strong>Ngày upload:</strong> ${formatDate(appointment.result.uploadDate)}<br>
-                  <strong>Files:</strong> ${appointment.result.files.join(", ")}<br>
+                  <strong>Ngày upload:</strong> ${formatDate(
+                    appointment.result.uploadDate
+                  )}<br>
+                  <strong>Files:</strong> ${appointment.result.files.join(
+                    ", "
+                  )}<br>
                   <strong>Ghi chú:</strong> ${appointment.result.notes}
                 </div>
                 <div style="display: flex; gap: 10px;">
@@ -1095,11 +1108,13 @@
                     <i class="fas fa-download"></i> Tải xuống
                   </button>
                 </div>
-              ` : `
+              `
+                  : `
                 <button class="btn btn-primary" onclick="addResult('${appointmentId}')">
                   <i class="fas fa-plus"></i> Thêm kết quả
                 </button>
-              `}
+              `
+              }
             </div>
           </div>
         `;
@@ -1110,14 +1125,16 @@
       // Close result modal
       function closeResultModal() {
         document.getElementById("resultModal").style.display = "none";
-      }      // Add result for appointment
+      } // Add result for appointment
       function addResult(appointmentId) {
-        const appointment = completedAppointments.find(a => a.id === appointmentId);
+        const appointment = completedAppointments.find(
+          (a) => a.id === appointmentId
+        );
         if (!appointment) return;
 
         const modal = document.getElementById("resultModal");
         const modalBody = document.getElementById("modalBody");
-        
+
         modalBody.innerHTML = `
           <div style="margin-bottom: 20px;">
             <h4 style="color: #2c3e50; margin-bottom: 10px;">Thêm kết quả cho: ${appointment.service}</h4>
@@ -1165,15 +1182,19 @@
 
       // Edit result for appointment
       function editResult(appointmentId) {
-        const appointment = completedAppointments.find(a => a.id === appointmentId);
+        const appointment = completedAppointments.find(
+          (a) => a.id === appointmentId
+        );
         if (!appointment) return;
-        
+
         const modal = document.getElementById("resultModal");
         const modalBody = document.getElementById("modalBody");
-        
+
         modalBody.innerHTML = `
           <div style="margin-bottom: 20px;">
-            <h4 style="color: #2c3e50; margin-bottom: 10px;">Sửa kết quả cho: ${appointment.service}</h4>
+            <h4 style="color: #2c3e50; margin-bottom: 10px;">Sửa kết quả cho: ${
+              appointment.service
+            }</h4>
             <div style="background: #f8f9fa; padding: 15px; border-radius: 10px;">
               <p><strong>Mã lịch hẹn:</strong> ${appointment.id}</p>
               <p><strong>Khách hàng:</strong> ${appointment.customerName}</p>
@@ -1184,7 +1205,9 @@
           <div class="form-group" style="margin-bottom: 20px;">
             <label class="form-label">File hiện tại</label>
             <div style="margin-bottom: 15px;">
-              ${appointment.result.files.map(file => `
+              ${appointment.result.files
+                .map(
+                  (file) => `
                 <div class="file-item">
                   <div class="file-info">
                     <i class="fas fa-file-pdf" style="color: #dc3545;"></i>
@@ -1192,7 +1215,9 @@
                   </div>
                   <button class="file-remove" onclick="removeExistingFile('${file}')" title="Xóa file">×</button>
                 </div>
-              `).join("")}
+              `
+                )
+                .join("")}
             </div>
             
             <label class="form-label">Thay thế file mới</label>
@@ -1213,7 +1238,9 @@
 
           <div class="form-group" style="margin-bottom: 20px;">
             <label class="form-label">Ghi chú</label>
-            <textarea class="form-input form-textarea" placeholder="Nhập ghi chú về kết quả..." id="resultNotes">${appointment.result.notes}</textarea>
+            <textarea class="form-input form-textarea" placeholder="Nhập ghi chú về kết quả..." id="resultNotes">${
+              appointment.result.notes
+            }</textarea>
           </div>
 
           <div style="display: flex; gap: 15px; justify-content: flex-end;">
@@ -1262,32 +1289,40 @@
       let selectedFiles = [];
       function handleFiles(files) {
         const fileList = document.getElementById("fileList");
-        
-        Array.from(files).forEach(file => {
+
+        Array.from(files).forEach((file) => {
           // Check if file is PDF
-          if (file.type !== 'application/pdf') {
-            alert(`File ${file.name} không đúng định dạng. Chỉ chấp nhận file PDF.`);
+          if (file.type !== "application/pdf") {
+            alert(
+              `File ${file.name} không đúng định dạng. Chỉ chấp nhận file PDF.`
+            );
             return;
           }
-          
+
           if (file.size > 10 * 1024 * 1024) {
-            alert(`File ${file.name} quá lớn. Vui lòng chọn file nhỏ hơn 10MB.`);
+            alert(
+              `File ${file.name} quá lớn. Vui lòng chọn file nhỏ hơn 10MB.`
+            );
             return;
           }
-          
+
           // Clear previous files (only allow one file)
           selectedFiles = [file];
-          fileList.innerHTML = '';
-          
+          fileList.innerHTML = "";
+
           const fileItem = document.createElement("div");
           fileItem.className = "file-item";
           fileItem.innerHTML = `
             <div class="file-info">
               <i class="fas fa-file-pdf" style="color: #dc3545; margin-right: 8px;"></i>
               <span>${file.name}</span>
-              <small style="color: #6c757d; margin-left: 10px;">(${formatFileSize(file.size)})</small>
+              <small style="color: #6c757d; margin-left: 10px;">(${formatFileSize(
+                file.size
+              )})</small>
             </div>
-            <button class="file-remove" onclick="removeFile('${file.name}')" title="Xóa file">×</button>
+            <button class="file-remove" onclick="removeFile('${
+              file.name
+            }')" title="Xóa file">×</button>
           `;
           fileList.appendChild(fileItem);
         });
@@ -1312,10 +1347,10 @@
 
       // Remove file from selection
       function removeFile(fileName) {
-        selectedFiles = selectedFiles.filter(file => file.name !== fileName);
+        selectedFiles = selectedFiles.filter((file) => file.name !== fileName);
         const fileList = document.getElementById("fileList");
         const fileItems = fileList.querySelectorAll(".file-item");
-        fileItems.forEach(item => {
+        fileItems.forEach((item) => {
           if (item.textContent.includes(fileName)) {
             item.remove();
           }
@@ -1327,25 +1362,29 @@
         // In a real application, this would make an API call to delete the file
         alert(`Đã xóa file: ${fileName}`);
         // Refresh the current view
-        const appointmentId = document.getElementById("modalTitle").textContent.split(" - ")[1];
+        const appointmentId = document
+          .getElementById("modalTitle")
+          .textContent.split(" - ")[1];
         openResultModal(appointmentId);
-      }      // Save result
+      } // Save result
       function saveResult(appointmentId) {
         const notes = document.getElementById("resultNotes").value;
-        
+
         if (selectedFiles.length === 0) {
           alert("Vui lòng chọn file PDF kết quả");
           return;
         }
 
         // Simulate saving
-        const appointment = completedAppointments.find(a => a.id === appointmentId);
+        const appointment = completedAppointments.find(
+          (a) => a.id === appointmentId
+        );
         if (appointment) {
           appointment.result = {
             status: "Đã có kết quả",
             uploadDate: new Date().toISOString().split("T")[0],
-            files: selectedFiles.map(f => f.name),
-            notes: notes
+            files: selectedFiles.map((f) => f.name),
+            notes: notes,
           };
           appointment.resultStatus = "Đã hoàn thành";
           appointment.progress = 100;
@@ -1359,7 +1398,9 @@
 
       // Download result
       function downloadResult(appointmentId) {
-        const appointment = completedAppointments.find(a => a.id === appointmentId);
+        const appointment = completedAppointments.find(
+          (a) => a.id === appointmentId
+        );
         if (appointment && appointment.result.files.length > 0) {
           // Simulate download
           alert(`Đang tải xuống file: ${appointment.result.files[0]}`);
@@ -1373,34 +1414,42 @@
 
       // Submit final result
       function submitFinalResult(appointmentId) {
-        const conclusion = document.getElementById(`finalConclusion_${appointmentId}`).value;
-        
+        const conclusion = document.getElementById(
+          `finalConclusion_${appointmentId}`
+        ).value;
+
         if (!conclusion.trim()) {
           alert("Vui lòng nhập kết luận tổng hợp");
           return;
         }
 
-        if (!confirm("Bạn có chắc chắn muốn submit kết quả cuối cùng? Sau khi submit sẽ không thể chỉnh sửa.")) {
+        if (
+          !confirm(
+            "Bạn có chắc chắn muốn submit kết quả cuối cùng? Sau khi submit sẽ không thể chỉnh sửa."
+          )
+        ) {
           return;
         }
 
         // Simulate submitting
-        const appointment = completedAppointments.find(a => a.id === appointmentId);
+        const appointment = completedAppointments.find(
+          (a) => a.id === appointmentId
+        );
         if (appointment) {
           appointment.finalResult = {
             status: "Đã submit",
             conclusion: conclusion,
-            submitDate: new Date().toISOString().split("T")[0]
+            submitDate: new Date().toISOString().split("T")[0],
           };
         }
 
         alert("Đã submit kết quả cuối cùng thành công!");
         renderResults(); // Refresh table
         openResultModal(appointmentId); // Refresh modal
-      }      // View details
+      } // View details
       function viewDetails(appointmentId) {
         openResultModal(appointmentId);
-      }// Initialize menu
+      } // Initialize menu
       function initializeMenu() {
         const mainMenuDiv = document.getElementById("mainMenu");
         if (!mainMenuDiv) return;
@@ -1451,34 +1500,41 @@
           </a>
         `;
       }
-      
 
       // Initialize page
-      document.addEventListener("DOMContentLoaded", function() {
+      document.addEventListener("DOMContentLoaded", function () {
         initializeMenu();
-        
+
         // Set default date range (current month)
         const today = new Date();
         const firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
-        document.getElementById("fromDate").value = firstDay.toISOString().split("T")[0];
-        document.getElementById("toDate").value = today.toISOString().split("T")[0];
-        
+        document.getElementById("fromDate").value = firstDay
+          .toISOString()
+          .split("T")[0];
+        document.getElementById("toDate").value = today
+          .toISOString()
+          .split("T")[0];
+
         // Initial render
         renderResults();
-        
+
         // Add search event listener
-        document.getElementById("searchInput").addEventListener("keyup", function(e) {
-          if (e.key === "Enter") {
-            searchResults();
-          }
-        });
+        document
+          .getElementById("searchInput")
+          .addEventListener("keyup", function (e) {
+            if (e.key === "Enter") {
+              searchResults();
+            }
+          });
 
         // Close modal when clicking outside
-        document.getElementById("resultModal").addEventListener("click", function(e) {
-          if (e.target === this) {
-            closeResultModal();
-          }
-        });
+        document
+          .getElementById("resultModal")
+          .addEventListener("click", function (e) {
+            if (e.target === this) {
+              closeResultModal();
+            }
+          });
       });
     </script>
   </body>

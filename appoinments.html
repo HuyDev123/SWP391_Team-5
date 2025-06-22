@@ -9,49 +9,12 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
     />
     <link rel="stylesheet" href="assets/css/auth.css" />
+    <link rel="stylesheet" href="assets/css/style.css" />
     <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: Arial, sans-serif;
-      }
-
       body {
         display: flex;
         min-height: 100vh;
         background-color: #f5f5f5;
-      }      /* Sidebar styles with glassmorphism */
-      .sidebar {
-        width: 280px;
-        background: linear-gradient(135deg, 
-          rgba(255, 255, 255, 0.95), 
-          rgba(255, 255, 255, 0.85)
-        );
-        backdrop-filter: blur(20px);
-        border-right: 1px solid rgba(255, 255, 255, 0.2);
-        box-shadow: 
-          0 8px 32px rgba(0, 0, 0, 0.1),
-          inset 0 1px 0 rgba(255, 255, 255, 0.5);
-        position: fixed;
-        height: 100vh;
-        left: 0;
-        top: 0;
-        z-index: 100;
-        overflow-y: auto;
-        transition: all 0.3s ease;
-      }      .logo-container {
-        display: flex;
-        align-items: center;
-        padding: 20px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-        background: linear-gradient(135deg, 
-          rgba(33, 150, 243, 0.1), 
-          rgba(33, 150, 243, 0.05)
-        );
-        margin: 15px 15px 20px 15px;
-        border-radius: 16px;
-        backdrop-filter: blur(10px);
       }
 
       .logo {
@@ -65,56 +28,11 @@
         flex-direction: column;
       }
 
-      .logo-text {
-        font-size: 24px;
-        background: linear-gradient(135deg, #2196f3, #1976d2);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        font-weight: 700;
-        text-shadow: 0 2px 10px rgba(33, 150, 243, 0.3);
-      }      .login-register {
-        padding: 20px;
-        background: linear-gradient(135deg, 
-          rgba(255, 255, 255, 0.8), 
-          rgba(245, 245, 245, 0.6)
-        );
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        border-radius: 16px;
-        margin: 15px;
-        backdrop-filter: blur(15px);
-        box-shadow: 
-          0 8px 25px rgba(0, 0, 0, 0.1),
-          inset 0 1px 0 rgba(255, 255, 255, 0.6);
-      }
-
-      /* .logo-subtext {
-        font-size: 15px;
-        color: #444;
-        font-weight: 500;
-        letter-spacing: 0.5px;
-        line-height: 1.2;
-        text-transform: capitalize;
-        max-width: 180px;
-      } */
-
-      .login-register {
-        padding: 20px;
-        background: linear-gradient(145deg, #ffffff, #f5f5f5);
-        border-bottom: 1px solid #eee;
-        border-radius: 12px;
-        margin: 15px;
-      }
-
-      .user-details {
-        text-align: left;
-        flex: 1;
-      }
-
       #logout-btn.logout-btn i {
         margin-right: 8px;
         font-size: 18px;
-      }      .menu-title {
+      }
+      .menu-title {
         padding: 20px 20px 10px 20px;
         color: #666;
         font-size: 12px;
@@ -125,7 +43,7 @@
       }
 
       .menu-title::after {
-        content: '';
+        content: "";
         position: absolute;
         bottom: 5px;
         left: 20px;
@@ -154,15 +72,16 @@
       }
 
       .menu-item::before {
-        content: '';
+        content: "";
         position: absolute;
         top: 0;
         left: -100%;
         width: 100%;
         height: 100%;
-        background: linear-gradient(90deg, 
-          transparent, 
-          rgba(33, 150, 243, 0.1), 
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(33, 150, 243, 0.1),
           transparent
         );
         transition: left 0.6s ease;
@@ -173,8 +92,9 @@
       }
 
       .menu-item:hover {
-        background: linear-gradient(135deg, 
-          rgba(33, 150, 243, 0.1), 
+        background: linear-gradient(
+          135deg,
+          rgba(33, 150, 243, 0.1),
           rgba(33, 150, 243, 0.05)
         );
         color: #2196f3;
@@ -186,8 +106,7 @@
         background: linear-gradient(135deg, #2196f3, #1976d2);
         color: white;
         transform: translateX(8px);
-        box-shadow: 
-          0 8px 25px rgba(33, 150, 243, 0.4),
+        box-shadow: 0 8px 25px rgba(33, 150, 243, 0.4),
           0 0 0 1px rgba(255, 255, 255, 0.1);
       }
 
@@ -199,8 +118,9 @@
         justify-content: center;
         margin-right: 14px;
         border-radius: 10px;
-        background: linear-gradient(135deg, 
-          rgba(33, 150, 243, 0.15), 
+        background: linear-gradient(
+          135deg,
+          rgba(33, 150, 243, 0.15),
           rgba(33, 150, 243, 0.08)
         );
         transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -209,14 +129,15 @@
       }
 
       .menu-icon::after {
-        content: '';
+        content: "";
         position: absolute;
         top: 50%;
         left: 50%;
         width: 0;
         height: 0;
-        background: radial-gradient(circle, 
-          rgba(255, 255, 255, 0.3), 
+        background: radial-gradient(
+          circle,
+          rgba(255, 255, 255, 0.3),
           transparent 70%
         );
         border-radius: 50%;
@@ -225,8 +146,9 @@
       }
 
       .menu-item:hover .menu-icon {
-        background: linear-gradient(135deg, 
-          rgba(255, 255, 255, 0.9), 
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.9),
           rgba(255, 255, 255, 0.7)
         );
         transform: scale(1.1) rotate(5deg);
@@ -239,8 +161,9 @@
       }
 
       .menu-item.active .menu-icon {
-        background: linear-gradient(135deg, 
-          rgba(255, 255, 255, 0.3), 
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.3),
           rgba(255, 255, 255, 0.1)
         );
         transform: scale(1.05);
@@ -380,16 +303,13 @@
       .demo-role {
         font-size: 12px;
         color: #666;
-      }      /* Main content styles */
+      } /* Main content styles */
       .main-content {
         margin-left: 280px;
         padding: 25px;
         width: calc(100% - 280px);
         min-height: 100vh;
-        background: linear-gradient(135deg, 
-          #f5f7fa 0%, 
-          #c3cfe2 100%
-        );
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
       }
 
       .navbar {
@@ -1054,6 +974,45 @@
           transform: translateY(0);
         }
       }
+      /* Specific styles for the filter form that won't be affected by global styles */
+      .genx-filter-form {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        gap: 16px !important;
+        align-items: center !important;
+        margin-bottom: 20px !important;
+        flex-direction: row !important; /* Override the column direction from global styles */
+      }
+
+      .genx-filter-form div {
+        margin: 0 !important;
+      }
+
+      .genx-filter-form input,
+      .genx-filter-form select {
+        padding: 6px 10px !important;
+        border: 1px solid #ccc !important;
+        border-radius: 4px !important;
+      }
+
+      .genx-filter-form button[type="submit"] {
+        background: #2196f3 !important;
+        color: white !important;
+        border: none !important;
+        border-radius: 4px !important;
+        padding: 8px 18px !important;
+        cursor: pointer !important;
+      }
+
+      .genx-filter-form button[type="reset"] {
+        background: #f5f5f5 !important;
+        color: #333 !important;
+        border: 1px solid #ddd !important;
+        border-radius: 4px !important;
+        padding: 8px 18px !important;
+        cursor: pointer !important;
+        margin-left: 8px !important;
+      }
     </style>
   </head>
   <body>
@@ -1084,7 +1043,8 @@
             Đăng xuất
           </button>
         </div>
-      </div>      <div class="menu-title">MAIN MENU</div>
+      </div>
+      <div class="menu-title">MAIN MENU</div>
       <div id="mainMenu">
         <a href="index.html" class="menu-item">
           <span class="menu-icon"><i class="fas fa-home"></i></span>
@@ -1139,6 +1099,7 @@
         <!-- Bộ lọc -->
         <form
           id="filterForm"
+          class="genx-filter-form"
           style="
             display: flex;
             flex-wrap: wrap;
@@ -1249,8 +1210,9 @@
             >
               <i class="fas fa-redo"></i> Đặt lại
             </button>
-          </div>        </form>
-        
+          </div>
+        </form>
+
         <div style="overflow-x: auto">
           <table
             style="width: 100%; border-collapse: collapse; margin-top: 10px"
@@ -1421,7 +1383,7 @@
                 <i class="fas fa-edit"></i> Sửa
               </button>
             `;
-          }          // Bỏ các nút thêm kit và xem kit trong cột thao tác
+          } // Bỏ các nút thêm kit và xem kit trong cột thao tác
 
           // Đã trả kết quả: cho phép xem kết quả
           /* if (status.includes("Đã trả kết quả")) {
@@ -1821,8 +1783,8 @@
     </script>
 
     <!-- Modal Thêm Kit Xét Nghiệm -->
-    <div 
-      id="add-kit-modal" 
+    <div
+      id="add-kit-modal"
       style="
         display: none;
         position: fixed;
@@ -1837,7 +1799,7 @@
         backdrop-filter: blur(3px);
       "
     >
-      <div 
+      <div
         style="
           background: white;
           border-radius: 12px;
@@ -1849,12 +1811,22 @@
           box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
         "
       >
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
-          <h2 style="margin: 0; color: #333; font-size: 24px;">
-            <i class="fas fa-vials" style="color: #2196f3; margin-right: 10px;"></i>
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+          "
+        >
+          <h2 style="margin: 0; color: #333; font-size: 24px">
+            <i
+              class="fas fa-vials"
+              style="color: #2196f3; margin-right: 10px"
+            ></i>
             Thêm Kit Xét Nghiệm
           </h2>
-          <button 
+          <button
             onclick="closeAddKitModal()"
             style="
               background: none;
@@ -1877,13 +1849,23 @@
           </button>
         </div>
 
-        <form id="add-kit-form" style="display: flex; flex-direction: column; gap: 20px;">
+        <form
+          id="add-kit-form"
+          style="display: flex; flex-direction: column; gap: 20px"
+        >
           <!-- ID Cuộc hẹn -->
           <div>
-            <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #333;">
-              ID Cuộc hẹn <span style="color: red;">*</span>
+            <label
+              style="
+                display: block;
+                margin-bottom: 8px;
+                font-weight: 600;
+                color: #333;
+              "
+            >
+              ID Cuộc hẹn <span style="color: red">*</span>
             </label>
-            <select 
+            <select
               id="kit-appointment-id"
               required
               style="
@@ -1905,10 +1887,17 @@
 
           <!-- Dịch vụ -->
           <div>
-            <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #333;">
-              Dịch vụ <span style="color: red;">*</span>
+            <label
+              style="
+                display: block;
+                margin-bottom: 8px;
+                font-weight: 600;
+                color: #333;
+              "
+            >
+              Dịch vụ <span style="color: red">*</span>
             </label>
-            <select 
+            <select
               id="kit-service"
               required
               style="
@@ -1927,17 +1916,26 @@
               <option value="ADN cha-con">Xét nghiệm ADN cha-con</option>
               <option value="ADN mẹ-con">Xét nghiệm ADN mẹ-con</option>
               <option value="ADN anh,chi-em">Xét nghiệm ADN anh,chị-em</option>
-              <option value="ADN ông,bà-cháu">Xét nghiệm ADN ông, bà - cháu</option>
+              <option value="ADN ông,bà-cháu">
+                Xét nghiệm ADN ông, bà - cháu
+              </option>
               <option value="ADN họ hàng">Xét nghiệm ADN họ hàng</option>
             </select>
           </div>
 
           <!-- Kit Code -->
           <div>
-            <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #333;">
-              Kit Code <span style="color: red;">*</span>
+            <label
+              style="
+                display: block;
+                margin-bottom: 8px;
+                font-weight: 600;
+                color: #333;
+              "
+            >
+              Kit Code <span style="color: red">*</span>
             </label>
-            <input 
+            <input
               type="text"
               id="kit-code"
               required
@@ -1957,10 +1955,17 @@
 
           <!-- Kit Type -->
           <div>
-            <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #333;">
-              Kit Type <span style="color: red;">*</span>
+            <label
+              style="
+                display: block;
+                margin-bottom: 8px;
+                font-weight: 600;
+                color: #333;
+              "
+            >
+              Kit Type <span style="color: red">*</span>
             </label>
-            <select 
+            <select
               id="kit-type"
               required
               style="
@@ -1986,10 +1991,17 @@
 
           <!-- Delivery Test -->
           <div>
-            <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #333;">
+            <label
+              style="
+                display: block;
+                margin-bottom: 8px;
+                font-weight: 600;
+                color: #333;
+              "
+            >
               Delivery Test
             </label>
-            <input 
+            <input
               type="text"
               id="kit-delivery-test"
               placeholder="Nhập thông tin giao hàng kiểm tra"
@@ -2008,10 +2020,17 @@
 
           <!-- Note -->
           <div>
-            <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #333;">
+            <label
+              style="
+                display: block;
+                margin-bottom: 8px;
+                font-weight: 600;
+                color: #333;
+              "
+            >
               Ghi chú
             </label>
-            <textarea 
+            <textarea
               id="kit-note"
               rows="4"
               placeholder="Nhập ghi chú về kit..."
@@ -2031,8 +2050,8 @@
           </div>
 
           <!-- Buttons -->
-          <div style="display: flex; gap: 12px; margin-top: 20px;">
-            <button 
+          <div style="display: flex; gap: 12px; margin-top: 20px">
+            <button
               type="button"
               onclick="closeAddKitModal()"
               style="
@@ -2052,7 +2071,7 @@
             >
               Hủy
             </button>
-            <button 
+            <button
               type="submit"
               style="
                 flex: 1;
@@ -2070,7 +2089,7 @@
               onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(33, 150, 243, 0.4)'"
               onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(33, 150, 243, 0.3)'"
             >
-              <i class="fas fa-plus" style="margin-right: 8px;"></i>
+              <i class="fas fa-plus" style="margin-right: 8px"></i>
               Thêm Kit
             </button>
           </div>
@@ -2159,28 +2178,31 @@
       function openAddKitModal() {
         // Populate appointment options
         populateAppointmentOptions();
-        document.getElementById('add-kit-modal').style.display = 'flex';
+        document.getElementById("add-kit-modal").style.display = "flex";
       }
 
       // Hàm đóng modal thêm kit
       function closeAddKitModal() {
-        document.getElementById('add-kit-modal').style.display = 'none';
+        document.getElementById("add-kit-modal").style.display = "none";
         // Reset form
-        document.getElementById('add-kit-form').reset();
+        document.getElementById("add-kit-form").reset();
       }
 
       // Hàm populate danh sách cuộc hẹn
       function populateAppointmentOptions() {
-        const select = document.getElementById('kit-appointment-id');
+        const select = document.getElementById("kit-appointment-id");
         const appointments = window.fakeAppointments || [];
-        
+
         // Clear existing options except the first one
         select.innerHTML = '<option value="">Chọn cuộc hẹn</option>';
-        
+
         // Add appointments that are eligible for kit (Tại nhà và Đã đặt)
-        appointments.forEach(appointment => {
-          if (appointment.method === 'Tại nhà' && appointment.status === 'Đã đặt') {
-            const option = document.createElement('option');
+        appointments.forEach((appointment) => {
+          if (
+            appointment.method === "Tại nhà" &&
+            appointment.status === "Đã đặt"
+          ) {
+            const option = document.createElement("option");
             option.value = appointment.id;
             option.textContent = `${appointment.id} - ${appointment.name} (${appointment.date})`;
             select.appendChild(option);
@@ -2189,55 +2211,65 @@
       }
 
       // Xử lý submit form thêm kit
-      document.addEventListener('DOMContentLoaded', function() {
-        const form = document.getElementById('add-kit-form');
+      document.addEventListener("DOMContentLoaded", function () {
+        const form = document.getElementById("add-kit-form");
         if (form) {
-          form.addEventListener('submit', function(e) {
+          form.addEventListener("submit", function (e) {
             e.preventDefault();
-            
+
             // Lấy dữ liệu từ form
             const kitData = {
-              appointmentId: document.getElementById('kit-appointment-id').value,
-              service: document.getElementById('kit-service').value,
-              kitCode: document.getElementById('kit-code').value,
-              kitType: document.getElementById('kit-type').value,
-              deliveryTest: document.getElementById('kit-delivery-test').value,
-              note: document.getElementById('kit-note').value
+              appointmentId:
+                document.getElementById("kit-appointment-id").value,
+              service: document.getElementById("kit-service").value,
+              kitCode: document.getElementById("kit-code").value,
+              kitType: document.getElementById("kit-type").value,
+              deliveryTest: document.getElementById("kit-delivery-test").value,
+              note: document.getElementById("kit-note").value,
             };
-            
+
             // Validate required fields
-            if (!kitData.appointmentId || !kitData.service || !kitData.kitCode || !kitData.kitType) {
-              alert('Vui lòng điền đầy đủ các trường bắt buộc!');
+            if (
+              !kitData.appointmentId ||
+              !kitData.service ||
+              !kitData.kitCode ||
+              !kitData.kitType
+            ) {
+              alert("Vui lòng điền đầy đủ các trường bắt buộc!");
               return;
             }
-            
+
             // Call API to add kit (giả lập)
-            console.log('Adding kit with data:', kitData);
-            
+            console.log("Adding kit with data:", kitData);
+
             // Simulate API call
             setTimeout(() => {
-              alert('Thêm kit xét nghiệm thành công!');
+              alert("Thêm kit xét nghiệm thành công!");
               closeAddKitModal();
-              
+
               // Update appointment status to "Đã gửi kit"
-              const appointment = window.fakeAppointments.find(a => a.id === kitData.appointmentId);
+              const appointment = window.fakeAppointments.find(
+                (a) => a.id === kitData.appointmentId
+              );
               if (appointment) {
-                appointment.status = 'Đã gửi kit';
+                appointment.status = "Đã gửi kit";
                 appointment.hasKit = true;
               }
-              
+
               // Re-render table
               renderAppointments();
             }, 500);
           });
         }
-        
+
         // Close modal when clicking outside
-        document.getElementById('add-kit-modal').addEventListener('click', function(e) {
-          if (e.target === this) {
-            closeAddKitModal();
-          }
-        });
+        document
+          .getElementById("add-kit-modal")
+          .addEventListener("click", function (e) {
+            if (e.target === this) {
+              closeAddKitModal();
+            }
+          });
       });
     </script>
 
