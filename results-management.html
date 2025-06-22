@@ -869,8 +869,7 @@
     <script src="assets/js/auth.js"></script>
     <script src="assets/js/auth-check.js"></script>
 
-    <script>
-      // Sample data for completed appointments
+    <script>      // Sample data for completed appointments
       const completedAppointments = [
         {
           id: "AP001",
@@ -879,25 +878,11 @@
           completedDate: "2024-01-15",
           resultStatus: "Đã hoàn thành",
           progress: 100,
-          participants: ["Nguyễn Văn A (Cha)", "Nguyễn Văn B (Con)"],
-          results: {
-            "Nguyễn Văn A (Cha)": {
-              status: "Đã có kết quả",
-              uploadDate: "2024-01-20",
-              files: ["result_father_001.pdf"],
-              notes: "Kết quả xét nghiệm bình thường"
-            },
-            "Nguyễn Văn B (Con)": {
-              status: "Đã có kết quả", 
-              uploadDate: "2024-01-20",
-              files: ["result_child_001.pdf"],
-              notes: "Kết quả xét nghiệm bình thường"
-            }
-          },
-          finalResult: {
-            status: "Đã submit",
-            conclusion: "Tỷ lệ huyết thống: 99.9%",
-            submitDate: "2024-01-22"
+          result: {
+            status: "Đã có kết quả",
+            uploadDate: "2024-01-20",
+            files: ["result_AP001.pdf"],
+            notes: "Kết quả xét nghiệm đã hoàn thành"
           }
         },
         {
@@ -905,27 +890,13 @@
           customerName: "Trần Thị B",
           service: "Xét nghiệm huyết thống mẹ-con",
           completedDate: "2024-01-18",
-          resultStatus: "Có kết quả một phần",
-          progress: 50,
-          participants: ["Trần Thị B (Mẹ)", "Trần Văn C (Con)"],
-          results: {
-            "Trần Thị B (Mẹ)": {
-              status: "Đã có kết quả",
-              uploadDate: "2024-01-23",
-              files: ["result_mother_002.pdf"],
-              notes: "Đã hoàn thành"
-            },
-            "Trần Văn C (Con)": {
-              status: "Chưa có kết quả",
-              uploadDate: "",
-              files: [],
-              notes: ""
-            }
-          },
-          finalResult: {
-            status: "Chưa submit",
-            conclusion: "",
-            submitDate: ""
+          resultStatus: "Chưa có kết quả",
+          progress: 0,
+          result: {
+            status: "Chưa có kết quả",
+            uploadDate: "",
+            files: [],
+            notes: ""
           }
         },
         {
@@ -935,25 +906,11 @@
           completedDate: "2024-01-20",
           resultStatus: "Chưa có kết quả",
           progress: 0,
-          participants: ["Lê Văn D (Ông)", "Lê Thị E (Cháu)"],
-          results: {
-            "Lê Văn D (Ông)": {
-              status: "Chưa có kết quả",
-              uploadDate: "",
-              files: [],
-              notes: ""
-            },
-            "Lê Thị E (Cháu)": {
-              status: "Chưa có kết quả",
-              uploadDate: "",
-              files: [],
-              notes: ""
-            }
-          },
-          finalResult: {
-            status: "Chưa submit",
-            conclusion: "",
-            submitDate: ""
+          result: {
+            status: "Chưa có kết quả",
+            uploadDate: "",
+            files: [],
+            notes: ""
           }
         },
         {
@@ -963,31 +920,11 @@
           completedDate: "2024-01-22",
           resultStatus: "Đã hoàn thành",
           progress: 100,
-          participants: ["Phạm Văn F (Anh)", "Phạm Thị G (Em)", "Phạm Văn H (Em)"],
-          results: {
-            "Phạm Văn F (Anh)": {
-              status: "Đã có kết quả",
-              uploadDate: "2024-01-25",
-              files: ["result_brother_004.pdf"],
-              notes: "Kết quả tốt"
-            },
-            "Phạm Thị G (Em)": {
-              status: "Đã có kết quả",
-              uploadDate: "2024-01-25", 
-              files: ["result_sister1_004.pdf"],
-              notes: "Kết quả tốt"
-            },
-            "Phạm Văn H (Em)": {
-              status: "Đã có kết quả",
-              uploadDate: "2024-01-25",
-              files: ["result_sister2_004.pdf"],
-              notes: "Kết quả tốt"
-            }
-          },
-          finalResult: {
-            status: "Đã submit",
-            conclusion: "Tỷ lệ huyết thống: 95.7%",
-            submitDate: "2024-01-26"
+          result: {
+            status: "Đã có kết quả",
+            uploadDate: "2024-01-25",
+            files: ["result_AP004.pdf"],
+            notes: "Kết quả xét nghiệm đã hoàn thành"
           }
         }
       ];
@@ -1021,18 +958,27 @@
           </div>
           <small style="color: #6c757d; font-size: 11px;">${progress}%</small>
         `;
-      }
-
-      // Render action buttons
+      }      // Render action buttons
       function renderActions(appointment) {
-        return `
-          <button class="action-btn btn-result" onclick="openResultModal('${appointment.id}')">
-            <i class="fas fa-chart-line"></i> Kết quả
-          </button>
-          <button class="action-btn btn-view" onclick="viewDetails('${appointment.id}')">
-            <i class="fas fa-eye"></i> Xem
-          </button>
-        `;
+        if (appointment.result.status === "Đã có kết quả") {
+          return `
+            <button class="action-btn btn-result" onclick="editResult('${appointment.id}')">
+              <i class="fas fa-edit"></i> Sửa kết quả
+            </button>
+            <button class="action-btn btn-view" onclick="viewResult('${appointment.id}')">
+              <i class="fas fa-eye"></i> Xem
+            </button>
+          `;
+        } else {
+          return `
+            <button class="action-btn btn-result" onclick="addResult('${appointment.id}')">
+              <i class="fas fa-plus"></i> Thêm kết quả
+            </button>
+            <button class="action-btn btn-view" onclick="viewDetails('${appointment.id}')">
+              <i class="fas fa-eye"></i> Xem
+            </button>
+          `;
+        }
       }
 
       // Render results table
@@ -1111,9 +1057,7 @@
         document.getElementById("fromDate").value = "";
         document.getElementById("toDate").value = "";
         renderResults();
-      }
-
-      // Open result management modal
+      }      // Open result management modal
       function openResultModal(appointmentId) {
         const appointment = completedAppointments.find(a => a.id === appointmentId);
         if (!appointment) return;
@@ -1135,61 +1079,33 @@
           </div>
 
           <div style="margin-bottom: 20px;">
-            <h4 style="color: #2c3e50; margin-bottom: 15px;">Kết quả từng người tham gia</h4>
-            ${appointment.participants.map(participant => {
-              const result = appointment.results[participant] || {
-                status: "Chưa có kết quả",
-                uploadDate: "",
-                files: [],
-                notes: ""
-              };
-              
-              return `
-                <div style="border: 1px solid #e9ecef; border-radius: 10px; padding: 15px; margin-bottom: 15px;">
-                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                    <h5 style="color: #495057; margin: 0;">${participant}</h5>
-                    ${result.status === "Đã có kết quả" ? 
-                      '<span class="status-badge status-completed">Đã có kết quả</span>' :
-                      '<span class="status-badge status-pending">Chưa có kết quả</span>'
-                    }
-                  </div>
-                  
-                  ${result.status === "Đã có kết quả" ? `
-                    <div style="margin-bottom: 10px;">
-                      <strong>Ngày upload:</strong> ${formatDate(result.uploadDate)}<br>
-                      <strong>Files:</strong> ${result.files.join(", ")}<br>
-                      <strong>Ghi chú:</strong> ${result.notes}
-                    </div>
-                    <button class="btn btn-secondary" onclick="editResult('${appointmentId}', '${participant}')">
-                      <i class="fas fa-edit"></i> Sửa kết quả
-                    </button>
-                  ` : `
-                    <button class="btn btn-primary" onclick="addResult('${appointmentId}', '${participant}')">
-                      <i class="fas fa-plus"></i> Thêm kết quả
-                    </button>
-                  `}
-                </div>
-              `;
-            }).join("")}
-          </div>
-
-          <div style="margin-bottom: 20px;">
-            <h4 style="color: #2c3e50; margin-bottom: 15px;">Kết quả cuối cùng</h4>
+            <h4 style="color: #2c3e50; margin-bottom: 15px;">Kết quả xét nghiệm</h4>
             <div style="border: 1px solid #e9ecef; border-radius: 10px; padding: 15px;">
-              ${appointment.finalResult.status === "Đã submit" ? `
-                <div style="color: #28a745;">
-                  <strong>Trạng thái:</strong> Đã submit kết quả<br>
-                  <strong>Kết luận:</strong> ${appointment.finalResult.conclusion}<br>
-                  <strong>Ngày submit:</strong> ${formatDate(appointment.finalResult.submitDate)}
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <h5 style="color: #495057; margin: 0;">${appointment.service}</h5>
+                ${appointment.result.status === "Đã có kết quả" ? 
+                  '<span class="status-badge status-completed">Đã có kết quả</span>' :
+                  '<span class="status-badge status-pending">Chưa có kết quả</span>'
+                }
+              </div>
+              
+              ${appointment.result.status === "Đã có kết quả" ? `
+                <div style="margin-bottom: 15px;">
+                  <strong>Ngày upload:</strong> ${formatDate(appointment.result.uploadDate)}<br>
+                  <strong>Files:</strong> ${appointment.result.files.join(", ")}<br>
+                  <strong>Ghi chú:</strong> ${appointment.result.notes}
+                </div>
+                <div style="display: flex; gap: 10px;">
+                  <button class="btn btn-secondary" onclick="editResult('${appointmentId}')">
+                    <i class="fas fa-edit"></i> Sửa kết quả
+                  </button>
+                  <button class="btn btn-primary" onclick="downloadResult('${appointmentId}')">
+                    <i class="fas fa-download"></i> Tải xuống
+                  </button>
                 </div>
               ` : `
-                <div style="margin-bottom: 15px;">
-                  <label class="form-label">Kết luận tổng hợp</label>
-                  <textarea class="form-input form-textarea" placeholder="Nhập kết luận tổng hợp..." id="finalConclusion_${appointmentId}"></textarea>
-                </div>
-                <button class="btn btn-primary" onclick="submitFinalResult('${appointmentId}')" 
-                  ${appointment.progress < 100 ? 'disabled title="Cần hoàn thành tất cả kết quả cá nhân trước"' : ''}>
-                  <i class="fas fa-paper-plane"></i> Submit kết quả cuối cùng
+                <button class="btn btn-primary" onclick="addResult('${appointmentId}')">
+                  <i class="fas fa-plus"></i> Thêm kết quả
                 </button>
               `}
             </div>
@@ -1202,47 +1118,51 @@
       // Close result modal
       function closeResultModal() {
         document.getElementById("resultModal").style.display = "none";
-      }
+      }      // Add result for appointment
+      function addResult(appointmentId) {
+        const appointment = completedAppointments.find(a => a.id === appointmentId);
+        if (!appointment) return;
 
-      // Add result for participant
-      function addResult(appointmentId, participant) {
         const modal = document.getElementById("resultModal");
         const modalBody = document.getElementById("modalBody");
         
         modalBody.innerHTML = `
           <div style="margin-bottom: 20px;">
-            <h4 style="color: #2c3e50; margin-bottom: 10px;">Thêm kết quả cho: ${participant}</h4>
-          </div>
-
-          <div class="form-grid">
-            <div class="form-group">
-              <label class="form-label">Ghi chú kết quả</label>
-              <textarea class="form-input form-textarea" placeholder="Nhập ghi chú về kết quả..." id="resultNotes"></textarea>
+            <h4 style="color: #2c3e50; margin-bottom: 10px;">Thêm kết quả cho: ${appointment.service}</h4>
+            <div style="background: #f8f9fa; padding: 15px; border-radius: 10px;">
+              <p><strong>Mã lịch hẹn:</strong> ${appointment.id}</p>
+              <p><strong>Khách hàng:</strong> ${appointment.customerName}</p>
+              <p><strong>Dịch vụ:</strong> ${appointment.service}</p>
             </div>
           </div>
 
           <div class="form-group" style="margin-bottom: 20px;">
-            <label class="form-label">Upload file kết quả</label>
+            <label class="form-label">Upload file kết quả PDF *</label>
             <div class="file-upload" id="fileUpload" onclick="document.getElementById('fileInput').click()">
               <div class="file-upload-icon">
                 <i class="fas fa-cloud-upload-alt"></i>
               </div>
               <div class="file-upload-text">
-                Click để chọn file hoặc kéo thả file vào đây
+                Click để chọn file PDF hoặc kéo thả file vào đây
               </div>
               <div style="font-size: 12px; color: #6c757d;">
-                Hỗ trợ: PDF, DOC, DOCX (Tối đa 10MB)
+                Chỉ hỗ trợ file PDF (Tối đa 10MB)
               </div>
             </div>
-            <input type="file" id="fileInput" style="display: none;" multiple accept=".pdf,.doc,.docx" onchange="handleFileSelect(event)">
+            <input type="file" id="fileInput" style="display: none;" accept=".pdf" onchange="handleFileSelect(event)">
             <div class="file-list" id="fileList"></div>
+          </div>
+
+          <div class="form-group" style="margin-bottom: 20px;">
+            <label class="form-label">Ghi chú (tùy chọn)</label>
+            <textarea class="form-input form-textarea" placeholder="Nhập ghi chú về kết quả..." id="resultNotes"></textarea>
           </div>
 
           <div style="display: flex; gap: 15px; justify-content: flex-end;">
             <button class="btn btn-secondary" onclick="openResultModal('${appointmentId}')">
               <i class="fas fa-arrow-left"></i> Quay lại
             </button>
-            <button class="btn btn-primary" onclick="saveResult('${appointmentId}', '${participant}')">
+            <button class="btn btn-primary" onclick="saveResult('${appointmentId}')">
               <i class="fas fa-save"></i> Lưu kết quả
             </button>
           </div>
@@ -1251,30 +1171,28 @@
         setupFileUpload();
       }
 
-      // Edit result for participant
-      function editResult(appointmentId, participant) {
+      // Edit result for appointment
+      function editResult(appointmentId) {
         const appointment = completedAppointments.find(a => a.id === appointmentId);
-        const result = appointment.results[participant];
+        if (!appointment) return;
         
         const modal = document.getElementById("resultModal");
         const modalBody = document.getElementById("modalBody");
         
         modalBody.innerHTML = `
           <div style="margin-bottom: 20px;">
-            <h4 style="color: #2c3e50; margin-bottom: 10px;">Sửa kết quả cho: ${participant}</h4>
-          </div>
-
-          <div class="form-grid">
-            <div class="form-group">
-              <label class="form-label">Ghi chú kết quả</label>
-              <textarea class="form-input form-textarea" placeholder="Nhập ghi chú về kết quả..." id="resultNotes">${result.notes}</textarea>
+            <h4 style="color: #2c3e50; margin-bottom: 10px;">Sửa kết quả cho: ${appointment.service}</h4>
+            <div style="background: #f8f9fa; padding: 15px; border-radius: 10px;">
+              <p><strong>Mã lịch hẹn:</strong> ${appointment.id}</p>
+              <p><strong>Khách hàng:</strong> ${appointment.customerName}</p>
+              <p><strong>Dịch vụ:</strong> ${appointment.service}</p>
             </div>
           </div>
 
           <div class="form-group" style="margin-bottom: 20px;">
             <label class="form-label">File hiện tại</label>
             <div style="margin-bottom: 15px;">
-              ${result.files.map(file => `
+              ${appointment.result.files.map(file => `
                 <div class="file-item">
                   <div class="file-info">
                     <i class="fas fa-file-pdf" style="color: #dc3545;"></i>
@@ -1285,27 +1203,32 @@
               `).join("")}
             </div>
             
-            <label class="form-label">Thêm file mới</label>
+            <label class="form-label">Thay thế file mới</label>
             <div class="file-upload" id="fileUpload" onclick="document.getElementById('fileInput').click()">
               <div class="file-upload-icon">
                 <i class="fas fa-cloud-upload-alt"></i>
               </div>
               <div class="file-upload-text">
-                Click để chọn file hoặc kéo thả file vào đây
+                Click để chọn file PDF hoặc kéo thả file vào đây
               </div>
               <div style="font-size: 12px; color: #6c757d;">
-                Hỗ trợ: PDF, DOC, DOCX (Tối đa 10MB)
+                Chỉ hỗ trợ file PDF (Tối đa 10MB)
               </div>
             </div>
-            <input type="file" id="fileInput" style="display: none;" multiple accept=".pdf,.doc,.docx" onchange="handleFileSelect(event)">
+            <input type="file" id="fileInput" style="display: none;" accept=".pdf" onchange="handleFileSelect(event)">
             <div class="file-list" id="fileList"></div>
+          </div>
+
+          <div class="form-group" style="margin-bottom: 20px;">
+            <label class="form-label">Ghi chú</label>
+            <textarea class="form-input form-textarea" placeholder="Nhập ghi chú về kết quả..." id="resultNotes">${appointment.result.notes}</textarea>
           </div>
 
           <div style="display: flex; gap: 15px; justify-content: flex-end;">
             <button class="btn btn-secondary" onclick="openResultModal('${appointmentId}')">
               <i class="fas fa-arrow-left"></i> Quay lại
             </button>
-            <button class="btn btn-primary" onclick="saveResult('${appointmentId}', '${participant}')">
+            <button class="btn btn-primary" onclick="saveResult('${appointmentId}')">
               <i class="fas fa-save"></i> Cập nhật kết quả
             </button>
           </div>
@@ -1343,24 +1266,32 @@
         handleFiles(files);
       }
 
-      // Handle files
+      // Handle files (only PDF allowed)
       let selectedFiles = [];
       function handleFiles(files) {
         const fileList = document.getElementById("fileList");
         
         Array.from(files).forEach(file => {
+          // Check if file is PDF
+          if (file.type !== 'application/pdf') {
+            alert(`File ${file.name} không đúng định dạng. Chỉ chấp nhận file PDF.`);
+            return;
+          }
+          
           if (file.size > 10 * 1024 * 1024) {
             alert(`File ${file.name} quá lớn. Vui lòng chọn file nhỏ hơn 10MB.`);
             return;
           }
           
-          selectedFiles.push(file);
+          // Clear previous files (only allow one file)
+          selectedFiles = [file];
+          fileList.innerHTML = '';
           
           const fileItem = document.createElement("div");
           fileItem.className = "file-item";
           fileItem.innerHTML = `
             <div class="file-info">
-              <i class="fas fa-file-${getFileIcon(file.name)}"></i>
+              <i class="fas fa-file-pdf" style="color: #dc3545; margin-right: 8px;"></i>
               <span>${file.name}</span>
               <small style="color: #6c757d; margin-left: 10px;">(${formatFileSize(file.size)})</small>
             </div>
@@ -1406,50 +1337,46 @@
         // Refresh the current view
         const appointmentId = document.getElementById("modalTitle").textContent.split(" - ")[1];
         openResultModal(appointmentId);
-      }
-
-      // Save result
-      function saveResult(appointmentId, participant) {
+      }      // Save result
+      function saveResult(appointmentId) {
         const notes = document.getElementById("resultNotes").value;
         
-        if (!notes.trim()) {
-          alert("Vui lòng nhập ghi chú kết quả");
-          return;
-        }
-
         if (selectedFiles.length === 0) {
-          if (!confirm("Bạn chưa chọn file nào. Tiếp tục lưu?")) {
-            return;
-          }
+          alert("Vui lòng chọn file PDF kết quả");
+          return;
         }
 
         // Simulate saving
         const appointment = completedAppointments.find(a => a.id === appointmentId);
         if (appointment) {
-          appointment.results[participant] = {
+          appointment.result = {
             status: "Đã có kết quả",
             uploadDate: new Date().toISOString().split("T")[0],
             files: selectedFiles.map(f => f.name),
             notes: notes
           };
-
-          // Update progress
-          const totalParticipants = appointment.participants.length;
-          const completedResults = Object.values(appointment.results).filter(r => r.status === "Đã có kết quả").length;
-          appointment.progress = Math.round((completedResults / totalParticipants) * 100);
-          
-          // Update result status
-          if (appointment.progress === 100) {
-            appointment.resultStatus = "Đã hoàn thành";
-          } else if (appointment.progress > 0) {
-            appointment.resultStatus = "Có kết quả một phần";
-          }
+          appointment.resultStatus = "Đã hoàn thành";
+          appointment.progress = 100;
         }
 
         alert("Đã lưu kết quả thành công!");
         selectedFiles = [];
         renderResults(); // Refresh table
         openResultModal(appointmentId); // Refresh modal
+      }
+
+      // Download result
+      function downloadResult(appointmentId) {
+        const appointment = completedAppointments.find(a => a.id === appointmentId);
+        if (appointment && appointment.result.files.length > 0) {
+          // Simulate download
+          alert(`Đang tải xuống file: ${appointment.result.files[0]}`);
+        }
+      }
+
+      // View result
+      function viewResult(appointmentId) {
+        openResultModal(appointmentId);
       }
 
       // Submit final result
@@ -1478,13 +1405,10 @@
         alert("Đã submit kết quả cuối cùng thành công!");
         renderResults(); // Refresh table
         openResultModal(appointmentId); // Refresh modal
-      }
-
-      // View details
+      }      // View details
       function viewDetails(appointmentId) {
-        // This would typically open a detailed view
-        alert(`Xem chi tiết lịch hẹn: ${appointmentId}`);
-      }      // Initialize menu
+        openResultModal(appointmentId);
+      }// Initialize menu
       function initializeMenu() {
         const mainMenuDiv = document.getElementById("mainMenu");
         if (!mainMenuDiv) return;

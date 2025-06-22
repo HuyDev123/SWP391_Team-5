@@ -1251,6 +1251,31 @@
             </button>
           </div>
         </form>
+        
+        <!-- Nút Thêm kit xét nghiệm -->
+        <div style="margin-bottom: 20px; text-align: right;">
+          <button 
+            id="add-kit-btn"
+            onclick="openAddKitModal()"
+            style="
+              background: linear-gradient(135deg, #2196f3, #1976d2);
+              color: white;
+              border: none;
+              border-radius: 8px;
+              padding: 12px 24px;
+              font-size: 16px;
+              font-weight: 600;
+              cursor: pointer;
+              transition: all 0.3s ease;
+              box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
+            "
+            onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(33, 150, 243, 0.4)'"
+            onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(33, 150, 243, 0.3)'"
+          >
+            <i class="fas fa-plus" style="margin-right: 8px;"></i>
+            Thêm kit xét nghiệm
+          </button>
+        </div>
         <div style="overflow-x: auto">
           <table
             style="width: 100%; border-collapse: collapse; margin-top: 10px"
@@ -1421,18 +1446,7 @@
                 <i class="fas fa-edit"></i> Sửa
               </button>
             `;
-          }
-
-          // Thêm kit: chỉ cho phép với tại nhà và trạng thái "Đã đặt"
-          if (method === "Tại nhà" && hasKit) {
-            actions += `<button onclick="viewKit('${id}')" style="background:#1976d2; color:white; border:none; border-radius:4px; padding:6px 14px; cursor:pointer; margin-right:6px;">
-            <i class="fas fa-eye"></i> Xem kit
-          </button>`;
-          } else if (method === "Tại nhà" && statusShort === "Đã đặt") {
-            actions += `<button onclick="addKit('${id}')" style="background:#00bcd4; color:white; border:none; border-radius:4px; padding:6px 14px; cursor:pointer; margin-right:6px;">
-            <i class="fas fa-plus"></i> Thêm kit
-          </button>`;
-          }
+          }          // Bỏ các nút thêm kit và xem kit trong cột thao tác
 
           // Đã trả kết quả: cho phép xem kết quả
           /* if (status.includes("Đã trả kết quả")) {
@@ -1831,59 +1845,427 @@
       }
     </script>
 
+    <!-- Modal Thêm Kit Xét Nghiệm -->
+    <div 
+      id="add-kit-modal" 
+      style="
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+        justify-content: center;
+        align-items: center;
+        backdrop-filter: blur(3px);
+      "
+    >
+      <div 
+        style="
+          background: white;
+          border-radius: 12px;
+          padding: 30px;
+          width: 90%;
+          max-width: 600px;
+          max-height: 90vh;
+          overflow-y: auto;
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        "
+      >
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+          <h2 style="margin: 0; color: #333; font-size: 24px;">
+            <i class="fas fa-vials" style="color: #2196f3; margin-right: 10px;"></i>
+            Thêm Kit Xét Nghiệm
+          </h2>
+          <button 
+            onclick="closeAddKitModal()"
+            style="
+              background: none;
+              border: none;
+              font-size: 24px;
+              color: #999;
+              cursor: pointer;
+              width: 30px;
+              height: 30px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              border-radius: 50%;
+              transition: all 0.2s ease;
+            "
+            onmouseover="this.style.backgroundColor='#f5f5f5'; this.style.color='#666'"
+            onmouseout="this.style.backgroundColor='transparent'; this.style.color='#999'"
+          >
+            ×
+          </button>
+        </div>
+
+        <form id="add-kit-form" style="display: flex; flex-direction: column; gap: 20px;">
+          <!-- ID Cuộc hẹn -->
+          <div>
+            <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #333;">
+              ID Cuộc hẹn <span style="color: red;">*</span>
+            </label>
+            <select 
+              id="kit-appointment-id"
+              required
+              style="
+                width: 100%;
+                padding: 12px;
+                border: 2px solid #e0e0e0;
+                border-radius: 8px;
+                font-size: 14px;
+                transition: border-color 0.3s ease;
+                background-color: white;
+              "
+              onfocus="this.style.borderColor='#2196f3'"
+              onblur="this.style.borderColor='#e0e0e0'"
+            >
+              <option value="">Chọn cuộc hẹn</option>
+              <!-- Options sẽ được thêm bằng JavaScript -->
+            </select>
+          </div>
+
+          <!-- Dịch vụ -->
+          <div>
+            <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #333;">
+              Dịch vụ <span style="color: red;">*</span>
+            </label>
+            <select 
+              id="kit-service"
+              required
+              style="
+                width: 100%;
+                padding: 12px;
+                border: 2px solid #e0e0e0;
+                border-radius: 8px;
+                font-size: 14px;
+                transition: border-color 0.3s ease;
+                background-color: white;
+              "
+              onfocus="this.style.borderColor='#2196f3'"
+              onblur="this.style.borderColor='#e0e0e0'"
+            >
+              <option value="">Chọn dịch vụ</option>
+              <option value="ADN cha-con">Xét nghiệm ADN cha-con</option>
+              <option value="ADN mẹ-con">Xét nghiệm ADN mẹ-con</option>
+              <option value="ADN anh,chi-em">Xét nghiệm ADN anh,chị-em</option>
+              <option value="ADN ông,bà-cháu">Xét nghiệm ADN ông, bà - cháu</option>
+              <option value="ADN họ hàng">Xét nghiệm ADN họ hàng</option>
+            </select>
+          </div>
+
+          <!-- Kit Code -->
+          <div>
+            <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #333;">
+              Kit Code <span style="color: red;">*</span>
+            </label>
+            <input 
+              type="text"
+              id="kit-code"
+              required
+              placeholder="Nhập mã kit (VD: KIT001)"
+              style="
+                width: 100%;
+                padding: 12px;
+                border: 2px solid #e0e0e0;
+                border-radius: 8px;
+                font-size: 14px;
+                transition: border-color 0.3s ease;
+              "
+              onfocus="this.style.borderColor='#2196f3'"
+              onblur="this.style.borderColor='#e0e0e0'"
+            />
+          </div>
+
+          <!-- Kit Type -->
+          <div>
+            <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #333;">
+              Kit Type <span style="color: red;">*</span>
+            </label>
+            <select 
+              id="kit-type"
+              required
+              style="
+                width: 100%;
+                padding: 12px;
+                border: 2px solid #e0e0e0;
+                border-radius: 8px;
+                font-size: 14px;
+                transition: border-color 0.3s ease;
+                background-color: white;
+              "
+              onfocus="this.style.borderColor='#2196f3'"
+              onblur="this.style.borderColor='#e0e0e0'"
+            >
+              <option value="">Chọn loại kit</option>
+              <option value="Standard">Kit tiêu chuẩn</option>
+              <option value="Premium">Kit cao cấp</option>
+              <option value="Express">Kit nhanh</option>
+              <option value="Legal">Kit pháp lý</option>
+              <option value="Research">Kit nghiên cứu</option>
+            </select>
+          </div>
+
+          <!-- Delivery Test -->
+          <div>
+            <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #333;">
+              Delivery Test
+            </label>
+            <input 
+              type="text"
+              id="kit-delivery-test"
+              placeholder="Nhập thông tin giao hàng kiểm tra"
+              style="
+                width: 100%;
+                padding: 12px;
+                border: 2px solid #e0e0e0;
+                border-radius: 8px;
+                font-size: 14px;
+                transition: border-color 0.3s ease;
+              "
+              onfocus="this.style.borderColor='#2196f3'"
+              onblur="this.style.borderColor='#e0e0e0'"
+            />
+          </div>
+
+          <!-- Note -->
+          <div>
+            <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #333;">
+              Ghi chú
+            </label>
+            <textarea 
+              id="kit-note"
+              rows="4"
+              placeholder="Nhập ghi chú về kit..."
+              style="
+                width: 100%;
+                padding: 12px;
+                border: 2px solid #e0e0e0;
+                border-radius: 8px;
+                font-size: 14px;
+                transition: border-color 0.3s ease;
+                resize: vertical;
+                min-height: 100px;
+              "
+              onfocus="this.style.borderColor='#2196f3'"
+              onblur="this.style.borderColor='#e0e0e0'"
+            ></textarea>
+          </div>
+
+          <!-- Buttons -->
+          <div style="display: flex; gap: 12px; margin-top: 20px;">
+            <button 
+              type="button"
+              onclick="closeAddKitModal()"
+              style="
+                flex: 1;
+                padding: 12px;
+                border: 2px solid #e0e0e0;
+                border-radius: 8px;
+                background: white;
+                color: #666;
+                font-size: 16px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.3s ease;
+              "
+              onmouseover="this.style.backgroundColor='#f5f5f5'; this.style.borderColor='#ccc'"
+              onmouseout="this.style.backgroundColor='white'; this.style.borderColor='#e0e0e0'"
+            >
+              Hủy
+            </button>
+            <button 
+              type="submit"
+              style="
+                flex: 1;
+                padding: 12px;
+                border: none;
+                border-radius: 8px;
+                background: linear-gradient(135deg, #2196f3, #1976d2);
+                color: white;
+                font-size: 16px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
+              "
+              onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(33, 150, 243, 0.4)'"
+              onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(33, 150, 243, 0.3)'"
+            >
+              <i class="fas fa-plus" style="margin-right: 8px;"></i>
+              Thêm Kit
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
     <script>
-      function initializeMenu() {
-        const mainMenuDiv = document.getElementById("mainMenu");
-        if (!mainMenuDiv) return;
+      // Dữ liệu mẫu cho danh sách cuộc hẹn (giả lập)
+      const sampleAppointments = [
+        {
+          id: "AP001",
+          customerId: "KH001",
+          name: "Nguyễn Văn A",
+          method: "Tại nhà",
+          date: "2025-06-03",
+          status: "Đã đặt",
+          hasKit: false,
+        },
+        {
+          id: "AP002",
+          customerId: "KH002",
+          name: "Trần Thị B",
+          method: "Tại cơ sở",
+          date: "2025-06-02",
+          status: "Đã thu mẫu",
+          hasKit: false,
+        },
+        {
+          id: "AP003",
+          customerId: "KH003",
+          name: "Phạm Văn C",
+          method: "Tại nhà",
+          date: "2025-06-01",
+          status: "Đã gửi kit",
+          hasKit: true,
+        },
+        {
+          id: "AP004",
+          customerId: "KH004",
+          name: "Lê Thị D",
+          method: "Tại cơ sở",
+          date: "2025-06-01",
+          status: "Đã hoàn thành",
+          hasKit: false,
+        },
+        {
+          id: "AP005",
+          customerId: "KH005",
+          name: "Hoàng Văn E",
+          method: "Tại nhà",
+          date: "2025-06-03",
+          status: "Đã nhận mẫu",
+          hasKit: false,
+        },
+        {
+          id: "AP006",
+          customerId: "KH006",
+          name: "Ngô Văn F",
+          method: "Tại nhà",
+          date: "2025-06-04",
+          status: "Đã trả kết quả",
+          hasKit: false,
+        },
+        {
+          id: "AP007",
+          customerId: "KH007",
+          name: "Phạm Thị G",
+          method: "Tại cơ sở",
+          date: "2025-06-05",
+          status: "Đã trả kết quả",
+          hasKit: false,
+        },
+        {
+          id: "AP008",
+          customerId: "KH008",
+          name: "Lê Văn H",
+          method: "Tại nhà",
+          date: "2025-06-06",
+          status: "Đã hủy",
+          hasKit: false,
+        },
+      ];
 
-        const currentPage = window.location.pathname.split("/").pop();
-        mainMenuDiv.innerHTML = `
-            <a href="index.html" class="menu-item${
-              currentPage === "index.html" ? " active" : ""
-            }">
-              <span class="menu-icon"><i class="fas fa-home"></i></span>
-              Trang chủ
-            </a>
-            <a href="booking.html" class="menu-item${
-              currentPage === "booking.html" ? " active" : ""
-            }">
-              <span class="menu-icon"><i class="fas fa-calendar-plus"></i></span>
-              Đặt lịch xét nghiệm
-            </a>
-            <a href="appoinments.html" class="menu-item${
-              currentPage === "appoinments.html" ? " active" : ""
-            }">
-              <span class="menu-icon"><i class="fas fa-clipboard-list"></i></span>
-              Danh sách lịch hẹn
-            </a>
-            <a href="list-kit.html" class="menu-item${
-              currentPage === "list-kit.html" ? " active" : ""
-            }">
-              <span class="menu-icon"><i class="fas fa-vials"></i></span>
-              Danh sách kít xét nghiệm
-            </a>
-            <a href="participants-management.html" class="menu-item">
-          <span class="menu-icon"><i class="fas fa-users"></i></span>
-          Quản lý người tham gia
-        </a>
-
-        <a href="sample-management.html" class="menu-item">
-          <span class="menu-icon"><i class="fas fa-flask"></i></span>
-          Quản lý mẫu xét nghiệm
-        </a>
-
-        <a href="results-management.html" class="menu-item">
-          <span class="menu-icon"><i class="fas fa-chart-line"></i></span>
-          Quản lý kết quả xét nghiệm
-        </a>
-          `;
+      // Hàm mở modal thêm kit xét nghiệm
+      function openAddKitModal() {
+        // Populate appointment options
+        populateAppointmentOptions();
+        document.getElementById('add-kit-modal').style.display = 'flex';
       }
 
-      // Gọi hàm khởi tạo menu khi trang được tải
-      document.addEventListener("DOMContentLoaded", function () {
-        initializeMenu();
+      // Hàm đóng modal thêm kit
+      function closeAddKitModal() {
+        document.getElementById('add-kit-modal').style.display = 'none';
+        // Reset form
+        document.getElementById('add-kit-form').reset();
+      }
+
+      // Hàm populate danh sách cuộc hẹn
+      function populateAppointmentOptions() {
+        const select = document.getElementById('kit-appointment-id');
+        const appointments = window.fakeAppointments || [];
+        
+        // Clear existing options except the first one
+        select.innerHTML = '<option value="">Chọn cuộc hẹn</option>';
+        
+        // Add appointments that are eligible for kit (Tại nhà và Đã đặt)
+        appointments.forEach(appointment => {
+          if (appointment.method === 'Tại nhà' && appointment.status === 'Đã đặt') {
+            const option = document.createElement('option');
+            option.value = appointment.id;
+            option.textContent = `${appointment.id} - ${appointment.name} (${appointment.date})`;
+            select.appendChild(option);
+          }
+        });
+      }
+
+      // Xử lý submit form thêm kit
+      document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('add-kit-form');
+        if (form) {
+          form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Lấy dữ liệu từ form
+            const kitData = {
+              appointmentId: document.getElementById('kit-appointment-id').value,
+              service: document.getElementById('kit-service').value,
+              kitCode: document.getElementById('kit-code').value,
+              kitType: document.getElementById('kit-type').value,
+              deliveryTest: document.getElementById('kit-delivery-test').value,
+              note: document.getElementById('kit-note').value
+            };
+            
+            // Validate required fields
+            if (!kitData.appointmentId || !kitData.service || !kitData.kitCode || !kitData.kitType) {
+              alert('Vui lòng điền đầy đủ các trường bắt buộc!');
+              return;
+            }
+            
+            // Call API to add kit (giả lập)
+            console.log('Adding kit with data:', kitData);
+            
+            // Simulate API call
+            setTimeout(() => {
+              alert('Thêm kit xét nghiệm thành công!');
+              closeAddKitModal();
+              
+              // Update appointment status to "Đã gửi kit"
+              const appointment = window.fakeAppointments.find(a => a.id === kitData.appointmentId);
+              if (appointment) {
+                appointment.status = 'Đã gửi kit';
+                appointment.hasKit = true;
+              }
+              
+              // Re-render table
+              renderAppointments();
+            }, 500);
+          });
+        }
+        
+        // Close modal when clicking outside
+        document.getElementById('add-kit-modal').addEventListener('click', function(e) {
+          if (e.target === this) {
+            closeAddKitModal();
+          }
+        });
       });
     </script>
+
     <!-- Include the auth and API JS files -->
     <script src="assets/js/api.js"></script>
     <script src="assets/js/auth.js"></script>

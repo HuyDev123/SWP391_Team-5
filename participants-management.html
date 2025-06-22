@@ -844,13 +844,14 @@
               class="form-control"
               placeholder="Tìm kiếm theo tên khách hàng, mã cuộc hẹn..."
             />
-          </div>          <select id="service-filter" class="form-control filter-dropdown">
+          </div>        
+            <!-- <select id="service-filter" class="form-control filter-dropdown">
             <option value="">Tất cả dịch vụ</option>
             <option value="father-child">Xét nghiệm huyết thống cha - con</option>
             <option value="mother-child">Xét nghiệm huyết thống mẹ - con</option>
             <option value="grandparent-grandchild">Xét nghiệm huyết thống ông, bà - cháu</option>
             <option value="sibling">Xét nghiệm huyết thống anh, chị - em</option>
-          </select>
+          </select> -->
           <select id="status-filter" class="form-control filter-dropdown">
             <option value="">Tất cả trạng thái</option>
             <option value="active">Đang hoạt động</option>
@@ -860,13 +861,11 @@
 
         <!-- Participants Table -->
         <div id="participants-container">
-          <table class="participants-table">
-            <thead>
+          <table class="participants-table">            <thead>
               <tr>
                 <th>Mã Cuộc Hẹn</th>
                 <th>Tên Khách Hàng</th>
                 <th>Mã KH</th>
-                <th>Dịch Vụ</th>
                 <th>Trạng Thái</th>
                 <th>Ngày Tạo</th>
                 <th>Thao Tác</th>
@@ -962,6 +961,61 @@
             </select>
           </div>
 
+          <div class="form-group">
+            <label class="form-label" for="purpose">Mục đích *</label>
+            <select id="purpose" class="form-control form-select" required>
+              <option value="">Chọn mục đích</option>
+              <option value="civil">Dân sự</option>
+              <option value="administrative">Hành chính</option>
+            </select>
+          </div>
+
+          <!-- Administrative purpose additional fields -->
+          <div id="administrative-fields" class="service-type-section" style="display: none;">
+            <div class="service-type-title">Thông tin hành chính</div>
+            
+            <div class="form-row">
+              <div class="form-col">
+                <label class="form-label" for="cccd">Số CCCD *</label>
+                <input
+                  type="text"
+                  id="cccd"
+                  class="form-control"
+                  placeholder="Nhập số căn cước công dân"
+                />
+              </div>
+              <div class="form-col">
+                <label class="form-label" for="identity-verification">Định danh *</label>
+                <select id="identity-verification" class="form-control form-select">
+                  <option value="">Chọn phương thức định danh</option>
+                  <option value="face-recognition">Nhận dạng khuôn mặt</option>
+                  <option value="fingerprint">Vân tay</option>
+                  <option value="document-verification">Xác minh giấy tờ</option>
+                  <option value="biometric">Sinh trắc học</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="issued-place">Nơi cấp CCCD</label>
+              <input
+                type="text"
+                id="issued-place"
+                class="form-control"
+                placeholder="Nhập nơi cấp căn cước công dân"
+              />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="issued-date">Ngày cấp CCCD</label>
+              <input
+                type="date"
+                id="issued-date"
+                class="form-control"
+              />
+            </div>
+          </div>
+
           <!-- Service specific fields -->
           <div id="service-fields" class="service-type-section" style="display: none;">
             <div class="service-type-title">Thông tin người tham gia</div>
@@ -1055,6 +1109,7 @@
           customerCode: "KH001",
           serviceType: "father-child",
           serviceName: "Xét nghiệm huyết thống cha - con",
+          purpose: "civil",
           status: "active",
           createdDate: "2024-06-15",
           phone: "0912345678",
@@ -1073,6 +1128,7 @@
           customerCode: "KH002",
           serviceType: "mother-child",
           serviceName: "Xét nghiệm huyết thống mẹ - con",
+          purpose: "administrative",
           status: "pending",
           createdDate: "2024-06-20",
           phone: "0987654321",
@@ -1082,6 +1138,10 @@
           gender: "female",
           relationship: "mother",
           sampleType: "saliva",
+          cccd: "001085012345",
+          identityVerification: "face-recognition",
+          issuedPlace: "Cục Cảnh sát ĐKQL cư trú và DLQG về dân cư",
+          issuedDate: "2020-01-15",
           note: "Cần xử lý gấp"
         },
         {
@@ -1091,6 +1151,7 @@
           customerCode: "KH003",
           serviceType: "grandparent-grandchild",
           serviceName: "Xét nghiệm huyết thống ông, bà - cháu",
+          purpose: "civil",
           status: "active",
           createdDate: "2024-06-18",
           phone: "0901234567",
@@ -1121,10 +1182,11 @@
             closeAddModal();
             closeViewModal();
           });
-        });
-
-        // Service type change
+        });        // Service type change
         document.getElementById('service-type').addEventListener('change', toggleServiceFields);
+
+        // Purpose change
+        document.getElementById('purpose').addEventListener('change', toggleAdministrativeFields);
 
         // Form submission
         document.getElementById('add-participant-form').addEventListener('submit', handleAddParticipant);
@@ -1151,10 +1213,9 @@
         const tbody = document.getElementById('participants-list');
         tbody.innerHTML = '';
 
-        if (participants.length === 0) {
-          tbody.innerHTML = `
+        if (participants.length === 0) {          tbody.innerHTML = `
             <tr>
-              <td colspan="7" class="empty-state">
+              <td colspan="6" class="empty-state">
                 <i class="fas fa-users"></i>
                 <p>Chưa có người tham gia nào</p>
               </td>
@@ -1174,12 +1235,10 @@
         
         const statusClass = participant.status === 'active' ? 'status-active' : 'status-pending';
         const statusText = participant.status === 'active' ? 'Đang hoạt động' : 'Chờ xử lý';
-        
-        row.innerHTML = `
+          row.innerHTML = `
           <td>${participant.appointmentId}</td>
           <td>${participant.fullName}</td>
           <td>${participant.customerCode}</td>
-          <td>${participant.serviceName}</td>
           <td><span class="status-badge ${statusClass}">${statusText}</span></td>
           <td>${formatDate(participant.createdDate)}</td>
           <td>
@@ -1195,12 +1254,11 @@
       function openAddModal() {
         document.getElementById('add-participant-modal').style.display = 'block';
         generateCustomerCode();
-      }
-
-      function closeAddModal() {
+      }      function closeAddModal() {
         document.getElementById('add-participant-modal').style.display = 'none';
         document.getElementById('add-participant-form').reset();
         toggleServiceFields();
+        toggleAdministrativeFields();
       }
 
       function closeViewModal() {
@@ -1259,6 +1317,30 @@
         }
       }
 
+      function toggleAdministrativeFields() {
+        const purpose = document.getElementById('purpose').value;
+        const administrativeFields = document.getElementById('administrative-fields');
+        const cccdField = document.getElementById('cccd');
+        const identityField = document.getElementById('identity-verification');
+
+        if (purpose === 'administrative') {
+          administrativeFields.style.display = 'block';
+          // Make CCCD and identity verification required for administrative purpose
+          cccdField.setAttribute('required', 'required');
+          identityField.setAttribute('required', 'required');
+        } else {
+          administrativeFields.style.display = 'none';
+          // Remove required attribute for civil purpose
+          cccdField.removeAttribute('required');
+          identityField.removeAttribute('required');
+          // Clear the values
+          cccdField.value = '';
+          identityField.value = '';
+          document.getElementById('issued-place').value = '';
+          document.getElementById('issued-date').value = '';
+        }
+      }
+
       function generateCustomerCode() {
         const nextId = participants.length + 1;
         const customerCode = `KH${String(nextId).padStart(3, '0')}`;
@@ -1272,15 +1354,14 @@
           'mother-child': 'Xét nghiệm huyết thống mẹ - con',
           'grandparent-grandchild': 'Xét nghiệm huyết thống ông, bà - cháu',
           'sibling': 'Xét nghiệm huyết thống anh, chị - em'
-        };
-
-        const newParticipant = {
+        };        const newParticipant = {
           id: participants.length + 1,
           appointmentId: document.getElementById('appointment-id').value,
           fullName: document.getElementById('full-name').value,
           customerCode: document.getElementById('customer-code').value,
           serviceType: serviceType,
           serviceName: serviceNames[serviceType],
+          purpose: document.getElementById('purpose').value,
           status: 'active',
           createdDate: new Date().toISOString().split('T')[0],
           phone: document.getElementById('phone').value,
@@ -1290,6 +1371,10 @@
           gender: document.getElementById('gender').value,
           relationship: document.getElementById('relationship').value,
           sampleType: document.getElementById('sample-type').value,
+          cccd: document.getElementById('cccd').value,
+          identityVerification: document.getElementById('identity-verification').value,
+          issuedPlace: document.getElementById('issued-place').value,
+          issuedDate: document.getElementById('issued-date').value,
           note: document.getElementById('note').value
         };
 
@@ -1317,13 +1402,18 @@
           'older_sister': 'Chị',
           'younger_brother': 'Em trai',
           'younger_sister': 'Em gái'
-        };
-
-        const sampleTypeMap = {
+        };        const sampleTypeMap = {
           'blood': 'Máu',
           'saliva': 'Nước bọt',
           'hair': 'Tóc',
           'nail': 'Móng tay'
+        };
+
+        const identityVerificationMap = {
+          'face-recognition': 'Nhận dạng khuôn mặt',
+          'fingerprint': 'Vân tay',
+          'document-verification': 'Xác minh giấy tờ',
+          'biometric': 'Sinh trắc học'
         };
 
         detailsContainer.innerHTML = `
@@ -1335,10 +1425,26 @@
           </div>
           <div class="form-group">
             <strong>Mã khách hàng:</strong> ${participant.customerCode}
-          </div>
-          <div class="form-group">
+          </div>          <div class="form-group">
             <strong>Loại dịch vụ:</strong> ${participant.serviceName}
           </div>
+          <div class="form-group">
+            <strong>Mục đích:</strong> ${participant.purpose === 'civil' ? 'Dân sự' : participant.purpose === 'administrative' ? 'Hành chính' : 'Chưa cập nhật'}
+          </div>
+          ${participant.purpose === 'administrative' ? `
+          <div class="form-group">
+            <strong>Số CCCD:</strong> ${participant.cccd || 'Chưa cập nhật'}
+          </div>
+          <div class="form-group">
+            <strong>Định danh:</strong> ${identityVerificationMap[participant.identityVerification] || 'Chưa cập nhật'}
+          </div>
+          <div class="form-group">
+            <strong>Nơi cấp CCCD:</strong> ${participant.issuedPlace || 'Chưa cập nhật'}
+          </div>
+          <div class="form-group">
+            <strong>Ngày cấp CCCD:</strong> ${participant.issuedDate ? formatDate(participant.issuedDate) : 'Chưa cập nhật'}
+          </div>
+          ` : ''}
           <div class="form-group">
             <strong>Số điện thoại:</strong> ${participant.phone || 'Chưa cập nhật'}
           </div>
@@ -1397,10 +1503,9 @@
         const tbody = document.getElementById('participants-list');
         tbody.innerHTML = '';
 
-        if (filteredParticipants.length === 0) {
-          tbody.innerHTML = `
+        if (filteredParticipants.length === 0) {          tbody.innerHTML = `
             <tr>
-              <td colspan="7" class="empty-state">
+              <td colspan="6" class="empty-state">
                 <i class="fas fa-search"></i>
                 <p>Không tìm thấy kết quả phù hợp</p>
               </td>
