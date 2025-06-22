@@ -67,10 +67,8 @@ CREATE TABLE Service_KitType (
 
 CREATE TABLE TestResult (
     id INT IDENTITY(1,1) PRIMARY KEY,
-    result_summary NVARCHAR(255),
     result_file VARCHAR(255),
     user_id INT,
-    note NVARCHAR(MAX),
     FOREIGN KEY (user_id) REFERENCES [User](id)
 );
 
