@@ -1044,9 +1044,299 @@
               <!-- Dữ liệu sẽ được render bằng JS -->
             </tbody>
           </table>
+        </div>        <!-- Modal Xem Kit -->
+        <div
+          id="view-kit-modal"
+          style="
+            display: none;
+            position: fixed;
+            z-index: 10002;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+          "
+        >
+          <div
+            style="
+              background: white;
+              border-radius: 12px;
+              padding: 30px;
+              width: 90%;
+              max-width: 700px;
+              max-height: 90vh;
+              overflow-y: auto;
+              box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            "
+          >
+            <div
+              style="
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 25px;
+              "
+            >
+              <h2 style="margin: 0; color: #333; font-size: 24px">
+                <i
+                  class="fas fa-vials"
+                  style="color: #2196f3; margin-right: 10px"
+                ></i>
+                Thông tin Kit Xét Nghiệm
+              </h2>
+              <button
+                onclick="closeViewKitModal()"
+                style="
+                  background: none;
+                  border: none;
+                  font-size: 24px;
+                  color: #999;
+                  cursor: pointer;
+                  width: 30px;
+                  height: 30px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  border-radius: 50%;
+                  transition: all 0.2s ease;
+                "
+                onmouseover="this.style.backgroundColor='#f5f5f5'; this.style.color='#666'"
+                onmouseout="this.style.backgroundColor='transparent'; this.style.color='#999'"
+              >
+                ×
+              </button>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 20px">
+              <!-- ID Cuộc hẹn -->
+              <div>
+                <label
+                  style="
+                    display: block;
+                    margin-bottom: 8px;
+                    font-weight: 600;
+                    color: #333;
+                  "
+                >
+                  ID Cuộc hẹn
+                </label>
+                <div
+                  id="view-kit-appointment-id"
+                  style="
+                    padding: 12px;
+                    border: 2px solid #e0e0e0;
+                    border-radius: 8px;
+                    background-color: #f9f9f9;
+                    font-size: 14px;
+                    color: #666;
+                  "
+                ></div>
+              </div>
+
+              <!-- Mã Kit -->
+              <div>
+                <label
+                  style="
+                    display: block;
+                    margin-bottom: 8px;
+                    font-weight: 600;
+                    color: #333;
+                  "
+                >
+                  Mã Kit
+                </label>
+                <div
+                  id="view-kit-code"
+                  style="
+                    padding: 12px;
+                    border: 2px solid #e0e0e0;
+                    border-radius: 8px;
+                    background-color: #f9f9f9;
+                    font-size: 14px;
+                    color: #666;
+                  "
+                ></div>
+              </div>
+
+              <!-- Số lượng mẫu -->
+              <div>
+                <label
+                  style="
+                    display: block;
+                    margin-bottom: 8px;
+                    font-weight: 600;
+                    color: #333;
+                  "
+                >
+                  Số lượng mẫu
+                </label>
+                <div
+                  id="view-kit-sample-count"
+                  style="
+                    padding: 12px;
+                    border: 2px solid #e0e0e0;
+                    border-radius: 8px;
+                    background-color: #f9f9f9;
+                    font-size: 14px;
+                    color: #666;
+                  "
+                ></div>
+              </div>
+
+              <!-- Ngày gửi -->
+              <div>
+                <label
+                  style="
+                    display: block;
+                    margin-bottom: 8px;
+                    font-weight: 600;
+                    color: #333;
+                  "
+                >
+                  Ngày gửi
+                </label>
+                <div
+                  id="view-kit-send-date"
+                  style="
+                    padding: 12px;
+                    border: 2px solid #e0e0e0;
+                    border-radius: 8px;
+                    background-color: #f9f9f9;
+                    font-size: 14px;
+                    color: #666;
+                  "
+                ></div>
+              </div>
+
+              <!-- Ngày nhận -->
+              <div>
+                <label
+                  style="
+                    display: block;
+                    margin-bottom: 8px;
+                    font-weight: 600;
+                    color: #333;
+                  "
+                >
+                  Ngày nhận
+                </label>
+                <div
+                  id="view-kit-receive-date"
+                  style="
+                    padding: 12px;
+                    border: 2px solid #e0e0e0;
+                    border-radius: 8px;
+                    background-color: #f9f9f9;
+                    font-size: 14px;
+                    color: #666;
+                  "
+                ></div>
+              </div>
+
+              <!-- Trạng thái -->
+              <div>
+                <label
+                  style="
+                    display: block;
+                    margin-bottom: 8px;
+                    font-weight: 600;
+                    color: #333;
+                  "
+                >
+                  Trạng thái
+                </label>
+                <div
+                  id="view-kit-status"
+                  style="
+                    padding: 12px;
+                    border: 2px solid #e0e0e0;
+                    border-radius: 8px;
+                    background-color: #f9f9f9;
+                    font-size: 14px;
+                    font-weight: bold;
+                  "
+                ></div>
+              </div>
+
+              <!-- Ghi chú -->
+              <div>
+                <label
+                  style="
+                    display: block;
+                    margin-bottom: 8px;
+                    font-weight: 600;
+                    color: #333;
+                  "
+                >
+                  Ghi chú
+                </label>
+                <div
+                  id="view-kit-note"
+                  style="
+                    padding: 12px;
+                    border: 2px solid #e0e0e0;
+                    border-radius: 8px;
+                    background-color: #f9f9f9;
+                    font-size: 14px;
+                    color: #666;
+                    min-height: 80px;
+                  "
+                ></div>
+              </div>
+            </div>
+
+            <!-- Buttons -->
+            <div style="display: flex; gap: 12px; margin-top: 30px">
+              <button
+                onclick="closeViewKitModal()"
+                style="
+                  flex: 1;
+                  padding: 12px;
+                  border: 2px solid #e0e0e0;
+                  border-radius: 8px;
+                  background: white;
+                  color: #666;
+                  font-size: 16px;
+                  font-weight: 600;
+                  cursor: pointer;
+                  transition: all 0.3s ease;
+                "
+                onmouseover="this.style.backgroundColor='#f5f5f5'; this.style.borderColor='#ccc'"
+                onmouseout="this.style.backgroundColor='white'; this.style.borderColor='#e0e0e0'"
+              >
+                Đóng
+              </button>
+              <button
+                onclick="editKitFromView()"
+                style="
+                  flex: 1;
+                  padding: 12px;
+                  border: none;
+                  border-radius: 8px;
+                  background: linear-gradient(135deg, #2196f3, #1976d2);
+                  color: white;
+                  font-size: 16px;
+                  font-weight: 600;
+                  cursor: pointer;
+                  transition: all 0.3s ease;
+                  box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
+                "
+                onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(33, 150, 243, 0.4)'"
+                onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(33, 150, 243, 0.3)'"
+              >
+                <i class="fas fa-edit" style="margin-right: 8px"></i>
+                Chỉnh sửa
+              </button>
+            </div>
+          </div>
         </div>
 
-        <!-- Modal Overlay -->
+        <!-- Modal Iframe cho chỉnh sửa -->
         <div
           id="kit-modal-overlay"
           style="
@@ -1183,13 +1473,9 @@
 
           // Render thao tác
           function renderKitActions(kit) {
-            let actions = "";
-
-            // Nút Xem
+            let actions = "";            // Nút Xem
             actions += `
-              <button onclick="openKitModal('sample.html?kitCode=${encodeURIComponent(
-                kit.kitCode
-              )}')" 
+              <button onclick="viewKitInfo('${kit.kitCode}')" 
                 style="background:#e3f2fd;color:#1976d2;border:none;border-radius:4px;padding:6px 12px;cursor:pointer;margin-right:4px;">
                 <i class="fas fa-eye"></i> Xem
               </button>
@@ -1362,11 +1648,61 @@
                 if (event.key === "Enter") {
                   searchKits();
                 }
-              });
-
-            // Initial render with default date filters
+              });            // Initial render with default date filters
             searchKits();
           });
+
+          // Hàm hiển thị thông tin kit trong modal
+          function viewKitInfo(kitCode) {
+            // Tìm kit theo mã
+            const kit = fakeKits.find(k => k.kitCode === kitCode);
+            
+            if (!kit) {
+              alert('Không tìm thấy thông tin kit!');
+              return;
+            }
+
+            // Điền thông tin vào modal
+            document.getElementById('view-kit-appointment-id').textContent = kit.appointmentId;
+            document.getElementById('view-kit-code').textContent = kit.kitCode;
+            document.getElementById('view-kit-sample-count').textContent = kit.sampleCount + ' mẫu';
+            document.getElementById('view-kit-send-date').textContent = formatDateDisplay(kit.sendDate);
+            document.getElementById('view-kit-receive-date').textContent = kit.receiveDate ? formatDateDisplay(kit.receiveDate) : 'Chưa nhận';
+            
+            // Hiển thị trạng thái với màu sắc
+            const statusElement = document.getElementById('view-kit-status');
+            statusElement.innerHTML = renderKitStatus(kit.status);
+            
+            // Ghi chú mẫu (có thể thêm vào fake data sau)
+            document.getElementById('view-kit-note').textContent = 'Ghi chú sẽ được cập nhật từ dữ liệu thực tế';
+
+            // Lưu mã kit để dùng cho nút chỉnh sửa
+            window.currentViewingKit = kitCode;
+
+            // Hiển thị modal
+            document.getElementById('view-kit-modal').style.display = 'flex';
+          }
+
+          // Hàm đóng modal xem kit
+          function closeViewKitModal() {
+            document.getElementById('view-kit-modal').style.display = 'none';
+            window.currentViewingKit = null;
+          }
+
+          // Hàm chuyển từ modal xem sang modal chỉnh sửa
+          function editKitFromView() {
+            if (window.currentViewingKit) {
+              closeViewKitModal();
+              editKit(window.currentViewingKit);
+            }
+          }
+
+          // Hàm format ngày để hiển thị
+          function formatDateDisplay(dateString) {
+            if (!dateString) return '';
+            const date = new Date(dateString);
+            return date.toLocaleDateString('vi-VN');
+          }
         </script>
       </div>
     </div>
@@ -1566,16 +1902,16 @@
             >
               <option value="">Chọn dịch vụ</option>
               <option value="ADN cha-con">
-                Xét nghiệm ADN cha-con(Dân sự)
+                Xét nghiệm ADN cha-con
               </option>
-              <option value="ADN mẹ-con">Xét nghiệm ADN mẹ-con(Dân sự)</option>
+              <option value="ADN mẹ-con">Xét nghiệm ADN mẹ-con</option>
               <option value="ADN anh,chi-em">
-                Xét nghiệm ADN anh,chị-em(Dân sự)
+                Xét nghiệm ADN anh,chị-em
               </option>
               <option value="ADN ông,bà-cháu">
-                Xét nghiệm ADN ông, bà - cháu(Dân sự)
+                Xét nghiệm ADN ông, bà - cháu
               </option>
-              <option value="ADN cha-con">
+              <!-- <option value="ADN cha-con">
                 Xét nghiệm ADN cha-con(Hành chính)
               </option>
               <option value="ADN mẹ-con">
@@ -1586,7 +1922,7 @@
               </option>
               <option value="ADN ông,bà-cháu">
                 Xét nghiệm ADN ông, bà - cháu(Hành chính)
-              </option>
+              </option> -->
             </select>
           </div>
 
@@ -1824,6 +2160,15 @@
           modal.addEventListener("click", function (e) {
             if (e.target === this) {
               closeAddKitModal();
+            }
+          });        }
+
+        // Close modal when clicking outside
+        const viewModal = document.getElementById("view-kit-modal");
+        if (viewModal) {
+          viewModal.addEventListener("click", function (e) {
+            if (e.target === this) {
+              closeViewKitModal();
             }
           });
         }

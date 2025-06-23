@@ -943,30 +943,7 @@
                                                     <input type="text" class="form-input" id="staff-name-1" value="Nguyễn Văn A" readonly>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                    
-                                    <!-- File kết quả -->
-                                    <div class="form-group mt-3">
-                                        <label for="result-file-1" class="form-label">File kết quả xét nghiệm</label>
-                                        <div class="file-upload">
-                                            <input type="file" id="result-file-1" name="resultFile1" class="file-input" accept=".pdf,.doc,.docx,.jpg,.png">
-                                            <label for="result-file-1" class="file-label">
-                                                <i class="fas fa-cloud-upload-alt"></i>
-                                                <span>Kéo thả file vào đây hoặc click để chọn file</span>
-                                            </label>
-                                        </div>
-                                        <div id="current-file-1" class="current-file mt-2" style="display: none;">
-                                            <div>
-                                                <i class="fas fa-file-alt"></i>
-                                                <span id="current-file-name-1"></span>
-                                            </div>
-                                            <div class="file-actions">
-                                                <button type="button" title="Xem file"><i class="fas fa-eye"></i></button>
-                                                <button type="button" title="Tải xuống"><i class="fas fa-download"></i></button>
-                                            </div>
-                                        </div>
-                                    </div>
+                                        </div>                                    </div>
                                     
                                     <!-- Ghi chú -->
                                     <div class="form-group mt-3">
@@ -1057,29 +1034,7 @@
                                                         <input type="text" class="form-input" id="staff-name-2" value="Nguyễn Văn A" readonly>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        
-                                        <!-- File kết quả -->
-                                        <div class="form-group mt-3">
-                                            <label for="result-file-2" class="form-label">File kết quả xét nghiệm</label>
-                                            <div class="file-upload">
-                                                <input type="file" id="result-file-2" name="resultFile2" class="file-input" accept=".pdf,.doc,.docx,.jpg,.png">
-                                                <label for="result-file-2" class="file-label">
-                                                    <i class="fas fa-cloud-upload-alt"></i>
-                                                    <span>Kéo thả file vào đây hoặc click để chọn file</span>
-                                                </label>
-                                            </div>
-                                            <div id="current-file-2" class="current-file mt-2" style="display: none;">
-                                                <div>
-                                                    <i class="fas fa-file-alt"></i>
-                                                    <span id="current-file-name-2"></span>
-                                                </div>
-                                                <div class="file-actions">
-                                                    <button type="button" title="Xem file"><i class="fas fa-eye"></i></button>
-                                                    <button type="button" title="Tải xuống"><i class="fas fa-download"></i></button>
-                                                </div>                                        </div>
-                                        </div>
+                                            </div>                                        </div>
                                         
                                         <!-- Ghi chú -->
                                         <div class="form-group mt-3">
@@ -1250,12 +1205,8 @@
         
         document.addEventListener('DOMContentLoaded', function() {
             if (kitCode) {
-                loadKitInfo(kitCode);
-            } else {
+                loadKitInfo(kitCode);            } else {
                 console.log('Không có mã Kit trong URL, hiển thị dữ liệu demo');
-                // Thiết lập sự kiện cho các file input có sẵn
-                setupFileInputEvent(1);
-                setupFileInputEvent(2);
             }
               // Thiết lập sự kiện xác nhận xóa kit
             document.getElementById('confirm-remove-kit-btn').addEventListener('click', function(e) {
@@ -1298,62 +1249,9 @@
                         }
                     }
                 });
-            });
-        });
+            });        });
         
-        // Thiết lập sự kiện cho file input
-        function setupFileInputEvent(kitId) {
-            const fileInput = document.getElementById(`result-file-${kitId}`);
-            
-            if (fileInput) {
-                fileInput.addEventListener('change', function(e) {
-                    const file = e.target.files[0];
-                    const label = document.querySelector(`label[for="result-file-${kitId}"] span`);
-                    
-                    if (file) {
-                        label.textContent = file.name;
-                        
-                        // Hiển thị file đã chọn
-                        const currentFile = document.getElementById(`current-file-${kitId}`);
-                        const currentFileName = document.getElementById(`current-file-name-${kitId}`);
-                        
-                        // Hiện tên file
-                        currentFileName.textContent = file.name;
-                        currentFile.style.display = 'flex';
-                        
-                        // Thêm sự kiện cho các nút
-                        const viewBtn = currentFile.querySelector('.file-actions button:first-child');
-                        const downloadBtn = currentFile.querySelector('.file-actions button:last-child');
-                        
-                        // Thêm sự kiện xem file
-                        if (viewBtn) {
-                            viewBtn.onclick = function() {
-                                // Tạo URL preview cho file
-                                const objectUrl = URL.createObjectURL(file);
-                                window.open(objectUrl, '_blank');
-                            };
-                        }
-                        
-                        // Thêm sự kiện download file
-                        if (downloadBtn) {
-                            downloadBtn.onclick = function() {
-                                // Tạo URL download cho file
-                                const objectUrl = URL.createObjectURL(file);
-                                const a = document.createElement('a');
-                                a.href = objectUrl;
-                                a.download = file.name;
-                                a.click();
-                                URL.revokeObjectURL(objectUrl);
-                            };
-                        }
-                    } else {
-                        label.textContent = 'Kéo thả file vào đây hoặc click để chọn file';
-                        document.getElementById(`current-file-${kitId}`).style.display = 'none';
-                    }
-                });
-            }
-        }
-          // Hiện dialog xác nhận xóa kit
+        // Hiện dialog xác nhận xóa kit
         function confirmRemoveKit(kitId, e) {
             if (e) {
                 e.preventDefault();
@@ -1529,30 +1427,7 @@
                                             <input type="text" class="form-input" id="staff-name-${kitId}" value="Nguyễn Văn A" readonly>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                            
-                            <!-- File kết quả -->
-                            <div class="form-group mt-3">
-                                <label for="result-file-${kitId}" class="form-label">File kết quả xét nghiệm</label>
-                                <div class="file-upload">
-                                    <input type="file" id="result-file-${kitId}" name="resultFile${kitId}" class="file-input" accept=".pdf,.doc,.docx,.jpg,.png">
-                                    <label for="result-file-${kitId}" class="file-label">
-                                        <i class="fas fa-cloud-upload-alt"></i>
-                                        <span>Kéo thả file vào đây hoặc click để chọn file</span>
-                                    </label>
-                                </div>
-                                <div id="current-file-${kitId}" class="current-file mt-2" style="display: none;">
-                                    <div>
-                                        <i class="fas fa-file-alt"></i>
-                                        <span id="current-file-name-${kitId}"></span>
-                                    </div>
-                                    <div class="file-actions">
-                                        <button type="button" title="Xem file"><i class="fas fa-eye"></i></button>
-                                        <button type="button" title="Tải xuống"><i class="fas fa-download"></i></button>
-                                    </div>
-                                </div>
-                            </div>
+                                </div>                            </div>
                             
                             <!-- Ghi chú -->
                             <div class="form-group mt-3">
@@ -1563,13 +1438,9 @@
                     </div>
                 </div>
             `;
-            
-            // Chèn kit mới trước nút "Thêm Kit"
+              // Chèn kit mới trước nút "Thêm Kit"
             const addButton = kitsContainer.querySelector('button.btn-outline-primary');
             addButton.insertAdjacentHTML('beforebegin', kitHTML);
-            
-            // Thiết lập sự kiện cho file input mới
-            setupFileInputEvent(kitId);
             
             // Thiết lập sự kiện collapse cho kit mới
             const newCollapseToggle = document.querySelector(`#kit-${serviceId}-${kitId} [data-bs-toggle="collapse"]`);

@@ -937,23 +937,27 @@
                   class="form-control"
                   placeholder="Nhập số căn cước công dân"
                 />
-              </div>
-              <div class="form-col">
-                <label class="form-label" for="identity-verification"
-                  >Định danh *</label
+              </div>              <div class="form-col">
+                <label class="form-label" for="portrait-photo"
+                  >Chân dung người cung cấp mẫu *</label
                 >
-                <select
-                  id="identity-verification"
-                  class="form-control form-select"
-                >
-                  <option value="">Chọn phương thức định danh</option>
-                  <option value="face-recognition">Nhận dạng khuôn mặt</option>
-                  <option value="fingerprint">Vân tay</option>
-                  <option value="document-verification">
-                    Xác minh giấy tờ
-                  </option>
-                  <option value="biometric">Sinh trắc học</option>
-                </select>
+                <div style="position: relative;">
+                  <input
+                    type="file"
+                    id="portrait-photo"
+                    class="form-control"
+                    accept="image/*"
+                    style="padding: 8px;"
+                  />
+                  <div id="photo-preview" style="margin-top: 10px; display: none;">
+                    <img id="preview-image" src="" alt="Ảnh xem trước" style="max-width: 150px; max-height: 150px; border: 1px solid #ddd; border-radius: 4px;">
+                    <div style="margin-top: 5px;">
+                      <button type="button" onclick="removePhoto()" style="background: #dc3545; color: white; border: none; padding: 4px 8px; border-radius: 4px; font-size: 12px;">
+                        <i class="fas fa-trash"></i> Xóa ảnh
+                      </button>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -1051,8 +1055,7 @@
           relationship: "Cha",
           sampleType: "blood",
           note: "Khách hàng VIP",
-        },
-        {
+        },        {
           id: 2,
           appointmentId: "APT002",
           fullName: "Trần Thị Bình",
@@ -1068,7 +1071,7 @@
           relationship: "Mẹ",
           sampleType: "saliva",
           cccd: "001085012345",
-          identityVerification: "face-recognition",
+          portraitPhoto: null, // Sẽ được cập nhật khi có ảnh thực tế
           issuedPlace: "Cục Cảnh sát ĐKQL cư trú và DLQG về dân cư",
           issuedDate: "2020-01-15",
           note: "Cần xử lý gấp",
@@ -1094,9 +1097,9 @@
 
       // Initialize page
       document.addEventListener("DOMContentLoaded", function () {
-        loadParticipants();
-        setupEventListeners();
+        loadParticipants();        setupEventListeners();
         generateCustomerCode();
+        setupPhotoPreview();
       });
 
       function setupEventListeners() {
@@ -1183,45 +1186,60 @@
         document.getElementById("add-participant-modal").style.display =
           "block";
         generateCustomerCode();
-      }
-      function closeAddModal() {
+      }      function closeAddModal() {
         document.getElementById("add-participant-modal").style.display = "none";        document.getElementById("add-participant-form").reset();
+        removePhoto(); // Xóa ảnh preview
         toggleAdministrativeFields();
-      }      function closeViewModal() {
+      }function closeViewModal() {
         document.getElementById("view-participant-modal").style.display =
           "none";
-      }
-
-      function toggleAdministrativeFields() {
+      }      function toggleAdministrativeFields() {
         const purpose = document.getElementById("purpose").value;
         const administrativeFields = document.getElementById(
           "administrative-fields"
         );
         const cccdField = document.getElementById("cccd");
-        const identityField = document.getElementById("identity-verification");
+        const portraitPhotoField = document.getElementById("portrait-photo");
 
         if (purpose === "administrative") {
           administrativeFields.style.display = "block";
-          // Make CCCD and identity verification required for administrative purpose
+          // Make CCCD and portrait photo required for administrative purpose
           cccdField.setAttribute("required", "required");
-          identityField.setAttribute("required", "required");
+          portraitPhotoField.setAttribute("required", "required");
         } else {
           administrativeFields.style.display = "none";
           // Remove required attribute for civil purpose
           cccdField.removeAttribute("required");
-          identityField.removeAttribute("required");
+          portraitPhotoField.removeAttribute("required");
           // Clear the values
           cccdField.value = "";
-          identityField.value = "";
+          portraitPhotoField.value = "";
           document.getElementById("issued-place").value = "";
           document.getElementById("issued-date").value = "";
+          // Clear photo preview
+          removePhoto();
         }
-      }      function generateCustomerCode() {
+      }function generateCustomerCode() {
         const nextId = participants.length + 1;
         const customerCode = `NTG${String(nextId).padStart(3, "0")}`;
         document.getElementById("customer-code").value = customerCode;
       }      function handleAddParticipant(event) {
         event.preventDefault();
+
+        const photoInput = document.getElementById("portrait-photo");
+        let photoData = null;
+        
+        // Lưu thông tin ảnh nếu có
+        if (photoInput.files && photoInput.files[0]) {
+          const file = photoInput.files[0];
+          photoData = {
+            name: file.name,
+            size: file.size,
+            type: file.type,
+            // Trong thực tế, bạn sẽ upload ảnh lên server và lưu URL
+            url: URL.createObjectURL(file)
+          };
+        }
 
         const newParticipant = {
           id: participants.length + 1,
@@ -1239,8 +1257,7 @@
           gender: document.getElementById("gender").value,
           sampleType: document.getElementById("sample-type").value,
           cccd: document.getElementById("cccd").value,
-          identityVerification: document.getElementById("identity-verification")
-            .value,
+          portraitPhoto: photoData,
           issuedPlace: document.getElementById("issued-place").value,
           issuedDate: document.getElementById("issued-date").value,
           note: document.getElementById("note").value,
@@ -1262,9 +1279,7 @@
           saliva: "Nước bọt",
           hair: "Tóc",
           nail: "Móng tay",
-        };
-
-        const identityVerificationMap = {
+        };        const identityVerificationMap = {
           "face-recognition": "Nhận dạng khuôn mặt",
           fingerprint: "Vân tay",
           "document-verification": "Xác minh giấy tờ",
@@ -1315,9 +1330,11 @@
             <strong>Số CCCD:</strong> ${participant.cccd || "Chưa cập nhật"}
           </div>
           <div class="form-group">
-            <strong>Định danh:</strong> ${
-              identityVerificationMap[participant.identityVerification] ||
-              "Chưa cập nhật"
+            <strong>Ảnh chân dung người cung cấp mẫu:</strong> 
+            ${
+              participant.portraitPhoto 
+                ? `<div style="margin-top: 8px;"><img src="${participant.portraitPhoto.url}" alt="Ảnh chân dung" style="max-width: 200px; max-height: 200px; border: 1px solid #ddd; border-radius: 4px;"></div>`
+                : "Chưa cập nhật"
             }
           </div>
           <div class="form-group">
@@ -1413,12 +1430,55 @@
       function formatDate(dateString) {
         const date = new Date(dateString);
         return date.toLocaleDateString("vi-VN");
-      }
-
-      function handleLogout() {
+      }      function handleLogout() {
         if (confirm("Bạn có chắc chắn muốn đăng xuất?")) {
           window.location.href = "login.html";
         }
+      }
+
+      // Hàm xử lý preview ảnh
+      function setupPhotoPreview() {
+        const photoInput = document.getElementById("portrait-photo");
+        const photoPreview = document.getElementById("photo-preview");
+        const previewImage = document.getElementById("preview-image");
+
+        photoInput.addEventListener("change", function(e) {
+          const file = e.target.files[0];
+          if (file) {
+            // Kiểm tra loại file
+            if (!file.type.startsWith('image/')) {
+              alert('Vui lòng chọn file hình ảnh!');
+              this.value = '';
+              return;
+            }
+
+            // Kiểm tra kích thước file (tối đa 5MB)
+            if (file.size > 5 * 1024 * 1024) {
+              alert('Kích thước file không được vượt quá 5MB!');
+              this.value = '';
+              return;
+            }
+
+            // Hiển thị preview
+            const reader = new FileReader();
+            reader.onload = function(e) {
+              previewImage.src = e.target.result;
+              photoPreview.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+          }
+        });
+      }
+
+      // Hàm xóa ảnh
+      function removePhoto() {
+        const photoInput = document.getElementById("portrait-photo");
+        const photoPreview = document.getElementById("photo-preview");
+        const previewImage = document.getElementById("preview-image");
+
+        photoInput.value = '';
+        previewImage.src = '';
+        photoPreview.style.display = 'none';
       }
     </script>
 
