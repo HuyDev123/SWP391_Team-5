@@ -69,17 +69,18 @@ CREATE TABLE TestResult (
     id INT IDENTITY(1,1) PRIMARY KEY,
     result_file VARCHAR(255),
     user_id INT,
-    FOREIGN KEY (user_id) REFERENCES [User](id)
+    FOREIGN KEY (user_id) REFERENCES [User](id),
+    FOREIGN KEY (booking_id, service_id) REFERENCES Booking_Service(booking_id, service_id),
+
+    UNIQUE (booking_id, service_id, user_id)
 );
 
 CREATE TABLE Booking_Service (
     booking_id INT NOT NULL,
     service_id INT NOT NULL,
-    test_result_id INT UNIQUE,
     PRIMARY KEY (booking_id, service_id),
     FOREIGN KEY (booking_id) REFERENCES Booking(id),
     FOREIGN KEY (service_id) REFERENCES Service(id),
-    FOREIGN KEY (test_result_id) REFERENCES TestResult(id)
 );
 
 CREATE TABLE KitItem (
