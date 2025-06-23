@@ -782,19 +782,13 @@
               class="form-control"
               placeholder="Tìm kiếm theo tên khách hàng, mã cuộc hẹn..."
             />
-          </div>
-          <!-- <select id="service-filter" class="form-control filter-dropdown">
+          </div>          <!-- <select id="service-filter" class="form-control filter-dropdown">
             <option value="">Tất cả dịch vụ</option>
             <option value="father-child">Xét nghiệm huyết thống cha - con</option>
             <option value="mother-child">Xét nghiệm huyết thống mẹ - con</option>
             <option value="grandparent-grandchild">Xét nghiệm huyết thống ông, bà - cháu</option>
             <option value="sibling">Xét nghiệm huyết thống anh, chị - em</option>
           </select> -->
-          <select id="status-filter" class="form-control filter-dropdown">
-            <option value="">Tất cả trạng thái</option>
-            <option value="active">Đang hoạt động</option>
-            <option value="pending">Chờ xử lý</option>
-          </select>
         </div>
 
         <!-- Participants Table -->
@@ -1121,9 +1115,7 @@
         // Purpose change
         document
           .getElementById("purpose")
-          .addEventListener("change", toggleAdministrativeFields);
-
-        // Form submission
+          .addEventListener("change", toggleAdministrativeFields);        // Form submission
         document
           .getElementById("add-participant-form")
           .addEventListener("submit", handleAddParticipant);
@@ -1134,9 +1126,6 @@
           .addEventListener("input", filterParticipants);
         document
           .getElementById("service-filter")
-          .addEventListener("change", filterParticipants);
-        document
-          .getElementById("status-filter")
           .addEventListener("change", filterParticipants);
 
         // Click outside modal to close
@@ -1384,14 +1373,11 @@
 
         document.getElementById("view-participant-modal").style.display =
           "block";
-      }
-
-      function filterParticipants() {
+      }      function filterParticipants() {
         const searchTerm = document
           .getElementById("search-input")
           .value.toLowerCase();
         const serviceFilter = document.getElementById("service-filter").value;
-        const statusFilter = document.getElementById("status-filter").value;
 
         const filteredParticipants = participants.filter((participant) => {
           const matchesSearch =
@@ -1401,10 +1387,8 @@
 
           const matchesService =
             !serviceFilter || participant.serviceType === serviceFilter;
-          const matchesStatus =
-            !statusFilter || participant.status === statusFilter;
 
-          return matchesSearch && matchesService && matchesStatus;
+          return matchesSearch && matchesService;
         });
 
         const tbody = document.getElementById("participants-list");
