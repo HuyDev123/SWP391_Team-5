@@ -1068,7 +1068,7 @@
               border-radius: 12px;
               padding: 30px;
               width: 90%;
-              max-width: 700px;
+              max-width: 600px;
               max-height: 90vh;
               overflow-y: auto;
               box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
@@ -1138,7 +1138,7 @@
                 ></div>
               </div>
 
-              <!-- Mã Kit -->
+              <!-- Dịch vụ -->
               <div>
                 <label
                   style="
@@ -1148,7 +1148,32 @@
                     color: #333;
                   "
                 >
-                  Mã Kit
+                  Dịch vụ
+                </label>
+                <div
+                  id="view-kit-service"
+                  style="
+                    padding: 12px;
+                    border: 2px solid #e0e0e0;
+                    border-radius: 8px;
+                    background-color: #f9f9f9;
+                    font-size: 14px;
+                    color: #666;
+                  "
+                ></div>
+              </div>
+
+              <!-- Kit Code -->
+              <div>
+                <label
+                  style="
+                    display: block;
+                    margin-bottom: 8px;
+                    font-weight: 600;
+                    color: #333;
+                  "
+                >
+                  Kit Code
                 </label>
                 <div
                   id="view-kit-code"
@@ -1163,7 +1188,7 @@
                 ></div>
               </div>
 
-              <!-- Số lượng mẫu -->
+              <!-- Kit Type -->
               <div>
                 <label
                   style="
@@ -1173,10 +1198,10 @@
                     color: #333;
                   "
                 >
-                  Số lượng mẫu
+                  Kit Type
                 </label>
                 <div
-                  id="view-kit-sample-count"
+                  id="view-kit-type"
                   style="
                     padding: 12px;
                     border: 2px solid #e0e0e0;
@@ -1185,8 +1210,7 @@
                     font-size: 14px;
                     color: #666;
                   "
-                ></div>
-              </div>
+                ></div>              </div>
 
               <!-- Ngày gửi -->
               <div>
@@ -1227,6 +1251,31 @@
                 </label>
                 <div
                   id="view-kit-receive-date"
+                  style="
+                    padding: 12px;
+                    border: 2px solid #e0e0e0;
+                    border-radius: 8px;
+                    background-color: #f9f9f9;
+                    font-size: 14px;
+                    color: #666;
+                  "
+                ></div>
+              </div>
+
+              <!-- Delivery Test -->
+              <div>
+                <label
+                  style="
+                    display: block;
+                    margin-bottom: 8px;
+                    font-weight: 600;
+                    color: #333;
+                  "
+                >
+                  Delivery Test
+                </label>
+                <div
+                  id="view-kit-delivery-test"
                   style="
                     padding: 12px;
                     border: 2px solid #e0e0e0;
@@ -1407,55 +1456,78 @@
           </div>
         </div>
 
-        <script>
-          const fakeKits = [
+        <script>          const fakeKits = [
             {
               appointmentId: "AP001",
               kitCode: "KIT1001",
+              service: "ADN cha-con",
+              kitType: "Kit tại nhà",
               sampleCount: 2,
               sendDate: "2025-06-01",
               receiveDate: "",
+              deliveryTest: "DT001",
               status: "Chờ gửi",
+              note: "Kit xét nghiệm quan hệ cha-con, yêu cầu bảo quản lạnh",
             },
             {
               appointmentId: "AP002",
               kitCode: "KIT1002",
+              service: "ADN mẹ-con",
+              kitType: "Kit pháp lý",
               sampleCount: 3,
               sendDate: "2025-06-02",
               receiveDate: "2025-06-03",
+              deliveryTest: "DT002",
               status: "Đã gửi",
+              note: "Kit xét nghiệm pháp lý, đã có giấy tờ chứng thực",
             },
             {
               appointmentId: "AP003",
               kitCode: "KIT1003",
+              service: "ADN anh,chi-em",
+              kitType: "Kit quan hệ khác",
               sampleCount: 2,
               sendDate: "2025-06-03",
               receiveDate: "2025-06-04",
+              deliveryTest: "DT003",
               status: "Đã nhận mẫu",
+              note: "Kit xét nghiệm anh chị em ruột, mẫu đã về lab",
             },
             {
               appointmentId: "AP004",
               kitCode: "KIT1004",
+              service: "ADN ông,bà-cháu",
+              kitType: "Kit tại nhà",
               sampleCount: 2,
               sendDate: "2025-06-04",
               receiveDate: "",
+              deliveryTest: "DT004",
               status: "Lỗi mẫu",
+              note: "Mẫu bị nhiễm khuẩn, cần lấy lại",
             },
             {
               appointmentId: "AP005",
               kitCode: "KIT1005",
+              service: "ADN cha-con",
+              kitType: "Kit thai nhi",
               sampleCount: 4,
               sendDate: "2025-06-05",
               receiveDate: "2025-06-06",
+              deliveryTest: "DT005",
               status: "Đã xử lý",
+              note: "Kit xét nghiệm thai nhi, đã có kết quả",
             },
             {
               appointmentId: "AP006",
               kitCode: "KIT1006",
+              service: "ADN mẹ-con",
+              kitType: "Kit mẫu đặc biệt",
               sampleCount: 2,
               sendDate: "2025-06-06",
               receiveDate: "2025-06-07",
+              deliveryTest: "DT006",
               status: "Đã trả kết quả",
+              note: "Kit hoàn thành, kết quả đã gửi cho khách hàng",
             },
           ];
 
@@ -1650,9 +1722,7 @@
                 }
               });            // Initial render with default date filters
             searchKits();
-          });
-
-          // Hàm hiển thị thông tin kit trong modal
+          });          // Hàm hiển thị thông tin kit trong modal
           function viewKitInfo(kitCode) {
             // Tìm kit theo mã
             const kit = fakeKits.find(k => k.kitCode === kitCode);
@@ -1660,21 +1730,21 @@
             if (!kit) {
               alert('Không tìm thấy thông tin kit!');
               return;
-            }
-
-            // Điền thông tin vào modal
+            }            // Điền thông tin vào modal
             document.getElementById('view-kit-appointment-id').textContent = kit.appointmentId;
+            document.getElementById('view-kit-service').textContent = kit.service || 'Chưa xác định';
             document.getElementById('view-kit-code').textContent = kit.kitCode;
-            document.getElementById('view-kit-sample-count').textContent = kit.sampleCount + ' mẫu';
+            document.getElementById('view-kit-type').textContent = kit.kitType || 'Chưa xác định';
             document.getElementById('view-kit-send-date').textContent = formatDateDisplay(kit.sendDate);
             document.getElementById('view-kit-receive-date').textContent = kit.receiveDate ? formatDateDisplay(kit.receiveDate) : 'Chưa nhận';
+            document.getElementById('view-kit-delivery-test').textContent = kit.deliveryTest || 'Chưa có thông tin';
             
             // Hiển thị trạng thái với màu sắc
             const statusElement = document.getElementById('view-kit-status');
             statusElement.innerHTML = renderKitStatus(kit.status);
             
-            // Ghi chú mẫu (có thể thêm vào fake data sau)
-            document.getElementById('view-kit-note').textContent = 'Ghi chú sẽ được cập nhật từ dữ liệu thực tế';
+            // Ghi chú
+            document.getElementById('view-kit-note').textContent = kit.note || 'Không có ghi chú';
 
             // Lưu mã kit để dùng cho nút chỉnh sửa
             window.currentViewingKit = kitCode;

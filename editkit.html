@@ -890,8 +890,7 @@
                                                 <div class="form-group">
                                                     <label class="form-label">Trạng thái <span class="required">*</span></label>
                                                     <div class="input-group">
-                                                        <span class="input-group-text"><i class="fas fa-tasks"></i></span>
-                                                        <select class="form-select" id="kit-status-1">
+                                                        <span class="input-group-text"><i class="fas fa-tasks"></i></span>                                                        <select class="form-select" id="kit-status-1">
                                                         <option value="Chờ gửi">Chờ gửi</option>
                                                         <option value="Đã gửi" selected>Đã gửi</option>
                                                         <option value="Đã nhận mẫu">Đã nhận mẫu</option>
@@ -899,6 +898,34 @@
                                                         <option value="Đã xử lý">Đã xử lý</option>
                                                         <option value="Đã trả kết quả">Đã trả kết quả</option>
                                                     </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row mt-3">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="form-label">Kit Type <span class="required">*</span></label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text"><i class="fas fa-cube"></i></span>
+                                                    <select class="form-select" id="kit-type-1" required>
+                                                        <option value="">Chọn loại kit</option>
+                                                        <option value="Kit tại nhà" selected>Kit tại nhà</option>
+                                                        <option value="Kit pháp lý">Kit pháp lý</option>
+                                                        <option value="Kit quan hệ khác">Kit quan hệ khác</option>
+                                                        <option value="Kit thai nhi">Kit thai nhi</option>
+                                                        <option value="Kit mẫu đặc biệt">Kit mẫu đặc biệt</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="form-label">Delivery Test</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text"><i class="fas fa-truck"></i></span>
+                                                    <input type="text" class="form-input" id="delivery-test-1" value="DT001" placeholder="Nhập mã delivery test">
                                                 </div>
                                             </div>
                                         </div>
@@ -922,20 +949,10 @@
                                                     <input type="date" class="form-input" id="received-date-1">
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
+                                        </div>                                    </div>
                                     
                                     <div class="row mt-3">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="form-label">Số lượng mẫu <span class="required">*</span></label>
-                                                <div class="input-group">
-                                                    <span class="input-group-text"><i class="fas fa-vials"></i></span>
-                                                    <input type="number" class="form-input" id="sample-count-1" min="2" value="2" required>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-12">
                                             <div class="form-group">
                                                 <label class="form-label">Người thực hiện</label>
                                                 <div class="input-group">
@@ -943,7 +960,7 @@
                                                     <input type="text" class="form-input" id="staff-name-1" value="Nguyễn Văn A" readonly>
                                                 </div>
                                             </div>
-                                        </div>                                    </div>
+                                        </div></div>
                                     
                                     <!-- Ghi chú -->
                                     <div class="form-group mt-3">
@@ -981,8 +998,7 @@
                                                 <div class="form-group">
                                                     <label class="form-label">Trạng thái <span class="required">*</span></label>
                                                     <div class="input-group">
-                                                        <span class="input-group-text"><i class="fas fa-tasks"></i></span>
-                                                        <select class="form-select" id="kit-status-2">
+                                                        <span class="input-group-text"><i class="fas fa-tasks"></i></span>                                                        <select class="form-select" id="kit-status-2">
                                                             <option value="Chờ gửi" selected>Chờ gửi</option>
                                                             <option value="Đã gửi">Đã gửi</option>
                                                             <option value="Đã nhận mẫu">Đã nhận mẫu</option>
@@ -990,6 +1006,34 @@
                                                             <option value="Đã xử lý">Đã xử lý</option>
                                                             <option value="Đã trả kết quả">Đã trả kết quả</option>
                                                         </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="row mt-3">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="form-label">Kit Type <span class="required">*</span></label>
+                                                    <div class="input-group">
+                                                        <span class="input-group-text"><i class="fas fa-cube"></i></span>
+                                                        <select class="form-select" id="kit-type-2" required>
+                                                            <option value="">Chọn loại kit</option>
+                                                            <option value="Kit tại nhà">Kit tại nhà</option>
+                                                            <option value="Kit pháp lý" selected>Kit pháp lý</option>
+                                                            <option value="Kit quan hệ khác">Kit quan hệ khác</option>
+                                                            <option value="Kit thai nhi">Kit thai nhi</option>
+                                                            <option value="Kit mẫu đặc biệt">Kit mẫu đặc biệt</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="form-label">Delivery Test</label>
+                                                    <div class="input-group">
+                                                        <span class="input-group-text"><i class="fas fa-truck"></i></span>
+                                                        <input type="text" class="form-input" id="delivery-test-2" value="DT002" placeholder="Nhập mã delivery test">
                                                     </div>
                                                 </div>
                                             </div>
@@ -1015,18 +1059,8 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        
-                                        <div class="row mt-3">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label class="form-label">Số lượng mẫu <span class="required">*</span></label>
-                                                    <div class="input-group">
-                                                        <span class="input-group-text"><i class="fas fa-vials"></i></span>
-                                                        <input type="number" class="form-input" id="sample-count-2" min="2" value="2" required>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
+                                          <div class="row mt-3">
+                                            <div class="col-md-12">
                                                 <div class="form-group">
                                                     <label class="form-label">Người thực hiện</label>
                                                     <div class="input-group">
@@ -1034,7 +1068,7 @@
                                                         <input type="text" class="form-input" id="staff-name-2" value="Nguyễn Văn A" readonly>
                                                     </div>
                                                 </div>
-                                            </div>                                        </div>
+                                            </div></div>
                                         
                                         <!-- Ghi chú -->
                                         <div class="form-group mt-3">
@@ -1383,8 +1417,34 @@
                                                 <option value="Đã nhận mẫu">Đã nhận mẫu</option>
                                                 <option value="Lỗi mẫu">Lỗi mẫu</option>
                                                 <option value="Đã xử lý">Đã xử lý</option>
-                                                <option value="Đã trả kết quả">Đã trả kết quả</option>
+                                                <option value="Đã trả kết quả">Đã trả kết quả</option>                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">Kit Type <span class="required">*</span></label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="fas fa-cube"></i></span>
+                                            <select class="form-select" id="kit-type-${kitId}" required>
+                                                <option value="">Chọn loại kit</option>
+                                                <option value="Kit tại nhà" selected>Kit tại nhà</option>
+                                                <option value="Kit pháp lý">Kit pháp lý</option>
+                                                <option value="Kit quan hệ khác">Kit quan hệ khác</option>
+                                                <option value="Kit thai nhi">Kit thai nhi</option>
+                                                <option value="Kit mẫu đặc biệt">Kit mẫu đặc biệt</option>
                                             </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">Delivery Test</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="fas fa-truck"></i></span>
+                                            <input type="text" class="form-input" id="delivery-test-${kitId}" placeholder="Nhập mã delivery test">
                                         </div>
                                     </div>
                                 </div>
@@ -1407,19 +1467,9 @@
                                             <input type="date" class="form-input" id="received-date-${kitId}">
                                         </div>
                                     </div>
-                                </div>
-                            </div>
+                                </div>                            </div>
                             <div class="row mt-3">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="form-label">Số lượng mẫu <span class="required">*</span></label>
-                                        <div class="input-group">
-                                            <span class="input-group-text"><i class="fas fa-vials"></i></span>
-                                            <input type="number" class="form-input" id="sample-count-${kitId}" min="2" value="2" required>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <div class="form-group">
                                         <label class="form-label">Người thực hiện</label>
                                         <div class="input-group">
@@ -1427,7 +1477,7 @@
                                             <input type="text" class="form-input" id="staff-name-${kitId}" value="Nguyễn Văn A" readonly>
                                         </div>
                                     </div>
-                                </div>                            </div>
+                                </div></div>
                             
                             <!-- Ghi chú -->
                             <div class="form-group mt-3">
@@ -1740,33 +1790,32 @@
                         errorMsg.innerHTML = '<i class="fas fa-exclamation-circle"></i><span>Vui lòng chọn ngày gửi</span>';
                         sentDate.parentElement.after(errorMsg);
                     }
-                    errorMsg.style.display = 'flex';
-                } else if (sentDate) {
+                    errorMsg.style.display = 'flex';                } else if (sentDate) {
                     sentDate.classList.remove('is-invalid');
                     const errorMsg = sentDate.parentElement.nextElementSibling;
                     if (errorMsg && errorMsg.classList.contains('error-message')) {
                         errorMsg.style.display = 'none';
                     }
                 }
-                
-                // Kiểm tra số lượng mẫu
-                const sampleCount = document.getElementById(`sample-count-${kitId}`);
-                if (sampleCount && (sampleCount.value === '' || parseInt(sampleCount.value) < 1)) {
-                    sampleCount.classList.add('is-invalid');
+
+                // Kiểm tra Kit Type
+                const kitType = document.getElementById(`kit-type-${kitId}`);
+                if (kitType && kitType.value === '') {
+                    kitType.classList.add('is-invalid');
                     isValid = false;
                     
                     // Hiển thị lỗi ngay dưới trường này
-                    let errorMsg = sampleCount.parentElement.nextElementSibling;
+                    let errorMsg = kitType.parentElement.nextElementSibling;
                     if (!errorMsg || !errorMsg.classList.contains('error-message')) {
                         errorMsg = document.createElement('div');
                         errorMsg.className = 'error-message';
-                        errorMsg.innerHTML = '<i class="fas fa-exclamation-circle"></i><span>Số lượng mẫu phải lớn hơn hoặc bằng 1</span>';
-                        sampleCount.parentElement.after(errorMsg);
+                        errorMsg.innerHTML = '<i class="fas fa-exclamation-circle"></i><span>Vui lòng chọn loại kit</span>';
+                        kitType.parentElement.after(errorMsg);
                     }
                     errorMsg.style.display = 'flex';
-                } else if (sampleCount) {
-                    sampleCount.classList.remove('is-invalid');
-                    const errorMsg = sampleCount.parentElement.nextElementSibling;
+                } else if (kitType) {
+                    kitType.classList.remove('is-invalid');
+                    const errorMsg = kitType.parentElement.nextElementSibling;
                     if (errorMsg && errorMsg.classList.contains('error-message')) {
                         errorMsg.style.display = 'none';
                     }
