@@ -828,12 +828,11 @@
     <script src="assets/js/auth.js"></script>
     <script src="assets/js/auth-check.js"></script>
 
-    <script>
-      // Sample data for completed appointments
+    <script>      // Sample data for completed appointments
       const completedAppointments = [
         {
           id: "AP001",
-          customerCode: "NTG001",
+          customerCode: "KH001",
           customerName: "Nguyễn Văn A",
           service: "Xét nghiệm huyết thống cha-con",
           completedDate: "2024-01-15",
@@ -848,7 +847,7 @@
         },
         {
           id: "AP002",
-          customerCode: "NTG002",
+          customerCode: "KH002",
           customerName: "Trần Thị B",
           service: "Xét nghiệm huyết thống mẹ-con",
           completedDate: "2024-01-18",
@@ -863,7 +862,7 @@
         },
         {
           id: "AP003",
-          customerCode: "NTG003",
+          customerCode: "KH003",
           customerName: "Lê Văn D",
           service: "Xét nghiệm huyết thống ông/bà-cháu",
           completedDate: "2024-01-20",
@@ -878,7 +877,7 @@
         },
         {
           id: "AP004",
-          customerCode: "NTG004",
+          customerCode: "KH004",
           customerName: "Phạm Văn F",
           service: "Xét nghiệm huyết thống anh/chị-em",
           completedDate: "2024-01-22",
@@ -1031,12 +1030,14 @@
         const modalTitle = document.getElementById("modalTitle");
         const modalBody = document.getElementById("modalBody");
 
-        modalTitle.textContent = `Quản lý kết quả - ${appointment.id}`;
-        modalBody.innerHTML = `
+        modalTitle.textContent = `Quản lý kết quả - ${appointment.id}`;        modalBody.innerHTML = `
           <div style="margin-bottom: 20px;">
             <h4 style="color: #2c3e50; margin-bottom: 10px;">Thông tin lịch hẹn</h4>
             <div style="background: #f8f9fa; padding: 15px; border-radius: 10px;">
-              <p><strong>Mã khách hàng:</strong> ${appointment.customerCode}</p>
+              <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                <strong>Mã KH:</strong> 
+                <span style="background: #667eea; color: white; padding: 4px 12px; border-radius: 20px; font-weight: 600; font-size: 13px;">${appointment.customerCode}</span>
+              </div>
               <p><strong>Khách hàng:</strong> ${appointment.customerName}</p>
               <p><strong>Dịch vụ:</strong> ${appointment.service}</p>
             </div>
@@ -1101,13 +1102,15 @@
         if (!appointment) return;
 
         const modal = document.getElementById("resultModal");
-        const modalBody = document.getElementById("modalBody");
-        modalBody.innerHTML = `
+        const modalBody = document.getElementById("modalBody");        modalBody.innerHTML = `
           <div style="margin-bottom: 20px;">
             <h4 style="color: #2c3e50; margin-bottom: 10px;">Thêm kết quả cho: ${appointment.service}</h4>
             <div style="background: #f8f9fa; padding: 15px; border-radius: 10px;">
               <p><strong>Mã lịch hẹn:</strong> ${appointment.id}</p>
-              <p><strong>Mã khách hàng:</strong> ${appointment.customerCode}</p>
+              <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                <strong>Mã KH:</strong> 
+                <span style="background: #667eea; color: white; padding: 4px 12px; border-radius: 20px; font-weight: 600; font-size: 13px;">${appointment.customerCode}</span>
+              </div>
               <p><strong>Khách hàng:</strong> ${appointment.customerName}</p>
               <p><strong>Dịch vụ:</strong> ${appointment.service}</p>
             </div>
@@ -1156,15 +1159,17 @@
         if (!appointment) return;
 
         const modal = document.getElementById("resultModal");
-        const modalBody = document.getElementById("modalBody");
-        modalBody.innerHTML = `
+        const modalBody = document.getElementById("modalBody");        modalBody.innerHTML = `
           <div style="margin-bottom: 20px;">
             <h4 style="color: #2c3e50; margin-bottom: 10px;">Sửa kết quả cho: ${
               appointment.service
             }</h4>
             <div style="background: #f8f9fa; padding: 15px; border-radius: 10px;">
               <p><strong>Mã lịch hẹn:</strong> ${appointment.id}</p>
-              <p><strong>Mã khách hàng:</strong> ${appointment.customerCode}</p>
+              <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                <strong>Mã KH:</strong> 
+                <span style="background: #667eea; color: white; padding: 4px 12px; border-radius: 20px; font-weight: 600; font-size: 13px;">${appointment.customerCode}</span>
+              </div>
               <p><strong>Khách hàng:</strong> ${appointment.customerName}</p>
               <p><strong>Dịch vụ:</strong> ${appointment.service}</p>
             </div>

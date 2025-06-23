@@ -1260,9 +1260,7 @@
         const locationTexts = {
           home: "Tại nhà",
           facility: "Tại cơ sở",
-        };
-
-        detailsContainer.innerHTML = `
+        };        detailsContainer.innerHTML = `
           <div class="form-group">
             <strong>Mã mẫu:</strong> ${sample.sampleCode}
           </div>
@@ -1279,26 +1277,12 @@
             <strong>Loại mẫu:</strong> ${sampleTypeTexts[sample.sampleType]}
           </div>
           <div class="form-group">
-            <strong>Địa điểm thu thập:</strong> ${
-              locationTexts[sample.collectionLocation]
-            }
-          </div>
-          <div class="form-group">
             <strong>Người thực hiện:</strong> ${sample.collector}
           </div>
           <div class="form-group">
             <strong>Thời gian lấy:</strong> ${formatDateTime(
               sample.collectionTime
             )}
-          </div>
-          <div class="form-group">
-            <strong>Trạng thái:</strong> 
-            <span class="status-badge status-${sample.status}">
-              ${statusTexts[sample.status]}
-            </span>
-          </div>
-          <div class="form-group">
-            <strong>Ngày tạo:</strong> ${formatDate(sample.createdDate)}
           </div>
           <div class="form-group">
             <strong>Ghi chú:</strong> ${sample.note || "Không có"}
