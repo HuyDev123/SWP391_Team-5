@@ -799,15 +799,13 @@
 
         <!-- Samples Table -->
         <div id="samples-container">
-          <table class="samples-table">
-            <thead>
+          <table class="samples-table">            <thead>
               <tr>
                 <th>Mã Mẫu</th>
                 <th>Tên Người Cung Cấp</th>
                 <th>Dịch Vụ</th>
                 <th>Người Thực Hiện</th>
                 <th>Thời Gian Lấy</th>
-                <th>Trạng Thái</th>
                 <th>Thao Tác</th>
               </tr>
             </thead>
@@ -1098,12 +1096,10 @@
 
       function loadSamples() {
         const tbody = document.getElementById("samples-list");
-        tbody.innerHTML = "";
-
-        if (samples.length === 0) {
+        tbody.innerHTML = "";        if (samples.length === 0) {
           tbody.innerHTML = `
             <tr>
-              <td colspan="7" class="empty-state">
+              <td colspan="6" class="empty-state">
                 <i class="fas fa-flask"></i>
                 <p>Chưa có mẫu xét nghiệm nào</p>
               </td>
@@ -1150,16 +1146,12 @@
         const locationBadge =
           sample.collectionLocation === "home"
             ? '<span class="location-badge location-home">Tại nhà</span>'
-            : '<span class="location-badge location-facility">Tại cơ sở</span>';
-        row.innerHTML = `
+            : '<span class="location-badge location-facility">Tại cơ sở</span>';        row.innerHTML = `
           <td><strong>${sample.sampleCode}</strong></td>
           <td>${sample.providerName}</td>
           <td>${sample.serviceDisplayName}</td>
           <td>${sample.collector} ${locationBadge}</td>
           <td>${formatDateTime(sample.collectionTime)}</td>
-          <td><span class="status-badge ${statusClasses[sample.status]}">${
-          statusTexts[sample.status]
-        }</span></td>
           <td>
             <button class="btn btn-info" onclick="viewSample(${
               sample.id
@@ -1346,12 +1338,10 @@
         });
 
         const tbody = document.getElementById("samples-list");
-        tbody.innerHTML = "";
-
-        if (filteredSamples.length === 0) {
+        tbody.innerHTML = "";        if (filteredSamples.length === 0) {
           tbody.innerHTML = `
             <tr>
-              <td colspan="7" class="empty-state">
+              <td colspan="6" class="empty-state">
                 <i class="fas fa-search"></i>
                 <p>Không tìm thấy kết quả phù hợp</p>
               </td>

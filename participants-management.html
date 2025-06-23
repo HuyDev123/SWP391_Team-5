@@ -799,13 +799,11 @@
 
         <!-- Participants Table -->
         <div id="participants-container">
-          <table class="participants-table">
-            <thead>
+          <table class="participants-table">            <thead>
               <tr>
                 <th>Mã Cuộc Hẹn</th>
                 <th>Tên Khách Hàng</th>
                 <th>Mã Người Tham gia</th>
-                <th>Trạng Thái</th>
                 <th>Ngày Tạo</th>
                 <th>Thao Tác</th>
               </tr>
@@ -847,8 +845,7 @@
                 placeholder="Nhập họ và tên"
                 required
               />
-            </div>
-            <div class="form-col">
+            </div>            <div class="form-col">
               <label class="form-label" for="customer-code"
                 >Mã Người tham gia</label
               >
@@ -856,7 +853,7 @@
                 type="text"
                 id="customer-code"
                 class="form-control"
-                placeholder="Mã khách hàng (tự động)"
+                placeholder="Mã NTG (tự động)"
                 readonly
               />
             </div>
@@ -881,6 +878,24 @@
                 placeholder="Nhập email"
               />
             </div>
+          </div>          <div class="form-row">
+            <div class="form-col">
+              <label class="form-label" for="birth-date">Ngày sinh *</label>
+              <input 
+                type="date" 
+                id="birth-date" 
+                class="form-control"
+                required
+              />
+            </div>
+            <div class="form-col">
+              <label class="form-label" for="gender">Giới tính *</label>
+              <select id="gender" class="form-control form-select" required>
+                <option value="">Chọn giới tính</option>
+                <option value="male">Nam</option>
+                <option value="female">Nữ</option>
+              </select>
+            </div>
           </div>
 
           <div class="form-group">
@@ -891,24 +906,15 @@
               class="form-control"
               placeholder="Nhập địa chỉ"
             />
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="service-type">Loại dịch vụ *</label>
-            <select id="service-type" class="form-control form-select" required>
-              <option value="">Chọn loại dịch vụ</option>
-              <option value="father-child">
-                Xét nghiệm huyết thống cha - con
-              </option>
-              <option value="mother-child">
-                Xét nghiệm huyết thống mẹ - con
-              </option>
-              <option value="grandparent-grandchild">
-                Xét nghiệm huyết thống ông, bà - cháu
-              </option>
-              <option value="sibling">
-                Xét nghiệm huyết thống anh, chị - em
-              </option>
-            </select>
+          </div>          <div class="form-group">
+            <label class="form-label" for="relationship">Mối quan hệ với người đăng ký cuộc hẹn *</label>
+            <input
+              type="text"
+              id="relationship"
+              class="form-control"
+              placeholder="Nhập mối quan hệ (VD: Cha, Mẹ, Con trai, Con gái, Ông, Bà...)"
+              required
+            />
           </div>
 
           <div class="form-group">
@@ -964,8 +970,7 @@
                 id="issued-place"
                 class="form-control"
                 placeholder="Nhập nơi cấp căn cước công dân"
-              />
-            </div>
+              />            </div>
 
             <div class="form-group">
               <label class="form-label" for="issued-date">Ngày cấp CCCD</label>
@@ -973,49 +978,15 @@
             </div>
           </div>
 
-          <!-- Service specific fields -->
-          <div
-            id="service-fields"
-            class="service-type-section"
-            style="display: none"
-          >
-            <div class="service-type-title">Thông tin người tham gia</div>
-
-            <div class="form-row">
-              <div class="form-col">
-                <label class="form-label" for="birth-date">Ngày sinh</label>
-                <input type="date" id="birth-date" class="form-control" />
-              </div>
-              <div class="form-col">
-                <label class="form-label" for="gender">Giới tính</label>
-                <select id="gender" class="form-control form-select">
-                  <option value="">Chọn giới tính</option>
-                  <option value="male">Nam</option>
-                  <option value="female">Nữ</option>
-                </select>
-              </div>
-            </div>
-
-            <div id="relationship-field" class="form-group">
-              <label class="form-label" for="relationship"
-                >Vai trò trong xét nghiệm</label
-              >
-              <select id="relationship" class="form-control form-select">
-                <option value="">Chọn vai trò</option>
-                <!-- Options will be populated based on service type -->
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label class="form-label" for="sample-type">Loại mẫu</label>
-              <select id="sample-type" class="form-control form-select">
-                <option value="">Chọn loại mẫu</option>
-                <option value="blood">Máu</option>
-                <option value="saliva">Nước bọt</option>
-                <option value="hair">Tóc</option>
-                <option value="nail">Móng tay</option>
-              </select>
-            </div>
+          <div class="form-group">
+            <label class="form-label" for="sample-type">Loại mẫu</label>
+            <select id="sample-type" class="form-control form-select">
+              <option value="">Chọn loại mẫu</option>
+              <option value="blood">Máu</option>
+              <option value="saliva">Nước bọt</option>
+              <option value="hair">Tóc</option>
+              <option value="nail">Móng tay</option>
+            </select>
           </div>
 
           <div class="form-group">
@@ -1068,16 +1039,13 @@
       </div>
     </div>
 
-    <script>
-      // Sample data for participants
+    <script>      // Sample data for participants
       let participants = [
         {
           id: 1,
           appointmentId: "APT001",
           fullName: "Nguyễn Văn An",
-          customerCode: "KH001",
-          serviceType: "father-child",
-          serviceName: "Xét nghiệm huyết thống cha - con",
+          customerCode: "NTG001",
           purpose: "civil",
           status: "active",
           createdDate: "2024-06-15",
@@ -1086,7 +1054,7 @@
           address: "123 Đường ABC, Quận 1, TP.HCM",
           birthDate: "1990-05-15",
           gender: "male",
-          relationship: "father",
+          relationship: "Cha",
           sampleType: "blood",
           note: "Khách hàng VIP",
         },
@@ -1094,9 +1062,7 @@
           id: 2,
           appointmentId: "APT002",
           fullName: "Trần Thị Bình",
-          customerCode: "KH002",
-          serviceType: "mother-child",
-          serviceName: "Xét nghiệm huyết thống mẹ - con",
+          customerCode: "NTG002",
           purpose: "administrative",
           status: "pending",
           createdDate: "2024-06-20",
@@ -1105,7 +1071,7 @@
           address: "456 Đường XYZ, Quận 3, TP.HCM",
           birthDate: "1985-03-20",
           gender: "female",
-          relationship: "mother",
+          relationship: "Mẹ",
           sampleType: "saliva",
           cccd: "001085012345",
           identityVerification: "face-recognition",
@@ -1117,9 +1083,7 @@
           id: 3,
           appointmentId: "APT003",
           fullName: "Lê Văn Cường",
-          customerCode: "KH003",
-          serviceType: "grandparent-grandchild",
-          serviceName: "Xét nghiệm huyết thống ông, bà - cháu",
+          customerCode: "NTG003",
           purpose: "civil",
           status: "active",
           createdDate: "2024-06-18",
@@ -1128,7 +1092,7 @@
           address: "789 Đường DEF, Quận 5, TP.HCM",
           birthDate: "1955-12-10",
           gender: "male",
-          relationship: "grandfather",
+          relationship: "Ông",
           sampleType: "blood",
           note: "Xét nghiệm định kỳ",
         },
@@ -1151,12 +1115,8 @@
         document.querySelectorAll(".close").forEach((closeBtn) => {
           closeBtn.addEventListener("click", function () {
             closeAddModal();
-            closeViewModal();
-          });
-        }); // Service type change
-        document
-          .getElementById("service-type")
-          .addEventListener("change", toggleServiceFields);
+            closeViewModal();          });
+        });
 
         // Purpose change
         document
@@ -1194,12 +1154,10 @@
 
       function loadParticipants() {
         const tbody = document.getElementById("participants-list");
-        tbody.innerHTML = "";
-
-        if (participants.length === 0) {
+        tbody.innerHTML = "";        if (participants.length === 0) {
           tbody.innerHTML = `
             <tr>
-              <td colspan="6" class="empty-state">
+              <td colspan="5" class="empty-state">
                 <i class="fas fa-users"></i>
                 <p>Chưa có người tham gia nào</p>
               </td>
@@ -1212,20 +1170,13 @@
           const row = createParticipantRow(participant);
           tbody.appendChild(row);
         });
-      }
-
-      function createParticipantRow(participant) {
+      }      function createParticipantRow(participant) {
         const row = document.createElement("tr");
 
-        const statusClass =
-          participant.status === "active" ? "status-active" : "status-pending";
-        const statusText =
-          participant.status === "active" ? "Đang hoạt động" : "Chờ xử lý";
         row.innerHTML = `
           <td>${participant.appointmentId}</td>
           <td>${participant.fullName}</td>
           <td>${participant.customerCode}</td>
-          <td><span class="status-badge ${statusClass}">${statusText}</span></td>
           <td>${formatDate(participant.createdDate)}</td>
           <td>
             <button class="btn btn-info" onclick="viewParticipant(${
@@ -1245,69 +1196,11 @@
         generateCustomerCode();
       }
       function closeAddModal() {
-        document.getElementById("add-participant-modal").style.display = "none";
-        document.getElementById("add-participant-form").reset();
-        toggleServiceFields();
+        document.getElementById("add-participant-modal").style.display = "none";        document.getElementById("add-participant-form").reset();
         toggleAdministrativeFields();
-      }
-
-      function closeViewModal() {
+      }      function closeViewModal() {
         document.getElementById("view-participant-modal").style.display =
           "none";
-      }
-      function toggleServiceFields() {
-        const serviceType = document.getElementById("service-type").value;
-        const serviceFields = document.getElementById("service-fields");
-        const relationshipSelect = document.getElementById("relationship");
-
-        if (serviceType) {
-          serviceFields.style.display = "block";
-
-          // Clear previous options
-          relationshipSelect.innerHTML =
-            '<option value="">Chọn vai trò</option>';
-
-          // Add options based on service type
-          let options = [];
-          switch (serviceType) {
-            case "father-child":
-              options = [
-                { value: "father", text: "Cha" },
-                { value: "child", text: "Con" },
-              ];
-              break;
-            case "mother-child":
-              options = [
-                { value: "mother", text: "Mẹ" },
-                { value: "child", text: "Con" },
-              ];
-              break;
-            case "grandparent-grandchild":
-              options = [
-                { value: "grandfather", text: "Ông" },
-                { value: "grandmother", text: "Bà" },
-                { value: "grandchild", text: "Cháu" },
-              ];
-              break;
-            case "sibling":
-              options = [
-                { value: "older_brother", text: "Anh" },
-                { value: "older_sister", text: "Chị" },
-                { value: "younger_brother", text: "Em trai" },
-                { value: "younger_sister", text: "Em gái" },
-              ];
-              break;
-          }
-
-          options.forEach((option) => {
-            const optionElement = document.createElement("option");
-            optionElement.value = option.value;
-            optionElement.textContent = option.text;
-            relationshipSelect.appendChild(optionElement);
-          });
-        } else {
-          serviceFields.style.display = "none";
-        }
       }
 
       function toggleAdministrativeFields() {
@@ -1334,30 +1227,19 @@
           document.getElementById("issued-place").value = "";
           document.getElementById("issued-date").value = "";
         }
-      }
-
-      function generateCustomerCode() {
+      }      function generateCustomerCode() {
         const nextId = participants.length + 1;
-        const customerCode = `KH${String(nextId).padStart(3, "0")}`;
+        const customerCode = `NTG${String(nextId).padStart(3, "0")}`;
         document.getElementById("customer-code").value = customerCode;
-      }
-      function handleAddParticipant(event) {
+      }      function handleAddParticipant(event) {
         event.preventDefault();
 
-        const serviceType = document.getElementById("service-type").value;
-        const serviceNames = {
-          "father-child": "Xét nghiệm huyết thống cha - con",
-          "mother-child": "Xét nghiệm huyết thống mẹ - con",
-          "grandparent-grandchild": "Xét nghiệm huyết thống ông, bà - cháu",
-          sibling: "Xét nghiệm huyết thống anh, chị - em",
-        };
         const newParticipant = {
           id: participants.length + 1,
           appointmentId: document.getElementById("appointment-id").value,
           fullName: document.getElementById("full-name").value,
           customerCode: document.getElementById("customer-code").value,
-          serviceType: serviceType,
-          serviceName: serviceNames[serviceType],
+          relationship: document.getElementById("relationship").value,
           purpose: document.getElementById("purpose").value,
           status: "active",
           createdDate: new Date().toISOString().split("T")[0],
@@ -1366,7 +1248,6 @@
           address: document.getElementById("address").value,
           birthDate: document.getElementById("birth-date").value,
           gender: document.getElementById("gender").value,
-          relationship: document.getElementById("relationship").value,
           sampleType: document.getElementById("sample-type").value,
           cccd: document.getElementById("cccd").value,
           identityVerification: document.getElementById("identity-verification")
@@ -1385,23 +1266,8 @@
       }
       function viewParticipant(id) {
         const participant = participants.find((p) => p.id === id);
-        if (!participant) return;
+        if (!participant) return;        const detailsContainer = document.getElementById("participant-details");
 
-        const detailsContainer = document.getElementById("participant-details");
-
-        // Map relationship values to display text
-        const relationshipMap = {
-          father: "Cha",
-          mother: "Mẹ",
-          child: "Con",
-          grandfather: "Ông",
-          grandmother: "Bà",
-          grandchild: "Cháu",
-          older_brother: "Anh",
-          older_sister: "Chị",
-          younger_brother: "Em trai",
-          younger_sister: "Em gái",
-        };
         const sampleTypeMap = {
           blood: "Máu",
           saliva: "Nước bọt",
@@ -1424,9 +1290,26 @@
             <strong>Họ và tên:</strong> ${participant.fullName}
           </div>
           <div class="form-group">
-            <strong>Mã khách hàng:</strong> ${participant.customerCode}
-          </div>          <div class="form-group">
-            <strong>Loại dịch vụ:</strong> ${participant.serviceName}
+            <strong>Mã người tham gia:</strong> ${participant.customerCode}
+          </div>
+          <div class="form-group">
+            <strong>Mối quan hệ với người đăng ký:</strong> ${
+              participant.relationship || "Chưa cập nhật"
+            }
+          </div>
+          <div class="form-group">
+            <strong>Ngày sinh:</strong> ${
+              participant.birthDate ? formatDate(participant.birthDate) : "Chưa cập nhật"
+            }
+          </div>
+          <div class="form-group">
+            <strong>Giới tính:</strong> ${
+              participant.gender === "male"
+                ? "Nam"
+                : participant.gender === "female"
+                ? "Nữ"
+                : "Chưa cập nhật"
+            }
           </div>
           <div class="form-group">
             <strong>Mục đích:</strong> ${
@@ -1436,8 +1319,7 @@
                 ? "Hành chính"
                 : "Chưa cập nhật"
             }
-          </div>
-          ${
+          </div>          ${
             participant.purpose === "administrative"
               ? `
           <div class="form-group">
@@ -1474,25 +1356,6 @@
           </div>
           <div class="form-group">
             <strong>Địa chỉ:</strong> ${participant.address || "Chưa cập nhật"}
-          </div>
-          <div class="form-group">
-            <strong>Ngày sinh:</strong> ${
-              participant.birthDate || "Chưa cập nhật"
-            }
-          </div>
-          <div class="form-group">
-            <strong>Giới tính:</strong> ${
-              participant.gender === "male"
-                ? "Nam"
-                : participant.gender === "female"
-                ? "Nữ"
-                : "Chưa cập nhật"
-            }
-          </div>
-          <div class="form-group">
-            <strong>Vai trò trong xét nghiệm:</strong> ${
-              relationshipMap[participant.relationship] || "Chưa cập nhật"
-            }
           </div>
           <div class="form-group">
             <strong>Loại mẫu:</strong> ${
@@ -1545,12 +1408,10 @@
         });
 
         const tbody = document.getElementById("participants-list");
-        tbody.innerHTML = "";
-
-        if (filteredParticipants.length === 0) {
+        tbody.innerHTML = "";        if (filteredParticipants.length === 0) {
           tbody.innerHTML = `
             <tr>
-              <td colspan="6" class="empty-state">
+              <td colspan="5" class="empty-state">
                 <i class="fas fa-search"></i>
                 <p>Không tìm thấy kết quả phù hợp</p>
               </td>
