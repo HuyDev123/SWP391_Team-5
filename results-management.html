@@ -753,24 +753,6 @@
             />
           </div>
           <div class="filter-group">
-            <label class="filter-label">Dịch vụ</label>
-            <select class="filter-input" id="serviceFilter">
-              <option value="">Tất cả dịch vụ</option>
-              <option value="Xét nghiệm huyết thống cha-con">
-                Xét nghiệm huyết thống cha-con
-              </option>
-              <option value="Xét nghiệm huyết thống mẹ-con">
-                Xét nghiệm huyết thống mẹ-con
-              </option>
-              <option value="Xét nghiệm huyết thống ông/bà-cháu">
-                Xét nghiệm huyết thống ông/bà-cháu
-              </option>
-              <option value="Xét nghiệm huyết thống anh/chị-em">
-                Xét nghiệm huyết thống anh/chị-em
-              </option>
-            </select>
-          </div>
-          <div class="filter-group">
             <label class="filter-label">Trạng thái kết quả</label>
             <select class="filter-input" id="statusFilter">
               <option value="">Tất cả trạng thái</option>
@@ -846,7 +828,8 @@
     <script src="assets/js/auth.js"></script>
     <script src="assets/js/auth-check.js"></script>
 
-    <script>      // Sample data for completed appointments
+    <script>
+      // Sample data for completed appointments
       const completedAppointments = [
         {
           id: "AP001",
@@ -876,7 +859,8 @@
             uploadDate: "",
             files: [],
             notes: "",
-          },        },
+          },
+        },
         {
           id: "AP003",
           customerCode: "NTG003",
@@ -1001,14 +985,11 @@
           month: "2-digit",
           year: "numeric",
         });
-      }
-
-      // Search and filter
+      } // Search and filter
       function searchResults() {
         const searchInput = document
           .getElementById("searchInput")
           .value.toLowerCase();
-        const serviceFilter = document.getElementById("serviceFilter").value;
         const statusFilter = document.getElementById("statusFilter").value;
         const fromDate = document.getElementById("fromDate").value;
         const toDate = document.getElementById("toDate").value;
@@ -1019,8 +1000,6 @@
             appointment.id.toLowerCase().includes(searchInput) ||
             appointment.customerName.toLowerCase().includes(searchInput);
 
-          const matchService =
-            !serviceFilter || appointment.service === serviceFilter;
           const matchStatus =
             !statusFilter || appointment.resultStatus === statusFilter;
 
@@ -1030,16 +1009,13 @@
           if (toDate)
             matchDate = matchDate && appointment.completedDate <= toDate;
 
-          return matchSearch && matchService && matchStatus && matchDate;
+          return matchSearch && matchStatus && matchDate;
         });
 
         renderResults(filtered);
-      }
-
-      // Reset filters
+      } // Reset filters
       function resetFilters() {
         document.getElementById("searchInput").value = "";
-        document.getElementById("serviceFilter").value = "";
         document.getElementById("statusFilter").value = "";
         document.getElementById("fromDate").value = "";
         document.getElementById("toDate").value = "";
@@ -1055,7 +1031,8 @@
         const modalTitle = document.getElementById("modalTitle");
         const modalBody = document.getElementById("modalBody");
 
-        modalTitle.textContent = `Quản lý kết quả - ${appointment.id}`;        modalBody.innerHTML = `
+        modalTitle.textContent = `Quản lý kết quả - ${appointment.id}`;
+        modalBody.innerHTML = `
           <div style="margin-bottom: 20px;">
             <h4 style="color: #2c3e50; margin-bottom: 10px;">Thông tin lịch hẹn</h4>
             <div style="background: #f8f9fa; padding: 15px; border-radius: 10px;">
@@ -1124,7 +1101,8 @@
         if (!appointment) return;
 
         const modal = document.getElementById("resultModal");
-        const modalBody = document.getElementById("modalBody");        modalBody.innerHTML = `
+        const modalBody = document.getElementById("modalBody");
+        modalBody.innerHTML = `
           <div style="margin-bottom: 20px;">
             <h4 style="color: #2c3e50; margin-bottom: 10px;">Thêm kết quả cho: ${appointment.service}</h4>
             <div style="background: #f8f9fa; padding: 15px; border-radius: 10px;">
@@ -1178,7 +1156,8 @@
         if (!appointment) return;
 
         const modal = document.getElementById("resultModal");
-        const modalBody = document.getElementById("modalBody");        modalBody.innerHTML = `
+        const modalBody = document.getElementById("modalBody");
+        modalBody.innerHTML = `
           <div style="margin-bottom: 20px;">
             <h4 style="color: #2c3e50; margin-bottom: 10px;">Sửa kết quả cho: ${
               appointment.service

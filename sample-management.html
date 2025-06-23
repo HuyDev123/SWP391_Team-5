@@ -781,19 +781,12 @@
               class="form-control"
               placeholder="Tìm kiếm theo mã mẫu, tên người cung cấp..."
             />
-          </div>
-          <select id="service-filter" class="form-control filter-dropdown">
+          </div>          <select id="service-filter" class="form-control filter-dropdown">
             <option value="">Tất cả dịch vụ</option>
             <option value="father-child">Cha - con</option>
             <option value="mother-child">Mẹ - con</option>
             <option value="grandparent-grandchild">Ông, bà - cháu</option>
             <option value="sibling">Anh, chị - em</option>
-          </select>
-          <select id="status-filter" class="form-control filter-dropdown">
-            <option value="">Tất cả trạng thái</option>
-            <option value="collected">Đã thu thập</option>
-            <option value="processing">Đang xử lý</option>
-            <option value="completed">Hoàn thành</option>
           </select>
         </div>
 
@@ -1065,20 +1058,17 @@
             closeAddModal();
             closeViewModal();
           });
-        });
-
-        // Form submission
+        });        // Form submission
         document
           .getElementById("add-sample-form")
-          .addEventListener("submit", handleAddSample); // Search and filter
+          .addEventListener("submit", handleAddSample);
+          
+        // Search and filter
         document
           .getElementById("search-input")
           .addEventListener("input", filterSamples);
         document
           .getElementById("service-filter")
-          .addEventListener("change", filterSamples);
-        document
-          .getElementById("status-filter")
           .addEventListener("change", filterSamples);
 
         // Click outside modal to close
@@ -1316,13 +1306,11 @@
         `;
 
         document.getElementById("view-sample-modal").style.display = "block";
-      }
-      function filterSamples() {
+      }      function filterSamples() {
         const searchTerm = document
           .getElementById("search-input")
           .value.toLowerCase();
         const serviceFilter = document.getElementById("service-filter").value;
-        const statusFilter = document.getElementById("status-filter").value;
 
         const filteredSamples = samples.filter((sample) => {
           const matchesSearch =
@@ -1332,9 +1320,8 @@
 
           const matchesService =
             !serviceFilter || sample.serviceName === serviceFilter;
-          const matchesStatus = !statusFilter || sample.status === statusFilter;
 
-          return matchesSearch && matchesService && matchesStatus;
+          return matchesSearch && matchesService;
         });
 
         const tbody = document.getElementById("samples-list");
