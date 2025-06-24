@@ -352,7 +352,7 @@
   <body>
   <script th:inline="javascript">
     /*<![CDATA[*/
-    window.serverUser = /*[[${session.user}]]*/ null;
+    window.serverUser = /*[[${userData}]]*/ null;
     /*]]>*/
   </script>
   <!-- Header -->
@@ -701,75 +701,236 @@
         }
       }
 
+      function getBookingFormData() {
+        return {
+          fullName: document.getElementById("fullName").value,
+          email: document.getElementById("email").value,
+          phone: document.getElementById("phone").value,
+          services: Array.from(document.querySelectorAll('.service-dropdown')).map(select => select.value),
+          testType: document.querySelector('input[name="testType"]:checked')?.value,
+          sampleMethod: document.querySelector('input[name="sampleCollection"]:checked')?.value,
+          address: document.getElementById("address").value,
+          date: document.getElementById("appointmentDate").value,
+          time: document.getElementById("appointmentTime").value,
+          notes: document.getElementById("notes").value
+        };
+      }
+
+      function validateBookingForm(formData) {
+        if (!formData.fullName || !formData.email || !formData.phone) {
+          alert("Vui lòng điền đầy đủ thông tin cá nhân");
+          return false;
+        }
+
+        if (formData.services.some(service => !service)) {
+          alert("Vui lòng chọn dịch vụ xét nghiệm");
+          return false;
+        }
+
+        if (!formData.testType) {
+          alert("Vui lòng chọn loại dịch vụ xét nghiệm ADN");
+          return false;
+        }
+
+        if (!formData.sampleMethod) {
+          alert("Vui lòng chọn phương thức lấy mẫu");
+          return false;
+        }
+
+        if (formData.sampleMethod === "home" && !formData.address) {
+          alert("Vui lòng nhập địa chỉ lấy mẫu");
+          document.getElementById("address").focus();
+          return false;
+        }
+
+        if (formData.sampleMethod === "center" && (!formData.date || !formData.time)) {
+          alert("Vui lòng chọn ngày và giờ lấy mẫu");
+          return false;
+        }
+
+        return true;
+      }
+
+      function getSelectedServiceIds() {
+        // This is a placeholder - you need to map the selected service values to actual IDs
+        // For now, I'll just convert them to arbitrary IDs
+        const serviceMap = {
+          "father-child": 1,
+          "mother-child": 2,
+          "siblings": 3,
+          "grandparent": 4
+        };
+
+        return Array.from(document.querySelectorAll('.service-dropdown'))
+                .map(select => select.value)
+                .filter(value => value) // Remove empty values
+                .map(value => serviceMap[value] || 0);
+      }
+
+      function saveFormData(formData, isRedirecting = false) {
+        localStorage.setItem('bookingFormData', JSON.stringify({
+          data: formData,
+          timestamp: new Date().getTime(),
+          isRedirecting: isRedirecting
+        }));
+      }
+
+      function loadFormData() {
+        const savedData = localStorage.getItem('bookingFormData');
+        if (!savedData) return null;
+
+        const parsedData = JSON.parse(savedData);
+
+        // Check if data is still valid (within 30 minutes)
+        const thirtyMinutesInMs = 30 * 60 * 1000;
+        if (new Date().getTime() - parsedData.timestamp > thirtyMinutesInMs && !parsedData.isRedirecting) {
+          localStorage.removeItem('bookingFormData');
+          return null;
+        }
+
+        return parsedData.data;
+      }
+
+      function fillFormWithSavedData(formData) {
+        if (!formData) return;
+
+        // Fill basic fields
+        document.getElementById("fullName").value = formData.fullName || '';
+        document.getElementById("email").value = formData.email || '';
+        document.getElementById("phone").value = formData.phone || '';
+        document.getElementById("notes").value = formData.notes || '';
+
+        // Fill service dropdowns
+        const serviceDropdowns = document.querySelectorAll('.service-dropdown');
+        if (serviceDropdowns.length > 0 && formData.services && formData.services.length > 0) {
+          // Fill first dropdown
+          serviceDropdowns[0].value = formData.services[0] || '';
+
+          // Add additional dropdowns if needed
+          for (let i = 1; i < formData.services.length; i++) {
+            if (i >= serviceDropdowns.length) {
+              document.getElementById("add-service-btn").click();
+              setTimeout(() => {
+                const newDropdowns = document.querySelectorAll('.service-dropdown');
+                if (newDropdowns.length > i) {
+                  newDropdowns[i].value = formData.services[i] || '';
+                }
+              }, 10);
+            } else {
+              serviceDropdowns[i].value = formData.services[i] || '';
+            }
+          }
+        }
+
+        // Set test type radio
+        if (formData.testType) {
+          const testTypeRadio = document.querySelector(`input[name="testType"][value="${formData.testType}"]`);
+          if (testTypeRadio) {
+            testTypeRadio.checked = true;
+            handleTestTypeChange(testTypeRadio);
+          }
+        }
+
+        // Set sample method radio
+        if (formData.sampleMethod) {
+          const sampleMethodRadio = document.querySelector(`input[name="sampleCollection"][value="${formData.sampleMethod}"]`);
+          if (sampleMethodRadio) {
+            sampleMethodRadio.checked = true;
+            handleSampleMethodChange(sampleMethodRadio);
+
+            // Fill additional fields based on sample method
+            if (formData.sampleMethod === "home") {
+              document.getElementById("address").value = formData.address || '';
+            } else if (formData.sampleMethod === "center") {
+              document.getElementById("appointmentDate").value = formData.date || '';
+              document.getElementById("appointmentTime").value = formData.time || '';
+            }
+          }
+        }
+      }
+
       // Set min date là ngày hiện tại
       const today = new Date().toISOString().split("T")[0];
       document.getElementById("appointmentDate").min = today;
 
       function handleSubmit(event) {
-        event.preventDefault(); // Ngăn chặn form submit mặc định
-        console.log("Form submitted"); // Debug log
+        event.preventDefault();
 
-        // Kiểm tra các trường bắt buộc
-        const fullName = document.getElementById("fullName").value;
-        const email = document.getElementById("email").value;
-        const phone = document.getElementById("phone").value;
-        const service = document.getElementById("service").value;
+        // Get form data
+        const formData = getBookingFormData();
 
-        if (!fullName || !email || !phone || !service) {
-          alert("Vui lòng điền đầy đủ thông tin bắt buộc");
+        // Validate form
+        if (!validateBookingForm(formData)) {
           return false;
         }
 
-        // Kiểm tra radio button cho loại dịch vụ
-        const testType = document.querySelector(
-          'input[name="testType"]:checked'
-        );
-        if (!testType) {
-          alert("Vui lòng chọn loại dịch vụ xét nghiệm ADN");
-          return false;
+        // Check login status from auth.js
+        const authStatus = Auth.checkLoginStatus();
+
+        // Create request payload
+        const requestData = {
+          fullName: formData.fullName,
+          email: formData.email,
+          phone: formData.phone,
+          serviceIds: getSelectedServiceIds(),
+          isAdministrative: formData.testType === "legal",
+          isCenterCollected: formData.sampleMethod === "center",
+          address: formData.sampleMethod === "home" ? formData.address : null,
+          note: formData.notes,
+          centerSampleDate: formData.sampleMethod === "center" ? formData.date : null,
+          centerSampleTime: formData.sampleMethod === "center" ? formData.time : null
+        };
+
+        // Add userId if logged in
+        if (authStatus.isLoggedIn && authStatus.user && authStatus.user.id) {
+          requestData.userId = authStatus.user.id;
         }
 
-        // Kiểm tra phương thức lấy mẫu
-        const sampleMethod = document.querySelector(
-          'input[name="sampleCollection"]:checked'
-        );
-        if (!sampleMethod) {
-          alert("Vui lòng chọn phương thức lấy mẫu");
-          return false;
-        }
+        // Save form data before submission
+        saveFormData(formData);
 
-        // Kiểm tra thông tin bổ sung dựa trên phương thức lấy mẫu
-        if (sampleMethod.value === "home") {
-          const address = document.getElementById("address").value.trim();
-          if (!address) {
-            alert("Vui lòng nhập địa chỉ lấy mẫu");
-            document.getElementById("address").focus();
-            return false;
+        // Send request to server
+        fetch('/booking/book', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify(requestData)
+        })
+        .then(response => {
+          // Kiểm tra phiên đăng nhập hết hạn
+          if (!response.ok && response.headers.get('X-Session-Status') === 'EXPIRED') {
+            return response.text().then(message => {
+              // Lưu dữ liệu form
+              saveFormData(formData, true);
+
+              // Hiển thị hộp thoại xác nhận
+              if (confirm('Phiên đăng nhập đã hết hạn. Nhấn OK để tải lại trang.')) {
+                window.location.reload();
+              }
+            });
           }
-        } else if (sampleMethod.value === "center") {
-          const date = document.getElementById("appointmentDate").value;
-          const time = document.getElementById("appointmentTime").value;
-          if (!date || !time) {
-            alert("Vui lòng chọn ngày và giờ lấy mẫu");
-            return false;
+
+          // Xử lý các trường hợp khác
+          if (response.ok) {
+            return response.text().then(msg => {
+              showSuccessModal();
+              // Xóa dữ liệu form
+              document.getElementById("bookingForm").reset();
+              localStorage.removeItem('bookingFormData');
+              // Nếu đã đăng nhập, tự động điền lại thông tin user
+              if (authStatus.isLoggedIn && authStatus.user) {
+                autofillUserInfo();
+              }
+            });
+          } else {
+            return response.text().then(errorMsg => {
+              alert(errorMsg);
+            });
           }
-        }
-
-        console.log("Validation passed, showing success modal"); // Debug log
-
-        // Hiển thị modal thông báo thành công
-        showSuccessModal();
-
-        // Reset form và ẩn các thông tin bổ sung
-        setTimeout(() => {
-          event.target.reset();
-          document.getElementById("homeCollectionInfo").classList.add("hidden");
-          document
-            .getElementById("centerCollectionInfo")
-            .classList.add("hidden");
-        }, 100);
-
-        return false; // Ngăn chặn form submit
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('Đã xảy ra lỗi khi gửi yêu cầu. Vui lòng thử lại sau.');
+        });
       }
 
       // Hàm hiển thị modal thông báo thành công
@@ -849,6 +1010,23 @@
             }
           }
         }
+        // Tự động điền thông tin user nếu đã đăng nhập
+        autofillUserInfo();
+
+        // Tải dữ liệu đã lưu nếu có
+        const savedFormData = loadFormData();
+        if (savedFormData) {
+          fillFormWithSavedData(savedFormData);
+        }
+
+        // Add event listener to save form data when leaving page
+        window.addEventListener('beforeunload', function() {
+          // Only save if form is partially filled
+          const formData = getBookingFormData();
+          if (formData.fullName || formData.email || formData.phone) {
+            saveFormData(formData);
+          }
+        });
       });
 
       // Thêm chức năng để thêm dropdown dịch vụ mới
