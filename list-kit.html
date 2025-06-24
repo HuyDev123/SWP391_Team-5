@@ -1456,12 +1456,11 @@
           </div>
         </div>
 
-        <script>          const fakeKits = [
-            {
+        <script>          const fakeKits = [            {
               appointmentId: "AP001",
               kitCode: "KIT1001",
               service: "ADN cha-con",
-              kitType: "Kit tại nhà",
+              kitType: "Paternity Test Kit",
               sampleCount: 2,
               sendDate: "2025-06-01",
               receiveDate: "",
@@ -1473,7 +1472,7 @@
               appointmentId: "AP002",
               kitCode: "KIT1002",
               service: "ADN mẹ-con",
-              kitType: "Kit pháp lý",
+              kitType: "Maternity Test Kit",
               sampleCount: 3,
               sendDate: "2025-06-02",
               receiveDate: "2025-06-03",
@@ -1485,7 +1484,7 @@
               appointmentId: "AP003",
               kitCode: "KIT1003",
               service: "ADN anh,chi-em",
-              kitType: "Kit quan hệ khác",
+              kitType: "Sibling Test Kit",
               sampleCount: 2,
               sendDate: "2025-06-03",
               receiveDate: "2025-06-04",
@@ -1497,7 +1496,7 @@
               appointmentId: "AP004",
               kitCode: "KIT1004",
               service: "ADN ông,bà-cháu",
-              kitType: "Kit tại nhà",
+              kitType: "Grandparent Test Kit",
               sampleCount: 2,
               sendDate: "2025-06-04",
               receiveDate: "",
@@ -1509,7 +1508,7 @@
               appointmentId: "AP005",
               kitCode: "KIT1005",
               service: "ADN cha-con",
-              kitType: "Kit thai nhi",
+              kitType: "Paternity Test Kit",
               sampleCount: 4,
               sendDate: "2025-06-05",
               receiveDate: "2025-06-06",
@@ -1521,7 +1520,7 @@
               appointmentId: "AP006",
               kitCode: "KIT1006",
               service: "ADN mẹ-con",
-              kitType: "Kit mẫu đặc biệt",
+              kitType: "Maternity Test Kit",
               sampleCount: 2,
               sendDate: "2025-06-06",
               receiveDate: "2025-06-07",
@@ -2051,14 +2050,12 @@
                 background-color: white;
               "
               onfocus="this.style.borderColor='#2196f3'"
-              onblur="this.style.borderColor='#e0e0e0'"
-            >
+              onblur="this.style.borderColor='#e0e0e0'"            >
               <option value="">Chọn loại kit</option>
-              <option value="Standard">Kit tại nhà</option>
-              <option value="Premium">Kit pháp lý</option>
-              <option value="Express">Kit quan hệ khác</option>
-              <option value="Legal">Kit thai nhi</option>
-              <option value="Research">Kit mẫu đặc biệt</option>
+              <option value="Paternity Test Kit">Paternity Test Kit – Xét nghiệm huyết thống cha – con</option>
+              <option value="Maternity Test Kit">Maternity Test Kit - Xét nghiệm huyết thống mẹ - con</option>
+              <option value="Sibling Test Kit">Sibling Test Kit – Xét nghiệm huyết thống Anh/Chị - em</option>
+              <option value="Grandparent Test Kit">Grandparent Test Kit – Xét nghiệm huyết thống Ông bà – cháu</option>
             </select>
           </div>
 

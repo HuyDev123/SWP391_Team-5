@@ -1362,23 +1362,10 @@
           </div>
           <div class="form-group">
             <strong>Địa chỉ:</strong> ${participant.address || "Chưa cập nhật"}
-          </div>
-          <div class="form-group">
+          </div>          <div class="form-group">
             <strong>Loại mẫu:</strong> ${
               sampleTypeMap[participant.sampleType] || "Chưa cập nhật"
             }
-          </div>
-          <div class="form-group">
-            <strong>Trạng thái:</strong> 
-            <span class="status-badge ${
-              participant.status === "active"
-                ? "status-active"
-                : "status-pending"
-            }">
-              ${
-                participant.status === "active" ? "Đang hoạt động" : "Chờ xử lý"
-              }
-            </span>
           </div>
           <div class="form-group">
             <strong>Ngày tạo:</strong> ${formatDate(participant.createdDate)}
