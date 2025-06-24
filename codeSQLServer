@@ -170,9 +170,9 @@ INSERT INTO Service (name, description, price, is_active) VALUES
 (N'Xét nghiệm ADN Mẹ - Con', 
  N'Xác định quan hệ huyết thống mẹ - con. Thời gian: Khoảng 4 ngày làm việc. Bảo mật tuyệt đối. Độ chính xác 99.99%.', 
  5000000, 1),
-(N'Xét nghiệm ADN Anh Chị Em', 
+(N'Xét nghiệm ADN Anh/Chị - Em', 
  N'Xác định quan hệ huyết thống anh chị em. Thời gian: Khoảng 5 ngày làm việc. Bảo mật tuyệt đối. Độ chính xác 99.99%.', 
  4000000, 1),
-(N'Xét nghiệm ADN Ông Bà Cháu', 
+(N'Xét nghiệm ADN Ông/Bà - Cháu', 
  N'Xác định quan hệ huyết thống ông bà cháu. Thời gian: Khoảng 5 ngày làm việc. Bảo mật tuyệt đối. Độ chính xác 99.99%.', 
  4000000, 1);
