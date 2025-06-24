@@ -65,22 +65,24 @@ CREATE TABLE Service_KitType (
     FOREIGN KEY (kit_type_id) REFERENCES KitType(id)
 );
 
-CREATE TABLE TestResult (
-    id INT IDENTITY(1,1) PRIMARY KEY,
-    result_file VARCHAR(255),
-    user_id INT,
-    FOREIGN KEY (user_id) REFERENCES [User](id),
-    FOREIGN KEY (booking_id, service_id) REFERENCES Booking_Service(booking_id, service_id),
-
-    UNIQUE (booking_id, service_id, user_id)
-);
-
 CREATE TABLE Booking_Service (
     booking_id INT NOT NULL,
     service_id INT NOT NULL,
     PRIMARY KEY (booking_id, service_id),
     FOREIGN KEY (booking_id) REFERENCES Booking(id),
     FOREIGN KEY (service_id) REFERENCES Service(id),
+);
+
+CREATE TABLE TestResult (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+	booking_id INT NOT NULL,
+    service_id INT NOT NULL,
+    result_file VARCHAR(255),
+    user_id INT,
+    FOREIGN KEY (user_id) REFERENCES [User](id),
+    FOREIGN KEY (booking_id, service_id) REFERENCES Booking_Service(booking_id, service_id),
+
+    UNIQUE (booking_id, service_id)
 );
 
 CREATE TABLE KitItem (
