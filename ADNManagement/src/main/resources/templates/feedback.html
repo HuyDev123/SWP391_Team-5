@@ -4,14 +4,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Đánh giá dịch vụ - GenX</title>
-    <link rel="stylesheet" href="../static/assets/css/styles.css" />
-    <link rel="stylesheet" href="../static/assets/css/header.css" />
-    <link rel="stylesheet" href="../static/assets/css/footer.css" />
-    <link rel="stylesheet" href="../static/assets/css/user-dropdown.css" />
+    <link rel="stylesheet" href="assets/css/styles.css" />
+    <link rel="stylesheet" href="assets/css/header.css" />
+    <link rel="stylesheet" href="assets/css/footer.css" />
+    <link rel="stylesheet" href="assets/css/user-dropdown.css" />
     <style>
       body {
         background: transparent;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
         color: #37474f;
       }
       .main-content {
@@ -40,7 +40,7 @@
         padding-bottom: 15px;
       }
       .page-title:after {
-        content: '';
+        content: "";
         position: absolute;
         bottom: 0;
         left: 50%;
@@ -57,9 +57,15 @@
         animation: starPulse 2s infinite;
       }
       @keyframes starPulse {
-        0% { transform: scale(1); }
-        50% { transform: scale(1.2); }
-        100% { transform: scale(1); }
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.2);
+        }
+        100% {
+          transform: scale(1);
+        }
       }
       .service-info {
         margin-bottom: 30px !important;
@@ -132,7 +138,7 @@
         margin: 0;
       }
       .star-rating label:before {
-        content: '';
+        content: "";
         position: absolute;
         width: 100%;
         height: 100%;
@@ -211,7 +217,7 @@
         overflow: hidden;
       }
       .submit-btn:before {
-        content: '';
+        content: "";
         position: absolute;
         top: 0;
         left: -100%;
@@ -260,7 +266,8 @@
         text-align: center;
         transition: all 0.3s ease;
         font-size: 15px;
-        display: flex;
+        display: none;
+        justify-content: center;
         align-items: center;
       }
       .form-message.success {
@@ -283,7 +290,7 @@
       .submit-btn.next-review {
         background: linear-gradient(45deg, #43a047, #66bb6a);
       }
-      
+
       .submit-btn.next-review:hover {
         background: linear-gradient(45deg, #388e3c, #43a047);
         transform: translateY(-2px);
@@ -315,10 +322,28 @@
       <form class="feedback-form" id="feedbackForm">
         <input type="hidden" id="booking_id" name="booking_id" value="" />
         <input type="hidden" id="service_id" name="service_id" value="" />
-        
-        <div class="service-info" style="margin-bottom: 25px;">
-          <label style="font-weight: 500; color: #37474f; margin-bottom: 10px; display: block;">Dịch vụ đã đăng ký:</label>
-          <div id="serviceInfo" style="padding: 14px; border: 1px solid #e0e0e0; border-radius: 12px; background: #f8f9fa; color: #1976d2; font-size: 15px;">
+
+        <div class="service-info" style="margin-bottom: 25px">
+          <label
+            style="
+              font-weight: 500;
+              color: #37474f;
+              margin-bottom: 10px;
+              display: block;
+            "
+            >Dịch vụ đã đăng ký:</label
+          >
+          <div
+            id="serviceInfo"
+            style="
+              padding: 14px;
+              border: 1px solid #e0e0e0;
+              border-radius: 12px;
+              background: #f8f9fa;
+              color: #1976d2;
+              font-size: 15px;
+            "
+          >
             <!-- Thông tin dịch vụ sẽ được điền bằng JavaScript -->
           </div>
         </div>
@@ -344,18 +369,16 @@
           placeholder="Chia sẻ trải nghiệm của bạn về dịch vụ..."
           required
         ></textarea>
-
         <button type="submit" class="submit-btn">
           <i class="fas fa-paper-plane"></i>
           Gửi đánh giá
         </button>
-
         <div class="form-message" id="formMessage"></div>
       </form>
     </div>
 
-    <script src="../static/assets/js/auth.js"></script>
-    <script src="../static/assets/js/main.js"></script>
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/main.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
     <script>
       // Thêm dữ liệu mẫu từ appointments.html
@@ -378,18 +401,18 @@
             {
               service: serviceNames[0].name,
               serviceType: serviceNames[0].type,
-              price: 4500000
+              price: 4500000,
             },
             {
               service: serviceNames[4].name,
               serviceType: serviceNames[4].type,
-              price: 5200000
-            }
+              price: 5200000,
+            },
           ],
           bookingDate: "2025-05-25",
           method: "Tại nhà",
           status: "Đã trả kết quả",
-          staff_name: "Nguyễn Văn A"
+          staff_name: "Nguyễn Văn A",
         },
         {
           id: "AP005",
@@ -398,23 +421,23 @@
             {
               service: serviceNames[6].name,
               serviceType: serviceNames[6].type,
-              price: 4500000
+              price: 4500000,
             },
             {
               service: serviceNames[2].name,
               serviceType: serviceNames[2].type,
-              price: 4800000
+              price: 4800000,
             },
             {
               service: serviceNames[4].name,
               serviceType: serviceNames[4].type,
-              price: 5200000
-            }
+              price: 5200000,
+            },
           ],
           bookingDate: "2025-04-20",
           method: "Tại nhà",
           status: "Đã trả kết quả",
-          staff_name: "Trần Thị B"
+          staff_name: "Trần Thị B",
         },
         {
           id: "AP008",
@@ -423,13 +446,13 @@
             {
               service: serviceNames[4].name,
               serviceType: serviceNames[4].type,
-              price: 5200000
-            }
+              price: 5200000,
+            },
           ],
           bookingDate: "2025-03-15",
           method: "Tại cơ sở",
           status: "Đã trả kết quả",
-          staff_name: "Lê Văn C"
+          staff_name: "Lê Văn C",
         },
         {
           id: "AP012",
@@ -438,13 +461,13 @@
             {
               service: serviceNames[2].name,
               serviceType: serviceNames[2].type,
-              price: 4800000
-            }
+              price: 4800000,
+            },
           ],
           bookingDate: "2025-02-10",
           method: "Tại cơ sở",
           status: "Đã trả kết quả",
-          staff_name: "Nguyễn Văn A"
+          staff_name: "Nguyễn Văn A",
         },
         {
           id: "AP015",
@@ -453,14 +476,14 @@
             {
               service: serviceNames[1].name,
               serviceType: serviceNames[1].type,
-              price: 5000000
-            }
+              price: 5000000,
+            },
           ],
           bookingDate: "2025-01-25",
           method: "Tại nhà",
           status: "Đã trả kết quả",
-          staff_name: "Trần Thị B"
-        }
+          staff_name: "Trần Thị B",
+        },
       ];
 
       // Lấy booking_id từ URL
@@ -472,21 +495,81 @@
 
       // Hàm format ngày tháng
       function formatDate(dateString) {
-        const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
-        return new Date(dateString).toLocaleDateString('vi-VN', options);
-      }
-
-      // Thêm biến để theo dõi các dịch vụ đã đánh giá
+        const options = { day: "2-digit", month: "2-digit", year: "numeric" };
+        return new Date(dateString).toLocaleDateString("vi-VN", options);
+      } // Thêm biến để theo dõi các dịch vụ đã đánh giá
       let reviewedServices = new Set();
 
-      // Hiển thị thông tin dịch vụ
+      // Thêm object để lưu trữ dữ liệu đánh giá
+      let reviewData = {};
+
+      // Hàm lưu dữ liệu đánh giá vào localStorage
+      function saveReviewData(bookingId, serviceId, rating, comment) {
+        // Đảm bảo serviceId luôn là giá trị số
+        const serviceIdNum = parseInt(serviceId);
+        if (isNaN(serviceIdNum)) {
+          console.error("Lỗi: serviceId không hợp lệ:", serviceId);
+          return;
+        }
+
+        const key = `review_${bookingId}_${serviceIdNum}`;
+        const data = {
+          rating: rating,
+          comment: comment,
+          timestamp: new Date().toISOString(),
+        };
+
+        // Lưu vào cả reviewData và localStorage
+        reviewData[serviceIdNum] = data;
+        localStorage.setItem(key, JSON.stringify(data));
+        console.log(
+          `Đã lưu đánh giá cho ${bookingId} (dịch vụ ${serviceIdNum}) vào localStorage`
+        );
+
+        // Tắt chế độ reset khi có đánh giá mới
+        localStorage.setItem("reset_review_mode", "false");
+      } // Hàm lấy dữ liệu đánh giá từ localStorage
+      function getReviewData(bookingId, serviceId) {
+        // Đảm bảo serviceId luôn là giá trị số
+        const serviceIdNum = parseInt(serviceId);
+        if (isNaN(serviceIdNum)) {
+          console.error(
+            "Lỗi: serviceId không hợp lệ trong getReviewData:",
+            serviceId
+          );
+          return null;
+        }
+
+        const key = `review_${bookingId}_${serviceIdNum}`;
+        // Kiểm tra cờ reset trước khi đọc localStorage
+        const resetMode = localStorage.getItem("reset_review_mode") === "true";
+
+        if (resetMode) {
+          console.log("Đang ở chế độ reset, bỏ qua dữ liệu từ localStorage");
+          return null;
+        }
+
+        try {
+          const data = localStorage.getItem(key);
+          return data ? JSON.parse(data) : null;
+        } catch (error) {
+          console.error("Lỗi khi đọc dữ liệu đánh giá:", error);
+          return null;
+        }
+      } // Hiển thị thông tin dịch vụ
       function displayServiceInfo() {
         const bookingId = getBookingIdFromUrl();
         const serviceInfoDiv = document.getElementById("serviceInfo");
-        
+        const viewOnly =
+          new URLSearchParams(window.location.search).get("view_only") ===
+          "true";
+
+        // Lưu lại service_id hiện tại để có thể chọn lại sau khi cập nhật dropdown
+        const currentServiceId = document.getElementById("service_id").value;
+
         // Tìm thông tin lịch hẹn từ dữ liệu mẫu
-        const booking = fakeAppointments.find(item => item.id === bookingId);
-        
+        const booking = fakeAppointments.find((item) => item.id === bookingId);
+
         if (booking) {
           if (booking.services.length === 1) {
             // Nếu chỉ có một dịch vụ, hiển thị như cũ
@@ -494,28 +577,89 @@
             serviceInfoDiv.innerHTML = `
               <div style="font-size: 16px; color: #1976d2; text-align: center;">${service.service}</div>
             `;
+            // Đặt service_id mặc định là 0 cho trường hợp một dịch vụ
+            document.getElementById("service_id").value = "0";
+
+            // Lấy dữ liệu đánh giá đã lưu
+            const savedReview = getReviewData(bookingId, 0);
+            if (savedReview) {
+              loadReviewData(savedReview, true);
+              reviewedServices.add(0);
+            } else {
+              resetFormForNewReview();
+            }
           } else {
             // Nếu có nhiều dịch vụ, hiển thị dropdown
             const selectHtml = `
               <select id="serviceSelect" style="width: 100%; padding: 12px; border: 1px solid #e0e0e0; border-radius: 8px; font-size: 15px; color: #1976d2; background-color: white; cursor: pointer;">
                 <option value="" disabled selected>Chọn dịch vụ cần đánh giá</option>
-                ${booking.services.map((service, index) => `
-                  <option value="${index}" ${reviewedServices.has(index) ? 'class="reviewed-option"' : ''}>
-                    ${service.service}${reviewedServices.has(index) ? ' (Đã đánh giá)' : ''}
-                  </option>
-                `).join('')}
+                ${booking.services
+                  .map((service, index) => {
+                    const savedReview = getReviewData(bookingId, index);
+                    if (savedReview) {
+                      reviewedServices.add(index);
+                    }
+                    return `
+                    <option value="${index}" ${
+                      reviewedServices.has(index)
+                        ? 'class="reviewed-option"'
+                        : ""
+                    }>
+                      ${service.service}${
+                      reviewedServices.has(index) ? " (Đã đánh giá)" : ""
+                    }
+                    </option>
+                  `;
+                  })
+                  .join("")}
               </select>
             `;
-            serviceInfoDiv.innerHTML = selectHtml;
+            serviceInfoDiv.innerHTML = selectHtml; // Thêm sự kiện onChange cho select
+            document
+              .getElementById("serviceSelect")
+              .addEventListener("change", function (e) {
+                const selectedServiceId = e.target.value;
+                const selectedService = booking.services[selectedServiceId];
+                document.getElementById("service_id").value = selectedServiceId;
+                console.log(
+                  `Đã chọn dịch vụ: ${selectedService.service} (ID: ${selectedServiceId})`
+                ); // Reset form message
+                const formMessage = document.getElementById("formMessage");
+                formMessage.className = "form-message";
+                formMessage.textContent = "";
+                formMessage.style.display = "none";
 
-            // Thêm sự kiện onChange cho select
-            document.getElementById('serviceSelect').addEventListener('change', function(e) {
-              const selectedService = booking.services[e.target.value];
-              document.getElementById('service_id').value = e.target.value;
-              
-              // Reset form khi chọn dịch vụ mới
-              resetFormForNewReview();
-            });
+                // Load dữ liệu đánh giá nếu có
+                const savedReview = getReviewData(bookingId, selectedServiceId);
+                if (savedReview) {
+                  loadReviewData(savedReview, true); // true = đã có đánh giá trước đó
+                  console.log(
+                    `Đã tải dữ liệu đánh giá cũ cho dịch vụ ID ${selectedServiceId}`
+                  );
+                } else {
+                  resetFormForNewReview();
+                  console.log(
+                    `Đã reset form cho đánh giá mới (dịch vụ ID ${selectedServiceId})`
+                  );
+                }
+              });
+
+            // Nếu đã có service_id được chọn trước đó, chọn lại nó trong dropdown
+            if (currentServiceId && currentServiceId !== "") {
+              const serviceSelect = document.getElementById("serviceSelect");
+              if (serviceSelect) {
+                serviceSelect.value = currentServiceId;
+
+                // Kích hoạt sự kiện change để load dữ liệu
+                const event = new Event("change");
+                serviceSelect.dispatchEvent(event);
+              }
+            }
+          }
+
+          // Nếu đang ở chế độ xem
+          if (viewOnly) {
+            disableFormForViewing();
           }
         } else {
           serviceInfoDiv.innerHTML = `
@@ -524,31 +668,95 @@
             </div>
           `;
         }
+      } // Hàm load dữ liệu đánh giá vào form
+      function loadReviewData(data, isExistingReview = false) {
+        // Set rating
+        const ratingInput = document.querySelector(
+          `input[name="rating"][value="${data.rating}"]`
+        );
+        if (ratingInput) {
+          ratingInput.checked = true;
+        }
+
+        // Set comment
+        document.getElementById("comment").value = data.comment;
+
+        // Cập nhật nút submit
+        const submitBtn = document.querySelector(".submit-btn");
+        if (isExistingReview) {
+          submitBtn.innerHTML = '<i class="fas fa-edit"></i> Cập nhật đánh giá';
+          submitBtn.classList.add("next-review");
+        } else {
+          submitBtn.innerHTML =
+            '<i class="fas fa-paper-plane"></i> Gửi đánh giá';
+          submitBtn.classList.remove("next-review");
+        }
+        submitBtn.classList.remove("submitted");
+        submitBtn.disabled = false;
       }
 
-      // Hàm reset form cho đánh giá mới
+      // Hàm disable form khi ở chế độ xem
+      function disableFormForViewing() {
+        // Disable tất cả các input
+        document.querySelectorAll('input[name="rating"]').forEach((input) => {
+          input.disabled = true;
+        });
+        document.getElementById("comment").disabled = true;
+
+        // Ẩn nút submit
+        const submitBtn = document.querySelector(".submit-btn");
+        submitBtn.style.display = "none";
+
+        // Thêm class cho form để styling khác biệt nếu cần
+        document.querySelector(".feedback-form").classList.add("view-only");
+      } // Hàm reset form cho đánh giá mới
       function resetFormForNewReview() {
         // Reset rating
-        document.querySelectorAll('input[name="rating"]')
+        document
+          .querySelectorAll('input[name="rating"]')
           .forEach((i) => (i.checked = false));
-        
+
         // Reset comment
-        document.getElementById('comment').value = '';
-        
+        document.getElementById("comment").value = "";
+
         // Reset message
-        const formMessage = document.getElementById('formMessage');
-        formMessage.className = 'form-message';
-        formMessage.textContent = '';
-        
+        const formMessage = document.getElementById("formMessage");
+        formMessage.className = "form-message";
+        formMessage.textContent = "";
+        formMessage.style.display = "none";
+
         // Reset submit button
-        const submitBtn = document.querySelector('.submit-btn');
-        submitBtn.classList.remove('submitted', 'next-review');
+        const submitBtn = document.querySelector(".submit-btn");
+        submitBtn.classList.remove("submitted", "next-review");
         submitBtn.disabled = false;
         submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Gửi đánh giá';
-      }
+      } // Gọi hàm hiển thị thông tin dịch vụ khi trang được tải
+      document.addEventListener("DOMContentLoaded", function () {
+        // Reset biến theo dõi dịch vụ đã đánh giá
+        reviewedServices = new Set();
+        reviewData = {};
 
-      // Gọi hàm hiển thị thông tin dịch vụ khi trang được tải
-      document.addEventListener("DOMContentLoaded", displayServiceInfo);
+        // Kiểm tra xem có đang ở chế độ reset không
+        const resetMode = localStorage.getItem("reset_review_mode") === "true";
+        console.log(`Chế độ reset: ${resetMode ? "BẬT" : "TẮT"}`);
+
+        // Hiển thị thông tin dịch vụ
+        displayServiceInfo(); // Hiển thị thông báo nhỏ nếu đang ở chế độ reset
+        if (resetMode) {
+          const formMessage = document.getElementById("formMessage");
+          formMessage.textContent =
+            "Chế độ test đang được bật - Tải lại trang để reset trạng thái";
+          formMessage.style.display = "flex";
+          formMessage.style.backgroundColor = "#f8f9fa";
+          formMessage.style.color = "#6c757d";
+          formMessage.style.padding = "6px";
+          formMessage.style.fontSize = "12px";
+          formMessage.style.textAlign = "center";
+          formMessage.style.borderRadius = "4px";
+          formMessage.style.marginTop = "10px";
+          formMessage.style.border = "1px solid #dee2e6";
+        }
+      });
 
       // Xử lý submit form
       document
@@ -562,66 +770,113 @@
           )?.value;
           const comment = document.getElementById("comment").value.trim();
           const formMessage = document.getElementById("formMessage");
-          const submitBtn = document.querySelector('.submit-btn');
+          const submitBtn = document.querySelector(".submit-btn");
 
           // Reset message classes
-          formMessage.className = 'form-message';
-          
+          formMessage.className = "form-message";
+
           // Kiểm tra xem có phải chọn dịch vụ không
-          const booking = fakeAppointments.find(item => item.id === booking_id);
+          const booking = fakeAppointments.find(
+            (item) => item.id === booking_id
+          );
           if (booking && booking.services.length > 1 && !service_id) {
             formMessage.textContent = "Vui lòng chọn dịch vụ cần đánh giá";
-            formMessage.classList.add('error');
+            formMessage.className = "form-message error";
+            formMessage.style.display = "flex";
             return;
           }
-          
+
           if (!rating) {
             formMessage.textContent = "Vui lòng chọn số sao đánh giá";
-            formMessage.classList.add('error');
+            formMessage.className = "form-message error";
+            formMessage.style.display = "flex";
             return;
           }
-
           try {
-            // Demo: Hiển thị thành công
-            formMessage.textContent = "Cảm ơn bạn đã đánh giá dịch vụ!";
-            formMessage.classList.add('success');
-            
-            // Thêm service_id vào danh sách đã đánh giá
-            reviewedServices.add(parseInt(service_id));
-            
-            // Kiểm tra xem còn dịch vụ nào chưa được đánh giá không
-            const hasUnreviewedServices = booking.services.some((_, index) => !reviewedServices.has(index));
-            
-            if (hasUnreviewedServices) {
-              // Nếu còn dịch vụ chưa đánh giá, đổi style nút submit
-              submitBtn.classList.remove('submitted');
-              submitBtn.classList.add('next-review');
-              submitBtn.disabled = false;
-              submitBtn.innerHTML = '<i class="fas fa-plus-circle"></i> Đánh giá dịch vụ khác';
-              
-              // Cập nhật lại dropdown để đánh dấu dịch vụ đã đánh giá
-              displayServiceInfo();
-            } else {
-              // Nếu đã đánh giá hết, disable nút và đổi style
-              submitBtn.classList.add('submitted');
-              submitBtn.disabled = true;
-              submitBtn.innerHTML = '<i class="fas fa-check"></i> Đã đánh giá tất cả dịch vụ';
-              
-              // Tự động đóng modal sau 2 giây
-              setTimeout(() => {
-                if (window.parent && window.parent.document.querySelector('.modal-feedback-iframe')) {
-                  window.parent.document.querySelector('.modal-feedback-iframe').remove();
-                }
-              }, 2000);
+            // Kiểm tra và đảm bảo service_id hợp lệ
+            if (service_id === "" && booking.services.length === 1) {
+              // Nếu không có service_id nhưng chỉ có 1 dịch vụ, sử dụng index 0
+              document.getElementById("service_id").value = "0";
             }
 
+            const finalServiceId = parseInt(
+              document.getElementById("service_id").value
+            );
+            console.log(`Đang đánh giá dịch vụ với ID: ${finalServiceId}`);
+
+            // Lưu dữ liệu đánh giá
+            saveReviewData(booking_id, finalServiceId, rating, comment);
+
+            // Kiểm tra xem dịch vụ này đã được đánh giá trước đó chưa
+            const wasReviewedBefore = reviewedServices.has(finalServiceId);
+
+            // Thêm service_id vào danh sách đã đánh giá
+            reviewedServices.add(finalServiceId); // Hiển thị thông báo thành công
+            formMessage.textContent = wasReviewedBefore
+              ? "Cập nhật đánh giá thành công!"
+              : "Cảm ơn bạn đã đánh giá dịch vụ!";
+            formMessage.className = "form-message success";
+            formMessage.style.display = "flex";
+
+            // Đảm bảo thông báo vẫn hiển thị sau khi cập nhật dropdown
+            setTimeout(() => {
+              const fm = document.getElementById("formMessage");
+              if (fm) {
+                fm.style.display = "flex";
+              }
+            }, 100);
+
+            // Cập nhật nút submit
+            submitBtn.innerHTML =
+              '<i class="fas fa-edit"></i> Cập nhật đánh giá';
+            submitBtn.classList.add("next-review");
+            submitBtn.classList.remove("submitted");
+            submitBtn.disabled = false; // Lưu lại thông báo hiện tại
+            const messageText = formMessage.textContent;
+            const messageClass = formMessage.className;
+
+            // Cập nhật lại dropdown để đánh dấu dịch vụ đã đánh giá
+            displayServiceInfo();
+
+            // Sau khi cập nhật lại dropdown, chọn lại service hiện tại
+            if (booking.services.length > 1) {
+              const serviceSelect = document.getElementById("serviceSelect");
+              if (serviceSelect) {
+                serviceSelect.value = finalServiceId;
+              }
+            }
+
+            // Hiển thị lại thông báo sau khi cập nhật UI
+            formMessage.textContent = messageText;
+            formMessage.className = messageClass;
+            formMessage.style.display = "flex";
             // Cập nhật trạng thái đánh giá trong parent window
-            if (window.parent && window.parent.updateReviewStatus) {
-              window.parent.updateReviewStatus(booking_id);
+            if (window.parent) {
+              console.log("Gửi thông báo đánh giá tới trang cha");
+              try {
+                // Sử dụng postMessage thay vì gọi hàm trực tiếp
+                window.parent.postMessage(
+                  {
+                    type: "FEEDBACK_SUBMITTED",
+                    bookingId: booking_id,
+                    serviceId: finalServiceId,
+                    isReviewed: true,
+                    reviewId: "RV" + Date.now(),
+                  },
+                  "*"
+                );
+                console.log(
+                  `Đã gửi thông báo với bookingId=${booking_id}, serviceId=${finalServiceId}`
+                );
+              } catch (error) {
+                console.error("Lỗi khi gửi thông báo:", error);
+              }
             }
           } catch (error) {
             formMessage.textContent = "Có lỗi xảy ra, vui lòng thử lại sau";
-            formMessage.classList.add('error');
+            formMessage.className = "form-message error";
+            formMessage.style.display = "flex";
+            console.error("Lỗi khi gửi đánh giá:", error);
           }
         });
     </script>

@@ -57,9 +57,9 @@ function updateAuthUI() {
           <i class="fas fa-caret-down"></i>
         </span>
         <div class="dropdown-content">
-          <a href="newprofile.html">Tài khoản</a>
-          <a href="appoinments.html">Lịch hẹn</a>
-          <a href="historytest.html">Lịch sử xét nghiệm</a>
+          <a href="/profile">Tài khoản</a>
+          <a href="/appoinments-list">Lịch hẹn</a>
+          <a href="/test-history">Lịch sử xét nghiệm</a>
           <a href="#" id="logout-link">Đăng xuất</a>
         </div>
       </div>
