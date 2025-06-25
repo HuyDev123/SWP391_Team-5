@@ -816,31 +816,17 @@
         <div class="modal-header">
           <h2 class="modal-title">Thêm Mẫu Xét Nghiệm</h2>
           <span class="close">&times;</span>
-        </div>
-        <form id="add-sample-form">
-          <div class="form-group">
-            <label class="form-label" for="provider-id"
-              >ID Người Cung Cấp Mẫu *</label
-            >
-            <input
-              type="text"
-              id="provider-id"
-              class="form-control"
-              placeholder="Nhập ID người cung cấp mẫu"
-              required
-            />
-          </div>
-
+        </div>        <form id="add-sample-form">
           <div class="form-row">
             <div class="form-col">
-              <label class="form-label" for="provider-name"
-                >Tên Người Cung Cấp *</label
+              <label class="form-label" for="provider-id"
+                >ID Người Cung Cấp Mẫu *</label
               >
               <input
                 type="text"
-                id="provider-name"
+                id="provider-id"
                 class="form-control"
-                placeholder="Nhập tên người cung cấp"
+                placeholder="Nhập ID người cung cấp mẫu"
                 required
               />
             </div>
@@ -850,8 +836,7 @@
                 type="text"
                 id="sample-code"
                 class="form-control"
-                placeholder="Mã mẫu (tự động)"
-                readonly
+                placeholder="Nhập mã mẫu"
               />
             </div>
           </div>
@@ -1036,13 +1021,10 @@
           createdDate: "2024-06-19",
           note: "Xét nghiệm hoàn thành, kết quả đã gửi",
         },
-      ];
-
-      // Initialize page
+      ];      // Initialize page
       document.addEventListener("DOMContentLoaded", function () {
         loadSamples();
         setupEventListeners();
-        generateSampleCode();
         setDefaultDateTime();
       });
 
@@ -1152,27 +1134,16 @@
         `;
 
         return row;
-      }
-
-      function openAddModal() {
+      }      function openAddModal() {
         document.getElementById("add-sample-modal").style.display = "block";
-        generateSampleCode();
         setDefaultDateTime();
       }
 
       function closeAddModal() {
         document.getElementById("add-sample-modal").style.display = "none";
         document.getElementById("add-sample-form").reset();
-      }
-
-      function closeViewModal() {
+      }      function closeViewModal() {
         document.getElementById("view-sample-modal").style.display = "none";
-      }
-
-      function generateSampleCode() {
-        const nextId = samples.length + 1;
-        const sampleCode = `S${String(nextId).padStart(3, "0")}`;
-        document.getElementById("sample-code").value = sampleCode;
       }
 
       function setDefaultDateTime() {
@@ -1210,13 +1181,11 @@
           "mother-child": "Xét nghiệm huyết thống mẹ - con",
           "grandparent-grandchild": "Xét nghiệm huyết thống ông, bà - cháu",
           sibling: "Xét nghiệm huyết thống anh, chị - em",
-        };
-
-        const newSample = {
+        };        const newSample = {
           id: samples.length + 1,
           sampleCode: document.getElementById("sample-code").value,
           providerId: document.getElementById("provider-id").value,
-          providerName: document.getElementById("provider-name").value,
+          providerName: document.getElementById("provider-id").value, // Sử dụng provider-id làm tên tạm thời
           serviceName: document.getElementById("service-name").value,
           serviceDisplayName:
             serviceNames[document.getElementById("service-name").value],

@@ -1260,34 +1260,7 @@
                     color: #666;
                   "
                 ></div>
-              </div>
-
-              <!-- Delivery Test -->
-              <div>
-                <label
-                  style="
-                    display: block;
-                    margin-bottom: 8px;
-                    font-weight: 600;
-                    color: #333;
-                  "
-                >
-                  Delivery Test
-                </label>
-                <div
-                  id="view-kit-delivery-test"
-                  style="
-                    padding: 12px;
-                    border: 2px solid #e0e0e0;
-                    border-radius: 8px;
-                    background-color: #f9f9f9;
-                    font-size: 14px;
-                    color: #666;
-                  "
-                ></div>
-              </div>
-
-              <!-- Trạng thái -->
+              </div>              <!-- Trạng thái -->
               <div>
                 <label
                   style="
@@ -1733,10 +1706,8 @@
             document.getElementById('view-kit-appointment-id').textContent = kit.appointmentId;
             document.getElementById('view-kit-service').textContent = kit.service || 'Chưa xác định';
             document.getElementById('view-kit-code').textContent = kit.kitCode;
-            document.getElementById('view-kit-type').textContent = kit.kitType || 'Chưa xác định';
-            document.getElementById('view-kit-send-date').textContent = formatDateDisplay(kit.sendDate);
+            document.getElementById('view-kit-type').textContent = kit.kitType || 'Chưa xác định';            document.getElementById('view-kit-send-date').textContent = formatDateDisplay(kit.sendDate);
             document.getElementById('view-kit-receive-date').textContent = kit.receiveDate ? formatDateDisplay(kit.receiveDate) : 'Chưa nhận';
-            document.getElementById('view-kit-delivery-test').textContent = kit.deliveryTest || 'Chưa có thông tin';
             
             // Hiển thị trạng thái với màu sắc
             const statusElement = document.getElementById('view-kit-status');
@@ -2056,38 +2027,7 @@
               <option value="Investigator® 24plex QS (Qiagen)">Investigator® 24plex QS (Qiagen)</option>
               <option value="QIAamp DNA Mini Kit (Qiagen)">QIAamp DNA Mini Kit (Qiagen)</option>
             </select>
-          </div>
-
-          <!-- Delivery Test -->
-          <div>
-            <label
-              style="
-                display: block;
-                margin-bottom: 8px;
-                font-weight: 600;
-                color: #333;
-              "
-            >
-              Delivery Test
-            </label>
-            <input
-              type="text"
-              id="kit-delivery-test"
-              placeholder="Nhập thông tin giao hàng kiểm tra"
-              style="
-                width: 100%;
-                padding: 12px;
-                border: 2px solid #e0e0e0;
-                border-radius: 8px;
-                font-size: 14px;
-                transition: border-color 0.3s ease;
-              "
-              onfocus="this.style.borderColor='#2196f3'"
-              onblur="this.style.borderColor='#e0e0e0'"
-            />
-          </div>
-
-          <!-- Note -->
+          </div>          <!-- Note -->
           <div>
             <label
               style="
@@ -2182,16 +2122,13 @@
         const form = document.getElementById("add-kit-form");
         if (form) {
           form.addEventListener("submit", function (e) {
-            e.preventDefault();
-
-            // Lấy dữ liệu từ form
+            e.preventDefault();            // Lấy dữ liệu từ form
             const kitData = {
               appointmentId:
                 document.getElementById("kit-appointment-id").value,
               service: document.getElementById("kit-service").value,
               kitCode: document.getElementById("kit-code").value,
               kitType: document.getElementById("kit-type").value,
-              deliveryTest: document.getElementById("kit-delivery-test").value,
               note: document.getElementById("kit-note").value,
             };
 

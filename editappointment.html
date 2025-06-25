@@ -610,13 +610,14 @@
 
           <div class="form-row">
             <div class="form-group">
-              <label class="form-label" for="phone">Số điện thoại</label>
+              <label class="form-label" for="phone">Số điện thoại *</label>
               <input
                 type="tel"
                 id="phone"
                 name="phone"
                 class="form-control"
                 placeholder="Nhập số điện thoại"
+                required
               />
             </div>
             <div class="form-group">
@@ -730,8 +731,8 @@
             </div>
           </div>
 
-          <!-- Ngày giờ hẹn -->
-          <div class="form-row">
+          <!-- Ngày giờ hẹn - chỉ hiện khi lấy mẫu tại trung tâm -->
+          <div class="form-row" id="appointment-datetime-section" style="display: none;">
             <div class="form-group">
               <label class="form-label" for="appointment-date">Ngày hẹn <span class="required">*</span></label>
               <input
@@ -739,7 +740,6 @@
                 id="appointment-date"
                 name="appointmentDate"
                 class="form-control"
-                required
               />
             </div>
             <div class="form-group">
@@ -749,21 +749,19 @@
                 id="appointment-time"
                 name="appointmentTime"
                 class="form-control"
-                required
               />
             </div>
           </div>
           
-          <!-- Địa chỉ -->
-          <div class="form-group">
+          <!-- Địa chỉ - chỉ hiện khi lấy mẫu tại nhà -->
+          <div class="form-group" id="address-section" style="display: none;">
             <label class="form-label" for="address">Địa chỉ <span class="required">*</span></label>
             <textarea
               id="address"
               name="address"
               class="form-control"
               rows="3"
-              placeholder="Nhập địa chỉ lấy mẫu hoặc địa chỉ trung tâm"
-              required
+              placeholder="Nhập địa chỉ lấy mẫu tại nhà"
             ></textarea>
           </div>
         </div>
@@ -774,19 +772,6 @@
             <i class="fas fa-clipboard-list"></i>
             Thông tin bổ sung
           </h3>
-          <!-- Trạng thái -->
-          <div class="form-group">
-            <label class="form-label" for="status">Trạng thái <span class="required">*</span></label>
-            <select id="status" name="status" class="form-control" required>
-              <option value="">-- Chọn trạng thái --</option>
-              <option value="Đã đặt">Đã đặt</option>
-              <option value="Đang chờ lấy mẫu">Đang chờ lấy mẫu</option>
-              <option value="Đã nhận mẫu">Đã nhận mẫu</option>
-              <option value="Đã hoàn thành">Đã hoàn thành</option>
-              <option value="Đã hủy">Đã hủy</option>
-            </select>
-          </div>
-
           <!-- Ghi chú -->
           <div class="form-group">
             <label class="form-label" for="notes">Ghi chú</label>
@@ -818,24 +803,6 @@
             <button type="submit" class="submit-btn">
               <i class="fas fa-save"></i>
               Lưu thay đổi
-            </button>
-
-            <button
-              type="button"
-              class="submit-btn btn-success"
-              onclick="completeAppointment()"
-            >
-              <i class="fas fa-check-circle"></i>
-              Hoàn thành
-            </button>
-
-            <button
-              type="button"
-              class="submit-btn btn-danger"
-              onclick="cancelAppointment()"
-            >
-              <i class="fas fa-ban"></i>
-              Hủy lịch hẹn
             </button>
           </div>
         </div>
@@ -916,7 +883,6 @@
         document.getElementById("number-of-testers").value =
           appointmentData.numberOfTesters;
         document.getElementById("address").value = appointmentData.address;
-        document.getElementById("status").value = appointmentData.status;
         document.getElementById("notes").value = appointmentData.notes || "";
 
         // Set radio buttons
@@ -955,7 +921,34 @@
 
       // Xử lý thay đổi phương thức lấy mẫu
       function handleSampleMethodChange(radio) {
-        // Không có thêm xử lý vì editappointment không có các div ẩn hiện như booking
+        const appointmentDateTimeSection = document.getElementById("appointment-datetime-section");
+        const addressSection = document.getElementById("address-section");
+        const appointmentDateInput = document.getElementById("appointment-date");
+        const appointmentTimeInput = document.getElementById("appointment-time");
+        const addressInput = document.getElementById("address");
+
+        if (radio.value === "Tại cơ sở y tế") {
+          // Hiện ngày giờ hẹn, ẩn địa chỉ
+          appointmentDateTimeSection.style.display = "flex";
+          addressSection.style.display = "none";
+          
+          // Thêm required cho ngày giờ, bỏ required cho địa chỉ
+          appointmentDateInput.required = true;
+          appointmentTimeInput.required = true;
+          addressInput.required = false;
+          addressInput.value = ""; // Xóa giá trị địa chỉ
+        } else if (radio.value === "Tại nhà") {
+          // Hiện địa chỉ, ẩn ngày giờ hẹn
+          appointmentDateTimeSection.style.display = "none";
+          addressSection.style.display = "block";
+          
+          // Thêm required cho địa chỉ, bỏ required cho ngày giờ
+          appointmentDateInput.required = false;
+          appointmentTimeInput.required = false;
+          addressInput.required = true;
+          appointmentDateInput.value = ""; // Xóa giá trị ngày
+          appointmentTimeInput.value = ""; // Xóa giá trị giờ
+        }
       }
 
       // Setup form validation
@@ -987,6 +980,25 @@
         .addEventListener("submit", async function (e) {
           e.preventDefault();
 
+          // Kiểm tra phương thức lấy mẫu để validate đúng trường
+          const sampleMethod = document.querySelector('input[name="sampleCollectionMethod"]:checked')?.value;
+          
+          // Validate dựa trên phương thức lấy mẫu
+          if (sampleMethod === "Tại cơ sở y tế") {
+            const appointmentDate = document.getElementById("appointment-date").value;
+            const appointmentTime = document.getElementById("appointment-time").value;
+            if (!appointmentDate || !appointmentTime) {
+              alert("Vui lòng nhập đầy đủ ngày và giờ hẹn!");
+              return;
+            }
+          } else if (sampleMethod === "Tại nhà") {
+            const address = document.getElementById("address").value;
+            if (!address.trim()) {
+              alert("Vui lòng nhập địa chỉ lấy mẫu!");
+              return;
+            }
+          }
+
           // Lấy danh sách tất cả các dịch vụ đã chọn
           const serviceSelects = document.querySelectorAll('#service-select-list select');
           const selectedServices = Array.from(serviceSelects).map(select => select.value).filter(val => val);
@@ -1005,11 +1017,8 @@
             ),
             testType: document.querySelector('input[name="testType"]:checked')
               ?.value,
-            sampleCollectionMethod: document.querySelector(
-              'input[name="sampleCollectionMethod"]:checked'
-            )?.value,
+            sampleCollectionMethod: sampleMethod,
             address: document.getElementById("address").value,
-            status: document.getElementById("status").value,
             notes: document.getElementById("notes").value,
           };
 
@@ -1036,61 +1045,6 @@
             alert("Lỗi kết nối server.");
           }
         });
-
-      // Hoàn thành lịch hẹn
-      async function completeAppointment() {
-        if (
-          confirm("Bạn có chắc chắn muốn đánh dấu lịch hẹn này là hoàn thành?")
-        ) {
-          try {
-            const response = await fetch(
-              `/api/appointments/${appointmentId}/complete`,
-              {
-                method: "PUT",
-              }
-            );
-
-            if (response.ok) {
-              alert("Đánh dấu hoàn thành lịch hẹn thành công!");
-              document.getElementById("status").value = "Đã hoàn thành";
-            } else {
-              const errorData = await response.json();
-              alert(
-                "Lỗi: " +
-                  (errorData.message || "Không thể hoàn thành lịch hẹn.")
-              );
-            }
-          } catch (error) {
-            console.error("Error:", error);
-            alert("Lỗi kết nối server.");
-          }
-        }
-      }
-
-      // Hủy lịch hẹn
-      async function cancelAppointment() {
-        if (confirm("Bạn có chắc chắn muốn hủy lịch hẹn này?")) {
-          try {
-            const response = await fetch(
-              `/api/appointments/${appointmentId}/cancel`,
-              {
-                method: "PUT",
-              }
-            );
-
-            if (response.ok) {
-              alert("Hủy lịch hẹn thành công!");
-              document.getElementById("status").value = "Đã hủy";
-            } else {
-              const errorData = await response.json();
-              alert("Lỗi: " + (errorData.message || "Không thể hủy lịch hẹn."));
-            }
-          } catch (error) {
-            console.error("Error:", error);
-            alert("Lỗi kết nối server.");
-          }
-        }
-      }
 
       // Quay lại trang trước
       function goBack() {

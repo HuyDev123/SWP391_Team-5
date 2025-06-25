@@ -847,8 +847,7 @@
                 type="text"
                 id="customer-code"
                 class="form-control"
-                placeholder="Mã NTG (tự động)"
-                readonly
+                placeholder="Nhập mã người tham gia"
               />
             </div>
           </div>
@@ -1093,12 +1092,9 @@
           sampleType: "blood",
           note: "Xét nghiệm định kỳ",
         },
-      ];
-
-      // Initialize page
+      ];      // Initialize page
       document.addEventListener("DOMContentLoaded", function () {
         loadParticipants();        setupEventListeners();
-        generateCustomerCode();
         setupPhotoPreview();
       });
 
@@ -1180,13 +1176,10 @@
         `;
 
         return row;
-      }
-
-      function openAddModal() {
+      }      function openAddModal() {
         document.getElementById("add-participant-modal").style.display =
           "block";
-        generateCustomerCode();
-      }      function closeAddModal() {
+      }function closeAddModal() {
         document.getElementById("add-participant-modal").style.display = "none";        document.getElementById("add-participant-form").reset();
         removePhoto(); // Xóa ảnh preview
         toggleAdministrativeFields();
@@ -1213,17 +1206,14 @@
           portraitPhotoField.removeAttribute("required");
           // Clear the values
           cccdField.value = "";
-          portraitPhotoField.value = "";
-          document.getElementById("issued-place").value = "";
+          portraitPhotoField.value = "";          document.getElementById("issued-place").value = "";
           document.getElementById("issued-date").value = "";
           // Clear photo preview
           removePhoto();
         }
-      }function generateCustomerCode() {
-        const nextId = participants.length + 1;
-        const customerCode = `NTG${String(nextId).padStart(3, "0")}`;
-        document.getElementById("customer-code").value = customerCode;
-      }      function handleAddParticipant(event) {
+      }
+
+      function handleAddParticipant(event) {
         event.preventDefault();
 
         const photoInput = document.getElementById("portrait-photo");
@@ -1305,8 +1295,7 @@
             <strong>Ngày sinh:</strong> ${
               participant.birthDate ? formatDate(participant.birthDate) : "Chưa cập nhật"
             }
-          </div>
-          <div class="form-group">
+          </div>          <div class="form-group">
             <strong>Giới tính:</strong> ${
               participant.gender === "male"
                 ? "Nam"
@@ -1315,15 +1304,7 @@
                 : "Chưa cập nhật"
             }
           </div>
-          <div class="form-group">
-            <strong>Mục đích:</strong> ${
-              participant.purpose === "civil"
-                ? "Dân sự"
-                : participant.purpose === "administrative"
-                ? "Hành chính"
-                : "Chưa cập nhật"
-            }
-          </div>          ${
+          ${
             participant.purpose === "administrative"
               ? `
           <div class="form-group">
@@ -1359,13 +1340,8 @@
           </div>
           <div class="form-group">
             <strong>Email:</strong> ${participant.email || "Chưa cập nhật"}
-          </div>
-          <div class="form-group">
-            <strong>Địa chỉ:</strong> ${participant.address || "Chưa cập nhật"}
           </div>          <div class="form-group">
-            <strong>Loại mẫu:</strong> ${
-              sampleTypeMap[participant.sampleType] || "Chưa cập nhật"
-            }
+            <strong>Địa chỉ:</strong> ${participant.address || "Chưa cập nhật"}
           </div>
           <div class="form-group">
             <strong>Ngày tạo:</strong> ${formatDate(participant.createdDate)}
