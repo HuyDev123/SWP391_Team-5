@@ -518,6 +518,328 @@
         background-color: #f8d7da;
         color: #721c24;
       }
+
+      /* Styles cho radio buttons lý do hủy */
+      .cancel-reason-options {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-top: 10px;
+      }
+
+      .cancel-reason-radio {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 15px;
+        border: 2px solid #e9ecef;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        background-color: #f8f9fa;
+      }
+
+      .cancel-reason-radio:hover {
+        border-color: #dc3545;
+        background-color: #fff5f5;
+        box-shadow: 0 2px 8px rgba(220, 53, 69, 0.1);
+      }
+
+      .cancel-reason-radio input[type="radio"] {
+        margin: 0;
+        width: 18px;
+        height: 18px;
+        accent-color: #dc3545;
+      }
+
+      .cancel-reason-radio input[type="radio"]:checked + span {
+        color: #dc3545;
+        font-weight: 600;
+      }
+
+      .cancel-reason-radio:has(input[type="radio"]:checked) {
+        border-color: #dc3545;
+        background-color: #fff5f5;
+        box-shadow: 0 2px 8px rgba(220, 53, 69, 0.15);
+      }
+
+      .cancel-reason-radio span {
+        flex: 1;
+        color: #333;
+        font-size: 14px;
+        transition: all 0.3s ease;
+      }
+
+      #custom-cancel-reason-section {
+        background-color: #f8f9fa;
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        padding: 15px;
+      }
+
+      #custom-cancel-reason {
+        border: 2px solid #dee2e6;
+        border-radius: 6px;
+        transition: border-color 0.3s ease;
+      }
+
+      #custom-cancel-reason:focus {
+        border-color: #dc3545;
+        box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+      }
+
+      /* Styles cho modal lý do hủy */
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(5px);
+        animation: fadeIn 0.3s ease-out;
+      }
+
+      .modal.show {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .modal-content {
+        background-color: white;
+        margin: auto;
+        padding: 0;
+        border-radius: 16px;
+        width: 90%;
+        max-width: 500px;
+        max-height: 80vh;
+        overflow-y: auto;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        animation: slideInUp 0.3s ease-out;
+        position: relative;
+      }
+
+      .modal-header {
+        background: linear-gradient(135deg, #dc3545, #c82333);
+        color: white;
+        padding: 20px 25px;
+        border-radius: 16px 16px 0 0;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .modal-header h4 {
+        margin: 0;
+        font-size: 1.3em;
+        font-weight: 600;
+      }
+
+      .modal-header i {
+        font-size: 1.5em;
+        background: rgba(255, 255, 255, 0.2);
+        padding: 10px;
+        border-radius: 50%;
+      }
+
+      .close {
+        position: absolute;
+        right: 20px;
+        top: 20px;
+        color: white;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      .close:hover {
+        background: rgba(255, 255, 255, 0.3);
+        transform: rotate(90deg);
+      }
+
+      .modal-body {
+        padding: 25px;
+      }
+
+      .modal-description {
+        color: #666;
+        margin-bottom: 25px;
+        line-height: 1.6;
+        font-size: 15px;
+      }
+
+      .cancel-reason-options-modal {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        margin-bottom: 20px;
+      }
+
+      .cancel-reason-radio-modal {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 15px 18px;
+        border: 2px solid #e9ecef;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        background-color: #f8f9fa;
+      }
+
+      .cancel-reason-radio-modal:hover {
+        border-color: #dc3545;
+        background-color: #fff5f5;
+        box-shadow: 0 3px 12px rgba(220, 53, 69, 0.15);
+        transform: translateY(-2px);
+      }
+
+      .cancel-reason-radio-modal input[type="radio"] {
+        margin: 0;
+        width: 20px;
+        height: 20px;
+        accent-color: #dc3545;
+      }
+
+      .cancel-reason-radio-modal input[type="radio"]:checked + span {
+        color: #dc3545;
+        font-weight: 600;
+      }
+
+      .cancel-reason-radio-modal:has(input[type="radio"]:checked) {
+        border-color: #dc3545;
+        background-color: #fff5f5;
+        box-shadow: 0 4px 15px rgba(220, 53, 69, 0.2);
+      }
+
+      .cancel-reason-radio-modal span {
+        flex: 1;
+        color: #333;
+        font-size: 15px;
+        transition: all 0.3s ease;
+      }
+
+      .custom-cancel-reason-section-modal {
+        background-color: #f8f9fa;
+        border: 2px solid #dee2e6;
+        border-radius: 10px;
+        padding: 18px;
+        margin-top: 15px;
+        display: none;
+      }
+
+      .custom-cancel-reason-section-modal.show {
+        display: block;
+        animation: slideDown 0.3s ease-out;
+      }
+
+      .custom-cancel-reason-modal {
+        width: 100%;
+        border: 2px solid #dee2e6;
+        border-radius: 8px;
+        padding: 12px 15px;
+        font-size: 14px;
+        transition: border-color 0.3s ease;
+        resize: vertical;
+        min-height: 80px;
+      }
+
+      .custom-cancel-reason-modal:focus {
+        border-color: #dc3545;
+        box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+        outline: none;
+      }
+
+      .modal-footer {
+        padding: 20px 25px;
+        border-top: 1px solid #e9ecef;
+        display: flex;
+        gap: 15px;
+        justify-content: flex-end;
+      }
+
+      .modal-btn {
+        padding: 12px 24px;
+        border: none;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .modal-btn-secondary {
+        background-color: #6c757d;
+        color: white;
+      }
+
+      .modal-btn-secondary:hover {
+        background-color: #5a6268;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
+      }
+
+      .modal-btn-danger {
+        background-color: #dc3545;
+        color: white;
+      }
+
+      .modal-btn-danger:hover {
+        background-color: #c82333;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+      }
+
+      .modal-btn-danger:disabled {
+        background-color: #f8d7da;
+        color: #721c24;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+      }
+
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+
+      @keyframes slideInUp {
+        from { 
+          opacity: 0;
+          transform: translateY(50px) scale(0.9);
+        }
+        to { 
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+
+      @keyframes slideDown {
+        from { 
+          opacity: 0;
+          max-height: 0;
+        }
+        to { 
+          opacity: 1;
+          max-height: 200px;
+        }
+      }
+
+      /* ...existing styles... */
     </style>
   </head>
 
@@ -546,6 +868,13 @@
               <div>
                 <h4>Ngày tạo</h4>
                 <p><span id="created-date"></span></p>
+              </div>
+            </div>
+            <div class="appointment-info-item">
+              <i class="fas fa-info-circle"></i>
+              <div>
+                <h4>Trạng thái hiện tại</h4>
+                <p><span id="current-status-display" class="status-badge"></span></p>
               </div>
             </div>
           </div>
@@ -744,12 +1073,21 @@
             </div>
             <div class="form-group">
               <label class="form-label" for="appointment-time">Giờ hẹn <span class="required">*</span></label>
-              <input
-                type="time"
+              <select
                 id="appointment-time"
                 name="appointmentTime"
                 class="form-control"
-              />
+              >
+                <option value="">-- Chọn giờ hẹn --</option>
+                <option value="08:00">08:00</option>
+                <option value="09:00">09:00</option>
+                <option value="10:00">10:00</option>
+                <option value="11:00">11:00</option>
+                <option value="14:00">14:00</option>
+                <option value="15:00">15:00</option>
+                <option value="16:00">16:00</option>
+                <option value="17:00">17:00</option>
+              </select>
             </div>
           </div>
           
@@ -772,6 +1110,34 @@
             <i class="fas fa-clipboard-list"></i>
             Thông tin bổ sung
           </h3>
+          
+          <!-- Trạng thái -->
+          <div class="form-group">
+            <label class="form-label" for="status">Trạng thái <span class="required">*</span></label>
+            <select
+              id="status"
+              name="status"
+              class="form-control"
+              required
+            >
+              <option value="">-- Chọn trạng thái --</option>
+              <option value="Booked">Đã đặt lịch</option>
+              <option value="Waiting">Chờ xử lý</option>
+              <option value="Received">Đã nhận mẫu</option>
+              <option value="Completed">Hoàn thành</option>
+              <option value="Cancelled">Đã hủy</option>
+            </select>
+          </div>
+
+          <!-- Lý do hủy (ẩn, sẽ hiển thị giá trị đã chọn) -->
+          <div class="form-group" id="cancel-reason-display" style="display: none;">
+            <label class="form-label">Lý do hủy</label>
+            <input type="text" id="cancel-reason-value" class="form-control" readonly />
+            <input type="hidden" id="cancel-reason-hidden" name="cancelReason" />
+          </div>
+
+          
+          
           <!-- Ghi chú -->
           <div class="form-group">
             <label class="form-label" for="notes">Ghi chú</label>
@@ -800,6 +1166,11 @@
               Quay lại
             </button>
 
+            <button type="button" class="submit-btn btn-danger" onclick="cancelAppointment()">
+              <i class="fas fa-times"></i>
+              Hủy lịch hẹn
+            </button>
+
             <button type="submit" class="submit-btn">
               <i class="fas fa-save"></i>
               Lưu thay đổi
@@ -807,6 +1178,77 @@
           </div>
         </div>
       </form>
+    </div>
+
+    <!-- Modal lý do hủy -->
+    <div id="cancelReasonModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <i class="fas fa-exclamation-triangle"></i>
+          <h4>Lý do hủy lịch hẹn</h4>
+          <span class="close">&times;</span>
+        </div>
+        <div class="modal-body">
+          <p class="modal-description">
+            Vui lòng chọn lý do hủy lịch hẹn. Thông tin này sẽ được lưu trữ để phục vụ việc thống kê và cải thiện dịch vụ.
+          </p>
+          
+          <div class="cancel-reason-options-modal">
+            <label class="cancel-reason-radio-modal">
+              <input
+                type="radio"
+                name="cancelReasonTypeModal"
+                value="Khách hàng yêu cầu hủy"
+                onchange="handleModalCancelReasonChange(this)"
+              />
+              <span>Khách hàng yêu cầu hủy</span>
+            </label>
+            
+            <label class="cancel-reason-radio-modal">
+              <input
+                type="radio"
+                name="cancelReasonTypeModal"
+                value="Lịch trùng/không phù hợp"
+                onchange="handleModalCancelReasonChange(this)"
+              />
+              <span>Lịch trùng/không phù hợp</span>
+            </label>
+            
+            
+            <label class="cancel-reason-radio-modal">
+              <input
+                type="radio"
+                name="cancelReasonTypeModal"
+                value="other"
+                onchange="handleModalCancelReasonChange(this)"
+              />
+              <span>Lý do khác</span>
+            </label>
+          </div>
+          
+          <div class="custom-cancel-reason-section-modal" id="customCancelReasonSectionModal">
+            <label class="form-label" for="customCancelReasonModal">
+              <strong>Nhập lý do cụ thể:</strong>
+            </label>
+            <textarea
+              id="customCancelReasonModal"
+              class="custom-cancel-reason-modal"
+              placeholder="Vui lòng mô tả chi tiết lý do hủy lịch hẹn..."
+              rows="3"
+            ></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="modal-btn modal-btn-secondary" onclick="closeCancelReasonModal()">
+            <i class="fas fa-times"></i>
+            Hủy bỏ
+          </button>
+          <button type="button" class="modal-btn modal-btn-danger" id="confirmCancelBtn" onclick="confirmCancelReason()" disabled>
+            <i class="fas fa-check"></i>
+            Xác nhận hủy
+          </button>
+        </div>
+      </div>
     </div>
 
     <script src="assets/js/auth.js"></script>
@@ -859,6 +1301,12 @@
           appointmentData.createdDate
         ).toLocaleString("vi-VN");
 
+        // Hiển thị trạng thái hiện tại với màu sắc phù hợp
+        const statusValue = appointmentData.status || "Booked";
+        const statusDisplay = document.getElementById("current-status-display");
+        statusDisplay.textContent = getStatusText(statusValue);
+        statusDisplay.className = `status-badge ${getStatusClass(statusValue)}`;
+
         // Điền mã lịch hẹn và mã khách hàng
         document.getElementById("appointment-code").value = appointmentData.appointmentID || "";
         document.getElementById("customer-code").value = appointmentData.customerCode || "";
@@ -883,6 +1331,25 @@
         document.getElementById("number-of-testers").value =
           appointmentData.numberOfTesters;
         document.getElementById("address").value = appointmentData.address;
+        
+        // Đặt trạng thái cho select dropdown (sử dụng cùng giá trị đã được set ở trên)
+        document.getElementById("status").value = statusValue;
+        
+        // Hiển thị lý do hủy nếu trạng thái là "Cancelled"
+        const cancelReasonDisplay = document.getElementById("cancel-reason-display");
+        const cancelReasonValue = document.getElementById("cancel-reason-value");
+        const cancelReasonHidden = document.getElementById("cancel-reason-hidden");
+        
+        if (statusValue === "Cancelled" && appointmentData.cancelReason) {
+          cancelReasonDisplay.style.display = "block";
+          cancelReasonValue.value = appointmentData.cancelReason;
+          cancelReasonHidden.value = appointmentData.cancelReason;
+        } else {
+          cancelReasonDisplay.style.display = "none";
+          cancelReasonValue.value = "";
+          cancelReasonHidden.value = "";
+        }
+        
         document.getElementById("notes").value = appointmentData.notes || "";
 
         // Set radio buttons
@@ -1003,6 +1470,19 @@
           const serviceSelects = document.querySelectorAll('#service-select-list select');
           const selectedServices = Array.from(serviceSelects).map(select => select.value).filter(val => val);
           
+          // Validate lý do hủy nếu trạng thái là "Cancelled"
+          const selectedStatus = document.getElementById("status").value;
+          let cancelReason = null;
+          
+          if (selectedStatus === "Cancelled") {
+            // Lấy lý do hủy từ hidden input đã được set bởi modal
+            cancelReason = document.getElementById("cancel-reason-hidden").value;
+            if (!cancelReason || cancelReason.trim() === "") {
+              alert("Vui lòng chọn lý do hủy lịch hẹn bằng cách nhấn nút 'Hủy lịch hẹn'!");
+              return;
+            }
+          }
+          
           const formData = {
             appointmentID: appointmentId,
             fullName: document.getElementById("full-name").value,
@@ -1019,6 +1499,8 @@
               ?.value,
             sampleCollectionMethod: sampleMethod,
             address: document.getElementById("address").value,
+            status: selectedStatus,
+            cancelReason: cancelReason,
             notes: document.getElementById("notes").value,
           };
 
@@ -1051,6 +1533,36 @@
         window.history.back();
       }
 
+      // Lấy text hiển thị cho trạng thái
+      function getStatusText(status) {
+        const statusMap = {
+          'Booked': 'Đã đặt lịch',
+          'Waiting': 'Chờ xử lý',
+          'Received': 'Đã nhận mẫu',
+          'Completed': 'Hoàn thành',
+          'Cancelled': 'Đã hủy'
+        };
+        return statusMap[status] || status;
+      }
+
+      // Lấy class CSS cho trạng thái
+      function getStatusClass(status) {
+        const classMap = {
+          'Booked': 'status-booked',
+          'Waiting': 'status-waiting',
+          'Received': 'status-received',
+          'Completed': 'status-completed',
+          'Cancelled': 'status-cancelled'
+        };
+        return classMap[status] || 'status-booked';
+      }
+
+      // Hủy lịch hẹn
+      async function cancelAppointment() {
+        // Mở modal lý do hủy
+        openCancelReasonModal();
+      }
+
       // Load danh sách dịch vụ từ API
       async function loadServices() {
         try {
@@ -1079,7 +1591,60 @@
       document.addEventListener("DOMContentLoaded", function() {
         loadServices();
         setupServiceControls();
+        setupStatusChange();
+        
+        // Uncomment để test với dữ liệu mẫu
+        // testPopulateForm();
       });
+
+      // Function test để kiểm tra việc populate form (có thể xóa sau khi hoàn thành)
+      function testPopulateForm() {
+        const testData = {
+          appointmentID: "APT001",
+          createdDate: new Date().toISOString(),
+          customerCode: "CUS001",
+          fullName: "Nguyễn Văn A",
+          email: "test@example.com",
+          phone: "0123456789",
+          status: "Waiting", // Test với trạng thái khác Booked
+          notes: "Ghi chú test"
+        };
+        populateForm(testData);
+      }
+
+      // Thiết lập xử lý thay đổi trạng thái
+      function setupStatusChange() {
+        const statusSelect = document.getElementById("status");
+        const statusDisplay = document.getElementById("current-status-display");
+        const cancelReasonDisplay = document.getElementById("cancel-reason-display");
+        
+        if (statusSelect && statusDisplay) {
+          statusSelect.addEventListener("change", function() {
+            const selectedStatus = this.value;
+            if (selectedStatus) {
+              statusDisplay.textContent = getStatusText(selectedStatus);
+              statusDisplay.className = `status-badge ${getStatusClass(selectedStatus)}`;
+              
+              // Hiển thị/ẩn trường lý do hủy
+              if (selectedStatus === "Cancelled") {
+                // Kiểm tra xem đã có lý do hủy chưa
+                const cancelReasonHidden = document.getElementById("cancel-reason-hidden");
+                if (cancelReasonHidden.value) {
+                  cancelReasonDisplay.style.display = "block";
+                } else {
+                  // Nếu chưa có lý do hủy, mở modal
+                  openCancelReasonModal();
+                }
+              } else {
+                cancelReasonDisplay.style.display = "none";
+                // Reset lý do hủy khi không phải trạng thái hủy
+                document.getElementById("cancel-reason-value").value = "";
+                document.getElementById("cancel-reason-hidden").value = "";
+              }
+            }
+          });
+        }
+      }
       
       // Thiết lập xử lý thêm/xóa dịch vụ
       function setupServiceControls() {
@@ -1171,6 +1736,180 @@
           });
         }
       }
+
+      // Xử lý thay đổi lý do hủy lịch
+      function handleCancelReasonChange(radio) {
+        const customReasonSection = document.getElementById("custom-cancel-reason-section");
+        const customReasonInput = document.getElementById("custom-cancel-reason");
+        
+        if (radio.value === "other") {
+          customReasonSection.style.display = "block";
+          customReasonInput.required = true;
+        } else {
+          customReasonSection.style.display = "none";
+          customReasonInput.required = false;
+          customReasonInput.value = ""; // Xóa nội dung khi không chọn "Lý do khác"
+        }
+      }
+
+      // Xử lý thay đổi trạng thái để hiển thị/ẩn phần lý do hủy
+      document.getElementById("status").addEventListener("change", function() {
+        const selectedStatus = this.value;
+        const cancelReasonDisplay = document.getElementById("cancel-reason-display");
+        
+        if (selectedStatus === "Cancelled") {
+          // Kiểm tra xem đã có lý do hủy chưa
+          const cancelReasonHidden = document.getElementById("cancel-reason-hidden");
+          if (cancelReasonHidden.value) {
+            cancelReasonDisplay.style.display = "block";
+          } else {
+            // Nếu chưa có lý do hủy, mở modal
+            openCancelReasonModal();
+          }
+        } else {
+          cancelReasonDisplay.style.display = "none";
+          // Reset lý do hủy khi không phải trạng thái hủy
+          document.getElementById("cancel-reason-value").value = "";
+          document.getElementById("cancel-reason-hidden").value = "";
+        }
+        
+        // Cập nhật badge trạng thái hiện tại
+        const statusDisplay = document.getElementById("current-status-display");
+        statusDisplay.textContent = getStatusText(selectedStatus);
+        statusDisplay.className = `status-badge ${getStatusClass(selectedStatus)}`;
+      });
+
+      // Các hàm xử lý modal lý do hủy
+      function openCancelReasonModal() {
+        const modal = document.getElementById("cancelReasonModal");
+        modal.classList.add("show");
+        
+        // Reset modal form
+        resetModalForm();
+        
+        // Focus vào modal
+        modal.focus();
+      }
+
+      function closeCancelReasonModal() {
+        const modal = document.getElementById("cancelReasonModal");
+        modal.classList.remove("show");
+        
+        // Reset trạng thái về giá trị trước đó nếu không có lý do hủy
+        const cancelReasonHidden = document.getElementById("cancel-reason-hidden");
+        if (!cancelReasonHidden.value) {
+          const statusSelect = document.getElementById("status");
+          // Tìm trạng thái trước đó (không phải Cancelled)
+          const options = statusSelect.options;
+          for (let i = 0; i < options.length; i++) {
+            if (options[i].value !== "" && options[i].value !== "Cancelled") {
+              statusSelect.value = options[i].value;
+              break;
+            }
+          }
+          
+          // Trigger change event để cập nhật UI
+          const changeEvent = new Event('change', { bubbles: true });
+          statusSelect.dispatchEvent(changeEvent);
+        }
+      }
+
+      function resetModalForm() {
+        // Reset radio buttons
+        document.querySelectorAll('input[name="cancelReasonTypeModal"]').forEach(radio => {
+          radio.checked = false;
+        });
+        
+        // Reset textarea
+        document.getElementById("customCancelReasonModal").value = "";
+        
+        // Ẩn phần custom reason
+        document.getElementById("customCancelReasonSectionModal").classList.remove("show");
+        
+        // Disable confirm button
+        document.getElementById("confirmCancelBtn").disabled = true;
+      }
+
+      function handleModalCancelReasonChange(radio) {
+        const customReasonSection = document.getElementById("customCancelReasonSectionModal");
+        const confirmBtn = document.getElementById("confirmCancelBtn");
+        
+        if (radio.value === "other") {
+          customReasonSection.classList.add("show");
+          // Enable confirm button chỉ khi có nội dung trong textarea
+          const textarea = document.getElementById("customCancelReasonModal");
+          textarea.addEventListener("input", function() {
+            confirmBtn.disabled = !this.value.trim();
+          });
+          confirmBtn.disabled = !document.getElementById("customCancelReasonModal").value.trim();
+        } else {
+          customReasonSection.classList.remove("show");
+          document.getElementById("customCancelReasonModal").value = "";
+          confirmBtn.disabled = false;
+        }
+      }
+
+      function confirmCancelReason() {
+        const selectedRadio = document.querySelector('input[name="cancelReasonTypeModal"]:checked');
+        if (!selectedRadio) {
+          alert("Vui lòng chọn lý do hủy!");
+          return;
+        }
+        
+        let cancelReason = "";
+        if (selectedRadio.value === "other") {
+          const customReason = document.getElementById("customCancelReasonModal").value.trim();
+          if (!customReason) {
+            alert("Vui lòng nhập lý do hủy cụ thể!");
+            return;
+          }
+          cancelReason = customReason;
+        } else {
+          cancelReason = selectedRadio.value;
+        }
+        
+        // Set lý do hủy vào form
+        document.getElementById("cancel-reason-value").value = cancelReason;
+        document.getElementById("cancel-reason-hidden").value = cancelReason;
+        
+        // Hiển thị trường lý do hủy
+        document.getElementById("cancel-reason-display").style.display = "block";
+        
+        // Đảm bảo trạng thái là "Cancelled"
+        document.getElementById("status").value = "Cancelled";
+        
+        // Cập nhật badge trạng thái
+        const statusDisplay = document.getElementById("current-status-display");
+        statusDisplay.textContent = getStatusText("Cancelled");
+        statusDisplay.className = `status-badge ${getStatusClass("Cancelled")}`;
+        
+        // Đóng modal
+        closeCancelReasonModal();
+        
+        // Thông báo thành công
+        alert("Đã chọn lý do hủy thành công! Nhấn 'Lưu thay đổi' để hoàn tất.");
+      }
+
+      // Xử lý đóng modal khi click bên ngoài
+      window.addEventListener("click", function(event) {
+        const modal = document.getElementById("cancelReasonModal");
+        if (event.target === modal) {
+          closeCancelReasonModal();
+        }
+      });
+
+      // Xử lý đóng modal bằng phím ESC
+      document.addEventListener("keydown", function(event) {
+        if (event.key === "Escape") {
+          const modal = document.getElementById("cancelReasonModal");
+          if (modal.classList.contains("show")) {
+            closeCancelReasonModal();
+          }
+        }
+      });
+
+      // Xử lý click nút close
+      document.querySelector(".close").addEventListener("click", closeCancelReasonModal);
     </script>
   </body>
 </html>
