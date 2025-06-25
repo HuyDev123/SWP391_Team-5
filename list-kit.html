@@ -1013,26 +1013,26 @@
 
         <div style="overflow-x: auto">
           <table
-            style="width: 100%; border-collapse: collapse; margin-top: 10px"
+            style="width: 100%; border-collapse: collapse; margin-top: 10px; table-layout: fixed;"
           >
             <thead>
               <tr style="background: #e3f2fd">
-                <th style="padding: 12px 8px; border-bottom: 1px solid #eee">
+                <th style="padding: 12px 8px; border-bottom: 1px solid #eee; width: 15%; text-align: left;">
                   Mã cuộc hẹn
                 </th>
-                <th style="padding: 12px 8px; border-bottom: 1px solid #eee">
+                <th style="padding: 12px 8px; border-bottom: 1px solid #eee; width: 15%; text-align: left;">
                   Mã Kit
                 </th>
-                <th style="padding: 12px 8px; border-bottom: 1px solid #eee">
+                <th style="padding: 12px 8px; border-bottom: 1px solid #eee; width: 15%; text-align: left;">
                   Ngày gửi
                 </th>
-                <th style="padding: 12px 8px; border-bottom: 1px solid #eee">
+                <th style="padding: 12px 8px; border-bottom: 1px solid #eee; width: 15%; text-align: left;">
                   Ngày nhận
                 </th>
-                <th style="padding: 12px 8px; border-bottom: 1px solid #eee">
+                <th style="padding: 12px 8px; border-bottom: 1px solid #eee; width: 20%; text-align: left;">
                   Trạng thái
                 </th>
-                <th style="padding: 12px 8px; border-bottom: 1px solid #eee">
+                <th style="padding: 12px 8px; border-bottom: 1px solid #eee; width: 20%; text-align: left;">
                   Thao tác
                 </th>
               </tr>
@@ -1552,29 +1552,29 @@
                   .map(
                     (k) => `
                   <tr>
-                    <td style="padding:10px 8px; border-bottom:1px solid #eee;">${
+                    <td style="padding:12px 8px; border-bottom:1px solid #eee; text-align: left;">${
                       k.appointmentId
                     }</td>
-                    <td style="padding:10px 8px; border-bottom:1px solid #eee;">${
+                    <td style="padding:12px 8px; border-bottom:1px solid #eee; text-align: left;">${
                       k.kitCode
                     }</td>
-                    <td style="padding:10px 8px; border-bottom:1px solid #eee;">${
+                    <td style="padding:12px 8px; border-bottom:1px solid #eee; text-align: left;">${
                       k.sendDate || "-"
                     }</td>
-                    <td style="padding:10px 8px; border-bottom:1px solid #eee;">${
+                    <td style="padding:12px 8px; border-bottom:1px solid #eee; text-align: left;">${
                       k.receiveDate || "-"
                     }</td>
-                    <td style="padding:10px 8px; border-bottom:1px solid #eee;">${renderKitStatus(
+                    <td style="padding:12px 8px; border-bottom:1px solid #eee; text-align: left;">${renderKitStatus(
                       k.status
                     )}</td>
-                    <td style="padding:10px 8px; border-bottom:1px solid #eee;">${renderKitActions(
+                    <td style="padding:12px 8px; border-bottom:1px solid #eee; text-align: left;">${renderKitActions(
                       k
                     )}</td>
                   </tr>
                 `
                   )
                   .join("")
-              : `<tr><td colspan="6" style="text-align:center; color:#888; padding:20px;">Không có kit phù hợp</td></tr>`;
+              : `<tr><td colspan="6" style="text-align:center; color:#888; padding:12px;">Không có kit phù hợp</td></tr>`;
           } // Search and filter function
           function searchKits() {
             const combinedSearch = document
@@ -1970,7 +1970,7 @@
                 color: #333;
               "
             >
-              Kit Code <span style="color: red">*</span>
+              Mã Kit <span style="color: red">*</span>
             </label>
             <input
               type="text"
@@ -2000,7 +2000,7 @@
                 color: #333;
               "
             >
-              Kit Type <span style="color: red">*</span>
+              Loại Kit <span style="color: red">*</span>
             </label>
             <select
               id="kit-type"

@@ -885,13 +885,15 @@
               <label class="form-label" for="collection-location"
                 >Địa Điểm Thu Thập *</label
               >
-              <input
-                type="text"
+              <select
                 id="collection-location"
-                class="form-control"
-                placeholder="Nhập địa điểm thu thập"
+                class="form-control form-select"
                 required
-              />
+              >
+                <option value="">Chọn địa điểm thu thập</option>
+                <option value="home">Tại nhà</option>
+                <option value="facility">Tại cơ sở</option>
+              </select>
             </div>
             <div class="form-col">
               <label class="form-label" for="collector"
@@ -903,7 +905,7 @@
                 class="form-control"
                 placeholder="Nhập ID người thực hiện"
                 required
-                readonly
+                
               />
             </div>
           </div>
@@ -1169,15 +1171,15 @@
       }
 
       function updateCollectorField() {
-        const location = document.getElementById("collection-location").value.toLowerCase();
+        const location = document.getElementById("collection-location").value;
         const collectorField = document.getElementById("collector");
         const providerId = document.getElementById("provider-id").value;
 
-        // Tự động điền người thực hiện dựa trên địa điểm được nhập
-        if (location.includes("nhà") || location.includes("home")) {
+        // Tự động điền người thực hiện dựa trên địa điểm được chọn
+        if (location === "home") {
           collectorField.value = providerId || "ID_Khách hàng";
           collectorField.placeholder = "ID_Khách hàng";
-        } else if (location.includes("cơ sở") || location.includes("facility") || location.includes("phòng lab") || location.includes("trung tâm")) {
+        } else if (location === "facility") {
           collectorField.value = "ST001"; // Default staff ID
           collectorField.placeholder = "ID_Staff";
         } else {
@@ -1349,7 +1351,7 @@
         
         document
           .getElementById("collection-location")
-          .addEventListener("input", function () {
+          .addEventListener("change", function () {
             updateCollectorField();
           });
       });
