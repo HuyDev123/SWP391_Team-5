@@ -424,6 +424,71 @@
 
       .form-col {
         flex: 1;
+      }
+
+      /* Edit modal specific styles */
+      .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        align-items: start;
+      }
+
+      .form-grid .form-group {
+        margin-bottom: 15px;
+      }
+
+      .form-grid .form-group.full-width {
+        grid-column: 1 / -1;
+      }
+
+      .form-grid .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: 600;
+        color: #333;
+        font-size: 14px;
+      }
+
+      .form-grid .form-group input,
+      .form-grid .form-group select,
+      .form-grid .form-group textarea {
+        width: 100%;
+        padding: 12px 15px;
+        border: 2px solid rgba(102, 126, 234, 0.2);
+        border-radius: 8px;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        background: rgba(255, 255, 255, 0.9);
+        box-sizing: border-box;
+      }
+
+      .form-grid .form-group input:focus,
+      .form-grid .form-group select:focus,
+      .form-grid .form-group textarea:focus {
+        outline: none;
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+        background: rgba(255, 255, 255, 1);
+      }
+
+      .required {
+        color: #dc3545;
+        font-weight: bold;
+      }
+
+      .form-actions {
+        margin-top: 30px;
+        text-align: right;
+        padding-top: 20px;
+        border-top: 1px solid #eee;
+      }
+
+      /* Responsive for edit modal */
+      @media (max-width: 768px) {
+        .form-grid {
+          grid-template-columns: 1fr;
+        }
       } /* Service type section */
       .service-type-section {
         border: 2px solid rgba(102, 126, 234, 0.2);
@@ -796,9 +861,9 @@
           <table class="participants-table">            <thead>
               <tr>
                 <th>Mã Cuộc Hẹn</th>
-                <th>Tên Khách Hàng</th>
-                <th>Mã Người Tham gia</th>
-                <th>Ngày Tạo</th>
+                <th>Tên Người Tham Gia</th>
+                <th>Mã Người Đăng Ký</th>
+                <th>Mối Quan Hệ</th>
                 <th>Thao Tác</th>
               </tr>
             </thead>
@@ -841,34 +906,37 @@
               />
             </div>            <div class="form-col">
               <label class="form-label" for="customer-code"
-                >Mã Người tham gia</label
+                >Mã người đăng ký cuộc hẹn *</label
               >
               <input
                 type="text"
                 id="customer-code"
                 class="form-control"
-                placeholder="Nhập mã người tham gia"
+                placeholder="Nhập mã người đăng ký cuộc hẹn"
+                required
               />
             </div>
           </div>
 
           <div class="form-row">
             <div class="form-col">
-              <label class="form-label" for="phone">Số điện thoại</label>
+              <label class="form-label" for="phone">Số điện thoại *</label>
               <input
                 type="tel"
                 id="phone"
                 class="form-control"
                 placeholder="Nhập số điện thoại"
+                required
               />
             </div>
             <div class="form-col">
-              <label class="form-label" for="email">Email</label>
+              <label class="form-label" for="email">Email *</label>
               <input
                 type="email"
                 id="email"
                 class="form-control"
                 placeholder="Nhập email"
+                required
               />
             </div>
           </div>          <div class="form-row">
@@ -892,12 +960,13 @@
           </div>
 
           <div class="form-group">
-            <label class="form-label" for="address">Địa chỉ</label>
+            <label class="form-label" for="address">Địa chỉ *</label>
             <input
               type="text"
               id="address"
               class="form-control"
               placeholder="Nhập địa chỉ"
+              required
             />
           </div>          <div class="form-group">
             <label class="form-label" for="relationship">Mối quan hệ với người đăng ký cuộc hẹn *</label>
@@ -935,6 +1004,7 @@
                   id="cccd"
                   class="form-control"
                   placeholder="Nhập số căn cước công dân"
+                  required
                 />
               </div>              <div class="form-col">
                 <label class="form-label" for="portrait-photo"
@@ -961,38 +1031,29 @@
             </div>
 
             <div class="form-group">
-              <label class="form-label" for="issued-place">Nơi cấp CCCD</label>
+              <label class="form-label" for="issued-place">Nơi cấp CCCD *</label>
               <input
                 type="text"
                 id="issued-place"
                 class="form-control"
                 placeholder="Nhập nơi cấp căn cước công dân"
+                required
               />            </div>
 
             <div class="form-group">
-              <label class="form-label" for="issued-date">Ngày cấp CCCD</label>
-              <input type="date" id="issued-date" class="form-control" />
+              <label class="form-label" for="issued-date">Ngày cấp CCCD *</label>
+              <input type="date" id="issued-date" class="form-control" required />
             </div>
           </div>
 
           <div class="form-group">
-            <label class="form-label" for="sample-type">Loại mẫu</label>
-            <select id="sample-type" class="form-control form-select">
-              <option value="">Chọn loại mẫu</option>
-              <option value="blood">Máu</option>
-              <option value="saliva">Nước bọt</option>
-              <option value="hair">Tóc</option>
-              <option value="nail">Móng tay</option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label" for="note">Ghi chú</label>
+            <label class="form-label" for="note">Ghi chú *</label>
             <textarea
               id="note"
               class="form-control"
               rows="3"
               placeholder="Nhập ghi chú (nếu có)"
+              required
             ></textarea>
           </div>
 
@@ -1033,6 +1094,149 @@
             Đóng
           </button>
         </div>
+      </div>
+    </div>
+
+    <!-- Edit Participant Modal -->
+    <div id="edit-participant-modal" class="modal">
+      <div class="modal-content" style="max-width: 800px;">
+        <div class="modal-header">
+          <h2 class="modal-title">Chỉnh Sửa Thông Tin Người Tham Gia</h2>
+          <span class="close">&times;</span>
+        </div>
+        <form id="edit-participant-form">
+          <div class="form-grid">
+            <!-- Mã người đăng ký cuộc hẹn -->
+            <div class="form-group">
+              <label for="edit-appointmentId">Mã người đăng ký cuộc hẹn <span class="required">*</span></label>
+              <input type="text" id="edit-appointmentId" name="appointmentId" placeholder="Nhập mã người đăng ký cuộc hẹn" required />
+            </div>
+
+            <!-- Họ tên -->
+            <div class="form-group">
+              <label for="edit-fullName">Họ tên <span class="required">*</span></label>
+              <input type="text" id="edit-fullName" name="fullName" placeholder="Nhập họ tên" required />
+            </div>
+
+            <!-- Số điện thoại -->
+            <div class="form-group">
+              <label for="edit-phone">Số điện thoại <span class="required">*</span></label>
+              <input type="tel" id="edit-phone" name="phone" placeholder="Nhập số điện thoại" required />
+            </div>
+
+            <!-- Email -->
+            <div class="form-group">
+              <label for="edit-email">Email <span class="required">*</span></label>
+              <input type="email" id="edit-email" name="email" placeholder="Nhập email" required />
+            </div>
+
+            <!-- Địa chỉ -->
+            <div class="form-group full-width">
+              <label for="edit-address">Địa chỉ <span class="required">*</span></label>
+              <textarea id="edit-address" name="address" rows="2" placeholder="Nhập địa chỉ" required></textarea>
+            </div>
+
+            <!-- Ngày sinh -->
+            <div class="form-group">
+              <label for="edit-birthDate">Ngày sinh <span class="required">*</span></label>
+              <input type="date" id="edit-birthDate" name="birthDate" required />
+            </div>
+
+            <!-- Giới tính -->
+            <div class="form-group">
+              <label for="edit-gender">Giới tính <span class="required">*</span></label>
+              <select id="edit-gender" name="gender" required>
+                <option value="">Chọn giới tính</option>
+                <option value="male">Nam</option>
+                <option value="female">Nữ</option>
+                <option value="other">Khác</option>
+              </select>
+            </div>
+
+            <!-- Mục đích -->
+            <div class="form-group">
+              <label for="edit-purpose">Mục đích <span class="required">*</span></label>
+              <select id="edit-purpose" name="purpose" onchange="toggleEditAdministrativeFields()" required>
+                <option value="">Chọn mục đích</option>
+                <option value="civil">Dân sự</option>
+                <option value="administrative">Hành chính</option>
+              </select>
+            </div>
+
+            <!-- Quan hệ gia đình -->
+            <div class="form-group">
+              <label for="edit-relationship">Quan hệ gia đình <span class="required">*</span></label>
+              <select id="edit-relationship" name="relationship" required>
+                <option value="">Chọn quan hệ</option>
+                <option value="Cha">Cha</option>
+                <option value="Mẹ">Mẹ</option>
+                <option value="Con">Con</option>
+                <option value="Anh">Anh</option>
+                <option value="Em">Em</option>
+                <option value="Ông">Ông</option>
+                <option value="Bà">Bà</option>
+                <option value="Khác">Khác</option>
+              </select>
+            </div>
+
+            <!-- Administrative fields (hidden by default) -->
+            <div id="edit-administrative-fields" style="display: none; grid-column: 1 / -1;">
+              <h3 style="margin: 15px 0 10px 0; color: #333; border-bottom: 1px solid #e0e0e0; padding-bottom: 5px;">Thông tin CCCD</h3>
+              
+              <div class="form-grid">
+                <!-- Số CCCD -->
+                <div class="form-group">
+                  <label for="edit-cccd">Số CCCD <span class="required">*</span></label>
+                  <input type="text" id="edit-cccd" name="cccd" placeholder="Nhập số CCCD" />
+                </div>
+
+                <!-- Nơi cấp -->
+                <div class="form-group">
+                  <label for="edit-issuedPlace">Nơi cấp <span class="required">*</span></label>
+                  <input type="text" id="edit-issuedPlace" name="issuedPlace" placeholder="Nhập nơi cấp" />
+                </div>
+
+                <!-- Ngày cấp -->
+                <div class="form-group">
+                  <label for="edit-issuedDate">Ngày cấp <span class="required">*</span></label>
+                  <input type="date" id="edit-issuedDate" name="issuedDate" />
+                </div>
+
+                <!-- Ảnh chân dung -->
+                <div class="form-group">
+                  <label for="edit-portraitPhoto">Ảnh chân dung <span class="required">*</span></label>
+                  <input type="file" id="edit-portraitPhoto" name="portraitPhoto" accept="image/*" onchange="previewEditPhoto(event)" />
+                  <div id="edit-photo-preview" style="margin-top: 10px;"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Ghi chú -->
+            <div class="form-group full-width">
+              <label for="edit-note">Ghi chú</label>
+              <textarea id="edit-note" name="note" rows="3" placeholder="Nhập ghi chú (tùy chọn)"></textarea>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button
+              type="button"
+              class="btn"
+              style="
+                background-color: #6c757d;
+                color: white;
+                margin-right: 10px;
+              "
+              onclick="closeEditModal()"
+            >
+              Hủy
+            </button>
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-save"></i>
+              Cập Nhật Thông Tin
+            </button>
+          </div>
+        </form>
       </div>
     </div>
 
@@ -1108,7 +1312,9 @@
         document.querySelectorAll(".close").forEach((closeBtn) => {
           closeBtn.addEventListener("click", function () {
             closeAddModal();
-            closeViewModal();          });
+            closeViewModal();
+            closeEditModal();
+          });
         });
 
         // Purpose change
@@ -1118,6 +1324,11 @@
         document
           .getElementById("add-participant-form")
           .addEventListener("submit", handleAddParticipant);
+        
+        // Edit form submission
+        document
+          .getElementById("edit-participant-form")
+          .addEventListener("submit", handleEditParticipant);
 
         // Search and filter
         document
@@ -1131,11 +1342,15 @@
         window.addEventListener("click", function (event) {
           const addModal = document.getElementById("add-participant-modal");
           const viewModal = document.getElementById("view-participant-modal");
+          const editModal = document.getElementById("edit-participant-modal");
           if (event.target === addModal) {
             closeAddModal();
           }
           if (event.target === viewModal) {
             closeViewModal();
+          }
+          if (event.target === editModal) {
+            closeEditModal();
           }
         });
       }
@@ -1165,12 +1380,17 @@
           <td>${participant.appointmentId}</td>
           <td>${participant.fullName}</td>
           <td>${participant.customerCode}</td>
-          <td>${formatDate(participant.createdDate)}</td>
+          <td>${participant.relationship || "Chưa cập nhật"}</td>
           <td>
             <button class="btn btn-info" onclick="viewParticipant(${
               participant.id
-            })" style="padding: 5px 10px; font-size: 12px;">
+            })" style="padding: 5px 10px; font-size: 12px; margin-right: 5px;">
               <i class="fas fa-eye"></i> Xem
+            </button>
+            <button class="btn btn-success" onclick="editParticipant(${
+              participant.id
+            })" style="padding: 5px 10px; font-size: 12px;">
+              <i class="fas fa-edit"></i> Sửa
             </button>
           </td>
         `;
@@ -1183,31 +1403,135 @@
         document.getElementById("add-participant-modal").style.display = "none";        document.getElementById("add-participant-form").reset();
         removePhoto(); // Xóa ảnh preview
         toggleAdministrativeFields();
-      }function closeViewModal() {
+      }      function closeViewModal() {
         document.getElementById("view-participant-modal").style.display =
           "none";
-      }      function toggleAdministrativeFields() {
+      }
+
+      // Edit Participant Functions
+      function editParticipant(id) {
+        const participant = participants.find((p) => p.id === id);
+        if (!participant) return;
+
+        // Populate edit form with current participant data
+        document.getElementById("edit-appointmentId").value = participant.appointmentId || "";
+        document.getElementById("edit-fullName").value = participant.fullName || "";
+        document.getElementById("edit-phone").value = participant.phone || "";
+        document.getElementById("edit-email").value = participant.email || "";
+        document.getElementById("edit-address").value = participant.address || "";
+        document.getElementById("edit-birthDate").value = participant.birthDate || "";
+        document.getElementById("edit-gender").value = participant.gender || "";
+        document.getElementById("edit-purpose").value = participant.purpose || "";
+        document.getElementById("edit-relationship").value = participant.relationship || "";
+        document.getElementById("edit-note").value = participant.note || "";
+
+        // Handle administrative fields
+        if (participant.purpose === "administrative") {
+          document.getElementById("edit-cccd").value = participant.cccd || "";
+          document.getElementById("edit-issuedPlace").value = participant.issuedPlace || "";
+          document.getElementById("edit-issuedDate").value = participant.issuedDate || "";
+          
+          // Display current photo if exists
+          if (participant.portraitPhoto) {
+            const editPhotoPreview = document.getElementById("edit-photo-preview");
+            editPhotoPreview.innerHTML = `
+              <img src="${participant.portraitPhoto}" alt="Current Photo" style="width: 100px; height: 100px; object-fit: cover; border: 1px solid #ddd; border-radius: 4px;">
+              <p style="margin: 5px 0 0 0; font-size: 12px; color: #666;">Ảnh hiện tại</p>
+            `;
+          }
+        }
+
+        // Show/hide administrative fields based on purpose
+        toggleEditAdministrativeFields();
+
+        // Store current participant ID for update
+        document.getElementById("edit-participant-form").dataset.participantId = id;
+
+        // Show edit modal
+        document.getElementById("edit-participant-modal").style.display = "block";
+      }
+
+      function closeEditModal() {
+        document.getElementById("edit-participant-modal").style.display = "none";
+        document.getElementById("edit-participant-form").reset();
+        document.getElementById("edit-photo-preview").innerHTML = "";
+        toggleEditAdministrativeFields();
+      }
+
+      function toggleEditAdministrativeFields() {
+        const purpose = document.getElementById("edit-purpose").value;
+        const administrativeFields = document.getElementById("edit-administrative-fields");
+        const cccdField = document.getElementById("edit-cccd");
+        const portraitPhotoField = document.getElementById("edit-portraitPhoto");
+        const issuedPlaceField = document.getElementById("edit-issuedPlace");
+        const issuedDateField = document.getElementById("edit-issuedDate");
+
+        if (purpose === "administrative") {
+          administrativeFields.style.display = "block";
+          cccdField.required = true;
+          portraitPhotoField.required = true;
+          issuedPlaceField.required = true;
+          issuedDateField.required = true;
+        } else {
+          administrativeFields.style.display = "none";
+          cccdField.required = false;
+          portraitPhotoField.required = false;
+          issuedPlaceField.required = false;
+          issuedDateField.required = false;
+          
+          // Clear administrative field values when hidden
+          cccdField.value = "";
+          portraitPhotoField.value = "";
+          issuedPlaceField.value = "";
+          issuedDateField.value = "";
+          document.getElementById("edit-photo-preview").innerHTML = "";
+        }
+      }
+
+      function previewEditPhoto(event) {
+        const file = event.target.files[0];
+        const preview = document.getElementById("edit-photo-preview");
+        
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            preview.innerHTML = `
+              <img src="${e.target.result}" alt="Photo Preview" style="width: 100px; height: 100px; object-fit: cover; border: 1px solid #ddd; border-radius: 4px;">
+              <p style="margin: 5px 0 0 0; font-size: 12px; color: #666;">Ảnh mới</p>
+            `;
+          };
+          reader.readAsDataURL(file);
+        } else {
+          preview.innerHTML = "";
+        }
+      }function toggleAdministrativeFields() {
         const purpose = document.getElementById("purpose").value;
         const administrativeFields = document.getElementById(
           "administrative-fields"
         );
         const cccdField = document.getElementById("cccd");
         const portraitPhotoField = document.getElementById("portrait-photo");
+        const issuedPlaceField = document.getElementById("issued-place");
+        const issuedDateField = document.getElementById("issued-date");
 
         if (purpose === "administrative") {
           administrativeFields.style.display = "block";
-          // Make CCCD and portrait photo required for administrative purpose
+          // Make all administrative fields required
           cccdField.setAttribute("required", "required");
           portraitPhotoField.setAttribute("required", "required");
+          issuedPlaceField.setAttribute("required", "required");
+          issuedDateField.setAttribute("required", "required");
         } else {
           administrativeFields.style.display = "none";
           // Remove required attribute for civil purpose
           cccdField.removeAttribute("required");
           portraitPhotoField.removeAttribute("required");
+          issuedPlaceField.removeAttribute("required");
+          issuedDateField.removeAttribute("required");
           // Clear the values
           cccdField.value = "";
-          portraitPhotoField.value = "";          document.getElementById("issued-place").value = "";
-          document.getElementById("issued-date").value = "";
+          portraitPhotoField.value = "";          issuedPlaceField.value = "";
+          issuedDateField.value = "";
           // Clear photo preview
           removePhoto();
         }
@@ -1245,7 +1569,6 @@
           address: document.getElementById("address").value,
           birthDate: document.getElementById("birth-date").value,
           gender: document.getElementById("gender").value,
-          sampleType: document.getElementById("sample-type").value,
           cccd: document.getElementById("cccd").value,
           portraitPhoto: photoData,
           issuedPlace: document.getElementById("issued-place").value,
@@ -1260,21 +1583,66 @@
         // Show success message
         alert("Thêm người tham gia thành công!");
       }
+
+      function handleEditParticipant(event) {
+        event.preventDefault();
+        
+        const participantId = parseInt(document.getElementById("edit-participant-form").dataset.participantId);
+        const participantIndex = participants.findIndex(p => p.id === participantId);
+        
+        if (participantIndex === -1) {
+          alert("Không tìm thấy người tham gia!");
+          return;
+        }
+
+        // Handle photo upload for edit
+        const photoInput = document.getElementById("edit-portraitPhoto");
+        let photoData = participants[participantIndex].portraitPhoto; // Keep existing photo by default
+        
+        if (photoInput.files && photoInput.files[0]) {
+          const file = photoInput.files[0];
+          photoData = {
+            name: file.name,
+            size: file.size,
+            type: file.type,
+            url: URL.createObjectURL(file)
+          };
+        }
+
+        // Update participant data
+        const updatedParticipant = {
+          ...participants[participantIndex], // Keep existing data
+          appointmentId: document.getElementById("edit-appointmentId").value,
+          fullName: document.getElementById("edit-fullName").value,
+          phone: document.getElementById("edit-phone").value,
+          email: document.getElementById("edit-email").value,
+          address: document.getElementById("edit-address").value,
+          birthDate: document.getElementById("edit-birthDate").value,
+          gender: document.getElementById("edit-gender").value,
+          purpose: document.getElementById("edit-purpose").value,
+          relationship: document.getElementById("edit-relationship").value,
+          note: document.getElementById("edit-note").value,
+          cccd: document.getElementById("edit-cccd").value,
+          issuedPlace: document.getElementById("edit-issuedPlace").value,
+          issuedDate: document.getElementById("edit-issuedDate").value,
+          portraitPhoto: photoData
+        };
+
+        // Replace the participant in the array
+        participants[participantIndex] = updatedParticipant;
+        
+        // Reload the participants table
+        loadParticipants();
+        
+        // Close the edit modal
+        closeEditModal();
+
+        // Show success message
+        alert("Cập nhật thông tin người tham gia thành công!");
+      }
       function viewParticipant(id) {
         const participant = participants.find((p) => p.id === id);
         if (!participant) return;        const detailsContainer = document.getElementById("participant-details");
-
-        const sampleTypeMap = {
-          blood: "Máu",
-          saliva: "Nước bọt",
-          hair: "Tóc",
-          nail: "Móng tay",
-        };        const identityVerificationMap = {
-          "face-recognition": "Nhận dạng khuôn mặt",
-          fingerprint: "Vân tay",
-          "document-verification": "Xác minh giấy tờ",
-          biometric: "Sinh trắc học",
-        };
 
         detailsContainer.innerHTML = `
           <div class="form-group">
@@ -1284,7 +1652,7 @@
             <strong>Họ và tên:</strong> ${participant.fullName}
           </div>
           <div class="form-group">
-            <strong>Mã người tham gia:</strong> ${participant.customerCode}
+            <strong>Mã người đăng ký:</strong> ${participant.customerCode}
           </div>
           <div class="form-group">
             <strong>Mối quan hệ với người đăng ký:</strong> ${
@@ -1342,9 +1710,6 @@
             <strong>Email:</strong> ${participant.email || "Chưa cập nhật"}
           </div>          <div class="form-group">
             <strong>Địa chỉ:</strong> ${participant.address || "Chưa cập nhật"}
-          </div>
-          <div class="form-group">
-            <strong>Ngày tạo:</strong> ${formatDate(participant.createdDate)}
           </div>
           <div class="form-group">
             <strong>Ghi chú:</strong> ${participant.note || "Không có"}

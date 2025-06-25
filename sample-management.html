@@ -885,16 +885,13 @@
               <label class="form-label" for="collection-location"
                 >Địa Điểm Thu Thập *</label
               >
-              <select
+              <input
+                type="text"
                 id="collection-location"
-                class="form-control form-select"
+                class="form-control"
+                placeholder="Nhập địa điểm thu thập"
                 required
-                onchange="updateCollectorField()"
-              >
-                <option value="">Chọn địa điểm</option>
-                <option value="home">Tại nhà</option>
-                <option value="facility">Tại cơ sở</option>
-              </select>
+              />
             </div>
             <div class="form-col">
               <label class="form-label" for="collector"
@@ -904,23 +901,36 @@
                 type="text"
                 id="collector"
                 class="form-control"
-                placeholder="Sẽ tự động điền"
+                placeholder="Nhập ID người thực hiện"
                 required
                 readonly
               />
             </div>
           </div>
 
-          <div class="form-group">
-            <label class="form-label" for="collection-time"
-              >Thời Gian Lấy *</label
-            >
-            <input
-              type="datetime-local"
-              id="collection-time"
-              class="form-control"
-              required
-            />
+          <div class="form-row">
+            <div class="form-col">
+              <label class="form-label" for="collection-date"
+                >Ngày Lấy *</label
+              >
+              <input
+                type="date"
+                id="collection-date"
+                class="form-control"
+                required
+              />
+            </div>
+            <div class="form-col">
+              <label class="form-label" for="collection-time"
+                >Giờ Lấy *</label
+              >
+              <input
+                type="time"
+                id="collection-time"
+                class="form-control"
+                required
+              />
+            </div>
           </div>
 
           <div class="form-group">
@@ -1148,28 +1158,31 @@
 
       function setDefaultDateTime() {
         const now = new Date();
-        const localDateTime = new Date(
-          now.getTime() - now.getTimezoneOffset() * 60000
-        )
-          .toISOString()
-          .slice(0, 16);
-        document.getElementById("collection-time").value = localDateTime;
+        
+        // Set ngày hiện tại
+        const currentDate = now.toISOString().split('T')[0];
+        document.getElementById("collection-date").value = currentDate;
+        
+        // Set giờ hiện tại
+        const currentTime = now.toTimeString().slice(0, 5);
+        document.getElementById("collection-time").value = currentTime;
       }
 
       function updateCollectorField() {
-        const location = document.getElementById("collection-location").value;
+        const location = document.getElementById("collection-location").value.toLowerCase();
         const collectorField = document.getElementById("collector");
         const providerId = document.getElementById("provider-id").value;
 
-        if (location === "home") {
+        // Tự động điền người thực hiện dựa trên địa điểm được nhập
+        if (location.includes("nhà") || location.includes("home")) {
           collectorField.value = providerId || "ID_Khách hàng";
           collectorField.placeholder = "ID_Khách hàng";
-        } else if (location === "facility") {
+        } else if (location.includes("cơ sở") || location.includes("facility") || location.includes("phòng lab") || location.includes("trung tâm")) {
           collectorField.value = "ST001"; // Default staff ID
           collectorField.placeholder = "ID_Staff";
         } else {
           collectorField.value = "";
-          collectorField.placeholder = "Sẽ tự động điền";
+          collectorField.placeholder = "Nhập ID người thực hiện";
         }
       }
 
@@ -1181,7 +1194,14 @@
           "mother-child": "Xét nghiệm huyết thống mẹ - con",
           "grandparent-grandchild": "Xét nghiệm huyết thống ông, bà - cháu",
           sibling: "Xét nghiệm huyết thống anh, chị - em",
-        };        const newSample = {
+        };
+
+        // Kết hợp ngày và giờ thành datetime
+        const collectionDate = document.getElementById("collection-date").value;
+        const collectionTime = document.getElementById("collection-time").value;
+        const combinedDateTime = `${collectionDate}T${collectionTime}`;
+
+        const newSample = {
           id: samples.length + 1,
           sampleCode: document.getElementById("sample-code").value,
           providerId: document.getElementById("provider-id").value,
@@ -1193,7 +1213,7 @@
           collectionLocation: document.getElementById("collection-location")
             .value,
           collector: document.getElementById("collector").value,
-          collectionTime: document.getElementById("collection-time").value,
+          collectionTime: combinedDateTime,
           status: "collected",
           createdDate: new Date().toISOString().split("T")[0],
           note: document.getElementById("note").value,
@@ -1226,10 +1246,7 @@
           completed: "Hoàn thành",
         };
 
-        const locationTexts = {
-          home: "Tại nhà",
-          facility: "Tại cơ sở",
-        };        detailsContainer.innerHTML = `
+        detailsContainer.innerHTML = `
           <div class="form-group">
             <strong>Mã mẫu:</strong> ${sample.sampleCode}
           </div>
@@ -1247,6 +1264,9 @@
           </div>
           <div class="form-group">
             <strong>Người thực hiện:</strong> ${sample.collector}
+          </div>
+          <div class="form-group">
+            <strong>Địa điểm thu thập:</strong> ${sample.collectionLocation}
           </div>
           <div class="form-group">
             <strong>Thời gian lấy:</strong> ${formatDateTime(
@@ -1303,7 +1323,14 @@
 
       function formatDateTime(dateTimeString) {
         const date = new Date(dateTimeString);
-        return date.toLocaleString("vi-VN");
+        return date.toLocaleString("vi-VN", {
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+          hour: '2-digit',
+          minute: '2-digit',
+          hour12: false
+        });
       }
 
       function handleLogout() {
@@ -1312,10 +1339,16 @@
         }
       }
 
-      // Auto-update collector field when provider ID changes
+      // Auto-update collector field when provider ID or collection location changes
       document.addEventListener("DOMContentLoaded", function () {
         document
           .getElementById("provider-id")
+          .addEventListener("input", function () {
+            updateCollectorField();
+          });
+        
+        document
+          .getElementById("collection-location")
           .addEventListener("input", function () {
             updateCollectorField();
           });

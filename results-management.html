@@ -996,17 +996,11 @@
               <button class="action-btn btn-result" onclick="manageMultiResults('${appointment.id}')">
                 <i class="fas fa-tasks"></i> Quản lý
               </button>
-              <button class="action-btn btn-view" onclick="viewMultiResult('${appointment.id}')">
-                <i class="fas fa-eye"></i> Xem
-              </button>
             `;
           } else {
             return `
               <button class="action-btn btn-result" onclick="manageMultiResults('${appointment.id}')">
                 <i class="fas fa-plus"></i> Thêm KQ
-              </button>
-              <button class="action-btn btn-view" onclick="viewDetails('${appointment.id}')">
-                <i class="fas fa-eye"></i> Xem
               </button>
             `;
           }
@@ -1017,17 +1011,11 @@
               <button class="action-btn btn-result" onclick="manageResult('${appointment.id}')">
                 <i class="fas fa-edit"></i> Sửa
               </button>
-              <button class="action-btn btn-view" onclick="viewResult('${appointment.id}')">
-                <i class="fas fa-eye"></i> Xem
-              </button>
             `;
           } else {
             return `
               <button class="action-btn btn-result" onclick="manageResult('${appointment.id}')">
                 <i class="fas fa-plus"></i> Thêm KQ
-              </button>
-              <button class="action-btn btn-view" onclick="viewDetails('${appointment.id}')">
-                <i class="fas fa-eye"></i> Xem
               </button>
             `;
           }

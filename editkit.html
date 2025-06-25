@@ -882,7 +882,7 @@
                                                     <label class="form-label">Mã Kit <span class="required">*</span></label>
                                                     <div class="input-group">
                                                         <span class="input-group-text"><i class="fas fa-barcode"></i></span>
-                                                        <input type="text" class="form-input" id="kit-code-1" value="PC001" readonly>
+                                                        <input type="text" class="form-input" id="kit-code-1" value="PC001" placeholder="Nhập mã kit...">
                                                     </div>
                                                 </div>
                                             </div>
@@ -917,6 +917,16 @@
                                                     </select>
                                                 </div>
                                             </div>                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="form-label">ID Kit</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text"><i class="fas fa-fingerprint"></i></span>
+                                                    <input type="text" class="form-input" id="kit-id-1" value="" readonly style="background-color: #f8f9fa; color: #6c757d;">
+                                                </div>
+                                                <small class="text-muted"><i class="fas fa-info-circle"></i> ID này được tạo tự động</small>
+                                            </div>
+                                        </div>
                                     </div>
                                     
                                     <div class="row mt-3">
@@ -938,17 +948,6 @@
                                                 </div>
                                             </div>
                                         </div>                                    </div>
-                                    
-                                    <div class="row mt-3">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label class="form-label">Người thực hiện</label>
-                                                <div class="input-group">
-                                                    <span class="input-group-text"><i class="fas fa-user-md"></i></span>
-                                                    <input type="text" class="form-input" id="staff-name-1" value="Nguyễn Văn A" readonly>
-                                                </div>
-                                            </div>
-                                        </div></div>
                                     
                                     <!-- Ghi chú -->
                                     <div class="form-group mt-3">
@@ -978,7 +977,7 @@
                                                     <label class="form-label">Mã Kit <span class="required">*</span></label>
                                                     <div class="input-group">
                                                         <span class="input-group-text"><i class="fas fa-barcode"></i></span>
-                                                        <input type="text" class="form-input" id="kit-code-2" value="PC002" readonly>
+                                                        <input type="text" class="form-input" id="kit-code-2" value="PC002" placeholder="Nhập mã kit...">
                                                     </div>
                                                 </div>
                                             </div>
@@ -1013,6 +1012,16 @@
                                                         </select>
                                                     </div>                                                </div>
                                             </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="form-label">ID Kit</label>
+                                                    <div class="input-group">
+                                                        <span class="input-group-text"><i class="fas fa-fingerprint"></i></span>
+                                                        <input type="text" class="form-input" id="kit-id-2" value="" readonly style="background-color: #f8f9fa; color: #6c757d;">
+                                                    </div>
+                                                    <small class="text-muted"><i class="fas fa-info-circle"></i> ID này được tạo tự động</small>
+                                                </div>
+                                            </div>
                                         </div>
                                         
                                         <div class="row mt-3">
@@ -1035,16 +1044,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                          <div class="row mt-3">
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label class="form-label">Người thực hiện</label>
-                                                    <div class="input-group">
-                                                        <span class="input-group-text"><i class="fas fa-user-md"></i></span>
-                                                        <input type="text" class="form-input" id="staff-name-2" value="Nguyễn Văn A" readonly>
-                                                    </div>
-                                                </div>
-                                            </div></div>
                                         
                                         <!-- Ghi chú -->
                                         <div class="form-group mt-3">
@@ -1166,11 +1165,39 @@
         let nextServiceId = 2;
         const kitCounters = { 1: 3 }; // Bắt đầu đếm từ 3 cho service 1 vì đã có 2 kit
         
-        // Lấy KitCode từ URL parameter
-        const urlParams = new URLSearchParams(window.location.search);
-        const kitCode = urlParams.get('kitCode');
+        // Hàm tạo ID kit tự động
+        function generateKitId(sequenceNumber = null) {
+            const today = new Date();
+            const year = today.getFullYear();
+            const month = String(today.getMonth() + 1).padStart(2, '0');
+            const day = String(today.getDate()).padStart(2, '0');
+            
+            if (sequenceNumber !== null) {
+                // Tạo ID với số thứ tự cố định
+                const sequence = String(sequenceNumber).padStart(3, '0');
+                return `KIT-${year}${month}${day}-${sequence}`;
+            } else {
+                // Tạo ID với timestamp cho kit mới
+                const timestamp = Date.now().toString().slice(-4);
+                return `KIT-${year}${month}${day}-${timestamp}`;
+            }
+        }
+        
+        // Hàm cập nhật ID kit cho tất cả các kit
+        function updateKitIds() {
+            const kitInputs = document.querySelectorAll('[id^="kit-id-"]');
+            kitInputs.forEach((input, index) => {
+                if (!input.value || input.value.startsWith('KIT-001-2025') || input.value.startsWith('KIT-002-2025')) {
+                    // Tạo ID với số thứ tự tuần tự cho kit hiện có
+                    input.value = generateKitId(index + 1);
+                }
+            });
+        }
         
         document.addEventListener('DOMContentLoaded', function() {
+            // Tạo ID kit tự động khi trang được tải
+            updateKitIds();
+            
             if (kitCode) {
                 loadKitInfo(kitCode);            } else {
                 console.log('Không có mã Kit trong URL, hiển thị dữ liệu demo');
@@ -1335,7 +1362,7 @@
                                         <label class="form-label">Mã Kit <span class="required">*</span></label>
                                         <div class="input-group">
                                             <span class="input-group-text"><i class="fas fa-barcode"></i></span>
-                                            <input type="text" class="form-input" id="kit-code-${kitId}" value="${kitCode}" readonly>
+                                            <input type="text" class="form-input" id="kit-code-${kitId}" value="${kitCode}" placeholder="Nhập mã kit...">
                                         </div>
                                     </div>
                                 </div>
@@ -1360,7 +1387,8 @@
                                     <div class="form-group">
                                         <label class="form-label">Kit Type <span class="required">*</span></label>
                                         <div class="input-group">
-                                            <span class="input-group-text"><i class="fas fa-cube"></i></span>                                            <select class="form-select" id="kit-type-${kitId}" required>
+                                            <span class="input-group-text"><i class="fas fa-cube"></i></span>
+                                            <select class="form-select" id="kit-type-${kitId}" required>
                                                 <option value="">Chọn loại kit</option>
                                                 <option value="GlobalFiler™ (Applied Biosystems)" selected>GlobalFiler™ (Applied Biosystems)</option>
                                                 <option value="PowerPlex® Fusion (Promega)">PowerPlex® Fusion (Promega)</option>
@@ -1369,6 +1397,16 @@
                                             </select>
                                         </div>
                                     </div>                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">ID Kit</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="fas fa-fingerprint"></i></span>
+                                            <input type="text" class="form-input" id="kit-id-${kitId}" value="" readonly style="background-color: #f8f9fa; color: #6c757d;">
+                                        </div>
+                                        <small class="text-muted"><i class="fas fa-info-circle"></i> ID này được tạo tự động</small>
+                                    </div>
+                                </div>
                             </div>
                             <div class="row mt-3">
                                 <div class="col-md-6">
@@ -1389,16 +1427,6 @@
                                         </div>
                                     </div>
                                 </div>                            </div>
-                            <div class="row mt-3">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label class="form-label">Người thực hiện</label>
-                                        <div class="input-group">
-                                            <span class="input-group-text"><i class="fas fa-user-md"></i></span>
-                                            <input type="text" class="form-input" id="staff-name-${kitId}" value="Nguyễn Văn A" readonly>
-                                        </div>
-                                    </div>
-                                </div></div>
                             
                             <!-- Ghi chú -->
                             <div class="form-group mt-3">
@@ -1412,6 +1440,12 @@
               // Chèn kit mới trước nút "Thêm Kit"
             const addButton = kitsContainer.querySelector('button.btn-outline-primary');
             addButton.insertAdjacentHTML('beforebegin', kitHTML);
+            
+            // Tạo ID kit tự động cho kit mới
+            const newKitIdInput = document.getElementById(`kit-id-${kitId}`);
+            if (newKitIdInput) {
+                newKitIdInput.value = generateKitId();
+            }
             
             // Thiết lập sự kiện collapse cho kit mới
             const newCollapseToggle = document.querySelector(`#kit-${serviceId}-${kitId} [data-bs-toggle="collapse"]`);
