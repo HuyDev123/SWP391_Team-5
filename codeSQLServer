@@ -92,6 +92,8 @@ CREATE TABLE KitItem (
     kit_code VARCHAR(255),
     kit_type_id INT NOT NULL,
     delivery_status NVARCHAR(100),
+    send_date DATE,
+    receive_date DATE,
     note NVARCHAR(MAX),
     FOREIGN KEY (booking_id, service_id) REFERENCES Booking_Service(booking_id, service_id),
     FOREIGN KEY (kit_type_id) REFERENCES KitType(id)
