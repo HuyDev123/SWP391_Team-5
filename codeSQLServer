@@ -23,7 +23,7 @@ CREATE TABLE Service (
 
 CREATE TABLE Booking (
     id INT IDENTITY(1,1) PRIMARY KEY,
-    customer_id INT,
+    user_id INT,
     booking_date DATETIME,
     status NVARCHAR(100),
     staff_id INT,
