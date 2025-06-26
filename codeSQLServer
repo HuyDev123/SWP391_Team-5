@@ -89,7 +89,7 @@ CREATE TABLE KitItem (
     id INT IDENTITY(1,1) PRIMARY KEY,
     booking_id INT NOT NULL,
     service_id INT NOT NULL,
-    kit_code VARCHAR(255),
+    kit_code VARCHAR(255) UNIQUE,
     kit_type_id INT NOT NULL,
     delivery_status NVARCHAR(100),
     send_date DATE,
@@ -178,3 +178,18 @@ INSERT INTO Service (name, description, price, is_active) VALUES
 (N'Xét nghiệm ADN Ông/Bà - Cháu', 
  N'Xác định quan hệ huyết thống ông bà cháu. Thời gian: Khoảng 5 ngày làm việc. Bảo mật tuyệt đối. Độ chính xác 99.99%.', 
  4000000, 1);
+
+-- 1. Thêm 4 loại kit vào bảng KitType
+INSERT INTO KitType (name, description) VALUES
+(N'GlobalFiler™ (Applied Biosystems)', N''),
+(N'PowerPlex® Fusion (Promega)', N''),
+(N'Investigator® 24plex QS (Qiagen)', N''),
+(N'QIAamp DNA Mini Kit (Qiagen)', N'');
+
+-- 2. Thêm dữ liệu vào bảng Service_KitType
+-- Với giả định service_id và kit_type_id tương ứng: (1,1), (2,2), (3,3), (4,4)
+INSERT INTO Service_KitType (service_id, kit_type_id) VALUES
+(1, 1),
+(2, 2),
+(3, 3),
+(4, 4);
