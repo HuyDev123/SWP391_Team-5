@@ -47,7 +47,7 @@ public class Booking {
     private LocalTime centerSampleTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "customer_id")
+    @JoinColumn(name = "user_id")
     private User customer;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -56,6 +56,9 @@ public class Booking {
 
     @OneToMany(mappedBy = "booking", cascade = CascadeType.ALL)
     private List<BookingService> bookingServices;
+
+    @OneToMany(mappedBy = "booking", cascade = CascadeType.ALL)
+    private List<Participant> participants;
 
     // Getters and setters
     public Integer getId() { return id; }
@@ -88,5 +91,7 @@ public class Booking {
     public void setStaff(User staff) { this.staff = staff; }
     public List<BookingService> getBookingServices() { return bookingServices; }
     public void setBookingServices(List<BookingService> bookingServices) { this.bookingServices = bookingServices; }
+    public List<Participant> getParticipants() { return participants; }
+    public void setParticipants(List<Participant> participants) { this.participants = participants; }
 }
 

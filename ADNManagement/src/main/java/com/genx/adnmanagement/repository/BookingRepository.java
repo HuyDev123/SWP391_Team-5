@@ -9,18 +9,18 @@ import org.springframework.data.repository.query.Param;
 import java.time.LocalDate;
 
 public interface BookingRepository extends JpaRepository<Booking, Integer> {
-    Page<Booking> findByCustomerId(Integer customerId, Pageable pageable);
+    Page<Booking> findByUserId(Integer userId, Pageable pageable);
 
     @Query("SELECT DISTINCT b FROM Booking b " +
            "LEFT JOIN b.bookingServices bs " +
            "LEFT JOIN bs.service s " +
-           "WHERE b.customer.id = :customerId " +
+           "WHERE b.user.id = :userId " +
            "AND (:status IS NULL OR b.status = :status) " +
            "AND (:bookingDate IS NULL OR CAST(b.bookingDate AS date) = :bookingDate) " +
            "AND (:serviceId IS NULL OR s.id = :serviceId) " +
            "ORDER BY b.bookingDate DESC")
     Page<Booking> findByUserIdAndFilters(
-        @Param("customerId") Integer customerId,
+        @Param("userId") Integer userId,
         @Param("status") String status,
         @Param("bookingDate") LocalDate bookingDate,
         @Param("serviceId") Integer serviceId,
@@ -37,7 +37,7 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
            "AND (:searchQuery IS NULL OR " +
            "LOWER(b.fullName) LIKE LOWER(CONCAT('%', :searchQuery, '%')) OR " +
            "CAST(b.id AS string) = :searchQuery OR " +
-           "CAST(b.customer.id AS string) = :searchQuery) " +
+           "CAST(b.user.id AS string) = :searchQuery) " +
            "ORDER BY b.bookingDate DESC")
     Page<Booking> findAllWithFilters(
         @Param("status") String status,
