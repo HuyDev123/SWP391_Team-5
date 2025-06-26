@@ -15,7 +15,7 @@ public class BookingRequest {
     private String note;
     private LocalDate centerSampleDate;
     private LocalTime centerSampleTime;
-    private Integer userId; // Thêm trường userId để nhận từ client nếu có
+    private Integer customerId; // Thêm trường userId để nhận từ client nếu có
     // getters and setters
     public String getFullName() { return fullName; }
     public void setFullName(String fullName) { this.fullName = fullName; }
@@ -37,6 +37,6 @@ public class BookingRequest {
     public void setCenterSampleDate(LocalDate centerSampleDate) { this.centerSampleDate = centerSampleDate; }
     public LocalTime getCenterSampleTime() { return centerSampleTime; }
     public void setCenterSampleTime(LocalTime centerSampleTime) { this.centerSampleTime = centerSampleTime; }
-    public Integer getUserId() { return userId; }
-    public void setUserId(Integer userId) { this.userId = userId; }
+    public Integer getCustomerId() { return customerId; }
+    public void setCustomerId(Integer customerId) { this.customerId = customerId; }
 }

@@ -1465,6 +1465,9 @@
                 <strong style="color: #666;">Ngày đặt lịch:</strong>
                 <span>${appointment.bookingDate}</span>
 
+                <strong style="color: #666;">Dịch vụ xét nghiệm ADN:</strong>
+                <span>${appointment.ADNService}</span>
+
                 <strong style="color: #666;">Phương thức:</strong>
                 <span>${appointment.method}</span>
 
@@ -1472,6 +1475,9 @@
 
                 <strong style="color: #666;">Trạng thái:</strong>
                 <span>${renderStatus(appointment.status)}</span>
+
+                <strong style="color: #666;">Ghi chú:</strong>
+                <span style="white-space: pre-wrap; word-wrap: break-word;">${appointment.note}</span>
               </div>
 
               <div>
@@ -1529,7 +1535,7 @@
             <td>${a.id}</td>
             <td>${a.customerName}</td>
             <td>${a.method}</td>
-            <td>${a.bookingDate}</td>
+            <td>${a.bookingDate.substring(0, 10)}</td>
             <td>${renderStatus(a.status)}</td>
             <td style="display: flex; gap: 8px;">
               <button onclick="showAppointmentDetails(${a.id})" class="btn btn-primary">
