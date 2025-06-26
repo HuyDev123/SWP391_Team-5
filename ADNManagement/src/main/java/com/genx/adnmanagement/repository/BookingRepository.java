@@ -9,33 +9,41 @@ import org.springframework.data.repository.query.Param;
 import java.time.LocalDate;
 
 public interface BookingRepository extends JpaRepository<Booking, Integer> {
-    Page<Booking> findByUserId(Integer userId, Pageable pageable);
+    Page<Booking> findByCustomerId(Integer customerId, Pageable pageable);
 
     @Query("SELECT DISTINCT b FROM Booking b " +
            "LEFT JOIN b.bookingServices bs " +
            "LEFT JOIN bs.service s " +
-           "WHERE b.user.id = :userId " +
-           "AND (:status IS NULL OR b.status = :status) " +
-           "AND (:bookingDate IS NULL OR CAST(b.bookingDate AS date) = :bookingDate)")
-    Page<Booking> findByUserIdAndFilters(
-        @Param("userId") Integer userId,
-        @Param("status") String status,
-        @Param("bookingDate") LocalDate bookingDate,
-        Pageable pageable
-    );
-
-    @Query("SELECT DISTINCT b FROM Booking b " +
-           "JOIN b.bookingServices bs " +
-           "JOIN bs.service s " +
-           "WHERE b.user.id = :userId " +
+           "WHERE b.customer.id = :customerId " +
            "AND (:status IS NULL OR b.status = :status) " +
            "AND (:bookingDate IS NULL OR CAST(b.bookingDate AS date) = :bookingDate) " +
-           "AND s.id = :serviceId")
-    Page<Booking> findByUserIdAndServiceId(
-        @Param("userId") Integer userId,
+           "AND (:serviceId IS NULL OR s.id = :serviceId) " +
+           "ORDER BY b.bookingDate DESC")
+    Page<Booking> findByUserIdAndFilters(
+        @Param("customerId") Integer customerId,
         @Param("status") String status,
         @Param("bookingDate") LocalDate bookingDate,
         @Param("serviceId") Integer serviceId,
+        Pageable pageable
+    );
+
+    // Method for staff to get all appointments with filters
+    @Query("SELECT DISTINCT b FROM Booking b " +
+           "LEFT JOIN b.bookingServices bs " +
+           "LEFT JOIN bs.service s " +
+           "WHERE (:status IS NULL OR b.status = :status) " +
+           "AND (:bookingDate IS NULL OR CAST(b.bookingDate AS date) = :bookingDate) " +
+           "AND (:serviceId IS NULL OR s.id = :serviceId) " +
+           "AND (:searchQuery IS NULL OR " +
+           "LOWER(b.fullName) LIKE LOWER(CONCAT('%', :searchQuery, '%')) OR " +
+           "CAST(b.id AS string) = :searchQuery OR " +
+           "CAST(b.customer.id AS string) = :searchQuery) " +
+           "ORDER BY b.bookingDate DESC")
+    Page<Booking> findAllWithFilters(
+        @Param("status") String status,
+        @Param("bookingDate") LocalDate bookingDate,
+        @Param("serviceId") Integer serviceId,
+        @Param("searchQuery") String searchQuery,
         Pageable pageable
     );
 }

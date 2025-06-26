@@ -60,4 +60,37 @@ public class AuthController {
             return "login";
         }
     }
+
+    @PostMapping("/internal-google")
+    public String internalGoogleLogin(@RequestParam("token") String token, HttpSession session, Model model) {
+        try {
+            GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(
+                    GoogleNetHttpTransport.newTrustedTransport(),
+                    JacksonFactory.getDefaultInstance())
+                    .setAudience(Collections.singletonList(CLIENT_ID))
+                    .build();
+            GoogleIdToken idToken = verifier.verify(token);
+            if (idToken != null) {
+                GoogleIdToken.Payload googlePayload = idToken.getPayload();
+                String email = googlePayload.getEmail();
+                // Kiểm tra User tồn tại và có roleId == 3 (staff)
+                var userOptional = userRepository.findByEmail(email);
+                if (userOptional.isPresent() && userOptional.get().getRoleId() == 3) {
+                    // Đúng là nhân viên nội bộ
+                    User staff = userOptional.get();
+                    session.setAttribute("staff", staff);
+                    return "redirect:/staff-home";
+                } else {
+                    model.addAttribute("error", "Bạn không phải nhân viên nội bộ hoặc tài khoản không tồn tại!");
+                    return "internal-login";
+                }
+            } else {
+                model.addAttribute("error", "Invalid ID token");
+                return "internal-login";
+            }
+        } catch (GeneralSecurityException | IOException e) {
+            model.addAttribute("error", "Token verification failed: " + e.getMessage());
+            return "internal-login";
+        }
+    }
 }

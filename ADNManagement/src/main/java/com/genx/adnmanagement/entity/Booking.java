@@ -47,8 +47,8 @@ public class Booking {
     private LocalTime centerSampleTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "customer_id")
+    private User customer;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "staff_id")
@@ -82,8 +82,8 @@ public class Booking {
     public void setCenterSampleDate(LocalDate centerSampleDate) { this.centerSampleDate = centerSampleDate; }
     public LocalTime getCenterSampleTime() { return centerSampleTime; }
     public void setCenterSampleTime(LocalTime centerSampleTime) { this.centerSampleTime = centerSampleTime; }
-    public User getUser() { return user; }
-    public void setUser(User user) { this.user = user; }
+    public User getCustomer() { return customer; }
+    public void setCustomer(User customer) { this.customer = customer; }
     public User getStaff() { return staff; }
     public void setStaff(User staff) { this.staff = staff; }
     public List<BookingService> getBookingServices() { return bookingServices; }

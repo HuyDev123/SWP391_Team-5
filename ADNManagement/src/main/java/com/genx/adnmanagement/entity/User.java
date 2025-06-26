@@ -25,8 +25,8 @@ public class User {
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    @OneToMany(mappedBy = "user")
-    private java.util.List<Booking> bookingsAsUser;
+    @OneToMany(mappedBy = "customer")
+    private java.util.List<Booking> bookingsAsCustomer;
 
     @OneToMany(mappedBy = "staff")
     private java.util.List<Booking> bookingsAsStaff;
@@ -61,8 +61,8 @@ public class User {
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 
-    public java.util.List<Booking> getBookingsAsUser() { return bookingsAsUser; }
-    public void setBookingsAsUser(java.util.List<Booking> bookingsAsUser) { this.bookingsAsUser = bookingsAsUser; }
+    public java.util.List<Booking> getBookingsAsCustomer() { return bookingsAsCustomer; }
+    public void setBookingsAsCustomer(java.util.List<Booking> bookingsAsCustomer) { this.bookingsAsCustomer = bookingsAsCustomer; }
     public java.util.List<Booking> getBookingsAsStaff() { return bookingsAsStaff; }
     public void setBookingsAsStaff(java.util.List<Booking> bookingsAsStaff) { this.bookingsAsStaff = bookingsAsStaff; }
 }

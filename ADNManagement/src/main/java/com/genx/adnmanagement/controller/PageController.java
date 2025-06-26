@@ -36,6 +36,33 @@ public class PageController {
         return viewName;
     }
 
+    /**
+     * Thêm dữ liệu nhân viên vào model nếu đã đăng nhập staff
+     */
+    private void addStaffDataToModel(Model model, HttpSession session) {
+        User staff = (User) session.getAttribute("staff");
+        if (staff != null) {
+            Map<String, Object> staffData = new HashMap<>();
+            staffData.put("id", staff.getId());
+            staffData.put("fullName", staff.getFullName());
+            staffData.put("email", staff.getEmail());
+            staffData.put("roleId", staff.getRoleId());
+            model.addAttribute("staffData", staffData);
+        }
+    }
+
+    /**
+     * Ràng buộc đăng nhập staff, nếu chưa đăng nhập thì chuyển về /internal-login
+     */
+    private String requireStaffLogin(Model model, HttpSession session, String viewName) {
+        if (session.getAttribute("staff") == null) {
+            return "redirect:/internal-login";
+        }
+        addStaffDataToModel(model, session);
+        return viewName;
+    }
+
+
     @GetMapping({"/", "/home"})
     public String index(Model model, HttpSession session) {
         addUserDataToModel(model, session);
@@ -82,5 +109,55 @@ public class PageController {
     @GetMapping("/test-history")
     public String historyTest(Model model, HttpSession session) {
         return requireLogin(model, session, "historytest");
+    }
+
+    @GetMapping("/internal-login")
+    public String internalLogin(HttpSession session) {
+        if (session.getAttribute("staff") != null) {
+            return "redirect:/staff-home";
+        }
+        return "internal-login";
+    }
+
+    // ========== STAFF ENDPOINTS ==========
+    
+    @GetMapping("/staff-home")
+    public String staffHome(Model model, HttpSession session) {
+        return requireStaffLogin(model, session, "staff-index");
+    }
+
+    @GetMapping("/staff-booking")
+    public String staffBooking(Model model, HttpSession session) {
+        return requireStaffLogin(model, session, "staff-booking");
+    }
+
+    @GetMapping("/staff-appointments")
+    public String staffAppointments(Model model, HttpSession session) {
+        return requireStaffLogin(model, session, "staff-appoinments");
+    }
+
+    @GetMapping("/staff-kit-list")
+    public String staffKitList(Model model, HttpSession session) {
+        return requireStaffLogin(model, session, "list-kit");
+    }
+
+    @GetMapping("/staff-participants")
+    public String staffParticipants(Model model, HttpSession session) {
+        return requireStaffLogin(model, session, "participants-management");
+    }
+
+    @GetMapping("/staff-samples")
+    public String staffSamples(Model model, HttpSession session) {
+        return requireStaffLogin(model, session, "sample-management");
+    }
+
+    @GetMapping("/staff-results")
+    public String staffResults(Model model, HttpSession session) {
+        return requireStaffLogin(model, session, "results-management");
+    }
+
+    @GetMapping("/edit-appointment")
+    public String appointmentDetails(Model model, HttpSession session) {
+        return requireStaffLogin(model, session, "editappointment");
     }
 }

@@ -1,822 +1,1884 @@
 <!DOCTYPE html>
 <html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Chỉnh sửa Lịch hẹn - Dịch Vụ Xét Nghiệm ADN</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="/assets/css/staff-style.css"
+    />
+    <link
+      rel="stylesheet"
+      href="/assets/css/staff-auth.css"
+    />
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-        }
-        
-        body {
-            background-color: #f5f5f5;
-            line-height: 1.6;
-        }
-        
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: white;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            border-radius: 8px;
-            margin-top: 20px;
-            margin-bottom: 20px;
-        }
-        
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 2px solid #2196F3;
-        }
-        
-        .header h1 {
-            color: #2196F3;
-            font-size: 28px;
-            margin-bottom: 10px;
-        }
-        
-        .header p {
-            color: #666;
-            font-size: 16px;
-        }
-        
-        .form-section {
-            margin-bottom: 30px;
-        }
-        
-        .section-title {
-            color: #2196F3;
-            font-size: 20px;
-            margin-bottom: 15px;
-            padding-bottom: 8px;
-            border-bottom: 1px solid #ddd;
-        }
-        
-        .form-group {
-            margin-bottom: 20px;
-        }
-        
-        .form-row {
-            display: flex;
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-        
-        .form-row .form-group {
-            flex: 1;
-            margin-bottom: 0;
-        }
-        
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-            color: #333;
-        }
-        
-        .required {
-            color: #e74c3c;
-        }
-        
-        input[type="text"],
-        input[type="email"],
-        input[type="tel"],
-        input[type="date"],
-        input[type="time"],
-        input[type="number"],
-        select,
-        textarea {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 16px;
-            background-color: #f9f9f9;
-        }
-        
-        input:focus,
-        select:focus,
-        textarea:focus {
-            outline: none;
-            border-color: #2196F3;
-            box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.2);
-        }
-        
-        input:disabled {
-            background-color: #e9ecef;
-            color: #6c757d;
-            cursor: not-allowed;
-        }
-        
-        textarea {
-            min-height: 80px;
-            resize: vertical;
-        }
-        
-        .radio-group {
-            display: flex;
-            gap: 30px;
-            margin-top: 10px;
-        }
-        
-        .radio-item {
-            display: flex;
-            align-items: center;
-        }
-        
-        .radio-item input[type="radio"] {
-            width: auto;
-            margin-right: 8px;
-        }
-        
-        .radio-item label {
-            margin-bottom: 0;
-            font-weight: normal;
-            cursor: pointer;
-        }
-        
-        .quantity-control {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-top: 10px;
-        }
-        
-        .quantity-btn {
-            background-color: #2196F3;
-            color: white;
-            border: none;
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .quantity-btn:hover {
-            background-color: #1976D2;
-        }
-        
-        .quantity-btn:disabled {
-            background-color: #ccc;
-            cursor: not-allowed;
-        }
-        
-        #test-quantity {
-            width: 80px;
-            text-align: center;
-            margin: 0;
-        }
-        
-        .hidden {
-            display: none;
-        }
-        
-        .info-card {
-            background-color: #e3f2fd;
-            border: 1px solid #2196F3;
-            border-radius: 5px;
-            padding: 15px;
-            margin-bottom: 20px;
-        }
-        
-        .info-card h4 {
-            color: #1976d2;
-            margin-bottom: 8px;
-            font-size: 16px;
-        }
-        
-        .info-card p {
-            color: #555;
-            margin: 0;
-            font-size: 14px;
-        }
-        
-        .form-actions {
-            display: flex;
-            gap: 15px;
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid #ddd;
-        }
-        
-        .btn {
-            flex: 1;
-            padding: 12px 20px;
-            border-radius: 5px;
-            font-size: 16px;
-            font-weight: 500;
-            cursor: pointer;
-            text-align: center;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background-color 0.3s;
-            border: none;
-        }
-        
-        .btn i {
-            margin-right: 8px;
-        }
-        
-        .btn-primary {
-            background-color: #2196F3;
-            color: white;
-        }
-        
-        .btn-primary:hover {
-            background-color: #0b7dda;
-        }
-        
-        .btn-secondary {
-            background-color: #6c757d;
-            color: white;
-        }
-        
-        .btn-secondary:hover {
-            background-color: #545b62;
-        }
-        
-        .btn-danger {
-            background-color: #dc3545;
-            color: white;
-        }
-        
-        .btn-danger:hover {
-            background-color: #c82333;
-        }
-        
-        @media (max-width: 768px) {
-            .container {
-                margin: 10px;
-                padding: 15px;
-            }
-            
-            .form-row {
-                flex-direction: column;
-                gap: 0;
-            }
-            
-            .form-actions {
-                flex-direction: column;
-            }
-            
-            .radio-group {
-                flex-direction: column;
-                gap: 15px;
-            }
-            
-            .quantity-control {
-                justify-content: center;
-            }
-        }
-    </style>
-</head>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: #f8f9fa;
+      }
 
-<body>
-    <div class="container">
-        <div class="header">
-            <h1>Chỉnh sửa thông tin lịch hẹn</h1>
-            <p>Cập nhật thông tin cuộc hẹn xét nghiệm ADN</p>
-        </div>
+      .content {
+        margin-top: 20px;
+        padding: 40px 20px;
+      }
+
+      .booking-section {
+        max-width: 1200px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        padding: 40px;
+      }
+
+      .booking-form {
+        background: white;
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      .form-group {
+        margin-bottom: 25px;
+      }
+
+      .form-label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        color: #333;
+      }
+
+      .required {
+        color: #e74c3c;
+      }
+
+      .form-control {
+        width: 100%;
+        padding: 14px 18px;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        font-size: 1em;
+        transition: all 0.3s ease;
+        box-sizing: border-box;
+        background: #fff;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02) inset;
+      }
+
+      .form-control:focus {
+        border-color: #1976d2;
+        box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.15);
+        outline: none;
+        transform: translateY(-1px);
+      }
+      
+      .form-control:disabled,
+      .form-control[readonly] {
+        background-color: #f8f9fa;
+        border: 1px dashed #ccc;
+        color: #6c757d;
+        opacity: 0.8;
+      }
+      
+      select.form-control {
+        cursor: pointer;
+        background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%231976d2'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+        background-position: right 10px center;
+        background-repeat: no-repeat;
+        background-size: 24px;
+        padding-right: 40px;
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+      }
+
+      .form-title {
+        font-size: 2.2em;
+        margin: 0 0 15px;
+        font-weight: 700;
+        color: #1976d2;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        position: relative;
+      }
+
+      .form-title i {
+        font-size: 0.8em;
+        background: #e3f2fd;
+        padding: 12px;
+        border-radius: 50%;
+        color: #1976d2;
+        box-shadow: 0 4px 10px rgba(25, 118, 210, 0.2);
+      }
+
+      .form-description {
+        font-size: 1.1em;
+        line-height: 1.6;
+        margin-bottom: 30px;
+        color: #666;
+        max-width: 80%;
+        position: relative;
+        padding-left: 20px;
+        border-left: 4px solid #e3f2fd;
+      }
+
+      .form-section {
+        background: #ffffff;
+        border-radius: 12px;
+        padding: 25px;
+        margin-bottom: 30px;
+        border: none;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .form-section:hover {
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+        transform: translateY(-2px);
+      }
+
+      .form-section::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 4px;
+        width: 100%;
+        background: linear-gradient(to right, #1976d2, #64b5f6);
+      }
+
+      .section-title {
+        font-size: 1.2em;
+        font-weight: 600;
+        color: #1976d2;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #f0f0f0;
+      }
+      
+      .section-title i {
+        background: #e3f2fd;
+        padding: 10px;
+        border-radius: 50%;
+        color: #1976d2;
+        font-size: 16px;
+      }
+
+      .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        margin-bottom: 20px;
+        padding: 10px 0;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+      }
+      
+      .form-row:hover {
+        background-color: #f8f9fa;
+        padding: 10px;
+        margin: 10px -10px 20px -10px;
+      }
+      
+      #add-service-btn {
+        background: #f5f5f5;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 8px 16px;
+        color: #1976d2;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        margin-top: 10px;
+      }
+
+      #add-service-btn:hover {
+        background: #e3f2fd;
+        border-color: #1976d2;
+        transform: translateY(-2px);
+      }
+
+      .remove-service-btn {
+        color: #f44336;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 4px 8px;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-left: 10px;
+      }
+
+      .remove-service-btn:hover {
+        background: #ffebee;
+        transform: scale(1.1);
+      }
+
+      .service-select-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 10px;
+      }
+      
+      #service-select-list {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .radio-group {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+        margin-top: 10px;
+      }
+
+      .radio-label {
+        display: flex;
+        align-items: center;
+        padding: 15px 20px;
+        border: 1px solid #e0e0e0;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        background: white;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .radio-label:hover {
+        background: #f5f9ff;
+        border-color: #1976d2;
+        transform: translateY(-2px);
+      }
+      
+      .radio-label:active {
+        transform: scale(0.98);
+      }
+
+      .radio-label input[type="radio"] {
+        margin-right: 12px;
+        transform: scale(1.2);
+        accent-color: #1976d2;
+      }
+
+      .radio-label input[type="radio"]:checked + span {
+        color: #1976d2;
+        font-weight: 600;
+      }
+      
+      .radio-label input[type="radio"]:checked {
+        box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.5);
+      }
+      
+      .radio-label:has(input[type="radio"]:checked) {
+        border-color: #1976d2;
+        border-width: 2px;
+        background-color: #f0f7ff;
+        box-shadow: 0 4px 10px rgba(25, 118, 210, 0.1);
+      }
+
+      .form-actions {
+        display: flex;
+        gap: 15px;
+        margin-top: 20px;
+      }
+      
+      .action-section {
+        background: #f9f9f9;
+      }
+      
+      .action-section .section-title {
+        color: #333;
+      }
+      
+      .action-section .section-title i {
+        background: #eee;
+        color: #333;
+      }
+      
+      .button-description {
+        margin-bottom: 20px;
+      }
+      
+      .button-description p {
+        font-size: 15px;
+        color: #666;
+        line-height: 1.5;
+      }
+
+      .submit-btn {
+        flex: 1;
+        background: linear-gradient(135deg, #1976d2, #1565c0);
+        color: white;
+        border: none;
+        padding: 16px 30px;
+        border-radius: 12px;
+        font-size: 1.1em;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+      }
+      
+      .submit-btn::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0));
+        transform: translateY(-100%);
+        transition: all 0.4s ease;
+        z-index: -1;
+      }
+
+      .submit-btn:hover {
+        background: linear-gradient(135deg, #1565c0, #0d47a1);
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(25, 118, 210, 0.4);
+      }
+      
+      .submit-btn:hover::before {
+        transform: translateY(0);
+      }
+      
+      .submit-btn:active {
+        transform: translateY(0);
+        box-shadow: 0 4px 15px rgba(25, 118, 210, 0.3);
+      }
+
+      .btn-secondary {
+        background: linear-gradient(135deg, #6c757d, #5a6268);
+      }
+
+      .btn-secondary:hover {
+        background: linear-gradient(135deg, #5a6268, #495057);
+        box-shadow: 0 8px 25px rgba(108, 117, 125, 0.4);
+      }
+
+      .btn-danger {
+        background: linear-gradient(135deg, #dc3545, #c82333);
+      }
+
+      .btn-danger:hover {
+        background: linear-gradient(135deg, #c82333, #bd2130);
+        box-shadow: 0 8px 25px rgba(220, 53, 69, 0.4);
+      }
+
+      .btn-success {
+        background: linear-gradient(135deg, #28a745, #218838);
+      }
+
+      .btn-success:hover {
+        background: linear-gradient(135deg, #218838, #1e7e34);
+        box-shadow: 0 8px 25px rgba(40, 167, 69, 0.4);
+      }
+
+      .submit-btn i {
+        margin-right: 10px;
+        font-size: 1.2em;
+      }
+
+      .info-card {
+        background-color: #f0f7ff;
+        border: none;
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 30px;
+        box-shadow: 0 4px 15px rgba(25, 118, 210, 0.1);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .info-card::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 5px;
+        background: linear-gradient(to bottom, #2196f3, #64b5f6);
+      }
+
+      .appointment-info-header {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 20px;
+      }
+
+      .appointment-info-item {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .appointment-info-item i {
+        font-size: 24px;
+        color: #1976d2;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #e3f2fd;
+        border-radius: 50%;
+      }
+
+      .info-card h4 {
+        color: #5c5c5c;
+        margin-bottom: 8px;
+        font-size: 14px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .info-card p {
+        color: #333;
+        margin: 0;
+        font-size: 16px;
+        font-weight: 500;
+      }
+
+      .highlight-text {
+        color: #1976d2;
+        font-weight: 600;
+        font-size: 18px;
+      }
+
+      @media (max-width: 768px) {
+        .form-row {
+          grid-template-columns: 1fr;
+        }
+
+        .form-actions {
+          flex-direction: column;
+        }
+
+        .radio-group {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .status-badge {
+        display: inline-block;
+        padding: 4px 12px;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: bold;
+        text-transform: uppercase;
+      }
+
+      .status-booked {
+        background-color: #fff3cd;
+        color: #856404;
+      }
+      .status-waiting {
+        background-color: #cce7ff;
+        color: #004085;
+      }
+      .status-received {
+        background-color: #d4edda;
+        color: #155724;
+      }
+      .status-completed {
+        background-color: #c3e6cb;
+        color: #155724;
+      }
+      .status-cancelled {
+        background-color: #f8d7da;
+        color: #721c24;
+      }
+
+      /* Styles cho radio buttons lý do hủy */
+      .cancel-reason-options {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-top: 10px;
+      }
+
+      .cancel-reason-radio {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 15px;
+        border: 2px solid #e9ecef;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        background-color: #f8f9fa;
+      }
+
+      .cancel-reason-radio:hover {
+        border-color: #dc3545;
+        background-color: #fff5f5;
+        box-shadow: 0 2px 8px rgba(220, 53, 69, 0.1);
+      }
+
+      .cancel-reason-radio input[type="radio"] {
+        margin: 0;
+        width: 18px;
+        height: 18px;
+        accent-color: #dc3545;
+      }
+
+      .cancel-reason-radio input[type="radio"]:checked + span {
+        color: #dc3545;
+        font-weight: 600;
+      }
+
+      .cancel-reason-radio:has(input[type="radio"]:checked) {
+        border-color: #dc3545;
+        background-color: #fff5f5;
+        box-shadow: 0 2px 8px rgba(220, 53, 69, 0.15);
+      }
+
+      .cancel-reason-radio span {
+        flex: 1;
+        color: #333;
+        font-size: 14px;
+        transition: all 0.3s ease;
+      }
+
+      #custom-cancel-reason-section {
+        background-color: #f8f9fa;
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        padding: 15px;
+      }
+
+      #custom-cancel-reason {
+        border: 2px solid #dee2e6;
+        border-radius: 6px;
+        transition: border-color 0.3s ease;
+      }
+
+      #custom-cancel-reason:focus {
+        border-color: #dc3545;
+        box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+      }
+
+      /* Styles cho modal lý do hủy */
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(5px);
+        animation: fadeIn 0.3s ease-out;
+      }
+
+      .modal.show {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .modal-content {
+        background-color: white;
+        margin: auto;
+        padding: 0;
+        border-radius: 16px;
+        width: 90%;
+        max-width: 500px;
+        max-height: 80vh;
+        overflow-y: auto;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        animation: slideInUp 0.3s ease-out;
+        position: relative;
+      }
+
+      .modal-header {
+        background: linear-gradient(135deg, #dc3545, #c82333);
+        color: white;
+        padding: 20px 25px;
+        border-radius: 16px 16px 0 0;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .modal-header h4 {
+        margin: 0;
+        font-size: 1.3em;
+        font-weight: 600;
+      }
+
+      .modal-header i {
+        font-size: 1.5em;
+        background: rgba(255, 255, 255, 0.2);
+        padding: 10px;
+        border-radius: 50%;
+      }
+
+      .close {
+        position: absolute;
+        right: 20px;
+        top: 20px;
+        color: white;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      .close:hover {
+        background: rgba(255, 255, 255, 0.3);
+        transform: rotate(90deg);
+      }
+
+      .modal-body {
+        padding: 25px;
+      }
+
+      .modal-description {
+        color: #666;
+        margin-bottom: 25px;
+        line-height: 1.6;
+        font-size: 15px;
+      }
+
+      .cancel-reason-options-modal {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        margin-bottom: 20px;
+      }
+
+      .cancel-reason-radio-modal {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 15px 18px;
+        border: 2px solid #e9ecef;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        background-color: #f8f9fa;
+      }
+
+      .cancel-reason-radio-modal:hover {
+        border-color: #dc3545;
+        background-color: #fff5f5;
+        box-shadow: 0 3px 12px rgba(220, 53, 69, 0.15);
+        transform: translateY(-2px);
+      }
+
+      .cancel-reason-radio-modal input[type="radio"] {
+        margin: 0;
+        width: 20px;
+        height: 20px;
+        accent-color: #dc3545;
+      }
+
+      .cancel-reason-radio-modal input[type="radio"]:checked + span {
+        color: #dc3545;
+        font-weight: 600;
+      }
+
+      .cancel-reason-radio-modal:has(input[type="radio"]:checked) {
+        border-color: #dc3545;
+        background-color: #fff5f5;
+        box-shadow: 0 4px 15px rgba(220, 53, 69, 0.2);
+      }
+
+      .cancel-reason-radio-modal span {
+        flex: 1;
+        color: #333;
+        font-size: 15px;
+        transition: all 0.3s ease;
+      }
+
+      .custom-cancel-reason-section-modal {
+        background-color: #f8f9fa;
+        border: 2px solid #dee2e6;
+        border-radius: 10px;
+        padding: 18px;
+        margin-top: 15px;
+        display: none;
+      }
+
+      .custom-cancel-reason-section-modal.show {
+        display: block;
+        animation: slideDown 0.3s ease-out;
+      }
+
+      .custom-cancel-reason-modal {
+        width: 100%;
+        border: 2px solid #dee2e6;
+        border-radius: 8px;
+        padding: 12px 15px;
+        font-size: 14px;
+        transition: border-color 0.3s ease;
+        resize: vertical;
+        min-height: 80px;
+      }
+
+      .custom-cancel-reason-modal:focus {
+        border-color: #dc3545;
+        box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+        outline: none;
+      }
+
+      .modal-footer {
+        padding: 20px 25px;
+        border-top: 1px solid #e9ecef;
+        display: flex;
+        gap: 15px;
+        justify-content: flex-end;
+      }
+
+      .modal-btn {
+        padding: 12px 24px;
+        border: none;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .modal-btn-secondary {
+        background-color: #6c757d;
+        color: white;
+      }
+
+      .modal-btn-secondary:hover {
+        background-color: #5a6268;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
+      }
+
+      .modal-btn-danger {
+        background-color: #dc3545;
+        color: white;
+      }
+
+      .modal-btn-danger:hover {
+        background-color: #c82333;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+      }
+
+      .modal-btn-danger:disabled {
+        background-color: #f8d7da;
+        color: #721c24;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+      }
+
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+
+      @keyframes slideInUp {
+        from { 
+          opacity: 0;
+          transform: translateY(50px) scale(0.9);
+        }
+        to { 
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+
+      @keyframes slideDown {
+        from { 
+          opacity: 0;
+          max-height: 0;
+        }
+        to { 
+          opacity: 1;
+          max-height: 200px;
+        }
+      }
+
+      /* ...existing styles... */
+    </style>
+  </head>
+
+  <body>
+    <div class="booking-section">
+      <div class="booking-form">
+        <h2 class="form-title">
+          <i class="fas fa-edit"></i> Chỉnh sửa thông tin lịch hẹn
+        </h2>
+        <p class="form-description">
+          Cập nhật thông tin cuộc hẹn xét nghiệm ADN
+        </p>
 
         <!-- Thông tin cơ bản -->
         <div class="info-card">
-            <h4>Mã lịch hẹn: <span id="appointment-id-display"></span></h4>
-            <p>Thông tin lịch hẹn được tạo lúc: <span id="created-date"></span></p>
+          <div class="appointment-info-header">
+            <div class="appointment-info-item">
+              <i class="fas fa-hashtag"></i>
+              <div>
+                <h4>Mã lịch hẹn</h4>
+                <p><span id="appointment-id-display" class="highlight-text"></span></p>
+              </div>
+            </div>
+            <div class="appointment-info-item">
+              <i class="fas fa-calendar-alt"></i>
+              <div>
+                <h4>Ngày tạo</h4>
+                <p><span id="created-date"></span></p>
+              </div>
+            </div>
+            <div class="appointment-info-item">
+              <i class="fas fa-info-circle"></i>
+              <div>
+                <h4>Trạng thái hiện tại</h4>
+                <p><span id="current-status-display" class="status-badge"></span></p>
+              </div>
+            </div>
+          </div>
         </div>
 
         <form id="appointment-edit-form">
-            <!-- Thông tin cá nhân -->
-            <div class="form-section">
-                <h3 class="section-title">Thông tin cá nhân</h3>
-                
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="full-name">Họ và tên <span class="required">*</span></label>
-                        <input type="text" id="full-name" name="fullName" placeholder="Nhập họ và tên" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="email">Email <span class="required">*</span></label>
-                        <input type="email" id="email" name="email" placeholder="Nhập địa chỉ email" required>
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="phone">Số điện thoại</label>
-                    <input type="tel" id="phone" name="phone" placeholder="Nhập số điện thoại">
-                </div>
-            </div>
 
-
-
-            <!-- Loại dịch vụ -->
-            <div class="form-section">
-                <h3 class="section-title">Loại dịch vụ</h3>
-                
-                <div class="form-group">
-                    <label for="service-id">Chọn dịch vụ <span class="required">*</span></label>
-                    <select id="service-id" name="serviceId" required>
-                        <option value="">-- Chọn dịch vụ --</option>
-                        <option value="SV001">Xét nghiệm cha con</option>
-                        <option value="SV002">Xét nghiệm mẹ con</option>
-                        <option value="SV003">Xét nghiệm anh chị em</option>
-                        <option value="SV004">Xét nghiệm ông bà - cháu</option>
-                    </select>
-                </div>
+        <!-- Thông tin khách hàng -->
+        <div class="form-section">
+          <h3 class="section-title">
+            <i class="fas fa-user"></i>
+            Thông tin khách hàng
+          </h3>
+          <!-- <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="appointment-code">Mã lịch hẹn</label>
+              <input
+                type="text"
+                id="appointment-code"
+                name="appointmentCode"
+                class="form-control"
+                readonly
+              />
+            </div> -->
+            <div class="form-group">
+              <label class="form-label" for="customer-code">Mã khách hàng</label>
+              <input
+                type="text"
+                id="customer-code"
+                name="customerCode"
+                class="form-control"
+                readonly
+              />
             </div>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="full-name">Họ và tên <span class="required">*</span></label>
+              <input
+                type="text"
+                id="full-name"
+                name="fullName"
+                class="form-control"
+                placeholder="Nhập họ và tên"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="email">Email <span class="required">*</span></label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                class="form-control"
+                placeholder="Nhập địa chỉ email"
+                required
+              
+              />
+            </div>
+          </div>
 
-                        <!-- Mục đích xét nghiệm -->
-            <div class="form-section">
-                <h3 class="section-title">Mục đích xét nghiệm</h3>
-                
-                <div class="form-group">
-                    <div class="radio-group">
-                        <div class="radio-item">
-                            <input type="radio" id="purpose-civil" name="testType" value="Dân sự" required>
-                            <label for="purpose-civil">Dân sự (Xác minh quan hệ huyết thống)</label>
-                        </div>
-                        <div class="radio-item">
-                            <input type="radio" id="purpose-administrative" name="testType" value="Hành chính" required>
-                            <label for="purpose-administrative">Hành chính (Thủ tục pháp lý, tòa án)</label>
-                        </div>
-                    </div>
-                </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="phone">Số điện thoại *</label>
+              <input
+                type="tel"
+                id="phone"
+                name="phone"
+                class="form-control"
+                placeholder="Nhập số điện thoại"
+                required
+              />
             </div>
+            <div class="form-group">
+              <!-- Trường này được giữ trống để cân bằng layout -->
+            </div>
+          </div>
+        </div>
 
-            <!-- Phương thức lấy mẫu -->
-            <div class="form-section">
-                <h3 class="section-title">Phương thức lấy mẫu</h3>
-                
-                <div class="form-group">
-                    <div class="radio-group">
-                        <div class="radio-item">
-                            <input type="radio" id="location-home" name="sampleCollectionMethod" value="Tại nhà" required>
-                            <label for="location-home">Lấy mẫu tại nhà</label>
-                        </div>
-                        <div class="radio-item">
-                            <input type="radio" id="location-center" name="sampleCollectionMethod" value="Tại cơ sở y tế" required>
-                            <label for="location-center">Lấy mẫu tại trung tâm</label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Thông tin lấy mẫu tại nhà -->
-            <div id="home-details" class="form-section hidden">
-                <h3 class="section-title">Thông tin lấy mẫu tại nhà</h3>
-                
-                <div class="form-group">
-                    <label for="home-address">Địa chỉ <span class="required">*</span></label>
-                    <input type="text" id="home-address" name="homeAddress" placeholder="Nhập địa chỉ chi tiết">
-                </div>
-                
-                <div class="form-group">
-                    <label for="test-quantity">Số người xét nghiệm <span class="required">*</span></label>
-                    <div class="quantity-control">
-                        <button type="button" class="quantity-btn" onclick="decreaseQuantity()">-</button>
-                        <input type="number" id="test-quantity" name="numberOfTesters" value="2" min="2" max="20" readonly>
-                        <button type="button" class="quantity-btn" onclick="increaseQuantity()">+</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Thông tin lấy mẫu tại trung tâm -->
-            <div id="center-details" class="form-section hidden">
-                <h3 class="section-title">Thông tin lấy mẫu tại trung tâm</h3>
-                
-                <div class="form-group">
-                    <label for="center-address">Địa điểm lấy mẫu</label>
-                    <div class="info-value" style="padding: 12px; border: 1px solid #ddd; border-radius: 5px; background-color: #f9f9f9;">
-                        <i class="fas fa-map-marker-alt" style="color: #2196F3; margin-right: 8px;"></i>
-                        Trung tâm Xét nghiệm ADN - Quận 1, 123 Đường Nguyễn Huệ, Phường Bến Nghé, Quận 1, TP.HCM
-                    </div>
-                    <input type="hidden" id="center-address" name="centerAddress" value="123 Đường Nguyễn Huệ, Phường Bến Nghé, Quận 1, TP.HCM">
-                </div>
-                
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="appointment-date">Ngày hẹn <span class="required">*</span></label>
-                        <input type="date" id="appointment-date" name="appointmentDate">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="appointment-time">Giờ hẹn <span class="required">*</span></label>
-                        <select id="appointment-time" name="appointmentTime">
-                            <option value="">-- Chọn giờ --</option>
-                            <option value="08:00">08:00</option>
-                            <option value="09:00">09:00</option>
-                            <option value="10:00">10:00</option>
-                            <option value="11:00">11:00</option>
-                            <option value="13:30">13:30</option>
-                            <option value="14:30">14:30</option>
-                            <option value="15:30">15:30</option>
-                            <option value="16:30">16:30</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <!-- Trạng thái và ghi chú -->
-            <div class="form-section">
-                <h3 class="section-title">Thông tin bổ sung</h3>
-                
-                <div class="form-group">
-                    <label for="status">Trạng thái <span class="required">*</span></label>
-                    <select id="status" name="status" required>
-                        <option value="">-- Chọn trạng thái --</option>
-                        <!-- Options sẽ được cập nhật dựa trên phương thức lấy mẫu -->
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label for="notes">Ghi chú</label>
-                    <textarea id="notes" name="notes" placeholder="Nhập ghi chú về cuộc hẹn (nếu có)"></textarea>
-                </div>
-            </div>
-            
-            <!-- Buttons -->
-            <div class="form-actions">
-                <button type="button" class="btn btn-secondary" onclick="goBack()">
-                    <i class="fas fa-arrow-left"></i>
-                    Quay lại
-                </button>
-                
-                <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-save"></i>
-                    Lưu thay đổi
-                </button>
-                
-                <button type="button" class="btn btn-danger" onclick="cancelAppointment()">
+        <!-- Thông tin dịch vụ -->
+        <div class="form-section">
+          <h3 class="section-title">
+            <i class="fas fa-flask"></i>
+            Thông tin dịch vụ
+          </h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="service-id">Dịch vụ <span class="required">*</span></label>
+              <div id="service-select-list">
+                <div class="service-select-item">
+                  <select
+                    id="service-id"
+                    name="services[]"
+                    class="form-control service-dropdown"
+                    required
+                  >
+                    <option value="">-- Chọn dịch vụ --</option>
+                    <option value="SV001">Xét nghiệm cha con </option>
+                    <option value="SV002">Xét nghiệm mẹ con </option>
+                    <option value="SV003">Xét nghiệm anh chị em </option>
+                    <option value="SV004">Xét nghiệm ông bà - cháu</option>
+                    <!-- <option value="SV005">Xét nghiệm cha con (Hành chính)</option>
+                    <option value="SV006">Xét nghiệm mẹ con (Hành chính)</option>
+                    <option value="SV007">Xét nghiệm anh chị em (Hành chính)</option>
+                    <option value="SV008">
+                      Xét nghiệm ông bà - cháu (Hành chính)
+                    </option> -->
+                  </select>
+                  <button type="button" class="remove-service-btn" style="display: none;">
                     <i class="fas fa-times"></i>
-                    Xóa lịch hẹn
-                </button>
+                  </button>
+                </div>
+              </div>
+              <button type="button" id="add-service-btn">
+                <i class="fas fa-plus"></i> Thêm dịch vụ
+              </button>
             </div>
-        </form>
+            
+          
+          <!-- Loại xét nghiệm -->
+          <div class="form-group">
+            <label class="form-label">Loại dịch vụ <span class="required">*</span></label>
+            <div class="radio-group">
+              <label class="radio-label">
+                <input
+                  type="radio"
+                  id="test-type-admin"
+                  name="testType"
+                  value="Hành chính"
+                  required
+                  onchange="handleTestTypeChange(this)"
+                />
+                <span>Hành chính (có giá trị pháp lý)</span>
+              </label>
+              <label class="radio-label">
+                <input
+                  type="radio"
+                  id="test-type-civil"
+                  name="testType"
+                  value="Dân sự"
+                  required
+                  onchange="handleTestTypeChange(this)"
+                />
+                <span>Dân sự (không có giá trị pháp lý)</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Thông tin lấy mẫu -->
+        <div class="form-section">
+          <h3 class="section-title">
+            <i class="fas fa-vial"></i>
+            Thông tin lấy mẫu
+          </h3>
+          <!-- Phương thức lấy mẫu -->
+          <div class="form-group">
+            <label class="form-label">Phương thức lấy mẫu <span class="required">*</span></label>
+            <div class="radio-group" id="sampleMethodGroup">
+              <label class="radio-label">
+                <input
+                  type="radio"
+                  id="method-home"
+                  name="sampleCollectionMethod"
+                  value="Tại nhà"
+                  required
+                  onchange="handleSampleMethodChange(this)"
+                />
+                <span>Lấy mẫu tại nhà</span>
+              </label>
+              <label class="radio-label">
+                <input
+                  type="radio"
+                  id="method-center"
+                  name="sampleCollectionMethod"
+                  value="Tại cơ sở y tế"
+                  required
+                  onchange="handleSampleMethodChange(this)"
+                />
+                <span>Lấy mẫu tại trung tâm</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Ngày giờ hẹn - chỉ hiện khi lấy mẫu tại trung tâm -->
+          <div class="form-row" id="appointment-datetime-section" style="display: none;">
+            <div class="form-group">
+              <label class="form-label" for="appointment-date">Ngày hẹn <span class="required">*</span></label>
+              <input
+                type="date"
+                id="appointment-date"
+                name="appointmentDate"
+                class="form-control"
+              />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="appointment-time">Giờ hẹn <span class="required">*</span></label>
+              <select
+                id="appointment-time"
+                name="appointmentTime"
+                class="form-control"
+              >
+                <option value="">-- Chọn giờ hẹn --</option>
+                <option value="08:00">08:00</option>
+                <option value="09:00">09:00</option>
+                <option value="10:00">10:00</option>
+                <option value="11:00">11:00</option>
+                <option value="14:00">13:30</option>
+                <option value="15:00">14:30</option>
+                <option value="16:00">15:30</option>
+                <option value="17:00">16:30</option>
+              </select>
+            </div>
+          </div>
+          
+          <!-- Địa chỉ - chỉ hiện khi lấy mẫu tại nhà -->
+          <div class="form-group" id="address-section" style="display: none;">
+            <label class="form-label" for="address">Địa chỉ <span class="required">*</span></label>
+            <textarea
+              id="address"
+              name="address"
+              class="form-control"
+              rows="3"
+              placeholder="Nhập địa chỉ lấy mẫu tại nhà"
+            ></textarea>
+          </div>
+        </div>
+        
+        <!-- Thông tin bổ sung -->
+        <div class="form-section">
+          <h3 class="section-title">
+            <i class="fas fa-clipboard-list"></i>
+            Thông tin bổ sung
+          </h3>
+          
+          <!-- Trạng thái -->
+          <div class="form-group">
+            <label class="form-label" for="status">Trạng thái <span class="required">*</span></label>
+            <select
+              id="status"
+              name="status"
+              class="form-control"
+              required
+            >
+              <option value="">-- Chọn trạng thái --</option>
+              <option value="Booked">Đã đặt lịch</option>
+              <option value="Waiting">Chờ xử lý</option>
+              <option value="Received">Đã nhận mẫu</option>
+              <option value="Completed">Hoàn thành</option>
+              <option value="Cancelled">Đã hủy</option>
+            </select>
+          </div>
+
+          <!-- Lý do hủy (ẩn, sẽ hiển thị giá trị đã chọn) -->
+          <div class="form-group" id="cancel-reason-display" style="display: none;">
+            <label class="form-label">Lý do hủy</label>
+            <input type="text" id="cancel-reason-value" class="form-control" readonly />
+            <input type="hidden" id="cancel-reason-hidden" name="cancelReason" />
+          </div>
+
+          
+          
+          <!-- Ghi chú -->
+          <div class="form-group">
+            <label class="form-label" for="notes">Ghi chú</label>
+            <textarea
+              id="notes"
+              name="notes"
+              class="form-control"
+              rows="4"
+              placeholder="Nhập ghi chú về cuộc hẹn (nếu có)"
+            ></textarea>
+          </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="form-section action-section">
+          <h3 class="section-title">
+            <i class="fas fa-tasks"></i>
+            Tác vụ
+          </h3>
+          <div class="button-description">
+            <p>Chọn tác vụ bạn muốn thực hiện với lịch hẹn này. Lưu ý rằng một số tác vụ không thể hoàn tác.</p>
+          </div>
+          <div class="form-actions">
+            <button type="button" class="submit-btn btn-secondary" onclick="goBack()">
+              <i class="fas fa-arrow-left"></i>
+              Quay lại
+            </button>
+
+            <button type="button" class="submit-btn btn-danger" onclick="cancelAppointment()">
+              <i class="fas fa-times"></i>
+              Hủy lịch hẹn
+            </button>
+
+            <button type="submit" class="submit-btn">
+              <i class="fas fa-save"></i>
+              Lưu thay đổi
+            </button>
+          </div>
+        </div>
+      </form>
     </div>
-    
+
+    <!-- Modal lý do hủy -->
+    <div id="cancelReasonModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <i class="fas fa-exclamation-triangle"></i>
+          <h4>Lý do hủy lịch hẹn</h4>
+          <span class="close">&times;</span>
+        </div>
+        <div class="modal-body">
+          <p class="modal-description">
+            Vui lòng chọn lý do hủy lịch hẹn. Thông tin này sẽ được lưu trữ để phục vụ việc thống kê và cải thiện dịch vụ.
+          </p>
+          
+          <div class="cancel-reason-options-modal">
+            <label class="cancel-reason-radio-modal">
+              <input
+                type="radio"
+                name="cancelReasonTypeModal"
+                value="Khách hàng yêu cầu hủy"
+                onchange="handleModalCancelReasonChange(this)"
+              />
+              <span>Khách hàng yêu cầu hủy</span>
+            </label>
+            
+            <label class="cancel-reason-radio-modal">
+              <input
+                type="radio"
+                name="cancelReasonTypeModal"
+                value="Lịch trùng/không phù hợp"
+                onchange="handleModalCancelReasonChange(this)"
+              />
+              <span>Lịch trùng/không phù hợp</span>
+            </label>
+            
+            
+            <label class="cancel-reason-radio-modal">
+              <input
+                type="radio"
+                name="cancelReasonTypeModal"
+                value="other"
+                onchange="handleModalCancelReasonChange(this)"
+              />
+              <span>Lý do khác</span>
+            </label>
+          </div>
+          
+          <div class="custom-cancel-reason-section-modal" id="customCancelReasonSectionModal">
+            <label class="form-label" for="customCancelReasonModal">
+              <strong>Nhập lý do cụ thể:</strong>
+            </label>
+            <textarea
+              id="customCancelReasonModal"
+              class="custom-cancel-reason-modal"
+              placeholder="Vui lòng mô tả chi tiết lý do hủy lịch hẹn..."
+              rows="3"
+            ></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="modal-btn modal-btn-secondary" onclick="closeCancelReasonModal()">
+            <i class="fas fa-times"></i>
+            Hủy bỏ
+          </button>
+          <button type="button" class="modal-btn modal-btn-danger" id="confirmCancelBtn" onclick="confirmCancelReason()" disabled>
+            <i class="fas fa-check"></i>
+            Xác nhận hủy
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script src="/assets/js/staff-auth.js"></script>
+    <script src="/assets/js/staff-main.js"></script>
     <script>
-        // // Lấy AppointmentID từ URL parameter
-        // const urlParams = new URLSearchParams(window.location.search);
-        // const appointmentId = urlParams.get('appointmentId');
-        
-        // // Load thông tin Appointment khi trang được tải
-        // document.addEventListener('DOMContentLoaded', function() {
-        //     if (appointmentId) {
-        //         loadAppointmentInfo(appointmentId);
-        //     } else {
-        //         alert('Không tìm thấy mã lịch hẹn!');
-        //         goBack();
-        //     }
-            
-        //     setupFormLogic();
-        // });
-        // Dữ liệu mẫu duy nhất để test - trong thực tế sẽ load từ API
-    const sampleEditData = {
-            appointmentID: 'APT002',
-            fullName: 'Trần Thị Lan Anh',
-            email: 'tranthilananh@gmail.com',
-            phone: '0987654321',
-            serviceID: 'SV002',
-            serviceName: 'Xét nghiệm mẹ con',
-            testType: 'Hành chính',
-            sampleCollectionMethod: 'Tại cơ sở y tế',
-            address: '123 Đường Nguyễn Huệ, Phường Bến Nghé, Quận 1, TP.HCM',
-            numberOfTesters: 2,
-            appointmentDate: '2025-06-20',
-            appointmentTime: '10:00',
-            status: 'Đã đặt',
-            notes: 'Cần mang theo giấy tờ tùy thân và giấy khai sinh.',
-            createdDate: '2024-02-15T14:30:00'
-        };
-        
-        // Load thông tin Appointment từ server
-        async function loadAppointmentInfo(appointmentId) {
-            try {
-                // Trong thực tế, gọi API để lấy dữ liệu
-                // const response = await fetch(`/api/appointments/${appointmentId}`);
-                // const appointmentData = await response.json();
-                
-                // Tạm thời sử dụng dữ liệu mẫu
-                const appointmentData = sampleEditData;
-                populateForm(appointmentData);
-            } catch (error) {
-                console.error('Error:', error);
-                alert('Lỗi khi tải thông tin lịch hẹn: ' + error.message);
-            }
+      // Lấy AppointmentID từ URL parameter
+      const urlParams = new URLSearchParams(window.location.search);
+      const appointmentId = urlParams.get("appointmentId");
+
+      // Load thông tin Appointment khi trang được tải
+      document.addEventListener("DOMContentLoaded", function () {
+        if (appointmentId) {
+          loadAppointmentInfo(appointmentId);
+        } else {
+          alert("Không tìm thấy mã lịch hẹn!");
+          goBack();
         }
-        
-        // Để test không cần URL parameter
-        document.addEventListener('DOMContentLoaded', function() {
-            // Luôn load dữ liệu mẫu để test
-            loadAppointmentInfo('APT002');
-            setupFormLogic();
+        setupFormValidation();
+      });
+
+      // Load thông tin Appointment từ server (đồng bộ tên biến với API /staff/appointments)
+      async function loadAppointmentInfo(appointmentId) {
+        try {
+          const response = await fetch(`/booking/appointments/${appointmentId}`);
+          if (response.ok) {
+            const appointmentData = await response.json();
+            populateForm(appointmentData);
+          } else {
+            throw new Error("Không thể tải thông tin lịch hẹn");
+          }
+        } catch (error) {
+          console.error("Error:", error);
+          alert("Lỗi khi tải thông tin lịch hẹn: " + error.message);
+        }
+      }
+
+      // Cập nhật populateForm để đồng bộ tên biến với API /staff/appointments
+      function populateForm(appointment) {
+        document.getElementById("appointment-id-display").textContent = appointment.id || "";
+        document.getElementById("created-date").textContent = appointment.createdDate ? new Date(appointment.createdDate).toLocaleString("vi-VN") : "";
+        document.getElementById("customer-code").value = appointment.customerId || "";
+        document.getElementById("full-name").value = appointment.customerName || "";
+        document.getElementById("email").value = appointment.email || "";
+        document.getElementById("phone").value = appointment.phone || "";
+        document.getElementById("notes").value = appointment.note || "";
+        // Trạng thái
+        const statusValue = appointment.status || "Đã đặt";
+        const statusDisplay = document.getElementById("current-status-display");
+        statusDisplay.textContent = statusValue;
+        statusDisplay.className = `status-badge ${getStatusClass(statusValue)}`;
+        document.getElementById("status").value = statusValue;
+        // Dịch vụ
+        if (appointment.services && Array.isArray(appointment.services)) {
+          updateServiceSelections(appointment.services.map(s => s.serviceId || s.id));
+        }
+        // Loại xét nghiệm
+        if (appointment.ADNService === "Hành chính") {
+          document.getElementById("test-type-admin").checked = true;
+          handleTestTypeChange(document.getElementById("test-type-admin"));
+        } else if (appointment.ADNService === "Dân sự") {
+          document.getElementById("test-type-civil").checked = true;
+          handleTestTypeChange(document.getElementById("test-type-civil"));
+        }
+        // Phương thức lấy mẫu
+        if (appointment.method === "Tại nhà") {
+          document.getElementById("method-home").checked = true;
+          handleSampleMethodChange(document.getElementById("method-home"));
+        } else if (appointment.method === "Tại cơ sở y tế") {
+          document.getElementById("method-center").checked = true;
+          handleSampleMethodChange(document.getElementById("method-center"));
+        }
+        // Ngày giờ hẹn
+        document.getElementById("appointment-date").value = appointment.bookingDate ? appointment.bookingDate.substring(0,10) : "";
+        document.getElementById("appointment-time").value = appointment.appointmentTime || "";
+        document.getElementById("address").value = appointment.address || "";
+        // Lý do hủy
+        const cancelReasonDisplay = document.getElementById("cancel-reason-display");
+        const cancelReasonValue = document.getElementById("cancel-reason-value");
+        const cancelReasonHidden = document.getElementById("cancel-reason-hidden");
+        if (statusValue === "Đã hủy" && appointment.cancelReason) {
+          cancelReasonDisplay.style.display = "block";
+          cancelReasonValue.value = appointment.cancelReason;
+          cancelReasonHidden.value = appointment.cancelReason;
+        } else {
+          cancelReasonDisplay.style.display = "none";
+          cancelReasonValue.value = "";
+          cancelReasonHidden.value = "";
+        }
+      }
+
+      // Xử lý thay đổi loại xét nghiệm
+      function handleTestTypeChange(radio) {
+        const sampleMethodGroup = document.getElementById("sampleMethodGroup");
+        const homeRadio = document.getElementById("method-home");
+        const centerRadio = document.getElementById("method-center");
+
+        if (radio.value === "Hành chính") {
+          // Tự động chọn "Tại cơ sở y tế" cho hành chính
+          centerRadio.checked = true;
+          homeRadio.disabled = true;
+          handleSampleMethodChange(centerRadio);
+        } else {
+          homeRadio.disabled = false;
+        }
+      }
+
+      // Xử lý thay đổi phương thức lấy mẫu
+      function handleSampleMethodChange(radio) {
+        const appointmentDateTimeSection = document.getElementById("appointment-datetime-section");
+        const addressSection = document.getElementById("address-section");
+        const appointmentDateInput = document.getElementById("appointment-date");
+        const appointmentTimeInput = document.getElementById("appointment-time");
+        const addressInput = document.getElementById("address");
+
+        if (radio.value === "Tại cơ sở y tế") {
+          // Hiện ngày giờ hẹn, ẩn địa chỉ
+          appointmentDateTimeSection.style.display = "flex";
+          addressSection.style.display = "none";
+          
+          // Thêm required cho ngày giờ, bỏ required cho địa chỉ
+          appointmentDateInput.required = true;
+          appointmentTimeInput.required = true;
+          addressInput.required = false;
+          addressInput.value = ""; // Xóa giá trị địa chỉ
+        } else if (radio.value === "Tại nhà") {
+          // Hiện địa chỉ, ẩn ngày giờ hẹn
+          appointmentDateTimeSection.style.display = "none";
+          addressSection.style.display = "block";
+          
+          // Thêm required cho địa chỉ, bỏ required cho ngày giờ
+          appointmentDateInput.required = false;
+          appointmentTimeInput.required = false;
+          addressInput.required = true;
+          appointmentDateInput.value = ""; // Xóa giá trị ngày
+          appointmentTimeInput.value = ""; // Xóa giá trị giờ
+        }
+      }
+
+      // Setup form validation
+      function setupFormValidation() {
+        // Validation cho loại xét nghiệm và phương thức lấy mẫu
+        const testTypeInputs = document.querySelectorAll(
+          'input[name="testType"]'
+        );
+        const sampleMethodInputs = document.querySelectorAll(
+          'input[name="sampleCollectionMethod"]'
+        );
+
+        testTypeInputs.forEach((input) => {
+          input.addEventListener("change", function() {
+            handleTestTypeChange(this);
+          });
         });
         
-        // Thiết lập logic form giống như booking
-        function setupFormLogic() {
-            // Xử lý thay đổi mục đích xét nghiệm
-            document.getElementById('purpose-administrative').addEventListener('change', function() {
-                if (this.checked) {
-                    document.getElementById('location-center').checked = true;
-                    document.getElementById('location-home').disabled = true;
-                    toggleSampleLocation();
-                }
-            });
+        sampleMethodInputs.forEach((input) => {
+          input.addEventListener("change", function() {
+            handleSampleMethodChange(this);
+          });
+        });
+      }
 
-            document.getElementById('purpose-civil').addEventListener('change', function() {
-                if (this.checked) {
-                    document.getElementById('location-home').disabled = false;
-                }
-            });
+      // Xử lý submit form
+      document
+        .getElementById("appointment-edit-form")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
 
-            // Xử lý thay đổi phương thức lấy mẫu
-            document.getElementById('location-home').addEventListener('change', function() {
-                if (this.checked) {
-                    toggleSampleLocation();
-                }
-            });
-
-            document.getElementById('location-center').addEventListener('change', function() {
-                if (this.checked) {
-                    toggleSampleLocation();
-                }
-            });
-        }
-        
-        // Toggle hiển thị thông tin lấy mẫu
-        function toggleSampleLocation() {
-            const homeDetails = document.getElementById('home-details');
-            const centerDetails = document.getElementById('center-details');
-            const homeRadio = document.getElementById('location-home');
-            const centerRadio = document.getElementById('location-center');
-            
-            if (homeRadio.checked) {
-                homeDetails.classList.remove('hidden');
-                centerDetails.classList.add('hidden');
-                
-                // Set required attributes
-                document.getElementById('home-address').setAttribute('required', 'required');
-                document.getElementById('test-quantity').setAttribute('required', 'required');
-                
-                // Remove required from center fields
-                document.getElementById('center-address').removeAttribute('required');
-                document.getElementById('appointment-date').removeAttribute('required');
-                document.getElementById('appointment-time').removeAttribute('required');
-                
-                // Cập nhật trạng thái cho lấy mẫu tại nhà
-                updateStatusOptions('home');
-                
-            } else if (centerRadio.checked) {
-                centerDetails.classList.remove('hidden');
-                homeDetails.classList.add('hidden');
-                
-                // Set required attributes
-                document.getElementById('center-address').setAttribute('required', 'required');
-                document.getElementById('appointment-date').setAttribute('required', 'required');
-                document.getElementById('appointment-time').setAttribute('required', 'required');
-                
-                // Remove required from home fields
-                document.getElementById('home-address').removeAttribute('required');
-                document.getElementById('test-quantity').removeAttribute('required');
-                
-                // Cập nhật trạng thái cho lấy mẫu tại cơ sở
-                updateStatusOptions('center');
+          // Kiểm tra phương thức lấy mẫu để validate đúng trường
+          const sampleMethod = document.querySelector('input[name="sampleCollectionMethod"]:checked')?.value;
+          
+          // Validate dựa trên phương thức lấy mẫu
+          if (sampleMethod === "Tại cơ sở y tế") {
+            const appointmentDate = document.getElementById("appointment-date").value;
+            const appointmentTime = document.getElementById("appointment-time").value;
+            if (!appointmentDate || !appointmentTime) {
+              alert("Vui lòng nhập đầy đủ ngày và giờ hẹn!");
+              return;
             }
-        }
-        
-        // Hàm cập nhật options của trạng thái
-        function updateStatusOptions(method) {
-            const statusSelect = document.getElementById('status');
-            const currentStatus = statusSelect.value; // Lưu trạng thái hiện tại
-            
-            // Clear all options
-            statusSelect.innerHTML = '<option value="">-- Chọn trạng thái --</option>';
-            
-            if (method === 'home') {
-                // Trạng thái cho lấy mẫu tại nhà
-                const homeStatuses = [
-                    { value: 'Đã đặt', text: 'Đã đặt' },
-                    { value: 'Đã gửi kit', text: 'Đã gửi kit' },
-                    { value: 'Đã thu mẫu', text: 'Đã thu mẫu' },
-                    { value: 'Đã nhận mẫu', text: 'Đã nhận mẫu' },
-                    { value: 'Đã hoàn thành', text: 'Đã hoàn thành' },
-                    { value: 'Đã trả kết quả', text: 'Đã trả kết quả' }
-                ];
-                
-                homeStatuses.forEach(status => {
-                    const option = document.createElement('option');
-                    option.value = status.value;
-                    option.textContent = status.text;
-                    statusSelect.appendChild(option);
-                });
-                
-            } else if (method === 'center') {
-                // Trạng thái cho lấy mẫu tại cơ sở
-                const centerStatuses = [
-                    { value: 'Đã đặt', text: 'Đã đặt' },
-                    { value: 'Đã thu mẫu', text: 'Đã thu mẫu' },
-                    { value: 'Đã hoàn thành', text: 'Đã hoàn thành' },
-                    { value: 'Đã trả kết quả', text: 'Đã trả kết quả' }
-                ];
-                
-                centerStatuses.forEach(status => {
-                    const option = document.createElement('option');
-                    option.value = status.value;
-                    option.textContent = status.text;
-                    statusSelect.appendChild(option);
-                });
+          } else if (sampleMethod === "Tại nhà") {
+            const address = document.getElementById("address").value;
+            if (!address.trim()) {
+              alert("Vui lòng nhập địa chỉ lấy mẫu!");
+              return;
             }
-            
-            // Khôi phục trạng thái hiện tại nếu vẫn có trong danh sách mới
-            if (currentStatus) {
-                const optionExists = Array.from(statusSelect.options).some(option => option.value === currentStatus);
-                if (optionExists) {
-                    statusSelect.value = currentStatus;
-                }
+          }
+
+          // Lấy danh sách tất cả các dịch vụ đã chọn
+          const serviceSelects = document.querySelectorAll('#service-select-list select');
+          const selectedServices = Array.from(serviceSelects).map(select => select.value).filter(val => val);
+          
+          // Validate lý do hủy nếu trạng thái là "Cancelled"
+          const selectedStatus = document.getElementById("status").value;
+          let cancelReason = null;
+          
+          if (selectedStatus === "Cancelled") {
+            // Lấy lý do hủy từ hidden input đã được set bởi modal
+            cancelReason = document.getElementById("cancel-reason-hidden").value;
+            if (!cancelReason || cancelReason.trim() === "") {
+              alert("Vui lòng chọn lý do hủy lịch hẹn bằng cách nhấn nút 'Hủy lịch hẹn'!");
+              return;
             }
-        }
-        
-        // Thiết lập logic form giống như booking
-        function setupFormLogic() {
-            // Xử lý thay đổi mục đích xét nghiệm
-            document.getElementById('purpose-administrative').addEventListener('change', function() {
-                if (this.checked) {
-                    document.getElementById('location-center').checked = true;
-                    document.getElementById('location-home').disabled = true;
-                    toggleSampleLocation();
-                }
+          }
+          
+          const formData = {
+            appointmentID: appointmentId,
+            fullName: document.getElementById("full-name").value,
+            email: document.getElementById("email").value,
+            phone: document.getElementById("phone").value,
+            // staffCode không còn cần thiết
+            services: selectedServices,
+            appointmentDate: document.getElementById("appointment-date").value,
+            appointmentTime: document.getElementById("appointment-time").value,
+            numberOfTesters: parseInt(
+              document.getElementById("number-of-testers").value
+            ),
+            testType: document.querySelector('input[name="testType"]:checked')
+              ?.value,
+            sampleCollectionMethod: sampleMethod,
+            address: document.getElementById("address").value,
+            status: selectedStatus,
+            cancelReason: cancelReason,
+            notes: document.getElementById("notes").value,
+          };
+
+          try {
+            const response = await fetch(`/api/appointments/${appointmentId}`, {
+              method: "PUT",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(formData),
             });
 
-            document.getElementById('purpose-civil').addEventListener('change', function() {
-                if (this.checked) {
-                    document.getElementById('location-home').disabled = false;
-                }
-            });
-
-            // Xử lý thay đổi phương thức lấy mẫu
-            document.getElementById('location-home').addEventListener('change', function() {
-                if (this.checked) {
-                    toggleSampleLocation();
-                }
-            });
-
-            document.getElementById('location-center').addEventListener('change', function() {
-                if (this.checked) {
-                    toggleSampleLocation();
-                }
-            });
-        }
-        // Điền thông tin vào form
-        function populateForm(appointmentData) {
-            document.getElementById('appointment-id-display').textContent = appointmentData.appointmentID;
-            document.getElementById('created-date').textContent = new Date().toLocaleString('vi-VN');
-            
-            document.getElementById('full-name').value = appointmentData.fullName;
-            document.getElementById('email').value = appointmentData.email;
-            document.getElementById('phone').value = appointmentData.phone || '';
-            document.getElementById('service-id').value = appointmentData.serviceID;
-            document.getElementById('notes').value = appointmentData.notes || '';
-            
-            // Set radio buttons
-            if (appointmentData.testType) {
-                document.querySelector(`input[name="testType"][value="${appointmentData.testType}"]`).checked = true;
-            }
-            
-            if (appointmentData.sampleCollectionMethod) {
-                document.querySelector(`input[name="sampleCollectionMethod"][value="${appointmentData.sampleCollectionMethod}"]`).checked = true;
-                
-                // Set địa chỉ và số lượng tương ứng
-                if (appointmentData.sampleCollectionMethod === 'Tại nhà') {
-                    document.getElementById('home-address').value = appointmentData.address;
-                    document.getElementById('test-quantity').value = appointmentData.numberOfTesters;
-                } else {
-                    document.getElementById('center-address').value = appointmentData.address;
-                    document.getElementById('appointment-date').value = appointmentData.appointmentDate;
-                    document.getElementById('appointment-time').value = appointmentData.appointmentTime;
-                }
-                
-                toggleSampleLocation();
-            }
-            
-            // Set trạng thái sau khi đã cập nhật options
-            setTimeout(() => {
-                document.getElementById('status').value = appointmentData.status;
-            }, 100);
-        }
-        
-        // Xử lý submit form
-        document.getElementById('appointment-edit-form').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const formData = {
-                appointmentID: appointmentId,
-                fullName: document.getElementById('full-name').value,
-                email: document.getElementById('email').value,
-                phone: document.getElementById('phone').value,
-                serviceID: document.getElementById('service-id').value,
-                testType: document.querySelector('input[name="testType"]:checked')?.value,
-                sampleCollectionMethod: document.querySelector('input[name="sampleCollectionMethod"]:checked')?.value,
-                status: document.getElementById('status').value,
-                notes: document.getElementById('notes').value
-            };
-            
-            // Set địa chỉ và thông tin khác dựa vào phương thức lấy mẫu
-            if (formData.sampleCollectionMethod === 'Tại nhà') {
-                formData.address = document.getElementById('home-address').value;
-                formData.numberOfTesters = parseInt(document.getElementById('test-quantity').value);
-                formData.appointmentDate = null;
-                formData.appointmentTime = null;
+            if (response.ok) {
+              alert("Cập nhật thông tin lịch hẹn thành công!");
+              goBack();
             } else {
-                formData.address = document.getElementById('center-address').value;
-                formData.numberOfTesters = 2; // Default for center
-                formData.appointmentDate = document.getElementById('appointment-date').value;
-                formData.appointmentTime = document.getElementById('appointment-time').value;
+              const errorData = await response.json();
+              alert(
+                "Lỗi: " +
+                  (errorData.message ||
+                    "Không thể cập nhật thông tin lịch hẹn.")
+              );
             }
-            
-            try {
-                const response = await fetch(`/api/appointments/${appointmentId}`, {
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(formData)
-                });
-                
-                if (response.ok) {
-                    alert('Cập nhật thông tin lịch hẹn thành công!');
-                    goBack();
+          } catch (error) {
+            console.error("Error:", error);
+            alert("Lỗi kết nối server.");
+          }
+        });
+
+      // Quay lại trang trước
+      function goBack() {
+        window.history.back();
+      }
+
+      // Lấy text hiển thị cho trạng thái
+      function getStatusText(status) {
+        const statusMap = {
+          'Booked': 'Đã đặt lịch',
+          'Waiting': 'Chờ xử lý',
+          'Received': 'Đã nhận mẫu',
+          'Completed': 'Hoàn thành',
+          'Cancelled': 'Đã hủy'
+        };
+        return statusMap[status] || status;
+      }
+
+      // Lấy class CSS cho trạng thái
+      function getStatusClass(status) {
+        const classMap = {
+          'Booked': 'status-booked',
+          'Waiting': 'status-waiting',
+          'Received': 'status-received',
+          'Completed': 'status-completed',
+          'Cancelled': 'status-cancelled'
+        };
+        return classMap[status] || 'status-booked';
+      }
+
+      // Hủy lịch hẹn
+      async function cancelAppointment() {
+        // Mở modal lý do hủy
+        openCancelReasonModal();
+      }
+
+      // Load danh sách dịch vụ từ API
+      async function loadServices() {
+        try {
+          const response = await fetch("/api/services");
+          if (response.ok) {
+            const services = await response.json();
+            const serviceSelect = document.getElementById("service-id");
+
+            // Clear existing options except first one
+            serviceSelect.innerHTML =
+              '<option value="">-- Chọn dịch vụ --</option>';
+
+            services.forEach((service) => {
+              const option = document.createElement("option");
+              option.value = service.serviceID;
+              option.textContent = `${service.serviceName} (${service.category})`;
+              serviceSelect.appendChild(option);
+            });
+          }
+        } catch (error) {
+          console.error("Error loading services:", error);
+        }
+      }
+
+      // Load services khi trang được tải
+      document.addEventListener("DOMContentLoaded", function() {
+        loadServices();
+        setupServiceControls();
+        setupStatusChange();
+        
+        // Uncomment để test với dữ liệu mẫu
+        // testPopulateForm();
+      });
+
+      // Function test để kiểm tra việc populate form (có thể xóa sau khi hoàn thành)
+      function testPopulateForm() {
+        const testData = {
+          appointmentID: "APT001",
+          createdDate: new Date().toISOString(),
+          customerCode: "CUS001",
+          fullName: "Nguyễn Văn A",
+          email: "test@example.com",
+          phone: "0123456789",
+          status: "Waiting", // Test với trạng thái khác Booked
+          notes: "Ghi chú test"
+        };
+        populateForm(testData);
+      }
+
+      // Thiết lập xử lý thay đổi trạng thái
+      function setupStatusChange() {
+        const statusSelect = document.getElementById("status");
+        const statusDisplay = document.getElementById("current-status-display");
+        const cancelReasonDisplay = document.getElementById("cancel-reason-display");
+        
+        if (statusSelect && statusDisplay) {
+          statusSelect.addEventListener("change", function() {
+            const selectedStatus = this.value;
+            if (selectedStatus) {
+              statusDisplay.textContent = getStatusText(selectedStatus);
+              statusDisplay.className = `status-badge ${getStatusClass(selectedStatus)}`;
+              
+              // Hiển thị/ẩn trường lý do hủy
+              if (selectedStatus === "Cancelled") {
+                // Kiểm tra xem đã có lý do hủy chưa
+                const cancelReasonHidden = document.getElementById("cancel-reason-hidden");
+                if (cancelReasonHidden.value) {
+                  cancelReasonDisplay.style.display = "block";
                 } else {
-                    const errorData = await response.json();
-                    alert('Lỗi: ' + (errorData.message || 'Không thể cập nhật thông tin lịch hẹn.'));
+                  // Nếu chưa có lý do hủy, mở modal
+                  openCancelReasonModal();
                 }
-            } catch (error) {
-                console.error('Error:', error);
-                alert('Lỗi kết nối server.');
+              } else {
+                cancelReasonDisplay.style.display = "none";
+                // Reset lý do hủy khi không phải trạng thái hủy
+                document.getElementById("cancel-reason-value").value = "";
+                document.getElementById("cancel-reason-hidden").value = "";
+              }
             }
+          });
+        }
+      }
+      
+      // Thiết lập xử lý thêm/xóa dịch vụ
+      function setupServiceControls() {
+        const addServiceBtn = document.getElementById("add-service-btn");
+        const serviceSelectList = document.getElementById("service-select-list");
+        
+        if (addServiceBtn && serviceSelectList) {
+          addServiceBtn.addEventListener("click", function() {
+            // Tạo clone của item dịch vụ đầu tiên
+            const firstServiceItem = serviceSelectList.querySelector(".service-select-item");
+            const newServiceItem = firstServiceItem.cloneNode(true);
+            
+            // Reset giá trị của dropdown trong item mới
+            const newSelect = newServiceItem.querySelector("select");
+            newSelect.value = "";
+            
+            // Hiển thị nút xóa
+            const removeBtn = newServiceItem.querySelector(".remove-service-btn");
+            removeBtn.style.display = "block";
+            
+            // Xử lý sự kiện xóa
+            removeBtn.addEventListener("click", function() {
+              serviceSelectList.removeChild(newServiceItem);
+              
+              // Ẩn nút xóa nếu chỉ còn một dịch vụ
+              if (serviceSelectList.querySelectorAll(".service-select-item").length === 1) {
+                serviceSelectList.querySelector(".remove-service-btn").style.display = "none";
+              }
+            });
+            
+            // Thêm item mới vào danh sách
+            serviceSelectList.appendChild(newServiceItem);
+            
+            // Hiển thị nút xóa cho tất cả các items nếu có nhiều hơn 1 dịch vụ
+            if (serviceSelectList.querySelectorAll(".service-select-item").length > 1) {
+              const allRemoveBtns = serviceSelectList.querySelectorAll(".remove-service-btn");
+              allRemoveBtns.forEach(btn => {
+                btn.style.display = "block";
+              });
+            }
+          });
+        }
+      }
+      
+      // Cập nhật hàm populateForm để hỗ trợ nhiều dịch vụ
+      function updateServiceSelections(services) {
+        if (!services || services.length === 0) {
+          return;
+        }
+        
+        const serviceSelectList = document.getElementById("service-select-list");
+        const firstServiceItem = serviceSelectList.querySelector(".service-select-item");
+        const firstSelect = firstServiceItem.querySelector("select");
+        
+        // Đặt giá trị cho dịch vụ đầu tiên
+        firstSelect.value = services[0];
+        
+        // Thêm các dịch vụ bổ sung nếu có
+        for (let i = 1; i < services.length; i++) {
+          const serviceID = services[i];
+          
+          // Tạo một item dịch vụ mới
+          const newServiceItem = firstServiceItem.cloneNode(true);
+          const newSelect = newServiceItem.querySelector("select");
+          newSelect.value = serviceID;
+          
+          // Hiển thị nút xóa
+          const removeBtn = newServiceItem.querySelector(".remove-service-btn");
+          removeBtn.style.display = "block";
+          
+          // Xử lý sự kiện xóa
+          removeBtn.addEventListener("click", function() {
+            serviceSelectList.removeChild(newServiceItem);
+            
+            // Ẩn nút xóa nếu chỉ còn một dịch vụ
+            if (serviceSelectList.querySelectorAll(".service-select-item").length === 1) {
+              serviceSelectList.querySelector(".remove-service-btn").style.display = "none";
+            }
+          });
+          
+          serviceSelectList.appendChild(newServiceItem);
+        }
+        
+        // Hiển thị nút xóa cho tất cả các items nếu có nhiều hơn 1 dịch vụ
+        if (serviceSelectList.querySelectorAll(".service-select-item").length > 1) {
+          const allRemoveBtns = serviceSelectList.querySelectorAll(".remove-service-btn");
+          allRemoveBtns.forEach(btn => {
+            btn.style.display = "block";
+          });
+        }
+      }
+
+      // Xử lý thay đổi lý do hủy lịch
+      function handleCancelReasonChange(radio) {
+        const customReasonSection = document.getElementById("custom-cancel-reason-section");
+        const customReasonInput = document.getElementById("custom-cancel-reason");
+        
+        if (radio.value === "other") {
+          customReasonSection.style.display = "block";
+          customReasonInput.required = true;
+        } else {
+          customReasonSection.style.display = "none";
+          customReasonInput.required = false;
+          customReasonInput.value = ""; // Xóa nội dung khi không chọn "Lý do khác"
+        }
+      }
+
+      // Xử lý thay đổi trạng thái để hiển thị/ẩn phần lý do hủy
+      document.getElementById("status").addEventListener("change", function() {
+        const selectedStatus = this.value;
+        const cancelReasonDisplay = document.getElementById("cancel-reason-display");
+        
+        if (selectedStatus === "Cancelled") {
+          // Kiểm tra xem đã có lý do hủy chưa
+          const cancelReasonHidden = document.getElementById("cancel-reason-hidden");
+          if (cancelReasonHidden.value) {
+            cancelReasonDisplay.style.display = "block";
+          } else {
+            // Nếu chưa có lý do hủy, mở modal
+            openCancelReasonModal();
+          }
+        } else {
+          cancelReasonDisplay.style.display = "none";
+          // Reset lý do hủy khi không phải trạng thái hủy
+          document.getElementById("cancel-reason-value").value = "";
+          document.getElementById("cancel-reason-hidden").value = "";
+        }
+        
+        // Cập nhật badge trạng thái hiện tại
+        const statusDisplay = document.getElementById("current-status-display");
+        statusDisplay.textContent = getStatusText(selectedStatus);
+        statusDisplay.className = `status-badge ${getStatusClass(selectedStatus)}`;
+      });
+
+      // Các hàm xử lý modal lý do hủy
+      function openCancelReasonModal() {
+        const modal = document.getElementById("cancelReasonModal");
+        modal.classList.add("show");
+        
+        // Reset modal form
+        resetModalForm();
+        
+        // Focus vào modal
+        modal.focus();
+      }
+
+      function closeCancelReasonModal() {
+        const modal = document.getElementById("cancelReasonModal");
+        modal.classList.remove("show");
+        
+        // Reset trạng thái về giá trị trước đó nếu không có lý do hủy
+        const cancelReasonHidden = document.getElementById("cancel-reason-hidden");
+        if (!cancelReasonHidden.value) {
+          const statusSelect = document.getElementById("status");
+          // Tìm trạng thái trước đó (không phải Cancelled)
+          const options = statusSelect.options;
+          for (let i = 0; i < options.length; i++) {
+            if (options[i].value !== "" && options[i].value !== "Cancelled") {
+              statusSelect.value = options[i].value;
+              break;
+            }
+          }
+          
+          // Trigger change event để cập nhật UI
+          const changeEvent = new Event('change', { bubbles: true });
+          statusSelect.dispatchEvent(changeEvent);
+        }
+      }
+
+      function resetModalForm() {
+        // Reset radio buttons
+        document.querySelectorAll('input[name="cancelReasonTypeModal"]').forEach(radio => {
+          radio.checked = false;
         });
         
-        // Hủy lịch hẹn
-        async function cancelAppointment() {
-            if (confirm('Bạn có chắc chắn muốn hủy lịch hẹn này?')) {
-                try {
-                    const response = await fetch(`/api/appointments/${appointmentId}/cancel`, {
-                        method: 'PUT'
-                    });
-                    
-                    if (response.ok) {
-                        alert('Hủy lịch hẹn thành công!');
-                        document.getElementById('status').value = 'Đã hủy';
-                    } else {
-                        const errorData = await response.json();
-                        alert('Lỗi: ' + (errorData.message || 'Không thể hủy lịch hẹn.'));
-                    }
-                } catch (error) {
-                    console.error('Error:', error);
-                    alert('Lỗi kết nối server.');
-                }
-            }
+        // Reset textarea
+        document.getElementById("customCancelReasonModal").value = "";
+        
+        // Ẩn phần custom reason
+        document.getElementById("customCancelReasonSectionModal").classList.remove("show");
+        
+        // Disable confirm button
+        document.getElementById("confirmCancelBtn").disabled = true;
+      }
+
+      function handleModalCancelReasonChange(radio) {
+        const customReasonSection = document.getElementById("customCancelReasonSectionModal");
+        const confirmBtn = document.getElementById("confirmCancelBtn");
+        
+        if (radio.value === "other") {
+          customReasonSection.classList.add("show");
+          // Enable confirm button chỉ khi có nội dung trong textarea
+          const textarea = document.getElementById("customCancelReasonModal");
+          textarea.addEventListener("input", function() {
+            confirmBtn.disabled = !this.value.trim();
+          });
+          confirmBtn.disabled = !document.getElementById("customCancelReasonModal").value.trim();
+        } else {
+          customReasonSection.classList.remove("show");
+          document.getElementById("customCancelReasonModal").value = "";
+          confirmBtn.disabled = false;
+        }
+      }
+
+      function confirmCancelReason() {
+        const selectedRadio = document.querySelector('input[name="cancelReasonTypeModal"]:checked');
+        if (!selectedRadio) {
+          alert("Vui lòng chọn lý do hủy!");
+          return;
         }
         
-        // Quay lại trang trước
-        function goBack() {
-            window.history.back();
+        let cancelReason = "";
+        if (selectedRadio.value === "other") {
+          const customReason = document.getElementById("customCancelReasonModal").value.trim();
+          if (!customReason) {
+            alert("Vui lòng nhập lý do hủy cụ thể!");
+            return;
+          }
+          cancelReason = customReason;
+        } else {
+          cancelReason = selectedRadio.value;
         }
         
-        // Load danh sách dịch vụ từ API
-        async function loadServices() {
-            try {
-                const response = await fetch('/api/services');
-                if (response.ok) {
-                    const services = await response.json();
-                    const serviceSelect = document.getElementById('service-id');
-                    
-                    // Clear existing options except first one
-                    serviceSelect.innerHTML = '<option value="">-- Chọn dịch vụ --</option>';
-                    
-                    services.forEach(service => {
-                        const option = document.createElement('option');
-                        option.value = service.serviceID;
-                        option.textContent = service.serviceName;
-                        serviceSelect.appendChild(option);
-                    });
-                }
-            } catch (error) {
-                console.error('Error loading services:', error);
-            }
-        }
+        // Set lý do hủy vào form
+        document.getElementById("cancel-reason-value").value = cancelReason;
+        document.getElementById("cancel-reason-hidden").value = cancelReason;
         
-        // Load services khi trang được tải
-        document.addEventListener('DOMContentLoaded', loadServices);
+        // Hiển thị trường lý do hủy
+        document.getElementById("cancel-reason-display").style.display = "block";
+        
+        // Đảm bảo trạng thái là "Cancelled"
+        document.getElementById("status").value = "Cancelled";
+        
+        // Cập nhật badge trạng thái
+        const statusDisplay = document.getElementById("current-status-display");
+        statusDisplay.textContent = getStatusText("Cancelled");
+        statusDisplay.className = `status-badge ${getStatusClass("Cancelled")}`;
+        
+        // Đóng modal
+        closeCancelReasonModal();
+        
+        // Thông báo thành công
+        alert("Đã chọn lý do hủy thành công! Nhấn 'Lưu thay đổi' để hoàn tất.");
+      }
+
+      // Xử lý đóng modal khi click bên ngoài
+      window.addEventListener("click", function(event) {
+        const modal = document.getElementById("cancelReasonModal");
+        if (event.target === modal) {
+          closeCancelReasonModal();
+        }
+      });
+
+      // Xử lý đóng modal bằng phím ESC
+      document.addEventListener("keydown", function(event) {
+        if (event.key === "Escape") {
+          const modal = document.getElementById("cancelReasonModal");
+          if (modal.classList.contains("show")) {
+            closeCancelReasonModal();
+          }
+        }
+      });
+
+      // Xử lý click nút close
+      document.querySelector(".close").addEventListener("click", closeCancelReasonModal);
     </script>
-</body>
+  </body>
 </html>
