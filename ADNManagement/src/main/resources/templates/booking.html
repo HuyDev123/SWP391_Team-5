@@ -883,7 +883,7 @@
 
         // Add CustomerId if logged in
         if (authStatus.isLoggedIn && authStatus.user && authStatus.user.id) {
-          requestData.customerId = authStatus.user.id;
+          requestData.userId = authStatus.user.id;
         }
 
         // Save form data before submission

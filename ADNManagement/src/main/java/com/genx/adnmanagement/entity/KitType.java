@@ -1,13 +1,12 @@
 package com.genx.adnmanagement.entity;
 
 import jakarta.persistence.*;
-import java.math.BigDecimal;
 import java.util.List;
 import com.genx.adnmanagement.entity.ServiceKitType;
 
 @Entity
-@Table(name = "Service")
-public class Service {
+@Table(name = "KitType")
+public class KitType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -18,13 +17,7 @@ public class Service {
     @Column(columnDefinition = "NVARCHAR(MAX)")
     private String description;
 
-    @Column(precision = 18, scale = 2)
-    private BigDecimal price;
-
-    @Column(name = "is_active")
-    private Boolean isActive;
-
-    @OneToMany(mappedBy = "service", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "kitType", cascade = CascadeType.ALL)
     private List<ServiceKitType> serviceKitTypes;
 
     // Getters and setters
@@ -34,11 +27,6 @@ public class Service {
     public void setName(String name) { this.name = name; }
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
-    public BigDecimal getPrice() { return price; }
-    public void setPrice(BigDecimal price) { this.price = price; }
-    public Boolean getIsActive() { return isActive; }
-    public void setIsActive(Boolean isActive) { this.isActive = isActive; }
     public List<ServiceKitType> getServiceKitTypes() { return serviceKitTypes; }
     public void setServiceKitTypes(List<ServiceKitType> serviceKitTypes) { this.serviceKitTypes = serviceKitTypes; }
-}
-
+} 

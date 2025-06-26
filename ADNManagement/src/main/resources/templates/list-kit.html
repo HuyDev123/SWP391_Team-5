@@ -819,224 +819,52 @@
           <i class="fas fa-vial" style="color: #2196f3"></i>
           Danh sách kit xét nghiệm ADN
         </div>
-        <!-- Search and Filter Section -->
-        <div
-          style="
-            margin-bottom: 20px;
-            background: #f8f9fa;
-            border-radius: 8px;
-            padding: 15px;
-          "
-        >
-          <!-- Top Row with Search and Status Filter -->
-          <div
-            style="
-              display: flex;
-              flex-wrap: wrap;
-              gap: 15px;
-              margin-bottom: 15px;
-            "
-          >
-            <!-- Combined Search for Appointment and Kit Code -->
-            <div style="flex: 0.6; min-width: 300px; max-width: 45%">
-              <label
-                for="searchCombined"
-                style="display: block; margin-bottom: 5px; font-weight: 500"
-                >Tìm kiếm (Mã cuộc hẹn hoặc Mã kit):</label
-              >
-              <div style="display: flex">
-                <input
-                  type="text"
-                  id="searchCombined"
-                  placeholder="Nhập mã cuộc hẹn hoặc mã kit..."
-                  style="
-                    flex: 1;
-                    padding: 8px 10px;
-                    border: 1px solid #ddd;
-                    border-radius: 4px 0 0 4px;
-                    outline: none;
-                  "
-                />
-                <button
-                  onclick="searchKits()"
-                  style="
-                    background: #2196f3;
-                    color: white;
-                    border: none;
-                    border-radius: 0 4px 4px 0;
-                    padding: 8px 15px;
-                    cursor: pointer;
-                  "
-                >
-                  <i class="fas fa-search"></i>
-                </button>
-              </div>
-            </div>
-
-            <!-- Filter by Status -->
-            <div style="flex: 0.4; min-width: 200px; max-width: 35%">
-              <label
-                for="filterStatus"
-                style="display: block; margin-bottom: 5px; font-weight: 500"
-                >Lọc theo trạng thái:</label
-              >
-              <select
-                id="filterStatus"
-                onchange="searchKits()"
-                style="
-                  width: 100%;
-                  padding: 8px 10px;
-                  border: 1px solid #ddd;
-                  border-radius: 4px;
-                  outline: none;
-                "
-              >
-                <option value="">Tất cả trạng thái</option>
-                <option value="Chờ gửi">Chờ gửi</option>
-                <option value="Đã gửi">Đã gửi</option>
-                <option value="Đã nhận mẫu">Đã nhận mẫu</option>
-                <option value="Lỗi mẫu">Lỗi mẫu</option>
-                <option value="Đã xử lý">Đã xử lý</option>
-                <option value="Đã trả kết quả">Đã trả kết quả</option>
-              </select>
-            </div>
+        <!-- Bộ lọc -->
+        <form id="kitFilterForm" style="display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-end; margin-bottom: 20px;">
+          <div style="flex: 1; min-width: 300px; max-width: 60%;">
+            <label for="searchCombined" style="display: block; margin-bottom: 5px; font-weight: 500">Tìm kiếm (Mã cuộc hẹn hoặc Mã kit):</label>
+            <input type="text" id="searchCombined" name="search" placeholder="Nhập mã cuộc hẹn hoặc mã kit..." style="width: 100%; padding: 8px 10px; border: 1px solid #ddd; border-radius: 4px; outline: none;" />
           </div>
-          <!-- Bottom Row with Date Filters and Reset Button -->
-          <div
-            style="display: flex; flex-wrap: wrap; gap: 15px; margin-top: 5px"
-          >
-            <!-- Date Filter Row 3-column layout -->
-            <div
-              style="
-                display: flex;
-                width: 100%;
-                justify-content: space-between;
-                gap: 20px;
-              "
-            >
-              <!-- From Date -->
-              <div style="flex: 1">
-                <label
-                  for="fromDate"
-                  style="display: block; margin-bottom: 5px; font-weight: 500"
-                  >Từ ngày:</label
-                >
-                <div style="display: flex; align-items: center">
-                  <input
-                    type="date"
-                    id="fromDate"
-                    onchange="searchKits()"
-                    style="
-                      width: 100%;
-                      padding: 8px 10px;
-                      border: 1px solid #ddd;
-                      border-radius: 4px;
-                      outline: none;
-                    "
-                  />
-                </div>
-              </div>
-
-              <!-- To Date -->
-              <div style="flex: 1">
-                <label
-                  for="toDate"
-                  style="display: block; margin-bottom: 5px; font-weight: 500"
-                  >Đến ngày:</label
-                >
-                <div style="display: flex; align-items: center">
-                  <input
-                    type="date"
-                    id="toDate"
-                    onchange="searchKits()"
-                    style="
-                      width: 100%;
-                      padding: 8px 10px;
-                      border: 1px solid #ddd;
-                      border-radius: 4px;
-                      outline: none;
-                    "
-                  />
-                </div>
-              </div>
-              <!-- Reset Filters Button -->
-              <div style="flex: 0.6; display: flex; align-items: flex-end">
-                <button
-                  onclick="resetFilters()"
-                  style="
-                    background: #f44336;
-                    color: white;
-                    border: none;
-                    border-radius: 4px;
-                    padding: 8px 15px;
-                    cursor: pointer;
-                    height: 38px;
-                    width: 100%;
-                  "
-                >
-                  <i class="fas fa-undo-alt"></i> Đặt lại
-                </button>
-              </div>
-            </div>
+          <div style="flex: 0.4; min-width: 200px; max-width: 35%">
+            <label for="filterStatus" style="display: block; margin-bottom: 5px; font-weight: 500">Lọc theo trạng thái:</label>
+            <select id="filterStatus" name="status" style="width: 100%; padding: 8px 10px; border: 1px solid #ddd; border-radius: 4px; outline: none;">
+              <option value="">Tất cả trạng thái</option>
+              <option value="Chờ gửi">Chờ gửi</option>
+              <option value="Đã gửi">Đã gửi</option>
+              <option value="Đã nhận mẫu">Đã nhận mẫu</option>
+              <option value="Đã xử lý">Đã xử lý</option>
+              <option value="Đã trả kết quả">Đã trả kết quả</option>
+              <option value="Lỗi mẫu">Lỗi mẫu</option>
+            </select>
           </div>
-        </div>
+          <div>
+            <button type="submit" style="background: #2196f3; color: white; border: none; border-radius: 4px; padding: 8px 18px; cursor: pointer; margin-top: 24px;">
+              <i class="fas fa-search"></i> Tìm kiếm
+            </button>
+          </div>
+        </form>
 
-        <!-- Nút Thêm kit xét nghiệm -->
-        <div style="margin-bottom: 20px; text-align: right">
-          <button
-            id="add-kit-btn"
-            onclick="openAddKitModal()"
-            style="
-              background: linear-gradient(135deg, #2196f3, #1976d2);
-              color: white;
-              border: none;
-              border-radius: 8px;
-              padding: 12px 24px;
-              font-size: 16px;
-              font-weight: 600;
-              cursor: pointer;
-              transition: all 0.3s ease;
-              box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
-            "
-            onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(33, 150, 243, 0.4)'"
-            onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(33, 150, 243, 0.3)'"
-          >
-            <i class="fas fa-plus" style="margin-right: 8px"></i>
-            Thêm kit xét nghiệm
-          </button>
-        </div>
-
+        <!-- Bảng kit -->
         <div style="overflow-x: auto">
-          <table
-            style="width: 100%; border-collapse: collapse; margin-top: 10px; table-layout: fixed;"
-          >
+          <table style="width: 100%; border-collapse: collapse; margin-top: 10px; table-layout: fixed;">
             <thead>
               <tr style="background: #e3f2fd">
-                <th style="padding: 12px 8px; border-bottom: 1px solid #eee; width: 15%; text-align: left;">
-                  Mã cuộc hẹn
-                </th>
-                <th style="padding: 12px 8px; border-bottom: 1px solid #eee; width: 15%; text-align: left;">
-                  Mã Kit
-                </th>
-                <th style="padding: 12px 8px; border-bottom: 1px solid #eee; width: 15%; text-align: left;">
-                  Ngày gửi
-                </th>
-                <th style="padding: 12px 8px; border-bottom: 1px solid #eee; width: 15%; text-align: left;">
-                  Ngày nhận
-                </th>
-                <th style="padding: 12px 8px; border-bottom: 1px solid #eee; width: 20%; text-align: left;">
-                  Trạng thái
-                </th>
-                <th style="padding: 12px 8px; border-bottom: 1px solid #eee; width: 20%; text-align: left;">
-                  Thao tác
-                </th>
+                <th style="padding: 12px 8px; border-bottom: 1px solid #eee; width: 15%; text-align: left;">Mã cuộc hẹn</th>
+                <th style="padding: 12px 8px; border-bottom: 1px solid #eee; width: 15%; text-align: left;">Mã Kit</th>
+                <th style="padding: 12px 8px; border-bottom: 1px solid #eee; width: 20%; text-align: left;">Tên dịch vụ</th>
+                <th style="padding: 12px 8px; border-bottom: 1px solid #eee; width: 20%; text-align: left;">Loại Kit</th>
+                <th style="padding: 12px 8px; border-bottom: 1px solid #eee; width: 15%; text-align: left;">Trạng thái</th>
+                <th style="padding: 12px 8px; border-bottom: 1px solid #eee; width: 15%; text-align: left;">Thao tác</th>
               </tr>
             </thead>
             <tbody id="kitTableBody">
               <!-- Dữ liệu sẽ được render bằng JS -->
             </tbody>
           </table>
-        </div>        <!-- Modal Xem Kit -->
+        </div>
+        <div id="kitPagination" style="display: flex; justify-content: center; align-items: center; margin: 20px 0; gap: 8px;"></div>
+
+        <!-- Modal Xem Kit -->
         <div
           id="view-kit-modal"
           style="
@@ -1421,81 +1249,118 @@
           </div>
         </div>
 
-        <script>          const fakeKits = [            {
-              appointmentId: "AP001",
-              kitCode: "KIT1001",
-              service: "ADN cha-con",
-              kitType: "GlobalFiler™ (Applied Biosystems)",
-              sampleCount: 2,
-              sendDate: "2025-06-01",
-              receiveDate: "",
-              deliveryTest: "DT001",
-              status: "Chờ gửi",
-              note: "Kit xét nghiệm quan hệ cha-con, yêu cầu bảo quản lạnh",
-            },
-            {
-              appointmentId: "AP002",
-              kitCode: "KIT1002",
-              service: "ADN mẹ-con",
-              kitType: "PowerPlex® Fusion (Promega)",
-              sampleCount: 3,
-              sendDate: "2025-06-02",
-              receiveDate: "2025-06-03",
-              deliveryTest: "DT002",
-              status: "Đã gửi",
-              note: "Kit xét nghiệm pháp lý, đã có giấy tờ chứng thực",
-            },
-            {
-              appointmentId: "AP003",
-              kitCode: "KIT1003",
-              service: "ADN anh,chi-em",
-              kitType: "Investigator® 24plex QS (Qiagen)",
-              sampleCount: 2,
-              sendDate: "2025-06-03",
-              receiveDate: "2025-06-04",
-              deliveryTest: "DT003",
-              status: "Đã nhận mẫu",
-              note: "Kit xét nghiệm anh chị em ruột, mẫu đã về lab",
-            },
-            {
-              appointmentId: "AP004",
-              kitCode: "KIT1004",
-              service: "ADN ông,bà-cháu",
-              kitType: "QIAamp DNA Mini Kit (Qiagen)",
-              sampleCount: 2,
-              sendDate: "2025-06-04",
-              receiveDate: "",
-              deliveryTest: "DT004",
-              status: "Lỗi mẫu",
-              note: "Mẫu bị nhiễm khuẩn, cần lấy lại",
-            },
-            {
-              appointmentId: "AP005",
-              kitCode: "KIT1005",
-              service: "ADN cha-con",
-              kitType: "GlobalFiler™ (Applied Biosystems)",
-              sampleCount: 4,
-              sendDate: "2025-06-05",
-              receiveDate: "2025-06-06",
-              deliveryTest: "DT005",
-              status: "Đã xử lý",
-              note: "Kit xét nghiệm thai nhi, đã có kết quả",
-            },
-            {
-              appointmentId: "AP006",
-              kitCode: "KIT1006",
-              service: "ADN mẹ-con",
-              kitType: "PowerPlex® Fusion (Promega)",
-              sampleCount: 2,
-              sendDate: "2025-06-06",
-              receiveDate: "2025-06-07",
-              deliveryTest: "DT006",
-              status: "Đã trả kết quả",
-              note: "Kit hoàn thành, kết quả đã gửi cho khách hàng",
-            },
-          ];
+        <script>
+          let kitList = [];
+          let currentPage = 0;
+          let totalPages = 1;
+          let pageSize = 10;
+          let currentFilters = { search: '', status: '' };
 
-          // Map trạng thái sang màu sắc
+          async function fetchKits(page = 0, size = 10, filters = {}) {
+            let params = new URLSearchParams();
+            params.append('page', page);
+            params.append('size', size);
+            if (filters.search) params.append('search', filters.search);
+            if (filters.status) params.append('status', filters.status);
+            const res = await fetch(`/kit-item/list?${params.toString()}`);
+            if (!res.ok) {
+              kitList = [];
+              renderKits([]);
+              renderKitPagination();
+              return;
+            }
+            const data = await res.json();
+            kitList = Array.isArray(data.content) ? data.content : [];
+            currentPage = data.page || 0;
+            totalPages = data.totalPages || 1;
+            pageSize = data.size || 10;
+            renderKits(kitList);
+            renderKitPagination();
+          }
+
+          function renderKits(data) {
+            const tbody = document.getElementById('kitTableBody');
+            tbody.innerHTML = data.length
+              ? data.map((k, idx) => `
+                <tr>
+                  <td style="padding:12px 8px; border-bottom:1px solid #eee; text-align: left;">${k.appointmentId || ''}</td>
+                  <td style="padding:12px 8px; border-bottom:1px solid #eee; text-align: left;">${k.kitCode || ''}</td>
+                  <td style="padding:12px 8px; border-bottom:1px solid #eee; text-align: left;">${k.service || ''}</td>
+                  <td style="padding:12px 8px; border-bottom:1px solid #eee; text-align: left;">${k.kitType || ''}</td>
+                  <td style="padding:12px 8px; border-bottom:1px solid #eee; text-align: left;">${renderKitStatus(k.status)}</td>
+                  <td style="padding:12px 8px; border-bottom:1px solid #eee; text-align: left;">
+                    <button onclick="viewKitInfo(${idx})" style="background:#e3f2fd;color:#1976d2;border:none;border-radius:4px;padding:6px 12px;cursor:pointer;margin-right:4px;">
+                      <i class='fas fa-eye'></i> Xem
+                    </button>
+                    <button onclick="openKitStatusModal('${k.kitCode}', '${k.status}')" style="background:#e3f2fd;color:#1976d2;border:none;border-radius:4px;padding:6px 12px;cursor:pointer;">
+                      <i class='fas fa-sync-alt'></i> Cập nhật trạng thái
+                    </button>
+                  </td>
+                </tr>
+              `).join('')
+              : `<tr><td colspan="6" style="text-align:center; color:#888; padding:12px;">Không có kit phù hợp</td></tr>`;
+          }
+
+          function renderKitPagination() {
+            const container = document.getElementById('kitPagination');
+            container.innerHTML = '';
+            if (totalPages <= 1) return;
+            // Prev
+            const prevBtn = document.createElement('button');
+            prevBtn.innerText = '«';
+            prevBtn.className = 'btn btn-primary';
+            prevBtn.disabled = currentPage === 0;
+            prevBtn.onclick = () => fetchKits(currentPage - 1, pageSize, currentFilters);
+            container.appendChild(prevBtn);
+            // Page numbers
+            for (let i = 0; i < totalPages; i++) {
+              const pageBtn = document.createElement('button');
+              pageBtn.innerText = (i + 1);
+              pageBtn.className = 'btn' + (i === currentPage ? ' btn-success' : ' btn-primary');
+              pageBtn.disabled = i === currentPage;
+              pageBtn.onclick = () => fetchKits(i, pageSize, currentFilters);
+              container.appendChild(pageBtn);
+            }
+            // Next
+            const nextBtn = document.createElement('button');
+            nextBtn.innerText = '»';
+            nextBtn.className = 'btn btn-primary';
+            nextBtn.disabled = currentPage === totalPages - 1;
+            nextBtn.onclick = () => fetchKits(currentPage + 1, pageSize, currentFilters);
+            container.appendChild(nextBtn);
+          }
+
+          document.getElementById('kitFilterForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const search = document.getElementById('searchCombined').value.trim();
+            const status = document.getElementById('filterStatus').value;
+            currentFilters = { search, status };
+            fetchKits(0, pageSize, currentFilters);
+          });
+
+          // Khi load trang, fetch dữ liệu kit lần đầu
+          window.addEventListener('DOMContentLoaded', function() {
+            fetchKits();
+          });
+
+          function viewKitInfo(idx) {
+            const kit = kitList[idx];
+            if (!kit) return;
+            document.getElementById('view-kit-appointment-id').textContent = kit.appointmentId || '';
+            document.getElementById('view-kit-service').textContent = kit.service || 'Chưa xác định';
+            document.getElementById('view-kit-code').textContent = kit.kitCode || '';
+            document.getElementById('view-kit-type').textContent = kit.kitType || 'Chưa xác định';
+            document.getElementById('view-kit-send-date').textContent = kit.sendDate ? formatDateDisplay(kit.sendDate) : 'Chưa gửi';
+            document.getElementById('view-kit-receive-date').textContent = kit.receiveDate ? formatDateDisplay(kit.receiveDate) : 'Chưa nhận';
+            document.getElementById('view-kit-status').innerHTML = renderKitStatus(kit.status);
+            document.getElementById('view-kit-note').textContent = kit.note || 'Không có ghi chú';
+            document.getElementById('view-kit-modal').style.display = 'flex';
+          }
+
+          function closeViewKitModal() {
+            document.getElementById('view-kit-modal').style.display = 'none';
+          }
+
           function renderKitStatus(status) {
             let color = "#888";
             if (status === "Chờ gửi") color = "#ff9800";
@@ -1504,229 +1369,9 @@
             else if (status === "Lỗi mẫu") color = "#f44336";
             else if (status === "Đã xử lý") color = "#4caf50";
             else if (status === "Đã trả kết quả") color = "#673ab7";
-            return `<span style="color:${color}; font-weight:bold;">${status}</span>`;
+            return `<span style="color:${color}; font-weight:bold;">${status || ''}</span>`;
           }
 
-          // Render thao tác
-          function renderKitActions(kit) {
-            let actions = "";            // Nút Xem
-            actions += `
-              <button onclick="viewKitInfo('${kit.kitCode}')" 
-                style="background:#e3f2fd;color:#1976d2;border:none;border-radius:4px;padding:6px 12px;cursor:pointer;margin-right:4px;">
-                <i class="fas fa-eye"></i> Xem
-              </button>
-            `;
-
-            // Nút Sửa
-            actions += `
-              <button onclick="editKit('${kit.kitCode}')" 
-                style="background:#fff3e0;color:#ff9800;border:none;border-radius:4px;padding:6px 12px;cursor:pointer;margin-right:4px;">
-                <i class="fas fa-edit"></i> Sửa
-              </button>
-            `;
-
-            // Nút Thêm mẫu chỉ xuất hiện khi trạng thái là "Đã gửi"
-            // if (kit.status === "Đã gửi") {
-            //   actions += `
-            //     <button onclick="addSampleToKit('${kit.kitCode}')"
-            //       style="background:#e8f5e9;color:#388e3c;border:none;border-radius:4px;padding:6px 12px;cursor:pointer;">
-            //       <i class="fas fa-plus"></i> Thêm mẫu xét nghiệm
-            //     </button>
-            //   `;
-            // }
-
-            return actions;
-          }
-
-          // Render bảng kit
-          function renderKits(filteredData) {
-            const tbody = document.getElementById("kitTableBody");
-            const data = filteredData || fakeKits;
-            tbody.innerHTML = data.length
-              ? data
-                  .map(
-                    (k) => `
-                  <tr>
-                    <td style="padding:12px 8px; border-bottom:1px solid #eee; text-align: left;">${
-                      k.appointmentId
-                    }</td>
-                    <td style="padding:12px 8px; border-bottom:1px solid #eee; text-align: left;">${
-                      k.kitCode
-                    }</td>
-                    <td style="padding:12px 8px; border-bottom:1px solid #eee; text-align: left;">${
-                      k.sendDate || "-"
-                    }</td>
-                    <td style="padding:12px 8px; border-bottom:1px solid #eee; text-align: left;">${
-                      k.receiveDate || "-"
-                    }</td>
-                    <td style="padding:12px 8px; border-bottom:1px solid #eee; text-align: left;">${renderKitStatus(
-                      k.status
-                    )}</td>
-                    <td style="padding:12px 8px; border-bottom:1px solid #eee; text-align: left;">${renderKitActions(
-                      k
-                    )}</td>
-                  </tr>
-                `
-                  )
-                  .join("")
-              : `<tr><td colspan="6" style="text-align:center; color:#888; padding:12px;">Không có kit phù hợp</td></tr>`;
-          } // Search and filter function
-          function searchKits() {
-            const combinedSearch = document
-              .getElementById("searchCombined")
-              .value.toLowerCase();
-            const statusFilter = document.getElementById("filterStatus").value;
-            const fromDate = document.getElementById("fromDate").value;
-            const toDate = document.getElementById("toDate").value;
-
-            // Apply filters
-            const filteredKits = fakeKits.filter((kit) => {
-              // Combined search for appointment ID and kit code
-              const matchSearch =
-                !combinedSearch ||
-                kit.appointmentId.toLowerCase().includes(combinedSearch) ||
-                kit.kitCode.toLowerCase().includes(combinedSearch);
-
-              // Filter by status
-              const matchStatus = !statusFilter || kit.status === statusFilter; // Filter by date range (send date)
-              let matchDateRange = true;
-              if (fromDate) {
-                matchDateRange = matchDateRange && kit.sendDate >= fromDate;
-              }
-              if (toDate) {
-                matchDateRange = matchDateRange && kit.sendDate <= toDate;
-              }
-
-              // Combined filter result
-              return matchSearch && matchStatus && matchDateRange;
-            });
-
-            // Render filtered results
-            renderKits(filteredKits);
-          }
-
-          // Reset all filters
-          function resetFilters() {
-            document.getElementById("searchCombined").value = "";
-            document.getElementById("filterStatus").value = "";
-            document.getElementById("fromDate").value = "";
-            document.getElementById("toDate").value = "";
-
-            // Render original data
-            renderKits();
-          }
-
-          // Các hàm thao tác
-          function editKit(kitCode) {
-            openKitModal("editkit.html?kitCode=" + encodeURIComponent(kitCode));
-          }
-
-          function addSampleToKit(kitCode) {
-            const kit = fakeKits.find((k) => k.kitCode === kitCode);
-            const sampleCount = kit ? kit.sampleCount : 1;
-            openKitModal(
-              "infosample.html?kitCode=" +
-                encodeURIComponent(kitCode) +
-                "&sampleCount=" +
-                sampleCount
-            );
-          }
-
-          // Modal functions
-          function openKitModal(url) {
-            const modal = document.getElementById("kit-modal-overlay");
-            const iframe = document.getElementById("kit-modal-iframe");
-            iframe.src = url;
-            modal.style.display = "flex";
-          }
-
-          // Close modal when clicking outside or on close button
-          document.addEventListener("DOMContentLoaded", function () {
-            const modal = document.getElementById("kit-modal-overlay");
-            const closeBtn = document.getElementById("kit-modal-close");
-
-            closeBtn.onclick = function () {
-              modal.style.display = "none";
-            };
-
-            modal.onclick = function (e) {
-              if (e.target === modal) {
-                modal.style.display = "none";
-              }
-            };
-
-            // Set initial date range values (current month)
-            const today = new Date();
-            const firstDayOfMonth = new Date(
-              today.getFullYear(),
-              today.getMonth(),
-              1
-            );
-
-            // Format dates as YYYY-MM-DD for input elements
-            const formatDate = (date) => {
-              const year = date.getFullYear();
-              const month = String(date.getMonth() + 1).padStart(2, "0");
-              const day = String(date.getDate()).padStart(2, "0");
-              return `${year}-${month}-${day}`;
-            };
-
-            // Set default date values
-            document.getElementById("fromDate").value =
-              formatDate(firstDayOfMonth);
-            document.getElementById("toDate").value = formatDate(today); // Add event listener for combined search field
-            document
-              .getElementById("searchCombined")
-              .addEventListener("keyup", function (event) {
-                if (event.key === "Enter") {
-                  searchKits();
-                }
-              });            // Initial render with default date filters
-            searchKits();
-          });          // Hàm hiển thị thông tin kit trong modal
-          function viewKitInfo(kitCode) {
-            // Tìm kit theo mã
-            const kit = fakeKits.find(k => k.kitCode === kitCode);
-            
-            if (!kit) {
-              alert('Không tìm thấy thông tin kit!');
-              return;
-            }            // Điền thông tin vào modal
-            document.getElementById('view-kit-appointment-id').textContent = kit.appointmentId;
-            document.getElementById('view-kit-service').textContent = kit.service || 'Chưa xác định';
-            document.getElementById('view-kit-code').textContent = kit.kitCode;
-            document.getElementById('view-kit-type').textContent = kit.kitType || 'Chưa xác định';            document.getElementById('view-kit-send-date').textContent = formatDateDisplay(kit.sendDate);
-            document.getElementById('view-kit-receive-date').textContent = kit.receiveDate ? formatDateDisplay(kit.receiveDate) : 'Chưa nhận';
-            
-            // Hiển thị trạng thái với màu sắc
-            const statusElement = document.getElementById('view-kit-status');
-            statusElement.innerHTML = renderKitStatus(kit.status);
-            
-            // Ghi chú
-            document.getElementById('view-kit-note').textContent = kit.note || 'Không có ghi chú';
-
-            // Lưu mã kit để dùng cho nút chỉnh sửa
-            window.currentViewingKit = kitCode;
-
-            // Hiển thị modal
-            document.getElementById('view-kit-modal').style.display = 'flex';
-          }
-
-          // Hàm đóng modal xem kit
-          function closeViewKitModal() {
-            document.getElementById('view-kit-modal').style.display = 'none';
-            window.currentViewingKit = null;
-          }
-
-          // Hàm chuyển từ modal xem sang modal chỉnh sửa
-          function editKitFromView() {
-            if (window.currentViewingKit) {
-              closeViewKitModal();
-              editKit(window.currentViewingKit);
-            }
-          }
-
-          // Hàm format ngày để hiển thị
           function formatDateDisplay(dateString) {
             if (!dateString) return '';
             const date = new Date(dateString);
@@ -1743,56 +1388,6 @@
     <script src="/assets/js/staff-main.js"></script>
 
     <script>
-      function initializeMenu() {
-        const mainMenuDiv = document.getElementById("mainMenu");
-        if (!mainMenuDiv) return;
-
-        const currentPage = window.location.pathname.split("/").pop();
-        mainMenuDiv.innerHTML = `
-          <a href="/staff-home" class="menu-item${
-            currentPage === "staff-home" ? " active" : ""
-          }">
-            <span class="menu-icon"><i class="fas fa-home"></i></span>
-            Trang chủ
-          </a>
-          <a href="/staff-booking" class="menu-item${
-            currentPage === "staff-booking.html" ? " active" : ""
-          }">
-            <span class="menu-icon"><i class="fas fa-calendar-plus"></i></span>
-            Đặt lịch xét nghiệm
-          </a>
-          <a href="/staff-appointments" class="menu-item${
-            currentPage === "staff-appointments.html" ? " active" : ""
-          }">
-            <span class="menu-icon"><i class="fas fa-clipboard-list"></i></span>
-            Danh sách lịch hẹn
-          </a>
-          <a href="/staff-kit-list" class="menu-item${
-            currentPage === "staff-kit-list.html" ? " active" : ""
-          }">
-            <span class="menu-icon"><i class="fas fa-vials"></i></span>
-            Danh sách kít xét nghiệm
-          </a>
-          <a href="/staff-participants" class="menu-item${
-            currentPage === "staff-participants.html" ? " active" : ""
-          }">
-            <span class="menu-icon"><i class="fas fa-users"></i></span>
-            Quản lý người tham gia
-          </a>
-          <a href="/staff-samples" class="menu-item${
-            currentPage === "staff-samples.html" ? " active" : ""
-          }">
-            <span class="menu-icon"><i class="fas fa-flask"></i></span>
-            Quản lý mẫu xét nghiệm
-          </a>
-          <a href="/staff-results" class="menu-item${
-            currentPage === "staff-results.html" ? " active" : ""
-          }">
-            <span class="menu-icon"><i class="fas fa-chart-line"></i></span>
-            Quản lý kết quả xét nghiệm
-          </a>
-        `;
-      }
 
       // Initialize menu when page loads
       document.addEventListener("DOMContentLoaded", function () {
@@ -1886,10 +1481,10 @@
               ID Cuộc hẹn <span style="color: red">*</span>
             </label>
             <input
-              type="text"
+              type="number"
               id="kit-appointment-id"
               required
-              placeholder="Nhập ID cuộc hẹn (VD: AP001)"
+              placeholder="Nhập ID cuộc hẹn (VD: 1)"
               style="
                 width: 100%;
                 padding: 12px;
@@ -1901,10 +1496,11 @@
               onfocus="this.style.borderColor='#2196f3'"
               onblur="this.style.borderColor='#e0e0e0'"
             />
+            <div id="kit-appointment-id-error" style="color: red; font-size: 13px; margin-top: 4px; display: none;"></div>
           </div>
 
-          <!-- Dịch vụ -->
-          <div>
+          <!-- Dịch vụ (ẩn cho đến khi có booking hợp lệ) -->
+          <div id="kit-service-group" style="display: none;">
             <label
               style="
                 display: block;
@@ -1929,35 +1525,14 @@
               "
               onfocus="this.style.borderColor='#2196f3'"
               onblur="this.style.borderColor='#e0e0e0'"
+              disabled
             >
               <option value="">Chọn dịch vụ</option>
-              <option value="ADN cha-con">
-                Xét nghiệm ADN cha-con
-              </option>
-              <option value="ADN mẹ-con">Xét nghiệm ADN mẹ-con</option>
-              <option value="ADN anh,chi-em">
-                Xét nghiệm ADN anh,chị-em
-              </option>
-              <option value="ADN ông,bà-cháu">
-                Xét nghiệm ADN ông, bà - cháu
-              </option>
-              <!-- <option value="ADN cha-con">
-                Xét nghiệm ADN cha-con(Hành chính)
-              </option>
-              <option value="ADN mẹ-con">
-                Xét nghiệm ADN mẹ-con(Hành chính)
-              </option>
-              <option value="ADN anh,chi-em">
-                Xét nghiệm ADN anh,chị-em(Hành chính)
-              </option>
-              <option value="ADN ông,bà-cháu">
-                Xét nghiệm ADN ông, bà - cháu(Hành chính)
-              </option> -->
             </select>
           </div>
 
-          <!-- Kit Code -->
-          <div>
+          <!-- Kit Code (ẩn cho đến khi có booking hợp lệ) -->
+          <div id="kit-code-group" style="display: none;">
             <label
               style="
                 display: block;
@@ -1983,11 +1558,12 @@
               "
               onfocus="this.style.borderColor='#2196f3'"
               onblur="this.style.borderColor='#e0e0e0'"
+              disabled
             />
           </div>
 
-          <!-- Kit Type -->
-          <div>
+          <!-- Kit Type (ẩn cho đến khi có booking hợp lệ) -->
+          <div id="kit-type-group" style="display: none;">
             <label
               style="
                 display: block;
@@ -2009,16 +1585,17 @@
                 font-size: 14px;
                 transition: border-color 0.3s ease;
                 background-color: white;
-              "              onfocus="this.style.borderColor='#2196f3'"
-              onblur="this.style.borderColor='#e0e0e0'"            >
+              "
+              onfocus="this.style.borderColor='#2196f3'"
+              onblur="this.style.borderColor='#e0e0e0'"
+              disabled
+            >
               <option value="">Chọn loại kit</option>
-              <option value="GlobalFiler™ (Applied Biosystems)">GlobalFiler™ (Applied Biosystems)</option>
-              <option value="PowerPlex® Fusion (Promega)">PowerPlex® Fusion (Promega)</option>
-              <option value="Investigator® 24plex QS (Qiagen)">Investigator® 24plex QS (Qiagen)</option>
-              <option value="QIAamp DNA Mini Kit (Qiagen)">QIAamp DNA Mini Kit (Qiagen)</option>
             </select>
-          </div>          <!-- Note -->
-          <div>
+          </div>
+
+          <!-- Note (ẩn cho đến khi có booking hợp lệ) -->
+          <div id="kit-note-group" style="display: none;">
             <label
               style="
                 display: block;
@@ -2045,6 +1622,7 @@
               "
               onfocus="this.style.borderColor='#2196f3'"
               onblur="this.style.borderColor='#e0e0e0'"
+              disabled
             ></textarea>
           </div>
 
@@ -2072,6 +1650,7 @@
             </button>
             <button
               type="submit"
+              id="add-kit-submit-btn"
               style="
                 flex: 1;
                 padding: 12px;
@@ -2087,6 +1666,7 @@
               "
               onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(33, 150, 243, 0.4)'"
               onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(33, 150, 243, 0.3)'"
+              disabled
             >
               <i class="fas fa-plus" style="margin-right: 8px"></i>
               Thêm Kit
@@ -2097,75 +1677,218 @@
     </div>
 
     <script>
-      // Hàm mở modal thêm kit xét nghiệm
-      function openAddKitModal() {
-        document.getElementById("add-kit-modal").style.display = "flex";
-      } // Hàm đóng modal thêm kit
+      // --- Thêm kit: kiểm tra booking và lấy dịch vụ ---
+      const kitAppointmentIdInput = document.getElementById('kit-appointment-id');
+      const kitServiceGroup = document.getElementById('kit-service-group');
+      const kitServiceSelect = document.getElementById('kit-service');
+      const kitCodeGroup = document.getElementById('kit-code-group');
+      const kitCodeInput = document.getElementById('kit-code');
+      const kitTypeGroup = document.getElementById('kit-type-group');
+      const kitTypeSelect = document.getElementById('kit-type');
+      const kitNoteGroup = document.getElementById('kit-note-group');
+      const kitNoteInput = document.getElementById('kit-note');
+      const kitAppointmentIdError = document.getElementById('kit-appointment-id-error');
+      const addKitSubmitBtn = document.getElementById('add-kit-submit-btn');
+
+      // Reset form state
+      function resetAddKitFormState() {
+        kitServiceGroup.style.display = 'none';
+        kitServiceSelect.innerHTML = '<option value="">Chọn dịch vụ</option>';
+        kitServiceSelect.disabled = true;
+        kitCodeGroup.style.display = 'none';
+        kitCodeInput.value = '';
+        kitCodeInput.disabled = true;
+        kitTypeGroup.style.display = 'none';
+        kitTypeSelect.value = '';
+        kitTypeSelect.disabled = true;
+        kitNoteGroup.style.display = 'none';
+        kitNoteInput.value = '';
+        kitNoteInput.disabled = true;
+        kitAppointmentIdError.style.display = 'none';
+        addKitSubmitBtn.disabled = true;
+      }
+
+      kitAppointmentIdInput.addEventListener('blur', function () {
+        const bookingId = kitAppointmentIdInput.value.trim();
+        if (!bookingId) {
+          resetAddKitFormState();
+          return;
+        }
+        // Gọi API kiểm tra booking và lấy dịch vụ
+        fetch(`/kit-item/booking-services/${bookingId}`)
+          .then(res => {
+            if (!res.ok) throw new Error('notfound');
+            return res.json();
+          })
+          .then(services => {
+            if (!Array.isArray(services) || services.length === 0) {
+              kitAppointmentIdError.textContent = 'Cuộc hẹn không có dịch vụ nào.';
+              kitAppointmentIdError.style.display = 'block';
+              resetAddKitFormState();
+              return;
+            }
+            // Hiển thị các trường còn lại
+            kitAppointmentIdError.style.display = 'none';
+            kitServiceGroup.style.display = '';
+            kitServiceSelect.disabled = false;
+            kitServiceSelect.innerHTML = '<option value="">Chọn dịch vụ</option>' +
+              services.map(s => `<option value="${s.id}">${s.name}</option>`).join('');
+            kitCodeGroup.style.display = '';
+            kitCodeInput.disabled = false;
+            kitTypeGroup.style.display = '';
+            kitTypeSelect.disabled = false;
+            kitNoteGroup.style.display = '';
+            kitNoteInput.disabled = false;
+            addKitSubmitBtn.disabled = false;
+          })
+          .catch(err => {
+            kitAppointmentIdError.textContent = 'Không tìm thấy cuộc hẹn hoặc lỗi hệ thống.';
+            kitAppointmentIdError.style.display = 'block';
+            resetAddKitFormState();
+          });
+      });
+
+      // Khi đóng modal thì reset lại form
       function closeAddKitModal() {
         document.getElementById("add-kit-modal").style.display = "none";
-        // Reset form
         document.getElementById("add-kit-form").reset();
+        resetAddKitFormState();
       }
 
       // Xử lý submit form thêm kit
       document.addEventListener("DOMContentLoaded", function () {
+        resetAddKitFormState();
         const form = document.getElementById("add-kit-form");
         if (form) {
           form.addEventListener("submit", function (e) {
-            e.preventDefault();            // Lấy dữ liệu từ form
-            const kitData = {
-              appointmentId:
-                document.getElementById("kit-appointment-id").value,
-              service: document.getElementById("kit-service").value,
-              kitCode: document.getElementById("kit-code").value,
-              kitType: document.getElementById("kit-type").value,
-              note: document.getElementById("kit-note").value,
-            };
-
-            // Validate required fields
-            if (
-              !kitData.appointmentId ||
-              !kitData.service ||
-              !kitData.kitCode ||
-              !kitData.kitType
-            ) {
+            e.preventDefault();
+            // Lấy dữ liệu từ form
+            const bookingId = kitAppointmentIdInput.value.trim();
+            const serviceId = kitServiceSelect.value;
+            const kitCode = kitCodeInput.value.trim();
+            const kitTypeId = kitTypeSelect.value;
+            const note = kitNoteInput.value.trim();
+            if (!bookingId || !serviceId || !kitCode || !kitTypeId) {
               alert("Vui lòng điền đầy đủ các trường bắt buộc!");
               return;
             }
-
-            // Call API to add kit (giả lập)
-            console.log("Adding kit with data:", kitData);
-
-            // Simulate API call
-            setTimeout(() => {
-              alert("Thêm kit xét nghiệm thành công!");
-              closeAddKitModal();
-
-              // Reload page to refresh kit list
-              window.location.reload();
-            }, 500);
-          });
-        }
-
-        // Close modal when clicking outside
-        const modal = document.getElementById("add-kit-modal");
-        if (modal) {
-          modal.addEventListener("click", function (e) {
-            if (e.target === this) {
-              closeAddKitModal();
-            }
-          });        }
-
-        // Close modal when clicking outside
-        const viewModal = document.getElementById("view-kit-modal");
-        if (viewModal) {
-          viewModal.addEventListener("click", function (e) {
-            if (e.target === this) {
-              closeViewKitModal();
-            }
+            // Gọi API thêm kit
+            fetch('/kit-item/add', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                bookingId: Number(bookingId),
+                serviceId: Number(serviceId),
+                kitCode,
+                kitTypeId: Number(kitTypeId),
+                note
+              })
+            })
+              .then(res => {
+                if (!res.ok) throw new Error('Lỗi khi thêm kit');
+                return res.text();
+              })
+              .then(msg => {
+                alert(msg || 'Thêm kit xét nghiệm thành công!');
+                closeAddKitModal();
+                window.location.reload();
+              })
+              .catch(err => {
+                alert('Lỗi khi thêm kit: ' + err.message);
+              });
           });
         }
       });
+
+      // --- Bổ sung: Khi chọn dịch vụ, load loại kit phù hợp ---
+      kitServiceSelect.addEventListener('change', function () {
+        const serviceId = kitServiceSelect.value;
+        if (!serviceId) {
+          kitTypeSelect.innerHTML = '<option value="">Chọn loại kit</option>';
+          kitTypeSelect.disabled = true;
+          kitTypeGroup.style.display = '';
+          return;
+        }
+        // Gọi API lấy loại kit phù hợp
+        fetch(`/kit-item/kit-types/${serviceId}`)
+          .then(res => {
+            if (!res.ok) throw new Error('Không lấy được loại kit');
+            return res.json();
+          })
+          .then(kitTypes => {
+            if (!Array.isArray(kitTypes) || kitTypes.length === 0) {
+              kitTypeSelect.innerHTML = '<option value="">Không có loại kit phù hợp</option>';
+              kitTypeSelect.disabled = true;
+              return;
+            }
+            kitTypeSelect.innerHTML = '<option value="">Chọn loại kit</option>' +
+              kitTypes.map(kt => `<option value="${kt.id}">${kt.name}</option>`).join('');
+            kitTypeSelect.disabled = false;
+          })
+          .catch(() => {
+            kitTypeSelect.innerHTML = '<option value="">Không lấy được loại kit</option>';
+            kitTypeSelect.disabled = true;
+          });
+      });
+    </script>
+
+    <!-- Add modal for updating kit status -->
+    <div id="kit-status-modal" style="display:none;position:fixed;z-index:10001;top:0;left:0;width:100vw;height:100vh;background:rgba(30,42,60,0.35);backdrop-filter:blur(2px);justify-content:center;align-items:center;">
+      <div style="background:#fff;border-radius:12px;min-width:320px;max-width:95vw;padding:24px 20px;box-shadow:0 8px 32px rgba(0,0,0,0.18);position:relative;">
+        <button id="kit-status-close" style="position:absolute;top:10px;right:14px;background:rgba(33,150,243,0.08);border:none;font-size:22px;cursor:pointer;color:#2196f3;border-radius:50%;width:32px;height:32px;">&times;</button>
+        <h3 style="margin-bottom:18px;font-size:18px;color:#2196f3;">Cập nhật trạng thái kit</h3>
+        <form id="kit-status-form">
+          <input type="hidden" id="kit-status-kitcode" />
+          <div style="margin-bottom:16px;">
+            <label for="kit-status-select" style="font-weight:500;">Trạng thái mới:</label>
+            <select id="kit-status-select" required style="width:100%;padding:8px 10px;border-radius:6px;border:1px solid #ccc;margin-top:6px;">
+              <option value="">Chọn trạng thái</option>
+              <option value="Chờ gửi">Chờ gửi</option>
+              <option value="Đã gửi">Đã gửi</option>
+              <option value="Đã nhận mẫu">Đã nhận mẫu</option>
+              <option value="Đã xử lý">Đã xử lý</option>
+              <option value="Đã trả kết quả">Đã trả kết quả</option>
+              <option value="Lỗi mẫu">Lỗi mẫu</option>
+            </select>
+          </div>
+          <div style="display:flex;justify-content:flex-end;gap:10px;">
+            <button type="button" id="kit-status-cancel" style="background:#f5f5f5;color:#333;border:1px solid #ddd;border-radius:4px;padding:8px 18px;cursor:pointer;">Hủy</button>
+            <button type="submit" style="background:#2196f3;color:white;border:none;border-radius:4px;padding:8px 18px;cursor:pointer;">Cập nhật</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      function openKitStatusModal(kitCode, currentStatus) {
+        document.getElementById("kit-status-modal").style.display = "flex";
+        document.getElementById("kit-status-kitcode").value = kitCode;
+        const select = document.getElementById("kit-status-select");
+        select.value = currentStatus || "";
+      }
+      document.getElementById("kit-status-close").onclick =
+      document.getElementById("kit-status-cancel").onclick = function() {
+        document.getElementById("kit-status-modal").style.display = "none";
+      };
+      document.getElementById("kit-status-form").onsubmit = async function(e) {
+        e.preventDefault();
+        const kitCode = document.getElementById("kit-status-kitcode").value;
+        const newStatus = document.getElementById("kit-status-select").value;
+        if (!newStatus) return;
+        try {
+          const response = await fetch(`/kit-item/status/${kitCode}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ status: newStatus })
+          });
+          if (!response.ok) throw new Error(await response.text());
+          alert("Cập nhật trạng thái kit thành công!");
+          document.getElementById("kit-status-modal").style.display = "none";
+          fetchKits(currentPage, pageSize, currentFilters);
+        } catch (err) {
+          alert("Lỗi: " + err.message);
+        }
+      };
     </script>
   </body>
 </html>

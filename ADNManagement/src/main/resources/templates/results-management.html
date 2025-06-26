@@ -826,7 +826,7 @@
       const completedAppointments = [
         {
           id: "AP001",
-          customerCode: "KH001",
+          userId: "KH001",
           customerName: "Nguyễn Văn A",
           service: "Xét nghiệm huyết thống cha-con",
           completedDate: "2024-01-15",
@@ -842,7 +842,7 @@
         },
         {
           id: "AP002",
-          customerCode: "KH002",
+          userId: "KH002",
           customerName: "Trần Thị B",
           service: "Xét nghiệm huyết thống mẹ-con",
           completedDate: "2024-01-18",
@@ -858,7 +858,7 @@
         },
         {
           id: "AP003",
-          customerCode: "KH003",
+          userId: "KH003",
           customerName: "Lê Văn D",
           service: "Xét nghiệm huyết thống ông/bà-cháu",
           completedDate: "2024-01-20",
@@ -874,7 +874,7 @@
         },
         {
           id: "AP004",
-          customerCode: "KH004",
+          userId: "KH004",
           customerName: "Phạm Văn F",
           service: "Xét nghiệm huyết thống anh/chị-em",
           completedDate: "2024-01-22",
@@ -890,7 +890,7 @@
         },
         {
           id: "AP005",
-          customerCode: "KH005",
+          userId: "KH005",
           customerName: "Nguyễn Thị E",
           service: "Combo xét nghiệm cha-con + mẹ-con",
           completedDate: "2024-01-25",
@@ -916,7 +916,7 @@
         },
         {
           id: "AP006",
-          customerCode: "KH006",
+          userId: "KH006",
           customerName: "Hoàng Văn G",
           service: "Combo full package",
           completedDate: "2024-01-30",
@@ -1114,7 +1114,7 @@
               <div style="background: #f8f9fa; padding: 15px; border-radius: 10px;">
                 <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
                   <strong>Mã KH:</strong> 
-                  <span style="background: #667eea; color: white; padding: 4px 12px; border-radius: 20px; font-weight: 600; font-size: 13px;">${appointment.customerCode}</span>
+                  <span style="background: #667eea; color: white; padding: 4px 12px; border-radius: 20px; font-weight: 600; font-size: 13px;">${appointment.userId}</span>
                 </div>
                 <p><strong>Khách hàng:</strong> ${appointment.customerName}</p>
                 <p><strong>Gói dịch vụ:</strong> ${appointment.service}</p>
@@ -1189,7 +1189,7 @@
               <div style="background: #f8f9fa; padding: 15px; border-radius: 10px;">
                 <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
                   <strong>Mã KH:</strong> 
-                  <span style="background: #667eea; color: white; padding: 4px 12px; border-radius: 20px; font-weight: 600; font-size: 13px;">${appointment.customerCode}</span>
+                  <span style="background: #667eea; color: white; padding: 4px 12px; border-radius: 20px; font-weight: 600; font-size: 13px;">${appointment.userId}</span>
                 </div>
                 <p><strong>Khách hàng:</strong> ${appointment.customerName}</p>
                 <p><strong>Dịch vụ:</strong> ${appointment.service}</p>
@@ -1255,7 +1255,7 @@
               <p><strong>Mã lịch hẹn:</strong> ${appointment.id}</p>
               <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
                 <strong>Mã KH:</strong> 
-                <span style="background: #667eea; color: white; padding: 4px 12px; border-radius: 20px; font-weight: 600; font-size: 13px;">${appointment.customerCode}</span>
+                <span style="background: #667eea; color: white; padding: 4px 12px; border-radius: 20px; font-weight: 600; font-size: 13px;">${appointment.userId}</span>
               </div>
               <p><strong>Khách hàng:</strong> ${appointment.customerName}</p>
               <p><strong>Dịch vụ:</strong> ${appointment.service}</p>
@@ -1314,7 +1314,7 @@
               <p><strong>Mã lịch hẹn:</strong> ${appointment.id}</p>
               <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
                 <strong>Mã KH:</strong> 
-                <span style="background: #667eea; color: white; padding: 4px 12px; border-radius: 20px; font-weight: 600; font-size: 13px;">${appointment.customerCode}</span>
+                <span style="background: #667eea; color: white; padding: 4px 12px; border-radius: 20px; font-weight: 600; font-size: 13px;">${appointment.userId}</span>
               </div>
               <p><strong>Khách hàng:</strong> ${appointment.customerName}</p>
               <p><strong>Dịch vụ:</strong> ${appointment.service}</p>
@@ -1595,7 +1595,7 @@
               <p><strong>Mã lịch hẹn:</strong> ${appointment.id}</p>
               <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
                 <strong>Mã KH:</strong> 
-                <span style="background: #667eea; color: white; padding: 4px 12px; border-radius: 20px; font-weight: 600; font-size: 13px;">${appointment.customerCode}</span>
+                <span style="background: #667eea; color: white; padding: 4px 12px; border-radius: 20px; font-weight: 600; font-size: 13px;">${appointment.userId}</span>
               </div>
               <p><strong>Khách hàng:</strong> ${appointment.customerName}</p>
               <p><strong>Dịch vụ cụ thể:</strong> ${service.serviceName}</p>
@@ -1652,7 +1652,7 @@
               <p><strong>Mã lịch hẹn:</strong> ${appointment.id}</p>
               <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
                 <strong>Mã KH:</strong> 
-                <span style="background: #667eea; color: white; padding: 4px 12px; border-radius: 20px; font-weight: 600; font-size: 13px;">${appointment.customerCode}</span>
+                <span style="background: #667eea; color: white; padding: 4px 12px; border-radius: 20px; font-weight: 600; font-size: 13px;">${appointment.userId}</span>
               </div>
               <p><strong>Khách hàng:</strong> ${appointment.customerName}</p>
               <p><strong>Dịch vụ cụ thể:</strong> ${service.serviceName}</p>

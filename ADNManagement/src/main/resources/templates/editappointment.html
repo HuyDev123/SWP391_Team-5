@@ -1289,7 +1289,7 @@
       function populateForm(appointment) {
         document.getElementById("appointment-id-display").textContent = appointment.id || "";
         document.getElementById("created-date").textContent = appointment.createdDate ? new Date(appointment.createdDate).toLocaleString("vi-VN") : "";
-        document.getElementById("customer-code").value = appointment.customerId || "";
+        document.getElementById("customer-code").value = appointment.userId || "";
         document.getElementById("full-name").value = appointment.customerName || "";
         document.getElementById("email").value = appointment.email || "";
         document.getElementById("phone").value = appointment.phone || "";
@@ -1571,7 +1571,7 @@
         const testData = {
           appointmentID: "APT001",
           createdDate: new Date().toISOString(),
-          customerCode: "CUS001",
+          userId: "CUS001",
           fullName: "Nguyễn Văn A",
           email: "test@example.com",
           phone: "0123456789",

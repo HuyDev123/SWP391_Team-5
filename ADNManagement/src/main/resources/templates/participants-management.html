@@ -902,12 +902,12 @@
               />
             </div>
             <div class="form-col">
-              <label class="form-label" for="customer-code"
+              <label class="form-label" for="userId"
                 >Mã người đăng ký cuộc hẹn *</label
               >
               <input
                 type="text"
-                id="customer-code"
+                id="userId"
                 class="form-control"
                 placeholder="Nhập mã người đăng ký cuộc hẹn"
                 required
@@ -1383,7 +1383,7 @@
           id: 1,
           appointmentId: "APT001",
           fullName: "Nguyễn Văn An",
-          customerCode: "NTG001",
+          userId: "NTG001",
           purpose: "civil",
           status: "active",
           createdDate: "2024-06-15",
@@ -1400,7 +1400,7 @@
           id: 2,
           appointmentId: "APT002",
           fullName: "Trần Thị Bình",
-          customerCode: "NTG002",
+          userId: "NTG002",
           purpose: "administrative",
           status: "pending",
           createdDate: "2024-06-20",
@@ -1421,7 +1421,7 @@
           id: 3,
           appointmentId: "APT003",
           fullName: "Lê Văn Cường",
-          customerCode: "NTG003",
+          userId: "NTG003",
           purpose: "civil",
           status: "active",
           createdDate: "2024-06-18",
@@ -1521,7 +1521,7 @@
         row.innerHTML = `
           <td>${participant.appointmentId}</td>
           <td>${participant.fullName}</td>
-          <td>${participant.customerCode}</td>
+          <td>${participant.userId}</td>
           <td>${participant.relationship || "Chưa cập nhật"}</td>
           <td>
             <button class="btn btn-info" onclick="viewParticipant(${
@@ -1722,7 +1722,7 @@
           id: participants.length + 1,
           appointmentId: document.getElementById("appointment-id").value,
           fullName: document.getElementById("full-name").value,
-          customerCode: document.getElementById("customer-code").value,
+          userId: document.getElementById("userId").value,
           relationship: document.getElementById("relationship").value,
           purpose: document.getElementById("purpose").value,
           status: "active",
@@ -1820,7 +1820,7 @@
             <strong>Họ và tên:</strong> ${participant.fullName}
           </div>
           <div class="form-group">
-            <strong>Mã người đăng ký:</strong> ${participant.customerCode}
+            <strong>Mã người đăng ký:</strong> ${participant.userId}
           </div>
           <div class="form-group">
             <strong>Mối quan hệ với người đăng ký:</strong> ${
@@ -1899,7 +1899,7 @@
           const matchesSearch =
             participant.fullName.toLowerCase().includes(searchTerm) ||
             participant.appointmentId.toLowerCase().includes(searchTerm) ||
-            participant.customerCode.toLowerCase().includes(searchTerm);
+            participant.userId.toLowerCase().includes(searchTerm);
 
           const matchesService =
             !serviceFilter || participant.serviceType === serviceFilter;

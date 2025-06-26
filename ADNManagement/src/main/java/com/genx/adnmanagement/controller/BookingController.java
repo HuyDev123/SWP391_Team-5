@@ -35,8 +35,8 @@ public class BookingController {
     public ResponseEntity<?> createBooking(@RequestBody BookingRequest request, @SessionAttribute(name = "user", required = false) User sessionUser) {
         try {
             // Kiểm tra userId nếu có gửi từ client
-            if (request.getCustomerId() != null) {
-                if (sessionUser == null || !request.getCustomerId().equals(sessionUser.getId())) {
+            if (request.getUserId() != null) {
+                if (sessionUser == null || !request.getUserId().equals(sessionUser.getId())) {
                     return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                             .header("X-Session-Status", "EXPIRED")
                             .body("SESSION_EXPIRED: Phiên đăng nhập đã hết hạn, đang tải lại trang...");
@@ -101,7 +101,7 @@ public class BookingController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body("SESSION_EXPIRED: Phiên đăng nhập đã hết hạn, vui lòng đăng nhập lại.");
         }
-        int customerId = sessionUser.getId();
+        int userId = sessionUser.getId();
         try {
             Pageable pageable = PageRequest.of(page, size);
             LocalDate bookingDate = null;
@@ -109,7 +109,7 @@ public class BookingController {
                 bookingDate = LocalDate.parse(date);
             }
             Page<Booking> bookingPage = bookingRepository.findByUserIdAndFilters(
-                customerId,
+                userId,
                 (status == null || status.isBlank()) ? null : status,
                 bookingDate,
                 serviceId,
