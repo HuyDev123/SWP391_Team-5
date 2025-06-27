@@ -1,5 +1,7 @@
 package com.genx.adnmanagement.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -48,16 +50,20 @@ public class Booking {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private User customer;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "staff_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private User staff;
 
     @OneToMany(mappedBy = "booking", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<BookingService> bookingServices;
 
     @OneToMany(mappedBy = "booking", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Participant> participants;
 
     // Getters and setters
@@ -93,5 +99,21 @@ public class Booking {
     public void setBookingServices(List<BookingService> bookingServices) { this.bookingServices = bookingServices; }
     public List<Participant> getParticipants() { return participants; }
     public void setParticipants(List<Participant> participants) { this.participants = participants; }
+
+    // Helper methods
+    public String getCustomerName() {
+        return this.fullName;
+    }
+
+    public String getServiceType() {
+        if (this.bookingServices != null && !this.bookingServices.isEmpty()) {
+            return this.bookingServices.get(0).getService().getName();
+        }
+        return "N/A";
+    }
+
+    public String getPurpose() {
+        return this.isAdministrative != null && this.isAdministrative ? "Hành chính" : "Dân sự";
+    }
 }
 

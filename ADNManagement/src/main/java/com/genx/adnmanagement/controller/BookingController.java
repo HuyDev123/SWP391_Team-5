@@ -251,7 +251,11 @@ public class BookingController {
             for (Booking booking : bookingPage.getContent()) {
                 Map<String, Object> appointmentDetails = new HashMap<>();
                 appointmentDetails.put("id", booking.getId());
-                appointmentDetails.put("customerId", booking.getCustomer().getId());
+                if (booking.getCustomer() != null) {
+                    appointmentDetails.put("customerId", booking.getCustomer().getId());
+                } else {
+                    appointmentDetails.put("customerId", null);
+                }
                 appointmentDetails.put("customerName", booking.getFullName());
                 appointmentDetails.put("email", booking.getEmail());
                 appointmentDetails.put("phone", booking.getPhone());
@@ -322,7 +326,11 @@ public class BookingController {
         }
         Map<String, Object> appointmentDetails = new HashMap<>();
         appointmentDetails.put("id", booking.getId());
-        appointmentDetails.put("customerId", booking.getCustomer().getId());
+        if (booking.getCustomer() != null) {
+            appointmentDetails.put("customerId", booking.getCustomer().getId());
+        } else {
+            appointmentDetails.put("customerId", null);
+        }
         appointmentDetails.put("customerName", booking.getFullName());
         appointmentDetails.put("email", booking.getEmail());
         appointmentDetails.put("phone", booking.getPhone());

@@ -1,5 +1,7 @@
 package com.genx.adnmanagement.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
@@ -13,10 +15,12 @@ public class Participant {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "booking_id", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Booking booking;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private User user;
 
     @Column(name = "full_name", length = 255)
@@ -56,6 +60,7 @@ public class Participant {
     private String note;
 
     @OneToMany(mappedBy = "participant", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<TestSample> testSamples;
 
     // Getters and setters
@@ -91,4 +96,9 @@ public class Participant {
     public void setNote(String note) { this.note = note; }
     public List<TestSample> getTestSamples() { return testSamples; }
     public void setTestSamples(List<TestSample> testSamples) { this.testSamples = testSamples; }
+
+    // Helper methods
+    public String getCustomerName() {
+        return this.booking != null ? this.booking.getFullName() : null;
+    }
 } 

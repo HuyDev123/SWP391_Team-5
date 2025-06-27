@@ -1,5 +1,6 @@
 package com.genx.adnmanagement.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
@@ -26,9 +27,11 @@ public class User {
     private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "customer")
+    @JsonIgnore
     private java.util.List<Booking> bookingsAsCustomer;
 
     @OneToMany(mappedBy = "staff")
+    @JsonIgnore
     private java.util.List<Booking> bookingsAsStaff;
 
     public User() {
