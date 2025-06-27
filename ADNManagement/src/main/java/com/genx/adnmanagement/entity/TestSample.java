@@ -1,5 +1,7 @@
 package com.genx.adnmanagement.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
@@ -12,10 +14,12 @@ public class TestSample {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "service_id", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Service service;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "participant_id", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Participant participant;
 
     @Column(name = "sample_code", length = 100)
@@ -26,6 +30,7 @@ public class TestSample {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "collected_by")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private User collectedBy;
 
     @Column(name = "collected_at")

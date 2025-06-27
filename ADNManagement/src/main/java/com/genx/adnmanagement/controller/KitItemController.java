@@ -31,21 +31,28 @@ public class KitItemController {
 
     // 1. Check booking existence and return services for dropdown
     @GetMapping("/booking-services/{bookingId}")
-    public ResponseEntity<?> getServicesByBooking(@PathVariable Integer bookingId) {
+    public ResponseEntity<?> getBookingServices(@PathVariable Integer bookingId) {
         Optional<Booking> bookingOpt = bookingRepository.findById(bookingId);
         if (bookingOpt.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không tìm thấy cuộc hẹn với ID: " + bookingId);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không tìm thấy cuộc hẹn");
         }
-        List<BookingService> bookingServices = bookingServiceRepository.findByBooking_Id(bookingId);
-        List<Map<String, Object>> services = new ArrayList<>();
-        for (BookingService bs : bookingServices) {
+        Booking booking = bookingOpt.get();
+        if (Boolean.TRUE.equals(booking.getIsCenterCollected())) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Chỉ hỗ trợ thêm kit cho cuộc hẹn phương thức tại nhà");
+        }
+        if ("Đã hủy".equalsIgnoreCase(booking.getStatus())) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Cuộc hẹn đã bị hủy, không thể thêm kit");
+        }
+        List<BookingService> services = bookingServiceRepository.findByBooking_Id(bookingId);
+        List<Map<String, Object>> servicesList = new ArrayList<>();
+        for (BookingService bs : services) {
             Service service = bs.getService();
             Map<String, Object> map = new HashMap<>();
             map.put("id", service.getId());
             map.put("name", service.getName());
-            services.add(map);
+            servicesList.add(map);
         }
-        return ResponseEntity.ok(services);
+        return ResponseEntity.ok(servicesList);
     }
 
     // 2. Add new KitItem (after booking and service are selected)
@@ -135,9 +142,10 @@ public class KitItemController {
             // Filter theo search
             boolean match = true;
             if (search != null && !search.isBlank()) {
-                String s = search.toLowerCase();
-                match = (appointmentId != null && appointmentId.toLowerCase().contains(s))
-                        || (kit.getKitCode() != null && kit.getKitCode().toLowerCase().contains(s));
+                String s = search.trim();
+                // Lọc chính xác theo ID hoặc code
+                match = (appointmentId != null && appointmentId.equals(s))
+                        || (kit.getKitCode() != null && kit.getKitCode().equals(s));
             }
             // Filter theo status
             if (match && status != null && !status.isBlank()) {

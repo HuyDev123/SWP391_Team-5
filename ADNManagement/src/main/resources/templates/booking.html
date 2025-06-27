@@ -935,10 +935,8 @@
 
       // Hàm hiển thị modal thông báo thành công
       function showSuccessModal() {
-        console.log("Showing success modal"); // Debug log
         const modal = document.getElementById("successModal");
         if (!modal) {
-          console.error("Success modal not found!"); // Debug log
           return;
         }
         modal.classList.add("show");
@@ -953,7 +951,6 @@
 
       // Hàm đóng modal thông báo
       function closeSuccessModal() {
-        console.log("Closing success modal"); // Debug log
         const modal = document.getElementById("successModal");
         if (!modal) return;
         const modalContent = modal.querySelector(".modal-content");
