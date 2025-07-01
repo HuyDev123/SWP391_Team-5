@@ -591,7 +591,9 @@
         height: 24px;
         cursor: pointer;
         font-size: 12px;
-      } /* Responsive design */
+      }
+
+      /* Responsive design */
       @media (max-width: 768px) {
         .sidebar {
           width: 280px;
@@ -688,38 +690,49 @@
   </head>
 
   <body>
+    <script th:inline="javascript">
+      /*<![CDATA[*/
+      window.serverStaff = /*[[${staffData}]]*/ null;
+      /*]]>*/
+    </script>
     <!-- Sidebar -->
     <div class="sidebar">
       <div class="logo-container">
         <img src="/assets/images/logo.png" alt="Logo" class="logo" />
         <div class="text-container">
-          <span class="logo-text">Genx</span>
-          <span class="logo-subtext">Trung tâm xét nghiệm ADN huyết thống</span>
+          <div class="logo-text">Genx</div>
+          <div class="logo-subtext">Trung tâm xét nghiệm ADN huyết thống</div>
         </div>
       </div>
-
-      <div class="login-register" id="userProfileSection">
-        <!-- User profile will be loaded here -->
-        <div id="user-info-container">
-          <div class="user-info">
-            <div class="avatar">
-              <img id="user-avatar" src="/assets/images/user-avatar.png" alt="User Avatar" style="display: block" />
-            </div>
-            <div class="user-details">
-              <div id="avatar-fullname" class="user-name">Nhân viên</div>
-              <div id="avatar-role" class="user-role">Nhân viên</div>
-            </div>
-          </div>
-          <button id="logout-btn" class="logout-btn" onclick="window.handleLogout()">
-            <i class="fas fa-sign-out-alt"></i>
-            Đăng xuất
-          </button>
-        </div>
+      <div class="login-register" id="login-register">
+        <div id="user-info-container"></div>
       </div>
-
-      <div class="menu-title">Menu chính</div>
+      <div class="menu-title">MAIN MENU</div>
       <div id="mainMenu">
-        <!-- Main menu will be loaded here -->
+        <a href="/staff-home" class="menu-item">
+          <span class="menu-icon"><i class="fas fa-home"></i></span>
+          Trang chủ
+        </a>
+        <a href="/staff-appointments" class="menu-item">
+          <span class="menu-icon"><i class="fas fa-clipboard-list"></i></span>
+          Danh sách lịch hẹn
+        </a>
+        <a href="/staff-kit-list" class="menu-item">
+          <span class="menu-icon"><i class="fas fa-vials"></i></span>
+          Danh sách kit xét nghiệm
+        </a>
+        <a href="/staff-participants" class="menu-item">
+          <span class="menu-icon"><i class="fas fa-users"></i></span>
+          Quản lý người tham gia
+        </a>
+        <a href="/staff-samples" class="menu-item">
+          <span class="menu-icon"><i class="fas fa-flask"></i></span>
+          Quản lý mẫu xét nghiệm
+        </a>
+        <a href="/staff-results" class="menu-item active">
+          <span class="menu-icon"><i class="fas fa-chart-line"></i></span>
+          Quản lý kết quả xét nghiệm
+        </a>
       </div>
     </div>
 
@@ -754,14 +767,6 @@
               <option value="Có kết quả một phần">Có kết quả một phần</option>
               <option value="Đã hoàn thành">Đã hoàn thành</option>
             </select>
-          </div>
-          <div class="filter-group">
-            <label class="filter-label">Từ ngày</label>
-            <input type="date" class="filter-input" id="fromDate" />
-          </div>
-          <div class="filter-group">
-            <label class="filter-label">Đến ngày</label>
-            <input type="date" class="filter-input" id="toDate" />
           </div>
         </div>
         <div class="filter-actions">
@@ -819,135 +824,90 @@
 
     <!-- Include JS files -->
     <script src="/assets/js/staff-api.js"></script>
+    <script src="/assets/js/staff-auth-check.js"></script>
     <script src="/assets/js/staff-auth.js"></script>
-    <script src="/assets/js/staff-main.js"></script>
 
-    <script>      // Sample data for completed appointments
-      const completedAppointments = [
-        {
-          id: "AP001",
-          userId: "KH001",
-          customerName: "Nguyễn Văn A",
-          service: "Xét nghiệm huyết thống cha-con",
-          completedDate: "2024-01-15",
-          resultStatus: "Đã hoàn thành",
-          progress: 100,
-          isMultiService: false,
-          result: {
-            status: "Đã có kết quả",
-            uploadDate: "2024-01-20",
-            files: ["result_AP001.pdf"],
-            notes: "Kết quả xét nghiệm đã hoàn thành",
-          },
-        },
-        {
-          id: "AP002",
-          userId: "KH002",
-          customerName: "Trần Thị B",
-          service: "Xét nghiệm huyết thống mẹ-con",
-          completedDate: "2024-01-18",
-          resultStatus: "Chưa có kết quả",
-          progress: 0,
-          isMultiService: false,
-          result: {
-            status: "Chưa có kết quả",
-            uploadDate: "",
-            files: [],
-            notes: "",
-          },
-        },
-        {
-          id: "AP003",
-          userId: "KH003",
-          customerName: "Lê Văn D",
-          service: "Xét nghiệm huyết thống ông/bà-cháu",
-          completedDate: "2024-01-20",
-          resultStatus: "Chưa có kết quả",
-          progress: 0,
-          isMultiService: false,
-          result: {
-            status: "Chưa có kết quả",
-            uploadDate: "",
-            files: [],
-            notes: "",
-          },
-        },
-        {
-          id: "AP004",
-          userId: "KH004",
-          customerName: "Phạm Văn F",
-          service: "Xét nghiệm huyết thống anh/chị-em",
-          completedDate: "2024-01-22",
-          resultStatus: "Đã hoàn thành",
-          progress: 100,
-          isMultiService: false,
-          result: {
-            status: "Đã có kết quả",
-            uploadDate: "2024-01-25",
-            files: ["result_AP004.pdf"],
-            notes: "Kết quả xét nghiệm đã hoàn thành",
-          },
-        },
-        {
-          id: "AP005",
-          userId: "KH005",
-          customerName: "Nguyễn Thị E",
-          service: "Combo xét nghiệm cha-con + mẹ-con",
-          completedDate: "2024-01-25",
-          resultStatus: "Có kết quả một phần",
-          progress: 50,
-          isMultiService: true,
-          results: [
-            {
-              serviceName: "Xét nghiệm huyết thống cha-con",
-              status: "Đã có kết quả",
-              uploadDate: "2024-01-28",
-              files: ["result_AP005_cha_con.pdf"],
-              notes: "Kết quả xét nghiệm cha-con đã hoàn thành",
-            },
-            {
-              serviceName: "Xét nghiệm huyết thống mẹ-con",
-              status: "Chưa có kết quả",
-              uploadDate: "",
-              files: [],
-              notes: "",
+    <script>
+      // Fetch real data from backend API và chuyển đổi sang format frontend cũ
+      async function fetchCompletedAppointments() {
+        const params = new URLSearchParams();
+        params.append('statuses', 'Đã nhận mẫu,Đã hoàn thành');
+        params.append('page', 0);
+        params.append('size', 100);
+        
+        try {
+          const url = `/booking/staff/appointments-with-results?${params.toString()}`;
+          
+          const response = await fetch(url, {
+            credentials: 'include'
+          });
+          
+          if (!response.ok) {
+            return [];
+          }
+          
+          const data = await response.json();
+          
+          if (!data.content || data.content.length === 0) {
+            return [];
+          }
+          
+          const processedData = (data.content || []).map(booking => {
+            const numWithResult = booking.services ? booking.services.filter(s => s.resultStatus === "Đã có kết quả").length : 0;
+            
+            let resultStatus = "Chưa có kết quả";
+            if (numWithResult === 0) resultStatus = "Chưa có kết quả";
+            else if (numWithResult === booking.services.length) resultStatus = "Đã hoàn thành";
+            else resultStatus = "Có kết quả một phần";
+            
+            const progress = booking.services && booking.services.length > 0 ? Math.round((numWithResult / booking.services.length) * 100) : 0;
+            const isMultiService = booking.services ? booking.services.length > 1 : false;
+            const completedDate = booking.bookingDate;
+            let customerCode = booking.customerId;
+            let service = '';
+            if (booking.services && booking.services.length === 1) {
+              service = booking.services[0].service;
+            } else if (booking.services && booking.services.length > 1) {
+              service = booking.services.map(s => s.service).join(', ');
             }
-          ],
-        },
-        {
-          id: "AP006",
-          userId: "KH006",
-          customerName: "Hoàng Văn G",
-          service: "Combo full package",
-          completedDate: "2024-01-30",
-          resultStatus: "Đã hoàn thành",
-          progress: 100,
-          isMultiService: true,
-          results: [
-            {
-              serviceName: "Xét nghiệm huyết thống cha-con",
-              status: "Đã có kết quả",
-              uploadDate: "2024-02-02",
-              files: ["result_AP006_cha_con.pdf"],
-              notes: "Kết quả xét nghiệm cha-con hoàn thành",
-            },
-            {
-              serviceName: "Xét nghiệm huyết thống mẹ-con",
-              status: "Đã có kết quả",
-              uploadDate: "2024-02-03",
-              files: ["result_AP006_me_con.pdf"],
-              notes: "Kết quả xét nghiệm mẹ-con hoàn thành",
-            },
-            {
-              serviceName: "Xét nghiệm huyết thống ông/bà-cháu",
-              status: "Đã có kết quả",
-              uploadDate: "2024-02-04",
-              files: ["result_AP006_ong_ba_chau.pdf"],
-              notes: "Kết quả xét nghiệm ông/bà-cháu hoàn thành",
+            
+            let result = null, results = null;
+            if (isMultiService) {
+              results = booking.services.map(s => ({
+                serviceName: s.service,
+                serviceId: s.serviceId || s.id,
+                status: s.resultStatus,
+                files: s.resultFile ? [s.resultFile] : [],
+              }));
+            } else if (booking.services && booking.services.length === 1) {
+              result = {
+                status: booking.services[0].resultStatus,
+                files: booking.services[0].resultFile ? [booking.services[0].resultFile] : [],
+                serviceId: booking.services[0].serviceId || booking.services[0].id,
+              };
             }
-          ],
+            
+            const processedBooking = {
+              ...booking,
+              customerCode,
+              service,
+              completedDate,
+              resultStatus,
+              progress,
+              isMultiService,
+              result,
+              results
+            };
+            
+            return processedBooking;
+          });
+          
+          return processedData;
+          
+        } catch (error) {
+          return [];
         }
-      ];
+      }
 
       // Render service badge
       function renderServiceBadge(service) {
@@ -980,10 +940,11 @@
           </div>
           <small style="color: #6c757d; font-size: 11px;">${progress}%</small>
         `;
-      }      // Render action buttons
+      }
+
+      // Render action buttons
       function renderActions(appointment) {
         if (appointment.isMultiService) {
-          // Multi-service appointment
           const hasAnyResult = appointment.results.some(r => r.status === "Đã có kết quả");
           if (hasAnyResult) {
             return `
@@ -999,7 +960,6 @@
             `;
           }
         } else {
-          // Single service appointment
           if (appointment.result.status === "Đã có kết quả") {
             return `
               <button class="action-btn btn-result" onclick="manageResult('${appointment.id}')">
@@ -1017,12 +977,12 @@
       }
 
       // Render results table
-      function renderResults(data = completedAppointments) {
+      function renderResults(data = window.completedAppointments) {
         const tbody = document.getElementById("resultsTableBody");
         const resultCount = document.getElementById("resultCount");
 
-        resultCount.textContent = `${data.length} kết quả`;
-        if (data.length === 0) {
+        if (!data || data.length === 0) {
+          resultCount.textContent = "0 kết quả";
           tbody.innerHTML = `
             <tr>
               <td colspan="6" style="text-align: center; color: #6c757d; padding: 40px;">
@@ -1033,6 +993,8 @@
           `;
           return;
         }
+
+        resultCount.textContent = `${data.length} kết quả`;
 
         tbody.innerHTML = data
           .map(
@@ -1058,46 +1020,45 @@
           month: "2-digit",
           year: "numeric",
         });
-      } // Search and filter
+      }
+
+      // Search and filter
       function searchResults() {
         const searchInput = document
           .getElementById("searchInput")
           .value.toLowerCase();
         const statusFilter = document.getElementById("statusFilter").value;
-        const fromDate = document.getElementById("fromDate").value;
-        const toDate = document.getElementById("toDate").value;
+        
+        if (!window.completedAppointments || window.completedAppointments.length === 0) {
+          renderResults([]);
+          return;
+        }
 
-        const filtered = completedAppointments.filter((appointment) => {
+        const filtered = window.completedAppointments.filter((appointment) => {
           const matchSearch =
             !searchInput ||
-            appointment.id.toLowerCase().includes(searchInput) ||
+            appointment.id.toString().toLowerCase().includes(searchInput) ||
             appointment.customerName.toLowerCase().includes(searchInput);
 
           const matchStatus =
             !statusFilter || appointment.resultStatus === statusFilter;
 
-          let matchDate = true;
-          if (fromDate)
-            matchDate = matchDate && appointment.completedDate >= fromDate;
-          if (toDate)
-            matchDate = matchDate && appointment.completedDate <= toDate;
-
-          return matchSearch && matchStatus && matchDate;
+          return matchSearch && matchStatus;
         });
 
         renderResults(filtered);
-      } // Reset filters
+      }
+
+      // Reset filters
       function resetFilters() {
         document.getElementById("searchInput").value = "";
         document.getElementById("statusFilter").value = "";
-        document.getElementById("fromDate").value = "";
-        document.getElementById("toDate").value = "";
         renderResults();
-      }      // Open result management modal
+      }
+
+      // Open result management modal
       function openResultModal(appointmentId) {
-        const appointment = completedAppointments.find(
-          (a) => a.id === appointmentId
-        );
+        const appointment = window.completedAppointments.find(a => String(a.id) === String(appointmentId));
         if (!appointment) return;
 
         const modal = document.getElementById("resultModal");
@@ -1107,14 +1068,13 @@
         modalTitle.textContent = `Quản lý kết quả - ${appointment.id}`;
 
         if (appointment.isMultiService) {
-          // Multi-service modal content
           modalBody.innerHTML = `
             <div style="margin-bottom: 20px;">
               <h4 style="color: #2c3e50; margin-bottom: 10px;">Thông tin lịch hẹn</h4>
               <div style="background: #f8f9fa; padding: 15px; border-radius: 10px;">
                 <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
                   <strong>Mã KH:</strong> 
-                  <span style="background: #667eea; color: white; padding: 4px 12px; border-radius: 20px; font-weight: 600; font-size: 13px;">${appointment.userId}</span>
+                  <span style="background: #667eea; color: white; padding: 4px 12px; border-radius: 20px; font-weight: 600; font-size: 13px;">${appointment.customerCode}</span>
                 </div>
                 <p><strong>Khách hàng:</strong> ${appointment.customerName}</p>
                 <p><strong>Gói dịch vụ:</strong> ${appointment.service}</p>
@@ -1144,16 +1104,16 @@
                       <div style="margin-top: 8px;"><strong>Ghi chú:</strong> ${result.notes}</div>
                     </div>
                     <div style="display: flex; gap: 10px;">
-                      <button class="btn btn-secondary" onclick="editMultiResult('${appointmentId}', ${index})" style="padding: 8px 16px; font-size: 13px;">
+                      <button class="btn btn-secondary" onclick="editMultiResult('${appointment.id}', ${index})" style="padding: 8px 16px; font-size: 13px;">
                         <i class="fas fa-edit"></i> Sửa
                       </button>
-                      <button class="btn btn-primary" onclick="downloadMultiResult('${appointmentId}', ${index})" style="padding: 8px 16px; font-size: 13px;">
+                      <button class="btn btn-primary" onclick="downloadMultiResult('${appointment.id}', ${index})" style="padding: 8px 16px; font-size: 13px;">
                         <i class="fas fa-download"></i> Tải xuống
                       </button>
                     </div>
                   `
                     : `
-                    <button class="btn btn-primary" onclick="addMultiResult('${appointmentId}', ${index})" style="padding: 8px 16px; font-size: 13px;">
+                    <button class="btn btn-primary" onclick="addMultiResult('${appointment.id}', ${index})" style="padding: 8px 16px; font-size: 13px;">
                       <i class="fas fa-plus"></i> Thêm kết quả
                     </button>
                   `
@@ -1171,10 +1131,10 @@
                   Lịch hẹn này đã hoàn thành tất cả các xét nghiệm. Bạn có thể tải xuống tất cả kết quả hoặc tạo báo cáo tổng hợp.
                 </p>
                 <div style="margin-top: 15px; display: flex; gap: 10px;">
-                  <button class="btn btn-primary" onclick="downloadAllResults('${appointmentId}')" style="padding: 10px 20px;">
+                  <button class="btn btn-primary" onclick="downloadAllResults('${appointment.id}')" style="padding: 10px 20px;">
                     <i class="fas fa-download"></i> Tải xuống tất cả
                   </button>
-                  <button class="btn btn-primary" onclick="generateSummaryReport('${appointmentId}')" style="padding: 10px 20px;">
+                  <button class="btn btn-primary" onclick="generateSummaryReport('${appointment.id}')" style="padding: 10px 20px;">
                     <i class="fas fa-file-alt"></i> Tạo báo cáo tổng hợp
                   </button>
                 </div>
@@ -1182,14 +1142,13 @@
             ` : ''}
           `;
         } else {
-          // Single service modal content (existing code)
           modalBody.innerHTML = `
             <div style="margin-bottom: 20px;">
               <h4 style="color: #2c3e50; margin-bottom: 10px;">Thông tin lịch hẹn</h4>
               <div style="background: #f8f9fa; padding: 15px; border-radius: 10px;">
                 <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
                   <strong>Mã KH:</strong> 
-                  <span style="background: #667eea; color: white; padding: 4px 12px; border-radius: 20px; font-weight: 600; font-size: 13px;">${appointment.userId}</span>
+                  <span style="background: #667eea; color: white; padding: 4px 12px; border-radius: 20px; font-weight: 600; font-size: 13px;">${appointment.customerCode}</span>
                 </div>
                 <p><strong>Khách hàng:</strong> ${appointment.customerName}</p>
                 <p><strong>Dịch vụ:</strong> ${appointment.service}</p>
@@ -1215,16 +1174,16 @@
                     <strong>Ghi chú:</strong> ${appointment.result.notes}
                   </div>
                   <div style="display: flex; gap: 10px;">
-                    <button class="btn btn-secondary" onclick="editResult('${appointmentId}')">
+                    <button class="btn btn-secondary" onclick="editResult('${appointment.id}')">
                       <i class="fas fa-edit"></i> Sửa kết quả
                     </button>
-                    <button class="btn btn-primary" onclick="downloadResult('${appointmentId}')">
+                    <button class="btn btn-primary" onclick="downloadResult('${appointment.id}')">
                       <i class="fas fa-download"></i> Tải xuống
                     </button>
                   </div>
                 `
                   : `
-                  <button class="btn btn-primary" onclick="addResult('${appointmentId}')">
+                  <button class="btn btn-primary" onclick="addResult('${appointment.id}')">
                     <i class="fas fa-plus"></i> Thêm kết quả
                   </button>
                 `
@@ -1240,22 +1199,23 @@
       // Close result modal
       function closeResultModal() {
         document.getElementById("resultModal").style.display = "none";
-      } // Add result for appointment
+      }
+
+      // Add result for appointment
       function addResult(appointmentId) {
-        const appointment = completedAppointments.find(
-          (a) => a.id === appointmentId
-        );
+        const appointment = window.completedAppointments.find(a => String(a.id) === String(appointmentId));
         if (!appointment) return;
 
         const modal = document.getElementById("resultModal");
-        const modalBody = document.getElementById("modalBody");        modalBody.innerHTML = `
+        const modalBody = document.getElementById("modalBody");
+        modalBody.innerHTML = `
           <div style="margin-bottom: 20px;">
             <h4 style="color: #2c3e50; margin-bottom: 10px;">Thêm kết quả cho: ${appointment.service}</h4>
             <div style="background: #f8f9fa; padding: 15px; border-radius: 10px;">
               <p><strong>Mã lịch hẹn:</strong> ${appointment.id}</p>
               <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
                 <strong>Mã KH:</strong> 
-                <span style="background: #667eea; color: white; padding: 4px 12px; border-radius: 20px; font-weight: 600; font-size: 13px;">${appointment.userId}</span>
+                <span style="background: #667eea; color: white; padding: 4px 12px; border-radius: 20px; font-weight: 600; font-size: 13px;">${appointment.customerCode}</span>
               </div>
               <p><strong>Khách hàng:</strong> ${appointment.customerName}</p>
               <p><strong>Dịch vụ:</strong> ${appointment.service}</p>
@@ -1279,16 +1239,11 @@
             <div class="file-list" id="fileList"></div>
           </div>
 
-          <div class="form-group" style="margin-bottom: 20px;">
-            <label class="form-label">Ghi chú (tùy chọn)</label>
-            <textarea class="form-input form-textarea" placeholder="Nhập ghi chú về kết quả..." id="resultNotes"></textarea>
-          </div>
-
           <div style="display: flex; gap: 15px; justify-content: flex-end;">
-            <button class="btn btn-secondary" onclick="openResultModal('${appointmentId}')">
+            <button class="btn btn-secondary" onclick="openResultModal('${appointment.id}')">
               <i class="fas fa-arrow-left"></i> Quay lại
             </button>
-            <button class="btn btn-primary" onclick="saveResult('${appointmentId}')">
+            <button class="btn btn-primary" onclick="saveResult('${appointment.id}')">
               <i class="fas fa-save"></i> Lưu kết quả
             </button>
           </div>
@@ -1299,13 +1254,12 @@
 
       // Edit result for appointment
       function editResult(appointmentId) {
-        const appointment = completedAppointments.find(
-          (a) => a.id === appointmentId
-        );
+        const appointment = window.completedAppointments.find(a => String(a.id) === String(appointmentId));
         if (!appointment) return;
 
         const modal = document.getElementById("resultModal");
-        const modalBody = document.getElementById("modalBody");        modalBody.innerHTML = `
+        const modalBody = document.getElementById("modalBody");
+        modalBody.innerHTML = `
           <div style="margin-bottom: 20px;">
             <h4 style="color: #2c3e50; margin-bottom: 10px;">Sửa kết quả cho: ${
               appointment.service
@@ -1314,7 +1268,7 @@
               <p><strong>Mã lịch hẹn:</strong> ${appointment.id}</p>
               <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
                 <strong>Mã KH:</strong> 
-                <span style="background: #667eea; color: white; padding: 4px 12px; border-radius: 20px; font-weight: 600; font-size: 13px;">${appointment.userId}</span>
+                <span style="background: #667eea; color: white; padding: 4px 12px; border-radius: 20px; font-weight: 600; font-size: 13px;">${appointment.customerCode}</span>
               </div>
               <p><strong>Khách hàng:</strong> ${appointment.customerName}</p>
               <p><strong>Dịch vụ:</strong> ${appointment.service}</p>
@@ -1355,18 +1309,11 @@
             <div class="file-list" id="fileList"></div>
           </div>
 
-          <div class="form-group" style="margin-bottom: 20px;">
-            <label class="form-label">Ghi chú</label>
-            <textarea class="form-input form-textarea" placeholder="Nhập ghi chú về kết quả..." id="resultNotes">${
-              appointment.result.notes
-            }</textarea>
-          </div>
-
           <div style="display: flex; gap: 15px; justify-content: flex-end;">
-            <button class="btn btn-secondary" onclick="openResultModal('${appointmentId}')">
+            <button class="btn btn-secondary" onclick="openResultModal('${appointment.id}')">
               <i class="fas fa-arrow-left"></i> Quay lại
             </button>
-            <button class="btn btn-primary" onclick="saveResult('${appointmentId}')">
+            <button class="btn btn-primary" onclick="saveResult('${appointment.id}')">
               <i class="fas fa-save"></i> Cập nhật kết quả
             </button>
           </div>
@@ -1485,40 +1432,53 @@
           .getElementById("modalTitle")
           .textContent.split(" - ")[1];
         openResultModal(appointmentId);
-      } // Save result
-      function saveResult(appointmentId) {
-        const notes = document.getElementById("resultNotes").value;
+      }
 
+      // Save result
+      async function saveResult(appointmentId) {
+        const appointment = window.completedAppointments.find(a => String(a.id) === String(appointmentId));
+        if (!appointment) return;
         if (selectedFiles.length === 0) {
           alert("Vui lòng chọn file PDF kết quả");
           return;
         }
-
-        // Simulate saving
-        const appointment = completedAppointments.find(
-          (a) => a.id === appointmentId
-        );
-        if (appointment) {
-          appointment.result = {
-            status: "Đã có kết quả",
-            uploadDate: new Date().toISOString().split("T")[0],
-            files: selectedFiles.map((f) => f.name),
-            notes: notes,
-          };
-          appointment.resultStatus = "Đã hoàn thành";
-          appointment.progress = 100;
+        const file = selectedFiles[0];
+        // Lấy serviceId từ appointment.result hoặc appointment.services[0]
+        const serviceId = (appointment.result && appointment.result.serviceId)
+          || (appointment.services && appointment.services[0] && (appointment.services[0].serviceId || appointment.services[0].id));
+        if (!serviceId) {
+          alert('Không tìm thấy serviceId!');
+          return;
         }
+        const formData = new FormData();
+        formData.append("bookingId", appointmentId);
+        formData.append("serviceId", serviceId);
+        formData.append("file", file);
 
-        alert("Đã lưu kết quả thành công!");
-        selectedFiles = [];
-        renderResults(); // Refresh table
-        openResultModal(appointmentId); // Refresh modal
+        try {
+          const response = await fetch("/results/upload", {
+            method: "POST",
+            body: formData,
+            credentials: "include"
+          });
+          if (!response.ok) throw new Error("Upload thất bại");
+          const result = await response.json();
+          alert("Đã lưu kết quả thành công!");
+
+          // Reset lại trang và gọi lại API lấy danh sách mới
+          window.completedAppointments = await fetchCompletedAppointments();
+          renderResults(window.completedAppointments);
+          openResultModal(appointmentId); // Đảm bảo modal show dữ liệu mới
+          selectedFiles = [];
+        } catch (err) {
+          alert("Lỗi upload: " + err.message);
+        }
       }
 
       // Download result
       function downloadResult(appointmentId) {
-        const appointment = completedAppointments.find(
-          (a) => a.id === appointmentId
+        const appointment = window.completedAppointments.find(
+          (a) => String(a.id) === String(appointmentId)
         );
         if (appointment && appointment.result.files.length > 0) {
           // Simulate download
@@ -1551,8 +1511,8 @@
         }
 
         // Simulate submitting
-        const appointment = completedAppointments.find(
-          (a) => a.id === appointmentId
+        const appointment = window.completedAppointments.find(
+          (a) => String(a.id) === String(appointmentId)
         );
         if (appointment) {
           appointment.finalResult = {
@@ -1565,7 +1525,7 @@
         alert("Đã submit kết quả cuối cùng thành công!");
         renderResults(); // Refresh table
         openResultModal(appointmentId); // Refresh modal
-      } 
+      }
 
       // Multi-service result management functions
       function manageMultiResults(appointmentId) {
@@ -1581,7 +1541,7 @@
       }
 
       function addMultiResult(appointmentId, serviceIndex) {
-        const appointment = completedAppointments.find(a => a.id === appointmentId);
+        const appointment = window.completedAppointments.find(a => String(a.id) === String(appointmentId));
         if (!appointment) return;
 
         const service = appointment.results[serviceIndex];
@@ -1595,7 +1555,7 @@
               <p><strong>Mã lịch hẹn:</strong> ${appointment.id}</p>
               <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
                 <strong>Mã KH:</strong> 
-                <span style="background: #667eea; color: white; padding: 4px 12px; border-radius: 20px; font-weight: 600; font-size: 13px;">${appointment.userId}</span>
+                <span style="background: #667eea; color: white; padding: 4px 12px; border-radius: 20px; font-weight: 600; font-size: 13px;">${appointment.customerCode}</span>
               </div>
               <p><strong>Khách hàng:</strong> ${appointment.customerName}</p>
               <p><strong>Dịch vụ cụ thể:</strong> ${service.serviceName}</p>
@@ -1619,16 +1579,11 @@
             <div class="file-list" id="fileList"></div>
           </div>
 
-          <div class="form-group" style="margin-bottom: 20px;">
-            <label class="form-label">Ghi chú (tùy chọn)</label>
-            <textarea class="form-input form-textarea" placeholder="Nhập ghi chú về kết quả..." id="resultNotes"></textarea>
-          </div>
-
           <div style="display: flex; gap: 15px; justify-content: flex-end;">
-            <button class="btn btn-secondary" onclick="openResultModal('${appointmentId}')">
+            <button class="btn btn-secondary" onclick="openResultModal('${appointment.id}')">
               <i class="fas fa-arrow-left"></i> Quay lại
             </button>
-            <button class="btn btn-primary" onclick="saveMultiResult('${appointmentId}', ${serviceIndex})">
+            <button class="btn btn-primary" onclick="saveMultiResult('${appointment.id}', ${serviceIndex})">
               <i class="fas fa-save"></i> Lưu kết quả
             </button>
           </div>
@@ -1638,7 +1593,7 @@
       }
 
       function editMultiResult(appointmentId, serviceIndex) {
-        const appointment = completedAppointments.find(a => a.id === appointmentId);
+        const appointment = window.completedAppointments.find(a => String(a.id) === String(appointmentId));
         if (!appointment) return;
 
         const service = appointment.results[serviceIndex];
@@ -1652,7 +1607,7 @@
               <p><strong>Mã lịch hẹn:</strong> ${appointment.id}</p>
               <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
                 <strong>Mã KH:</strong> 
-                <span style="background: #667eea; color: white; padding: 4px 12px; border-radius: 20px; font-weight: 600; font-size: 13px;">${appointment.userId}</span>
+                <span style="background: #667eea; color: white; padding: 4px 12px; border-radius: 20px; font-weight: 600; font-size: 13px;">${appointment.customerCode}</span>
               </div>
               <p><strong>Khách hàng:</strong> ${appointment.customerName}</p>
               <p><strong>Dịch vụ cụ thể:</strong> ${service.serviceName}</p>
@@ -1689,16 +1644,11 @@
             <div class="file-list" id="fileList"></div>
           </div>
 
-          <div class="form-group" style="margin-bottom: 20px;">
-            <label class="form-label">Ghi chú</label>
-            <textarea class="form-input form-textarea" placeholder="Nhập ghi chú về kết quả..." id="resultNotes">${service.notes}</textarea>
-          </div>
-
           <div style="display: flex; gap: 15px; justify-content: flex-end;">
-            <button class="btn btn-secondary" onclick="openResultModal('${appointmentId}')">
+            <button class="btn btn-secondary" onclick="openResultModal('${appointment.id}')">
               <i class="fas fa-arrow-left"></i> Quay lại
             </button>
-            <button class="btn btn-primary" onclick="saveMultiResult('${appointmentId}', ${serviceIndex})">
+            <button class="btn btn-primary" onclick="saveMultiResult('${appointment.id}', ${serviceIndex})">
               <i class="fas fa-save"></i> Cập nhật kết quả
             </button>
           </div>
@@ -1707,47 +1657,47 @@
         setupFileUpload();
       }
 
-      function saveMultiResult(appointmentId, serviceIndex) {
-        const notes = document.getElementById("resultNotes").value;
-
+      async function saveMultiResult(appointmentId, serviceIndex) {
+        const appointment = window.completedAppointments.find(a => String(a.id) === String(appointmentId));
+        if (!appointment) return;
         if (selectedFiles.length === 0) {
           alert("Vui lòng chọn file PDF kết quả");
           return;
         }
-
-        // Simulate saving
-        const appointment = completedAppointments.find(a => a.id === appointmentId);
-        if (appointment && appointment.results[serviceIndex]) {
-          appointment.results[serviceIndex] = {
-            ...appointment.results[serviceIndex],
-            status: "Đã có kết quả",
-            uploadDate: new Date().toISOString().split("T")[0],
-            files: selectedFiles.map(f => f.name),
-            notes: notes,
-          };
-
-          // Update overall progress and status
-          const completedResults = appointment.results.filter(r => r.status === "Đã có kết quả").length;
-          const totalResults = appointment.results.length;
-          appointment.progress = Math.round((completedResults / totalResults) * 100);
-          
-          if (completedResults === totalResults) {
-            appointment.resultStatus = "Đã hoàn thành";
-          } else if (completedResults > 0) {
-            appointment.resultStatus = "Có kết quả một phần";
-          } else {
-            appointment.resultStatus = "Chưa có kết quả";
-          }
+        const service = appointment.results[serviceIndex];
+        const file = selectedFiles[0];
+        const serviceId = service.serviceId;
+        if (!serviceId) {
+          alert('Không tìm thấy serviceId!');
+          return;
         }
+        const formData = new FormData();
+        formData.append("bookingId", appointmentId);
+        formData.append("serviceId", serviceId);
+        formData.append("file", file);
 
-        alert("Đã lưu kết quả thành công!");
-        selectedFiles = [];
-        renderResults(); // Refresh table
-        openResultModal(appointmentId); // Refresh modal
+        try {
+          const response = await fetch("/results/upload", {
+            method: "POST",
+            body: formData,
+            credentials: "include"
+          });
+          if (!response.ok) throw new Error("Upload thất bại");
+          const result = await response.json();
+          alert("Đã lưu kết quả thành công!");
+
+          // Reset lại trang và gọi lại API lấy danh sách mới
+          window.completedAppointments = await fetchCompletedAppointments();
+          renderResults(window.completedAppointments);
+          openResultModal(appointmentId); // Đảm bảo modal show dữ liệu mới
+          selectedFiles = [];
+        } catch (err) {
+          alert("Lỗi upload: " + err.message);
+        }
       }
 
       function downloadMultiResult(appointmentId, serviceIndex) {
-        const appointment = completedAppointments.find(a => a.id === appointmentId);
+        const appointment = window.completedAppointments.find(a => String(a.id) === String(appointmentId));
         if (appointment && appointment.results[serviceIndex] && appointment.results[serviceIndex].files.length > 0) {
           // Simulate download
           alert(`Đang tải xuống file: ${appointment.results[serviceIndex].files[0]}`);
@@ -1755,7 +1705,7 @@
       }
 
       function downloadAllResults(appointmentId) {
-        const appointment = completedAppointments.find(a => a.id === appointmentId);
+        const appointment = window.completedAppointments.find(a => String(a.id) === String(appointmentId));
         if (appointment) {
           const allFiles = appointment.results
             .filter(r => r.status === "Đã có kết quả")
@@ -1770,9 +1720,9 @@
       }
 
       function generateSummaryReport(appointmentId) {
-        const appointment = completedAppointments.find(a => a.id === appointmentId);
+        const appointment = window.completedAppointments.find(a => String(a.id) === String(appointmentId));
         if (appointment) {
-          alert(`Đang tạo báo cáo tổng hợp cho lịch hẹn ${appointmentId}...`);
+          alert(`Đang tạo báo cáo tổng hợp cho lịch hẹn ${appointment.id}...`);
           // Simulate generating summary report
           setTimeout(() => {
             alert(`Báo cáo tổng hợp cho ${appointment.customerName} đã được tạo thành công!`);
@@ -1783,75 +1733,16 @@
       // View details
       function viewDetails(appointmentId) {
         openResultModal(appointmentId);
-      } // Initialize menu
-      function initializeMenu() {
-        const mainMenuDiv = document.getElementById("mainMenu");
-        if (!mainMenuDiv) return;
-
-        const currentPage = window.location.pathname.split("/").pop();
-        mainMenuDiv.innerHTML = `
-          <a href="/staff-home" class="menu-item${
-            currentPage === "staff-home" ? " active" : ""
-          }">
-            <span class="menu-icon"><i class="fas fa-home"></i></span>
-            Trang chủ
-          </a>
-          <a href="/staff-booking" class="menu-item${
-            currentPage === "staff-booking" ? " active" : ""
-          }">
-            <span class="menu-icon"><i class="fas fa-calendar-plus"></i></span>
-            Đặt lịch xét nghiệm
-          </a>
-          <a href="/staff-appointments" class="menu-item${
-            currentPage === "staff-appointments" ? " active" : ""
-          }">
-            <span class="menu-icon"><i class="fas fa-clipboard-list"></i></span>
-            Danh sách lịch hẹn
-          </a>
-          <a href="/staff-kit-list" class="menu-item${
-            currentPage === "staff-kit-list" ? " active" : ""
-          }">
-            <span class="menu-icon"><i class="fas fa-vials"></i></span>
-            Danh sách kit xét nghiệm
-          </a>
-          <a href="/staff-participants" class="menu-item${
-            currentPage === "staff-participants" ? " active" : ""
-          }">
-            <span class="menu-icon"><i class="fas fa-users"></i></span>
-            Quản lý người tham gia
-          </a>
-          <a href="/staff-samples" class="menu-item${
-            currentPage === "staff-samples" ? " active" : ""
-          }">
-            <span class="menu-icon"><i class="fas fa-flask"></i></span>
-            Quản lý mẫu xét nghiệm
-          </a>
-          <a href="/staff-results" class="menu-item${
-            currentPage === "staff-results" ? " active" : ""
-          }">
-            <span class="menu-icon"><i class="fas fa-chart-line"></i></span>
-            Quản lý kết quả xét nghiệm
-          </a>
-        `;
       }
 
       // Initialize page
-      document.addEventListener("DOMContentLoaded", function () {
+      document.addEventListener("DOMContentLoaded", async function () {
         if (window.renderStaffSidebarInfo) window.renderStaffSidebarInfo();
-        initializeMenu();
 
-        // Set default date range (current month)
-        const today = new Date();
-        const firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
-        document.getElementById("fromDate").value = firstDay
-          .toISOString()
-          .split("T")[0];
-        document.getElementById("toDate").value = today
-          .toISOString()
-          .split("T")[0];
-
-        // Initial render
-        renderResults();
+        // Fetch real data and render
+        window.completedAppointments = await fetchCompletedAppointments();
+        
+        renderResults(window.completedAppointments);
 
         // Add search event listener
         document

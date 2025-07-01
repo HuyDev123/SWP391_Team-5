@@ -794,6 +794,11 @@
   </head>
 
   <body>
+    <script th:inline="javascript">
+      /*<![CDATA[*/
+      window.serverStaff = /*[[${staffData}]]*/ null;
+      /*]]>*/
+    </script>
     <!-- Sidebar -->
     <div class="sidebar">
       <div class="logo-container">
@@ -803,24 +808,8 @@
           <div class="logo-subtext">Trung tâm xét nghiệm ADN huyết thống</div>
         </div>
       </div>
-      <div class="login-register">
-        <!-- User info container (hiển thị khi đã đăng nhập) -->
-        <div id="user-info-container">
-          <div class="user-info">
-            <div class="avatar">
-              <div id="avatar-letter" class="avatar-letter">N</div>
-              <img id="user-avatar" src="/assets/images/user-avatar.png" alt="User Avatar" style="display: block" />
-            </div>
-            <div class="user-details">
-              <div id="avatar-fullname" class="user-name">Nhân viên</div>
-              <div id="avatar-role" class="user-role">Nhân viên</div>
-            </div>
-          </div>
-          <button id="logout-btn" class="logout-btn" onclick="window.handleLogout()">
-            <i class="fas fa-sign-out-alt"></i>
-            Đăng xuất
-          </button>
-        </div>
+      <div class="login-register" id="login-register">
+        <div id="user-info-container"></div>
         <div id="login-buttons" style="display: none">
           <button id="google-login-btn" class="btn-google">
             <i class="fab fa-google"></i> Đăng nhập với Google
@@ -832,11 +821,6 @@
         <a href="/staff-home" class="menu-item">
           <span class="menu-icon"><i class="fas fa-home"></i></span>
           Trang chủ
-        </a>
-
-        <a href="/staff-booking" class="menu-item">
-          <span class="menu-icon"><i class="fas fa-calendar-plus"></i></span>
-          Đặt lịch xét nghiệm
         </a>
 
         <a href="/staff-appointments" class="menu-item">
@@ -1469,7 +1453,6 @@
       // Initialize menu when page loads
       document.addEventListener("DOMContentLoaded", function () {
         initializeMenu();
-        if (window.renderStaffSidebarInfo) window.renderStaffSidebarInfo();
       });
 
       // Hàm mở modal thêm kit
@@ -2043,5 +2026,10 @@
         document.head.appendChild(style);
       }
     </script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        if (window.renderStaffSidebarInfo) window.renderStaffSidebarInfo();
+      });
+      </script>
   </body>
 </html>

@@ -1010,6 +1010,11 @@
     </style>
   </head>
   <body>
+    <script th:inline="javascript">
+      /*<![CDATA[*/
+      window.serverStaff = /*[[${staffData}]]*/ null;
+      /*]]>*/
+    </script>
     <!-- Sidebar -->
     <div class="sidebar">
       <div class="logo-container">
@@ -1019,34 +1024,14 @@
           <div class="logo-subtext">Trung tâm xét nghiệm ADN huyết thống</div>
         </div>
       </div>
-      <div class="login-register">
-        <!-- Container hiển thị thông tin user khi đã đăng nhập -->
-        <div id="user-info-container">
-          <div class="user-info">
-            <div class="avatar">
-              <img id="user-avatar" src="/assets/images/user-avatar.png" alt="User Avatar" style="display: block" />
-            </div>
-            <div class="user-details">
-              <div id="avatar-fullname" class="user-name">Nhân viên</div>
-              <div id="avatar-role" class="user-role">Nhân viên</div>
-            </div>
-          </div>
-          <button id="logout-btn" onclick="window.handleLogout()" class="logout-btn">
-            <i class="fas fa-sign-out-alt"></i>
-            Đăng xuất
-          </button>
-        </div>
+      <div class="login-register" id="login-register">
+        <div id="user-info-container"></div>
       </div>
       <div class="menu-title">MAIN MENU</div>
       <div id="mainMenu">
         <a href="/staff-home" class="menu-item">
           <span class="menu-icon"><i class="fas fa-home"></i></span>
           Trang chủ
-        </a>
-
-        <a href="/staff-booking" class="menu-item">
-          <span class="menu-icon"><i class="fas fa-calendar-plus"></i></span>
-          Đặt lịch xét nghiệm
         </a>
 
         <a href="/staff-appointments" class="menu-item active">
@@ -1171,7 +1156,6 @@
               <option value="Đang chờ lấy mẫu">Đang chờ lấy mẫu</option>
               <option value="Đã nhận mẫu">Đã nhận mẫu</option>
               <option value="Đã hoàn thành">Đã hoàn thành</option>
-              <option value="Đã trả kết quả">Đã trả kết quả</option>
               <option value="Đã hủy">Đã hủy</option>
             </select>
           </div>
@@ -1357,9 +1341,6 @@
               break;
             case "Đã hoàn thành":
               className = "status-completed";
-              break;
-            case "Đã trả kết quả":
-              className = "status-delivered";
               break;
             case "Đã hủy":
               className = "status-cancelled";
@@ -1568,8 +1549,6 @@
           };
           fetchAppointments(0, pageSize, currentFilters);
         }
-
-        if (window.renderStaffSidebarInfo) window.renderStaffSidebarInfo();
       </script>
     </div>
 
@@ -2027,6 +2006,32 @@
             </div>
           </div>
         </div>
+
+        <!-- Thêm nút hủy lịch hẹn -->
+        <div id="cancel-appointment-section" style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; display: none;">
+          <div style="display: flex; justify-content: flex-end; gap: 10px;">
+            <button 
+              id="cancel-appointment-btn" 
+              onclick="handleCancelAppointment()"
+              style="
+                background: #dc3545;
+                color: white;
+                border: none;
+                border-radius: 6px;
+                padding: 10px 20px;
+                cursor: pointer;
+                font-weight: 500;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                transition: all 0.3s ease;
+              "
+            >
+              <i class="fas fa-times"></i>
+              Hủy lịch hẹn
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   
@@ -2085,9 +2090,6 @@
         } else if (appointment.status === "Đã hoàn thành") {
           statusColor = "#4caf50";
           statusBg = "#e8f5e9";
-        } else if (appointment.status === "Đã trả kết quả") {
-          statusColor = "#673ab7";
-          statusBg = "#ede7f6";
         } else if (appointment.status === "Đã hủy") {
           statusColor = "#f44336";
           statusBg = "#ffebee";
@@ -2158,6 +2160,16 @@
         // Hiển thị modal
         document.getElementById("appointment-details-modal").style.display =
           "flex";
+
+        // Hiển thị nút hủy lịch hẹn nếu trạng thái cho phép
+        const cancelSection = document.getElementById("cancel-appointment-section");
+        if (appointment.status === "Đã đặt" || appointment.status === "Đang chờ lấy mẫu" || appointment.status === "Đã nhận mẫu" || appointment.status === "Đã hoàn thành") {
+          cancelSection.style.display = "block";
+          // Lưu ID lịch hẹn để sử dụng khi hủy
+          cancelSection.setAttribute("data-appointment-id", appointment.id);
+        } else {
+          cancelSection.style.display = "none";
+        }
       }
 
       // Hàm chuyển đổi tên dịch vụ
@@ -2197,6 +2209,227 @@
             }
           });
       });
+
+      // Hàm xử lý hủy lịch hẹn
+      function handleCancelAppointment() {
+        const cancelSection = document.getElementById("cancel-appointment-section");
+        const appointmentId = cancelSection.getAttribute("data-appointment-id");
+        
+        if (!appointmentId) {
+          alert("Không tìm thấy thông tin lịch hẹn!");
+          return;
+        }
+
+        // Hiển thị modal chọn lý do hủy
+        showCancelReasonModal(appointmentId);
+      }
+
+      // Hàm hiển thị modal chọn lý do hủy
+      function showCancelReasonModal(appointmentId) {
+        const modal = document.createElement("div");
+        modal.className = "cancel-reason-modal";
+        modal.style.cssText = `
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100vw;
+          height: 100vh;
+          background: rgba(0, 0, 0, 0.5);
+          backdrop-filter: blur(2px);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          z-index: 10002;
+        `;
+
+        modal.innerHTML = `
+          <div style="
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+          ">
+            <div style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              margin-bottom: 20px;
+              padding-bottom: 15px;
+              border-bottom: 1px solid #eee;
+            ">
+              <h3 style="margin: 0; color: #333; font-size: 18px;">
+                <i class="fas fa-exclamation-triangle" style="color: #dc3545; margin-right: 8px;"></i>
+                Lý do hủy lịch hẹn
+              </h3>
+              <button onclick="this.closest('.cancel-reason-modal').remove()" style="
+                background: none;
+                border: none;
+                font-size: 24px;
+                cursor: pointer;
+                color: #666;
+                padding: 0;
+                width: 30px;
+                height: 30px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              ">&times;</button>
+            </div>
+
+            <form id="cancel-reason-form">
+              <div style="margin-bottom: 15px;">
+                <label style="display: flex; align-items: center; margin-bottom: 10px; cursor: pointer;">
+                  <input type="radio" name="cancel-reason" value="Thay đổi thông tin/địa chỉ" style="margin-right: 10px;">
+                  <span>Thay đổi thông tin/địa chỉ</span>
+                </label>
+              </div>
+
+              <div style="margin-bottom: 15px;">
+                <label style="display: flex; align-items: center; margin-bottom: 10px; cursor: pointer;">
+                  <input type="radio" name="cancel-reason" value="Khách hàng yêu cầu hủy" style="margin-right: 10px;">
+                  <span>Khách hàng yêu cầu hủy</span>
+                </label>
+              </div>
+
+              <div style="margin-bottom: 15px;">
+                <label style="display: flex; align-items: center; margin-bottom: 10px; cursor: pointer;">
+                  <input type="radio" name="cancel-reason" value="Khác" style="margin-right: 10px;">
+                  <span>Khác</span>
+                </label>
+              </div>
+
+              <div id="other-reason-container" style="display: none; margin-bottom: 20px;">
+                <textarea 
+                  id="other-reason-text"
+                  placeholder="Vui lòng nhập lý do cụ thể..."
+                  style="
+                    width: 100%;
+                    min-height: 80px;
+                    padding: 10px;
+                    border: 1px solid #ddd;
+                    border-radius: 6px;
+                    resize: vertical;
+                    font-family: inherit;
+                  "
+                ></textarea>
+              </div>
+
+              <div style="display: flex; justify-content: flex-end; gap: 10px;">
+                <button type="button" onclick="this.closest('.cancel-reason-modal').remove()" style="
+                  background: #f5f5f5;
+                  color: #333;
+                  border: 1px solid #ddd;
+                  border-radius: 6px;
+                  padding: 10px 20px;
+                  cursor: pointer;
+                  font-weight: 500;
+                ">
+                  Hủy bỏ
+                </button>
+                <button type="submit" style="
+                  background: #dc3545;
+                  color: white;
+                  border: none;
+                  border-radius: 6px;
+                  padding: 10px 20px;
+                  cursor: pointer;
+                  font-weight: 500;
+                ">
+                  Xác nhận hủy
+                </button>
+              </div>
+            </form>
+          </div>
+        `;
+
+        document.body.appendChild(modal);
+
+        // Xử lý hiển thị textarea khi chọn "Khác"
+        const reasonRadios = modal.querySelectorAll('input[name="cancel-reason"]');
+        const otherReasonContainer = modal.querySelector('#other-reason-container');
+
+        reasonRadios.forEach(radio => {
+          radio.addEventListener('change', function() {
+            if (this.value === 'Khác') {
+              otherReasonContainer.style.display = 'block';
+            } else {
+              otherReasonContainer.style.display = 'none';
+            }
+          });
+        });
+
+        // Xử lý submit form
+        const form = modal.querySelector('#cancel-reason-form');
+        form.addEventListener('submit', function(e) {
+          e.preventDefault();
+          confirmCancelAppointment(appointmentId, modal);
+        });
+
+        // Đóng modal khi click ra ngoài
+        modal.addEventListener('click', function(e) {
+          if (e.target === this) {
+            this.remove();
+          }
+        });
+      }
+
+      // Hàm xác nhận hủy lịch hẹn
+      async function confirmCancelAppointment(appointmentId, reasonModal) {
+        const selectedReason = document.querySelector('input[name="cancel-reason"]:checked');
+        
+        if (!selectedReason) {
+          alert('Vui lòng chọn lý do hủy lịch hẹn');
+          return;
+        }
+
+        let reason = selectedReason.value;
+        if (reason === 'Khác') {
+          const otherReasonText = document.getElementById('other-reason-text').value.trim();
+          if (!otherReasonText) {
+            alert('Vui lòng nhập lý do cụ thể');
+            return;
+          }
+          reason = otherReasonText;
+        }
+
+        try {
+          // Gọi API giống customer
+          const response = await fetch(`/booking/cancel?bookingId=${appointmentId}&reason=${encodeURIComponent(reason)}`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            credentials: 'include'
+          });
+
+          if (response.status === 401) {
+            window.location.href = "/internal-login";
+            return;
+          }
+
+          if (!response.ok) {
+            throw new Error(await response.text());
+          }
+
+          // Đóng modal lý do hủy
+          reasonModal.remove();
+
+          // Đóng modal chi tiết lịch hẹn
+          document.getElementById("appointment-details-modal").style.display = "none";
+
+          // Hiển thị thông báo thành công
+          showSuccessToast("Đã hủy lịch hẹn thành công!");
+
+          // Tải lại dữ liệu
+          fetchAppointments(currentPage, pageSize, currentFilters);
+
+        } catch (error) {
+          console.error("Lỗi khi hủy lịch hẹn:", error);
+          alert("Có lỗi xảy ra khi hủy lịch hẹn: " + error.message);
+        }
+      }
     </script>
 
     <script>
@@ -2230,7 +2463,7 @@
               <option value="Đang chờ lấy mẫu">Đang chờ lấy mẫu</option>
               <option value="Đã nhận mẫu">Đã nhận mẫu</option>
               <option value="Đã hoàn thành">Đã hoàn thành</option>
-              <option value="Đã trả kết quả">Đã trả kết quả</option>
+              <option value="Đã hủy">Đã hủy</option>
             </select>
           </div>
           <div style="display:flex;justify-content:flex-end;gap:10px;">
@@ -2271,6 +2504,11 @@
         alert("Lỗi: " + err.message);
       }
     };
+    </script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      if (window.renderStaffSidebarInfo) window.renderStaffSidebarInfo();
+    });
     </script>
   </body>
 </html>

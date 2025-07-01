@@ -1730,8 +1730,19 @@
           renderAppointments(appointmentsData);
         }
 
-        // Đóng modal hiện tại
-        document.querySelector('.appointment-details-modal').remove();
+        // Đóng modal hủy hiện tại
+        const cancelModal = document.querySelector('.appointment-details-modal');
+        if (cancelModal) {
+          cancelModal.remove();
+        }
+
+        // Đóng modal chi tiết lịch hẹn nếu đang mở
+        const detailsModals = document.querySelectorAll('.appointment-details-modal');
+        detailsModals.forEach(modal => {
+          if (modal !== cancelModal) {
+            modal.remove();
+          }
+        });
 
         // Hiển thị thông báo thành công
         showSuccessToast("Đã hủy lịch hẹn thành công");

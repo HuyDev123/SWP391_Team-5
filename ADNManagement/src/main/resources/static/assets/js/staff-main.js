@@ -1,103 +1,52 @@
 // Main.js - Logic chính cho dashboard
-// Khi DOM đã sẵn sàng, thực hiện các thao tác khởi tạo
-document.addEventListener("DOMContentLoaded", function () {
-  // Kiểm tra xem module Auth đã được load chưa
-  if (window.Auth) {
-    console.log("Auth module loaded successfully");
-  } else {
-    // Nếu chưa load được Auth, báo lỗi
-    console.error(
-      "Auth module not loaded. Make sure auth.js is included before main.js"
-    );
+// Hàm renderStaffSidebarInfo toàn cục, chỉ export, không tự động gọi
+window.renderStaffSidebarInfo = function () {
+  const staff = window.serverStaff || {};
+  const container = document.getElementById("user-info-container");
+  if (!container) return;
+  container.innerHTML = `
+    <div class="user-info-block" id="user-info-block" style="position:relative;">
+      <div class="user-info-main" id="user-info-main" style="display:flex;align-items:center;gap:12px;cursor:pointer;">
+        <img id="user-avatar" src="/assets/images/user-avatar.png" alt="User Avatar" style="width:44px;height:44px;border-radius:50%;object-fit:cover;" />
+        <div style="display:flex;flex-direction:column;align-items:flex-start;">
+          <div id="avatar-fullname" class="user-name" style="font-weight:600;font-size:15px;">${staff.fullName}</div>
+          <div id="avatar-role" class="user-role" style="font-size:13px;color:#888;">Nhân viên</div>
+        </div>
+        <i class="fas fa-chevron-down" style="margin-left:8px;color:#888;font-size:16px;"></i>
+      </div>
+      <div class="user-dropdown" id="user-dropdown" style="display:none;position:absolute;right:0;top:44px;min-width:160px;background:#fff!important;opacity:1!important;backdrop-filter:none!important;border-radius:10px;box-shadow:0 4px 16px rgba(0,0,0,0.13)!important;z-index:9999;overflow:hidden;border:1px solid #e0e0e0!important;">
+        <a href="/profile" style="display:flex;align-items:center;padding:12px 18px;text-decoration:none;color:#333;font-size:14px;gap:8px;transition:background 0.2s;">
+          <i class="fas fa-user"></i> Hồ sơ cá nhân
+        </a>
+        <a href="#" onclick="window.handleLogout();return false;" style="display:flex;align-items:center;padding:12px 18px;text-decoration:none;color:#f44336;font-size:14px;gap:8px;transition:background 0.2s;">
+          <i class="fas fa-sign-out-alt"></i> Đăng xuất
+        </a>
+      </div>
+    </div>
+  `;
+  // Toggle dropdown logic
+  const block = document.getElementById("user-info-block");
+  const dropdown = document.getElementById("user-dropdown");
+  if (block && dropdown) {
+    let dropdownTimeout;
+    block.addEventListener("mouseenter", function() {
+      clearTimeout(dropdownTimeout);
+      dropdown.style.display = "block";
+    });
+    block.addEventListener("mouseleave", function() {
+      dropdownTimeout = setTimeout(() => { dropdown.style.display = "none"; }, 120);
+    });
   }
-
-  // Hàm thiết lập giao diện theo vai trò người dùng
-  window.setupUIByRole = function (user) {
-    if (!user || !user.role) return;
-
-    console.log("Setting up UI for role:", user.role);
-
-    // Lấy tất cả các phần tử chỉ dành cho từng vai trò
-    const staffElements = document.querySelectorAll(".staff-only");
-    const managerElements = document.querySelectorAll(".manager-only");
-    const adminElements = document.querySelectorAll(".admin-only");
-
-    // Ẩn toàn bộ các phần tử phân quyền trước
-    staffElements.forEach((el) => (el.style.display = "none"));
-    managerElements.forEach((el) => (el.style.display = "none"));
-    adminElements.forEach((el) => (el.style.display = "none"));
-
-    // Hiển thị các phần tử phù hợp với vai trò
-    if (user.role === "staff") {
-      staffElements.forEach((el) => (el.style.display = ""));
-    } else if (user.role === "manager") {
-      staffElements.forEach((el) => (el.style.display = ""));
-      managerElements.forEach((el) => (el.style.display = ""));
-    } else if (user.role === "admin") {
-      staffElements.forEach((el) => (el.style.display = ""));
-      managerElements.forEach((el) => (el.style.display = ""));
-      adminElements.forEach((el) => (el.style.display = ""));
-    }
-
-    // Cập nhật thông điệp chào mừng nếu có
-    const welcomeMessage = document.getElementById("welcome-message");
-    if (welcomeMessage) {
-      let roleDisplay = "nhân viên";
-      if (user.role === "manager") roleDisplay = "quản lý";
-      if (user.role === "admin") roleDisplay = "quản trị viên";
-
-      welcomeMessage.textContent = `Chào mừng ${user.fullName}, ${roleDisplay} đã quay trở lại!`;
-    }
-  };
-
-  // Kiểm tra trạng thái đăng nhập và cập nhật UI
-  if (window.Auth && typeof window.Auth.checkLoginStatus === "function") {
-    const { isLoggedIn, user } = window.Auth.checkLoginStatus();
-
-    if (isLoggedIn && user) {
-      console.log("User is logged in:", user);
-
-      // Thiết lập UI theo vai trò nếu đã đăng nhập
-      if (typeof window.setupUIByRole === "function") {
-        window.setupUIByRole(user);
-      }
-    } else {
-      console.log("User is not logged in");
-    }
+  // Thêm CSS hover cho dropdown nếu chưa có
+  if (!document.getElementById('user-dropdown-style')) {
+    const style = document.createElement('style');
+    style.id = 'user-dropdown-style';
+    style.textContent = `
+      .user-dropdown a:hover { background: #f5f5f5 !important; }
+    `;
+    document.head.appendChild(style);
   }
-
-  // Hàm đồng bộ thông tin nhân viên ở sidebar (avatar + tên)
-  window.renderStaffSidebarInfo = function () {
-    // Lấy thông tin staff từ biến toàn cục (do backend truyền vào)
-    const staff = window.serverStaff || null;
-    // Avatar luôn là mặc định
-    const avatarImg = document.getElementById("user-avatar");
-    if (avatarImg) {
-      avatarImg.src = "/assets/images/user-avatar.png";
-      avatarImg.style.display = "block";
-    }
-    // Tên nhân viên
-    const nameDiv = document.getElementById("avatar-fullname");
-    if (nameDiv) {
-      nameDiv.textContent = staff && staff.fullName ? staff.fullName : "Nhân viên";
-    }
-    // Nếu có avatar-letter thì lấy ký tự đầu tên
-    const letterDiv = document.getElementById("avatar-letter");
-    if (letterDiv) {
-      let letter = "N";
-      if (staff && staff.fullName) {
-        // Lấy ký tự đầu của từng từ trong tên
-        letter = staff.fullName.split(" ").map(w => w[0]).join("").toUpperCase();
-      }
-      letterDiv.textContent = letter;
-    }
-    // Nếu có role
-    const roleDiv = document.getElementById("avatar-role");
-    if (roleDiv) {
-      roleDiv.textContent = staff && staff.role ? staff.role : "Nhân viên";
-    }
-  };
-});
+};
 
 // Hàm hiển thị thông báo (đã có sẵn trong HTML)
 function showNotification(message, type = "success") {

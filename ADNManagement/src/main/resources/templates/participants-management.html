@@ -778,6 +778,11 @@
     </style>
   </head>
   <body>
+    <script th:inline="javascript">
+      /*<![CDATA[*/
+      window.serverStaff = /*[[${staffData}]]*/ null;
+      /*]]>*/
+    </script>
     <!-- Sidebar -->
     <div class="sidebar">
       <div class="logo-container">
@@ -788,22 +793,8 @@
         </div>
       </div>
 
-      <div class="login-register">
-        <div id="user-info-container">
-          <div class="user-info">
-            <div class="avatar">
-              <img id="user-avatar" src="/assets/images/user-avatar.png" alt="User Avatar" style="display: block" />
-            </div>
-            <div class="user-details">
-              <div id="avatar-fullname" class="user-name">Nhân viên</div>
-              <div id="avatar-role" class="user-role">Nhân viên</div>
-            </div>
-          </div>
-          <button id="logout-btn" class="logout-btn" onclick="window.handleLogout()">
-            <i class="fas fa-sign-out-alt"></i>
-            Đăng xuất
-          </button>
-        </div>
+      <div class="login-register" id="login-register">
+        <div id="user-info-container"></div>
       </div>
       <div class="menu-title">MAIN MENU</div>
       <div id="mainMenu">
@@ -1426,7 +1417,6 @@
 
       // Initialize page
       document.addEventListener("DOMContentLoaded", function () {
-        if (window.renderStaffSidebarInfo) window.renderStaffSidebarInfo();
         loadParticipants();
         setupEventListeners();
         setupPhotoPreview();
@@ -1450,7 +1440,21 @@
             // Clear appointment result when user types
             document.getElementById("appointment-result").innerHTML = "";
             document.getElementById("customer-name").value = "";
+            document.getElementById("purpose").value = "";
+            
+            // Hide participant fields and disable submit button
+            document.getElementById("participant-fields").style.display = "none";
+            document.getElementById("add-participant-submit-btn").disabled = true;
+            
+            // Reset search button
+            const searchBtn = document.getElementById("search-appointment-btn");
+            PARTICIPANTS_UTILS.hideLoading(searchBtn, '<i class="fas fa-search"></i> Tìm kiếm');
+            
+            // Clear current appointment data
             currentAppointmentData = null;
+            
+            // Reset administrative fields
+            toggleAdministrativeFields();
           });
 
         // Modal close buttons
@@ -1578,6 +1582,9 @@
           `;
           
           showErrorToast("Lỗi khi tìm kiếm cuộc hẹn");
+        } finally {
+          // Always reset the search button
+          PARTICIPANTS_UTILS.hideLoading(searchBtn, '<i class="fas fa-search"></i> Tìm kiếm');
         }
       }
 
@@ -1637,12 +1644,26 @@
 
       function openAddModal() {
         document.getElementById("add-participant-modal").style.display = "block";
+        
         // Clear previous data
         document.getElementById("appointment-result").innerHTML = "";
         document.getElementById("customer-name").value = "";
+        document.getElementById("purpose").value = "";
         document.getElementById("participant-fields").style.display = "none";
         document.getElementById("add-participant-submit-btn").disabled = true;
+        
+        // Reset search button
+        const searchBtn = document.getElementById("search-appointment-btn");
+        PARTICIPANTS_UTILS.hideLoading(searchBtn, '<i class="fas fa-search"></i> Tìm kiếm');
+        
+        // Clear current appointment data
         currentAppointmentData = null;
+        
+        // Reset administrative fields
+        toggleAdministrativeFields();
+        
+        // Remove photo preview
+        removePhoto();
       }
 
       function closeAddModal() {
@@ -1652,9 +1673,22 @@
         document.getElementById("customer-name").value = "";
         document.getElementById("purpose").value = "";
         document.getElementById("add-participant-submit-btn").disabled = true;
+        
+        // Reset search button
+        const searchBtn = document.getElementById("search-appointment-btn");
+        PARTICIPANTS_UTILS.hideLoading(searchBtn, '<i class="fas fa-search"></i> Tìm kiếm');
+        
+        // Hide participant fields
+        document.getElementById("participant-fields").style.display = "none";
+        
+        // Clear current appointment data
         currentAppointmentData = null;
-        removePhoto();
+        
+        // Reset administrative fields
         toggleAdministrativeFields();
+        
+        // Remove photo preview
+        removePhoto();
       }
 
       function closeViewModal() {
@@ -2104,5 +2138,10 @@
     <script src="/assets/js/staff-auth.js"></script>
     <script src="/assets/js/staff-main.js"></script>
     <script src="/assets/js/participants-api.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        if (window.renderStaffSidebarInfo) window.renderStaffSidebarInfo();
+      });
+      </script>
   </body>
 </html>

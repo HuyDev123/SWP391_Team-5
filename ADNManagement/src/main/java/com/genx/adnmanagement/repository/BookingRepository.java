@@ -31,7 +31,7 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
     @Query("SELECT DISTINCT b FROM Booking b " +
            "LEFT JOIN b.bookingServices bs " +
            "LEFT JOIN bs.service s " +
-           "WHERE (:status IS NULL OR b.status = :status) " +
+           "WHERE (:statuses IS NULL OR b.status IN :statuses) " +
            "AND (:bookingDate IS NULL OR CAST(b.bookingDate AS date) = :bookingDate) " +
            "AND (:serviceId IS NULL OR s.id = :serviceId) " +
            "AND (:searchQuery IS NULL OR " +
@@ -40,7 +40,7 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
            "CAST(b.customer.id AS string) = :searchQuery) " +
            "ORDER BY b.bookingDate DESC")
     Page<Booking> findAllWithFilters(
-        @Param("status") String status,
+        @Param("statuses") java.util.List<String> statuses,
         @Param("bookingDate") LocalDate bookingDate,
         @Param("serviceId") Integer serviceId,
         @Param("searchQuery") String searchQuery,

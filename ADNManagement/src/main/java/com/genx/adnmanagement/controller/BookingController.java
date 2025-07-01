@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.time.LocalDate;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/booking")
@@ -30,6 +31,8 @@ public class BookingController {
     private BookingServiceRepository bookingServiceRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private TestResultRepository testResultRepository;
 
     @PostMapping("/book")
     public ResponseEntity<?> createBooking(@RequestBody BookingRequest request, @SessionAttribute(name = "user", required = false) User sessionUser) {
@@ -181,7 +184,8 @@ public class BookingController {
     public ResponseEntity<?> cancelAppointment(
             @RequestParam Integer bookingId,
             @RequestParam String reason,
-            @SessionAttribute(name = "user", required = false) User sessionUser) {
+            @SessionAttribute(name = "user", required = false) User sessionUser,
+            @SessionAttribute(name = "staff", required = false) User sessionStaff) {
         try {
             Booking booking = bookingRepository.findById(bookingId).orElse(null);
 
@@ -189,24 +193,32 @@ public class BookingController {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không tìm thấy lịch hẹn");
             }
 
-            if (sessionUser == null || (booking.getStaff() != null && !booking.getStaff().getId().equals(sessionUser.getId()))) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                        .body("Bạn không có quyền hủy lịch hẹn này");
+            // Nếu là staff, cho phép hủy bất kỳ lịch hẹn nào, bất kỳ trạng thái nào
+            if (sessionStaff != null) {
+                booking.setStatus("Đã hủy");
+                String oldNote = booking.getNote();
+                String newNote = (oldNote == null || oldNote.isBlank() ? "" : oldNote + "\n\n") + "Lý do hủy (staff): " + reason;
+                booking.setNote(newNote);
+                bookingRepository.save(booking);
+                return ResponseEntity.ok("Hủy lịch hẹn thành công (staff)");
             }
 
-            // Chỉ cho phép hủy các lịch hẹn có trạng thái "Đã đặt" hoặc "Đang chờ lấy mẫu"
-            if (!booking.getStatus().equals("Đã đặt") && !booking.getStatus().equals("Đang chờ lấy mẫu")) {
-                return ResponseEntity.badRequest().body("Không thể hủy lịch hẹn trong trạng thái hiện tại");
+            // Nếu là user, chỉ cho phép hủy lịch của mình và trạng thái hợp lệ
+            if (sessionUser != null && booking.getCustomer() != null && booking.getCustomer().getId().equals(sessionUser.getId())) {
+                if (!booking.getStatus().equals("Đã đặt") && !booking.getStatus().equals("Đang chờ lấy mẫu")) {
+                    return ResponseEntity.badRequest().body("Không thể hủy lịch hẹn trong trạng thái hiện tại");
+                }
+                booking.setStatus("Đã hủy");
+                String oldNote = booking.getNote();
+                String newNote = (oldNote == null || oldNote.isBlank() ? "" : oldNote + "\n\n") + "Lý do hủy: " + reason;
+                booking.setNote(newNote);
+                bookingRepository.save(booking);
+                return ResponseEntity.ok("Hủy lịch hẹn thành công");
             }
 
-            booking.setStatus("Đã hủy");
-            // Ghi lý do hủy vào note, xuống dòng nếu đã có note cũ
-            String oldNote = booking.getNote();
-            String newNote = (oldNote == null || oldNote.isBlank() ? "" : oldNote + "\n\n") + "Lý do hủy: " + reason;
-            booking.setNote(newNote);
-            bookingRepository.save(booking);
-
-            return ResponseEntity.ok("Hủy lịch hẹn thành công");
+            // Không có quyền
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body("Bạn không có quyền hủy lịch hẹn này");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Lỗi khi hủy lịch hẹn: " + e.getMessage());
@@ -218,36 +230,35 @@ public class BookingController {
     public ResponseEntity<?> getAllAppointmentsForStaff(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
-            @RequestParam(required = false) String status,
+            @RequestParam(required = false) String statuses, // truyền dạng: "Đã nhận mẫu,Đã hoàn thành"
             @RequestParam(required = false) String date,
             @RequestParam(required = false) Integer serviceId,
             @RequestParam(required = false) String searchQuery,
             @SessionAttribute(name = "staff", required = false) User sessionStaff) {
-        
         // Check if staff session exists
         if (sessionStaff == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body("ACCESS_DENIED: Bạn không có quyền truy cập trang này.");
         }
-
         try {
             Pageable pageable = PageRequest.of(page, size);
             LocalDate bookingDate = null;
             if (date != null && !date.isBlank()) {
                 bookingDate = LocalDate.parse(date);
             }
-
+            java.util.List<String> statusList = null;
+            if (statuses != null && !statuses.isBlank()) {
+                statusList = java.util.Arrays.asList(statuses.split(","));
+            }
             Page<Booking> bookingPage = bookingRepository.findAllWithFilters(
-                (status == null || status.isBlank()) ? null : status,
+                statusList,
                 bookingDate,
                 serviceId,
                 (searchQuery == null || searchQuery.isBlank()) ? null : searchQuery,
                 pageable
             );
-
             List<Map<String, Object>> appointmentsList = new ArrayList<>();
             DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-
             for (Booking booking : bookingPage.getContent()) {
                 Map<String, Object> appointmentDetails = new HashMap<>();
                 appointmentDetails.put("id", booking.getId());
@@ -261,14 +272,11 @@ public class BookingController {
                 appointmentDetails.put("phone", booking.getPhone());
                 appointmentDetails.put("address", booking.getAddress());
                 appointmentDetails.put("note", booking.getNote());
-
                 String ADNService = booking.getIsAdministrative() ? "Hành chính" : "Dân sự";
                 appointmentDetails.put("ADNService", ADNService);
-
                 String method = booking.getIsCenterCollected() ? "Tại trung tâm" : "Tại nhà";
                 appointmentDetails.put("method", method);
                 appointmentDetails.put("bookingDate", booking.getBookingDate().format(dateTimeFormatter));
-
                 if (booking.getCenterSampleDate() != null) {
                     String appointmentDateTime = booking.getCenterSampleDate().toString();
                     if (booking.getCenterSampleTime() != null) {
@@ -278,12 +286,9 @@ public class BookingController {
                 } else {
                     appointmentDetails.put("appointmentDateTime", null);
                 }
-
                 appointmentDetails.put("status", booking.getStatus());
-
                 List<BookingService> bookingServices = bookingServiceRepository.findByBooking_Id(booking.getId());
                 List<Map<String, Object>> services = new ArrayList<>();
-
                 for (BookingService bs : bookingServices) {
                     Service service = bs.getService();
                     Map<String, Object> serviceDetail = new HashMap<>();
@@ -292,22 +297,18 @@ public class BookingController {
                     serviceDetail.put("price", service.getPrice());
                     services.add(serviceDetail);
                 }
-
                 appointmentDetails.put("services", services);
-                // Add staff information if available
                 if (booking.getStaff() != null) {
                     appointmentDetails.put("staffFullName", booking.getStaff().getFullName());
                 }
                 appointmentsList.add(appointmentDetails);
             }
-
             Map<String, Object> response = new HashMap<>();
             response.put("content", appointmentsList);
             response.put("totalPages", bookingPage.getTotalPages());
             response.put("totalElements", bookingPage.getTotalElements());
             response.put("page", bookingPage.getNumber());
             response.put("size", bookingPage.getSize());
-
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -452,5 +453,103 @@ public class BookingController {
         booking.setStatus(newStatus);
         bookingRepository.save(booking);
         return ResponseEntity.ok("Cập nhật trạng thái thành công");
+    }
+
+    @GetMapping("/staff/appointments-with-results")
+    public ResponseEntity<?> getAppointmentsWithResults(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false) String statuses, // truyền dạng: "Đã nhận mẫu,Đã hoàn thành"
+            @RequestParam(required = false) String date,
+            @RequestParam(required = false) Integer serviceId,
+            @RequestParam(required = false) String searchQuery,
+            @SessionAttribute(name = "staff", required = false) User sessionStaff) {
+        if (sessionStaff == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body("ACCESS_DENIED: Bạn không có quyền truy cập trang này.");
+        }
+        try {
+            Pageable pageable = PageRequest.of(page, size);
+            LocalDate bookingDate = null;
+            if (date != null && !date.isBlank()) {
+                bookingDate = LocalDate.parse(date);
+            }
+            java.util.List<String> statusList = null;
+            if (statuses != null && !statuses.isBlank()) {
+                statusList = java.util.Arrays.asList(statuses.split(","));
+            }
+            Page<Booking> bookingPage = bookingRepository.findAllWithFilters(
+                statusList,
+                bookingDate,
+                serviceId,
+                (searchQuery == null || searchQuery.isBlank()) ? null : searchQuery,
+                pageable
+            );
+            List<Map<String, Object>> appointmentsList = new ArrayList<>();
+            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            for (Booking booking : bookingPage.getContent()) {
+                Map<String, Object> appointmentDetails = new HashMap<>();
+                appointmentDetails.put("id", booking.getId());
+                if (booking.getCustomer() != null) {
+                    appointmentDetails.put("customerId", booking.getCustomer().getId());
+                } else {
+                    appointmentDetails.put("customerId", null);
+                }
+                appointmentDetails.put("customerName", booking.getFullName());
+                appointmentDetails.put("email", booking.getEmail());
+                appointmentDetails.put("phone", booking.getPhone());
+                appointmentDetails.put("address", booking.getAddress());
+                appointmentDetails.put("note", booking.getNote());
+                String ADNService = booking.getIsAdministrative() ? "Hành chính" : "Dân sự";
+                appointmentDetails.put("ADNService", ADNService);
+                String method = booking.getIsCenterCollected() ? "Tại trung tâm" : "Tại nhà";
+                appointmentDetails.put("method", method);
+                appointmentDetails.put("bookingDate", booking.getBookingDate().format(dateTimeFormatter));
+                if (booking.getCenterSampleDate() != null) {
+                    String appointmentDateTime = booking.getCenterSampleDate().toString();
+                    if (booking.getCenterSampleTime() != null) {
+                        appointmentDateTime += " " + booking.getCenterSampleTime();
+                    }
+                    appointmentDetails.put("appointmentDateTime", appointmentDateTime);
+                } else {
+                    appointmentDetails.put("appointmentDateTime", null);
+                }
+                appointmentDetails.put("status", booking.getStatus());
+                List<BookingService> bookingServices = bookingServiceRepository.findByBooking_Id(booking.getId());
+                List<Map<String, Object>> services = new ArrayList<>();
+                for (BookingService bs : bookingServices) {
+                    Service service = bs.getService();
+                    Map<String, Object> serviceDetail = new HashMap<>();
+                    serviceDetail.put("service", service.getName());
+                    serviceDetail.put("serviceId", service.getId());
+                    serviceDetail.put("price", service.getPrice());
+                    // Lấy TestResult cho booking + service này
+                    Optional<TestResult> testResultOpt = testResultRepository.findByBookingIdAndServiceId(booking.getId(), service.getId());
+                    if (testResultOpt.isPresent() && testResultOpt.get().getResultFile() != null && !testResultOpt.get().getResultFile().isBlank()) {
+                        serviceDetail.put("resultStatus", "Đã có kết quả");
+                        serviceDetail.put("resultFile", testResultOpt.get().getResultFile());
+                    } else {
+                        serviceDetail.put("resultStatus", "Chưa có kết quả");
+                        serviceDetail.put("resultFile", null);
+                    }
+                    services.add(serviceDetail);
+                }
+                appointmentDetails.put("services", services);
+                if (booking.getStaff() != null) {
+                    appointmentDetails.put("staffFullName", booking.getStaff().getFullName());
+                }
+                appointmentsList.add(appointmentDetails);
+            }
+            Map<String, Object> response = new HashMap<>();
+            response.put("content", appointmentsList);
+            response.put("totalPages", bookingPage.getTotalPages());
+            response.put("totalElements", bookingPage.getTotalElements());
+            response.put("page", bookingPage.getNumber());
+            response.put("size", bookingPage.getSize());
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Lỗi khi lấy danh sách lịch hẹn: " + e.getMessage());
+        }
     }
 }

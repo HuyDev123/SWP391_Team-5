@@ -10,11 +10,11 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
     />
     <!-- CSS chính -->
-    <link rel="stylesheet" href="assets/css/styles.css" />
+    <link rel="stylesheet" href="/assets/css/styles.css" />
     <!-- CSS header và footer -->
-    <link rel="stylesheet" href="assets/css/header.css" />
-    <link rel="stylesheet" href="assets/css/footer.css" />
-    <link rel="stylesheet" href="assets/css/user-dropdown.css" />
+    <link rel="stylesheet" href="/assets/css/header.css" />
+    <link rel="stylesheet" href="/assets/css/footer.css" />
+    <link rel="stylesheet" href="/assets/css/user-dropdown.css" />
     <style>
       body {
         min-height: 100vh;
@@ -541,25 +541,30 @@
     </style>
   </head>
   <body>
+    <script th:inline="javascript">
+      /*<![CDATA[*/
+      window.serverUser = /*[[${userData}]]*/ null;
+      /*]]>*/
+    </script>
     <!-- Header -->
     <header>
       <div class="header-container">
         <div class="logo-section">
-          <img src="assets/images/logo.png" alt="Genx Logo" />
+          <img src="/assets/images/logo.png" alt="Genx Logo" />
           <div class="brand-text">
             <h1 class="brand-name">GenX</h1>
             <p class="brand-description">Trung tâm xét nghiệm ADN hàng đầu</p>
           </div>
         </div>
         <nav class="nav-links">
-          <a href="index.html" class="nav-link">Trang chủ</a>
-          <a href="booking.html" class="nav-link">Đặt lịch xét nghiệm</a>
-          <a href="services.html" class="nav-link">Giới thiệu dịch vụ</a>
-          <a href="knowledge.html" class="nav-link">Kiến thức ADN</a>
-          <a href="sample-collection.html" class="nav-link"
+          <a href="/home" class="nav-link">Trang chủ</a>
+          <a href="/booking" class="nav-link">Đặt lịch xét nghiệm</a>
+          <a href="/services" class="nav-link">Giới thiệu dịch vụ</a>
+          <a href="/knowledge" class="nav-link">Kiến thức ADN</a>
+          <a href="/sampling-guide" class="nav-link"
             >Hướng dẫn lấy mẫu</a
           >
-          <a href="login.html" class="nav-link login-button">Đăng nhập</a>
+          <a href="/login" class="nav-link login-button">Đăng nhập</a>
         </nav>
       </div>
     </header>
@@ -679,10 +684,10 @@
         <div class="footer-links">
           <h4>Dịch Vụ</h4>
           <ul>
-            <li><a href="services.html">Xét nghiệm ADN Cha Con</a></li>
-            <li><a href="services.html">Xét nghiệm ADN Mẹ Con</a></li>
-            <li><a href="services.html">Xét nghiệm ADN Anh Chị Em</a></li>
-            <li><a href="services.html">Xét nghiệm ADN Ông Bà Cháu</a></li>
+            <li><a href="/services">Xét nghiệm ADN Cha Con</a></li>
+            <li><a href="/services">Xét nghiệm ADN Mẹ Con</a></li>
+            <li><a href="/services">Xét nghiệm ADN Anh Chị Em</a></li>
+            <li><a href="/services">Xét nghiệm ADN Ông Bà Cháu</a></li>
           </ul>
         </div>
 
@@ -690,9 +695,9 @@
         <div class="footer-links">
           <h4>Hỗ Trợ</h4>
           <ul>
-            <li><a href="sample-collection.html">Hướng dẫn lấy mẫu</a></li>
-            <li><a href="knowledge.html">Quy trình xét nghiệm</a></li>
-            <li><a href="knowledge.html">Câu hỏi thường gặp</a></li>
+            <li><a href="/sampling-guide">Hướng dẫn lấy mẫu</a></li>
+            <li><a href="/knowledge">Quy trình xét nghiệm</a></li>
+            <li><a href="/knowledge">Câu hỏi thường gặp</a></li>
             <li><a href="#">Chính sách bảo mật</a></li>
           </ul>
         </div>
@@ -908,8 +913,8 @@
     </style>
 
     <!-- Script xác thực -->
-    <script src="assets/js/auth.js"></script>
-    <script src="assets/js/main.js"></script>
+    <script src="/assets/js/auth.js"></script>
+    <script src="/assets/js/main.js"></script>
     <script>
       // Danh sách dịch vụ mẫu (đồng bộ với appoinments.html)
       const serviceNames = [
@@ -1036,65 +1041,158 @@
       // Lưu vào localStorage để feedback.html có thể lấy được
       localStorage.setItem("staffList", JSON.stringify(staffList));
 
-      // Render danh sách lịch sử xét nghiệm
-      function renderTestHistory(data) {
+      // Hàm fetch dữ liệu lịch sử xét nghiệm từ backend
+      async function fetchTestHistory(page = 0, size = 100) {
+        const params = new URLSearchParams();
+        params.append('page', page);
+        params.append('size', size);
+        params.append('status', 'Đã hoàn thành'); // hoặc 'Đã trả kết quả' nếu backend dùng trạng thái này
+        const response = await fetch(`/booking/appointments?${params.toString()}`, {
+          credentials: 'include'
+        });
+        if (!response.ok) return [];
+        const data = await response.json();
+        return data.content || [];
+      }
+
+      // Hàm kiểm tra feedback từ backend
+      async function checkFeedbackFromBackend(bookingId, serviceId) {
+        try {
+          const response = await fetch(`/api/feedback/check/${bookingId}/${serviceId}`);
+          if (response.ok) {
+            const data = await response.json();
+            return data.exists ? data.feedback : null;
+          }
+        } catch (error) {
+          console.error('Lỗi khi kiểm tra feedback:', error);
+        }
+        return null;
+      }
+
+      // Hàm kiểm tra tất cả dịch vụ trong booking đã được đánh giá chưa (tối ưu: chỉ gọi 1 API, so sánh kiểu string)
+      async function checkAllServicesReviewed(bookingId, services) {
+        if (!services || services.length === 0) return false;
+        try {
+          const res = await fetch(`/api/feedback/all/${bookingId}`);
+          if (!res.ok) return false;
+          const feedbackList = await res.json();
+          // Đảm bảo so sánh cùng kiểu dữ liệu (string)
+          const feedbackServiceIds = new Set(feedbackList.map(fb => String(fb.serviceId)));
+          for (let i = 0; i < services.length; i++) {
+            const service = services[i];
+            const serviceId = String(service.serviceId || service.id);
+            if (!feedbackServiceIds.has(serviceId)) {
+              return false;
+            }
+          }
+          return true;
+        } catch (error) {
+          return false;
+        }
+      }
+
+      // Hàm render bảng lịch sử (giữ nguyên logic feedback, chỉ thay nguồn dữ liệu)
+      async function renderTestHistory(filteredData) {
+        let data = filteredData;
+        if (!data) {
+          data = await fetchTestHistory();
+        }
         const tableBody = document.getElementById("history-table-body");
-
         if (!data || data.length === 0) {
-          tableBody.innerHTML = `
-            <tr>
-              <td colspan="6" class="no-results">Không tìm thấy lịch sử xét nghiệm</td>
-            </tr>
-          `;
+          tableBody.innerHTML = `<tr><td colspan="6" class="no-results">Không tìm thấy lịch sử xét nghiệm</td></tr>`;
           return;
         }
-
-        // Lọc dữ liệu để chỉ hiển thị các xét nghiệm có trạng thái "Đã trả kết quả"
-        const completedTests = data.filter(
-          (item) => item.status === "Đã trả kết quả"
-        );
-
+        // Lưu lại data để các hàm feedback dùng
+        window.testHistoryData = data;
+        // Chỉ hiển thị các xét nghiệm đã trả kết quả
+        const completedTests = data.filter(item => item.status === "Đã hoàn thành" || item.status === "Đã trả kết quả");
         if (completedTests.length === 0) {
-          tableBody.innerHTML = `
-            <tr>
-              <td colspan="6" class="no-results">Không tìm thấy lịch sử xét nghiệm đã hoàn thành</td>
-            </tr>
-          `;
+          tableBody.innerHTML = `<tr><td colspan="6" class="no-results">Không tìm thấy lịch sử xét nghiệm đã hoàn thành</td></tr>`;
           return;
         }
-
-        tableBody.innerHTML = completedTests
-          .map((item) => {
-            return `
+        tableBody.innerHTML = await Promise.all(completedTests.map(async (item) => {
+          // Kiểm tra tất cả dịch vụ đã được đánh giá chưa
+          const allServicesReviewed = await checkAllServicesReviewed(item.id, item.services);
+          // Xác định loại nút hiển thị
+          let feedbackButton;
+          if (allServicesReviewed) {
+            // Tất cả dịch vụ đã đánh giá - hiển thị nút "Xem đánh giá"
+            feedbackButton = `<button class="action-button btn-reviewed" style="margin-right: 5px; cursor: pointer;" onclick="openFeedbackIframe('${item.id}', '${item.customerId || ''}', '${item.staff_id || ''}')">
+              <i class="fas fa-eye"></i> Xem đánh giá
+            </button>`;
+          } else {
+            // Chưa đánh giá tất cả dịch vụ - hiển thị nút "Đánh giá dịch vụ"
+            feedbackButton = `<button class="action-button btn-review" style="margin-right: 5px;" onclick="openFeedbackIframe('${item.id}', '${item.customerId || ''}', '${item.staff_id || ''}')">
+              <i class="fas fa-star"></i> Đánh giá dịch vụ
+            </button>`;
+          }
+          
+          return `
             <tr>
               <td>${item.id}</td>
               <td>${item.customerName}</td>
-              <td>${item.method}</td>
-              <td>${formatDate(item.testDate)}</td>
-              <td><span class="status-badge status-completed">${
-                item.status
-              }</span></td>
+              <td>${item.method || ''}</td>
+              <td>${formatDate(item.bookingDate)}</td>
+              <td><span class="status-badge status-completed">${item.status}</span></td>
               <td>
-                ${
-                  !item.isReviewed
-                    ? `<button class="action-button btn-review" style=" margin-right: 5px;" onclick="openFeedbackIframe('${item.id}', '${item.customerId}', '${item.staff_id}')">
-      <i class="fas fa-star"></i> Đánh giá dịch vụ
-     </button>`
-                    : `<button class="action-button btn-reviewed" style=" margin-right: 5px; cursor: pointer;" onclick="openFeedbackIframe('${item.id}', '${item.customerId}', '${item.staff_id}')">
-      <i class="fas fa-check"></i> Đã đánh giá
-     </button>`
-                }
-                <button class="action-button btn-result"  onclick="showResultModal('${
-                  item.id
-                }')">
+                ${feedbackButton}
+                <button class="action-button btn-result" onclick="showResultModal('${item.id}')">
                   <i class="fas fa-file-medical-alt"></i> Xem kết quả
                 </button>
               </td>
             </tr>
           `;
-          })
-          .join("");
+        })).then(rows => rows.join(""));
       }
+
+      // Hàm định dạng ngày tháng
+      function formatDate(dateString) {
+        const options = { day: "2-digit", month: "2-digit", year: "numeric" };
+        return new Date(dateString).toLocaleDateString("vi-VN", options);
+      }
+
+      // Xử lý form lọc (nếu có) vẫn dùng window.testHistoryData
+      document
+        .getElementById("filter-form")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          const serviceType = document.getElementById("service-type").value;
+          const dateFrom = document.getElementById("date-from").value;
+          const dateTo = document.getElementById("date-to").value;
+          // Lọc dữ liệu từ window.testHistoryData
+          let filteredData = (window.testHistoryData || []).filter(
+            (item) => item.status === "Đã hoàn thành" || item.status === "Đã trả kết quả"
+          );
+          if (serviceType) {
+            const [service, type] = serviceType.split("|");
+            if (type) {
+              filteredData = filteredData.filter(
+                (item) => item.ADNService === service
+              );
+            } else {
+              filteredData = filteredData.filter(
+                (item) => item.ADNService === serviceType
+              );
+            }
+          }
+          if (dateFrom) {
+            filteredData = filteredData.filter(
+              (item) => new Date(item.testDate || item.bookingDate) >= new Date(dateFrom)
+            );
+          }
+          if (dateTo) {
+            filteredData = filteredData.filter(
+              (item) => new Date(item.testDate || item.bookingDate) <= new Date(dateTo)
+            );
+          }
+          renderTestHistory(filteredData);
+        });
+
+      // Khi load trang
+      document.addEventListener("DOMContentLoaded", function () {
+        renderTestHistory();
+      });
+
       function openFeedbackIframe(bookingId, userId, staffId) {
         // Tạo URL với tham số
         const params = new URLSearchParams({
@@ -1102,7 +1200,7 @@
           user_id: userId || "",
           staff_id: staffId || "",
         });
-        const url = `feedback.html?${params.toString()}`;
+        const url = `/feedback?${params.toString()}`;
 
         // Tạo modal chứa iframe
         const modal = document.createElement("div");
@@ -1134,271 +1232,78 @@
             console.log("Đã nhận thông báo từ iframe:", event.data);
             if (event.data.type === "FEEDBACK_SUBMITTED") {
               // Cập nhật trạng thái đánh giá
-              updateReviewStatus(event.data.bookingId, event.data.serviceId);
+              updateReviewStatus(event.data.bookingId, event.data.serviceId).then(() => {
+            
+              });
 
               // Không tự động đóng modal sau khi nhận được thông báo
               // Để người dùng chủ động bấm nút "x" để thoát
-              console.log(
-                "Đã cập nhật trạng thái đánh giá, người dùng có thể đóng form khi muốn"
-              );
             }
           }
         });
-      } // Hàm cập nhật trạng thái đánh giá
-      function updateReviewStatus(bookingId, serviceId) {
-        console.log(
-          `Cập nhật trạng thái đánh giá cho booking ${bookingId}, dịch vụ ${serviceId}`
-        );
-
-        // Tìm xét nghiệm trong dữ liệu
-        const testIndex = testHistoryData.findIndex(
-          (test) => test.id === bookingId
-        );
-        if (testIndex !== -1) {
-          // Cập nhật trạng thái đánh giá
-          testHistoryData[testIndex].isReviewed = true;
-          testHistoryData[testIndex].reviewId = "RV" + Date.now(); // Tạo một reviewId mới
-
-          // Thêm thông tin serviceId vào localStorage để theo dõi các dịch vụ đã đánh giá
-          const reviewedServices = JSON.parse(
-            localStorage.getItem(`reviewed_services_${bookingId}`) || "[]"
-          );
-          if (!reviewedServices.includes(serviceId)) {
-            reviewedServices.push(serviceId);
-            localStorage.setItem(
-              `reviewed_services_${bookingId}`,
-              JSON.stringify(reviewedServices)
-            );
-          }
-
-          // Lưu trạng thái đánh giá vào localStorage để giữ giữa các lần tải trang
-          localStorage.setItem(`review_status_${bookingId}`, "true");
-          localStorage.setItem(
-            `review_id_${bookingId}`,
-            testHistoryData[testIndex].reviewId
-          );
-
-          // Render lại danh sách
-          renderTestHistory(testHistoryData);
-        }
-      } // Hàm reset thủ công trạng thái đánh giá (chỉ giữ lại để đảm bảo khả năng tương thích)
-      function resetAllReviewStatus() {
-        // Reset trạng thái đánh giá trong dữ liệu
-        testHistoryData.forEach((test) => {
-          test.isReviewed = false;
-          test.reviewId = null;
-        });
-
-        // Render lại danh sách
-        renderTestHistory(testHistoryData);
-
-        console.log("Đã reset trạng thái đánh giá trong bộ nhớ");
+      }       // Hàm cập nhật trạng thái đánh giá
+      async function updateReviewStatus(bookingId, serviceId) {
+        // Sau khi đánh giá xong, luôn render lại bảng để cập nhật trạng thái nút
+        renderTestHistory(window.testHistoryData);
       }
 
-      // Hàm định dạng ngày tháng
-      function formatDate(dateString) {
-        const options = { day: "2-digit", month: "2-digit", year: "numeric" };
-        return new Date(dateString).toLocaleDateString("vi-VN", options);
-      }
-
-      // Xử lý form lọc
-      document
-        .getElementById("filter-form")
-        .addEventListener("submit", function (e) {
-          e.preventDefault();
-
-          const serviceType = document.getElementById("service-type").value;
-          const dateFrom = document.getElementById("date-from").value;
-          const dateTo = document.getElementById("date-to").value;
-          const status = document.getElementById("status-filter").value;
-
-          // Lọc dữ liệu (chỉ xét các xét nghiệm đã trả kết quả)
-          let filteredData = testHistoryData.filter(
-            (item) => item.status === "Đã trả kết quả"
-          );
-
-          if (serviceType) {
-            const [service, type] = serviceType.split("|");
-            if (type) {
-              filteredData = filteredData.filter(
-                (item) => item.service === service && item.serviceType === type
-              );
-            } else {
-              filteredData = filteredData.filter(
-                (item) => item.service === serviceType
-              );
-            }
-          }
-
-          if (dateFrom) {
-            filteredData = filteredData.filter(
-              (item) => new Date(item.testDate) >= new Date(dateFrom)
-            );
-          }
-          if (dateTo) {
-            filteredData = filteredData.filter(
-              (item) => new Date(item.testDate) <= new Date(dateTo)
-            );
-          }
-
-          // Render lại dữ liệu đã lọc
-          renderTestHistory(filteredData);
-        }); // Xử lý đăng nhập và phân quyền
-      document.addEventListener("DOMContentLoaded", function () {
-        // Kiểm tra quyền truy cập
-        const authStatus = Auth.checkLoginStatus();
-        if (!authStatus.isLoggedIn) {
-          alert("Vui lòng đăng nhập để xem lịch sử xét nghiệm!");
-          window.location.href = "login.html";
-          return;
-        }
-
-        // Reset trạng thái đánh giá trong dữ liệu mẫu để luôn test được
-        // trường hợp "chưa đánh giá" khi tải lại trang
-        testHistoryData.forEach((test) => {
-          test.isReviewed = false;
-          test.reviewId = null;
-        });
-
-        // Set chế độ reset cho trang feedback.html
-        localStorage.setItem("reset_review_mode", "true");
-        console.log(
-          "Đã reset trạng thái đánh giá khi tải trang - chế độ test đã được bật"
-        );
-
-        // Hiển thị dữ liệu mẫu ban đầu
-        renderTestHistory(testHistoryData);
-
-        // Cập nhật UI đăng nhập
-        updateAuthUI();
-      });
-
-      // Dữ liệu mẫu kết quả xét nghiệm
-      const testResults = {
-        AP001: {
-          customerName: "Nguyễn Văn A",
-          testDate: "2025-05-25",
-          completedDate: "2025-05-30",
-          services: [
-            {
-              name: "Xét nghiệm ADN cha-con",
-              type: "Dân sự",
-              probability: "99.9999%",
-              conclusion:
-                "Kết quả xét nghiệm ADN cho thấy mối quan hệ cha-con giữa hai người được xét nghiệm là DƯƠNG TÍNH với độ chính xác 99.9999%.",
-              pdfUrl: "results/AP001_result.pdf",
-            },
-          ],
-        },
-        AP005: {
-          customerName: "Trần Minh Đức",
-          testDate: "2025-04-20",
-          completedDate: "2025-04-25",
-          services: [
-            {
-              name: "Xét nghiệm ADN ông, bà - cháu",
-              type: "Dân sự",
-              probability: "99.9985%",
-              conclusion:
-                "Kết quả xét nghiệm ADN cho thấy mối quan hệ ông, bà - cháu giữa những người được xét nghiệm là DƯƠNG TÍNH với độ chính xác 99.9985%.",
-              pdfUrl: "results/AP005.pdf",
-            },
-          ],
-        },
-        AP008: {
-          customerName: "Lê Thanh Hà",
-          testDate: "2025-03-15",
-          completedDate: "2025-03-20",
-          services: [
-            {
-              name: "Xét nghiệm ADN anh,chị - em",
-              type: "Dân sự",
-              probability: "99.9876%",
-              conclusion:
-                "Kết quả xét nghiệm ADN cho thấy mối quan hệ anh,chị - em giữa những người được xét nghiệm là DƯƠNG TÍNH với độ chính xác 99.9876%.",
-              pdfUrl: "results/AP008_result.pdf",
-            },
-          ],
-        },
-        AP012: {
-          customerName: "Phạm Văn Tuấn",
-          testDate: "2025-02-10",
-          completedDate: "2025-02-15",
-          services: [
-            {
-              name: "Xét nghiệm ADN mẹ-con",
-              type: "Dân sự",
-              probability: "99.9956%",
-              conclusion:
-                "Kết quả xét nghiệm ADN cho thấy mối quan hệ mẹ-con giữa hai người được xét nghiệm là DƯƠNG TÍNH với độ chính xác 99.9956%.",
-              pdfUrl: "results/AP012_result.pdf",
-            },
-          ],
-        },
-        AP015: {
-          customerName: "Hoàng Thị Mai",
-          testDate: "2025-01-25",
-          completedDate: "2025-01-30",
-          services: [
-            {
-              name: "Xét nghiệm ADN cha-con",
-              type: "Hành chính",
-              probability: "99.9812%",
-              conclusion:
-                "Kết quả xét nghiệm ADN cho thấy mối quan hệ cha-con giữa hai người được xét nghiệm là DƯƠNG TÍNH với độ chính xác 99.9812%.",
-              pdfUrl: "results/AP015_result.pdf",
-            },
-          ],
-        },
-      };
-
-      // Hàm hiển thị modal kết quả
-      function showResultModal(appointmentId) {
-        const result = testResults[appointmentId];
-        if (!result) {
+      // Hàm hiển thị modal kết quả - sử dụng dữ liệu từ API
+      async function showResultModal(appointmentId) {
+        // Tìm lịch hẹn trong dữ liệu từ API
+        const appointment = window.testHistoryData.find(a => a.id == appointmentId);
+        if (!appointment) {
           alert("Không tìm thấy kết quả xét nghiệm cho lịch hẹn này.");
           return;
         }
 
         const modal = document.getElementById("resultModal");
         const resultInfo = document.getElementById("resultInfo");
-        const resultServicesList =
-          document.getElementById("resultServicesList");
+        const resultServicesList = document.getElementById("resultServicesList");
 
-        // Render thông tin cơ bản
+        // Render thông tin cơ bản từ dữ liệu API
         resultInfo.innerHTML = `
           <strong>Tên khách hàng:</strong>
-          <span>${result.customerName}</span>
-          
+          <span>${appointment.customerName}</span>
           <strong>Mã lịch hẹn:</strong>
-          <span>${appointmentId}</span>
-          
-          <strong>Ngày xét nghiệm:</strong>
-          <span>${result.testDate}</span>
-          
-          <strong>Ngày có kết quả:</strong>
-          <span>${result.completedDate}</span>
+          <span>${appointment.id}</span>
+          <strong>Ngày đặt lịch:</strong>
+          <span>${formatDate(appointment.bookingDate)}</span>
+          <strong>Dịch vụ xét nghiệm:</strong>
+          <span>${appointment.ADNService || 'N/A'}</span>
         `;
 
-        // Render danh sách dịch vụ và kết quả
-        resultServicesList.innerHTML = result.services
-          .map(
-            (service) => `
-          <div class="result-service-item">
-            <div class="result-service-header">
-              <div class="result-service-title">${service.name} (${service.type})</div>
-              <div class="result-service-probability">Độ chính xác: ${service.probability}</div>
+        // Render danh sách dịch vụ và kết quả từ API
+        resultServicesList.innerHTML = "";
+        for (let i = 0; i < (appointment.services || []).length; i++) {
+          const service = appointment.services[i];
+          // Gọi API lấy file kết quả
+          let fileHtml = '<span style="color:#c62828">Không có file kết quả</span>';
+          try {
+            const res = await fetch(`/results/file?bookingId=${appointment.id}&serviceId=${service.serviceId || service.id}`);
+            if (res.ok) {
+              const data = await res.json();
+              if (data.hasFile && data.fileUrl) {
+                fileHtml = `<button class="btn btn-primary" onclick="window.open('${data.fileUrl}', '_blank')">
+                  <i class="fas fa-file-pdf"></i> Xem PDF kết quả
+                </button>`;
+              }
+            }
+          } catch (e) {
+            // Giữ nguyên fileHtml mặc định
+          }
+          resultServicesList.innerHTML += `
+            <div class="result-service-item">
+              <div class="result-service-header">
+                <div class="result-service-title">${service.name || service.service}</div>
+                <div class="result-service-probability">Giá: ${new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(service.price)}</div>
+              </div>
+              <div class="result-service-conclusion">Dịch vụ đã hoàn thành</div>
+              <div class="result-service-actions">
+                ${fileHtml}
+              </div>
             </div>
-            <div class="result-service-conclusion">${service.conclusion}</div>
-            <div class="result-service-actions">
-              <button class="btn btn-primary" onclick="window.open('${service.pdfUrl}', '_blank')">
-                <i class="fas fa-file-pdf"></i> Xem PDF kết quả
-              </button>
-            </div>
-          </div>
-        `
-          )
-          .join("");
+          `;
+        }
 
         // Hiển thị modal với animation
         modal.style.display = "flex";
@@ -1424,51 +1329,6 @@
         }
       };
 
-      function updateAuthUI() {
-        const loginButton = document.querySelector(".nav-link.login-button");
-        const authStatus = Auth.checkLoginStatus();
-        if (authStatus.isLoggedIn) {
-          const user = authStatus.user;
-          const defaultAvatar = "assets/images/user-avatar.jpg";
-          loginButton.innerHTML = `
-            <div class="user-dropdown">
-              <span class="user-name">
-                <img src="${
-                  user.avatar || defaultAvatar
-                }" alt="Avatar" class="user-avatar">
-                ${user.fullName || "Người dùng"}
-                <i class="fas fa-caret-down"></i>
-              </span>
-              <div class="dropdown-content">
-                <a href="newprofile.html">Tài khoản</a>
-                <a href="appoinments.html">Lịch hẹn</a>
-                <a href="historytest.html">Lịch sử xét nghiệm</a>
-                <a href="#" onclick="handleLogout(); return false;">Đăng xuất</a>
-              </div>
-            </div>
-          `;
-          loginButton.classList.add("logged-in");
-          loginButton.removeAttribute("href");
-        } else {
-          loginButton.innerHTML = "Đăng nhập";
-          loginButton.classList.remove("logged-in");
-          loginButton.setAttribute("href", "login.html");
-        }
-      }
-
-      function handleLogout() {
-        if (confirm("Bạn có chắc chắn muốn đăng xuất?")) {
-          Auth.logout()
-            .then(() => {
-              updateAuthUI();
-              alert("Đăng xuất thành công!");
-              window.location.reload();
-            })
-            .catch((error) => {
-              alert("Có lỗi xảy ra khi đăng xuất.");
-            });
-        }
-      }
     </script>
   </body>
 </html>
