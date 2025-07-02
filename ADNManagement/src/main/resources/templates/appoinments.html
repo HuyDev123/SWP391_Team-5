@@ -9,17 +9,17 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
     />
     <!-- CSS chính -->
-    <!-- <link rel="stylesheet" href="/assets/css/styles.css" /> -->
+    <link rel="stylesheet" href="/assets/css/styles.css" />
     <!-- CSS header và footer -->
-    <!-- <link rel="stylesheet" href="/assets/css/header.css" />
+    <link rel="stylesheet" href="/assets/css/header.css" />
     <link rel="stylesheet" href="/assets/css/footer.css" />
-    <link rel="stylesheet" href="/assets/css/user-dropdown.css" /> -->
+    <link rel="stylesheet" href="/assets/css/user-dropdown.css" />
 
     <!-- Dành cho localhost 5500 live khi nào chạy server bật  -->
-    <link rel="stylesheet" href="../static/assets/css/styles.css" />
+    <!-- <link rel="stylesheet" href="../static/assets/css/styles.css" />
     <link rel="stylesheet" href="../static/assets/css/header.css" />
     <link rel="stylesheet" href="../static/assets/css/footer.css" />
-    <link rel="stylesheet" href="../static/assets/css/user-dropdown.css" />
+    <link rel="stylesheet" href="../static/assets/css/user-dropdown.css" /> -->
     <style>
       body {
         min-height: 100vh;
@@ -2022,48 +2022,6 @@
         document.addEventListener("DOMContentLoaded", function () {
           fetchAppointments();
         });
-
-        // Dữ liệu mẫu kết quả xét nghiệm
-        const testResults = {
-          AP001: {
-            customerName: "Nguyễn Văn A",
-            testDate: "2025-06-10",
-            completedDate: "2025-06-15",
-            services: [
-              {
-                name: "Xét nghiệm ADN Cha - Con",
-                type: "Dân sự",
-                probability: "99.99%",
-                conclusion:
-                  "Kết quả xét nghiệm ADN cho thấy mối quan hệ cha-con giữa hai người được xét nghiệm là DƯƠNG TÍNH với độ chính xác 99.99%.",
-                pdfUrl: "results/AP001-1.pdf",
-              },
-              {
-                name: "Xét nghiệm ADN Cha - Con",
-                type: "Hành chính",
-                probability: "99.99%",
-                conclusion:
-                  "Kết quả xét nghiệm ADN cho thấy mối quan hệ cha-con giữa hai người được xét nghiệm là DƯƠNG TÍNH với độ chính xác 99.99%.",
-                pdfUrl: "results/AP001-2.pdf",
-              },
-            ],
-          },
-          AP005: {
-            customerName: "Hoàng Văn E",
-            testDate: "2025-06-03",
-            completedDate: "2025-06-08",
-            services: [
-              {
-                name: "Xét nghiệm ADN Mẹ - Con",
-                type: "Dân sự",
-                probability: "99.99%",
-                conclusion:
-                  "Kết quả xét nghiệm ADN cho thấy mối quan hệ mẹ-con giữa hai người được xét nghiệm là DƯƠNG TÍNH với độ chính xác 99.99%.",
-                pdfUrl: "results/AP005.pdf",
-              },
-            ],
-          },
-        };
 
         // Hàm hiển thị modal kết quả
         function showResultModal(appointmentId) {
