@@ -54,7 +54,8 @@ CREATE TABLE Booking (
 CREATE TABLE KitType (
     id INT IDENTITY(1,1) PRIMARY KEY,
     name NVARCHAR(255),
-    description NVARCHAR(MAX)
+    description NVARCHAR(MAX),
+    quantity INT
 );
 
 CREATE TABLE Service_KitType (
@@ -83,20 +84,6 @@ CREATE TABLE TestResult (
     FOREIGN KEY (booking_id, service_id) REFERENCES Booking_Service(booking_id, service_id),
 
     UNIQUE (booking_id, service_id)
-);
-
-CREATE TABLE KitItem (
-    id INT IDENTITY(1,1) PRIMARY KEY,
-    booking_id INT NOT NULL,
-    service_id INT NOT NULL,
-    kit_code VARCHAR(255) UNIQUE,
-    kit_type_id INT NOT NULL,
-    delivery_status NVARCHAR(100),
-    send_date DATE,
-    receive_date DATE,
-    note NVARCHAR(MAX),
-    FOREIGN KEY (booking_id, service_id) REFERENCES Booking_Service(booking_id, service_id),
-    FOREIGN KEY (kit_type_id) REFERENCES KitType(id)
 );
 
 CREATE TABLE Participant (
