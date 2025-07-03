@@ -69,9 +69,11 @@ CREATE TABLE Service_KitType (
 CREATE TABLE Booking_Service (
     booking_id INT NOT NULL,
     service_id INT NOT NULL,
+    kit_type_id INT, -- thêm cột này để làm foreign key tới KitType
     PRIMARY KEY (booking_id, service_id),
     FOREIGN KEY (booking_id) REFERENCES Booking(id),
     FOREIGN KEY (service_id) REFERENCES Service(id),
+    FOREIGN KEY (kit_type_id) REFERENCES KitType(id)
 );
 
 CREATE TABLE TestResult (
