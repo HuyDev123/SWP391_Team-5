@@ -26,6 +26,7 @@ CREATE TABLE Booking (
     user_id INT,
     booking_date DATETIME,
     status NVARCHAR(100),
+    kit_status NVARCHAR(100),
     staff_id INT,
     note NVARCHAR(MAX),
 
