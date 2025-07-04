@@ -48,6 +48,9 @@ public class Booking {
     @Column(name = "center_sample_time")
     private LocalTime centerSampleTime;
 
+    @Column(name = "kit_status")
+    private String kitStatus;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -99,6 +102,8 @@ public class Booking {
     public void setBookingServices(List<BookingService> bookingServices) { this.bookingServices = bookingServices; }
     public List<Participant> getParticipants() { return participants; }
     public void setParticipants(List<Participant> participants) { this.participants = participants; }
+    public String getKitStatus() { return kitStatus; }
+    public void setKitStatus(String kitStatus) { this.kitStatus = kitStatus; }
 
     // Helper methods
     public String getCustomerName() {

@@ -810,12 +810,6 @@
                         required
                       >
                         <option value="">-- Chọn dịch vụ xét nghiệm --</option>
-                        <option value="father-child">Xét nghiệm cha con</option>
-                        <option value="mother-child">Xét nghiệm mẹ con</option>
-                        <option value="siblings">Xét nghiệm anh chị em</option>
-                        <option value="grandparent">
-                          Xét nghiệm ông bà cháu
-                        </option>
                       </select>
                     </div>
                   </div>
@@ -1165,6 +1159,9 @@
 
       // Khi trang tải xong
       document.addEventListener("DOMContentLoaded", function () {
+        // Load services from API
+        loadServices();
+        
         // Lấy tham số service từ URL
         var selectedService = getUrlParameter("service");
 
@@ -1175,10 +1172,10 @@
           if (serviceSelect) {
             // Map các giá trị từ URL sang giá trị trong select
             var serviceMap = {
-              "father-child": "Xét nghiệm cha con",
-              "mother-child": "Xét nghiệm mẹ con",
-              siblings: "Xét nghiệm anh chị em",
-              grandparent: "Xét nghiệm ông bà cháu",
+              "father-child": "Xét nghiệm ADN Cha - Con",
+              "mother-child": "Xét nghiệm ADN Mẹ - Con",
+              siblings: "Xét nghiệm ADN Anh/Chị - Em",
+              grandparent: "Xét nghiệm ADN Ông/Bà - Cháu",
             };
 
             // Chọn option tương ứng
@@ -1199,6 +1196,42 @@
         }
       });
 
+      // Hàm load services từ API
+      async function loadServices() {
+        try {
+          const response = await fetch('/service/list');
+          if (!response.ok) {
+            throw new Error('Failed to load services');
+          }
+          const services = await response.json();
+          
+          // Cập nhật service dropdowns
+          updateServiceDropdowns(services);
+        } catch (error) {
+          console.error('Error loading services:', error);
+          // Fallback to hardcoded services if API fails
+        }
+      }
+
+      // Hàm cập nhật service dropdowns
+      function updateServiceDropdowns(services) {
+        const serviceSelects = document.querySelectorAll('.service-dropdown');
+        serviceSelects.forEach(select => {
+          // Clear existing options except the first one
+          while (select.options.length > 1) {
+            select.remove(1);
+          }
+          
+          // Add new options from API
+          services.forEach(service => {
+            const option = document.createElement('option');
+            option.value = service.id;
+            option.textContent = service.name;
+            select.appendChild(option);
+          });
+        });
+      }
+
       // Thêm chức năng để thêm dropdown dịch vụ mới
       document.addEventListener("DOMContentLoaded", function () {
         const addServiceBtn = document.getElementById("add-service-btn");
@@ -1215,10 +1248,6 @@
             newItem.innerHTML = `
               <select name="services[]" class="form-control service-dropdown" required>
                 <option value="">-- Chọn dịch vụ xét nghiệm --</option>
-                <option value="father-child">Xét nghiệm cha con</option>
-                <option value="mother-child">Xét nghiệm mẹ con</option>
-                <option value="siblings">Xét nghiệm anh chị em</option>
-                <option value="grandparent">Xét nghiệm ông bà cháu</option>
               </select>
               <button type="button" class="remove-service-btn" style="margin-left: 5px; color: red; background: none; border: none; cursor: pointer;">
                 <i class="fas fa-times"></i>
@@ -1227,6 +1256,15 @@
 
             // Thêm dropdown mới vào danh sách
             serviceSelectList.appendChild(newItem);
+
+            // Load services for the new dropdown
+            loadServices().then(() => {
+              // Update the new dropdown specifically
+              const newSelect = newItem.querySelector('.service-dropdown');
+              if (newSelect) {
+                updateServiceDropdowns(window.services || []);
+              }
+            });
 
             // Thêm sự kiện xóa cho nút xóa
             const removeBtn = newItem.querySelector(".remove-service-btn");

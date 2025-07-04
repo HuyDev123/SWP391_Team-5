@@ -17,6 +17,9 @@ public class KitType {
     @Column(columnDefinition = "NVARCHAR(MAX)")
     private String description;
 
+    @Column(name = "quantity")
+    private Integer quantity;
+
     @OneToMany(mappedBy = "kitType", cascade = CascadeType.ALL)
     private List<ServiceKitType> serviceKitTypes;
 
@@ -27,6 +30,8 @@ public class KitType {
     public void setName(String name) { this.name = name; }
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
+    public Integer getQuantity() { return quantity; }
+    public void setQuantity(Integer quantity) { this.quantity = quantity; }
     public List<ServiceKitType> getServiceKitTypes() { return serviceKitTypes; }
     public void setServiceKitTypes(List<ServiceKitType> serviceKitTypes) { this.serviceKitTypes = serviceKitTypes; }
 } 

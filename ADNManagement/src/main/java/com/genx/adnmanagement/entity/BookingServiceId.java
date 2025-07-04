@@ -17,6 +17,7 @@ public class BookingServiceId implements Serializable {
     public void setBooking(Booking booking) { this.booking = booking; }
     public Service getService() { return service; }
     public void setService(Service service) { this.service = service; }
+    
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

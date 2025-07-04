@@ -623,7 +623,7 @@
           <div class="filter-group">
             <label class="filter-label">Trạng thái:</label>
             <select class="filter-select" id="status-filter" disabled>
-              <option value="Đã trả kết quả" selected>Đã trả kết quả</option>
+              <option value="Đã trả kết quả" selected>Đã nhận kết quả</option>
             </select>
           </div>
           <button type="submit" class="filter-button">
@@ -686,8 +686,8 @@
           <ul>
             <li><a href="/services">Xét nghiệm ADN Cha Con</a></li>
             <li><a href="/services">Xét nghiệm ADN Mẹ Con</a></li>
-            <li><a href="/services">Xét nghiệm ADN Anh Chị Em</a></li>
-            <li><a href="/services">Xét nghiệm ADN Ông Bà Cháu</a></li>
+            <li><a href="/services">Xét nghiệm ADN Anh/Chị - Em</a></li>
+            <li><a href="/services">Xét nghiệm ADN Ông/Bà - Cháu</a></li>
           </ul>
         </div>
 
@@ -1046,7 +1046,7 @@
         const params = new URLSearchParams();
         params.append('page', page);
         params.append('size', size);
-        params.append('status', 'Đã hoàn thành'); // hoặc 'Đã trả kết quả' nếu backend dùng trạng thái này
+        params.append('status', 'Đã trả kết quả'); // Trạng thái gốc trong database
         const response = await fetch(`/booking/appointments?${params.toString()}`, {
           credentials: 'include'
         });
@@ -1105,7 +1105,7 @@
         // Lưu lại data để các hàm feedback dùng
         window.testHistoryData = data;
         // Chỉ hiển thị các xét nghiệm đã trả kết quả
-        const completedTests = data.filter(item => item.status === "Đã hoàn thành" || item.status === "Đã trả kết quả");
+        const completedTests = data.filter(item => item.status === "Đã trả kết quả");
         if (completedTests.length === 0) {
           tableBody.innerHTML = `<tr><td colspan="6" class="no-results">Không tìm thấy lịch sử xét nghiệm đã hoàn thành</td></tr>`;
           return;
@@ -1133,7 +1133,7 @@
               <td>${item.customerName}</td>
               <td>${item.method || ''}</td>
               <td>${formatDate(item.bookingDate)}</td>
-              <td><span class="status-badge status-completed">${item.status}</span></td>
+              <td><span class="status-badge status-completed">${item.statusDisplay || item.status}</span></td>
               <td>
                 ${feedbackButton}
                 <button class="action-button btn-result" onclick="showResultModal('${item.id}')">
@@ -1161,7 +1161,7 @@
           const dateTo = document.getElementById("date-to").value;
           // Lọc dữ liệu từ window.testHistoryData
           let filteredData = (window.testHistoryData || []).filter(
-            (item) => item.status === "Đã hoàn thành" || item.status === "Đã trả kết quả"
+            (item) => item.status === "Đã trả kết quả"
           );
           if (serviceType) {
             const [service, type] = serviceType.split("|");

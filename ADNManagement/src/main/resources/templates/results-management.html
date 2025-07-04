@@ -791,7 +791,7 @@
               <tr>
                 <th>Mã lịch hẹn</th>
                 <th>Khách hàng</th>
-                <th>Ngày hoàn thành</th>
+                <th>Ngày đặt lịch</th>
                 <th>Trạng thái kết quả</th>
                 <th>Tiến độ</th>
                 <th>Thao tác</th>
@@ -828,10 +828,10 @@
     <script src="/assets/js/staff-auth.js"></script>
 
     <script>
-      // Fetch real data from backend API và chuyển đổi sang format frontend cũ
+      // Fetch real data from backend API - sử dụng dữ liệu đã được tính toán từ backend
       async function fetchCompletedAppointments() {
         const params = new URLSearchParams();
-        params.append('statuses', 'Đã nhận mẫu,Đã hoàn thành');
+        params.append('statuses', 'Đã lấy mẫu,Đã trả kết quả');
         params.append('page', 0);
         params.append('size', 100);
         
@@ -852,40 +852,23 @@
             return [];
           }
           
+          // Sử dụng dữ liệu đã được tính toán từ backend
           const processedData = (data.content || []).map(booking => {
-            const numWithResult = booking.services ? booking.services.filter(s => s.resultStatus === "Đã có kết quả").length : 0;
+            // Backend đã tính sẵn progress và isMultiService
+            const progress = booking.progress || 0;
+            const isMultiService = booking.isMultiService || false;
             
+            // Tính resultStatus dựa trên progress
             let resultStatus = "Chưa có kết quả";
-            if (numWithResult === 0) resultStatus = "Chưa có kết quả";
-            else if (numWithResult === booking.services.length) resultStatus = "Đã hoàn thành";
+            if (progress === 0) resultStatus = "Chưa có kết quả";
+            else if (progress === 100) resultStatus = "Đã hoàn thành";
             else resultStatus = "Có kết quả một phần";
             
-            const progress = booking.services && booking.services.length > 0 ? Math.round((numWithResult / booking.services.length) * 100) : 0;
-            const isMultiService = booking.services ? booking.services.length > 1 : false;
             const completedDate = booking.bookingDate;
             let customerCode = booking.customerId;
-            let service = '';
-            if (booking.services && booking.services.length === 1) {
-              service = booking.services[0].service;
-            } else if (booking.services && booking.services.length > 1) {
-              service = booking.services.map(s => s.service).join(', ');
-            }
             
-            let result = null, results = null;
-            if (isMultiService) {
-              results = booking.services.map(s => ({
-                serviceName: s.service,
-                serviceId: s.serviceId || s.id,
-                status: s.resultStatus,
-                files: s.resultFile ? [s.resultFile] : [],
-              }));
-            } else if (booking.services && booking.services.length === 1) {
-              result = {
-                status: booking.services[0].resultStatus,
-                files: booking.services[0].resultFile ? [booking.services[0].resultFile] : [],
-                serviceId: booking.services[0].serviceId || booking.services[0].id,
-              };
-            }
+            // Service name sẽ được lấy khi cần thiết (lazy loading)
+            let service = isMultiService ? 'Nhiều dịch vụ' : 'Đang tải...';
             
             const processedBooking = {
               ...booking,
@@ -895,8 +878,9 @@
               resultStatus,
               progress,
               isMultiService,
-              result,
-              results
+              // Không có result, results - sẽ load khi cần
+              result: null,
+              results: null
             };
             
             return processedBooking;
@@ -905,18 +889,51 @@
           return processedData;
           
         } catch (error) {
+          console.error('Error fetching appointments:', error);
           return [];
+        }
+      }
+
+      // Lazy loading: Lấy chi tiết services và results khi cần thiết
+      async function loadAppointmentDetails(appointmentId) {
+        try {
+          const response = await fetch(`/booking/staff/appointments/${appointmentId}/details`, {
+            credentials: 'include'
+          });
+          
+          if (!response.ok) {
+            throw new Error('Failed to load appointment details');
+          }
+          
+          const data = await response.json();
+          return data.services || [];
+          
+        } catch (error) {
+          console.error('Error loading appointment details:', error);
+          return [];
+        }
+      }
+
+      // Cập nhật service name cho một appointment
+      async function updateServiceName(appointment) {
+        if (appointment.service === 'Đang tải...' || appointment.service === 'Nhiều dịch vụ') {
+          const services = await loadAppointmentDetails(appointment.id);
+          if (services.length === 1) {
+            appointment.service = services[0].service;
+          } else if (services.length > 1) {
+            appointment.service = services.map(s => s.service).join(', ');
+          }
         }
       }
 
       // Render service badge
       function renderServiceBadge(service) {
         let className = "service-badge ";
-        if (service.includes("cha-con")) className += "service-paternity";
-        else if (service.includes("mẹ-con")) className += "service-maternity";
-        else if (service.includes("ông/bà-cháu"))
+        if (service.includes("Cha - Con")) className += "service-paternity";
+        else if (service.includes("Mẹ - Con")) className += "service-maternity";
+        else if (service.includes("Ông/Bà - Cháu"))
           className += "service-grandparent";
-        else if (service.includes("anh/chị-em")) className += "service-sibling";
+        else if (service.includes("Anh/Chị - Em")) className += "service-sibling";
 
         return `<span class="${className}">${service}</span>`;
       }
@@ -944,35 +961,39 @@
 
       // Render action buttons
       function renderActions(appointment) {
-        if (appointment.isMultiService) {
-          const hasAnyResult = appointment.results.some(r => r.status === "Đã có kết quả");
-          if (hasAnyResult) {
-            return `
-              <button class="action-btn btn-result" onclick="manageMultiResults('${appointment.id}')">
-                <i class="fas fa-tasks"></i> Quản lý
-              </button>
-            `;
-          } else {
-            return `
-              <button class="action-btn btn-result" onclick="manageMultiResults('${appointment.id}')">
-                <i class="fas fa-plus"></i> Thêm KQ
+        // Xác định tên nút và hàm xử lý dựa trên loại service
+        const buttonText = appointment.isMultiService ? "Quản lý" : "Sửa";
+        const buttonIcon = appointment.isMultiService ? "fa-tasks" : "fa-edit";
+        const onClickFunction = appointment.isMultiService ? `manageMultiResults('${appointment.id}')` : `manageResult('${appointment.id}')`;
+        
+        // Kiểm tra tiến độ thay vì resultStatus
+        if (appointment.progress === 0) {
+          return `
+            <button class="action-btn btn-result" onclick="${onClickFunction}">
+              <i class="fas fa-plus"></i> Thêm KQ
+            </button>
+          `;
+        } else if (appointment.progress > 0 && appointment.progress < 100) {
+          return `
+            <button class="action-btn btn-result" onclick="${onClickFunction}">
+              <i class="fas fa-tasks"></i> Quản lý
+            </button>
+          `;
+        } else if (appointment.progress === 100) {
+          let buttons = `
+            <button class="action-btn btn-result" onclick="${onClickFunction}">
+              <i class="fas ${buttonIcon}"></i> ${buttonText}
+            </button>
+          `;
+          // Chỉ hiển thị nút "Trả KQ" nếu booking chưa trả kết quả (trạng thái "Đã lấy mẫu")
+          if (appointment.status === "Đã lấy mẫu") {
+            buttons += `
+              <button class="action-btn btn-view" onclick="returnResults('${appointment.id}')" style="margin-left: 5px;">
+                <i class="fas fa-share"></i> Trả KQ
               </button>
             `;
           }
-        } else {
-          if (appointment.result.status === "Đã có kết quả") {
-            return `
-              <button class="action-btn btn-result" onclick="manageResult('${appointment.id}')">
-                <i class="fas fa-edit"></i> Sửa
-              </button>
-            `;
-          } else {
-            return `
-              <button class="action-btn btn-result" onclick="manageResult('${appointment.id}')">
-                <i class="fas fa-plus"></i> Thêm KQ
-              </button>
-            `;
-          }
+          return buttons;
         }
       }
 
@@ -1003,6 +1024,7 @@
             <td><strong>${appointment.id}</strong></td>
             <td>${appointment.customerName}</td>
             <td>${formatDate(appointment.completedDate)}</td>
+            // <td>${renderServiceBadge(appointment.service)}</td>
             <td>${renderStatusBadge(appointment.resultStatus)}</td>
             <td>${renderProgress(appointment.progress)}</td>
             <td>${renderActions(appointment)}</td>
@@ -1056,8 +1078,8 @@
         renderResults();
       }
 
-      // Open result management modal
-      function openResultModal(appointmentId) {
+      // Open result management modal - sử dụng lazy loading
+      async function openResultModal(appointmentId) {
         const appointment = window.completedAppointments.find(a => String(a.id) === String(appointmentId));
         if (!appointment) return;
 
@@ -1067,27 +1089,131 @@
 
         modalTitle.textContent = `Quản lý kết quả - ${appointment.id}`;
 
-        if (appointment.isMultiService) {
-          modalBody.innerHTML = `
-            <div style="margin-bottom: 20px;">
-              <h4 style="color: #2c3e50; margin-bottom: 10px;">Thông tin lịch hẹn</h4>
-              <div style="background: #f8f9fa; padding: 15px; border-radius: 10px;">
-                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
-                  <strong>Mã KH:</strong> 
-                  <span style="background: #667eea; color: white; padding: 4px 12px; border-radius: 20px; font-weight: 600; font-size: 13px;">${appointment.customerCode}</span>
-                </div>
-                <p><strong>Khách hàng:</strong> ${appointment.customerName}</p>
-                <p><strong>Gói dịch vụ:</strong> ${appointment.service}</p>
-                <p><strong>Số lượng dịch vụ:</strong> ${appointment.results.length} dịch vụ</p>
-              </div>
-            </div>
+        // Hiển thị loading
+        modalBody.innerHTML = `
+          <div style="text-align: center; padding: 40px;">
+            <i class="fas fa-spinner fa-spin" style="font-size: 24px; color: #667eea; margin-bottom: 15px;"></i>
+            <p>Đang tải thông tin chi tiết...</p>
+          </div>
+        `;
+        modal.style.display = "flex";
 
-            <div style="margin-bottom: 20px;">
-              <h4 style="color: #2c3e50; margin-bottom: 15px;">Danh sách kết quả từng dịch vụ</h4>
-              ${appointment.results.map((result, index) => `
-                <div style="border: 1px solid #e9ecef; border-radius: 10px; padding: 15px; margin-bottom: 15px; background: white;">
+        try {
+          // Lazy load chi tiết services và results
+          const services = await loadAppointmentDetails(appointmentId);
+          
+          // Cập nhật service name nếu cần
+          await updateServiceName(appointment);
+          
+          if (appointment.isMultiService) {
+            // Xử lý multi-service
+            const results = services.map(s => ({
+              serviceName: s.service,
+              serviceId: s.serviceId,
+              status: s.resultFile ? "Đã có kết quả" : "Chưa có kết quả",
+              files: s.resultFile ? [s.resultFile] : [],
+              resultId: s.resultId
+            }));
+            
+            modalBody.innerHTML = `
+              <div style="margin-bottom: 20px;">
+                <h4 style="color: #2c3e50; margin-bottom: 10px;">Thông tin lịch hẹn</h4>
+                <div style="background: #f8f9fa; padding: 15px; border-radius: 10px;">
+                  <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                    <strong>Mã KH:</strong> 
+                    <span style="background: #667eea; color: white; padding: 4px 12px; border-radius: 20px; font-weight: 600; font-size: 13px;">${appointment.customerCode}</span>
+                  </div>
+                  <p><strong>Khách hàng:</strong> ${appointment.customerName}</p>
+                  <p><strong>Gói dịch vụ:</strong> ${appointment.service}</p>
+                  <p><strong>Số lượng dịch vụ:</strong> ${results.length} dịch vụ</p>
+                </div>
+              </div>
+
+              <div style="margin-bottom: 20px;">
+                <h4 style="color: #2c3e50; margin-bottom: 15px;">Danh sách kết quả từng dịch vụ</h4>
+                ${results.map((result, index) => `
+                  <div style="border: 1px solid #e9ecef; border-radius: 10px; padding: 15px; margin-bottom: 15px; background: white;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                      <h5 style="color: #495057; margin: 0; font-size: 16px;">${result.serviceName}</h5>
+                      ${result.status === "Đã có kết quả"
+                        ? '<span class="status-badge status-completed">Đã có kết quả</span>'
+                        : '<span class="status-badge status-pending">Chưa có kết quả</span>'
+                      }
+                    </div>
+                    
+                    ${result.status === "Đã có kết quả"
+                      ? `
+                      <div style="margin-bottom: 15px; padding: 10px; background: #f8f9fa; border-radius: 8px;">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; font-size: 14px;">
+                          <div><strong>Files:</strong> ${result.files.join(", ")}</div>
+                        </div>
+                      </div>
+                      <div style="display: flex; gap: 10px;">
+                        <button class="btn btn-secondary" onclick="editMultiResult('${appointment.id}', ${index})" style="padding: 8px 16px; font-size: 13px;">
+                          <i class="fas fa-edit"></i> Sửa
+                        </button>
+                        <button class="btn btn-primary" onclick="downloadMultiResult('${appointment.id}', ${index})" style="padding: 8px 16px; font-size: 13px;">
+                          <i class="fas fa-download"></i> Tải xuống
+                        </button>
+                      </div>
+                    `
+                      : `
+                      <button class="btn btn-primary" onclick="addMultiResult('${appointment.id}', ${index})" style="padding: 8px 16px; font-size: 13px;">
+                        <i class="fas fa-plus"></i> Thêm kết quả
+                      </button>
+                    `
+                    }
+                  </div>
+                `).join('')}
+              </div>
+
+              ${results.every(r => r.status === "Đã có kết quả") ? `
+                <div style="margin-top: 20px; padding: 15px; background: #e8f5e8; border-radius: 10px; border-left: 4px solid #4caf50;">
+                  <h5 style="color: #2e7d32; margin-bottom: 10px;">
+                    <i class="fas fa-check-circle"></i> Tất cả dịch vụ đã có kết quả
+                  </h5>
+                  <p style="margin: 0; color: #388e3c; font-size: 14px;">
+                    Lịch hẹn này đã hoàn thành tất cả các xét nghiệm. Bạn có thể tải xuống tất cả kết quả hoặc tạo báo cáo tổng hợp.
+                  </p>
+                  <div style="margin-top: 15px; display: flex; gap: 10px;">
+                    <button class="btn btn-primary" onclick="downloadAllResults('${appointment.id}')" style="padding: 10px 20px;">
+                      <i class="fas fa-download"></i> Tải xuống tất cả
+                    </button>
+                    <button class="btn btn-primary" onclick="generateSummaryReport('${appointment.id}')" style="padding: 10px 20px;">
+                      <i class="fas fa-file-alt"></i> Tạo báo cáo tổng hợp
+                    </button>
+                  </div>
+                </div>
+              ` : ''}
+            `;
+          } else {
+            // Xử lý single service
+            const service = services[0];
+            const result = {
+              status: service.resultFile ? "Đã có kết quả" : "Chưa có kết quả",
+              files: service.resultFile ? [service.resultFile] : [],
+              serviceId: service.serviceId,
+              resultId: service.resultId
+            };
+            
+            modalBody.innerHTML = `
+              <div style="margin-bottom: 20px;">
+                <h4 style="color: #2c3e50; margin-bottom: 10px;">Thông tin lịch hẹn</h4>
+                <div style="background: #f8f9fa; padding: 15px; border-radius: 10px;">
+                  <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                    <strong>Mã KH:</strong> 
+                    <span style="background: #667eea; color: white; padding: 4px 12px; border-radius: 20px; font-weight: 600; font-size: 13px;">${appointment.customerCode}</span>
+                  </div>
+                  <p><strong>Khách hàng:</strong> ${appointment.customerName}</p>
+                  <p><strong>Dịch vụ:</strong> ${appointment.service}</p>
+                </div>
+              </div>
+
+              <div style="margin-bottom: 20px;">
+                <h4 style="color: #2c3e50; margin-bottom: 15px;">Kết quả xét nghiệm</h4>
+                <div style="border: 1px solid #e9ecef; border-radius: 10px; padding: 15px;">
                   <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                    <h5 style="color: #495057; margin: 0; font-size: 16px;">${result.serviceName}</h5>
+                    <h5 style="color: #495057; margin: 0;">${appointment.service}</h5>
                     ${result.status === "Đã có kết quả"
                       ? '<span class="status-badge status-completed">Đã có kết quả</span>'
                       : '<span class="status-badge status-pending">Chưa có kết quả</span>'
@@ -1096,56 +1222,81 @@
                   
                   ${result.status === "Đã có kết quả"
                     ? `
-                    <div style="margin-bottom: 15px; padding: 10px; background: #f8f9fa; border-radius: 8px;">
-                      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; font-size: 14px;">
-                        <div><strong>Ngày upload:</strong> ${formatDate(result.uploadDate)}</div>
-                        <div><strong>Files:</strong> ${result.files.join(", ")}</div>
-                      </div>
-                      <div style="margin-top: 8px;"><strong>Ghi chú:</strong> ${result.notes}</div>
+                    <div style="margin-bottom: 15px;">
+                      <strong>Files:</strong> ${result.files.join(", ")}<br>
                     </div>
                     <div style="display: flex; gap: 10px;">
-                      <button class="btn btn-secondary" onclick="editMultiResult('${appointment.id}', ${index})" style="padding: 8px 16px; font-size: 13px;">
-                        <i class="fas fa-edit"></i> Sửa
+                      <button class="btn btn-secondary" onclick="editResult('${appointment.id}')">
+                        <i class="fas fa-edit"></i> Sửa kết quả
                       </button>
-                      <button class="btn btn-primary" onclick="downloadMultiResult('${appointment.id}', ${index})" style="padding: 8px 16px; font-size: 13px;">
+                      <button class="btn btn-primary" onclick="downloadResult('${appointment.id}')">
                         <i class="fas fa-download"></i> Tải xuống
                       </button>
                     </div>
                   `
                     : `
-                    <button class="btn btn-primary" onclick="addMultiResult('${appointment.id}', ${index})" style="padding: 8px 16px; font-size: 13px;">
+                    <button class="btn btn-primary" onclick="addResult('${appointment.id}')">
                       <i class="fas fa-plus"></i> Thêm kết quả
                     </button>
                   `
                   }
                 </div>
-              `).join('')}
-            </div>
-
-            ${appointment.results.every(r => r.status === "Đã có kết quả") ? `
-              <div style="margin-top: 20px; padding: 15px; background: #e8f5e8; border-radius: 10px; border-left: 4px solid #4caf50;">
-                <h5 style="color: #2e7d32; margin-bottom: 10px;">
-                  <i class="fas fa-check-circle"></i> Tất cả dịch vụ đã có kết quả
-                </h5>
-                <p style="margin: 0; color: #388e3c; font-size: 14px;">
-                  Lịch hẹn này đã hoàn thành tất cả các xét nghiệm. Bạn có thể tải xuống tất cả kết quả hoặc tạo báo cáo tổng hợp.
-                </p>
-                <div style="margin-top: 15px; display: flex; gap: 10px;">
-                  <button class="btn btn-primary" onclick="downloadAllResults('${appointment.id}')" style="padding: 10px 20px;">
-                    <i class="fas fa-download"></i> Tải xuống tất cả
-                  </button>
-                  <button class="btn btn-primary" onclick="generateSummaryReport('${appointment.id}')" style="padding: 10px 20px;">
-                    <i class="fas fa-file-alt"></i> Tạo báo cáo tổng hợp
-                  </button>
-                </div>
               </div>
-            ` : ''}
+            `;
+          }
+          
+        } catch (error) {
+          console.error('Error loading appointment details:', error);
+          modalBody.innerHTML = `
+            <div style="text-align: center; padding: 40px; color: #dc3545;">
+              <i class="fas fa-exclamation-triangle" style="font-size: 24px; margin-bottom: 15px;"></i>
+              <p>Lỗi khi tải thông tin chi tiết</p>
+              <button class="btn btn-primary" onclick="openResultModal('${appointmentId}')">
+                <i class="fas fa-redo"></i> Thử lại
+              </button>
+            </div>
           `;
-        } else {
+        }
+      }
+
+      // Close result modal
+      function closeResultModal() {
+        document.getElementById("resultModal").style.display = "none";
+      }
+
+      // Add result for appointment
+      async function addResult(appointmentId) {
+        const appointment = window.completedAppointments.find(a => String(a.id) === String(appointmentId));
+        if (!appointment) return;
+
+        const modal = document.getElementById("resultModal");
+        const modalBody = document.getElementById("modalBody");
+
+        // Hiển thị loading
+        modalBody.innerHTML = `
+          <div style="text-align: center; padding: 40px;">
+            <i class="fas fa-spinner fa-spin" style="font-size: 24px; color: #667eea; margin-bottom: 15px;"></i>
+            <p>Đang tải thông tin dịch vụ...</p>
+          </div>
+        `;
+
+        try {
+          // Lazy load chi tiết services
+          const services = await loadAppointmentDetails(appointmentId);
+          const service = services[0]; // Single service
+          
+          if (!service) {
+            throw new Error('Không tìm thấy dịch vụ');
+          }
+
+          // Cập nhật service name nếu cần
+          await updateServiceName(appointment);
+
           modalBody.innerHTML = `
             <div style="margin-bottom: 20px;">
-              <h4 style="color: #2c3e50; margin-bottom: 10px;">Thông tin lịch hẹn</h4>
+              <h4 style="color: #2c3e50; margin-bottom: 10px;">Thêm kết quả cho: ${appointment.service}</h4>
               <div style="background: #f8f9fa; padding: 15px; border-radius: 10px;">
+                <p><strong>Mã lịch hẹn:</strong> ${appointment.id}</p>
                 <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
                   <strong>Mã KH:</strong> 
                   <span style="background: #667eea; color: white; padding: 4px 12px; border-radius: 20px; font-weight: 600; font-size: 13px;">${appointment.customerCode}</span>
@@ -1155,171 +1306,145 @@
               </div>
             </div>
 
-            <div style="margin-bottom: 20px;">
-              <h4 style="color: #2c3e50; margin-bottom: 15px;">Kết quả xét nghiệm</h4>
-              <div style="border: 1px solid #e9ecef; border-radius: 10px; padding: 15px;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                  <h5 style="color: #495057; margin: 0;">${appointment.service}</h5>
-                  ${appointment.result.status === "Đã có kết quả"
-                    ? '<span class="status-badge status-completed">Đã có kết quả</span>'
-                    : '<span class="status-badge status-pending">Chưa có kết quả</span>'
-                  }
+            <div class="form-group" style="margin-bottom: 20px;">
+              <label class="form-label">Upload file kết quả PDF *</label>
+              <div class="file-upload" id="fileUpload" onclick="document.getElementById('fileInput').click()">
+                <div class="file-upload-icon">
+                  <i class="fas fa-cloud-upload-alt"></i>
                 </div>
-                
-                ${appointment.result.status === "Đã có kết quả"
-                  ? `
-                  <div style="margin-bottom: 15px;">
-                    <strong>Ngày upload:</strong> ${formatDate(appointment.result.uploadDate)}<br>
-                    <strong>Files:</strong> ${appointment.result.files.join(", ")}<br>
-                    <strong>Ghi chú:</strong> ${appointment.result.notes}
-                  </div>
-                  <div style="display: flex; gap: 10px;">
-                    <button class="btn btn-secondary" onclick="editResult('${appointment.id}')">
-                      <i class="fas fa-edit"></i> Sửa kết quả
-                    </button>
-                    <button class="btn btn-primary" onclick="downloadResult('${appointment.id}')">
-                      <i class="fas fa-download"></i> Tải xuống
-                    </button>
-                  </div>
-                `
-                  : `
-                  <button class="btn btn-primary" onclick="addResult('${appointment.id}')">
-                    <i class="fas fa-plus"></i> Thêm kết quả
-                  </button>
-                `
-                }
+                <div class="file-upload-text">
+                  Click để chọn file PDF hoặc kéo thả file vào đây
+                </div>
+                <div style="font-size: 12px; color: #6c757d;">
+                  Chỉ hỗ trợ file PDF (Tối đa 10MB)
+                </div>
               </div>
+              <input type="file" id="fileInput" style="display: none;" accept=".pdf" onchange="handleFileSelect(event)">
+              <div class="file-list" id="fileList"></div>
+            </div>
+
+            <div style="display: flex; gap: 15px; justify-content: flex-end;">
+              <button class="btn btn-secondary" onclick="openResultModal('${appointment.id}')">
+                <i class="fas fa-arrow-left"></i> Quay lại
+              </button>
+              <button class="btn btn-primary" onclick="saveResult('${appointment.id}')">
+                <i class="fas fa-save"></i> Lưu kết quả
+              </button>
+            </div>
+          `;
+
+          setupFileUpload();
+          
+        } catch (error) {
+          console.error('Error loading service details:', error);
+          modalBody.innerHTML = `
+            <div style="text-align: center; padding: 40px; color: #dc3545;">
+              <i class="fas fa-exclamation-triangle" style="font-size: 24px; margin-bottom: 15px;"></i>
+              <p>Lỗi khi tải thông tin dịch vụ</p>
+              <button class="btn btn-primary" onclick="addResult('${appointmentId}')">
+                <i class="fas fa-redo"></i> Thử lại
+              </button>
             </div>
           `;
         }
-
-        modal.style.display = "flex";
-      }
-
-      // Close result modal
-      function closeResultModal() {
-        document.getElementById("resultModal").style.display = "none";
-      }
-
-      // Add result for appointment
-      function addResult(appointmentId) {
-        const appointment = window.completedAppointments.find(a => String(a.id) === String(appointmentId));
-        if (!appointment) return;
-
-        const modal = document.getElementById("resultModal");
-        const modalBody = document.getElementById("modalBody");
-        modalBody.innerHTML = `
-          <div style="margin-bottom: 20px;">
-            <h4 style="color: #2c3e50; margin-bottom: 10px;">Thêm kết quả cho: ${appointment.service}</h4>
-            <div style="background: #f8f9fa; padding: 15px; border-radius: 10px;">
-              <p><strong>Mã lịch hẹn:</strong> ${appointment.id}</p>
-              <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
-                <strong>Mã KH:</strong> 
-                <span style="background: #667eea; color: white; padding: 4px 12px; border-radius: 20px; font-weight: 600; font-size: 13px;">${appointment.customerCode}</span>
-              </div>
-              <p><strong>Khách hàng:</strong> ${appointment.customerName}</p>
-              <p><strong>Dịch vụ:</strong> ${appointment.service}</p>
-            </div>
-          </div>
-
-          <div class="form-group" style="margin-bottom: 20px;">
-            <label class="form-label">Upload file kết quả PDF *</label>
-            <div class="file-upload" id="fileUpload" onclick="document.getElementById('fileInput').click()">
-              <div class="file-upload-icon">
-                <i class="fas fa-cloud-upload-alt"></i>
-              </div>
-              <div class="file-upload-text">
-                Click để chọn file PDF hoặc kéo thả file vào đây
-              </div>
-              <div style="font-size: 12px; color: #6c757d;">
-                Chỉ hỗ trợ file PDF (Tối đa 10MB)
-              </div>
-            </div>
-            <input type="file" id="fileInput" style="display: none;" accept=".pdf" onchange="handleFileSelect(event)">
-            <div class="file-list" id="fileList"></div>
-          </div>
-
-          <div style="display: flex; gap: 15px; justify-content: flex-end;">
-            <button class="btn btn-secondary" onclick="openResultModal('${appointment.id}')">
-              <i class="fas fa-arrow-left"></i> Quay lại
-            </button>
-            <button class="btn btn-primary" onclick="saveResult('${appointment.id}')">
-              <i class="fas fa-save"></i> Lưu kết quả
-            </button>
-          </div>
-        `;
-
-        setupFileUpload();
       }
 
       // Edit result for appointment
-      function editResult(appointmentId) {
+      async function editResult(appointmentId) {
         const appointment = window.completedAppointments.find(a => String(a.id) === String(appointmentId));
         if (!appointment) return;
 
         const modal = document.getElementById("resultModal");
         const modalBody = document.getElementById("modalBody");
+
+        // Hiển thị loading
         modalBody.innerHTML = `
-          <div style="margin-bottom: 20px;">
-            <h4 style="color: #2c3e50; margin-bottom: 10px;">Sửa kết quả cho: ${
-              appointment.service
-            }</h4>
-            <div style="background: #f8f9fa; padding: 15px; border-radius: 10px;">
-              <p><strong>Mã lịch hẹn:</strong> ${appointment.id}</p>
-              <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
-                <strong>Mã KH:</strong> 
-                <span style="background: #667eea; color: white; padding: 4px 12px; border-radius: 20px; font-weight: 600; font-size: 13px;">${appointment.customerCode}</span>
-              </div>
-              <p><strong>Khách hàng:</strong> ${appointment.customerName}</p>
-              <p><strong>Dịch vụ:</strong> ${appointment.service}</p>
-            </div>
-          </div>
-
-          <div class="form-group" style="margin-bottom: 20px;">
-            <label class="form-label">File hiện tại</label>
-            <div style="margin-bottom: 15px;">
-              ${appointment.result.files
-                .map(
-                  (file) => `
-                <div class="file-item">
-                  <div class="file-info">
-                    <i class="fas fa-file-pdf" style="color: #dc3545;"></i>
-                    <span>${file}</span>
-                  </div>
-                  <button class="file-remove" onclick="removeExistingFile('${file}')" title="Xóa file">×</button>
-                </div>
-              `
-                )
-                .join("")}
-            </div>
-            
-            <label class="form-label">Thay thế file mới</label>
-            <div class="file-upload" id="fileUpload" onclick="document.getElementById('fileInput').click()">
-              <div class="file-upload-icon">
-                <i class="fas fa-cloud-upload-alt"></i>
-              </div>
-              <div class="file-upload-text">
-                Click để chọn file PDF hoặc kéo thả file vào đây
-              </div>
-              <div style="font-size: 12px; color: #6c757d;">
-                Chỉ hỗ trợ file PDF (Tối đa 10MB)
-              </div>
-            </div>
-            <input type="file" id="fileInput" style="display: none;" accept=".pdf" onchange="handleFileSelect(event)">
-            <div class="file-list" id="fileList"></div>
-          </div>
-
-          <div style="display: flex; gap: 15px; justify-content: flex-end;">
-            <button class="btn btn-secondary" onclick="openResultModal('${appointment.id}')">
-              <i class="fas fa-arrow-left"></i> Quay lại
-            </button>
-            <button class="btn btn-primary" onclick="saveResult('${appointment.id}')">
-              <i class="fas fa-save"></i> Cập nhật kết quả
-            </button>
+          <div style="text-align: center; padding: 40px;">
+            <i class="fas fa-spinner fa-spin" style="font-size: 24px; color: #667eea; margin-bottom: 15px;"></i>
+            <p>Đang tải thông tin dịch vụ...</p>
           </div>
         `;
 
-        setupFileUpload();
+        try {
+          // Lazy load chi tiết services
+          const services = await loadAppointmentDetails(appointmentId);
+          const service = services[0]; // Single service
+          
+          if (!service) {
+            throw new Error('Không tìm thấy dịch vụ');
+          }
+
+          // Cập nhật service name nếu cần
+          await updateServiceName(appointment);
+
+          modalBody.innerHTML = `
+            <div style="margin-bottom: 20px;">
+              <h4 style="color: #2c3e50; margin-bottom: 10px;">Sửa kết quả cho: ${appointment.service}</h4>
+              <div style="background: #f8f9fa; padding: 15px; border-radius: 10px;">
+                <p><strong>Mã lịch hẹn:</strong> ${appointment.id}</p>
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                  <strong>Mã KH:</strong> 
+                  <span style="background: #667eea; color: white; padding: 4px 12px; border-radius: 20px; font-weight: 600; font-size: 13px;">${appointment.customerCode}</span>
+                </div>
+                <p><strong>Khách hàng:</strong> ${appointment.customerName}</p>
+                <p><strong>Dịch vụ:</strong> ${appointment.service}</p>
+              </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 20px;">
+              <label class="form-label">File hiện tại</label>
+              <div style="margin-bottom: 15px;">
+                ${service.resultFile ? `
+                  <div class="file-item">
+                    <div class="file-info">
+                      <i class="fas fa-file-pdf" style="color: #dc3545;"></i>
+                      <span>${service.resultFile}</span>
+                    </div>
+                    <button class="file-remove" onclick="removeExistingFile('${service.resultFile}')" title="Xóa file">×</button>
+                  </div>
+                ` : '<p style="color: #6c757d;">Chưa có file kết quả</p>'}
+              </div>
+              
+              <label class="form-label">Thay thế file mới</label>
+              <div class="file-upload" id="fileUpload" onclick="document.getElementById('fileInput').click()">
+                <div class="file-upload-icon">
+                  <i class="fas fa-cloud-upload-alt"></i>
+                </div>
+                <div class="file-upload-text">
+                  Click để chọn file PDF hoặc kéo thả file vào đây
+                </div>
+                <div style="font-size: 12px; color: #6c757d;">
+                  Chỉ hỗ trợ file PDF (Tối đa 10MB)
+                </div>
+              </div>
+              <input type="file" id="fileInput" style="display: none;" accept=".pdf" onchange="handleFileSelect(event)">
+              <div class="file-list" id="fileList"></div>
+            </div>
+
+            <div style="display: flex; gap: 15px; justify-content: flex-end;">
+              <button class="btn btn-secondary" onclick="openResultModal('${appointment.id}')">
+                <i class="fas fa-arrow-left"></i> Quay lại
+              </button>
+              <button class="btn btn-primary" onclick="saveResult('${appointment.id}')">
+                <i class="fas fa-save"></i> Cập nhật kết quả
+              </button>
+            </div>
+          `;
+
+          setupFileUpload();
+          
+        } catch (error) {
+          console.error('Error loading service details:', error);
+          modalBody.innerHTML = `
+            <div style="text-align: center; padding: 40px; color: #dc3545;">
+              <i class="fas fa-exclamation-triangle" style="font-size: 24px; margin-bottom: 15px;"></i>
+              <p>Lỗi khi tải thông tin dịch vụ</p>
+              <button class="btn btn-primary" onclick="editResult('${appointmentId}')">
+                <i class="fas fa-redo"></i> Thử lại
+              </button>
+            </div>
+          `;
+        }
       }
 
       // Setup file upload functionality
@@ -1442,20 +1567,23 @@
           alert("Vui lòng chọn file PDF kết quả");
           return;
         }
-        const file = selectedFiles[0];
-        // Lấy serviceId từ appointment.result hoặc appointment.services[0]
-        const serviceId = (appointment.result && appointment.result.serviceId)
-          || (appointment.services && appointment.services[0] && (appointment.services[0].serviceId || appointment.services[0].id));
-        if (!serviceId) {
-          alert('Không tìm thấy serviceId!');
-          return;
-        }
-        const formData = new FormData();
-        formData.append("bookingId", appointmentId);
-        formData.append("serviceId", serviceId);
-        formData.append("file", file);
-
+        
         try {
+          // Lazy load chi tiết services để lấy serviceId
+          const services = await loadAppointmentDetails(appointmentId);
+          const service = services[0]; // Single service
+          
+          if (!service || !service.serviceId) {
+            alert('Không tìm thấy serviceId!');
+            return;
+          }
+          
+          const file = selectedFiles[0];
+          const formData = new FormData();
+          formData.append("bookingId", appointmentId);
+          formData.append("serviceId", service.serviceId);
+          formData.append("file", file);
+
           const response = await fetch("/results/upload", {
             method: "POST",
             body: formData,
@@ -1476,13 +1604,26 @@
       }
 
       // Download result
-      function downloadResult(appointmentId) {
+      async function downloadResult(appointmentId) {
         const appointment = window.completedAppointments.find(
           (a) => String(a.id) === String(appointmentId)
         );
-        if (appointment && appointment.result.files.length > 0) {
-          // Simulate download
-          alert(`Đang tải xuống file: ${appointment.result.files[0]}`);
+        if (!appointment) return;
+        
+        try {
+          // Lazy load chi tiết services
+          const services = await loadAppointmentDetails(appointmentId);
+          const service = services[0]; // Single service
+          
+          if (service && service.resultFile) {
+            // Simulate download
+            alert(`Đang tải xuống file: ${service.resultFile}`);
+          } else {
+            alert("Không có file kết quả để tải xuống");
+          }
+        } catch (error) {
+          console.error('Error loading service details:', error);
+          alert("Lỗi khi tải thông tin file");
         }
       }
 
@@ -1540,121 +1681,179 @@
         openResultModal(appointmentId);
       }
 
-      function addMultiResult(appointmentId, serviceIndex) {
+      async function addMultiResult(appointmentId, serviceIndex) {
         const appointment = window.completedAppointments.find(a => String(a.id) === String(appointmentId));
         if (!appointment) return;
 
-        const service = appointment.results[serviceIndex];
         const modal = document.getElementById("resultModal");
         const modalBody = document.getElementById("modalBody");
 
+        // Hiển thị loading
         modalBody.innerHTML = `
-          <div style="margin-bottom: 20px;">
-            <h4 style="color: #2c3e50; margin-bottom: 10px;">Thêm kết quả cho: ${service.serviceName}</h4>
-            <div style="background: #f8f9fa; padding: 15px; border-radius: 10px;">
-              <p><strong>Mã lịch hẹn:</strong> ${appointment.id}</p>
-              <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
-                <strong>Mã KH:</strong> 
-                <span style="background: #667eea; color: white; padding: 4px 12px; border-radius: 20px; font-weight: 600; font-size: 13px;">${appointment.customerCode}</span>
-              </div>
-              <p><strong>Khách hàng:</strong> ${appointment.customerName}</p>
-              <p><strong>Dịch vụ cụ thể:</strong> ${service.serviceName}</p>
-            </div>
-          </div>
-
-          <div class="form-group" style="margin-bottom: 20px;">
-            <label class="form-label">Upload file kết quả PDF *</label>
-            <div class="file-upload" id="fileUpload" onclick="document.getElementById('fileInput').click()">
-              <div class="file-upload-icon">
-                <i class="fas fa-cloud-upload-alt"></i>
-              </div>
-              <div class="file-upload-text">
-                Click để chọn file PDF hoặc kéo thả file vào đây
-              </div>
-              <div style="font-size: 12px; color: #6c757d;">
-                Chỉ hỗ trợ file PDF (Tối đa 10MB)
-              </div>
-            </div>
-            <input type="file" id="fileInput" style="display: none;" accept=".pdf" onchange="handleFileSelect(event)">
-            <div class="file-list" id="fileList"></div>
-          </div>
-
-          <div style="display: flex; gap: 15px; justify-content: flex-end;">
-            <button class="btn btn-secondary" onclick="openResultModal('${appointment.id}')">
-              <i class="fas fa-arrow-left"></i> Quay lại
-            </button>
-            <button class="btn btn-primary" onclick="saveMultiResult('${appointment.id}', ${serviceIndex})">
-              <i class="fas fa-save"></i> Lưu kết quả
-            </button>
+          <div style="text-align: center; padding: 40px;">
+            <i class="fas fa-spinner fa-spin" style="font-size: 24px; color: #667eea; margin-bottom: 15px;"></i>
+            <p>Đang tải thông tin dịch vụ...</p>
           </div>
         `;
 
-        setupFileUpload();
+        try {
+          // Lazy load chi tiết services
+          const services = await loadAppointmentDetails(appointmentId);
+          const service = services[serviceIndex];
+          
+          if (!service) {
+            throw new Error('Không tìm thấy dịch vụ');
+          }
+
+          modalBody.innerHTML = `
+            <div style="margin-bottom: 20px;">
+              <h4 style="color: #2c3e50; margin-bottom: 10px;">Thêm kết quả cho: ${service.service}</h4>
+              <div style="background: #f8f9fa; padding: 15px; border-radius: 10px;">
+                <p><strong>Mã lịch hẹn:</strong> ${appointment.id}</p>
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                  <strong>Mã KH:</strong> 
+                  <span style="background: #667eea; color: white; padding: 4px 12px; border-radius: 20px; font-weight: 600; font-size: 13px;">${appointment.customerCode}</span>
+                </div>
+                <p><strong>Khách hàng:</strong> ${appointment.customerName}</p>
+                <p><strong>Dịch vụ cụ thể:</strong> ${service.service}</p>
+              </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 20px;">
+              <label class="form-label">Upload file kết quả PDF *</label>
+              <div class="file-upload" id="fileUpload" onclick="document.getElementById('fileInput').click()">
+                <div class="file-upload-icon">
+                  <i class="fas fa-cloud-upload-alt"></i>
+                </div>
+                <div class="file-upload-text">
+                  Click để chọn file PDF hoặc kéo thả file vào đây
+                </div>
+                <div style="font-size: 12px; color: #6c757d;">
+                  Chỉ hỗ trợ file PDF (Tối đa 10MB)
+                </div>
+              </div>
+              <input type="file" id="fileInput" style="display: none;" accept=".pdf" onchange="handleFileSelect(event)">
+              <div class="file-list" id="fileList"></div>
+            </div>
+
+            <div style="display: flex; gap: 15px; justify-content: flex-end;">
+              <button class="btn btn-secondary" onclick="openResultModal('${appointment.id}')">
+                <i class="fas fa-arrow-left"></i> Quay lại
+              </button>
+              <button class="btn btn-primary" onclick="saveMultiResult('${appointment.id}', ${serviceIndex})">
+                <i class="fas fa-save"></i> Lưu kết quả
+              </button>
+            </div>
+          `;
+
+          setupFileUpload();
+          
+        } catch (error) {
+          console.error('Error loading service details:', error);
+          modalBody.innerHTML = `
+            <div style="text-align: center; padding: 40px; color: #dc3545;">
+              <i class="fas fa-exclamation-triangle" style="font-size: 24px; margin-bottom: 15px;"></i>
+              <p>Lỗi khi tải thông tin dịch vụ</p>
+              <button class="btn btn-primary" onclick="addMultiResult('${appointmentId}', ${serviceIndex})">
+                <i class="fas fa-redo"></i> Thử lại
+              </button>
+            </div>
+          `;
+        }
       }
 
-      function editMultiResult(appointmentId, serviceIndex) {
+      async function editMultiResult(appointmentId, serviceIndex) {
         const appointment = window.completedAppointments.find(a => String(a.id) === String(appointmentId));
         if (!appointment) return;
 
-        const service = appointment.results[serviceIndex];
         const modal = document.getElementById("resultModal");
         const modalBody = document.getElementById("modalBody");
 
+        // Hiển thị loading
         modalBody.innerHTML = `
-          <div style="margin-bottom: 20px;">
-            <h4 style="color: #2c3e50; margin-bottom: 10px;">Sửa kết quả cho: ${service.serviceName}</h4>
-            <div style="background: #f8f9fa; padding: 15px; border-radius: 10px;">
-              <p><strong>Mã lịch hẹn:</strong> ${appointment.id}</p>
-              <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
-                <strong>Mã KH:</strong> 
-                <span style="background: #667eea; color: white; padding: 4px 12px; border-radius: 20px; font-weight: 600; font-size: 13px;">${appointment.customerCode}</span>
-              </div>
-              <p><strong>Khách hàng:</strong> ${appointment.customerName}</p>
-              <p><strong>Dịch vụ cụ thể:</strong> ${service.serviceName}</p>
-            </div>
-          </div>
-
-          <div class="form-group" style="margin-bottom: 20px;">
-            <label class="form-label">File hiện tại</label>
-            <div style="margin-bottom: 15px;">
-              ${service.files.map(file => `
-                <div class="file-item">
-                  <div class="file-info">
-                    <i class="fas fa-file-pdf" style="color: #dc3545;"></i>
-                    <span>${file}</span>
-                  </div>
-                  <button class="file-remove" onclick="removeExistingFile('${file}')" title="Xóa file">×</button>
-                </div>
-              `).join('')}
-            </div>
-            
-            <label class="form-label">Thay thế file mới</label>
-            <div class="file-upload" id="fileUpload" onclick="document.getElementById('fileInput').click()">
-              <div class="file-upload-icon">
-                <i class="fas fa-cloud-upload-alt"></i>
-              </div>
-              <div class="file-upload-text">
-                Click để chọn file PDF hoặc kéo thả file vào đây
-              </div>
-              <div style="font-size: 12px; color: #6c757d;">
-                Chỉ hỗ trợ file PDF (Tối đa 10MB)
-              </div>
-            </div>
-            <input type="file" id="fileInput" style="display: none;" accept=".pdf" onchange="handleFileSelect(event)">
-            <div class="file-list" id="fileList"></div>
-          </div>
-
-          <div style="display: flex; gap: 15px; justify-content: flex-end;">
-            <button class="btn btn-secondary" onclick="openResultModal('${appointment.id}')">
-              <i class="fas fa-arrow-left"></i> Quay lại
-            </button>
-            <button class="btn btn-primary" onclick="saveMultiResult('${appointment.id}', ${serviceIndex})">
-              <i class="fas fa-save"></i> Cập nhật kết quả
-            </button>
+          <div style="text-align: center; padding: 40px;">
+            <i class="fas fa-spinner fa-spin" style="font-size: 24px; color: #667eea; margin-bottom: 15px;"></i>
+            <p>Đang tải thông tin dịch vụ...</p>
           </div>
         `;
 
-        setupFileUpload();
+        try {
+          // Lazy load chi tiết services
+          const services = await loadAppointmentDetails(appointmentId);
+          const service = services[serviceIndex];
+          
+          if (!service) {
+            throw new Error('Không tìm thấy dịch vụ');
+          }
+
+          modalBody.innerHTML = `
+            <div style="margin-bottom: 20px;">
+              <h4 style="color: #2c3e50; margin-bottom: 10px;">Sửa kết quả cho: ${service.service}</h4>
+              <div style="background: #f8f9fa; padding: 15px; border-radius: 10px;">
+                <p><strong>Mã lịch hẹn:</strong> ${appointment.id}</p>
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                  <strong>Mã KH:</strong> 
+                  <span style="background: #667eea; color: white; padding: 4px 12px; border-radius: 20px; font-weight: 600; font-size: 13px;">${appointment.customerCode}</span>
+                </div>
+                <p><strong>Khách hàng:</strong> ${appointment.customerName}</p>
+                <p><strong>Dịch vụ cụ thể:</strong> ${service.service}</p>
+              </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 20px;">
+              <label class="form-label">File hiện tại</label>
+              <div style="margin-bottom: 15px;">
+                ${service.resultFile ? `
+                  <div class="file-item">
+                    <div class="file-info">
+                      <i class="fas fa-file-pdf" style="color: #dc3545;"></i>
+                      <span>${service.resultFile}</span>
+                    </div>
+                    <button class="file-remove" onclick="removeExistingFile('${service.resultFile}')" title="Xóa file">×</button>
+                  </div>
+                ` : '<p style="color: #6c757d;">Chưa có file kết quả</p>'}
+              </div>
+              
+              <label class="form-label">Thay thế file mới</label>
+              <div class="file-upload" id="fileUpload" onclick="document.getElementById('fileInput').click()">
+                <div class="file-upload-icon">
+                  <i class="fas fa-cloud-upload-alt"></i>
+                </div>
+                <div class="file-upload-text">
+                  Click để chọn file PDF hoặc kéo thả file vào đây
+                </div>
+                <div style="font-size: 12px; color: #6c757d;">
+                  Chỉ hỗ trợ file PDF (Tối đa 10MB)
+                </div>
+              </div>
+              <input type="file" id="fileInput" style="display: none;" accept=".pdf" onchange="handleFileSelect(event)">
+              <div class="file-list" id="fileList"></div>
+            </div>
+
+            <div style="display: flex; gap: 15px; justify-content: flex-end;">
+              <button class="btn btn-secondary" onclick="openResultModal('${appointment.id}')">
+                <i class="fas fa-arrow-left"></i> Quay lại
+              </button>
+              <button class="btn btn-primary" onclick="saveMultiResult('${appointment.id}', ${serviceIndex})">
+                <i class="fas fa-save"></i> Cập nhật kết quả
+              </button>
+            </div>
+          `;
+
+          setupFileUpload();
+          
+        } catch (error) {
+          console.error('Error loading service details:', error);
+          modalBody.innerHTML = `
+            <div style="text-align: center; padding: 40px; color: #dc3545;">
+              <i class="fas fa-exclamation-triangle" style="font-size: 24px; margin-bottom: 15px;"></i>
+              <p>Lỗi khi tải thông tin dịch vụ</p>
+              <button class="btn btn-primary" onclick="editMultiResult('${appointmentId}', ${serviceIndex})">
+                <i class="fas fa-redo"></i> Thử lại
+              </button>
+            </div>
+          `;
+        }
       }
 
       async function saveMultiResult(appointmentId, serviceIndex) {
@@ -1664,19 +1863,23 @@
           alert("Vui lòng chọn file PDF kết quả");
           return;
         }
-        const service = appointment.results[serviceIndex];
-        const file = selectedFiles[0];
-        const serviceId = service.serviceId;
-        if (!serviceId) {
-          alert('Không tìm thấy serviceId!');
-          return;
-        }
-        const formData = new FormData();
-        formData.append("bookingId", appointmentId);
-        formData.append("serviceId", serviceId);
-        formData.append("file", file);
-
+        
         try {
+          // Lazy load chi tiết services để lấy serviceId
+          const services = await loadAppointmentDetails(appointmentId);
+          const service = services[serviceIndex];
+          
+          if (!service || !service.serviceId) {
+            alert('Không tìm thấy serviceId!');
+            return;
+          }
+          
+          const file = selectedFiles[0];
+          const formData = new FormData();
+          formData.append("bookingId", appointmentId);
+          formData.append("serviceId", service.serviceId);
+          formData.append("file", file);
+
           const response = await fetch("/results/upload", {
             method: "POST",
             body: formData,
@@ -1727,6 +1930,44 @@
           setTimeout(() => {
             alert(`Báo cáo tổng hợp cho ${appointment.customerName} đã được tạo thành công!`);
           }, 2000);
+        }
+      }
+
+      // Hàm trả kết quả cho khách hàng
+      async function returnResults(appointmentId) {
+        const appointment = window.completedAppointments.find(a => String(a.id) === String(appointmentId));
+        if (!appointment) return;
+
+        if (!confirm(`Bạn có chắc chắn muốn trả kết quả cho lịch hẹn ${appointment.id}?\n\nKhách hàng: ${appointment.customerName}\nDịch vụ: ${appointment.service}`)) {
+          return;
+        }
+
+        try {
+          const response = await fetch(`/booking/staff/appointments/${appointmentId}/status`, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              status: 'Đã trả kết quả'
+            }),
+            credentials: 'include'
+          });
+
+          if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(errorText);
+          }
+
+          const result = await response.text();
+          alert('Đã trả kết quả thành công cho khách hàng!');
+          
+          // Refresh lại danh sách
+          window.completedAppointments = await fetchCompletedAppointments();
+          renderResults(window.completedAppointments);
+          
+        } catch (error) {
+          alert('Lỗi: ' + error.message);
         }
       }
 

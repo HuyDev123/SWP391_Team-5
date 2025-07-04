@@ -106,6 +106,11 @@ public class PageController {
         return requireLogin(model, session, "appoinments");
     }
 
+    @GetMapping("/kits")
+    public String kits(Model model, HttpSession session) {
+        return requireLogin(model, session, "kit-management-customer");
+    }
+
     @GetMapping("/test-history")
     public String historyTest(Model model, HttpSession session) {
         return requireLogin(model, session, "historytest");

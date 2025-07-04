@@ -817,6 +817,105 @@
         backdrop-filter: blur(3px);
         z-index: 10000;
       }
+
+      .status-badge {
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 13px;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .status-booked {
+        background-color: rgba(33, 150, 243, 0.1);
+        color: #2196f3;
+      }
+
+      .status-waiting {
+        background-color: rgba(255, 152, 0, 0.1);
+        color: #ff9800;
+      }
+
+      .status-received {
+        background-color: rgba(25, 118, 210, 0.1);
+        color: #1976d2;
+      }
+
+      .status-completed {
+        background-color: rgba(76, 175, 80, 0.1);
+        color: #4caf50;
+      }
+
+      .status-delivered {
+        background-color: rgba(0, 150, 136, 0.1);
+        color: #009688;
+      }
+
+      .status-cancelled {
+        background-color: rgba(244, 67, 54, 0.1);
+        color: #f44336;
+      }
+
+      /* CSS cho các trạng thái mới */
+      .status-kit-pending {
+        background-color: rgba(255, 193, 7, 0.1);
+        color: #ffc107;
+      }
+
+      .status-kit-received {
+        background-color: rgba(156, 39, 176, 0.1);
+        color: #9c27b0;
+      }
+
+      .status-kit-returned {
+        background-color: rgba(63, 81, 181, 0.1);
+        color: #3f51b5;
+      }
+
+      .status-not-sampled {
+        background-color: rgba(3, 169, 244, 0.1);
+        color: #03a9f4;
+      }
+
+      .status-sampling-completed {
+        background-color: rgba(139, 195, 74, 0.1);
+        color: #8bc34a;
+      }
+
+      .status-sample-error {
+        background-color: rgba(255, 87, 34, 0.1);
+        color: #ff5722;
+      }
+
+      .status-final-completed {
+        background-color: rgba(76, 175, 80, 0.1);
+        color: #4caf50;
+      }
+
+      .btn {
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-weight: 500;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        border: none;
+        cursor: pointer;
+      }
+
+      .btn-primary {
+        background: linear-gradient(45deg, #2196f3, #1976d2);
+        color: white;
+      }
+
+      .btn-success {
+        background: linear-gradient(45deg, #4caf50, #388e3c);
+        color: white;
+      }
     </style>
     <!-- Thêm vào phần <head> của mỗi trang -->
     <link
@@ -1153,9 +1252,13 @@
             >
               <option value="">Tất cả</option>
               <option value="Đã đặt">Đã đặt</option>
-              <option value="Đang chờ lấy mẫu">Đang chờ lấy mẫu</option>
-              <option value="Đã nhận mẫu">Đã nhận mẫu</option>
-              <option value="Đã hoàn thành">Đã hoàn thành</option>
+              <option value="Chưa nhận kit">Chưa nhận kit</option>
+              <option value="Đã nhận kit">Đã nhận kit</option>
+              <option value="Đã trả kit">Đã trả kit</option>
+              <option value="Chưa lấy mẫu">Chưa lấy mẫu</option>
+              <option value="Hoàn thành lấy mẫu">Hoàn thành lấy mẫu</option>
+              <option value="Lỗi mẫu">Lỗi mẫu</option>
+              <option value="Hoàn thành">Hoàn thành</option>
               <option value="Đã hủy">Đã hủy</option>
             </select>
           </div>
@@ -1207,7 +1310,7 @@
                   Phương thức lấy mẫu
                 </th>
                 <th style="padding: 12px 8px; border-bottom: 1px solid #eee">
-                  Ngày hẹn
+                  Ngày đặt lịch
                 </th>
                 <th style="padding: 12px 8px; border-bottom: 1px solid #eee">
                   Trạng thái
@@ -1229,7 +1332,7 @@
           { id: 1, name: "Xét nghiệm ADN Cha - Con" },
           { id: 2, name: "Xét nghiệm ADN Mẹ - Con" },
           { id: 3, name: "Xét nghiệm ADN Anh/Chị - Em" },
-          { id: 4, name: "Xét nghiệm ADN Ông/Bà - Cháu" }
+          { id: 4, name: "Xét nghiệm ADN Ông/Bà - Cháu" },
         ];
 
         // Lưu trữ dữ liệu lịch hẹn từ API
@@ -1239,10 +1342,10 @@
         let pageSize = 10;
         // Lưu filter hiện tại
         let currentFilters = {
-          serviceId: '',
-          date: '',
-          status: '',
-          searchQuery: ''
+          serviceId: "",
+          date: "",
+          status: "",
+          searchQuery: "",
         };
 
         // Hàm để lấy dữ liệu lịch hẹn từ server (có filter)
@@ -1250,20 +1353,25 @@
           try {
             // Build query string
             let params = new URLSearchParams();
-            params.append('page', page);
-            params.append('size', size);
-            if (filters.status) params.append('status', filters.status);
-            if (filters.date) params.append('date', filters.date);
-            if (filters.serviceId) params.append('serviceId', filters.serviceId);
-            if (filters.searchQuery) params.append('searchQuery', filters.searchQuery);
+            params.append("page", page);
+            params.append("size", size);
+            if (filters.status) params.append("status", filters.status);
+            if (filters.date) params.append("date", filters.date);
+            if (filters.serviceId)
+              params.append("serviceId", filters.serviceId);
+            if (filters.searchQuery)
+              params.append("searchQuery", filters.searchQuery);
 
-            const response = await fetch(`/booking/staff/appointments?${params.toString()}`, {
-              method: 'GET',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              credentials: 'include' // Để gửi cookie
-            });
+            const response = await fetch(
+              `/booking/staff/appointments?${params.toString()}`,
+              {
+                method: "GET",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                credentials: "include", // Để gửi cookie
+              }
+            );
 
             if (response.status === 401) {
               window.location.href = "/internal-login";
@@ -1291,38 +1399,43 @@
 
         // Sửa renderPagination để truyền filter khi chuyển trang
         function renderPagination() {
-          const containerId = 'pagination-container';
+          const containerId = "pagination-container";
           let container = document.getElementById(containerId);
           if (!container) {
-            container = document.createElement('div');
+            container = document.createElement("div");
             container.id = containerId;
-            container.style = 'display:flex;justify-content:center;align-items:center;margin:20px 0;gap:8px;';
-            document.querySelector('.main-content').appendChild(container);
+            container.style =
+              "display:flex;justify-content:center;align-items:center;margin:20px 0;gap:8px;";
+            document.querySelector(".main-content").appendChild(container);
           }
-          container.innerHTML = '';
+          container.innerHTML = "";
           if (totalPages <= 1) return;
           // Nút prev
-          const prevBtn = document.createElement('button');
-          prevBtn.innerText = '«';
-          prevBtn.className = 'btn btn-primary';
+          const prevBtn = document.createElement("button");
+          prevBtn.innerText = "«";
+          prevBtn.className = "btn btn-primary";
           prevBtn.disabled = currentPage === 0;
-          prevBtn.onclick = () => fetchAppointments(currentPage - 1, pageSize, currentFilters);
+          prevBtn.onclick = () =>
+            fetchAppointments(currentPage - 1, pageSize, currentFilters);
           container.appendChild(prevBtn);
           // Số trang
           for (let i = 0; i < totalPages; i++) {
-            const pageBtn = document.createElement('button');
-            pageBtn.innerText = (i + 1);
-            pageBtn.className = 'btn' + (i === currentPage ? ' btn-success' : ' btn-primary');
+            const pageBtn = document.createElement("button");
+            pageBtn.innerText = i + 1;
+            pageBtn.className =
+              "btn" + (i === currentPage ? " btn-success" : " btn-primary");
             pageBtn.disabled = i === currentPage;
-            pageBtn.onclick = () => fetchAppointments(i, pageSize, currentFilters);
+            pageBtn.onclick = () =>
+              fetchAppointments(i, pageSize, currentFilters);
             container.appendChild(pageBtn);
           }
           // Nút next
-          const nextBtn = document.createElement('button');
-          nextBtn.innerText = '»';
-          nextBtn.className = 'btn btn-primary';
+          const nextBtn = document.createElement("button");
+          nextBtn.innerText = "»";
+          nextBtn.className = "btn btn-primary";
           nextBtn.disabled = currentPage === totalPages - 1;
-          nextBtn.onclick = () => fetchAppointments(currentPage + 1, pageSize, currentFilters);
+          nextBtn.onclick = () =>
+            fetchAppointments(currentPage + 1, pageSize, currentFilters);
           container.appendChild(nextBtn);
         }
 
@@ -1333,6 +1446,34 @@
             case "Đã đặt":
               className = "status-booked";
               break;
+            // Flow Tại nhà
+            case "Chưa nhận kit":
+              className = "status-kit-pending";
+              break;
+            case "Đã nhận kit":
+              className = "status-kit-received";
+              break;
+            case "Đã trả kit":
+              className = "status-kit-returned";
+              break;
+            // Flow Tại cơ sở
+            case "Chưa lấy mẫu":
+              className = "status-not-sampled";
+              break;
+            // Chung cho cả 2 flow
+            case "Hoàn thành lấy mẫu":
+              className = "status-sampling-completed";
+              break;
+            case "Lỗi mẫu":
+              className = "status-sample-error";
+              break;
+            case "Hoàn thành":
+              className = "status-final-completed";
+              break;
+            case "Đã hủy":
+              className = "status-cancelled";
+              break;
+            // Trạng thái cũ (backwards compatibility)
             case "Đang chờ lấy mẫu":
               className = "status-waiting";
               break;
@@ -1342,68 +1483,119 @@
             case "Đã hoàn thành":
               className = "status-completed";
               break;
-            case "Đã hủy":
-              className = "status-cancelled";
-              break;
+            default:
+              className = "status-booked";
           }
           return `<span class="status-badge ${className}"><i class="fas fa-circle" style="font-size: 8px"></i> ${status}</span>`;
         }
-
 
         // Cập nhật hàm render bảng
         function renderAppointments(data) {
           const tbody = document.getElementById("appointmentTableBody");
           tbody.innerHTML = data.length
-                  ? data
-                          .map(
-                                  (a) => `
+            ? data
+                .map(
+                  (a) => `
             <tr>
               <td>${a.id}</td>
               <td>${a.customerName}</td>
               <td>${a.method}</td>
               <td>${a.bookingDate.substring(0, 10)}</td>
               <td>${renderStatus(a.status)}</td>
-              <td style="display: flex; gap: 8px;">
-                <button onclick="viewAppointmentDetails(${a.id})" class="btn btn-primary" style="background:#e3f2fd;color:#1976d2;border:none;border-radius:4px;padding:6px 12px;cursor:pointer;margin-right:4px;">
+              <td style="display: flex; gap: 8px; flex-wrap: wrap;">
+                <button onclick="viewAppointmentDetails(${
+                  a.id
+                })" class="btn btn-primary" style="background:#e3f2fd;color:#1976d2;border:none;border-radius:4px;padding:6px 12px;cursor:pointer;">
                   <i class="fas fa-info-circle"></i> Xem
                 </button>
-                ${a.status === "Đã đặt" || a.status === "Đang chờ lấy mẫu" || a.status === "Đã nhận mẫu" || a.status === "Đã hoàn thành"
-                  ? //`<button onclick="openEditAppointmentModal(${a.id})" class="btn btn-success">
-                    //   <i class='fas fa-edit'></i> Chỉnh sửa
-                    // </button>
-                    `<button onclick="openQuickStatusModal(${a.id}, '${a.status}')" class="btn btn-success" style="background:#e8f5e9;color:#388e3c;border:none;border-radius:4px;padding:6px 12px;cursor:pointer;">
-                    <i class="fas fa-sync-alt"></i> Cập nhật trạng thái
-                  </button>`
-                  : ""}
+                ${renderActionButtons(a)}
               </td>
             </tr>
           `
-                          )
-                          .join("")
-                  : `<tr><td colspan="6" style="text-align:center; color:#888; padding:20px;">Không có lịch hẹn phù hợp</td></tr>`;
+                )
+                .join("")
+            : `<tr><td colspan="6" style="text-align:center; color:#888; padding:20px;">Không có lịch hẹn phù hợp</td></tr>`;
+        }
+
+        // Hàm render các nút action dựa trên trạng thái
+        function renderActionButtons(appointment) {
+          let buttons = "";
+
+          // Nút "Xác nhận" chỉ cho trạng thái "Đã đặt"
+          if (appointment.status === "Đã đặt") {
+            buttons += `
+              <button onclick="confirmStatusChange(${appointment.id}, 'Chưa lấy mẫu')" class="btn" style="background:#ff9800;color:white;border:none;border-radius:4px;padding:6px 12px;cursor:pointer;">
+                <i class="fas fa-check"></i> Xác nhận
+              </button>
+            `;
+          }
+
+          return buttons;
+        }
+
+        // Hàm xác nhận thay đổi trạng thái nhanh
+        async function confirmStatusChange(bookingId, newStatus) {
+          const confirmation = confirm(
+            `Bạn có chắc chắn muốn chuyển trạng thái sang "${newStatus}"?`
+          );
+
+          if (!confirmation) {
+            return;
+          }
+
+          try {
+            const response = await fetch(
+              `/booking/staff/appointments/${bookingId}/status`,
+              {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                credentials: "include",
+                body: JSON.stringify({ status: newStatus }),
+              }
+            );
+
+            if (response.status === 401) {
+              window.location.href = "/internal-login";
+              return;
+            }
+
+            if (!response.ok) {
+              throw new Error(await response.text());
+            }
+
+            showSuccessToast(
+              `Đã cập nhật trạng thái thành "${newStatus}" thành công!`
+            );
+            fetchAppointments(currentPage, pageSize, currentFilters);
+          } catch (error) {
+            console.error("Lỗi khi cập nhật trạng thái:", error);
+            alert("Có lỗi xảy ra khi cập nhật trạng thái: " + error.message);
+          }
         }
 
         // Sửa xử lý filter: luôn gọi lại backend, không filter trên client
-        document.getElementById("filterForm").addEventListener("submit", function (e) {
-          e.preventDefault();
-          const date = document.getElementById("dateFilter").value;
-          const status = document.getElementById("statusFilter").value;
-          const serviceValue = document.getElementById("serviceFilter").value;
-          const searchQuery = document.getElementById("searchFilter").value;
-          
-          let serviceId = '';
-          if (serviceValue) {
-            serviceId = serviceValue;
-          }
-          
-          currentFilters = {
-            serviceId,
-            date,
-            status,
-            searchQuery
-          };
-          fetchAppointments(0, pageSize, currentFilters);
-        });
+        document
+          .getElementById("filterForm")
+          .addEventListener("submit", function (e) {
+            e.preventDefault();
+            const date = document.getElementById("dateFilter").value;
+            const status = document.getElementById("statusFilter").value;
+            const serviceValue = document.getElementById("serviceFilter").value;
+            const searchQuery = document.getElementById("searchFilter").value;
+
+            let serviceId = "";
+            if (serviceValue) {
+              serviceId = serviceValue;
+            }
+
+            currentFilters = {
+              serviceId,
+              date,
+              status,
+              searchQuery,
+            };
+            fetchAppointments(0, pageSize, currentFilters);
+          });
 
         // Hiển thị thông báo thành công
         function showSuccessToast(message) {
@@ -1508,6 +1700,42 @@
             color: #f44336;
           }
 
+          /* CSS cho các trạng thái mới */
+          .status-kit-pending {
+            background-color: rgba(255, 193, 7, 0.1);
+            color: #ffc107;
+          }
+
+          .status-kit-received {
+            background-color: rgba(156, 39, 176, 0.1);
+            color: #9c27b0;
+          }
+
+          .status-kit-returned {
+            background-color: rgba(63, 81, 181, 0.1);
+            color: #3f51b5;
+          }
+
+          .status-not-sampled {
+            background-color: rgba(3, 169, 244, 0.1);
+            color: #03a9f4;
+          }
+
+          .status-sampling-completed {
+            background-color: rgba(139, 195, 74, 0.1);
+            color: #8bc34a;
+          }
+
+          .status-sample-error {
+            background-color: rgba(255, 87, 34, 0.1);
+            color: #ff5722;
+          }
+
+          .status-final-completed {
+            background-color: rgba(76, 175, 80, 0.1);
+            color: #4caf50;
+          }
+
           .btn {
             padding: 8px 16px;
             border-radius: 6px;
@@ -1542,10 +1770,10 @@
         function resetFilter() {
           document.getElementById("filterForm").reset();
           currentFilters = {
-            serviceId: '',
-            date: '',
-            status: '',
-            searchQuery: ''
+            serviceId: "",
+            date: "",
+            status: "",
+            searchQuery: "",
           };
           fetchAppointments(0, pageSize, currentFilters);
         }
@@ -1645,67 +1873,6 @@
     <script src="/assets/js/staff-auth.js"></script>
     <script src="/assets/js/staff-main.js"></script>
 
-    <!-- <script>
-      // Thêm xử lý lỗi cho iframe
-      document.addEventListener("DOMContentLoaded", function () {
-        // Bắt lỗi từ iframe
-        const iframe = document.getElementById("edit-appointment-iframe");
-        if (iframe) {
-          iframe.onload = function () {
-            try {
-              // Kiểm tra nếu iframe đã load xong nhưng có lỗi
-              if (
-                iframe.contentWindow.document.title.includes("Error") ||
-                iframe.contentWindow.document.body.textContent.includes(
-                  "không tìm thấy"
-                ) ||
-                iframe.contentWindow.document.body.textContent.includes(
-                  "Không tìm thấy"
-                )
-              ) {
-                console.warn("Iframe loaded with error content");
-                // Đóng modal và hiển thị lỗi
-                document.getElementById(
-                  "edit-appointment-modal"
-                ).style.display = "none";
-                alert(
-                  "Không tìm thấy thông tin lịch hẹn hoặc đã có lỗi xảy ra!"
-                );
-                iframe.src = "about:blank";
-              }
-            } catch (e) {
-              // Lỗi cross-origin khi truy cập iframe - bỏ qua
-              console.log(
-                "Không thể kiểm tra nội dung iframe (có thể do cross-origin)"
-              );
-            }
-          };
-
-          // Bắt lỗi khi iframe không load được
-          iframe.onerror = function (e) {
-            console.error("Lỗi khi tải iframe:", e);
-            document.getElementById("edit-appointment-modal").style.display =
-              "none";
-            alert("Không thể tải trang chỉnh sửa. Vui lòng thử lại sau.");
-            iframe.src = "about:blank";
-          };
-        }
-
-        // Thêm bộ lọc window.onbeforeunload để ngăn chặn redirect không mong muốn từ iframe
-        window.addEventListener("beforeunload", function (e) {
-          const modal = document.getElementById("edit-appointment-modal");
-          // Nếu modal đang mở và có hành động redirect
-          if (modal && modal.style.display === "flex") {
-            // Chỉ hỏi xác nhận nếu đang trong modal
-            const message = "Bạn có chắc muốn rời khỏi trang này?";
-            e.returnValue = message;
-            return message;
-          }
-        });
-      });
-    </script> -->
-
-
     <!-- Modal HTML cho chi tiết lịch hẹn -->
     <div
       id="appointment-details-modal"
@@ -1793,8 +1960,7 @@
               transition: background 0.2s;
               margin-left: 15px;
             "
-          >
-          </button>
+          ></button>
         </div>
 
         <div class="details-section" style="margin-bottom: 25px">
@@ -1832,8 +1998,7 @@
                 class="info-value"
                 id="modal-customer-id"
                 style="font-weight: 500; color: #333"
-              >
-              </div>
+              ></div>
             </div>
             <div class="info-item" style="margin-bottom: 15px">
               <div
@@ -1846,8 +2011,7 @@
                 class="info-value"
                 id="modal-customer-name"
                 style="font-weight: 500; color: #333"
-              >
-              </div>
+              ></div>
             </div>
           </div>
         </div>
@@ -1881,28 +2045,26 @@
                 class="info-label"
                 style="font-size: 14px; color: #777; margin-bottom: 5px"
               >
-                Ngày Hẹn
+                Ngày Đặt Lịch
               </div>
               <div
                 class="info-value"
                 id="modal-appointment-date"
                 style="font-weight: 500; color: #333"
-              >
-              </div>
+              ></div>
             </div>
             <div class="info-item" style="margin-bottom: 15px">
               <div
                 class="info-label"
                 style="font-size: 14px; color: #777; margin-bottom: 5px"
               >
-                Giờ Hẹn
+                Ngày Hẹn
               </div>
               <div
                 class="info-value"
                 id="modal-appointment-time"
                 style="font-weight: 500; color: #333"
-              >
-              </div>
+              ></div>
             </div>
             <div class="info-item" style="margin-bottom: 15px">
               <div
@@ -1915,8 +2077,7 @@
                 class="info-value"
                 id="modal-collection-method"
                 style="font-weight: 500; color: #333"
-              >
-              </div>
+              ></div>
             </div>
             <div class="info-item" style="margin-bottom: 15px">
               <div
@@ -1929,8 +2090,7 @@
                 class="info-value"
                 id="modal-staff-name"
                 style="font-weight: 500; color: #333"
-              >
-              </div>
+              ></div>
             </div>
             <div class="info-item" style="margin-bottom: 15px">
               <div
@@ -1951,8 +2111,7 @@
                   background: #ffecb3;
                   color: #ff9800;
                 "
-              >
-              </div>
+              ></div>
             </div>
           </div>
         </div>
@@ -2002,16 +2161,23 @@
               class="info-value"
               id="modal-notes"
               style="color: #555; line-height: 1.5"
-            >
-            </div>
+            ></div>
           </div>
         </div>
 
         <!-- Thêm nút hủy lịch hẹn -->
-        <div id="cancel-appointment-section" style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; display: none;">
-          <div style="display: flex; justify-content: flex-end; gap: 10px;">
-            <button 
-              id="cancel-appointment-btn" 
+        <div
+          id="cancel-appointment-section"
+          style="
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            display: none;
+          "
+        >
+          <div style="display: flex; justify-content: flex-end; gap: 10px">
+            <button
+              id="cancel-appointment-btn"
               onclick="handleCancelAppointment()"
               style="
                 background: #dc3545;
@@ -2034,7 +2200,7 @@
         </div>
       </div>
     </div>
-  
+
     <script>
       // Hàm hiển thị modal chi tiết lịch hẹn
       function viewAppointmentDetails(id) {
@@ -2162,8 +2328,15 @@
           "flex";
 
         // Hiển thị nút hủy lịch hẹn nếu trạng thái cho phép
-        const cancelSection = document.getElementById("cancel-appointment-section");
-        if (appointment.status === "Đã đặt" || appointment.status === "Đang chờ lấy mẫu" || appointment.status === "Đã nhận mẫu" || appointment.status === "Đã hoàn thành") {
+        const cancelSection = document.getElementById(
+          "cancel-appointment-section"
+        );
+        if (
+          appointment.status === "Đã đặt" ||
+          appointment.status === "Đang chờ lấy mẫu" ||
+          appointment.status === "Đã nhận mẫu" ||
+          appointment.status === "Đã hoàn thành"
+        ) {
           cancelSection.style.display = "block";
           // Lưu ID lịch hẹn để sử dụng khi hủy
           cancelSection.setAttribute("data-appointment-id", appointment.id);
@@ -2176,13 +2349,13 @@
       function getServiceDisplayName(service) {
         switch (service) {
           case "ADN cha-con":
-            return "Xét nghiệm ADN cha-con";
+            return "Xét nghiệm ADN Cha - Con";
           case "ADN mẹ-con":
-            return "Xét nghiệm ADN mẹ-con";
+            return "Xét nghiệm ADN Mẹ - Con";
           case "ADN anh,chi-em":
-            return "Xét nghiệm ADN anh,chị-em";
+            return "Xét nghiệm ADN Anh/Chị - Em";
           case "ADN ông,bà-cháu":
-            return "Xét nghiệm ADN ông, bà - cháu";
+            return "Xét nghiệm ADN Ông/Bà - Cháu";
           case "ADN họ hàng":
             return "Xét nghiệm ADN họ hàng";
           default:
@@ -2212,9 +2385,11 @@
 
       // Hàm xử lý hủy lịch hẹn
       function handleCancelAppointment() {
-        const cancelSection = document.getElementById("cancel-appointment-section");
+        const cancelSection = document.getElementById(
+          "cancel-appointment-section"
+        );
         const appointmentId = cancelSection.getAttribute("data-appointment-id");
-        
+
         if (!appointmentId) {
           alert("Không tìm thấy thông tin lịch hẹn!");
           return;
@@ -2347,28 +2522,32 @@
         document.body.appendChild(modal);
 
         // Xử lý hiển thị textarea khi chọn "Khác"
-        const reasonRadios = modal.querySelectorAll('input[name="cancel-reason"]');
-        const otherReasonContainer = modal.querySelector('#other-reason-container');
+        const reasonRadios = modal.querySelectorAll(
+          'input[name="cancel-reason"]'
+        );
+        const otherReasonContainer = modal.querySelector(
+          "#other-reason-container"
+        );
 
-        reasonRadios.forEach(radio => {
-          radio.addEventListener('change', function() {
-            if (this.value === 'Khác') {
-              otherReasonContainer.style.display = 'block';
+        reasonRadios.forEach((radio) => {
+          radio.addEventListener("change", function () {
+            if (this.value === "Khác") {
+              otherReasonContainer.style.display = "block";
             } else {
-              otherReasonContainer.style.display = 'none';
+              otherReasonContainer.style.display = "none";
             }
           });
         });
 
         // Xử lý submit form
-        const form = modal.querySelector('#cancel-reason-form');
-        form.addEventListener('submit', function(e) {
+        const form = modal.querySelector("#cancel-reason-form");
+        form.addEventListener("submit", function (e) {
           e.preventDefault();
           confirmCancelAppointment(appointmentId, modal);
         });
 
         // Đóng modal khi click ra ngoài
-        modal.addEventListener('click', function(e) {
+        modal.addEventListener("click", function (e) {
           if (e.target === this) {
             this.remove();
           }
@@ -2377,18 +2556,22 @@
 
       // Hàm xác nhận hủy lịch hẹn
       async function confirmCancelAppointment(appointmentId, reasonModal) {
-        const selectedReason = document.querySelector('input[name="cancel-reason"]:checked');
-        
+        const selectedReason = document.querySelector(
+          'input[name="cancel-reason"]:checked'
+        );
+
         if (!selectedReason) {
-          alert('Vui lòng chọn lý do hủy lịch hẹn');
+          alert("Vui lòng chọn lý do hủy lịch hẹn");
           return;
         }
 
         let reason = selectedReason.value;
-        if (reason === 'Khác') {
-          const otherReasonText = document.getElementById('other-reason-text').value.trim();
+        if (reason === "Khác") {
+          const otherReasonText = document
+            .getElementById("other-reason-text")
+            .value.trim();
           if (!otherReasonText) {
-            alert('Vui lòng nhập lý do cụ thể');
+            alert("Vui lòng nhập lý do cụ thể");
             return;
           }
           reason = otherReasonText;
@@ -2396,13 +2579,18 @@
 
         try {
           // Gọi API giống customer
-          const response = await fetch(`/booking/cancel?bookingId=${appointmentId}&reason=${encodeURIComponent(reason)}`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            credentials: 'include'
-          });
+          const response = await fetch(
+            `/booking/cancel?bookingId=${appointmentId}&reason=${encodeURIComponent(
+              reason
+            )}`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+              },
+              credentials: "include",
+            }
+          );
 
           if (response.status === 401) {
             window.location.href = "/internal-login";
@@ -2417,14 +2605,14 @@
           reasonModal.remove();
 
           // Đóng modal chi tiết lịch hẹn
-          document.getElementById("appointment-details-modal").style.display = "none";
+          document.getElementById("appointment-details-modal").style.display =
+            "none";
 
           // Hiển thị thông báo thành công
           showSuccessToast("Đã hủy lịch hẹn thành công!");
 
           // Tải lại dữ liệu
           fetchAppointments(currentPage, pageSize, currentFilters);
-
         } catch (error) {
           console.error("Lỗi khi hủy lịch hẹn:", error);
           alert("Có lỗi xảy ra khi hủy lịch hẹn: " + error.message);
@@ -2448,67 +2636,11 @@
       }
     </script>
 
-    <!-- Modal cập nhật trạng thái nhanh -->
-    <div id="quick-status-modal" style="display:none;position:fixed;z-index:10001;top:0;left:0;width:100vw;height:100vh;background:rgba(30,42,60,0.35);backdrop-filter:blur(2px);justify-content:center;align-items:center;">
-      <div style="background:#fff;border-radius:12px;min-width:320px;max-width:95vw;padding:24px 20px;box-shadow:0 8px 32px rgba(0,0,0,0.18);position:relative;">
-        <button id="quick-status-close" style="position:absolute;top:10px;right:14px;background:rgba(33,150,243,0.08);border:none;font-size:22px;cursor:pointer;color:#2196f3;border-radius:50%;width:32px;height:32px;">&times;</button>
-        <h3 style="margin-bottom:18px;font-size:18px;color:#2196f3;">Cập nhật trạng thái lịch hẹn</h3>
-        <form id="quick-status-form">
-          <input type="hidden" id="quick-status-booking-id" />
-          <div style="margin-bottom:16px;">
-            <label for="quick-status-select" style="font-weight:500;">Trạng thái mới:</label>
-            <select id="quick-status-select" required style="width:100%;padding:8px 10px;border-radius:6px;border:1px solid #ccc;margin-top:6px;">
-              <option value="">Chọn trạng thái</option>
-              <option value="Đã đặt">Đã đặt</option>
-              <option value="Đang chờ lấy mẫu">Đang chờ lấy mẫu</option>
-              <option value="Đã nhận mẫu">Đã nhận mẫu</option>
-              <option value="Đã hoàn thành">Đã hoàn thành</option>
-              <option value="Đã hủy">Đã hủy</option>
-            </select>
-          </div>
-          <div style="display:flex;justify-content:flex-end;gap:10px;">
-            <button type="button" id="quick-status-cancel" style="background:#f5f5f5;color:#333;border:1px solid #ddd;border-radius:4px;padding:8px 18px;cursor:pointer;">Hủy</button>
-            <button type="submit" style="background:#2196f3;color:white;border:none;border-radius:4px;padding:8px 18px;cursor:pointer;">Cập nhật</button>
-          </div>
-        </form>
-      </div>
-    </div>
+
     <script>
-    function openQuickStatusModal(bookingId, currentStatus) {
-      document.getElementById("quick-status-modal").style.display = "flex";
-      document.getElementById("quick-status-booking-id").value = bookingId;
-      const select = document.getElementById("quick-status-select");
-      select.value = currentStatus || "";
-    }
-    document.getElementById("quick-status-close").onclick =
-    document.getElementById("quick-status-cancel").onclick = function() {
-      document.getElementById("quick-status-modal").style.display = "none";
-    };
-    document.getElementById("quick-status-form").onsubmit = async function(e) {
-      e.preventDefault();
-      const bookingId = document.getElementById("quick-status-booking-id").value;
-      const newStatus = document.getElementById("quick-status-select").value;
-      if (!newStatus) return;
-      try {
-        const response = await fetch(`/booking/staff/appointments/${bookingId}/status`, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          credentials: "include",
-          body: JSON.stringify({ status: newStatus })
-        });
-        if (!response.ok) throw new Error(await response.text());
-        showSuccessToast("Cập nhật trạng thái thành công!");
-        document.getElementById("quick-status-modal").style.display = "none";
-        fetchAppointments(currentPage, pageSize, currentFilters);
-      } catch (err) {
-        alert("Lỗi: " + err.message);
-      }
-    };
-    </script>
-    <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      if (window.renderStaffSidebarInfo) window.renderStaffSidebarInfo();
-    });
+      document.addEventListener("DOMContentLoaded", function () {
+        if (window.renderStaffSidebarInfo) window.renderStaffSidebarInfo();
+      });
     </script>
   </body>
 </html>

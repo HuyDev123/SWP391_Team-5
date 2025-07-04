@@ -29,7 +29,7 @@
  */
 function checkLoginStatus() {
   // Ưu tiên kiểm tra biến user từ server (window.serverUser)
-  if (typeof window.serverUser !== 'undefined' && window.serverUser) {
+  if (typeof window.serverUser !== "undefined" && window.serverUser) {
     return {
       isLoggedIn: true,
       user: window.serverUser,
@@ -60,6 +60,7 @@ function updateAuthUI() {
           <a href="/profile">Tài khoản</a>
           <a href="/appoinments-list">Lịch hẹn</a>
           <a href="/test-history">Lịch sử xét nghiệm</a>
+          <a href="/kits">Quản lý kit</a>
           <a href="#" id="logout-link">Đăng xuất</a>
         </div>
       </div>
@@ -67,25 +68,25 @@ function updateAuthUI() {
     loginButton.classList.add("logged-in");
     loginButton.removeAttribute("href");
     // Dropdown event
-    const userDropdown = loginButton.querySelector('.user-name');
-    const dropdownContent = loginButton.querySelector('.dropdown-content');
+    const userDropdown = loginButton.querySelector(".user-name");
+    const dropdownContent = loginButton.querySelector(".dropdown-content");
     if (userDropdown && dropdownContent) {
-      userDropdown.addEventListener('click', function(e) {
+      userDropdown.addEventListener("click", function (e) {
         e.stopPropagation();
-        this.classList.toggle('active');
-        dropdownContent.classList.toggle('show');
+        this.classList.toggle("active");
+        dropdownContent.classList.toggle("show");
       });
-      document.addEventListener('click', function(e) {
+      document.addEventListener("click", function (e) {
         if (!userDropdown.contains(e.target)) {
-          userDropdown.classList.remove('active');
-          dropdownContent.classList.remove('show');
+          userDropdown.classList.remove("active");
+          dropdownContent.classList.remove("show");
         }
       });
     }
     // Đăng xuất
-    const logoutLink = loginButton.querySelector('#logout-link');
+    const logoutLink = loginButton.querySelector("#logout-link");
     if (logoutLink) {
-      logoutLink.addEventListener('click', function(e) {
+      logoutLink.addEventListener("click", function (e) {
         e.preventDefault();
         handleLogout();
       });
@@ -109,8 +110,8 @@ function handleLogout() {
 }
 
 // Tự động cập nhật UI khi load trang
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', updateAuthUI);
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", updateAuthUI);
 } else {
   updateAuthUI();
 }
@@ -119,5 +120,5 @@ if (document.readyState === 'loading') {
 window.Auth = {
   checkLoginStatus,
   updateAuthUI,
-  handleLogout
+  handleLogout,
 };

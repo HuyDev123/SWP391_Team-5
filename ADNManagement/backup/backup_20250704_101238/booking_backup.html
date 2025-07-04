@@ -459,6 +459,10 @@
                     required
                   >
                     <option value="">-- Chọn dịch vụ xét nghiệm --</option>
+                    <option value="father-child">Xét nghiệm ADN Cha - Con</option>
+                    <option value="mother-child">Xét nghiệm ADN Mẹ - Con</option>
+                    <option value="siblings">Xét nghiệm ADN Anh/Chị - Em</option>
+                    <option value="grandparent">Xét nghiệm ADN Ông/Bà - Cháu</option>
                   </select>
                 </div>
               </div>
@@ -747,59 +751,20 @@
         return true;
       }
 
-      // Global variable to store services data
-      let servicesData = [];
-
-      // Hàm load services từ API
-      async function loadServices() {
-        try {
-          const response = await fetch('/service/list');
-          if (!response.ok) {
-            throw new Error('Failed to load services');
-          }
-          const services = await response.json();
-          
-          // Store services data globally
-          servicesData = services;
-          
-          // Cập nhật service dropdowns
-          updateServiceDropdowns(services);
-        } catch (error) {
-          console.error('Error loading services:', error);
-          // Fallback to hardcoded services if API fails
-        }
-      }
-
-      // Hàm cập nhật service dropdowns
-      function updateServiceDropdowns(services) {
-        const serviceSelects = document.querySelectorAll('.service-dropdown');
-        serviceSelects.forEach(select => {
-          // Clear existing options except the first one
-          while (select.options.length > 1) {
-            select.remove(1);
-          }
-          
-          // Add new options from API
-          services.forEach(service => {
-            const option = document.createElement('option');
-            option.value = service.id; // Use service ID as value
-            option.textContent = service.name;
-            select.appendChild(option);
-          });
-        });
-      }
-
       function getSelectedServiceIds() {
-        const selectedValues = Array.from(document.querySelectorAll('.service-dropdown'))
-                .map(select => select.value)
-                .filter(value => value); // Remove empty values
-        
-        if (selectedValues.length === 0) {
-          return [];
-        }
+        // This is a placeholder - you need to map the selected service values to actual IDs
+        // For now, I'll just convert them to arbitrary IDs
+        const serviceMap = {
+          "father-child": 1,
+          "mother-child": 2,
+          "siblings": 3,
+          "grandparent": 4
+        };
 
-        // Convert string values to integers
-        return selectedValues.map(value => parseInt(value)).filter(id => !isNaN(id));
+        return Array.from(document.querySelectorAll('.service-dropdown'))
+                .map(select => select.value)
+                .filter(value => value) // Remove empty values
+                .map(value => serviceMap[value] || 0);
       }
 
       function saveFormData(formData, isRedirecting = false) {
@@ -835,42 +800,25 @@
         document.getElementById("phone").value = formData.phone || '';
         document.getElementById("notes").value = formData.notes || '';
 
-        // Fill service dropdowns - đợi services load xong
-        if (formData.services && formData.services.length > 0) {
-          const fillServices = () => {
-            const serviceDropdowns = document.querySelectorAll('.service-dropdown');
-            if (serviceDropdowns.length > 0) {
-              // Fill first dropdown
-              serviceDropdowns[0].value = formData.services[0] || '';
+        // Fill service dropdowns
+        const serviceDropdowns = document.querySelectorAll('.service-dropdown');
+        if (serviceDropdowns.length > 0 && formData.services && formData.services.length > 0) {
+          // Fill first dropdown
+          serviceDropdowns[0].value = formData.services[0] || '';
 
-              // Add additional dropdowns if needed
-              for (let i = 1; i < formData.services.length; i++) {
-                if (i >= serviceDropdowns.length) {
-                  document.getElementById("add-service-btn").click();
-                  setTimeout(() => {
-                    const newDropdowns = document.querySelectorAll('.service-dropdown');
-                    if (newDropdowns.length > i) {
-                      newDropdowns[i].value = formData.services[i] || '';
-                    }
-                  }, 10);
-                } else {
-                  serviceDropdowns[i].value = formData.services[i] || '';
+          // Add additional dropdowns if needed
+          for (let i = 1; i < formData.services.length; i++) {
+            if (i >= serviceDropdowns.length) {
+              document.getElementById("add-service-btn").click();
+              setTimeout(() => {
+                const newDropdowns = document.querySelectorAll('.service-dropdown');
+                if (newDropdowns.length > i) {
+                  newDropdowns[i].value = formData.services[i] || '';
                 }
-              }
+              }, 10);
+            } else {
+              serviceDropdowns[i].value = formData.services[i] || '';
             }
-          };
-          
-          // Nếu services đã load, fill ngay. Nếu chưa, đợi
-          if (servicesData.length > 0) {
-            fillServices();
-          } else {
-            // Đợi services load xong
-            const checkServices = setInterval(() => {
-              if (servicesData.length > 0) {
-                clearInterval(checkServices);
-                fillServices();
-              }
-            }, 100);
           }
         }
 
@@ -1027,9 +975,6 @@
 
       // Khi trang tải xong
       document.addEventListener("DOMContentLoaded", function () {
-        // Load services from API
-        loadServices();
-        
         // Lấy tham số service từ URL
         var selectedService = getUrlParameter("service");
 
@@ -1097,6 +1042,10 @@
             newItem.innerHTML = `
               <select name="services[]" class="form-control service-dropdown" required>
                 <option value="">-- Chọn dịch vụ xét nghiệm --</option>
+                <option value="father-child">Xét nghiệm ADN Cha - Con</option>
+                <option value="mother-child">Xét nghiệm ADN Mẹ - Con</option>
+                <option value="siblings">Xét nghiệm ADN Anh/Chị - Em</option>
+                <option value="grandparent">Xét nghiệm ADN Ông/Bà - Cháu</option>
               </select>
               <button type="button" class="remove-service-btn" style="margin-left: 5px; color: red; background: none; border: none; cursor: pointer;">
                 <i class="fas fa-times"></i>
@@ -1105,23 +1054,6 @@
 
             // Thêm dropdown mới vào danh sách
             serviceSelectList.appendChild(newItem);
-
-            // Cập nhật dropdown mới với dữ liệu services đã có
-            const newSelect = newItem.querySelector('.service-dropdown');
-            if (newSelect && servicesData.length > 0) {
-              // Clear existing options except the first one
-              while (newSelect.options.length > 1) {
-                newSelect.remove(1);
-              }
-              
-              // Add new options from servicesData
-              servicesData.forEach(service => {
-                const option = document.createElement('option');
-                option.value = service.id;
-                option.textContent = service.name;
-                newSelect.appendChild(option);
-              });
-            }
 
             // Thêm sự kiện xóa cho nút xóa
             const removeBtn = newItem.querySelector(".remove-service-btn");

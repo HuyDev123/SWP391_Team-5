@@ -27,6 +27,31 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
         Pageable pageable
     );
 
+    // Method for customer kit management - get only their at-home bookings with kit status >= "Đã gửi"
+    @Query(
+        value = "SELECT DISTINCT b.* FROM Booking b " +
+                "WHERE b.customer_id = :userId " +
+                "AND b.is_center_collected = 0 " +
+                "AND b.kit_status IN (N'Đã gửi', N'Chưa lấy mẫu', N'Chưa nhận mẫu', N'Đã nhận mẫu', N'Lỗi mẫu') " +
+                "AND (:appointmentId IS NULL OR CAST(b.id AS VARCHAR) = :appointmentId) " +
+                "AND (:date IS NULL OR CAST(b.booking_date AS DATE) = :date) " +
+                "ORDER BY b.booking_date DESC", 
+        countQuery = "SELECT COUNT(DISTINCT b.id) FROM Booking b " +
+                "WHERE b.customer_id = :userId " +
+                "AND b.is_center_collected = 0 " +
+                "AND b.kit_status IN (N'Đã gửi', N'Chưa lấy mẫu', N'Chưa nhận mẫu', N'Đã nhận mẫu', N'Lỗi mẫu') " +
+                "AND (:appointmentId IS NULL OR CAST(b.id AS VARCHAR) = :appointmentId) " +
+                "AND (:date IS NULL OR CAST(b.booking_date AS DATE) = :date)",
+        nativeQuery = true
+    )
+    Page<Booking> findByCustomerIdAndIsCenterCollectedFalseWithFilters(
+        @Param("userId") Integer userId,
+        @Param("appointmentId") String appointmentId,
+        @Param("date") String date,
+        @Param("kitStatus") String kitStatus,
+        Pageable pageable
+    );
+
     // Method for staff to get all appointments with filters
     @Query("SELECT DISTINCT b FROM Booking b " +
            "LEFT JOIN b.bookingServices bs " +
@@ -44,6 +69,35 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
         @Param("bookingDate") LocalDate bookingDate,
         @Param("serviceId") Integer serviceId,
         @Param("searchQuery") String searchQuery,
+        Pageable pageable
+    );
+
+    // Method for kit management - get only at-home bookings with status >= "Chưa lấy mẫu"
+    @Query(
+        value = "SELECT DISTINCT b.* FROM Booking b " +
+                "LEFT JOIN Booking_Service bs ON b.id = bs.booking_id " +
+                "LEFT JOIN Service s ON bs.service_id = s.id " +
+                "WHERE b.is_center_collected = 0 " +
+                "AND b.status IN (N'Chưa lấy mẫu', N'Đã lấy mẫu', N'Đã trả kết quả') " +
+                "AND (:status IS NULL OR b.kit_status = :status) " +
+                "AND (:search IS NULL OR " +
+                "LOWER(b.full_name) LIKE LOWER(CONCAT('%', :search, '%')) OR " +
+                "CAST(b.id AS VARCHAR) = :search) " +
+                "ORDER BY b.booking_date DESC", 
+        countQuery = "SELECT COUNT(DISTINCT b.id) FROM Booking b " +
+                "LEFT JOIN Booking_Service bs ON b.id = bs.booking_id " +
+                "LEFT JOIN Service s ON bs.service_id = s.id " +
+                "WHERE b.is_center_collected = 0 " +
+                "AND b.status IN (N'Chưa lấy mẫu', N'Đã lấy mẫu', N'Đã trả kết quả') " +
+                "AND (:status IS NULL OR b.kit_status = :status) " +
+                "AND (:search IS NULL OR " +
+                "LOWER(b.full_name) LIKE LOWER(CONCAT('%', :search, '%')) OR " +
+                "CAST(b.id AS VARCHAR) = :search)",
+        nativeQuery = true
+    )
+    Page<Booking> findByIsCenterCollectedFalseWithFilters(
+        @Param("search") String search,
+        @Param("status") String status,
         Pageable pageable
     );
 }

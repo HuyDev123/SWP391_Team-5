@@ -58,26 +58,19 @@ public class BookingController {
                             .body("SESSION_EXPIRED: Phiên đăng nhập đã hết hạn, đang tải lại trang...");
                 }
             }
-            
             // Kiểm tra serviceIds hợp lệ
             List<Integer> serviceIds = request.getServiceIds();
             if (serviceIds == null || serviceIds.isEmpty()) {
                 return ResponseEntity.badRequest().body("Vui lòng chọn ít nhất một dịch vụ xét nghiệm hợp lệ.");
             }
-            
             List<Service> validServices = new ArrayList<>();
             for (Integer serviceId : serviceIds) {
-                if (serviceId == null) {
-                    return ResponseEntity.badRequest().body("Service ID không hợp lệ: null");
-                }
                 Service service = serviceRepository.findById(serviceId).orElse(null);
                 if (service == null) {
                     return ResponseEntity.badRequest().body("Dịch vụ không hợp lệ: " + serviceId);
                 }
                 validServices.add(service);
             }
-            
-            // Tạo booking
             Booking booking = new Booking();
             booking.setFullName(request.getFullName());
             booking.setEmail(request.getEmail());
@@ -86,46 +79,32 @@ public class BookingController {
             booking.setIsCenterCollected(request.getIsCenterCollected());
             booking.setAddress(request.getAddress());
             booking.setNote(request.getNote());
-            
-            // Chỉ set date/time nếu có giá trị hợp lệ
-            if (request.getCenterSampleDate() != null) {
-                booking.setCenterSampleDate(request.getCenterSampleDate());
-            }
-            if (request.getCenterSampleTime() != null) {
-                booking.setCenterSampleTime(request.getCenterSampleTime());
-            }
-            
+            booking.setCenterSampleDate(request.getCenterSampleDate());
+            booking.setCenterSampleTime(request.getCenterSampleTime());
             booking.setBookingDate(LocalDateTime.now());
             booking.setStatus("Đã đặt");
-            // Không set kitStatus ban đầu, sẽ set khi staff xác nhận
+            // Set initial kitStatus for at-home bookings
+            if (!booking.getIsCenterCollected()) {
+                booking.setKitStatus("Đã đặt");
+            }
 
             // Nếu đã đăng nhập, set user cho booking
             if (sessionUser != null) {
                 booking.setCustomer(sessionUser);
             }
 
-            // Lưu booking trước
             Booking savedBooking = bookingRepository.save(booking);
 
-            // Tạo BookingService entities
             List<BookingService> bookingServices = new ArrayList<>();
             for (Service service : validServices) {
                 BookingService bs = new BookingService();
                 bs.setBooking(savedBooking);
                 bs.setService(service);
-                // KitType có thể null cho các booking không cần kit
-                bs.setKitType(null);
                 bookingServices.add(bs);
             }
-            
-            // Lưu BookingService entities
-            if (!bookingServices.isEmpty()) {
-                bookingServiceRepository.saveAll(bookingServices);
-            }
-            
+            bookingServiceRepository.saveAll(bookingServices);
             return ResponseEntity.ok().body("Đặt lịch thành công!");
         } catch (Exception e) {
-            e.printStackTrace(); // Log error for debugging
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Đặt lịch thất bại: " + e.getMessage());
         }
     }
@@ -520,12 +499,6 @@ public class BookingController {
             return ResponseEntity.badRequest().body("Trạng thái không hợp lệ");
         }
         String oldStatus = booking.getStatus();
-        
-        // Tự động set kitStatus thành "Chưa gửi" khi staff xác nhận booking tại nhà
-        if (!booking.getIsCenterCollected() && "Chưa lấy mẫu".equals(newStatus) && booking.getKitStatus() == null) {
-            booking.setKitStatus("Chưa gửi");
-        }
-        
         // Check kitStatus condition for at-home bookings (chỉ cho phép chuyển sang "Đã lấy mẫu" khi kit đã "Đã nhận mẫu")
         if (!booking.getIsCenterCollected() && "Đã lấy mẫu".equals(newStatus)) {
             if (!"Đã nhận mẫu".equals(booking.getKitStatus())) {

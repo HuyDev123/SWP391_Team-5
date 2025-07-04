@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quản lý Kit - Trung Tâm Xét Nghiệm ADN Genx</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <!-- CSS chính -->
+    <link rel="stylesheet" href="/assets/css/styles.css" />
+    <!-- CSS header và footer -->
+    <link rel="stylesheet" href="/assets/css/header.css" />
+    <link rel="stylesheet" href="/assets/css/footer.css" />
+    <link rel="stylesheet" href="/assets/css/user-dropdown.css" />
+    <style>
+      body {
+        min-height: 100vh;
+        background-color: #f5f5f5;
+      }
+
+      /* Main content styles */
+      .main-content {
+        margin-left: 0;
+        padding: 20px;
+        width: 100%;
+        margin-top: 70px;
+        max-width: 1400px;
+        margin-right: auto;
+        margin-left: auto;
+      }
+
+      /* Table styles */
+      table {
+        border-collapse: separate;
+        border-spacing: 0;
+        width: 100%;
+        margin-top: 10px;
+        border-radius: 8px;
+        overflow: hidden;
+        border: 1px solid #e0e0e0;
+      }
+
+      thead tr {
+        background: linear-gradient(45deg, #0d47a1, #1976d2);
+        color: rgb(255, 255, 255);
+        font-weight: 600;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      }
+
+      th {
+        padding: 18px 12px !important;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 14px;
+        letter-spacing: 0.5px;
+        border: none !important;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        color: #ffffff;
+        position: relative;
+        text-align: center;
+      }
+
+      tbody tr {
+        transition: all 0.3s ease;
+        animation: slideIn 0.5s ease;
+        background: white;
+      }
+
+      tbody tr:hover {
+        background-color: #f8f9fa;
+        transform: translateY(-2px);
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+      }
+
+      td {
+        padding: 15px 12px !important;
+        border-bottom: 1px solid #edf2f7 !important;
+        font-size: 14px;
+        text-align: center;
+      }
+
+      /* Button styles */
+      .btn {
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-weight: 500;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        border: none;
+        cursor: pointer;
+      }
+
+      .btn-primary {
+        background: linear-gradient(45deg, #2196f3, #1976d2);
+        color: white;
+      }
+
+      .btn-primary:hover {
+        background: linear-gradient(45deg, #1976d2, #0d47a1);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
+      }
+
+      .btn-success {
+        background: linear-gradient(45deg, #4caf50, #388e3c);
+        color: white;
+      }
+
+      .btn-success:hover {
+        background: linear-gradient(45deg, #388e3c, #2e7d32);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+      }
+
+      .btn-warning {
+        background: linear-gradient(45deg, #ff9800, #f57c00);
+        color: white;
+      }
+
+      .btn-warning:hover {
+        background: linear-gradient(45deg, #f57c00, #ef6c00);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(255, 152, 0, 0.3);
+      }
+
+      .btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      /* Filter form styles */
+      #filterForm {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        margin-bottom: 25px;
+      }
+
+      .form-control {
+        padding: 8px 12px;
+        border: 1px solid #e1e1e1;
+        border-radius: 6px;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        background: #fff;
+      }
+
+      /* Kit Status badge styles */
+      .kit-status-badge {
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 13px;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .kit-status-not-sent {
+        background-color: rgba(158, 158, 158, 0.1);
+        color: #9e9e9e;
+      }
+
+      .kit-status-sent {
+        background-color: rgba(33, 150, 243, 0.1);
+        color: #2196f3;
+      }
+
+      .kit-status-received {
+        background-color: rgba(103, 58, 183, 0.1);
+        color: #673ab7;
+      }
+
+      .kit-status-sample-pending {
+        background-color: rgba(255, 152, 0, 0.1);
+        color: #ff9800;
+      }
+
+      .kit-status-sample-received {
+        background-color: rgba(76, 175, 80, 0.1);
+        color: #4caf50;
+      }
+
+      .kit-status-sample-error {
+        background-color: rgba(244, 67, 54, 0.1);
+        color: #f44336;
+      }
+
+      /* Modal styles */
+      .kit-details-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        animation: fadeIn 0.3s ease;
+      }
+
+      .modal-content {
+        background-color: white;
+        border-radius: 12px;
+        padding: 25px;
+        width: 700px;
+        max-width: 90%;
+        max-height: 90vh;
+        overflow-y: auto;
+        animation: scaleIn 0.3s ease;
+      }
+
+      .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 2px solid #edf2f7;
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+      }
+
+      .modal-title {
+        font-size: 24px;
+        color: #673ab7;
+        font-weight: 600;
+      }
+
+      .modal-close {
+        background: none;
+        border: none;
+        font-size: 24px;
+        color: #666;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .modal-close:hover {
+        color: #f44336;
+        transform: scale(1.1);
+      }
+
+      .kit-info-grid {
+        display: grid;
+        grid-template-columns: 150px 1fr;
+        gap: 12px;
+        margin-bottom: 25px;
+      }
+
+      .kit-info-grid strong {
+        color: #666;
+      }
+
+      .kit-status-timeline {
+        background: #f8f9fa;
+        border-radius: 8px;
+        padding: 20px;
+        margin-top: 20px;
+      }
+
+      .timeline-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+        padding: 10px;
+        border-radius: 6px;
+      }
+
+      .timeline-item.completed {
+        background-color: rgba(76, 175, 80, 0.1);
+        color: #4caf50;
+      }
+
+      .timeline-item.current {
+        background-color: rgba(103, 58, 183, 0.1);
+        color: #673ab7;
+        font-weight: 600;
+      }
+
+      .timeline-item.pending {
+        background-color: rgba(158, 158, 158, 0.1);
+        color: #9e9e9e;
+      }
+
+      .timeline-icon {
+        margin-right: 10px;
+        font-size: 16px;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes scaleIn {
+        from {
+          transform: scale(0.8);
+          opacity: 0;
+        }
+        to {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+
+      @keyframes slideIn {
+        from {
+          transform: translateY(20px);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <script th:inline="javascript">
+      /*<![CDATA[*/
+      window.serverUser = /*[[${userData}]]*/ null;
+      /*]]>*/
+    </script>
+    <!-- Header -->
+    <header>
+      <div class="header-container">
+        <div class="logo-section">
+          <img src="/assets/images/logo.png" alt="Genx Logo" />
+          <div class="brand-text">
+            <h1 class="brand-name">Genx</h1>
+            <p class="brand-description">
+              Trung Tâm Xét Nghiệm ADN Huyết Thống
+            </p>
+          </div>
+        </div>
+        <nav class="nav-links">
+          <a href="/home" class="nav-link">Trang chủ</a>
+          <a href="/booking" class="nav-link">Đặt lịch xét nghiệm</a>
+          <a href="/services" class="nav-link">Giới thiệu dịch vụ</a>
+          <a href="/knowledge" class="nav-link">Kiến thức ADN</a>
+          <a href="/sampling-guide" class="nav-link">Hướng dẫn lấy mẫu</a>
+          <a href="/login" class="nav-link login-button">Đăng nhập</a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <h1
+        style="
+          margin-bottom: 20px;
+          color: #0288d1;
+          font-size: 32px;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          border-bottom: 3px solid #0288d1;
+          padding-bottom: 10px;
+          display: flex;
+          align-items: center;
+        "
+      >
+        <i class="fas fa-box" style="margin-right: 15px; font-size: 36px"></i>
+        Quản lý Kit xét nghiệm ADN (Tại nhà)
+      </h1>
+
+      <div class="instruction-container" style="margin-top: 10px">
+        <div class="instruction-title">
+          <i class="fas fa-filter" style="color: #2196f3"></i>
+          Tìm kiếm Kit
+        </div>
+
+        <!-- Bộ lọc -->
+        <form
+          id="filterForm"
+          style="
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            align-items: center;
+            margin-bottom: 20px;
+          "
+        >
+          <div>
+            <label
+              for="appointmentIdFilter"
+              style="font-weight: 500; color: #333"
+              >Mã cuộc hẹn:</label
+            >
+            <input
+              type="text"
+              id="appointmentIdFilter"
+              name="appointmentIdFilter"
+              class="form-control"
+              placeholder="Mã cuộc hẹn..."
+            />
+          </div>
+          <div>
+            <label for="dateFilter" style="font-weight: 500; color: #333"
+              >Ngày đặt:</label
+            >
+            <input
+              type="date"
+              id="dateFilter"
+              name="dateFilter"
+              class="form-control"
+            />
+          </div>
+          <div>
+            <label for="statusFilter" style="font-weight: 500; color: #333"
+              >Trạng thái Kit:</label
+            >
+            <select id="statusFilter" name="statusFilter" class="form-control">
+              <option value="">Tất cả</option>
+              <option value="Chưa nhận kit">Chưa nhận kit</option>
+              <option value="Đã nhận kit">Đã nhận kit</option>
+              <option value="Đã trả kit">Đã trả kit</option>
+              <option value="Hoàn thành lấy mẫu">Hoàn thành lấy mẫu</option>
+              <option value="Lỗi mẫu">Lỗi mẫu</option>
+            </select>
+          </div>
+          <div>
+            <button
+              type="submit"
+              style="
+                background: #2196f3;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                padding: 8px 18px;
+                cursor: pointer;
+              "
+            >
+              <i class="fas fa-search"></i> Tìm kiếm
+            </button>
+          </div>
+        </form>
+
+        <div style="overflow-x: auto">
+          <table>
+            <thead>
+              <tr>
+                <th>Mã cuộc hẹn</th>
+                <th>Tên khách hàng</th>
+                <th>Phương thức</th>
+                <th>Ngày đặt</th>
+                <th>Trạng thái Kit</th>
+                <th>Thao tác</th>
+              </tr>
+            </thead>
+            <tbody id="kitTableBody">
+              <!-- Dữ liệu sẽ được render bằng JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Pagination Container -->
+      <div id="pagination-container"></div>
+    </div>
+
+    <script>
+      // ===== BIẾN TOÀN CỤC =====
+      let kitsData = [];
+      let currentPage = 0;
+      let totalPages = 1;
+      let pageSize = 10;
+      let currentFilters = {
+        appointmentId: "",
+        date: "",
+        status: "",
+      };
+
+      // ===== HÀM CHÍNH =====
+      async function fetchKits(page = 0, size = 10, filters = {}) {
+        try {
+          let params = new URLSearchParams();
+          params.append("page", page);
+          params.append("size", size);
+          params.append("method", "Tại nhà"); // Chỉ lấy phương thức "Tại nhà"
+          if (filters.status) params.append("kitStatus", filters.status);
+          if (filters.date) params.append("date", filters.date);
+          if (filters.appointmentId)
+            params.append("appointmentId", filters.appointmentId);
+
+          const response = await fetch(`/api/kits?${params.toString()}`, {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+            credentials: "include",
+          });
+
+          if (response.status === 401) {
+            window.location.href = "/login";
+            return;
+          }
+
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+
+          const data = await response.json();
+          kitsData = data.content || [];
+          currentPage = data.page || 0;
+          totalPages = data.totalPages || 1;
+          pageSize = data.size || 10;
+          renderKits(kitsData);
+          renderPagination();
+          return data;
+        } catch (error) {
+          console.error("Lỗi khi lấy dữ liệu kit:", error);
+          renderKits([]);
+          renderPagination();
+        }
+      }
+
+      function renderKitStatus(status) {
+        let className = "";
+        switch (status) {
+          case "Chưa nhận kit":
+            className = "kit-status-sent";
+            break;
+          case "Đã nhận kit":
+            className = "kit-status-received";
+            break;
+          case "Đã trả kit":
+            className = "kit-status-sample-pending";
+            break;
+          case "Hoàn thành lấy mẫu":
+            className = "kit-status-sample-received";
+            break;
+          case "Lỗi mẫu":
+            className = "kit-status-sample-error";
+            break;
+        }
+        return `<span class="kit-status-badge ${className}"><i class="fas fa-circle" style="font-size: 8px"></i> ${status}</span>`;
+      }
+
+      function renderKits(data) {
+        const tbody = document.getElementById("kitTableBody");
+        tbody.innerHTML = data.length
+          ? data
+              .map((kit) => {
+                // Logic hiển thị nút dựa trên trạng thái kit
+                let actionButtons = `
+                    <button onclick="showKitDetails('${kit.appointmentId}')" class="btn btn-primary">
+                      <i class="fas fa-info-circle"></i> Chi tiết
+                    </button>
+                  `;
+
+                // Chỉ hiển thị nút "Đã nhận kit" khi trạng thái mapping là "Chưa nhận kit" (tương ứng với trạng thái gốc "Đã gửi")
+                if (kit.kitStatusDisplay === "Chưa nhận kit") {
+                  actionButtons += `
+                      <button onclick="confirmKitReceived('${kit.appointmentId}')" class="btn btn-success" style="margin-left: 8px;">
+                        <i class="fas fa-box-open"></i> Đã nhận kit
+                      </button>
+                    `;
+                }
+
+                // Chỉ hiển thị nút "Trả kit" khi trạng thái mapping là "Đã nhận kit" (tương ứng với trạng thái gốc "Đã nhận kit")
+                if (kit.kitStatusDisplay === "Đã nhận kit") {
+                  actionButtons += `
+                      <button onclick="confirmKitReturned('${kit.appointmentId}')" class="btn btn-warning" style="margin-left: 8px;">
+                        <i class="fas fa-shipping-fast"></i> Trả kit
+                      </button>
+                    `;
+                }
+
+                return `
+                    <tr>
+                      <td>${kit.appointmentId}</td>
+                      <td>${kit.customerName}</td>
+                      <td>${kit.method}</td>
+                      <td>${new Date(kit.bookingDate).toLocaleDateString(
+                        "vi-VN"
+                      )}</td>
+                      <td>${renderKitStatus(kit.kitStatusDisplay || kit.kitStatus)}</td>
+                      <td style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        ${actionButtons}
+                      </td>
+                    </tr>
+                  `;
+              })
+              .join("")
+          : `<tr><td colspan="6" style="text-align:center; color:#888; padding:20px;">Không có kit phù hợp</td></tr>`;
+      }
+
+      function renderPagination() {
+        const containerId = "pagination-container";
+        let container = document.getElementById(containerId);
+        if (!container) return;
+
+        container.innerHTML = "";
+        if (totalPages <= 1) return;
+
+        container.style =
+          "display:flex;justify-content:center;align-items:center;margin:20px 0;gap:8px;";
+
+        // Prev button
+        const prevBtn = document.createElement("button");
+        prevBtn.innerText = "«";
+        prevBtn.className = "btn btn-primary";
+        prevBtn.disabled = currentPage === 0;
+        prevBtn.onclick = () =>
+          fetchKits(currentPage - 1, pageSize, currentFilters);
+        container.appendChild(prevBtn);
+
+        // Page numbers
+        for (let i = 0; i < totalPages; i++) {
+          const pageBtn = document.createElement("button");
+          pageBtn.innerText = i + 1;
+          pageBtn.className =
+            "btn" + (i === currentPage ? " btn-primary" : " btn-primary");
+          pageBtn.disabled = i === currentPage;
+          pageBtn.onclick = () => fetchKits(i, pageSize, currentFilters);
+          container.appendChild(pageBtn);
+        }
+
+        // Next button
+        const nextBtn = document.createElement("button");
+        nextBtn.innerText = "»";
+        nextBtn.className = "btn btn-primary";
+        nextBtn.disabled = currentPage === totalPages - 1;
+        nextBtn.onclick = () =>
+          fetchKits(currentPage + 1, pageSize, currentFilters);
+        container.appendChild(nextBtn);
+      }
+
+      async function showKitDetails(appointmentId) {
+        try {
+          const response = await fetch(`/api/kits/${appointmentId}`, {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+            credentials: "include",
+          });
+
+          if (response.status === 401) {
+            window.location.href = "/login";
+            return;
+          }
+
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+
+          const kit = await response.json();
+
+          const modal = document.createElement("div");
+          modal.className = "kit-details-modal";
+
+          const bookingDate = new Date(kit.bookingDate).toLocaleString("vi-VN");
+          const createdDate = new Date(kit.createdDate).toLocaleString("vi-VN");
+
+          // Timeline based on mapped kit status for customer
+          let timeline = "";
+          const statuses = [
+            "Chưa nhận kit",
+            "Đã nhận kit", 
+            "Đã trả kit",
+            "Hoàn thành lấy mẫu"
+          ];
+          const currentStatusIndex = statuses.indexOf(kit.kitStatusDisplay);
+
+          timeline = statuses
+            .map((status, index) => {
+              let className = "pending";
+              let icon = "fas fa-circle";
+
+              if (index <= currentStatusIndex) {
+                className =
+                  index === currentStatusIndex ? "current" : "completed";
+                icon =
+                  index < currentStatusIndex
+                    ? "fas fa-check-circle"
+                    : "fas fa-circle";
+              }
+
+              return `
+              <div class="timeline-item ${className}">
+                <i class="${icon} timeline-icon"></i>
+                <span>${status}</span>
+              </div>
+            `;
+            })
+            .join("");
+
+          // Add error status if applicable
+          if (kit.kitStatusDisplay === "Lỗi mẫu") {
+            timeline += `
+              <div class="timeline-item current">
+                <i class="fas fa-exclamation-triangle timeline-icon"></i>
+                <span>Lỗi mẫu - Cần lấy mẫu lại</span>
+              </div>
+            `;
+          }
+
+          modal.innerHTML = `
+            <div class="modal-content">
+              <div class="modal-header">
+                <div class="modal-title">Chi tiết Kit - ${
+                  kit.appointmentId
+                }</div>
+                <button class="modal-close" onclick="this.closest('.kit-details-modal').remove()">×</button>
+              </div>
+
+              <div class="kit-info-grid">
+                 <strong>Mã cuộc hẹn:</strong><span>${kit.appointmentId}</span>
+                <strong>Dịch vụ:</strong><span>${kit.services && kit.services.length > 0 ? kit.services[0].adnService : "N/A"}</span>
+                <strong>Trạng thái:</strong><span>${renderKitStatus(
+                  kit.kitStatusDisplay || kit.kitStatus
+                )}</span>
+              </div>
+              
+            </div>
+          `;
+
+          document.body.appendChild(modal);
+
+          modal.addEventListener("click", (e) => {
+            if (e.target === modal) {
+              modal.style.opacity = "0";
+              setTimeout(() => modal.remove(), 300);
+            }
+          });
+        } catch (error) {
+          console.error("Lỗi khi lấy chi tiết kit:", error);
+          alert("Không thể tải thông tin chi tiết kit");
+        }
+      }
+
+      // Hàm xác nhận đã nhận kit
+      async function confirmKitReceived(appointmentId) {
+        if (!confirm("Xác nhận khách hàng đã nhận kit?")) return;
+
+        try {
+          const response = await fetch(`/api/kits/${appointmentId}/received`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            credentials: "include",
+          });
+
+          if (response.status === 401) {
+            window.location.href = "/login";
+            return;
+          }
+
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+
+          alert("Đã xác nhận khách hàng nhận kit thành công!");
+          fetchKits(currentPage, pageSize, currentFilters); // Reload data
+        } catch (error) {
+          console.error("Lỗi khi xác nhận nhận kit:", error);
+          alert("Có lỗi xảy ra khi xác nhận nhận kit");
+        }
+      }
+
+      // Hàm xác nhận đã trả kit
+      async function confirmKitReturned(appointmentId) {
+        if (!confirm("Xác nhận khách hàng đã trả kit?")) return;
+
+        try {
+          const response = await fetch(`/api/kits/${appointmentId}/returned`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            credentials: "include",
+          });
+
+          if (response.status === 401) {
+            window.location.href = "/login";
+            return;
+          }
+
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+
+          alert("Đã xác nhận khách hàng trả kit thành công!");
+          fetchKits(currentPage, pageSize, currentFilters); // Reload data
+        } catch (error) {
+          console.error("Lỗi khi xác nhận trả kit:", error);
+          alert("Có lỗi xảy ra khi xác nhận trả kit");
+        }
+      }
+
+      // Event listeners
+      document
+        .getElementById("filterForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          const appointmentId = document.getElementById(
+            "appointmentIdFilter"
+          ).value;
+          const date = document.getElementById("dateFilter").value;
+          const status = document.getElementById("statusFilter").value;
+
+          currentFilters = {
+            appointmentId,
+            date,
+            status,
+          };
+          fetchKits(0, pageSize, currentFilters);
+        });
+
+      // Load initial data
+      document.addEventListener("DOMContentLoaded", function () {
+        fetchKits();
+      });
+    </script>
+
+    <footer class="footer">
+      <div class="footer-container">
+        <!-- Company Info -->
+        <div class="footer-info">
+          <h3>TRUNG TÂM XÉT NGHIỆM ADN GENX</h3>
+          <p>
+            Trung tâm xét nghiệm ADN hàng đầu tại Việt Nam với hơn 10 năm kinh
+            nghiệm. Cam kết mang đến dịch vụ xét nghiệm ADN chính xác và uy tín.
+          </p>
+          <div class="contact-info">
+            <div class="contact-item">
+              <i class="fas fa-map-marker-alt"></i>
+              <span>123 Đường ABC, Quận 1, TP.HCM</span>
+            </div>
+            <div class="contact-item">
+              <i class="fas fa-phone"></i>
+              <span>1900 xxxx</span>
+            </div>
+            <div class="contact-item">
+              <i class="fas fa-envelope"></i>
+              <span>info@genx.com</span>
+            </div>
+          </div>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="footer-links">
+          <h4>Dịch Vụ</h4>
+          <ul>
+            <li><a href="/services">Xét nghiệm ADN Cha Con</a></li>
+            <li><a href="/services">Xét nghiệm ADN Mẹ Con</a></li>
+            <li><a href="/services">Xét nghiệm ADN Anh Chị Em</a></li>
+            <li><a href="/services">Xét nghiệm ADN Ông Bà Cháu</a></li>
+          </ul>
+        </div>
+
+        <!-- Support -->
+        <div class="footer-links">
+          <h4>Hỗ Trợ</h4>
+          <ul>
+            <li><a href="/sampling-guide">Hướng dẫn lấy mẫu</a></li>
+            <li><a href="/knowledge">Quy trình xét nghiệm</a></li>
+            <li><a href="/knowledge">Câu hỏi thường gặp</a></li>
+            <li><a href="#">Chính sách bảo mật</a></li>
+          </ul>
+        </div>
+
+        <!-- Working Hours -->
+        <div class="footer-links">
+          <h4>Giờ Làm Việc</h4>
+          <ul>
+            <li>Thứ 2 - Thứ 6: 8:00 - 17:30</li>
+            <li>Thứ 7: 8:00 - 12:00</li>
+            <li>Chủ nhật: Đóng cửa</li>
+            <li>Hotline: 24/7</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Footer Bottom -->
+      <div class="footer-container">
+        <div class="footer-bottom">
+          <p>&copy; 2024 Trung Tâm Xét Nghiệm ADN GenX. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
