@@ -26,7 +26,6 @@ CREATE TABLE Booking (
     user_id INT,
     booking_date DATETIME,
     status NVARCHAR(100),
-    kit_status NVARCHAR(100),
     staff_id INT,
     note NVARCHAR(MAX),
 
@@ -43,10 +42,15 @@ CREATE TABLE Booking (
 
     -- Địa chỉ gửi kit (nếu lấy mẫu tại nhà)
     address NVARCHAR(500),
+    kit_status NVARCHAR(100),
 
     -- Ngày, giờ lấy mẫu tại trung tâm (nếu lấy tại trung tâm)
     center_sample_date DATE,
     center_sample_time TIME,
+
+    -- Thêm phương thức và trạng thái thanh toán
+    payment_method NVARCHAR(100),
+    payment_status NVARCHAR(100),
 
     FOREIGN KEY (user_id) REFERENCES [User](id),
     FOREIGN KEY (staff_id) REFERENCES [User](id)
@@ -104,6 +108,7 @@ CREATE TABLE Participant (
     cccd_issued_place NVARCHAR(255),
     relationship NVARCHAR(50),
     photo_url VARCHAR(255),
+    sample_quantity INT,
     note NVARCHAR(MAX),
     FOREIGN KEY (booking_id) REFERENCES Booking(id),
     FOREIGN KEY (user_id) REFERENCES [User](id)
