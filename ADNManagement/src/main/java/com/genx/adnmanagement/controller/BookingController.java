@@ -188,14 +188,10 @@ public class BookingController {
 
                 appointmentDetails.put("status", booking.getStatus());
                 appointmentDetails.put("statusDisplay", mapStatusForCustomer(booking.getStatus()));
-                if (!booking.getIsCenterCollected()) {
-                    appointmentDetails.put("kitStatus", booking.getKitStatus());
-                    appointmentDetails.put("kitStatusDisplay", mapKitStatusForCustomer(booking.getKitStatus()));
-                }
-
+                
+                // Lấy services để hiển thị chi tiết và tính tổng tiền
                 List<BookingService> bookingServices = bookingServiceRepository.findByBooking_Id(booking.getId());
                 List<Map<String, Object>> services = new ArrayList<>();
-
                 for (BookingService bs : bookingServices) {
                     Service service = bs.getService();
                     Map<String, Object> serviceDetail = new HashMap<>();
@@ -204,7 +200,6 @@ public class BookingController {
                     serviceDetail.put("price", service.getPrice());
                     services.add(serviceDetail);
                 }
-
                 appointmentDetails.put("services", services);
                 appointmentsList.add(appointmentDetails);
             }
@@ -521,9 +516,9 @@ public class BookingController {
         }
         String oldStatus = booking.getStatus();
         
-        // Tự động set kitStatus thành "Chưa gửi" khi staff xác nhận booking tại nhà
+        // Tự động set kitStatus thành "Chưa chọn kit" khi staff xác nhận booking tại nhà
         if (!booking.getIsCenterCollected() && "Chưa lấy mẫu".equals(newStatus) && booking.getKitStatus() == null) {
-            booking.setKitStatus("Chưa gửi");
+            booking.setKitStatus("Chưa chọn kit");
         }
         
         // Check kitStatus condition for at-home bookings (chỉ cho phép chuyển sang "Đã lấy mẫu" khi kit đã "Đã nhận mẫu")
@@ -714,7 +709,7 @@ public class BookingController {
     private String mapKitStatusForCustomer(String kitStatus) {
         return switch (kitStatus) {
             case "Đã gửi" -> "Chưa nhận kit";
-            case "Chưa lấy mẫu" -> "Đã nhận kit";
+            case "Đã giao thành công" -> "Đã nhận kit";
             case "Chưa nhận mẫu" -> "Đã trả kit";
             case "Đã nhận mẫu" -> "Hoàn thành lấy mẫu";
             case "Lỗi mẫu" -> "Lỗi mẫu";

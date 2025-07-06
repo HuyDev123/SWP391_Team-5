@@ -59,8 +59,8 @@ function updateAuthUI() {
         <div class="dropdown-content">
           <a href="/profile">Tài khoản</a>
           <a href="/appoinments-list">Lịch hẹn</a>
-          <a href="/test-history">Lịch sử xét nghiệm</a>
           <a href="/kits">Quản lý kit</a>
+          <a href="/test-history">Lịch sử xét nghiệm</a>
           <a href="#" id="logout-link">Đăng xuất</a>
         </div>
       </div>

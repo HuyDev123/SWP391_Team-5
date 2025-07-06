@@ -390,6 +390,14 @@
         const val = params.get("booking_id");
         return val ? parseInt(val, 10) : null;
       }
+      
+      // Lấy user_id từ URL
+      function getUserIdFromUrl() {
+        const params = new URLSearchParams(window.location.search);
+        const val = params.get("user_id");
+        return val ? parseInt(val, 10) : null;
+      }
+      
       document.getElementById("booking_id").value = getBookingIdFromUrl();
 
       // Hàm format ngày tháng
@@ -400,60 +408,6 @@
 
       // Thêm biến để theo dõi các dịch vụ đã đánh giá
       let reviewedServices = new Set();
-
-      // Thêm object để lưu trữ dữ liệu đánh giá
-      let reviewData = {};
-
-      // Hàm lưu dữ liệu đánh giá vào localStorage
-      function saveReviewData(bookingId, serviceId, rating, comment) {
-        // Đảm bảo serviceId luôn là giá trị số
-        const serviceIdNum = parseInt(serviceId);
-        if (isNaN(serviceIdNum)) {
-          return;
-        }
-
-        const key = `review_${bookingId}_${serviceIdNum}`;
-        const data = {
-          rating: rating,
-          comment: comment,
-          timestamp: new Date().toISOString(),
-        };
-
-        // Lưu vào cả reviewData và localStorage
-        reviewData[serviceIdNum] = data;
-        localStorage.setItem(key, JSON.stringify(data));
-
-        // Tắt chế độ reset khi có đánh giá mới
-        localStorage.setItem("reset_review_mode", "false");
-      }
-
-      // Hàm lấy dữ liệu đánh giá từ localStorage
-      function getReviewData(bookingId, serviceId) {
-        // Đảm bảo serviceId luôn là giá trị số
-        const serviceIdNum = parseInt(serviceId);
-        if (isNaN(serviceIdNum)) {
-          console.error(
-            "Lỗi: serviceId không hợp lệ trong getReviewData:",
-            serviceId
-          );
-          return null;
-        }
-
-        const key = `review_${bookingId}_${serviceIdNum}`;
-        // Kiểm tra cờ reset trước khi đọc localStorage
-        const resetMode = localStorage.getItem("reset_review_mode") === "true";
-
-        if (resetMode) {
-          return null;
-        }
-
-        try {
-          const data = localStorage.getItem(key);
-          return data ? JSON.parse(data) : null;
-        } catch (error) {
-          return null;
-        }
-      }
 
       // Hiển thị thông tin dịch vụ
       async function displayServiceInfo() {
@@ -482,11 +436,31 @@
             // Đặt service_id mặc định là 0 cho trường hợp một dịch vụ
             document.getElementById("service_id").value = "0";
 
-            // Lấy dữ liệu đánh giá đã lưu
-            const savedReview = getReviewData(bookingId, 0);
-            if (savedReview) {
-              loadReviewData(savedReview, true);
-              reviewedServices.add(0);
+            // Kiểm tra từ backend - sử dụng serviceId thực tế
+            if (service && service.serviceId) {
+              try {
+                const response = await fetch(`/api/feedback/check/${bookingId}/${service.serviceId}`);
+                if (response.ok) {
+                  const data = await response.json();
+                  if (data.exists && data.feedback) {
+                    // Có feedback từ backend, load dữ liệu
+                    const backendReview = {
+                      rating: data.feedback.rating,
+                      comment: data.feedback.comment || "",
+                      timestamp: data.feedback.createdAt
+                    };
+                    loadReviewData(backendReview, true);
+                    reviewedServices.add(0);
+                  } else {
+                    resetFormForNewReview();
+                  }
+                } else {
+                  resetFormForNewReview();
+                }
+              } catch (error) {
+                console.error('Lỗi khi kiểm tra feedback:', error);
+                resetFormForNewReview();
+              }
             } else {
               resetFormForNewReview();
             }
@@ -495,24 +469,22 @@
             let optionsHtml = '<option value="" disabled selected>Chọn dịch vụ cần đánh giá</option>';
             for (let index = 0; index < booking.services.length; index++) {
               const service = booking.services[index];
-              const savedReview = getReviewData(bookingId, index);
-              if (savedReview) {
-                reviewedServices.add(index);
-              }
-                              // Kiểm tra thêm từ backend - sử dụng serviceId thực tế
-                if (service && service.serviceId) {
-                  try {
-                    const response = await fetch(`/api/feedback/check/${bookingId}/${service.serviceId}`);
-                    if (response.ok) {
-                      const data = await response.json();
-                      if (data.exists) {
-                        reviewedServices.add(index);
-                      }
+              
+              // Kiểm tra từ backend - sử dụng serviceId thực tế
+              if (service && service.serviceId) {
+                try {
+                  const response = await fetch(`/api/feedback/check/${bookingId}/${service.serviceId}`);
+                  if (response.ok) {
+                    const data = await response.json();
+                    if (data.exists) {
+                      reviewedServices.add(index);
                     }
-                  } catch (error) {
-                    // Error checking feedback from backend
                   }
+                } catch (error) {
+                  console.error('Lỗi khi kiểm tra feedback cho service:', service.serviceId, error);
                 }
+              }
+              
               optionsHtml += `
                 <option value="${index}" ${
                   reviewedServices.has(index)
@@ -542,12 +514,10 @@
                 formMessage.textContent = "";
                 formMessage.style.display = "none";
                 
-
-                
                 // Reset form trước khi load data mới
                 resetFormForNewReview();
                 
-                // Kiểm tra từ backend trước - sử dụng serviceId thực tế
+                // Kiểm tra từ backend - sử dụng serviceId thực tế
                 if (selectedService && selectedService.serviceId) {
                   try {
                     const response = await fetch(`/api/feedback/check/${bookingId}/${selectedService.serviceId}`);
@@ -565,15 +535,11 @@
                       }
                     }
                   } catch (error) {
-                    // Error checking feedback from backend
+                    console.error('Lỗi khi kiểm tra feedback cho service:', selectedService.serviceId, error);
                   }
                 }
                 
-                // Nếu không có từ backend, kiểm tra localStorage
-                const savedReview = getReviewData(bookingId, selectedServiceId);
-                if (savedReview) {
-                  loadReviewData(savedReview, true);
-                }
+                // Nếu không có feedback từ backend, form sẽ ở trạng thái mới
               });
             // Nếu đã có service_id được chọn trước đó, chọn lại nó trong dropdown
             if (currentServiceId && currentServiceId !== "") {
@@ -698,86 +664,15 @@
         submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Gửi đánh giá';
       }
 
-      // Hàm hiển thị tất cả feedback đã có
-      async function displayAllFeedback(bookingId) {
-        try {
-          const response = await fetch(`/api/feedback/booking/${bookingId}`);
-          if (response.ok) {
-            const feedbacks = await response.json();
-            
-            // Tạo HTML để hiển thị tất cả feedback
-            let feedbackHtml = '<div style="margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 8px;">';
-            feedbackHtml += '<h4 style="color: #1976d2; margin-bottom: 15px;"><i class="fas fa-list"></i> Tất cả đánh giá đã gửi:</h4>';
-            
-            if (feedbacks.length === 0) {
-              feedbackHtml += '<p style="color: #666; text-align: center;">Chưa có đánh giá nào</p>';
-            } else {
-              feedbacks.forEach((feedback, index) => {
-                const stars = '★'.repeat(feedback.rating) + '☆'.repeat(5 - feedback.rating);
-                feedbackHtml += `
-                  <div style="border: 1px solid #e0e0e0; border-radius: 8px; padding: 15px; margin-bottom: 10px; background: white;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                      <strong style="color: #1976d2;">Dịch vụ ${index + 1}</strong>
-                      <span style="color: #ffd700; font-size: 18px;">${stars}</span>
-                    </div>
-                    ${feedback.comment ? `<p style="color: #555; margin: 0; font-style: italic;">"${feedback.comment}"</p>` : '<p style="color: #999; font-style: italic;">Không có nhận xét</p>'}
-                    <small style="color: #999;">Ngày đánh giá: ${new Date(feedback.createdAt).toLocaleDateString('vi-VN')}</small>
-                  </div>
-                `;
-              });
-            }
-            
-            feedbackHtml += '</div>';
-            
-            // Thêm vào cuối form
-            const form = document.querySelector('.feedback-form');
-            form.insertAdjacentHTML('beforeend', feedbackHtml);
-          }
-        } catch (error) {
-          // Error getting feedback
-        }
-      }
+
 
       // Gọi hàm hiển thị thông tin dịch vụ khi trang được tải
       document.addEventListener("DOMContentLoaded", function () {
         // Reset biến theo dõi dịch vụ đã đánh giá
         reviewedServices = new Set();
-        reviewData = {};
-
-        // Kiểm tra xem có đang ở chế độ reset không
-        const resetMode = localStorage.getItem("reset_review_mode") === "true";
 
         // Hiển thị thông tin dịch vụ
-        displayServiceInfo().then(() => {
-          // Test: Kiểm tra tất cả feedback trong database
-          const bookingId = getBookingIdFromUrl();
-          if (bookingId) {
-            fetch(`/api/feedback/booking/${bookingId}`)
-              .then(response => response.json())
-              .then(feedbacks => {
-                // Feedback data loaded
-              })
-              .catch(error => {
-                // Error loading feedback
-              });
-          }
-          
-          // Hiển thị thông báo nhỏ nếu đang ở chế độ reset
-          if (resetMode) {
-            const formMessage = document.getElementById("formMessage");
-            formMessage.textContent =
-              "Chế độ test đang được bật - Tải lại trang để reset trạng thái";
-            formMessage.style.display = "flex";
-            formMessage.style.backgroundColor = "#f8f9fa";
-            formMessage.style.color = "#6c757d";
-            formMessage.style.padding = "6px";
-            formMessage.style.fontSize = "12px";
-            formMessage.style.textAlign = "center";
-            formMessage.style.borderRadius = "4px";
-            formMessage.style.marginTop = "10px";
-            formMessage.style.border = "1px solid #dee2e6";
-          }
-        });
+        displayServiceInfo();
       });
 
       // Xử lý submit form
@@ -823,10 +718,22 @@
             return;
           }
           try {
+            // Lấy userId từ URL
+            const userId = getUserIdFromUrl();
+            
+            // Kiểm tra userId trước khi gửi feedback
+            if (!userId) {
+              formMessage.textContent = "Không thể xác định người dùng. Vui lòng đăng nhập lại.";
+              formMessage.className = "form-message error";
+              formMessage.style.display = "flex";
+              return;
+            }
+            
             // Gọi API để lưu feedback vào database
             const feedbackData = {
               bookingId: booking_id,
               serviceId: service_id,
+              userId: userId,
               rating: parseInt(rating),
               comment: comment
             };
@@ -839,21 +746,25 @@
               body: JSON.stringify(feedbackData)
             });
 
-            if (!response.ok) {
-              const errorData = await response.json();
-              throw new Error(errorData.message || 'Lỗi khi gửi feedback');
-            }
-
             const result = await response.json();
 
-            // Lưu dữ liệu đánh giá vào localStorage để UI
-            saveReviewData(booking_id, selectedServiceIndex, rating, comment);
+            if (!response.ok) {
+              // Kiểm tra nếu là lỗi 401 (chưa đăng nhập)
+              if (response.status === 401 && result.redirect) {
+                alert(result.message);
+                window.location.href = result.redirect;
+                return;
+              }
+              throw new Error(result.message || 'Lỗi khi gửi feedback');
+            }
 
             // Kiểm tra xem dịch vụ này đã được đánh giá trước đó chưa
             const wasReviewedBefore = reviewedServices.has(selectedServiceIndex);
 
             // Thêm service_id vào danh sách đã đánh giá
-            reviewedServices.add(selectedServiceIndex); // Hiển thị thông báo thành công
+            reviewedServices.add(selectedServiceIndex);
+            
+            // Hiển thị thông báo thành công
             formMessage.textContent = wasReviewedBefore
               ? "Cập nhật đánh giá thành công!"
               : "Cảm ơn bạn đã đánh giá dịch vụ!";
@@ -878,13 +789,16 @@
             const messageClass = formMessage.className;
 
             // Cập nhật lại dropdown để đánh dấu dịch vụ đã đánh giá
-            displayServiceInfo();
+            await displayServiceInfo();
 
             // Sau khi cập nhật lại dropdown, chọn lại service hiện tại
             if (booking.services.length > 1) {
               const serviceSelect = document.getElementById("serviceSelect");
               if (serviceSelect) {
                 serviceSelect.value = selectedServiceIndex;
+                // Kích hoạt sự kiện change để load lại dữ liệu
+                const event = new Event("change");
+                serviceSelect.dispatchEvent(event);
               }
             }
 
@@ -892,6 +806,9 @@
             formMessage.textContent = messageText;
             formMessage.className = messageClass;
             formMessage.style.display = "flex";
+            
+
+            
             // Cập nhật trạng thái đánh giá trong parent window
             if (window.parent) {
               try {
@@ -906,7 +823,7 @@
                   "*"
                 );
               } catch (error) {
-                // Error sending message
+                console.error('Lỗi khi gửi message đến parent window:', error);
               }
             }
           } catch (error) {

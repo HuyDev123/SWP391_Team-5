@@ -205,8 +205,8 @@ public class KitController {
                 return ResponseEntity.badRequest().body("Chỉ có thể xác nhận nhận kit khi trạng thái là 'Đã gửi'");
             }
 
-            // Update status to "Chưa lấy mẫu" (tương ứng với "Đã nhận kit" trong mapping)
-            booking.setKitStatus("Chưa lấy mẫu");
+            // Update status to "Đã giao thành công" (tương ứng với "Đã nhận kit" trong mapping)
+            booking.setKitStatus("Đã giao thành công");
             // booking.setKitReceiveDate(LocalDate.now()); // Tạm thời comment lại
             bookingRepository.save(booking);
 
@@ -241,8 +241,8 @@ public class KitController {
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Bạn không có quyền thực hiện thao tác này");
             }
 
-            // Check if current status is "Chưa lấy mẫu" (tương ứng với "Đã nhận kit" trong mapping)
-            if (!"Chưa lấy mẫu".equals(booking.getKitStatus())) {
+            // Check if current status is "Đã giao thành công" (tương ứng với "Đã nhận kit" trong mapping)
+            if (!"Đã giao thành công".equals(booking.getKitStatus())) {
                 return ResponseEntity.badRequest().body("Chỉ có thể xác nhận trả kit khi trạng thái là 'Đã nhận kit'");
             }
 
@@ -257,39 +257,6 @@ public class KitController {
         }
     }
 
-    // Test endpoint to debug booking data
-    @GetMapping("/debug")
-    public ResponseEntity<?> debugBookings(@SessionAttribute(name = "staff", required = false) User sessionStaff) {
-        if (sessionStaff == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body("ACCESS_DENIED: Bạn không có quyền truy cập trang này.");
-        }
-
-        try {
-            List<Booking> allBookings = bookingRepository.findAll();
-            List<Map<String, Object>> debugData = new ArrayList<>();
-            
-            for (Booking booking : allBookings) {
-                Map<String, Object> bookingInfo = new HashMap<>();
-                bookingInfo.put("id", booking.getId());
-                bookingInfo.put("status", booking.getStatus());
-                bookingInfo.put("kitStatus", booking.getKitStatus());
-                bookingInfo.put("isCenterCollected", booking.getIsCenterCollected());
-                bookingInfo.put("fullName", booking.getFullName());
-                bookingInfo.put("bookingDate", booking.getBookingDate());
-                debugData.add(bookingInfo);
-            }
-            
-            Map<String, Object> response = new HashMap<>();
-            response.put("totalBookings", allBookings.size());
-            response.put("bookings", debugData);
-            
-            return ResponseEntity.ok(response);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Lỗi khi debug: " + e.getMessage());
-        }
-    }
 
     @GetMapping("/staff")
     public ResponseEntity<?> getKits(
@@ -316,18 +283,11 @@ public class KitController {
                 status, // status parameter này giờ là kitStatus
                 pageable
             );
-            
-            System.out.println("Số lượng phần tử trên trang hiện tại: " + bookingPage.getContent().size());
 
             List<Map<String, Object>> kitsList = new ArrayList<>();
             DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
             for (Booking booking : bookingPage.getContent()) {
-                // Xử lý trường hợp kitStatus null (chưa được xác nhận)
-                String kitStatus = booking.getKitStatus();
-                if (kitStatus == null && "Đã đặt".equals(booking.getStatus())) {
-                    kitStatus = "Chưa xác nhận";
-                }
 
                 // Lấy thông tin dịch vụ
                 List<BookingService> bookingServices = bookingServiceRepository.findByBooking_Id(booking.getId());
@@ -338,7 +298,7 @@ public class KitController {
                     kitDetails.put("appointmentId", booking.getId());
                     kitDetails.put("customerName", booking.getFullName());
                     kitDetails.put("address", booking.getAddress());
-                    kitDetails.put("status", kitStatus);
+                    kitDetails.put("status", booking.getKitStatus());
                     kitDetails.put("serviceId", service.getId());
                     kitDetails.put("serviceName", service.getName());
                     kitDetails.put("kitType", bs.getKitType() != null ? bs.getKitType().getName() : null);
@@ -424,15 +384,32 @@ public class KitController {
     @PostMapping("/select-multiple")
     public ResponseEntity<?> selectMultipleKits(@RequestBody List<Map<String, Object>> kitSelections) {
         try {
+            // Lấy booking ID từ selection đầu tiên (tất cả đều cùng booking ID)
+            Integer bookingId = null;
+            if (!kitSelections.isEmpty()) {
+                bookingId = convertToInteger(kitSelections.get(0).get("appointmentId"));
+            }
+            
+            // Lấy booking một lần duy nhất
+            Booking booking = null;
+            if (bookingId != null) {
+                booking = bookingRepository.findById(bookingId).orElse(null);
+            }
+            
+            // Kiểm tra booking null trước khi xử lý
+            if (booking == null) {
+                return ResponseEntity.badRequest().body("Booking not found or invalid booking ID");
+            }
+            
             for (Map<String, Object> selection : kitSelections) {
-                Integer appointmentId = (Integer) selection.get("appointmentId");
-                Integer serviceId = (Integer) selection.get("serviceId");
-                String kitCode = (String) selection.get("kitCode");
-                Integer kitTypeId = (Integer) selection.get("kitTypeId");
-                String note = (String) selection.get("note");
+                Integer appointmentId = convertToInteger(selection.get("appointmentId"));
+                Integer serviceId = convertToInteger(selection.get("serviceId"));
+                Integer kitTypeId = convertToInteger(selection.get("kitTypeId"));
 
-                Booking booking = bookingRepository.findById(appointmentId).orElse(null);
-                if (booking == null) continue;
+                // Validate required fields
+                if (appointmentId == null || serviceId == null || kitTypeId == null) {
+                    return ResponseEntity.badRequest().body("Thiếu thông tin bắt buộc: appointmentId, serviceId, hoặc kitTypeId");
+                }
 
                 BookingService bookingService = bookingServiceRepository.findByBooking_IdAndService_Id(appointmentId, serviceId);
                 if (bookingService == null) continue;
@@ -444,9 +421,16 @@ public class KitController {
 
                 // bookingService.setKitCode(kitCode); // Tạm thời comment lại
                 // booking.setKitNote(note); // Tạm thời comment lại
-                booking.setKitStatus("Chưa gửi");
 
                 bookingServiceRepository.save(bookingService);
+            }
+            
+            // Lưu booking một lần duy nhất sau khi xử lý tất cả booking services
+            if (booking != null) {
+                // Chỉ cập nhật trạng thái nếu hiện tại là "Chưa chọn kit"
+                if ("Chưa chọn kit".equals(booking.getKitStatus())) {
+                    booking.setKitStatus("Chưa gửi");
+                }
                 bookingRepository.save(booking);
             }
 
@@ -527,7 +511,7 @@ public class KitController {
     private String mapKitStatusForCustomer(String kitStatus) {
         return switch (kitStatus) {
             case "Đã gửi" -> "Chưa nhận kit";
-            case "Chưa lấy mẫu" -> "Đã nhận kit";
+            case "Đã giao thành công" -> "Đã nhận kit";
             case "Chưa nhận mẫu" -> "Đã trả kit";
             case "Đã nhận mẫu" -> "Hoàn thành lấy mẫu";
             case "Lỗi mẫu" -> "Lỗi mẫu";
@@ -539,11 +523,32 @@ public class KitController {
     private String convertMappedStatusToOriginal(String mappedStatus) {
         return switch (mappedStatus) {
             case "Chưa nhận kit" -> "Đã gửi";
-            case "Đã nhận kit" -> "Chưa lấy mẫu";
+            case "Đã nhận kit" -> "Đã giao thành công";
             case "Đã trả kit" -> "Chưa nhận mẫu";
             case "Hoàn thành lấy mẫu" -> "Đã nhận mẫu";
             case "Lỗi mẫu" -> "Lỗi mẫu";
             default -> mappedStatus;
         };
+    }
+
+    // Helper method to safely convert Object to Integer
+    private Integer convertToInteger(Object value) {
+        if (value == null) {
+            return null;
+        }
+        if (value instanceof Integer) {
+            return (Integer) value;
+        }
+        if (value instanceof String) {
+            try {
+                return Integer.parseInt((String) value);
+            } catch (NumberFormatException e) {
+                return null;
+            }
+        }
+        if (value instanceof Number) {
+            return ((Number) value).intValue();
+        }
+        return null;
     }
 }

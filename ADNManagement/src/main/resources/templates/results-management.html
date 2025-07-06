@@ -1024,7 +1024,6 @@
             <td><strong>${appointment.id}</strong></td>
             <td>${appointment.customerName}</td>
             <td>${formatDate(appointment.completedDate)}</td>
-            // <td>${renderServiceBadge(appointment.service)}</td>
             <td>${renderStatusBadge(appointment.resultStatus)}</td>
             <td>${renderProgress(appointment.progress)}</td>
             <td>${renderActions(appointment)}</td>
@@ -1938,7 +1937,7 @@
         const appointment = window.completedAppointments.find(a => String(a.id) === String(appointmentId));
         if (!appointment) return;
 
-        if (!confirm(`Bạn có chắc chắn muốn trả kết quả cho lịch hẹn ${appointment.id}?\n\nKhách hàng: ${appointment.customerName}\nDịch vụ: ${appointment.service}`)) {
+        if (!confirm(`Bạn có chắc chắn muốn trả kết quả cho lịch hẹn ${appointment.id}?\n\nKhách hàng: ${appointment.customerName}`)) {
           return;
         }
 

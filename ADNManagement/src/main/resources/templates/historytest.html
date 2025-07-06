@@ -1117,12 +1117,12 @@
           let feedbackButton;
           if (allServicesReviewed) {
             // Tất cả dịch vụ đã đánh giá - hiển thị nút "Xem đánh giá"
-            feedbackButton = `<button class="action-button btn-reviewed" style="margin-right: 5px; cursor: pointer;" onclick="openFeedbackIframe('${item.id}', '${item.customerId || ''}', '${item.staff_id || ''}')">
+            feedbackButton = `<button class="action-button btn-reviewed" style="margin-right: 5px; cursor: pointer;" onclick="openFeedbackIframe('${item.id}', '${window.serverUser ? window.serverUser.id : ''}', '${item.staff_id || ''}')">
               <i class="fas fa-eye"></i> Xem đánh giá
             </button>`;
           } else {
             // Chưa đánh giá tất cả dịch vụ - hiển thị nút "Đánh giá dịch vụ"
-            feedbackButton = `<button class="action-button btn-review" style="margin-right: 5px;" onclick="openFeedbackIframe('${item.id}', '${item.customerId || ''}', '${item.staff_id || ''}')">
+            feedbackButton = `<button class="action-button btn-review" style="margin-right: 5px;" onclick="openFeedbackIframe('${item.id}', '${window.serverUser ? window.serverUser.id : ''}', '${item.staff_id || ''}')">
               <i class="fas fa-star"></i> Đánh giá dịch vụ
             </button>`;
           }

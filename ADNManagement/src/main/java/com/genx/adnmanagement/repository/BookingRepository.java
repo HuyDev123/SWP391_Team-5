@@ -30,14 +30,14 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
     // Method for customer kit management - get only their at-home bookings with kit status >= "Đã gửi"
     @Query(
         value = "SELECT DISTINCT b.* FROM Booking b " +
-                "WHERE b.customer_id = :userId " +
+                "WHERE b.user_id = :userId " +
                 "AND b.is_center_collected = 0 " +
-                "AND b.kit_status IN (N'Đã gửi', N'Chưa lấy mẫu', N'Chưa nhận mẫu', N'Đã nhận mẫu', N'Lỗi mẫu') " +
+                "AND b.kit_status IN (N'Đã gửi', N'Đã giao thành công', N'Chưa nhận mẫu', N'Đã nhận mẫu', N'Lỗi mẫu') " +
                 "AND (:appointmentId IS NULL OR CAST(b.id AS VARCHAR) = :appointmentId) " +
                 "AND (:date IS NULL OR CAST(b.booking_date AS DATE) = :date) " +
                 "ORDER BY b.booking_date DESC", 
         countQuery = "SELECT COUNT(DISTINCT b.id) FROM Booking b " +
-                "WHERE b.customer_id = :userId " +
+                "WHERE b.user_id = :userId " +
                 "AND b.is_center_collected = 0 " +
                 "AND b.kit_status IN (N'Đã gửi', N'Chưa lấy mẫu', N'Chưa nhận mẫu', N'Đã nhận mẫu', N'Lỗi mẫu') " +
                 "AND (:appointmentId IS NULL OR CAST(b.id AS VARCHAR) = :appointmentId) " +

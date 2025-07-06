@@ -453,7 +453,6 @@
               <tr>
                 <th>Mã cuộc hẹn</th>
                 <th>Tên khách hàng</th>
-                <th>Phương thức</th>
                 <th>Ngày đặt</th>
                 <th>Trạng thái Kit</th>
                 <th>Thao tác</th>
@@ -469,6 +468,10 @@
       <!-- Pagination Container -->
       <div id="pagination-container"></div>
     </div>
+
+    <!-- Authentication Script for Header -->
+    <script src="/assets/js/auth.js"></script>
+    <script src="/assets/js/main.js"></script>
 
     <script>
       // ===== BIẾN TOÀN CỤC =====
@@ -580,7 +583,6 @@
                     <tr>
                       <td>${kit.appointmentId}</td>
                       <td>${kit.customerName}</td>
-                      <td>${kit.method}</td>
                       <td>${new Date(kit.bookingDate).toLocaleDateString(
                         "vi-VN"
                       )}</td>
@@ -592,7 +594,7 @@
                   `;
               })
               .join("")
-          : `<tr><td colspan="6" style="text-align:center; color:#888; padding:20px;">Không có kit phù hợp</td></tr>`;
+          : `<tr><td colspan="5" style="text-align:center; color:#888; padding:20px;">Không có kit phù hợp</td></tr>`;
       }
 
       function renderPagination() {

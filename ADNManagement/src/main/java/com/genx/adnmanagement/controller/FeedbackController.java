@@ -88,6 +88,34 @@ public class FeedbackController {
         @PostMapping("/submit")
         public ResponseEntity<?> submitFeedback(@Valid @RequestBody FeedbackRequest request, HttpSession session) {
             try {
+                // Lấy user từ session hoặc từ request (cho trường hợp iframe)
+                User user = null;
+                Integer userId = (Integer) session.getAttribute("userId");
+                
+                if (userId != null) {
+                    // Có session - lấy user từ session
+                    Optional<User> userOpt = userRepository.findById(userId);
+                    if (userOpt.isPresent()) {
+                        user = userOpt.get();
+                    }
+                }
+                
+                // Nếu không có session hoặc không tìm thấy user, thử lấy từ request
+                if (user == null && request.getUserId() != null) {
+                    Optional<User> userOpt = userRepository.findById(request.getUserId());
+                    if (userOpt.isPresent()) {
+                        user = userOpt.get();
+                    }
+                }
+                
+                // Nếu vẫn không có user, trả về lỗi
+                if (user == null) {
+                    return ResponseEntity.status(401).body(Map.of(
+                        "message", "Không thể xác định người dùng. Vui lòng đăng nhập lại.",
+                        "redirect", "/login"
+                    ));
+                }
+
                 // Kiểm tra xem đã có feedback cho booking và service này chưa
                 if (feedbackRepository.existsByBookingIdAndServiceId(request.getBookingId(), request.getServiceId())) {
                     return ResponseEntity.badRequest().body(Map.of("message", "Đã có feedback cho booking và service này"));
@@ -105,21 +133,7 @@ public class FeedbackController {
                     return ResponseEntity.badRequest().body(Map.of("message", "Không tìm thấy service"));
                 }
 
-                // Lấy user từ session hoặc từ request
-                User user = null;
-                if (request.getUserId() != null) {
-                    Optional<User> userOpt = userRepository.findById(request.getUserId());
-                    user = userOpt.orElse(null);
-                } else {
-                    // Lấy user từ session
-                    Integer userId = (Integer) session.getAttribute("userId");
-                    if (userId != null) {
-                        Optional<User> userOpt = userRepository.findById(userId);
-                        user = userOpt.orElse(null);
-                    }
-                }
-
-                // Lấy staff
+                // Lấy staff (nếu có)
                 User staff = null;
                 if (request.getStaffId() != null) {
                     Optional<User> staffOpt = userRepository.findById(request.getStaffId());
@@ -132,8 +146,8 @@ public class FeedbackController {
                 feedback.setService(serviceOpt.get());
                 feedback.setUser(user);
                 feedback.setStaff(staff);
-                            feedback.setRating(request.getRating());
-            feedback.setComment(request.getComment() != null ? request.getComment().trim() : null);
+                feedback.setRating(request.getRating());
+                feedback.setComment(request.getComment() != null ? request.getComment().trim() : null);
 
                 Feedback savedFeedback = feedbackRepository.save(feedback);
 
@@ -142,6 +156,7 @@ public class FeedbackController {
                 response.put("feedbackId", savedFeedback.getId());
                 response.put("bookingId", request.getBookingId());
                 response.put("serviceId", request.getServiceId());
+                response.put("userId", user.getId());
 
                 return ResponseEntity.ok(response);
 
@@ -190,10 +205,20 @@ public class FeedbackController {
                 boolean exists = feedbackRepository.existsByBookingIdAndServiceId(bookingId, serviceId);
                 Map<String, Object> response = new HashMap<>();
                 response.put("exists", exists);
+                
                 if (exists) {
                     Optional<Feedback> feedback = feedbackRepository.findByBookingIdAndServiceId(bookingId, serviceId);
-                    response.put("feedback", feedback.orElse(null));
+                    if (feedback.isPresent()) {
+                        Feedback fb = feedback.get();
+                        Map<String, Object> feedbackData = new HashMap<>();
+                        feedbackData.put("id", fb.getId());
+                        feedbackData.put("rating", fb.getRating());
+                        feedbackData.put("comment", fb.getComment());
+                        feedbackData.put("createdAt", fb.getCreatedAt());
+                        response.put("feedback", feedbackData);
+                    }
                 }
+                
                 return ResponseEntity.ok(response);
             } catch (Exception e) {
                 return ResponseEntity.internalServerError().body(Map.of("message", "Lỗi khi kiểm tra feedback: " + e.getMessage()));

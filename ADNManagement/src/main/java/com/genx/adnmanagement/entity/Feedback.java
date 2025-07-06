@@ -1,6 +1,7 @@
 package com.genx.adnmanagement.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
@@ -38,6 +39,7 @@ public class Feedback {
     private String comment;
 
     @Column(name = "created_at")
+    @JsonProperty("createdAt")
     private LocalDateTime createdAt;
 
     // Constructor

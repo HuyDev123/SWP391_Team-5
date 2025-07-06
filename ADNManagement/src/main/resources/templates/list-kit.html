@@ -998,7 +998,7 @@
                   style="
                     padding: 12px 8px;
                     border-bottom: 1px solid #eee;
-                    width: 15%;
+                    width: 10%;
                     text-align: left;
                   "
                 >
@@ -1018,7 +1018,7 @@
                   style="
                     padding: 12px 8px;
                     border-bottom: 1px solid #eee;
-                    width: 30%;
+                    width: 25%;
                     text-align: left;
                   "
                 >
@@ -1028,7 +1028,7 @@
                   style="
                     padding: 12px 8px;
                     border-bottom: 1px solid #eee;
-                    width: 12%;
+                    width: 15%;
                     text-align: left;
                   "
                 >
@@ -1036,9 +1036,9 @@
                 </th>
                 <th
                   style="
-                    padding: 12px 8px;
+                    padding: 12px 0px;
                     border-bottom: 1px solid #eee;
-                    width: 18%;
+                    width: 25%;
                     text-align: left;
                   "
                 >
@@ -1618,39 +1618,6 @@
                     <option value="">Đang tải...</option>
                   </select>
                 </div>
-
-                <!-- Mã kit nhập thủ công -->
-                <div style="margin-bottom: 15px">
-                  <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #333;">
-                    Mã Kit <span style="color: red">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    class="kit-code-input"
-                    data-service-id="${service.serviceId}"
-                    required
-                    style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px; background-color: white; color: #333;"
-                    placeholder="Nhập mã kit"
-                    onfocus="this.style.borderColor='#2196f3'"
-                    onblur="this.style.borderColor='#e0e0e0'"
-                  />
-                </div>
-
-                <!-- Ghi chú -->
-                <div>
-                  <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #333;">
-                    Ghi chú
-                  </label>
-                  <textarea
-                    class="kit-note-input"
-                    data-service-id="${service.serviceId}"
-                    rows="2"
-                    placeholder="Nhập ghi chú về kit..."
-                    style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px; transition: border-color 0.3s ease; resize: vertical;"
-                    onfocus="this.style.borderColor='#2196f3'"
-                    onblur="this.style.borderColor='#e0e0e0'"
-                  ></textarea>
-                </div>
               `;
 
               container.appendChild(serviceElement);
@@ -1888,12 +1855,7 @@
               }
             }
 
-            if (e.target && e.target.classList.contains("kit-code-input")) {
-              // Reset border color khi đã nhập
-              if (e.target.value.trim()) {
-                e.target.style.borderColor = "#2196f3";
-              }
-            }
+
           });
 
           // Xử lý submit form chọn kit
@@ -1915,19 +1877,10 @@
                 const kitTypeSelect = serviceItem.querySelector(
                   `.kit-type-selection[data-service-id="${serviceId}"]`
                 );
-                // const kitCodeInput = serviceItem.querySelector(
-                //   `.kit-code-input[data-service-id="${serviceId}"]`
-                // ); // Tạm thời comment lại
-
                 if (!kitTypeSelect.value) {
                   kitTypeSelect.style.borderColor = "#f44336";
                   hasError = true;
                 }
-
-                // if (!kitCodeInput.value.trim()) {
-                //   kitCodeInput.style.borderColor = "#f44336";
-                //   hasError = true;
-                // } // Tạm thời comment lại
               });
 
               if (hasError) {
@@ -1942,27 +1895,12 @@
                 const kitTypeSelect = serviceItem.querySelector(
                   `.kit-type-selection[data-service-id="${serviceId}"]`
                 );
-                const kitTypeOption =
-                  kitTypeSelect.options[kitTypeSelect.selectedIndex];
-                // const kitCodeInput = serviceItem.querySelector(
-                //   `.kit-code-input[data-service-id="${serviceId}"]`
-                // ); // Tạm thời comment lại
-                // const noteInput = serviceItem.querySelector(
-                //   `.kit-note-input[data-service-id="${serviceId}"]`
-                // ); // Tạm thời comment lại
-
                 const kitTypeId = kitTypeSelect.value;
-                const kitTypeName = kitTypeOption.dataset.name;
-                // const kitCode = kitCodeInput.value.trim(); // Tạm thời comment lại
-                // const note = noteInput.value.trim(); // Tạm thời comment lại
 
                 kitSelections.push({
                   appointmentId,
                   serviceId,
                   kitTypeId,
-                  kitTypeName,
-                  // kitCode, // Tạm thời comment lại
-                  // note, // Tạm thời comment lại
                 });
               });
 
@@ -1974,47 +1912,16 @@
                 },
                 body: JSON.stringify(kitSelections),
               })
-                .then((response) => {
-                  if (!response.ok)
-                    throw new Error("Failed to save kit selections");
-                  return response.text();
-                })
-                .catch((error) => {
-                  console.error("Error saving kit selections:", error);
-                  showErrorToast(
-                    "Could not save kit selections. Please try again."
-                  );
-                  return;
-                });
-
-              // Hiển thị nút "Gửi kit" và ẩn nút "Chọn kit"
-              const chooseKitBtn = document.querySelector(
-                `button[onclick="openMultipleKitSelection('${appointmentId}')"]`
-              );
-              const sendKitBtn = document.getElementById(
-                `send-kit-btn-${appointmentId}`
-              );
-
-              if (chooseKitBtn && sendKitBtn) {
-                chooseKitBtn.style.display = "none";
-                sendKitBtn.style.display = "inline-block";
-              }
-
-              showSuccessToast(
-                "Đã chọn kit thành công! Vui lòng nhấn nút Gửi kit để hoàn tất."
-              );
-              closeKitSelectionModal();
-
-              // Refresh table
-              setTimeout(() => {
-                renderKits(kitList);
-
-                // Đảm bảo nút "Gửi kit" vẫn hiển thị sau khi render lại
-                if (
-                  hasSelectedKit(
-                    kitList.filter((k) => k.appointmentId === appointmentId)
-                  )
-                ) {
+                              .then((response) => {
+                if (!response.ok) {
+                  return response.text().then((errorMessage) => {
+                    throw new Error(errorMessage || "Failed to save kit selections");
+                  });
+                }
+                return response.text();
+              })
+                .then((message) => {
+                  // Hiển thị nút "Gửi kit" và ẩn nút "Chọn kit"
                   const chooseKitBtn = document.querySelector(
                     `button[onclick="openMultipleKitSelection('${appointmentId}')"]`
                   );
@@ -2026,8 +1933,23 @@
                     chooseKitBtn.style.display = "none";
                     sendKitBtn.style.display = "inline-block";
                   }
-                }
-              }, 500);
+
+                  showSuccessToast(
+                    "Đã chọn kit thành công! Vui lòng nhấn nút Gửi kit để hoàn tất."
+                  );
+                  closeKitSelectionModal();
+
+                  // Refresh data from server to get updated status
+                  setTimeout(() => {
+                    fetchKits(currentPage, pageSize, currentFilters);
+                  }, 500);
+                })
+                .catch((error) => {
+                  console.error("Error saving kit selections:", error);
+                  showErrorToast(
+                    error.message || "Could not save kit selections. Please try again."
+                  );
+                });
             });
 
           // Hàm cập nhật trạng thái kit
@@ -2128,6 +2050,7 @@
                   appointmentId: item.appointmentId,
                   customerName: item.customerName,
                   address: item.address,
+                  status: item.status,
                   services: [],
                 };
               }
@@ -2138,44 +2061,7 @@
             return Object.values(groupedData);
           }
 
-          // Kiểm tra trạng thái tất cả dịch vụ trong một cuộc hẹn
-          function getAppointmentStatus(services) {
-            // Nếu bất kỳ dịch vụ nào có trạng thái "Lỗi mẫu"
-            if (services.some((service) => service.status === "Lỗi mẫu")) {
-              return "Lỗi mẫu";
-            }
 
-            // Nếu bất kỳ dịch vụ nào có trạng thái "Đã nhận mẫu"
-            if (services.some((service) => service.status === "Đã nhận mẫu")) {
-              return "Đã nhận mẫu";
-            }
-
-            // Nếu bất kỳ dịch vụ nào có trạng thái "Chưa nhận mẫu"
-            if (services.some((service) => service.status === "Chưa nhận mẫu")) {
-              return "Chưa nhận mẫu";
-            }
-
-            // Nếu bất kỳ dịch vụ nào có trạng thái "Chưa lấy mẫu"
-            if (services.some((service) => service.status === "Chưa lấy mẫu")) {
-              return "Chưa lấy mẫu";
-            }
-
-            // Nếu bất kỳ dịch vụ nào có trạng thái "Đã gửi"
-            if (services.some((service) => service.status === "Đã gửi")) {
-              return "Đã gửi";
-            }
-
-            // Nếu tất cả dịch vụ chưa gửi
-            return "Chưa gửi";
-          }
-
-          // Kiểm tra xem có dịch vụ nào đã có kitType nhưng chưa gửi
-          function hasSelectedKit(services) {
-            // Kiểm tra tất cả dịch vụ đều đã có kitType và status là "Chưa gửi"
-            return services.every(
-              (service) => service.kitType && service.status === "Chưa gửi"
-            );
-          }
 
           function renderKits(data) {
             const tbody = document.getElementById("kitTableBody");
@@ -2186,54 +2072,48 @@
             tbody.innerHTML = groupedData.length
               ? groupedData
                   .map((appointment, idx) => {
-                    const appointmentStatus = getAppointmentStatus(
-                      appointment.services
-                    );
 
                     return `
                 <tr>
                   <td style="padding:12px 8px; border-bottom:1px solid #eee; text-align: left;">${
                     appointment.appointmentId || ""
                   }</td>
-                  <td style="padding:12px 8px; border-bottom:1px solid #eee; text-align: left;">${
+                  <td style="padding:12px 8px; border-bottom:1px solid #eee; text-align: left; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" title="${
                     appointment.customerName || "Chưa có thông tin"
-                  }</td>
-                  <td style="padding:12px 8px; border-bottom:1px solid #eee; text-align: left; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:200px;" title="${
+                  }">${appointment.customerName || "Chưa có thông tin"}</td>
+                  <td style="padding:12px 8px; border-bottom:1px solid #eee; text-align: left; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" title="${
                     appointment.address || ""
                   }">${appointment.address || "Chưa có địa chỉ"}</td>
                   <td style="padding:12px 8px; border-bottom:1px solid #eee; text-align: left;">${renderKitStatus(
-                    appointmentStatus
+                    appointment.status || ""
                   )}</td>
-                  <td style="padding:12px 8px; border-bottom:1px solid #eee; text-align: left;">
-                    <div style='display: flex; gap: 6px; flex-wrap: wrap;'>
+                  <td style="padding:12px 0px; border-bottom:1px solid #eee; text-align: left;">
+                    <div style='display: flex; gap: 3px; flex-wrap: nowrap; align-items: center;'>
                       ${
-                        appointmentStatus === "Chưa gửi"
-                          ? hasSelectedKit(appointment.services)
-                            ? `<button onclick="sendKits('${appointment.appointmentId}')" style="background:#2196f3;color:white;border:none;border-radius:4px;padding:6px 10px;cursor:pointer;font-size:12px;">
-                                <i class='fas fa-paper-plane'></i> Gửi kit
-                              </button>
-                              <button onclick="viewAppointmentServices('${appointment.appointmentId}')" style="background:#e3f2fd;color:#1976d2;border:none;border-radius:4px;padding:6px 10px;cursor:pointer;font-size:12px;">
-                                <i class='fas fa-eye'></i> Xem
-                              </button>`
-                            : `<button onclick="openMultipleKitSelection('${appointment.appointmentId}')" style="background:#4caf50;color:white;border:none;border-radius:4px;padding:6px 10px;cursor:pointer;font-size:12px;">
-                                <i class='fas fa-check'></i> Chọn kit
-                              </button>
-                              <button onclick="sendKits('${appointment.appointmentId}')" style="background:#2196f3;color:white;border:none;border-radius:4px;padding:6px 10px;cursor:pointer;font-size:12px;display:none;" id="send-kit-btn-${appointment.appointmentId}">
-                                <i class='fas fa-paper-plane'></i> Gửi kit
-                              </button>`
-                          : appointmentStatus === "Chưa nhận mẫu"
+                        appointment.status === "Chưa chọn kit"
+                          ? `<button onclick="openMultipleKitSelection('${appointment.appointmentId}')" style="background:#4caf50;color:white;border:none;border-radius:4px;padding:4px 8px;cursor:pointer;font-size:12px;white-space:nowrap;">
+                              <i class='fas fa-check'></i> Chọn kit
+                            </button>`
+                          : appointment.status === "Chưa gửi"
+                          ? `<button onclick="sendKits('${appointment.appointmentId}')" style="background:#2196f3;color:white;border:none;border-radius:4px;padding:4px 8px;cursor:pointer;font-size:12px;white-space:nowrap;">
+                              <i class='fas fa-paper-plane'></i> Gửi kit
+                            </button>
+                            <button onclick="viewAppointmentServices('${appointment.appointmentId}')" style="background:#e3f2fd;color:#1976d2;border:none;border-radius:4px;padding:4px 8px;cursor:pointer;font-size:12px;white-space:nowrap;">
+                              <i class='fas fa-eye'></i> Xem
+                            </button>`
+                          : appointment.status === "Chưa nhận mẫu"
                           ? `<div style="display:flex; gap:6px; margin-bottom:6px;">
-                                <button onclick="updateKitStatus('${appointment.appointmentId}', 'Đã nhận mẫu')" style="background:#4caf50;color:white;border:none;border-radius:4px;padding:6px 10px;cursor:pointer;font-size:12px;flex:1;">
+                                <button onclick="updateKitStatus('${appointment.appointmentId}', 'Đã nhận mẫu')" style="background:#4caf50;color:white;border:none;border-radius:4px;padding:4px 8px;cursor:pointer;font-size:12px;white-space:nowrap;">
                                   <i class='fas fa-check-circle'></i> Đã nhận mẫu
                                 </button>
-                                <button onclick="updateKitStatus('${appointment.appointmentId}', 'Lỗi mẫu')" style="background:#f44336;color:white;border:none;border-radius:4px;padding:6px 10px;cursor:pointer;font-size:12px;flex:1;">
+                                <button onclick="updateKitStatus('${appointment.appointmentId}', 'Lỗi mẫu')" style="background:#f44336;color:white;border:none;border-radius:4px;padding:4px 8px;cursor:pointer;font-size:12px;flex:1;white-space:nowrap;">
                                   <i class='fas fa-exclamation-circle'></i> Lỗi mẫu
                                 </button>
                               </div>
-                              <button onclick="viewAppointmentServices('${appointment.appointmentId}')" style="background:#e3f2fd;color:#1976d2;border:none;border-radius:4px;padding:6px 10px;cursor:pointer;font-size:12px;width:100%;">
+                              <button onclick="viewAppointmentServices('${appointment.appointmentId}')" style="background:#e3f2fd;color:#1976d2;border:none;border-radius:4px;padding:4px 8px;cursor:pointer;font-size:12px;white-space:nowrap;">
                                 <i class='fas fa-eye'></i> Xem
                               </button>`
-                          : `<button onclick="viewAppointmentServices('${appointment.appointmentId}')" style="background:#e3f2fd;color:#1976d2;border:none;border-radius:4px;padding:6px 10px;cursor:pointer;font-size:12px;">
+                          : `<button onclick="viewAppointmentServices('${appointment.appointmentId}')" style="background:#e3f2fd;color:#1976d2;border:none;border-radius:4px;padding:4px 8px;cursor:pointer;font-size:12px;white-space:nowrap;">
                                 <i class='fas fa-eye'></i> Xem
                               </button>`
                       }
@@ -2419,30 +2299,6 @@
             ).value;
             const kitTypeId =
               document.getElementById("kit-type-selection").value;
-            const note = document.getElementById("kit-note-input").value.trim();
-            if (!appointmentId || !serviceId || !kitTypeId) {
-              alert("Vui lòng điền đầy đủ các trường bắt buộc!");
-              return;
-            }
-
-            // Lấy mã kit từ input field
-            const kitCode = document
-              .getElementById("kit-code-display")
-              .value.trim();
-
-            if (!kitCode) {
-              alert("Vui lòng nhập mã Kit!");
-              return;
-            }
-
-            // Cập nhật dữ liệu hiển thị
-            const selectedOption =
-              document.getElementById("kit-type-selection").options[
-                document.getElementById("kit-type-selection").selectedIndex
-              ];
-            const kitTypeText = selectedOption
-              ? selectedOption.text.split(" - ")[0]
-              : "";
 
             // Gọi API để lưu thông tin kit đã chọn
             fetch("/api/kits/assign", {
@@ -2451,9 +2307,7 @@
               body: JSON.stringify({
                 appointmentId: Number(appointmentId),
                 serviceId: Number(serviceId),
-                kitCode,
                 kitTypeId: Number(kitTypeId),
-                note,
               }),
             })
               .then((response) => {
