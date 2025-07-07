@@ -439,6 +439,16 @@ public class BookingController {
                 return ResponseEntity.badRequest().body("Chỉ được chuyển sang Đã lấy mẫu khi kit đã ở trạng thái Đã nhận mẫu.");
             }
         }
+        // Thêm kiểm tra cho tại trung tâm: chỉ cho phép lấy mẫu nếu ngày hiện tại >= ngày hẹn
+        if (booking.getIsCenterCollected() && "Đã lấy mẫu".equals(newStatus)) {
+            if (booking.getCenterSampleDate() == null) {
+                return ResponseEntity.badRequest().body("Không có ngày hẹn lấy mẫu để xác nhận lấy mẫu.");
+            }
+            java.time.LocalDate today = java.time.LocalDate.now();
+            if (today.isBefore(booking.getCenterSampleDate())) {
+                return ResponseEntity.badRequest().body("Chỉ được lấy mẫu vào ngày hẹn hoặc sau đó.");
+            }
+        }
         if (newStatus != null && !newStatus.isBlank() && !newStatus.equals(oldStatus)) {
             if (!isValidStatusTransition(oldStatus, newStatus, booking.getIsCenterCollected())) {
                 return ResponseEntity.badRequest().body("Chỉ được chuyển trạng thái theo thứ tự hợp lệ hoặc Đã hủy.");
@@ -525,6 +535,16 @@ public class BookingController {
         if (!booking.getIsCenterCollected() && "Đã lấy mẫu".equals(newStatus)) {
             if (!"Đã nhận mẫu".equals(booking.getKitStatus())) {
                 return ResponseEntity.badRequest().body("Chỉ được chuyển sang Đã lấy mẫu khi kit đã ở trạng thái Đã nhận mẫu.");
+            }
+        }
+        // Thêm kiểm tra cho tại trung tâm: chỉ cho phép lấy mẫu nếu ngày hiện tại >= ngày hẹn
+        if (booking.getIsCenterCollected() && "Đã lấy mẫu".equals(newStatus)) {
+            if (booking.getCenterSampleDate() == null) {
+                return ResponseEntity.badRequest().body("Không có ngày hẹn lấy mẫu để xác nhận lấy mẫu.");
+            }
+            java.time.LocalDate today = java.time.LocalDate.now();
+            if (today.isBefore(booking.getCenterSampleDate())) {
+                return ResponseEntity.badRequest().body("Chỉ được lấy mẫu vào ngày hẹn hoặc sau đó.");
             }
         }
         if (!newStatus.equals(oldStatus)) {

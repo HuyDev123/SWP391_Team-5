@@ -1530,6 +1530,28 @@
             `;
           }
 
+          // Nút "Lấy mẫu" cho lấy mẫu tại trung tâm, trạng thái "Chưa lấy mẫu", ngày hiện tại >= ngày hẹn
+          if (
+            appointment.method === "Tại trung tâm" &&
+            appointment.status === "Chưa lấy mẫu" &&
+            appointment.appointmentDateTime &&
+            (() => {
+              // So sánh ngày hiện tại >= ngày hẹn (chỉ tính ngày)
+              const apptDateStr = appointment.appointmentDateTime.split(" ")[0];
+              const [y, m, d] = apptDateStr.split('-');
+              const apptDate = new Date(Number(y), Number(m) - 1, Number(d)); // local 0h
+              const today = new Date();
+              today.setHours(0,0,0,0);
+              return today.getTime() >= apptDate.getTime();
+            })()
+          ) {
+            buttons += `
+              <button onclick="confirmStatusChange(${appointment.id}, 'Đã lấy mẫu')" class="btn btn-success" style="border-radius:4px;padding:6px 12px;cursor:pointer;">
+                <i class="fas fa-vial"></i> Lấy mẫu
+              </button>
+            `;
+          }
+
           return buttons;
         }
 
@@ -1903,6 +1925,8 @@
           max-width: 800px;
           margin: 20px auto;
           animation: modalFadeIn 0.4s ease-out;
+          max-height: 90vh;
+          overflow-y: auto;
         "
       >
         <div
@@ -1960,7 +1984,7 @@
               transition: background 0.2s;
               margin-left: 15px;
             "
-          ></button>
+          >&times;</button>
         </div>
 
         <div class="details-section" style="margin-bottom: 25px">
@@ -2084,7 +2108,7 @@
                 class="info-label"
                 style="font-size: 14px; color: #777; margin-bottom: 5px"
               >
-                Nhân Viên Phụ TráchTrách
+                Nhân Viên Phụ Trách
               </div>
               <div
                 class="info-value"

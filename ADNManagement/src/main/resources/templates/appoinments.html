@@ -1292,17 +1292,11 @@
                 border-radius: 4px;
               "
             >
-              <!-- Flow Tại nhà -->
+              <option value="">Tất cả</option>
               <option value="Đã đặt">Đã đặt</option>
-              <option value="Chưa nhận kit">Chưa nhận kit (Tại nhà)</option>
-              <option value="Đã nhận kit">Đã nhận kit (Tại nhà)</option>
-              <option value="Đã trả kit">Đã trả kit (Tại nhà)</option>
-              <option value="Hoàn thành lấy mẫu">Hoàn thành lấy mẫu</option>
-              <!-- Flow Tại cơ sở -->
-              <option value="Chưa lấy mẫu">Chưa lấy mẫu (Tại cơ sở)</option>
-              <!-- Chung cho cả 2 flow -->
-              <option value="Lỗi mẫu">Lỗi mẫu</option>
-              <option value="Hoàn thành">Hoàn thành</option>
+              <option value="Chưa lấy mẫu">Chưa lấy mẫu</option>
+              <option value="Đã lấy mẫu">Đã cấp mẫu</option>
+              <option value="Đã trả kết quả">Đã nhận kết quả</option>
               <option value="Đã hủy">Đã hủy</option>
             </select>
           </div>
@@ -1663,24 +1657,13 @@
           tbody.innerHTML = data.length
             ? data
                 .map((a) => {
-                  // Logic hiển thị nút dựa trên trạng thái và phương thức
+                  // Logic hiển thị nút chỉ còn nút Chi tiết ở ngoài
                   let actionButtons = `
               <button onclick="showAppointmentDetails(${a.id})" class="btn btn-primary">
                 <i class="fas fa-info-circle"></i> Chi tiết
               </button>
             `;
-
-                  // Chỉ hiển thị nút Hủy khi trạng thái là "Đã đặt" (cho cả hai phương thức)
-                  const canCancel = a.statusDisplay === "Đã đặt";
-
-                  if (canCancel) {
-                    actionButtons += `
-                <button onclick="handleCancel(${a.id})" class="btn btn-danger">
-                  <i class='fas fa-times'></i> Hủy
-                </button>
-              `;
-                  }
-
+                  // Không hiển thị nút Hủy ở ngoài bảng nữa
                   return `
               <tr>
                 <td>${a.id}</td>
