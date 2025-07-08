@@ -108,7 +108,6 @@ CREATE TABLE Participant (
     cccd_issued_place NVARCHAR(255),
     relationship NVARCHAR(50),
     photo_url VARCHAR(255),
-    sample_quantity INT,
     note NVARCHAR(MAX),
     FOREIGN KEY (booking_id) REFERENCES Booking(id),
     FOREIGN KEY (user_id) REFERENCES [User](id)
