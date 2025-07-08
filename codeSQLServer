@@ -18,7 +18,7 @@ CREATE TABLE Service (
     name NVARCHAR(255),
     description NVARCHAR(MAX),
     price DECIMAL(18,2),
-    extra_sample_fee DECIMAL(18,2),
+    extra_per_sample_fee DECIMAL(18,2),
     is_active BIT
 );
 
