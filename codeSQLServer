@@ -18,6 +18,7 @@ CREATE TABLE Service (
     name NVARCHAR(255),
     description NVARCHAR(MAX),
     price DECIMAL(18,2),
+    extra_sample_fee DECIMAL(18,2),
     is_active BIT
 );
 
@@ -75,6 +76,7 @@ CREATE TABLE Booking_Service (
     booking_id INT NOT NULL,
     service_id INT NOT NULL,
     kit_type_id INT, -- thêm cột này để làm foreign key tới KitType
+    sample_quantity INT,
     PRIMARY KEY (booking_id, service_id),
     FOREIGN KEY (booking_id) REFERENCES Booking(id),
     FOREIGN KEY (service_id) REFERENCES Service(id),
@@ -153,25 +155,34 @@ CREATE TABLE Blog (
     FOREIGN KEY (author_id) REFERENCES [User](id)
 );
 
+CREATE TABLE Surcharge (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    name NVARCHAR(100),           -- Tên loại phụ phí (VD: Phí hành chính, Phí gấp...)
+    description NVARCHAR(255),    -- Mô tả chi tiết (tuỳ chọn)
+    fee_per_unit DECIMAL(18,2),   -- Mức phí trên mỗi đơn vị (người, mẫu, dịch vụ,...)
+    unit NVARCHAR(50),            -- Đơn vị tính: 'participant', 'booking', 'sample'
+    is_active BIT,      -- Có đang áp dụng không
+);
+
 INSERT INTO Role (name) VALUES
 ('Admin'),
 ('Manager'),
 ('Staff'),
 ('Customer');
 
-INSERT INTO Service (name, description, price, is_active) VALUES
+INSERT INTO Service (name, description, price, extra_sample_fee, is_active) VALUES
 (N'Xét nghiệm ADN Cha - Con', 
  N'Xác định quan hệ huyết thống cha - con. Thời gian: Khoảng 4 ngày làm việc. Bảo mật tuyệt đối. Độ chính xác 99.99%.', 
- 5000000, 1),
+ 3000000, 500000, 1),
 (N'Xét nghiệm ADN Mẹ - Con', 
  N'Xác định quan hệ huyết thống mẹ - con. Thời gian: Khoảng 4 ngày làm việc. Bảo mật tuyệt đối. Độ chính xác 99.99%.', 
- 5000000, 1),
+ 3000000, 500000, 1),
 (N'Xét nghiệm ADN Anh/Chị - Em', 
  N'Xác định quan hệ huyết thống anh chị em. Thời gian: Khoảng 5 ngày làm việc. Bảo mật tuyệt đối. Độ chính xác 99.99%.', 
- 4000000, 1),
+ 2500000, 500000, 1),
 (N'Xét nghiệm ADN Ông/Bà - Cháu', 
  N'Xác định quan hệ huyết thống ông bà cháu. Thời gian: Khoảng 5 ngày làm việc. Bảo mật tuyệt đối. Độ chính xác 99.99%.', 
- 4000000, 1);
+ 3500000, 700000, 1);
 
 -- 1. Thêm 4 loại kit vào bảng KitType
 INSERT INTO KitType (name, description) VALUES
@@ -187,3 +198,7 @@ INSERT INTO Service_KitType (service_id, kit_type_id) VALUES
 (2, 2),
 (3, 3),
 (4, 4);
+
+INSERT INTO Surcharge (name, description, fee_per_unit, unit, is_active)
+VALUES 
+(N'Phí hành chính', N'Tính theo số người tham gia', 100000, 'participant', 1),
