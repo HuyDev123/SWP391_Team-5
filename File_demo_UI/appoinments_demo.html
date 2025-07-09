@@ -1,0 +1,1314 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lịch hẹn Demo - Trung Tâm Xét Nghiệm ADN Genx</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <!-- CSS chính -->
+    <link rel="stylesheet" href="../static/assets/css/styles.css" />
+    <link rel="stylesheet" href="../static/assets/css/header.css" />
+    <link rel="stylesheet" href="../static/assets/css/footer.css" />
+    <link rel="stylesheet" href="../static/assets/css/user-dropdown.css" />
+    <style>
+      body {
+        min-height: 100vh;
+        background-color: #f5f5f5;
+      }
+
+      /* Main content styles */
+      .main-content {
+        margin-left: 0;
+        padding: 20px;
+        width: 100%;
+        margin-top: 70px;
+        max-width: 1400px;
+        margin-right: auto;
+        margin-left: auto;
+      }
+
+      /* Table styles */
+      table {
+        border-collapse: separate;
+        border-spacing: 0;
+        width: 100%;
+        margin-top: 10px;
+        border-radius: 8px;
+        overflow: hidden;
+        border: 1px solid #e0e0e0;
+      }
+
+      thead tr {
+        background: linear-gradient(45deg, #0d47a1, #1976d2);
+        color: rgb(255, 255, 255);
+        font-weight: 600;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      }
+
+      th {
+        padding: 18px 12px !important;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 14px;
+        letter-spacing: 0.5px;
+        border: none !important;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        color: #ffffff;
+        position: relative;
+        text-align: center;
+      }
+
+      tbody tr {
+        transition: all 0.3s ease;
+        animation: slideIn 0.5s ease;
+        background: white;
+      }
+
+      tbody tr:hover {
+        background-color: #f8f9fa;
+        transform: translateY(-2px);
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+      }
+
+      td {
+        padding: 15px 12px !important;
+        border-bottom: 1px solid #edf2f7 !important;
+        font-size: 14px;
+        text-align: center;
+      }
+
+      /* Button styles */
+      .btn {
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-weight: 500;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        border: none;
+        cursor: pointer;
+      }
+
+      .btn-primary {
+        background: linear-gradient(45deg, #2196f3, #1976d2);
+        color: white;
+      }
+
+      .btn-primary:hover {
+        background: linear-gradient(45deg, #1976d2, #0d47a1);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
+      }
+
+      .btn-success {
+        background: linear-gradient(45deg, #4caf50, #388e3c);
+        color: white;
+      }
+
+      .btn-danger {
+        background: linear-gradient(45deg, #f44336, #d32f2f);
+        color: white;
+      }
+
+      .btn-danger:hover {
+        background: linear-gradient(45deg, #d32f2f, #b71c1c);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(244, 67, 54, 0.3);
+      }
+
+      .btn-warning {
+        background: linear-gradient(45deg, #ff9800, #f57c00);
+        color: white;
+      }
+
+      .btn-info {
+        background: linear-gradient(45deg, #2196f3, #1976d2);
+        color: white;
+      }
+
+      .btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      /* Filter form styles */
+      #filterForm {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        margin-bottom: 25px;
+      }
+
+      .form-control {
+        padding: 8px 12px;
+        border: 1px solid #e1e1e1;
+        border-radius: 6px;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        background: #fff;
+      }
+
+      /* Status badge styles */
+      .status-badge {
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 13px;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .status-booked {
+        background-color: rgba(33, 150, 243, 0.1);
+        color: #2196f3;
+      }
+
+      .status-kit-pending {
+        background-color: rgba(255, 152, 0, 0.1);
+        color: #ff9800;
+      }
+
+      .status-kit-received {
+        background-color: rgba(103, 58, 183, 0.1);
+        color: #673ab7;
+      }
+
+      .status-kit-returned {
+        background-color: rgba(63, 81, 181, 0.1);
+        color: #3f51b5;
+      }
+
+      .status-sampling-completed {
+        background-color: rgba(76, 175, 80, 0.1);
+        color: #4caf50;
+      }
+
+      .status-sample-error {
+        background-color: rgba(244, 67, 54, 0.1);
+        color: #f44336;
+      }
+
+      .status-final-completed {
+        background-color: rgba(0, 150, 136, 0.1);
+        color: #009688;
+      }
+
+      .status-cancelled {
+        background-color: rgba(158, 158, 158, 0.1);
+        color: #9e9e9e;
+      }
+
+      /* Status badges cho flow Tại cơ sở */
+      .status-not-sampled {
+        background-color: rgba(255, 193, 7, 0.1);
+        color: #ffc107;
+      }
+
+      /* Demo banner styles */
+      .demo-banner {
+        background: linear-gradient(45deg, #ff9800, #f57c00);
+        color: white;
+        padding: 12px 20px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        box-shadow: 0 4px 12px rgba(255, 152, 0, 0.3);
+      }
+
+      .demo-banner.real-mode {
+        background: linear-gradient(45deg, #4caf50, #388e3c);
+      }
+
+      .toggle-btn {
+        background: rgba(255, 255, 255, 0.2);
+        color: white;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        padding: 8px 16px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: all 0.3s ease;
+      }
+
+      .toggle-btn:hover {
+        background: rgba(255, 255, 255, 0.3);
+      }
+
+      /* Modal styles */
+      .appointment-details-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        animation: fadeIn 0.3s ease;
+      }
+
+      .modal-content {
+        background-color: white;
+        border-radius: 12px;
+        padding: 25px;
+        width: 600px;
+        max-width: 90%;
+        max-height: 90vh;
+        overflow-y: auto;
+        animation: scaleIn 0.3s ease;
+      }
+
+      .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 2px solid #edf2f7;
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+      }
+
+      .modal-title {
+        font-size: 24px;
+        color: #2196f3;
+        font-weight: 600;
+      }
+
+      .modal-close {
+        background: none;
+        border: none;
+        font-size: 24px;
+        color: #666;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .modal-close:hover {
+        color: #f44336;
+        transform: scale(1.1);
+      }
+
+      .service-list {
+        background: #f8f9fa;
+        border-radius: 8px;
+        padding: 20px;
+      }
+
+      .service-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 0;
+        border-bottom: 1px solid #edf2f7;
+      }
+
+      .service-item:last-child {
+        border-bottom: none;
+      }
+
+      .total-amount {
+        margin-top: 20px;
+        padding-top: 15px;
+        border-top: 2px solid #edf2f7;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 18px;
+        font-weight: 600;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes scaleIn {
+        from {
+          transform: scale(0.8);
+          opacity: 0;
+        }
+        to {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <header>
+      <div class="header-container">
+        <div class="logo-section">
+          <img src="/assets/images/logo.png" alt="Genx Logo" />
+          <div class="brand-text">
+            <h1 class="brand-name">Genx</h1>
+            <p class="brand-description">
+              Trung Tâm Xét Nghiệm ADN Huyết Thống
+            </p>
+          </div>
+        </div>
+        <nav class="nav-links">
+          <a href="/home" class="nav-link">Trang chủ</a>
+          <a href="/booking" class="nav-link">Đặt lịch xét nghiệm</a>
+          <a href="/services" class="nav-link">Giới thiệu dịch vụ</a>
+          <a href="/knowledge" class="nav-link">Kiến thức ADN</a>
+          <a href="/sampling-guide" class="nav-link">Hướng dẫn lấy mẫu</a>
+          <a href="/login" class="nav-link login-button">Đăng nhập</a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <!-- Demo Mode Banner -->
+      <div id="demo-banner" class="demo-banner">
+        <div style="display: flex; align-items: center; gap: 10px">
+          <i class="fas fa-info-circle" style="font-size: 20px"></i>
+          <div>
+            <strong id="mode-title">Chế độ Demo</strong>
+            <div id="mode-description" style="font-size: 14px; opacity: 0.9">
+              Đang sử dụng dữ liệu mẫu để kiểm tra giao diện. Không cần đăng
+              nhập.
+            </div>
+          </div>
+        </div>
+        <button id="toggle-mode-btn" class="toggle-btn" onclick="toggleMode()">
+          <i class="fas fa-exchange-alt"></i> Chuyển sang chế độ thực
+        </button>
+      </div>
+
+      <h1
+        style="
+          margin-bottom: 20px;
+          color: #0288d1;
+          font-size: 32px;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          border-bottom: 3px solid #0288d1;
+          padding-bottom: 10px;
+          display: flex;
+          align-items: center;
+        "
+      >
+        <i
+          class="fas fa-calendar-check"
+          style="margin-right: 15px; font-size: 36px"
+        ></i>
+        Danh sách lịch hẹn xét nghiệm ADN
+      </h1>
+
+      <div class="instruction-container" style="margin-top: 10px">
+        <div class="instruction-title">
+          <i class="fas fa-filter" style="color: #2196f3"></i>
+          Tìm kiếm lịch hẹn
+        </div>
+
+        <!-- Bộ lọc -->
+        <form
+          id="filterForm"
+          style="
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            align-items: center;
+            margin-bottom: 20px;
+          "
+        >
+          <div>
+            <label for="serviceFilter" style="font-weight: 500; color: #333"
+              >Dịch vụ:</label
+            >
+            <select
+              id="serviceFilter"
+              name="serviceFilter"
+              class="form-control"
+            >
+              <option value="">Tất cả</option>
+              <option value="1">Xét nghiệm ADN Cha - Con</option>
+              <option value="2">Xét nghiệm ADN Mẹ - Con</option>
+              <option value="3">Xét nghiệm ADN Anh/Chị - Em</option>
+              <option value="4">Xét nghiệm ADN Ông/Bà - Cháu</option>
+            </select>
+          </div>
+          <div>
+            <label for="dateFilter" style="font-weight: 500; color: #333"
+              >Ngày hẹn:</label
+            >
+            <input
+              type="date"
+              id="dateFilter"
+              name="dateFilter"
+              class="form-control"
+            />
+          </div>
+          <div>
+            <label for="statusFilter" style="font-weight: 500; color: #333"
+              >Trạng thái:</label
+            >
+            <select id="statusFilter" name="statusFilter" class="form-control">
+              <option value="">Tất cả</option>
+              <option value="Đã đặt">Đã đặt</option>
+              <option value="Chưa nhận kit">Chưa nhận kit (Tại nhà)</option>
+              <option value="Đã nhận kit">Đã nhận kit (Tại nhà)</option>
+              <option value="Đã trả kit">Đã trả kit (Tại nhà)</option>
+              <option value="Chưa lấy mẫu">Chưa lấy mẫu (Tại cơ sở)</option>
+              <option value="Hoàn thành lấy mẫu">Hoàn thành lấy mẫu</option>
+              <option value="Lỗi mẫu">Lỗi mẫu</option>
+              <option value="Hoàn thành">Hoàn thành</option>
+              <option value="Đã hủy">Đã hủy</option>
+            </select>
+          </div>
+          <div>
+            <button
+              type="submit"
+              style="
+                background: #2196f3;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                padding: 8px 18px;
+                cursor: pointer;
+              "
+            >
+              <i class="fas fa-search"></i> Tìm kiếm
+            </button>
+          </div>
+        </form>
+
+        <div style="overflow-x: auto">
+          <table>
+            <thead>
+              <tr>
+                <th>Mã</th>
+                <th>Tên khách hàng</th>
+                <th>Phương thức</th>
+                <th>Ngày đặt lịch</th>
+                <th>Trạng thái</th>
+                <th>Thao tác</th>
+              </tr>
+            </thead>
+            <tbody id="appointmentTableBody">
+              <!-- Dữ liệu sẽ được render bằng JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Pagination Container -->
+      <div id="pagination-container"></div>
+    </div>
+
+    <script>
+      // ===== BIẾN TOÀN CỤC =====
+      let isDemoMode = true; // Mặc định là demo mode
+      let appointmentsData = [];
+      let currentPage = 0;
+      let totalPages = 1;
+      let pageSize = 10;
+      let currentFilters = {
+        serviceId: "",
+        date: "",
+        status: "",
+      };
+
+      // ===== DỮ LIỆU DEMO CHO CẢ 2 FLOW =====
+      const demoAppointments = [
+        // FLOW TẠI NHÀ (existing data)
+        {
+          id: "AP001",
+          customerName: "Nguyễn Văn A",
+          email: "nguyenvana@email.com",
+          phone: "0901234567",
+          method: "Tại nhà",
+          bookingDate: "2025-07-01T10:30:00",
+          appointmentDateTime: "",
+          address: "123 Đường ABC, Quận 1, TP.HCM",
+          status: "Đã đặt",
+          note: "Chờ staff xác nhận và chuẩn bị kit",
+          ADNService: "Xét nghiệm ADN Cha - Con",
+          services: [
+            { service: "Xét nghiệm ADN Cha - Con", price: 2500000 },
+            { service: "Dịch vụ lấy mẫu tại nhà", price: 300000 },
+          ],
+        },
+        {
+          id: "AP002",
+          customerName: "Trần Thị B",
+          email: "tranthib@email.com",
+          phone: "0912345678",
+          method: "Tại nhà",
+          bookingDate: "2025-06-30T09:15:00",
+          appointmentDateTime: "",
+          address: "456 Đường DEF, Quận 2, TP.HCM",
+          status: "Chưa nhận kit",
+          note: "Staff đã xác nhận. Kit sẽ được gửi trong 1-2 ngày",
+          ADNService: "Xét nghiệm ADN Mẹ - Con",
+          services: [
+            { service: "Xét nghiệm ADN Mẹ - Con", price: 2800000 },
+            { service: "Dịch vụ lấy mẫu tại nhà", price: 300000 },
+          ],
+        },
+        {
+          id: "AP003",
+          customerName: "Lê Văn C",
+          email: "levanc@email.com",
+          phone: "0923456789",
+          method: "Tại nhà",
+          bookingDate: "2025-06-28T15:20:00",
+          appointmentDateTime: "",
+          address: "789 Đường GHI, Quận 3, TP.HCM",
+          status: "Đã nhận kit",
+          note: "Đã nhận kit lấy mẫu. Vui lòng làm theo hướng dẫn",
+          ADNService: "Xét nghiệm ADN Anh/Chị - Em",
+          services: [
+            { service: "Xét nghiệm ADN Anh/Chị - Em", price: 3200000 },
+            { service: "Dịch vụ lấy mẫu tại nhà", price: 300000 },
+          ],
+        },
+        {
+          id: "AP004",
+          customerName: "Phạm Thị D",
+          email: "phamthid@email.com",
+          phone: "0934567890",
+          method: "Tại nhà",
+          bookingDate: "2025-06-25T11:45:00",
+          appointmentDateTime: "",
+          address: "321 Đường JKL, Quận 4, TP.HCM",
+          status: "Đã trả kit",
+          note: "Đã gửi kit về trung tâm. Chờ staff kiểm tra mẫu",
+          ADNService: "Xét nghiệm ADN Ông/Bà - Cháu",
+          services: [
+            { service: "Xét nghiệm ADN Ông/Bà - Cháu", price: 3500000 },
+            { service: "Dịch vụ lấy mẫu tại nhà", price: 300000 },
+          ],
+        },
+        {
+          id: "AP005",
+          customerName: "Hoàng Văn E",
+          email: "hoangvane@email.com",
+          phone: "0945678901",
+          method: "Tại nhà",
+          bookingDate: "2025-06-20T14:10:00",
+          appointmentDateTime: "",
+          address: "654 Đường MNO, Quận 5, TP.HCM",
+          status: "Hoàn thành lấy mẫu",
+          note: "Staff đã xác nhận nhận kit. Mẫu hợp lệ, đang chuyển lab",
+          ADNService: "Xét nghiệm ADN Cha - Con",
+          services: [
+            { service: "Xét nghiệm ADN Cha - Con", price: 2500000 },
+            { service: "Dịch vụ lấy mẫu tại nhà", price: 300000 },
+          ],
+        },
+        {
+          id: "AP006",
+          customerName: "Vũ Thị F",
+          email: "vuthif@email.com",
+          phone: "0956789012",
+          method: "Tại nhà",
+          bookingDate: "2025-06-18T08:30:00",
+          appointmentDateTime: "",
+          address: "987 Đường PQR, Quận 6, TP.HCM",
+          status: "Lỗi mẫu",
+          note: "Mẫu không đạt tiêu chuẩn. Vui lòng lấy mẫu lại",
+          ADNService: "Xét nghiệm ADN Mẹ - Con",
+          services: [
+            { service: "Xét nghiệm ADN Mẹ - Con", price: 2800000 },
+            { service: "Dịch vụ lấy mẫu tại nhà", price: 300000 },
+          ],
+        },
+        {
+          id: "AP007",
+          customerName: "Ngô Văn G",
+          email: "ngovang@email.com",
+          phone: "0967890123",
+          method: "Tại nhà",
+          bookingDate: "2025-06-15T16:45:00",
+          appointmentDateTime: "",
+          address: "147 Đường STU, Quận 7, TP.HCM",
+          status: "Hoàn thành",
+          note: "Đã có kết quả xét nghiệm. Vui lòng kiểm tra email",
+          ADNService: "Xét nghiệm ADN Anh/Chị - Em",
+          services: [
+            { service: "Xét nghiệm ADN Anh/Chị - Em", price: 3200000 },
+            { service: "Dịch vụ lấy mẫu tại nhà", price: 300000 },
+          ],
+        },
+        {
+          id: "AP008",
+          customerName: "Đặng Minh H",
+          email: "dangminhh@email.com",
+          phone: "0978901234",
+          method: "Tại nhà",
+          bookingDate: "2025-06-12T13:20:00",
+          appointmentDateTime: "",
+          address: "258 Đường VWX, Quận 8, TP.HCM",
+          status: "Đã hủy",
+          note: "Khách hàng yêu cầu hủy do thay đổi kế hoạch",
+          ADNService: "Xét nghiệm ADN Ông/Bà - Cháu",
+          services: [
+            { service: "Xét nghiệm ADN Ông/Bà - Cháu", price: 3500000 },
+            { service: "Dịch vụ lấy mẫu tại nhà", price: 300000 },
+          ],
+        },
+
+        // FLOW TẠI CƠ SỞ (new data)
+        {
+          id: "AP009",
+          customerName: "Nguyễn Thị I",
+          email: "nguyenthi@email.com",
+          phone: "0989012345",
+          method: "Tại cơ sở",
+          bookingDate: "2025-07-02T08:00:00",
+          appointmentDateTime: "2025-07-05T09:00:00",
+          address: "", // Không cần địa chỉ cho flow tại cơ sở
+          status: "Đã đặt",
+          note: "Đã đặt lịch hẹn tại cơ sở. Vui lòng đến đúng giờ hẹn",
+          ADNService: "Xét nghiệm ADN Cha - Con",
+          services: [{ service: "Xét nghiệm ADN Cha - Con", price: 2500000 }],
+        },
+        {
+          id: "AP010",
+          customerName: "Trần Văn J",
+          email: "tranvanj@email.com",
+          phone: "0990123456",
+          method: "Tại cơ sở",
+          bookingDate: "2025-06-29T14:30:00",
+          appointmentDateTime: "2025-07-03T10:30:00",
+          address: "",
+          status: "Chưa lấy mẫu",
+          note: "Khách hàng đã đến cơ sở. Chờ lấy mẫu xét nghiệm",
+          ADNService: "Xét nghiệm ADN Mẹ - Con",
+          services: [{ service: "Xét nghiệm ADN Mẹ - Con", price: 2800000 }],
+        },
+        {
+          id: "AP011",
+          customerName: "Lê Thị K",
+          email: "lethik@email.com",
+          phone: "0901234567",
+          method: "Tại cơ sở",
+          bookingDate: "2025-06-26T11:15:00",
+          appointmentDateTime: "2025-06-30T14:00:00",
+          address: "",
+          status: "Hoàn thành lấy mẫu",
+          note: "Đã lấy mẫu thành công tại cơ sở. Mẫu đang được xử lý",
+          ADNService: "Xét nghiệm ADN Anh/Chị - Em",
+          services: [
+            { service: "Xét nghiệm ADN Anh/Chị - Em", price: 3200000 },
+          ],
+        },
+        {
+          id: "AP012",
+          customerName: "Phạm Văn L",
+          email: "phamvanl@email.com",
+          phone: "0912345678",
+          method: "Tại cơ sở",
+          bookingDate: "2025-06-23T09:45:00",
+          appointmentDateTime: "2025-06-27T16:30:00",
+          address: "",
+          status: "Lỗi mẫu",
+          note: "Mẫu không đạt chất lượng. Cần lấy mẫu lại",
+          ADNService: "Xét nghiệm ADN Ông/Bà - Cháu",
+          services: [
+            { service: "Xét nghiệm ADN Ông/Bà - Cháu", price: 3500000 },
+          ],
+        },
+        {
+          id: "AP013",
+          customerName: "Hoàng Thị M",
+          email: "hoangthim@email.com",
+          phone: "0923456789",
+          method: "Tại cơ sở",
+          bookingDate: "2025-06-20T16:20:00",
+          appointmentDateTime: "2025-06-24T11:00:00",
+          address: "",
+          status: "Hoàn thành",
+          note: "Đã có kết quả xét nghiệm. Vui lòng kiểm tra email hoặc đến cơ sở nhận kết quả",
+          ADNService: "Xét nghiệm ADN Cha - Con",
+          services: [{ service: "Xét nghiệm ADN Cha - Con", price: 2500000 }],
+        },
+      ];
+
+      // ===== HÀM CHÍNH =====
+      // Hàm chuyển đổi giữa demo mode và real mode
+      function toggleMode() {
+        isDemoMode = !isDemoMode;
+        const banner = document.getElementById("demo-banner");
+        const modeTitle = document.getElementById("mode-title");
+        const modeDescription = document.getElementById("mode-description");
+        const toggleBtn = document.getElementById("toggle-mode-btn");
+
+        if (isDemoMode) {
+          banner.className = "demo-banner";
+          modeTitle.textContent = "Chế độ Demo";
+          modeDescription.textContent =
+            "Đang sử dụng dữ liệu mẫu để kiểm tra giao diện. Không cần đăng nhập.";
+          toggleBtn.innerHTML =
+            '<i class="fas fa-exchange-alt"></i> Chuyển sang chế độ thực';
+          console.log("Đã chuyển sang Demo Mode");
+        } else {
+          banner.className = "demo-banner real-mode";
+          modeTitle.textContent = "Chế độ Thực";
+          modeDescription.textContent =
+            "Đang kết nối với server thực. Yêu cầu đăng nhập để xem dữ liệu.";
+          toggleBtn.innerHTML =
+            '<i class="fas fa-exchange-alt"></i> Chuyển sang chế độ demo';
+          console.log("Đã chuyển sang Real Mode");
+        }
+
+        // Tải lại dữ liệu với mode mới
+        fetchAppointments(0, pageSize, currentFilters);
+      }
+
+      // Hàm chính để fetch appointments
+      function fetchAppointments(page = 0, size = 10, filters = {}) {
+        if (isDemoMode) {
+          return fetchAppointments_Demo(page, size, filters);
+        } else {
+          return fetchAppointments_Real(page, size, filters);
+        }
+      }
+
+      // Hàm demo mode (không cần đăng nhập)
+      function fetchAppointments_Demo(page = 0, size = 10, filters = {}) {
+        console.log("Demo mode - Đang tải dữ liệu demo...");
+
+        setTimeout(() => {
+          let filteredData = [...demoAppointments];
+
+          // Apply filters
+          if (filters.status) {
+            filteredData = filteredData.filter(
+              (a) => a.status === filters.status
+            );
+          }
+          if (filters.date) {
+            filteredData = filteredData.filter(
+              (a) => a.bookingDate.substring(0, 10) === filters.date
+            );
+          }
+          if (filters.serviceId) {
+            const serviceNames = {
+              1: "Xét nghiệm ADN Cha - Con",
+              2: "Xét nghiệm ADN Mẹ - Con",
+              3: "Xét nghiệm ADN Anh/Chị - Em",
+              4: "Xét nghiệm ADN Ông/Bà - Cháu",
+            };
+            const serviceName = serviceNames[filters.serviceId];
+            if (serviceName) {
+              filteredData = filteredData.filter(
+                (a) => a.ADNService === serviceName
+              );
+            }
+          }
+
+          // Pagination simulation
+          const startIndex = page * size;
+          const endIndex = startIndex + size;
+          const pageData = filteredData.slice(startIndex, endIndex);
+
+          appointmentsData = pageData;
+          currentPage = page;
+          totalPages = Math.ceil(filteredData.length / size);
+          pageSize = size;
+
+          renderAppointments(appointmentsData);
+          renderPagination();
+
+          console.log(
+            `Demo: Hiển thị ${pageData.length} lịch hẹn (trang ${
+              page + 1
+            }/${totalPages})`
+          );
+        }, 500);
+      }
+
+      // Hàm real mode (yêu cầu đăng nhập)
+      async function fetchAppointments_Real(page = 0, size = 10, filters = {}) {
+        try {
+          let params = new URLSearchParams();
+          params.append("page", page);
+          params.append("size", size);
+          if (filters.status) params.append("status", filters.status);
+          if (filters.date) params.append("date", filters.date);
+          if (filters.serviceId) params.append("serviceId", filters.serviceId);
+
+          const response = await fetch(
+            `/booking/appointments?${params.toString()}`,
+            {
+              method: "GET",
+              headers: { "Content-Type": "application/json" },
+              credentials: "include",
+            }
+          );
+
+          if (response.status === 401) {
+            window.location.href = "/login";
+            return;
+          }
+
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+
+          const data = await response.json();
+          appointmentsData = data.content;
+          currentPage = data.page;
+          totalPages = data.totalPages;
+          pageSize = data.size;
+          renderAppointments(appointmentsData);
+          renderPagination();
+          return data;
+        } catch (error) {
+          console.error("Lỗi khi lấy dữ liệu lịch hẹn:", error);
+          renderAppointments([]);
+          renderPagination();
+        }
+      }
+
+      // Hàm render status
+      function renderStatus(status) {
+        let className = "";
+        switch (status) {
+          case "Đã đặt":
+            className = "status-booked";
+            break;
+          case "Chưa nhận kit":
+            className = "status-kit-pending";
+            break;
+          case "Đã nhận kit":
+            className = "status-kit-received";
+            break;
+          case "Đã trả kit":
+            className = "status-kit-returned";
+            break;
+          case "Chưa lấy mẫu":
+            className = "status-not-sampled";
+            break;
+          case "Hoàn thành lấy mẫu":
+            className = "status-sampling-completed";
+            break;
+          case "Lỗi mẫu":
+            className = "status-sample-error";
+            break;
+          case "Hoàn thành":
+            className = "status-final-completed";
+            break;
+          case "Đã hủy":
+            className = "status-cancelled";
+            break;
+        }
+        return `<span class="status-badge ${className}"><i class="fas fa-circle" style="font-size: 8px"></i> ${status}</span>`;
+      }
+
+      // Hàm render appointments
+      function renderAppointments(data) {
+        const tbody = document.getElementById("appointmentTableBody");
+        tbody.innerHTML = data.length
+          ? data
+              .map((a) => {
+                // Logic hiển thị button theo trạng thái
+                let actionButtons = `
+                    <button onclick="showAppointmentDetails('${a.id}')" class="btn btn-primary">
+                      <i class="fas fa-info-circle"></i> Chi tiết
+                    </button>
+                  `;
+
+                // Thêm button theo từng trạng thái và phương thức
+                if (a.method === "Tại nhà") {
+                  // Logic cho flow Tại nhà
+                  switch (a.status) {
+                    case "Đã đặt":
+                    case "Chưa nhận kit":
+                      actionButtons += `
+                          <button onclick="handleCancel('${a.id}')" class="btn btn-danger">
+                            <i class="fas fa-times"></i> Hủy
+                          </button>
+                        `;
+                      break;
+                    // Các trạng thái khác chỉ có button Chi tiết
+                    default:
+                      break;
+                  }
+                } else if (a.method === "Tại cơ sở") {
+                  // Logic cho flow Tại cơ sở
+                  switch (a.status) {
+                    case "Đã đặt":
+                      actionButtons += `
+                          <button onclick="handleCancel('${a.id}')" class="btn btn-danger">
+                            <i class="fas fa-times"></i> Hủy
+                          </button>
+                        `;
+                      break;
+                    // Các trạng thái khác chỉ có button Chi tiết
+                    default:
+                      break;
+                  }
+                }
+
+                return `
+                    <tr>
+                      <td>${a.id}</td>
+                      <td>${a.customerName}</td>
+                      <td>${a.method}</td>
+                      <td>${a.bookingDate.substring(0, 10)}</td>
+                      <td>${renderStatus(a.status)}</td>
+                      <td style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        ${actionButtons}
+                      </td>
+                    </tr>
+                  `;
+              })
+              .join("")
+          : `<tr><td colspan="6" style="text-align:center; color:#888; padding:20px;">Không có lịch hẹn phù hợp</td></tr>`;
+      }
+
+      // Hàm render pagination
+      function renderPagination() {
+        const containerId = "pagination-container";
+        let container = document.getElementById(containerId);
+        if (!container) return;
+
+        container.innerHTML = "";
+        if (totalPages <= 1) return;
+
+        container.style =
+          "display:flex;justify-content:center;align-items:center;margin:20px 0;gap:8px;";
+
+        // Prev button
+        const prevBtn = document.createElement("button");
+        prevBtn.innerText = "«";
+        prevBtn.className = "btn btn-primary";
+        prevBtn.disabled = currentPage === 0;
+        prevBtn.onclick = () =>
+          fetchAppointments(currentPage - 1, pageSize, currentFilters);
+        container.appendChild(prevBtn);
+
+        // Page numbers
+        for (let i = 0; i < totalPages; i++) {
+          const pageBtn = document.createElement("button");
+          pageBtn.innerText = i + 1;
+          pageBtn.className =
+            "btn" + (i === currentPage ? " btn-success" : " btn-primary");
+          pageBtn.disabled = i === currentPage;
+          pageBtn.onclick = () =>
+            fetchAppointments(i, pageSize, currentFilters);
+          container.appendChild(pageBtn);
+        }
+
+        // Next button
+        const nextBtn = document.createElement("button");
+        nextBtn.innerText = "»";
+        nextBtn.className = "btn btn-primary";
+        nextBtn.disabled = currentPage === totalPages - 1;
+        nextBtn.onclick = () =>
+          fetchAppointments(currentPage + 1, pageSize, currentFilters);
+        container.appendChild(nextBtn);
+      }
+
+      // Hàm hiển thị chi tiết appointment
+      function showAppointmentDetails(appointmentId) {
+        let appointment = appointmentsData.find((a) => a.id == appointmentId);
+        if (!appointment) {
+          appointment = demoAppointments.find((a) => a.id == appointmentId);
+        }
+
+        if (!appointment) {
+          alert("Không tìm thấy thông tin lịch hẹn");
+          return;
+        }
+
+        const modal = document.createElement("div");
+        modal.className = "appointment-details-modal";
+
+        const appointmentInfo =
+          appointment.method === "Tại nhà"
+            ? `<strong style="color: #666;">Địa chỉ:</strong><span>${appointment.address}</span>`
+            : `<strong style="color: #666;">Ngày giờ hẹn:</strong><span>${
+                appointment.appointmentDateTime || "Chưa xác định"
+              }</span>`;
+
+        const bookingDate = new Date(appointment.bookingDate).toLocaleString(
+          "vi-VN"
+        );
+
+        // Logic hiển thị button trong modal theo trạng thái và phương thức
+        let modalButtons = "";
+        if (appointment.method === "Tại nhà") {
+          // Logic cho flow Tại nhà
+          switch (appointment.status) {
+            case "Đã đặt":
+            case "Chưa nhận kit":
+              modalButtons = `
+                <div style="margin-top: 20px; display: flex; justify-content: flex-end; gap: 10px;">
+                  <button onclick="handleCancel('${appointment.id}')" class="btn btn-danger">
+                    <i class="fas fa-times"></i> Hủy lịch hẹn
+                  </button>
+                </div>
+              `;
+              break;
+            default:
+              modalButtons = "";
+              break;
+          }
+        } else if (appointment.method === "Tại cơ sở") {
+          // Logic cho flow Tại cơ sở
+          switch (appointment.status) {
+            case "Đã đặt":
+              modalButtons = `
+                <div style="margin-top: 20px; display: flex; justify-content: flex-end; gap: 10px;">
+                  <button onclick="handleCancel('${appointment.id}')" class="btn btn-danger">
+                    <i class="fas fa-times"></i> Hủy lịch hẹn
+                  </button>
+                </div>
+              `;
+              break;
+            default:
+              modalButtons = "";
+              break;
+          }
+        }
+
+        modal.innerHTML = `
+          <div class="modal-content">
+            <div class="modal-header">
+              <div class="modal-title">Chi tiết lịch hẹn</div>
+              <button class="modal-close" onclick="this.closest('.appointment-details-modal').remove()">×</button>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 140px 1fr; gap: 12px; margin-bottom: 25px;">
+              <strong style="color: #666;">Tên khách hàng:</strong><span>${
+                appointment.customerName
+              }</span>
+              <strong style="color: #666;">Email:</strong><span>${
+                appointment.email
+              }</span>
+              <strong style="color: #666;">Số điện thoại:</strong><span>${
+                appointment.phone
+              }</span>
+              <strong style="color: #666;">Mã lịch hẹn:</strong><span>${
+                appointment.id
+              }</span>
+              <strong style="color: #666;">Ngày đặt lịch:</strong><span>${bookingDate}</span>
+              <strong style="color: #666;">Dịch vụ xét nghiệm ADN:</strong><span>${
+                appointment.ADNService
+              }</span>
+              <strong style="color: #666;">Phương thức:</strong><span>${
+                appointment.method
+              }</span>
+              ${appointmentInfo}
+              <strong style="color: #666;">Trạng thái:</strong><span>${renderStatus(
+                appointment.status
+              )}</span>
+              <strong style="color: #666;">Ghi chú:</strong><span style="white-space: pre-wrap; word-wrap: break-word;">${
+                appointment.note
+              }</span>
+            </div>
+
+            <div>
+              <h4 style="color: #2196f3; margin-bottom: 15px; display: flex; align-items: center; gap: 8px;">
+                <i class="fas fa-list-ul"></i>
+                Danh sách dịch vụ (${appointment.services.length} dịch vụ)
+              </h4>
+
+              <div class="service-list">
+                ${appointment.services
+                  .map(
+                    (service) => `
+                  <div class="service-item">
+                    <div>
+                      <div style="font-weight: 500;">${service.service}</div>
+                    </div>
+                    <div style="font-weight: 500; color: #0d47a1;">
+                      ${new Intl.NumberFormat("vi-VN", {
+                        style: "currency",
+                        currency: "VND",
+                      }).format(service.price)}
+                    </div>
+                  </div>
+                `
+                  )
+                  .join("")}
+              </div>
+
+              <div class="total-amount">
+                <span>Tổng cộng:</span>
+                <span style="color: #0d47a1; font-size: 20px;">
+                  ${new Intl.NumberFormat("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  }).format(
+                    appointment.services.reduce(
+                      (total, service) => total + service.price,
+                      0
+                    )
+                  )}
+                </span>
+              </div>
+            </div>
+
+            ${modalButtons}
+          </div>
+        `;
+
+        document.body.appendChild(modal);
+
+        modal.addEventListener("click", (e) => {
+          if (e.target === modal) {
+            modal.style.opacity = "0";
+            setTimeout(() => modal.remove(), 300);
+          }
+        });
+      }
+
+      // Hàm xử lý hủy lịch hẹn
+      function handleCancel(id) {
+        // TODO: Tích hợp backend để hủy lịch hẹn
+        // - Gửi request đến server để cập nhật trạng thái
+        // - Hiển thị modal xác nhận lý do hủy
+        // - Cập nhật giao diện sau khi thành công
+        console.log("TODO: Implement cancel appointment for ID:", id);
+      }
+
+      // Hàm xử lý xác nhận đã nhận kit
+      function handleKitReceived(id) {
+        if (isDemoMode) {
+          console.log(`Demo: Xác nhận đã nhận kit ${id}`);
+          updateAppointmentStatus(
+            id,
+            "Đã nhận kit",
+            "Khách hàng xác nhận đã nhận kit lấy mẫu"
+          );
+          alert(
+            "Demo: Đã xác nhận nhận kit thành công! Vui lòng làm theo hướng dẫn lấy mẫu."
+          );
+        } else {
+          alert("Chức năng này chưa được implement trong real mode.");
+        }
+      }
+
+      // Hàm xử lý xác nhận đã trả kit
+      function handleKitReturned(id) {
+        if (isDemoMode) {
+          console.log(`Demo: Xác nhận đã trả kit ${id}`);
+          updateAppointmentStatus(
+            id,
+            "Đã trả kit",
+            "Khách hàng xác nhận đã gửi kit về trung tâm"
+          );
+          alert(
+            "Demo: Đã xác nhận trả kit thành công! Chờ staff kiểm tra mẫu."
+          );
+        } else {
+          alert("Chức năng này chưa được implement trong real mode.");
+        }
+      }
+
+      // Hàm xử lý lấy mẫu lại khi có lỗi
+      function handleRetakeSample(id) {
+        if (isDemoMode) {
+          console.log(`Demo: Yêu cầu lấy mẫu lại ${id}`);
+          updateAppointmentStatus(
+            id,
+            "Chưa nhận kit",
+            "Khách hàng yêu cầu lấy mẫu lại do lỗi mẫu trước đó"
+          );
+          alert(
+            "Demo: Đã yêu cầu lấy mẫu lại. Kit mới sẽ được gửi trong 1-2 ngày."
+          );
+        } else {
+          alert("Chức năng này chưa được implement trong real mode.");
+        }
+      }
+
+      // Hàm xử lý liên hệ hỗ trợ
+      function handleContactSupport(id) {
+        alert(
+          `Liên hệ hỗ trợ cho lịch hẹn ${id}:\n\nHotline: 1900-1234\nEmail: support@genx.vn\nGiờ làm việc: 8:00 - 17:00 (T2-T6)`
+        );
+      }
+
+      // Hàm xử lý xem kết quả
+      function handleViewResults(id) {
+        if (isDemoMode) {
+          alert(
+            `Demo: Xem kết quả cho lịch hẹn ${id}\n\nKết quả đã được gửi qua email. Bạn cũng có thể tải file PDF tại đây.`
+          );
+        } else {
+          // Real mode would redirect to results page
+          window.location.href = `/results/${id}`;
+        }
+      }
+
+      // Hàm helper để cập nhật status
+      function updateAppointmentStatus(id, newStatus, newNote) {
+        // Update demo data
+        const appointmentIndex = demoAppointments.findIndex((a) => a.id == id);
+        if (appointmentIndex !== -1) {
+          demoAppointments[appointmentIndex].status = newStatus;
+          demoAppointments[appointmentIndex].note = newNote;
+        }
+
+        // Update current data
+        const currentIndex = appointmentsData.findIndex((a) => a.id == id);
+        if (currentIndex !== -1) {
+          appointmentsData[currentIndex].status = newStatus;
+          appointmentsData[currentIndex].note = newNote;
+          renderAppointments(appointmentsData);
+        }
+
+        // Close any open modals
+        const modals = document.querySelectorAll(".appointment-details-modal");
+        modals.forEach((modal) => modal.remove());
+      }
+
+      // Event listeners
+      document
+        .getElementById("filterForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          const date = document.getElementById("dateFilter").value;
+          const status = document.getElementById("statusFilter").value;
+          const serviceValue = document.getElementById("serviceFilter").value;
+
+          currentFilters = {
+            serviceId: serviceValue,
+            date,
+            status,
+          };
+          fetchAppointments(0, pageSize, currentFilters);
+        });
+
+      // Load initial data
+      document.addEventListener("DOMContentLoaded", function () {
+        fetchAppointments();
+      });
+    </script>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-container">
+        <div class="footer-info">
+          <h3>TRUNG TÂM XÉT NGHIỆM ADN GENX</h3>
+          <p>
+            Chuyên cung cấp dịch vụ xét nghiệm ADN chính xác và đáng tin cậy
+          </p>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
