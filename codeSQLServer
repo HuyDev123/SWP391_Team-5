@@ -70,12 +70,7 @@ ALTER TABLE Payment ADD CONSTRAINT FK_Payment_Booking
     FOREIGN KEY (booking_id) REFERENCES Booking(id);
 
 ALTER TABLE Payment ADD CONSTRAINT FK_Payment_Staff 
-    FOREIGN KEY (staff_id) REFERENCES User(id);
-
--- Tạo index để tối ưu truy vấn
-CREATE INDEX IX_Payment_BookingId ON Payment(booking_id);
-CREATE INDEX IX_Payment_PaidAt ON Payment(paid_at);
-CREATE INDEX IX_Payment_StaffId ON Payment(staff_id); 
+    FOREIGN KEY (staff_id) REFERENCES User(id); 
 
 CREATE TABLE KitType (
     id INT IDENTITY(1,1) PRIMARY KEY,
