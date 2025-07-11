@@ -1,0 +1,109 @@
+/* CSS cho dropdown menu người dùng */
+.nav-link.login-button.logged-in {
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
+.user-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.user-name {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  color: #333;
+  font-weight: 500;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.user-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* Style cho dropdown content */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 100%;
+  margin-top: 5px;
+  background-color: #fff;
+  min-width: 200px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+  padding: 8px 0;
+  z-index: 1000;
+  overflow: hidden;
+}
+
+/* Style cho các mục trong dropdown */
+.dropdown-content a {
+  display: block;
+  text-align: left;
+  padding: 12px 16px;
+  text-decoration: none;
+  color: #333;
+  font-size: 14px;
+  border-left: 3px solid transparent;
+}
+
+/* Hiệu ứng hover cho các mục trong dropdown */
+.dropdown-content a:hover {
+  background-color: #f5f5f5;
+  border-left: 3px solid #0288d1;
+}
+
+/* Class để hiển thị dropdown khi click */
+.dropdown-content.show {
+  display: block;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Tạo mũi tên nhỏ trỏ lên dropdown */
+.dropdown-content::before {
+  content: "";
+  position: absolute;
+  top: -6px;
+  right: 15px;
+  width: 12px;
+  height: 12px;
+  background: white;
+  transform: rotate(45deg);
+  box-shadow: -2px -2px 5px rgba(0, 0, 0, 0.04);
+}
+
+/* Style khi user name được click */
+.user-name.active {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+/* Đảm bảo dropdown không bị ghi đè bởi các style khác */
+.dropdown-content a:hover {
+  color: #0288d1 !important;
+}
+
+.user-dropdown .user-name i {
+  color: #777;
+  margin-left: 5px;
+}
