@@ -49,12 +49,21 @@ CREATE TABLE Booking (
     center_sample_date DATE,
     center_sample_time TIME,
 
-    -- Thêm phương thức và trạng thái thanh toán
-    payment_method NVARCHAR(100),
-    payment_status NVARCHAR(100),
-
     FOREIGN KEY (user_id) REFERENCES [User](id),
     FOREIGN KEY (staff_id) REFERENCES [User](id)
+);
+
+CREATE TABLE Payment (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    booking_id INT NOT NULL,                -- Liên kết với bảng Booking
+    amount DECIMAL(18,2) NOT NULL,          -- Số tiền thanh toán
+    payment_method NVARCHAR(50),            -- 'ONLINE', 'CASH', 'COD'
+    transaction_id NVARCHAR(100),           -- Mã giao dịch (nếu online)
+    paid_at DATETIME DEFAULT GETDATE(),     -- Thời điểm thanh toán
+    staff_id INT,                           -- Nhân viên xác nhận (nếu tiền mặt/COD)
+    note NVARCHAR(255),                     -- Ghi chú (nếu cần)
+    FOREIGN KEY (booking_id) REFERENCES Booking(id)
+    FOREIGN KEY (staff_id) REFERENCES User(id)
 );
 
 CREATE TABLE KitType (
