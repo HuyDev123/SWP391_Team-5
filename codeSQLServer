@@ -53,18 +53,29 @@ CREATE TABLE Booking (
     FOREIGN KEY (staff_id) REFERENCES [User](id)
 );
 
+-- Tạo bảng Payment cho hệ thống thanh toán
 CREATE TABLE Payment (
     id INT IDENTITY(1,1) PRIMARY KEY,
-    booking_id INT NOT NULL,                -- Liên kết với bảng Booking
-    amount DECIMAL(18,2) NOT NULL,          -- Số tiền thanh toán
-    payment_method NVARCHAR(50),            -- 'ONLINE', 'CASH', 'COD'
-    transaction_id NVARCHAR(100),           -- Mã giao dịch (nếu online)
-    paid_at DATETIME DEFAULT GETDATE(),     -- Thời điểm thanh toán
-    staff_id INT,                           -- Nhân viên xác nhận (nếu tiền mặt/COD)
-    note NVARCHAR(255),                     -- Ghi chú (nếu cần)
-    FOREIGN KEY (booking_id) REFERENCES Booking(id)
-    FOREIGN KEY (staff_id) REFERENCES User(id)
+    booking_id INT NOT NULL,
+    amount DECIMAL(18,2) NOT NULL,
+    payment_method NVARCHAR(50),      -- 'ONLINE', 'CASH', 'COD'
+    transaction_id NVARCHAR(100),     -- Mã giao dịch từ cổng thanh toán (nếu online)
+    paid_at DATETIME DEFAULT GETDATE(),
+    staff_id INT,                     -- Nhân viên xác nhận thanh toán (nếu tiền mặt/COD)
+    note NVARCHAR(255)                -- Ghi chú (nếu cần)
 );
+
+-- Thêm foreign key constraints
+ALTER TABLE Payment ADD CONSTRAINT FK_Payment_Booking 
+    FOREIGN KEY (booking_id) REFERENCES Booking(id);
+
+ALTER TABLE Payment ADD CONSTRAINT FK_Payment_Staff 
+    FOREIGN KEY (staff_id) REFERENCES User(id);
+
+-- Tạo index để tối ưu truy vấn
+CREATE INDEX IX_Payment_BookingId ON Payment(booking_id);
+CREATE INDEX IX_Payment_PaidAt ON Payment(paid_at);
+CREATE INDEX IX_Payment_StaffId ON Payment(staff_id); 
 
 CREATE TABLE KitType (
     id INT IDENTITY(1,1) PRIMARY KEY,
