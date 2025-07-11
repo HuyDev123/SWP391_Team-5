@@ -1,0 +1,2121 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="_csrf" th:content="${_csrf != null ? _csrf.token : ''}" />
+    <meta
+      name="_csrf_header"
+      th:content="${_csrf != null ? _csrf.headerName : ''}"
+    />
+    <title>Quản lí số lượng kit - Dịch Vụ Xét Nghiệm ADN</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <link rel="stylesheet" href="staff-auth.css" />
+    <link rel="stylesheet" href="staff-style.css" />
+    <style>
+      body {
+        display: flex;
+        min-height: 100vh;
+        background-color: #f5f5f5;
+      }
+
+      .text-container {
+        display: flex;
+        flex-direction: column;
+      }
+
+      #logout-btn.logout-btn i {
+        margin-right: 8px;
+        font-size: 18px;
+      }
+      .menu-title {
+        padding: 20px 20px 10px 20px;
+        color: #666;
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        position: relative;
+      }
+
+      .menu-title::after {
+        content: "";
+        position: absolute;
+        bottom: 5px;
+        left: 20px;
+        width: 30px;
+        height: 2px;
+        background: linear-gradient(90deg, #2196f3, #64b5f6);
+        border-radius: 1px;
+      }
+
+      #mainMenu {
+        padding: 10px 15px;
+      }
+
+      .menu-item {
+        padding: 14px 16px;
+        display: flex;
+        align-items: center;
+        color: #555;
+        text-decoration: none;
+        border-radius: 12px;
+        margin-bottom: 6px;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        position: relative;
+        overflow: hidden;
+        font-weight: 500;
+      }
+
+      .menu-item::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(33, 150, 243, 0.1),
+          transparent
+        );
+        transition: left 0.6s ease;
+      }
+
+      .menu-item:hover::before {
+        left: 100%;
+      }
+
+      .menu-item:hover {
+        background: linear-gradient(
+          135deg,
+          rgba(33, 150, 243, 0.1),
+          rgba(33, 150, 243, 0.05)
+        );
+        color: #2196f3;
+        transform: translateX(8px);
+        box-shadow: 0 4px 20px rgba(33, 150, 243, 0.2);
+      }
+
+      .menu-item.active {
+        background: linear-gradient(135deg, #2196f3, #1976d2);
+        color: white;
+        transform: translateX(8px);
+        box-shadow: 0 8px 25px rgba(33, 150, 243, 0.4),
+          0 0 0 1px rgba(255, 255, 255, 0.1);
+      }
+
+      .menu-icon {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 14px;
+        border-radius: 10px;
+        background: linear-gradient(
+          135deg,
+          rgba(33, 150, 243, 0.15),
+          rgba(33, 150, 243, 0.08)
+        );
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .menu-icon::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        background: radial-gradient(
+          circle,
+          rgba(255, 255, 255, 0.3),
+          transparent 70%
+        );
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        transition: all 0.3s ease;
+      }
+
+      .menu-item:hover .menu-icon {
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.9),
+          rgba(255, 255, 255, 0.7)
+        );
+        transform: scale(1.1) rotate(5deg);
+        box-shadow: 0 6px 20px rgba(33, 150, 243, 0.3);
+      }
+
+      .menu-item:hover .menu-icon::after {
+        width: 30px;
+        height: 30px;
+      }
+
+      .menu-item.active .menu-icon {
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.3),
+          rgba(255, 255, 255, 0.1)
+        );
+        transform: scale(1.05);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .menu-icon i {
+        font-size: 18px;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        z-index: 1;
+        position: relative;
+      }
+
+      .menu-item:hover .menu-icon i {
+        transform: scale(1.2);
+        color: #2196f3;
+      }
+
+      .menu-item.active .menu-icon i {
+        color: white;
+        transform: scale(1.1);
+      }
+
+      @media (max-width: 600px) {
+        #logout-btn.logout-btn {
+          width: 100%;
+          font-size: 15px;
+          padding: 10px 0;
+        }
+        .user-info {
+          flex-direction: column;
+          gap: 10px;
+        }
+        .user-details {
+          text-align: center;
+        }
+      }
+
+      /* Login buttons */
+      .login-buttons {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        gap: 10px;
+      }
+
+      .google-login-btn,
+      .demo-login-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px 16px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: all 0.2s;
+        border: none;
+      }
+
+      .google-login-btn {
+        background-color: white;
+        color: #757575;
+        border: 1px solid #dadce0;
+      }
+
+      .google-login-btn:hover {
+        background-color: #f5f5f5;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      }
+
+      .google-login-btn i {
+        margin-right: 10px;
+        color: #4285f4;
+        font-size: 18px;
+      }
+
+      .demo-login-btn {
+        background-color: #1976d2;
+        color: white;
+      }
+
+      .demo-login-btn:hover {
+        background-color: #1565c0;
+      }
+
+      .demo-login-btn i {
+        margin-right: 10px;
+      }
+
+      /* Demo accounts dropdown */
+      .demo-accounts-dropdown {
+        position: absolute;
+        top: 100%;
+        left: 20px;
+        right: 20px;
+        background: white;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        border-radius: 8px;
+        z-index: 100;
+        overflow: hidden;
+      }
+
+      .demo-account-item {
+        display: flex;
+        align-items: center;
+        padding: 12px 16px;
+        cursor: pointer;
+        transition: background-color 0.2s;
+      }
+
+      .demo-account-item:hover {
+        background-color: #f5f5f5;
+      }
+
+      .demo-avatar {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 12px;
+        color: white;
+        font-weight: 500;
+      }
+
+      .demo-info {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .demo-name {
+        font-size: 14px;
+        font-weight: 500;
+      }
+
+      .demo-role {
+        font-size: 12px;
+        color: #666;
+      } /* Main content styles */
+      .main-content {
+        margin-left: 280px;
+        padding: 25px;
+        width: calc(100% - 280px);
+        min-height: 100vh;
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      }
+
+      .navbar {
+        display: flex;
+        margin: 20px 0;
+        background-color: white;
+        border-radius: 5px;
+        overflow: hidden;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      .nav-item {
+        padding: 15px 20px;
+        text-decoration: none;
+        color: #333;
+        display: flex;
+        align-items: center;
+        border-bottom: 2px solid transparent;
+      }
+
+      .nav-item.active {
+        border-bottom: 2px solid #2196f3;
+        color: #2196f3;
+      }
+
+      .nav-icon {
+        margin-right: 10px;
+      }
+
+      /* Sample collection styles */
+      .sample-header {
+        background-image: linear-gradient(
+            rgba(0, 0, 0, 0.6),
+            rgba(0, 0, 0, 0.6)
+          ),
+          url("assets/images/banner.jpg");
+        background-size: cover;
+        background-position: center;
+        color: white;
+        padding: 60px 30px;
+        border-radius: 10px;
+        margin-bottom: 30px;
+        text-align: center;
+      }
+
+      .sample-header h1 {
+        font-size: 32px;
+        margin-bottom: 15px;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+      }
+
+      .sample-header p {
+        font-size: 18px;
+        max-width: 800px;
+        margin: 0 auto;
+        line-height: 1.6;
+      }
+
+      .instruction-container {
+        background-color: white;
+        border-radius: 10px;
+        padding: 30px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        margin-bottom: 30px;
+      }
+
+      .instruction-title {
+        font-size: 24px;
+        color: #2196f3;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #eee;
+      }
+
+      .warning-box {
+        background-color: #fff8e1;
+        border-left: 4px solid #ff9800;
+        padding: 15px;
+        margin: 20px 0;
+        border-radius: 0 5px 5px 0;
+      }
+
+      .warning-title {
+        display: flex;
+        align-items: center;
+        font-weight: bold;
+        margin-bottom: 10px;
+        color: #e65100;
+      }
+
+      .warning-icon {
+        margin-right: 10px;
+        font-size: 20px;
+      }
+
+      .steps-container {
+        margin-top: 30px;
+      }
+
+      .step {
+        display: flex;
+        margin-bottom: 30px;
+        position: relative;
+      }
+
+      .step-number {
+        width: 50px;
+        height: 50px;
+        background-color: #2196f3;
+        color: white;
+        font-size: 24px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-right: 20px;
+        flex-shrink: 0;
+      }
+
+      .step-content {
+        flex: 1;
+      }
+
+      .step-title {
+        font-size: 20px;
+        margin-bottom: 10px;
+        color: #333;
+      }
+
+      .step-description {
+        color: #555;
+        line-height: 1.6;
+      }
+
+      .step-image {
+        width: 100%;
+        max-width: 300px;
+        border-radius: 8px;
+        margin-top: 15px;
+      }
+
+      .step-timeline {
+        position: absolute;
+        left: 24px;
+        top: 50px;
+        bottom: -30px;
+        width: 2px;
+        background-color: #2196f3;
+      }
+
+      .step:last-child .step-timeline {
+        display: none;
+      }
+
+      .step-tip {
+        background-color: #e3f2fd;
+        padding: 15px;
+        border-radius: 8px;
+        margin-top: 15px;
+      }
+
+      .step-tip-title {
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        margin-bottom: 5px;
+        color: #0d47a1;
+      }
+
+      .step-tip-icon {
+        margin-right: 8px;
+      }
+
+      .step-bullet-list {
+        margin-top: 15px;
+        margin-left: 5px;
+        list-style-type: none;
+      }
+
+      .step-bullet-list li {
+        position: relative;
+        padding-left: 28px;
+        margin-bottom: 12px;
+        line-height: 1.6;
+      }
+
+      .step-bullet-list li:before {
+        content: "•";
+        position: absolute;
+        left: 0;
+        top: 0;
+        color: #2196f3;
+        font-size: 24px;
+        line-height: 1;
+      }
+
+      .step-image-container {
+        margin-top: 20px;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+      }
+
+      .step-image-container:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+      }
+
+      .step-image {
+        width: 100%;
+        max-width: 400px;
+        display: block;
+        border-radius: 8px;
+      }
+
+      .step-content {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-start;
+      }
+
+      .step-text {
+        flex: 1;
+        min-width: 300px;
+      }
+
+      .step-visual {
+        flex: 1;
+        min-width: 300px;
+        padding-left: 20px;
+        display: flex;
+        justify-content: center;
+      }
+      .sample-types {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px;
+        margin-top: 30px;
+      }
+
+      .sample-type {
+        flex: 1;
+        min-width: 250px;
+        background-color: #f9f9f9;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        border-left: 4px solid #2196f3;
+      }
+      .sample-type:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      @media (max-width: 768px) {
+        .step-content {
+          flex-direction: column;
+        }
+
+        .step-visual {
+          padding-left: 0;
+          margin-top: 20px;
+          width: 100%;
+        }
+      }
+      .sample-type-title {
+        font-size: 18px;
+        margin-bottom: 10px;
+        color: #333;
+        display: flex;
+        align-items: center;
+      }
+
+      .sample-type-icon {
+        margin-right: 10px;
+        color: #2196f3;
+        font-size: 20px;
+      }
+
+      .sample-type-content {
+        color: #555;
+        line-height: 1.5;
+      }
+
+      /* Video section */
+      .video-section {
+        background-color: white;
+        border-radius: 10px;
+        padding: 30px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        margin-bottom: 30px;
+        text-align: center;
+      }
+
+      .video-title {
+        font-size: 24px;
+        color: #2196f3;
+        margin-bottom: 20px;
+      }
+
+      .video-container {
+        position: relative;
+        width: 100%;
+        padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+        height: 0;
+        overflow: hidden;
+        border-radius: 8px;
+      }
+
+      .video-container iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: none;
+      }
+
+      /* FAQs section */
+      .faq-section {
+        background-color: white;
+        border-radius: 10px;
+        padding: 30px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .faq-title {
+        font-size: 24px;
+        color: #2196f3;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #eee;
+      }
+
+      .faq-item {
+        margin-bottom: 20px;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 20px;
+      }
+
+      .faq-item:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+        padding-bottom: 0;
+      }
+
+      .faq-question {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 10px;
+        color: #333;
+        display: flex;
+        align-items: flex-start;
+      }
+
+      .question-icon {
+        color: #2196f3;
+        margin-right: 10px;
+        flex-shrink: 0;
+      }
+
+      .faq-answer {
+        color: #555;
+        line-height: 1.6;
+        padding-left: 30px;
+      }
+
+      /* Responsive adjustments */
+      @media (max-width: 768px) {
+        body {
+          flex-direction: column;
+        }
+
+        .sidebar {
+          width: 100%;
+          height: auto;
+          position: relative;
+        }
+
+        .main-content {
+          margin-left: 0;
+          width: 100%;
+        }
+
+        .step {
+          flex-direction: column;
+        }
+
+        .step-number {
+          margin-bottom: 15px;
+          margin-right: 0;
+        }
+
+        .step-timeline {
+          display: none;
+        }
+      }
+      .highlighted-step {
+        animation: highlight-step 3s ease;
+      }
+
+      @keyframes highlight-step {
+        0%,
+        100% {
+          background-color: transparent;
+        }
+        20%,
+        80% {
+          background-color: rgba(33, 150, 243, 0.1);
+          box-shadow: 0 0 15px rgba(33, 150, 243, 0.3);
+          transform: translateY(-5px);
+        }
+      }
+
+      /* Đảm bảo các bước có đủ padding cho hiệu ứng */
+      .step {
+        padding: 20px;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        margin-bottom: 30px;
+      }
+      .menu-icon i {
+        font-size: 18px;
+        width: 20px;
+        text-align: center;
+        transition: transform 0.3s ease;
+      }
+
+      .menu-item.active .menu-icon i {
+        color: white;
+      }
+
+      .menu-item:hover .menu-icon i {
+        transform: scale(1.1);
+        color: #2196f3;
+      }
+
+      /* Scrollbar styling */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: #2196f3;
+        border-radius: 10px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: #1976d2;
+      }
+
+      /* CSS chung cho các modal để đảm bảo hiển thị tốt trên mọi thiết bị */
+      .modal-container {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start; /* Căn lề trên để dễ cuộn */
+        padding: 20px 0;
+      }
+
+      /* Style chung cho iframe trong modal */
+      .modal-iframe {
+        background-color: white;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        border-radius: 12px;
+        width: 100%;
+        height: 85vh;
+        max-height: calc(100vh - 60px);
+        overflow: auto;
+      }
+
+      /* Kiểu hiển thị nút close */
+      .modal-close-btn {
+        position: fixed;
+        top: 15px;
+        right: 15px;
+        z-index: 10002;
+        background: white;
+        color: #f44336;
+        border: none;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        font-size: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        transition: all 0.2s;
+      }
+
+      .modal-close-btn:hover {
+        transform: scale(1.1);
+        background: #ffebee;
+      }
+
+      /* Styling cho backdrop */
+      .modal-backdrop {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(3px);
+        z-index: 10000;
+      }
+
+      .status-badge {
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 13px;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .status-booked {
+        background-color: rgba(33, 150, 243, 0.1);
+        color: #2196f3;
+      }
+
+      .status-waiting {
+        background-color: rgba(255, 152, 0, 0.1);
+        color: #ff9800;
+      }
+
+      .status-received {
+        background-color: rgba(25, 118, 210, 0.1);
+        color: #1976d2;
+      }
+
+      .status-completed {
+        background-color: rgba(76, 175, 80, 0.1);
+        color: #4caf50;
+      }
+
+      .status-delivered {
+        background-color: rgba(0, 150, 136, 0.1);
+        color: #009688;
+      }
+
+      .status-cancelled {
+        background-color: rgba(244, 67, 54, 0.1);
+        color: #f44336;
+      }
+
+      /* CSS cho các trạng thái mới */
+      .status-kit-pending {
+        background-color: rgba(255, 193, 7, 0.1);
+        color: #ffc107;
+      }
+
+      .status-kit-received {
+        background-color: rgba(156, 39, 176, 0.1);
+        color: #9c27b0;
+      }
+
+      .status-kit-returned {
+        background-color: rgba(63, 81, 181, 0.1);
+        color: #3f51b5;
+      }
+
+      .status-not-sampled {
+        background-color: rgba(3, 169, 244, 0.1);
+        color: #03a9f4;
+      }
+
+      .status-sampling-completed {
+        background-color: rgba(139, 195, 74, 0.1);
+        color: #8bc34a;
+      }
+
+      .status-sample-error {
+        background-color: rgba(255, 87, 34, 0.1);
+        color: #ff5722;
+      }
+
+      .status-final-completed {
+        background-color: rgba(76, 175, 80, 0.1);
+        color: #4caf50;
+      }
+
+      .btn {
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-weight: 500;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        border: none;
+        cursor: pointer;
+      }
+
+      .btn-primary {
+        background: linear-gradient(45deg, #2196f3, #1976d2);
+        color: white;
+      }
+
+      .btn-success {
+        background: linear-gradient(45deg, #4caf50, #388e3c);
+        color: white;
+      }
+    </style>
+    <!-- Thêm vào phần <head> của mỗi trang -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+
+    <style>
+      /* Hiệu ứng chuyển động mượt mà */
+      .hero-banner,
+      .content-section,
+      .service-card,
+      .step-item,
+      .contact-btn {
+        transition: all 0.5s ease;
+      }
+
+      /* Cải thiện hero banner */
+      .hero-banner {
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+      }
+
+      .hero-banner:hover {
+        transform: translateY(-5px);
+      }
+
+      /* Hiệu ứng cho các section */
+      .content-section {
+        transition: transform 0.4s ease, box-shadow 0.4s ease;
+      }
+
+      .content-section:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+      }
+
+      /* Hiệu ứng facility items */
+      .facility-item {
+        transition: all 0.4s ease;
+      }
+
+      .facility-item:hover {
+        transform: translateY(-8px);
+      }
+
+      .facility-item .icon-wrapper {
+        transition: all 0.5s ease;
+      }
+
+      .facility-item:hover .icon-wrapper {
+        transform: rotateY(180deg);
+      }
+
+      /* Card hover effects */
+      .service-card:hover {
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 15px 30px rgba(33, 150, 243, 0.1);
+      }
+
+      .service-card .card-icon {
+        transition: all 0.5s ease;
+      }
+
+      .service-card:hover .card-icon {
+        transform: rotateY(360deg);
+        background-color: #2196f3;
+        color: white;
+      }
+
+      /* Step item animations */
+      .step-item {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .step-item:hover {
+        background-color: #f9f9f9;
+        padding-left: 15px;
+        border-radius: 8px;
+      }
+
+      .step-item .step-number,
+      .step-item .step-icon {
+        transition: all 0.4s ease;
+      }
+
+      .step-item:hover .step-number {
+        transform: scale(1.2);
+      }
+
+      .step-item:hover .step-icon {
+        transform: rotate(360deg);
+      }
+
+      /* Contact button effects */
+      .contact-btn {
+        transform-origin: center;
+        transition: all 0.3s ease;
+      }
+
+      .contact-btn:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+      }
+
+      .contact-btn i {
+        transition: all 0.4s ease;
+      }
+
+      .contact-btn:hover i {
+        transform: scale(1.2);
+      }
+
+      /* Sidebar menu hover effect */
+      .menu-item {
+        transition: all 0.3s ease;
+      }
+
+      .menu-item:hover .menu-icon {
+        transform: scale(1.2);
+        transition: transform 0.3s ease;
+      }
+
+      /* Gradient buttons */
+      .login-register-btn {
+        background-image: linear-gradient(45deg, #2196f3, #1976d2);
+        transition: all 0.3s ease;
+      }
+
+      .login-register-btn:hover {
+        background-image: linear-gradient(45deg, #1976d2, #0d47a1);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(33, 150, 243, 0.3);
+      }
+
+      /* Animation for facility section */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      /* Specific styles for the filter form that won't be affected by global styles */
+      .genx-filter-form {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        gap: 16px !important;
+        align-items: center !important;
+        margin-bottom: 20px !important;
+        flex-direction: row !important; /* Override the column direction from global styles */
+      }
+
+      .genx-filter-form div {
+        margin: 0 !important;
+      }
+
+      .genx-filter-form input,
+      .genx-filter-form select {
+        padding: 6px 10px !important;
+        border: 1px solid #ccc !important;
+        border-radius: 4px !important;
+      }
+
+      .genx-filter-form button[type="submit"] {
+        background: #2196f3 !important;
+        color: white !important;
+        border: none !important;
+        border-radius: 4px !important;
+        padding: 8px 18px !important;
+        cursor: pointer !important;
+      }
+
+      .genx-filter-form button[type="reset"] {
+        background: #f5f5f5 !important;
+        color: #333 !important;
+        border: 1px solid #ddd !important;
+        border-radius: 4px !important;
+        padding: 8px 18px !important;
+        cursor: pointer !important;
+        margin-left: 8px !important;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="logo-container">
+        <img src="/assets/images/logo.png" alt="Logo" class="logo" />
+        <div class="text-container">
+          <div class="logo-text">Genx</div>
+          <div class="logo-subtext">Trung tâm xét nghiệm ADN huyết thống</div>
+        </div>
+      </div>
+      <div class="login-register" id="login-register">
+        <div id="user-info-container"></div>
+      </div>
+      <div class="menu-title">MAIN MENU</div>
+      <div id="mainMenu">
+        <!-- <a href="/staff-home" class="menu-item">
+          <span class="menu-icon"><i class="fas fa-home"></i></span>
+          Trang chủ
+        </a>
+
+        <a href="/staff-appointments" class="menu-item">
+          <span class="menu-icon"><i class="fas fa-clipboard-list"></i></span>
+          Danh sách lịch hẹn
+        </a>
+
+        <a href="/staff-kit-list" class="menu-item">
+          <span class="menu-icon"><i class="fas fa-vials"></i></span>
+          Danh sách kit xét nghiệm
+        </a>
+
+        <a href="/staff-participants" class="menu-item">
+          <span class="menu-icon"><i class="fas fa-users"></i></span>
+          Quản lý người tham gia
+        </a>
+
+        <a href="/staff-samples" class="menu-item">
+          <span class="menu-icon"><i class="fas fa-flask"></i></span>
+          Quản lý mẫu xét nghiệm
+        </a>
+
+        <a href="/staff-results" class="menu-item">
+          <span class="menu-icon"><i class="fas fa-chart-line"></i></span>
+          Quản lý kết quả xét nghiệm
+        </a> -->
+
+        <a href="/quantity-kit-management" class="menu-item active">
+          <span class="menu-icon"><i class="fas fa-boxes"></i></span>
+          Quản lí số lượng kit tồn kho
+        </a>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <!-- Navigation Bar -->
+      <div id="topNavbar" class="navbar">
+        <!-- Navbar sẽ được thêm bằng JavaScript -->
+      </div>
+      <!-- Phần cần code -->
+      <!-- ...existing code... -->
+      <div class="instruction-container" style="margin-top: 10px">
+        <div class="instruction-title">
+          <i class="fas fa-boxes" style="color: #2196f3"></i>
+          Quản lí số lượng kit tồn kho
+          <div style="font-size: 14px; color: #666; margin-top: 5px">
+            <i class="fas fa-info-circle"></i> Hiển thị số lượng kit xét nghiệm
+            hiện có trong kho
+          </div>
+        </div>
+        <!-- Bộ lọc -->
+        <form
+          id="filterForm"
+          class="genx-filter-form"
+          style="
+            display: flex;
+            flex-wrap: nowrap;
+            gap: 20px;
+            align-items: center;
+            margin-bottom: 20px;
+          "
+        >
+          <div style="display: flex; flex-direction: column; flex-grow: 1">
+            <label
+              for="searchFilter"
+              style="font-weight: 500; color: #333; margin-bottom: 8px"
+              >Tìm kiếm:</label
+            >
+            <div style="display: flex; align-items: center; width: 100%">
+              <input
+                type="text"
+                id="searchFilter"
+                name="searchFilter"
+                placeholder="Mã kit, Tên kit"
+                style="
+                  padding: 8px 12px;
+                  border: 1px solid #ccc;
+                  border-radius: 4px 0 0 4px;
+                  width: 100%;
+                  height: 37px;
+                  box-sizing: border-box;
+                "
+              />
+              <button
+                type="submit"
+                style="
+                  background: #2196f3;
+                  color: white;
+                  border: none;
+                  border-radius: 0 4px 4px 0;
+                  padding: 8px 16px;
+                  cursor: pointer;
+                  height: 37px;
+                "
+              >
+                <i class="fas fa-search"></i>
+              </button>
+            </div>
+          </div>
+          <button
+            type="button"
+            onclick="openNewKitModal()"
+            style="
+              background: #4caf50;
+              color: white;
+              border: none;
+              border-radius: 4px;
+              padding: 8px 16px;
+              cursor: pointer;
+              height: 37px;
+              font-weight: 500;
+              display: flex;
+              align-items: center;
+              align-self: flex-end;
+              white-space: nowrap;
+            "
+          >
+            <i class="fas fa-plus" style="margin-right: 8px"></i> Thêm kit mới
+          </button>
+          <!-- Search filter for kit inventory -->
+        </form>
+
+        <div style="overflow-x: auto">
+          <table
+            style="
+              width: 100%;
+              border-collapse: collapse;
+              margin-top: 10px;
+              box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+              border-radius: 8px;
+              overflow: hidden;
+              margin-bottom: 20px;
+            "
+          >
+            <thead>
+              <tr style="background: #e3f2fd; height: 50px">
+                <th
+                  style="
+                    padding: 12px 8px;
+                    border-bottom: 1px solid #eee;
+                    text-align: center;
+                    width: 15%;
+                  "
+                >
+                  ID
+                </th>
+                <th
+                  style="
+                    padding: 12px 8px;
+                    border-bottom: 1px solid #eee;
+                    text-align: left;
+                    width: 25%;
+                  "
+                >
+                  Tên kit
+                </th>
+                <th
+                  style="
+                    padding: 12px 8px;
+                    border-bottom: 1px solid #eee;
+                    text-align: left;
+                    width: 30%;
+                  "
+                >
+                  Mô tả
+                </th>
+                <th
+                  style="
+                    padding: 12px 8px;
+                    border-bottom: 1px solid #eee;
+                    text-align: center;
+                    width: 15%;
+                  "
+                >
+                  Tồn Kho
+                </th>
+                <th
+                  style="
+                    padding: 12px 8px;
+                    border-bottom: 1px solid #eee;
+                    text-align: center;
+                    width: 15%;
+                  "
+                >
+                  Thao tác
+                </th>
+              </tr>
+            </thead>
+            <tbody id="kitInventoryTableBody">
+              <!-- Dữ liệu sẽ được render bằng JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <script>
+        // Biến lưu trữ dữ liệu kit từ server
+        let kitInventoryData = [];
+        let currentPage = 0;
+        let totalPages = 0;
+        let pageSize = 5; // Hiển thị 5 kit mỗi trang
+        let currentFilters = {
+          searchQuery: "",
+        };
+
+        // Hàm tìm kiếm kit dựa trên mã hoặc tên
+        function searchKits(query) {
+          if (!query) return kitInventoryData;
+
+          query = query.toLowerCase();
+          return kitInventoryData.filter(
+            (kit) =>
+              kit.id.toLowerCase().includes(query) ||
+              kit.name.toLowerCase().includes(query)
+          );
+        }
+
+        // Hàm phân trang dữ liệu
+        function paginateData(data, page, size) {
+          const start = page * size;
+          const end = start + size;
+          return data.slice(start, end);
+        }
+
+        // Hàm render bảng kit tồn kho
+        function renderKitInventory(filteredData) {
+          const tbody = document.getElementById("kitInventoryTableBody");
+
+          // Phân trang dữ liệu
+          const paginatedData = paginateData(
+            filteredData,
+            currentPage,
+            pageSize
+          );
+
+          if (paginatedData.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:#888; padding:20px;">Không có kit phù hợp</td></tr>`;
+            return;
+          }
+
+          tbody.innerHTML = paginatedData
+            .map((kit, index) => {
+              return `
+              <tr style="border-bottom: 1px solid #eee; ${
+                index % 2 === 0 ? "background-color: #f9f9f9;" : ""
+              }">
+                <td style="text-align: center; vertical-align: middle; padding: 12px 8px;">${
+                  kit.id
+                }</td>
+                <td style="vertical-align: middle; padding: 12px 8px;">${
+                  kit.name
+                }</td>
+                <td style="vertical-align: middle; padding: 12px 8px;">${
+                  kit.description
+                }</td>
+                <td style="text-align: center; vertical-align: middle; padding: 12px 8px;">
+                  <span class="${
+                    kit.stock < 30
+                      ? "status-badge status-sample-error"
+                      : kit.stock < 80
+                      ? "status-badge status-kit-pending"
+                      : "status-badge status-final-completed"
+                  }">
+                    ${kit.stock}
+                  </span>
+                </td>
+                <td style="text-align: center; vertical-align: middle; padding: 12px 8px;">
+                  <button onclick="openEditStockModal('${
+                    kit.id
+                  }')" class="btn btn-primary" style="background:#e3f2fd;color:#1976d2;border:none;border-radius:4px;padding:6px 12px;cursor:pointer;">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                </td>
+              </tr>
+            `;
+            })
+            .join("");
+        }
+
+        // Hàm render phân trang
+        function renderPagination() {
+          const containerId = "pagination-container";
+          let container = document.getElementById(containerId);
+
+          if (!container) {
+            container = document.createElement("div");
+            container.id = containerId;
+            container.style =
+              "display:flex;justify-content:center;align-items:center;margin:20px 0;gap:8px;";
+            document.querySelector(".main-content").appendChild(container);
+          }
+
+          container.innerHTML = "";
+
+          if (totalPages <= 1) return;
+
+          // Nút prev
+          const prevBtn = document.createElement("button");
+          prevBtn.innerText = "«";
+          prevBtn.style =
+            "background: #2196f3; color: white; border: none; border-radius: 4px; padding: 8px 12px; cursor: pointer;";
+          prevBtn.disabled = currentPage === 0;
+          prevBtn.onclick = () => {
+            if (currentPage > 0) {
+              currentPage--;
+              applyFiltersAndRender();
+            }
+          };
+          container.appendChild(prevBtn);
+
+          // Số trang
+          for (let i = 0; i < totalPages; i++) {
+            const pageBtn = document.createElement("button");
+            pageBtn.innerText = i + 1;
+            pageBtn.style =
+              i === currentPage
+                ? "background: #4caf50; color: white; border: none; border-radius: 4px; padding: 8px 12px; cursor: pointer;"
+                : "background: #2196f3; color: white; border: none; border-radius: 4px; padding: 8px 12px; cursor: pointer;";
+            pageBtn.disabled = i === currentPage;
+            pageBtn.onclick = () => {
+              currentPage = i;
+              applyFiltersAndRender();
+            };
+            container.appendChild(pageBtn);
+          }
+
+          // Nút next
+          const nextBtn = document.createElement("button");
+          nextBtn.innerText = "»";
+          nextBtn.style =
+            "background: #2196f3; color: white; border: none; border-radius: 4px; padding: 8px 12px; cursor: pointer;";
+          nextBtn.disabled = currentPage === totalPages - 1;
+          nextBtn.onclick = () => {
+            if (currentPage < totalPages - 1) {
+              currentPage++;
+              applyFiltersAndRender();
+            }
+          };
+          container.appendChild(nextBtn);
+        }
+
+        // Áp dụng bộ lọc và hiển thị lại
+        function applyFiltersAndRender() {
+          const searchQuery = document.getElementById("searchFilter").value;
+          currentFilters.searchQuery = searchQuery;
+
+          // Lọc dữ liệu
+          const filteredData = searchKits(searchQuery);
+
+          // Cập nhật tổng số trang
+          totalPages = Math.ceil(filteredData.length / pageSize);
+
+          // Nếu trang hiện tại vượt quá tổng số trang, quay lại trang đầu
+          if (currentPage >= totalPages) {
+            currentPage = 0;
+          }
+
+          // Render dữ liệu
+          renderKitInventory(filteredData);
+          renderPagination();
+        }
+
+        // Mở modal sửa số lượng tồn kho
+        function openEditStockModal(kitId) {
+          const kit = kitInventoryData.find((k) => k.id === kitId);
+
+          if (!kit) {
+            showToast("Không tìm thấy thông tin kit", "error");
+            return;
+          }
+
+          // Tạo modal chỉnh sửa số lượng
+          const modalContainer = document.createElement("div");
+          modalContainer.id = "edit-stock-modal";
+          modalContainer.style = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+          `;
+
+          // Tạo nội dung modal
+          modalContainer.innerHTML = `
+            <div style="background-color: white; padding: 25px; border-radius: 10px; width: 90%; max-width: 500px; max-height: 85vh; overflow-y: auto; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 15px;">
+                <h2 style="margin: 0; color: #2196f3; font-size: 24px;">Chỉnh sửa số lượng tồn kho</h2>
+                <button onclick="document.getElementById('edit-stock-modal').remove()" style="background: none; border: none; font-size: 24px; cursor: pointer; color: #666;">&times;</button>
+              </div>
+              
+              <div style="background-color: #f8f9fa; border-radius: 8px; padding: 15px; margin-bottom: 20px; border-left: 4px solid #2196f3;">
+                <div style="margin-bottom: 10px;">
+                  <p style="font-weight: bold; margin-bottom: 5px; color: #555;">Mã kit:</p>
+                  <p style="margin-top: 0; font-size: 16px;">${kit.id}</p>
+                </div>
+                <div style="margin-bottom: 10px;">
+                  <p style="font-weight: bold; margin-bottom: 5px; color: #555;">Tên kit:</p>
+                  <p style="margin-top: 0; font-size: 16px;">${kit.name}</p>
+                </div>
+                <div style="margin-bottom: 10px;">
+                  <p style="font-weight: bold; margin-bottom: 5px; color: #555;">Số lượng hiện tại:</p>
+                  <p style="margin-top: 0; font-size: 16px;">${kit.stock}</p>
+                </div>
+              </div>
+              
+              <div style="margin-bottom: 10px;">
+                <label for="newStockValue" style="display: block; margin-bottom: 5px; font-weight: bold; color: #555;">Cập nhật số lượng:</label>
+                <div style="display: flex; gap: 15px;">
+                  <div style="flex: 1;">
+                    <label style="display: block; font-size: 14px; margin-bottom: 3px; color: #666;">Số lượng mới:</label>
+                    <input type="number" id="newStockValue" min="0" value="${kit.stock}" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 16px;">
+                  </div>
+                  <div style="flex: 1;">
+                    <label style="display: block; font-size: 14px; margin-bottom: 3px; color: #666;">Thêm số lượng:</label>
+                    <input type="number" id="addStockValue" min="1" value="0" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 16px;">
+                  </div>
+                </div>
+                <p style="font-size: 13px; color: #666; margin-top: 5px;"><i class="fas fa-info-circle"></i> Bạn có thể cập nhật số lượng trực tiếp hoặc thêm số lượng vào kho.</p>
+              </div>
+              
+              <div style="text-align: center; margin-top: 25px;">
+                <button onclick="saveEditStock('${kit.id}')" style="background-color: #4caf50; color: white; border: none; padding: 10px 25px; border-radius: 5px; cursor: pointer; font-size: 16px; transition: background-color 0.3s; margin-right: 10px;">Lưu</button>
+                <button onclick="document.getElementById('edit-stock-modal').remove()" style="background-color: #f44336; color: white; border: none; padding: 10px 25px; border-radius: 5px; cursor: pointer; font-size: 16px; transition: background-color 0.3s;">Hủy</button>
+              </div>
+            </div>
+          `;
+
+          document.body.appendChild(modalContainer);
+        }
+
+        // Chỉ giữ lại chức năng chỉnh sửa số lượng kit (đã tích hợp thêm số lượng)
+
+        // Lưu thay đổi số lượng kit
+        async function saveEditStock(kitId) {
+          const newStockValue = parseInt(
+            document.getElementById("newStockValue").value
+          );
+          const addStockValue = parseInt(
+            document.getElementById("addStockValue").value || "0"
+          );
+
+          // Kiểm tra giá trị nhập
+          if (isNaN(newStockValue) || newStockValue < 0) {
+            showToast("Vui lòng nhập số lượng hợp lệ", "error");
+            return;
+          }
+
+          // Tìm kit trong dữ liệu
+          const kitIndex = kitInventoryData.findIndex((k) => k.id === kitId);
+
+          if (kitIndex === -1) {
+            showToast("Không tìm thấy thông tin kit", "error");
+            return;
+          }
+
+          try {
+            // Lưu số lượng cũ để thông báo
+            const oldStock = kitInventoryData[kitIndex].stock;
+
+            // Chuẩn bị dữ liệu gửi lên server
+            const finalStock =
+              addStockValue > 0 ? oldStock + addStockValue : newStockValue;
+
+            const requestData = {
+              kitId: kitId,
+              quantity: finalStock,
+              changeType: addStockValue > 0 ? "ADD" : "SET",
+            };
+
+            // Gọi API cập nhật số lượng (Spring Boot endpoint)
+            const response = await fetch(
+              "/api/kits/" + kitId + "/update-stock",
+              {
+                method: "PUT",
+                headers: getRequestHeaders(),
+                body: JSON.stringify(requestData),
+              }
+            );
+
+            if (!response.ok) {
+              throw new Error("Không thể cập nhật số lượng kit");
+            }
+
+            // Xử lý phản hồi từ server
+            const responseData = await response.json();
+
+            // Cập nhật dữ liệu cục bộ - Spring Boot có thể trả về cấu trúc khác
+            const updatedStock =
+              responseData.stock || responseData.quantity || finalStock;
+            kitInventoryData[kitIndex].stock = updatedStock;
+
+            // Thông báo
+            let message = "";
+            if (addStockValue > 0) {
+              message = `Đã thêm ${addStockValue} vào kit ${kitId} (${oldStock} → ${updatedStock})`;
+            } else {
+              message = `Đã cập nhật số lượng kit ${kitId} thành ${updatedStock}`;
+            }
+
+            showToast(message, "success");
+          } catch (error) {
+            console.error("Lỗi cập nhật số lượng kit:", error);
+            let errorMessage = "Có lỗi xảy ra khi cập nhật số lượng kit";
+
+            // Thử đọc message từ response nếu có
+            if (error.response && error.response.json) {
+              try {
+                const errorData = await error.response.json();
+                errorMessage = errorData.message || errorMessage;
+              } catch (jsonError) {
+                // Không làm gì nếu không thể parse JSON
+              }
+            }
+
+            showToast(errorMessage, "error");
+          }
+
+          // Đóng modal
+          document.getElementById("edit-stock-modal").remove();
+
+          // Tải lại dữ liệu
+          loadKitInventoryData();
+        }
+
+        // Xử lý filter: chỉ tìm kiếm theo từ khóa nhập vào
+        document
+          .getElementById("filterForm")
+          .addEventListener("submit", function (e) {
+            e.preventDefault();
+            currentPage = 0; // Reset về trang đầu tiên khi tìm kiếm
+            applyFiltersAndRender();
+          });
+
+        // Thêm số lượng kit
+        // Function saveAddStock đã được tích hợp vào saveEditStock
+
+        // Hiển thị thông báo toast
+        function showToast(message, type = "info") {
+          // Tạo toast container nếu chưa có
+          let toastContainer = document.getElementById("toast-container");
+
+          if (!toastContainer) {
+            toastContainer = document.createElement("div");
+            toastContainer.id = "toast-container";
+            toastContainer.style = `
+              position: fixed;
+              top: 20px;
+              right: 20px;
+              z-index: 9999;
+            `;
+            document.body.appendChild(toastContainer);
+          }
+
+          // Tạo toast message
+          const toast = document.createElement("div");
+          toast.style = `
+            background-color: ${
+              type === "success"
+                ? "#4caf50"
+                : type === "error"
+                ? "#f44336"
+                : "#2196f3"
+            };
+            color: white;
+            padding: 15px 25px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            min-width: 300px;
+            opacity: 0;
+            transform: translateX(50px);
+            transition: all 0.3s ease;
+          `;
+
+          // Icon dựa trên loại thông báo
+          let icon = "";
+          if (type === "success") {
+            icon =
+              '<i class="fas fa-check-circle" style="margin-right: 10px; font-size: 20px;"></i>';
+          } else if (type === "error") {
+            icon =
+              '<i class="fas fa-times-circle" style="margin-right: 10px; font-size: 20px;"></i>';
+          } else {
+            icon =
+              '<i class="fas fa-info-circle" style="margin-right: 10px; font-size: 20px;"></i>';
+          }
+
+          toast.innerHTML = `${icon}<span>${message}</span>`;
+
+          // Thêm toast vào container
+          toastContainer.appendChild(toast);
+
+          // Hiệu ứng hiển thị
+          setTimeout(() => {
+            toast.style.opacity = "1";
+            toast.style.transform = "translateX(0)";
+          }, 50);
+
+          // Tự động đóng sau 3 giây
+          setTimeout(() => {
+            toast.style.opacity = "0";
+            toast.style.transform = "translateX(50px)";
+
+            // Xóa toast sau khi hiệu ứng hoàn tất
+            setTimeout(() => {
+              toast.remove();
+            }, 300);
+          }, 3000);
+        }
+
+        // Mở modal thêm kit mới
+        function openNewKitModal() {
+          // Tạo ID kit mới
+          const newKitId = generateNewKitId();
+
+          // Tạo modal thêm kit mới
+          const modalContainer = document.createElement("div");
+          modalContainer.id = "new-kit-modal";
+          modalContainer.style = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+          `;
+
+          // Tạo nội dung modal
+          modalContainer.innerHTML = `
+            <div style="background-color: white; padding: 25px; border-radius: 10px; width: 90%; max-width: 500px; max-height: 85vh; overflow-y: auto; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 15px;">
+                <h2 style="margin: 0; color: #2196f3; font-size: 24px;">Thêm kit mới</h2>
+                <button onclick="document.getElementById('new-kit-modal').remove()" style="background: none; border: none; font-size: 24px; cursor: pointer; color: #666;">&times;</button>
+              </div>
+              
+              <div style="margin-bottom: 15px;">
+                <label for="newKitId" style="display: block; margin-bottom: 5px; font-weight: bold; color: #555;">Mã kit:</label>
+                <input type="text" id="newKitId" value="${newKitId}" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 16px; background-color: #f5f5f5;" readonly>
+                <p style="margin-top: 5px; font-size: 12px; color: #666;">Mã kit được tạo tự động</p>
+              </div>
+              
+              <div style="margin-bottom: 15px;">
+                <label for="newKitName" style="display: block; margin-bottom: 5px; font-weight: bold; color: #555;">Tên kit:</label>
+                <input type="text" id="newKitName" placeholder="Nhập tên kit" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 16px;">
+              </div>
+              
+              <div style="margin-bottom: 15px;">
+                <label for="newKitDescription" style="display: block; margin-bottom: 5px; font-weight: bold; color: #555;">Mô tả:</label>
+                <textarea id="newKitDescription" placeholder="Nhập mô tả kit" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 16px; min-height: 100px; resize: vertical;"></textarea>
+              </div>
+              
+              <div style="margin-bottom: 20px;">
+                <label for="newKitStock" style="display: block; margin-bottom: 5px; font-weight: bold; color: #555;">Số lượng ban đầu:</label>
+                <input type="number" id="newKitStock" min="0" value="0" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 16px;">
+              </div>
+              
+              <div style="text-align: center; margin-top: 25px;">
+                <button onclick="saveNewKit()" style="background-color: #4caf50; color: white; border: none; padding: 10px 25px; border-radius: 5px; cursor: pointer; font-size: 16px; transition: background-color 0.3s; margin-right: 10px;">Lưu</button>
+                <button onclick="document.getElementById('new-kit-modal').remove()" style="background-color: #f44336; color: white; border: none; padding: 10px 25px; border-radius: 5px; cursor: pointer; font-size: 16px; transition: background-color 0.3s;">Hủy</button>
+              </div>
+            </div>
+          `;
+
+          document.body.appendChild(modalContainer);
+        }
+
+        // Tạo mã kit mới
+        function generateNewKitId() {
+          // Lấy ID kit lớn nhất hiện tại
+          const maxKitId = kitInventoryData.reduce((maxId, kit) => {
+            const kitNumber = parseInt(kit.id.replace("KIT", ""));
+            return Math.max(maxId, kitNumber);
+          }, 0);
+
+          // Tạo ID mới với số thứ tự tăng 1
+          const newNumber = maxKitId + 1;
+          return `KIT${String(newNumber).padStart(3, "0")}`;
+        }
+
+        // Lưu kit mới
+        async function saveNewKit() {
+          const kitId = document.getElementById("newKitId").value;
+          const kitName = document.getElementById("newKitName").value.trim();
+          const kitDescription = document
+            .getElementById("newKitDescription")
+            .value.trim();
+          const kitStock = parseInt(
+            document.getElementById("newKitStock").value
+          );
+
+          // Kiểm tra dữ liệu nhập vào
+          if (!kitName) {
+            showToast("Vui lòng nhập tên kit", "error");
+            return;
+          }
+
+          if (!kitDescription) {
+            showToast("Vui lòng nhập mô tả kit", "error");
+            return;
+          }
+
+          if (isNaN(kitStock) || kitStock < 0) {
+            showToast("Vui lòng nhập số lượng hợp lệ", "error");
+            return;
+          }
+
+          try {
+            // Tạo đối tượng kit mới
+            const newKit = {
+              id: kitId,
+              name: kitName,
+              description: kitDescription,
+              stock: kitStock,
+            };
+
+            // Gọi API để thêm kit mới (Spring Boot endpoint)
+            const response = await fetch("/api/kits/add", {
+              method: "POST",
+              headers: getRequestHeaders(),
+              body: JSON.stringify(newKit),
+            });
+
+            if (!response.ok) {
+              const errorData = await response.json();
+              throw new Error(errorData.message || "Không thể thêm kit mới");
+            }
+
+            // Xử lý phản hồi từ server
+            const responseData = await response.json();
+
+            // Hiển thị thông báo
+            showToast(`Đã thêm kit mới: ${kitName}`, "success");
+          } catch (error) {
+            console.error("Lỗi thêm kit mới:", error);
+            let errorMessage = "Có lỗi xảy ra khi thêm kit mới";
+
+            // Thử đọc message từ response nếu có
+            if (error.response && error.response.json) {
+              try {
+                const errorData = await error.response.json();
+                errorMessage = errorData.message || errorMessage;
+              } catch (jsonError) {
+                // Không làm gì nếu không thể parse JSON
+              }
+            }
+
+            showToast(errorMessage, "error");
+          }
+
+          // Đóng modal
+          document.getElementById("new-kit-modal").remove();
+
+          // Tải lại dữ liệu
+          loadKitInventoryData();
+        }
+
+        // Thêm style cho toast notification
+        const style = document.createElement("style");
+        style.textContent = `
+          .toast-notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            animation: slideInRight 0.3s ease, fadeOut 0.3s ease 2.7s;
+            z-index: 1000;
+          }
+
+          .toast-content {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            color: #333;
+          }
+
+          @keyframes slideInRight {
+            from {
+              transform: translateX(100%);
+              opacity: 0;
+            }
+            to {
+              transform: translateX(0);
+              opacity: 1;
+            }
+          }
+
+          @keyframes fadeOut {
+            from {
+              opacity: 1;
+            }
+            to {
+              opacity: 0;
+            }
+          }
+
+          .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+          }
+
+          .status-sample-error {
+            background-color: rgba(255, 87, 34, 0.1);
+            color: #ff5722;
+          }
+
+          .status-kit-pending {
+            background-color: rgba(255, 193, 7, 0.1);
+            color: #ffc107;
+          }
+
+          .status-final-completed {
+            background-color: rgba(76, 175, 80, 0.1);
+            color: #4caf50;
+          }
+
+          .btn {
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: 500;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            border: none;
+            cursor: pointer;
+          }
+
+          .btn-primary {
+            background: linear-gradient(45deg, #2196f3, #1976d2);
+            color: white;
+          }
+
+          .btn-success {
+            background: linear-gradient(45deg, #4caf50, #388e3c);
+            color: white;
+          }
+        `;
+        document.head.appendChild(style);
+
+        // Set up form handling
+        // Hàm lấy CSRF token cho Spring Security
+        function getCsrfToken() {
+          const token = document.querySelector('meta[name="_csrf"]');
+          const header = document.querySelector('meta[name="_csrf_header"]');
+          return {
+            token: token ? token.content : "",
+            header: header ? header.content : "",
+          };
+        }
+
+        // Hàm thêm CSRF token vào headers của request
+        function getRequestHeaders() {
+          const headers = {
+            "Content-Type": "application/json",
+          };
+
+          const csrf = getCsrfToken();
+          if (csrf.token && csrf.header) {
+            headers[csrf.header] = csrf.token;
+          }
+
+          return headers;
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+          // Kiểm tra đăng nhập trước khi tải dữ liệu
+          checkLoginAndLoadData();
+
+          const searchForm = document.getElementById("filterForm");
+          if (searchForm) {
+            searchForm.addEventListener("submit", function (e) {
+              e.preventDefault();
+              currentPage = 0; // Reset về trang đầu tiên khi tìm kiếm
+              applyFiltersAndRender();
+            });
+          }
+        });
+
+        // Kiểm tra đăng nhập và tải dữ liệu
+        async function checkLoginAndLoadData() {
+          try {
+            // Gọi API kiểm tra đăng nhập (Spring Boot endpoint)
+            const response = await fetch("/api/auth/check-session");
+            if (!response.ok) {
+              throw new Error("Không thể kiểm tra trạng thái đăng nhập");
+            }
+
+            const data = await response.json();
+            if (!data.loggedIn) {
+              // Chuyển hướng đến trang đăng nhập nếu chưa đăng nhập
+              window.location.href =
+                "/internal-login?redirect=" +
+                encodeURIComponent(window.location.href);
+              return;
+            }
+
+            // Đã đăng nhập, tải dữ liệu kit
+            loadKitInventoryData();
+          } catch (error) {
+            console.error("Lỗi kiểm tra đăng nhập:", error);
+            showToast(
+              "Có lỗi xảy ra khi kiểm tra đăng nhập. Vui lòng tải lại trang.",
+              "error"
+            );
+          }
+        }
+
+        // Tải dữ liệu kit từ server
+        async function loadKitInventoryData() {
+          try {
+            // Hiển thị thông báo đang tải
+            const tableBody = document.getElementById("kitInventoryTableBody");
+            tableBody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:20px;">Đang tải dữ liệu...</td></tr>`;
+
+            // Gọi API lấy dữ liệu kit (Spring Boot endpoint)
+            const response = await fetch("/api/kits/inventory");
+
+            if (!response.ok) {
+              throw new Error("Không thể tải dữ liệu kit");
+            }
+
+            // Xử lý dữ liệu từ API
+            const data = await response.json();
+            kitInventoryData = Array.isArray(data) ? data : data.content || [];
+            totalPages = Math.ceil(kitInventoryData.length / pageSize);
+
+            // Hiển thị dữ liệu
+            applyFiltersAndRender();
+          } catch (error) {
+            console.error("Lỗi tải dữ liệu kit:", error);
+            const tableBody = document.getElementById("kitInventoryTableBody");
+            tableBody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:#f44336; padding:20px;">
+              <i class="fas fa-exclamation-circle" style="margin-right: 8px;"></i>
+              Không thể tải dữ liệu. Vui lòng thử lại sau.
+            </td></tr>`;
+
+            let errorMessage = "Có lỗi xảy ra khi tải dữ liệu kit";
+
+            // Thử đọc message từ response nếu có
+            if (error.response && error.response.json) {
+              try {
+                const errorData = await error.response.json();
+                errorMessage = errorData.message || errorMessage;
+              } catch (jsonError) {
+                // Không làm gì nếu không thể parse JSON
+              }
+            }
+
+            showToast(errorMessage, "error");
+          }
+        }
+      </script>
+    </div>
+
+    <!-- Include necessary JS files -->
+    <script src="/assets/js/staff-auth.js"></script>
+    <script src="/assets/js/staff-main.js"></script>
+
+    <script>
+      // Initialize Auth
+      document.addEventListener("DOMContentLoaded", function () {
+        Auth.init();
+      });
+    </script>
+  </body>
+</html>
