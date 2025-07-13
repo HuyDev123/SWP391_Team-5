@@ -71,13 +71,6 @@ CREATE TABLE Payment (
     FOREIGN KEY (staff_id) REFERENCES [User](id)
 ); 
 
--- Thêm foreign key constraints
-ALTER TABLE Payment ADD CONSTRAINT FK_Payment_Booking 
-    FOREIGN KEY (booking_id) REFERENCES Booking(id);
-
-ALTER TABLE Payment ADD CONSTRAINT FK_Payment_Staff 
-    FOREIGN KEY (staff_id) REFERENCES User(id); 
-
 CREATE TABLE KitType (
     id INT IDENTITY(1,1) PRIMARY KEY,
     name NVARCHAR(255),
