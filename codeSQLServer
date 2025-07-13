@@ -184,7 +184,7 @@ INSERT INTO Role (name) VALUES
 ('Staff'),
 ('Customer');
 
-INSERT INTO Service (name, description, price, extra_sample_fee, is_active) VALUES
+INSERT INTO Service (name, description, price, extra_per_sample_fee, is_active) VALUES
 (N'Xét nghiệm ADN Cha - Con', 
  N'Xác định quan hệ huyết thống cha - con. Thời gian: Khoảng 4 ngày làm việc. Bảo mật tuyệt đối. Độ chính xác 99.99%.', 
  3000000, 500000, 1),
@@ -215,4 +215,4 @@ INSERT INTO Service_KitType (service_id, kit_type_id) VALUES
 
 INSERT INTO Surcharge (name, description, fee_per_unit, unit, is_active)
 VALUES 
-(N'Phí hành chính', N'Tính theo số người tham gia', 100000, 'participant', 1),
+(N'Phí hành chính', N'Tính theo số người tham gia', 100000, 'participant', 1);
