@@ -178,6 +178,22 @@ CREATE TABLE Surcharge (
     is_active BIT,      -- Có đang áp dụng không
 );
 
+-- Tạo bảng thông tin ngân hàng cho MS SQL Server
+CREATE TABLE bank_info (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    bank_name NVARCHAR(100) NOT NULL,
+    account_number NVARCHAR(50) NOT NULL,
+    account_holder NVARCHAR(200) NOT NULL,
+    swift_code NVARCHAR(20),
+    is_active BIT DEFAULT 1,
+    created_at DATETIME2 DEFAULT GETDATE(),
+    updated_at DATETIME2 DEFAULT GETDATE()
+);
+
+-- Insert thông tin ngân hàng mẫu
+INSERT INTO bank_info (bank_name, account_number, account_holder, swift_code) 
+VALUES (N'Vietcombank', N'1234567890', N'TRUNG TAM XET NGHIEM ADN GENX', N'BFTVVNVX'); 
+
 INSERT INTO Role (name) VALUES
 ('Admin'),
 ('Manager'),
