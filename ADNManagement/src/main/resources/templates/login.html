@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Đăng nhập - Genx</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <link rel="stylesheet" href="/assets/css/header.css" />
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: #f5f5f5;
+      }
+
+      /* Hiệu ứng loading khi đăng nhập */
+      .auth-loader {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border: 3px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        border-top: 3px solid white;
+        animation: spin 1s linear infinite;
+        margin-right: 10px;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      .login-container {
+        max-width: 400px;
+        margin: 100px auto;
+        padding: 40px;
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        text-align: center;
+      }
+
+      .login-header {
+        text-align: center;
+        margin-bottom: 40px;
+      }
+
+      .login-header img {
+        width: 100px;
+        height: auto;
+        margin-bottom: 20px;
+      }
+
+      .login-header h1 {
+        color: #333;
+        font-size: 24px;
+        margin: 0;
+        font-weight: 600;
+      }
+
+      .login-header p {
+        color: #666;
+        margin: 10px 0 0;
+        font-size: 16px;
+      }
+
+      .btn {
+        width: 100%;
+        padding: 15px;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin: 10px 0;
+      }
+
+      .btn-google {
+        background: white;
+        color: #333;
+        border: 1px solid #ddd;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        font-size: 18px;
+      }
+
+      .btn-google:hover {
+        background: #f8f9fa;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .btn-google img {
+        width: 24px;
+        height: 24px;
+      }
+
+      @media (max-width: 480px) {
+        .login-container {
+          margin: 60px 20px;
+          padding: 30px 20px;
+        }
+      }
+    </style>
+    <!-- Thêm Google Sign-In API -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+  </head>
+  <body>
+  <!-- Header -->
+  <header>
+    <div class="header-container">
+      <div class="logo-section">
+        <img src="/assets/images/logo.png" alt="Genx Logo" />
+        <div class="brand-text">
+          <h1 class="brand-name">Genx</h1>
+          <p class="brand-description">
+            Trung Tâm Xét Nghiệm ADN Huyết Thống
+          </p>
+        </div>
+      </div>
+      <nav class="nav-links">
+        <a href="/home" class="nav-link">Trang chủ</a>
+        <a href="/booking" class="nav-link">Đặt lịch xét nghiệm</a>
+        <a href="/services" class="nav-link">Giới thiệu dịch vụ</a>
+        <a href="/knowledge" class="nav-link">Kiến thức ADN</a>
+        <a href="/sampling-guide" class="nav-link">Hướng dẫn lấy mẫu</a>
+        <a href="/login" class="nav-link login-button">Đăng nhập</a>
+      </nav>
+    </div>
+  </header>
+
+
+  <!-- Login Container -->
+    <div class="login-container">
+      <div class="login-header">
+        <img src="/assets/images/logo.png" alt="Genx Logo" />
+        <h1>Đăng nhập</h1>
+        <p>Chào mừng bạn trở lại với Genx</p>
+      </div>
+
+      <!-- Google Sign-In Button -->
+      <div id="g_id_onload"
+           data-client_id="566007622451-fopq1t8kt1ep6q48i7e6pic597pk896q.apps.googleusercontent.com"
+           data-callback="handleGoogleSignIn">
+      </div>
+      <div class="g_id_signin" data-type="standard"></div>
+      <form id="googleLoginForm" method="POST" action="/auth/google" style="display:none">
+        <input type="hidden" name="token" id="googleTokenInput" />
+      </form>
+    </div>
+    <script>
+      function handleGoogleSignIn(response) {
+        if (!response || !response.credential) {
+          alert("Đăng nhập Google thất bại. Vui lòng thử lại.");
+          return;
+        }
+        document.getElementById('googleTokenInput').value = response.credential;
+        document.getElementById('googleLoginForm').submit();
+      }
+    </script>
+  </body>
+</html>
