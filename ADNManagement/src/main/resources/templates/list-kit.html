@@ -3185,6 +3185,18 @@
                 remainingAmount: booking.remainingAmount,
                 paymentMethod: booking.paymentMethod,
                 method: booking.method
+              },
+              onSubmit: (data, modal) => {
+                if (typeof window.showSuccessToast === 'function') {
+                  window.showSuccessToast('Tạo thanh toán thành công!');
+                }
+                modal.remove();
+                // Đóng modal cảnh báo thanh toán nếu còn tồn tại
+                const paymentErrorModal = document.querySelector('.payment-error-modal');
+                if (paymentErrorModal) paymentErrorModal.remove();
+                const paymentWarningModal = document.querySelector('.payment-warning-modal');
+                if (paymentWarningModal) paymentWarningModal.remove();
+                // Không cần reload/fetch lại dữ liệu hoặc cập nhật trạng thái booking
               }
             });
           }

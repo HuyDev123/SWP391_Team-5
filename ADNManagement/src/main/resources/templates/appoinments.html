@@ -1620,7 +1620,7 @@
           const paymentMethod = appointment.paymentMethod;
           const isCenter = appointment.method === "Tại trung tâm";
           const isHome = appointment.method === "Tại nhà";
-          const canChoosePaymentMethod = isHome && !paymentMethod;
+          const canChoosePaymentMethod = isHome && appointment.statusDisplay === "Chưa thanh toán";
 
           // 2. Xác định các phương thức hợp lệ
           let availableMethods = [];
@@ -1897,7 +1897,7 @@
             `;
                   // Điều kiện nút chọn phương thức thanh toán
                   const isHome = a.method === "Tại nhà";
-                  const canChoosePaymentMethod = isHome && !a.paymentMethod;
+                  const canChoosePaymentMethod = isHome && a.statusDisplay === "Chưa thanh toán";
                   if (canChoosePaymentMethod) {
                     actionButtons += `
                       <button onclick="showChoosePaymentMethodModal(${a.id}, false)" class="btn btn-primary">
@@ -2590,17 +2590,7 @@
                 alert(msg || "Lỗi khi cập nhật phương thức thanh toán");
                 return;
               }
-              // Lấy lại booking từ danh sách để kiểm tra điều kiện
-              const booking = appointmentsData.find(a => a.id === bookingId);
-              if (booking && booking.method === "Tại nhà" && booking.status === "Chưa thanh toán") {
-                // Gọi API cập nhật trạng thái sang 'Chưa lấy mẫu' (dùng quyền staff để backend set kitStatus)
-                await fetch(`/booking/staff/appointments/${bookingId}/status`, {
-                  method: "PUT",
-                  headers: { "Content-Type": "application/json" },
-                  credentials: "include",
-                  body: JSON.stringify({ status: "Chưa lấy mẫu" })
-                });
-              }
+              // Backend đã tự động xử lý việc cập nhật status và kitStatus khi cập nhật payment method
               showSuccessToast("Đã chọn phương thức thanh toán thành công!");
               modal.remove();
               // Reload lại dữ liệu lịch hẹn

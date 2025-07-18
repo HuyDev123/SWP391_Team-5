@@ -795,8 +795,11 @@ public class BookingController {
         String oldStatus = booking.getStatus();
         
         // Tự động set kitStatus thành "Chưa chọn kit" khi staff xác nhận booking tại nhà
-        if (!booking.getIsCenterCollected() && "Chưa lấy mẫu".equals(newStatus) && booking.getKitStatus() == null) {
-            booking.setKitStatus("Chưa chọn kit");
+        if (!booking.getIsCenterCollected() && "Chưa lấy mẫu".equals(newStatus)) {
+            // Set kitStatus thành "Chưa chọn kit" nếu chưa có hoặc đang ở trạng thái khác
+            if (booking.getKitStatus() == null || !"Chưa chọn kit".equals(booking.getKitStatus())) {
+                booking.setKitStatus("Chưa chọn kit");
+            }
         }
         
         
@@ -911,6 +914,10 @@ public class BookingController {
             // Nếu trạng thái hiện tại là 'Chưa thanh toán', chuyển sang 'Chưa lấy mẫu'
             if ("Chưa thanh toán".equals(booking.getStatus())) {
                 booking.setStatus("Chưa lấy mẫu");
+                // Đối với booking tại nhà, set kitStatus thành "Chưa chọn kit" khi chuyển sang "Chưa lấy mẫu"
+                if (!booking.getIsCenterCollected()) {
+                    booking.setKitStatus("Chưa chọn kit");
+                }
             }
             bookingRepository.save(booking);
             return ResponseEntity.ok().body("Cập nhật phương thức thanh toán thành công");

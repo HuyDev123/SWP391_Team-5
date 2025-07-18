@@ -350,35 +350,35 @@
     </style>
   </head>
   <body>
-  <script th:inline="javascript">
-    /*<![CDATA[*/
-    window.serverUser = /*[[${userData}]]*/ null;
-    /*]]>*/
-  </script>
-  <!-- Header -->
-  <header>
-    <div class="header-container">
-      <div class="logo-section">
-        <img src="/assets/images/logo.png" alt="Genx Logo" />
-        <div class="brand-text">
-          <h1 class="brand-name">Genx</h1>
-          <p class="brand-description">
-            Trung Tâm Xét Nghiệm ADN Huyết Thống
-          </p>
+    <script th:inline="javascript">
+      /*<![CDATA[*/
+      window.serverUser = /*[[${userData}]]*/ null;
+      /*]]>*/
+    </script>
+    <!-- Header -->
+    <header>
+      <div class="header-container">
+        <div class="logo-section">
+          <img src="/assets/images/logo.png" alt="Genx Logo" />
+          <div class="brand-text">
+            <h1 class="brand-name">Genx</h1>
+            <p class="brand-description">
+              Trung Tâm Xét Nghiệm ADN Huyết Thống
+            </p>
+          </div>
         </div>
+        <nav class="nav-links">
+          <a href="/home" class="nav-link">Trang chủ</a>
+          <a href="/booking" class="nav-link active">Đặt lịch xét nghiệm</a>
+          <a href="/services" class="nav-link">Giới thiệu dịch vụ</a>
+          <a href="/knowledge" class="nav-link">Kiến thức ADN</a>
+          <a href="/sampling-guide" class="nav-link">Hướng dẫn lấy mẫu</a>
+          <a href="/login" class="nav-link login-button">Đăng nhập</a>
+        </nav>
       </div>
-      <nav class="nav-links">
-        <a href="/home" class="nav-link">Trang chủ</a>
-        <a href="/booking" class="nav-link active">Đặt lịch xét nghiệm</a>
-        <a href="/services" class="nav-link">Giới thiệu dịch vụ</a>
-        <a href="/knowledge" class="nav-link">Kiến thức ADN</a>
-        <a href="/sampling-guide" class="nav-link">Hướng dẫn lấy mẫu</a>
-        <a href="/login" class="nav-link login-button">Đăng nhập</a>
-      </nav>
-    </div>
-  </header>
+    </header>
 
-  <!-- Main Content -->
+    <!-- Main Content -->
     <main class="content">
       <div class="booking-section">
         <div class="booking-info">
@@ -451,16 +451,66 @@
             <div class="form-group">
               <label class="form-label" for="service">Chọn dịch vụ *</label>
               <div id="service-select-list">
-                <div class="service-select-item" style="margin-bottom: 8px">
-                  <select
-                    id="service"
-                    name="services[]"
-                    class="form-control service-dropdown"
-                    required
+                <div
+                  class="service-select-item"
+                  style="
+                    margin-bottom: 8px;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 4px;
+                  "
+                >
+                  <div style="display: flex; align-items: center; gap: 12px">
+                    <select
+                      id="service"
+                      name="services[]"
+                      class="form-control service-dropdown"
+                      required
+                      style="flex: 2"
+                    >
+                      <option value="">-- Chọn dịch vụ xét nghiệm --</option>
+                    </select>
+                    <label
+                      style="
+                        margin-bottom: 0;
+                        margin-right: 8px;
+                        font-weight: 500;
+                        color: #555;
+                        white-space: nowrap;
+                      "
+                      >Số lượng mẫu</label
+                    >
+                    <input
+                      type="number"
+                      class="form-control sample-count-input"
+                      min="2"
+                      value="2"
+                      style="
+                        width: 80px;
+                        flex: unset;
+                        margin-top: 0;
+                        border-radius: 6px;
+                        border: 1px solid #ccc;
+                        text-align: center;
+                      "
+                      placeholder="Số lượng mẫu"
+                      required
+                    />
+                  </div>
+                  <button
+                    type="button"
+                    class="remove-service-btn"
+                    style="
+                      margin-top: 4px;
+                      color: red;
+                      background: none;
+                      border: none;
+                      cursor: pointer;
+                      align-self: flex-end;
+                    "
                   >
-                    <option value="">-- Chọn dịch vụ xét nghiệm --</option>
-                  </select>
-                  <input type="number" class="form-control sample-count-input" min="2" value="2" style="display:none; margin-top:8px;" placeholder="Số lượng mẫu" required />
+                    <i class="fas fa-times"></i>
+                  </button>
                 </div>
               </div>
               <button
@@ -549,9 +599,22 @@
                   required
                 ></textarea>
               </div>
-              <div class="form-group" id="participantCountGroup" style="display:none;">
-                <label class="form-label" for="participantCount">Số lượng người tham gia *</label>
-                <input type="number" id="participantCount" class="form-control" min="2" value="2" required />
+              <div
+                class="form-group"
+                id="participantCountGroup"
+                style="display: none"
+              >
+                <label class="form-label" for="participantCount"
+                  >Số lượng người tham gia *</label
+                >
+                <input
+                  type="number"
+                  id="participantCount"
+                  class="form-control"
+                  min="2"
+                  value="2"
+                  required
+                />
               </div>
             </div>
 
@@ -684,7 +747,9 @@
         document.getElementById("homeCollectionInfo").classList.add("hidden");
         document.getElementById("centerCollectionInfo").classList.add("hidden");
         document.getElementById("participantCountGroup").style.display = "none";
-        document.querySelectorAll('.sample-count-input').forEach(input => input.style.display = 'none');
+        document
+          .querySelectorAll(".sample-count-input")
+          .forEach((input) => (input.style.display = "none"));
 
         // Hiện thông tin tương ứng với lựa chọn
         if (radio.value === "home") {
@@ -695,8 +760,11 @@
           document.getElementById("appointmentDate").required = false;
           document.getElementById("appointmentTime").required = false;
           // Hiện số lượng người tham gia và số lượng mẫu cho từng dịch vụ
-          document.getElementById("participantCountGroup").style.display = "block";
-          document.querySelectorAll('.sample-count-input').forEach(input => input.style.display = 'inline-block');
+          document.getElementById("participantCountGroup").style.display =
+            "block";
+          document
+            .querySelectorAll(".sample-count-input")
+            .forEach((input) => (input.style.display = "inline-block"));
         } else if (radio.value === "center") {
           document
             .getElementById("centerCollectionInfo")
@@ -712,15 +780,28 @@
           fullName: document.getElementById("fullName").value,
           email: document.getElementById("email").value,
           phone: document.getElementById("phone").value,
-          services: Array.from(document.querySelectorAll('.service-dropdown')).map(select => select.value),
-          sampleCounts: Array.from(document.querySelectorAll('.sample-count-input')).map(input => input.style.display !== 'none' ? input.value : null),
-          testType: document.querySelector('input[name="testType"]:checked')?.value,
-          sampleMethod: document.querySelector('input[name="sampleCollection"]:checked')?.value,
-          participantCount: document.getElementById("participantCountGroup").style.display !== 'none' ? document.getElementById("participantCount").value : null,
+          services: Array.from(
+            document.querySelectorAll(".service-dropdown")
+          ).map((select) => select.value),
+          sampleCounts: Array.from(
+            document.querySelectorAll(".sample-count-input")
+          ).map((input) =>
+            input.style.display !== "none" ? input.value : null
+          ),
+          testType: document.querySelector('input[name="testType"]:checked')
+            ?.value,
+          sampleMethod: document.querySelector(
+            'input[name="sampleCollection"]:checked'
+          )?.value,
+          participantCount:
+            document.getElementById("participantCountGroup").style.display !==
+            "none"
+              ? document.getElementById("participantCount").value
+              : null,
           address: document.getElementById("address").value,
           date: document.getElementById("appointmentDate").value,
           time: document.getElementById("appointmentTime").value,
-          notes: document.getElementById("notes").value
+          notes: document.getElementById("notes").value,
         };
       }
 
@@ -730,7 +811,7 @@
           return false;
         }
 
-        if (formData.services.some(service => !service)) {
+        if (formData.services.some((service) => !service)) {
           alert("Vui lòng chọn dịch vụ xét nghiệm");
           return false;
         }
@@ -751,18 +832,28 @@
             document.getElementById("address").focus();
             return false;
           }
-          if (!formData.participantCount || parseInt(formData.participantCount) < 2) {
+          if (
+            !formData.participantCount ||
+            parseInt(formData.participantCount) < 2
+          ) {
             alert("Vui lòng nhập số lượng người tham gia (tối thiểu 2)");
             document.getElementById("participantCount").focus();
             return false;
           }
-          if (formData.sampleCounts.some(count => !count || parseInt(count) < 2)) {
-            alert("Vui lòng nhập số lượng mẫu hợp lệ cho từng dịch vụ (tối thiểu 2)");
+          if (
+            formData.sampleCounts.some((count) => !count || parseInt(count) < 2)
+          ) {
+            alert(
+              "Vui lòng nhập số lượng mẫu hợp lệ cho từng dịch vụ (tối thiểu 2)"
+            );
             return false;
           }
         }
 
-        if (formData.sampleMethod === "center" && (!formData.date || !formData.time)) {
+        if (
+          formData.sampleMethod === "center" &&
+          (!formData.date || !formData.time)
+        ) {
           alert("Vui lòng chọn ngày và giờ lấy mẫu");
           return false;
         }
@@ -776,37 +867,39 @@
       // Hàm load services từ API
       async function loadServices() {
         try {
-          console.log('Đang load services...');
-          const response = await fetch('/service/list');
+          console.log("Đang load services...");
+          const response = await fetch("/service/list");
           if (!response.ok) {
-            throw new Error('Failed to load services');
+            throw new Error("Failed to load services");
           }
           const services = await response.json();
-          
-          console.log('Services loaded:', services);
-          
+
+          console.log("Services loaded:", services);
+
           // Store services data globally
           servicesData = services;
-          
+
           // Cập nhật service dropdowns
           updateServiceDropdowns(services);
-          
+
           // Auto-select service from URL if present
           if (urlServiceId) {
             selectServiceFromUrl(urlServiceId);
           }
 
           // Trigger event khi services đã load xong
-          window.dispatchEvent(new CustomEvent('servicesLoaded', { detail: services }));
+          window.dispatchEvent(
+            new CustomEvent("servicesLoaded", { detail: services })
+          );
         } catch (error) {
-          console.error('Error loading services:', error);
+          console.error("Error loading services:", error);
           // Fallback to hardcoded services if API fails
-          console.log('Using fallback services...');
+          console.log("Using fallback services...");
           const fallbackServices = [
             { id: 1, name: "Xét nghiệm ADN Cha - Con", price: 899000 },
             { id: 2, name: "Xét nghiệm ADN Mẹ - Con", price: 899000 },
             { id: 3, name: "Xét nghiệm ADN Anh/Chị - Em", price: 4000000 },
-            { id: 4, name: "Xét nghiệm ADN Ông/Bà - Cháu", price: 4000000 }
+            { id: 4, name: "Xét nghiệm ADN Ông/Bà - Cháu", price: 4000000 },
           ];
           servicesData = fallbackServices;
           updateServiceDropdowns(fallbackServices);
@@ -816,7 +909,9 @@
             selectServiceFromUrl(urlServiceId);
           }
 
-          window.dispatchEvent(new CustomEvent('servicesLoaded', { detail: fallbackServices }));
+          window.dispatchEvent(
+            new CustomEvent("servicesLoaded", { detail: fallbackServices })
+          );
         }
       }
 
@@ -824,12 +919,12 @@
       function selectServiceFromUrl(serviceId) {
         if (!serviceId) return;
 
-        console.log('Đang cố gắng chọn dịch vụ từ URL với ID:', serviceId);
+        console.log("Đang cố gắng chọn dịch vụ từ URL với ID:", serviceId);
 
         // Tìm service dropdown đầu tiên
-        const serviceSelect = document.getElementById('service');
+        const serviceSelect = document.getElementById("service");
         if (!serviceSelect) {
-          console.error('Không tìm thấy dropdown service');
+          console.error("Không tìm thấy dropdown service");
           return;
         }
 
@@ -838,84 +933,102 @@
         for (let i = 0; i < serviceSelect.options.length; i++) {
           const optionValue = serviceSelect.options[i].value;
           if (optionValue == serviceId) {
-            console.log(`Tìm thấy option phù hợp tại vị trí ${i}: ${optionValue}`);
+            console.log(
+              `Tìm thấy option phù hợp tại vị trí ${i}: ${optionValue}`
+            );
             serviceSelect.selectedIndex = i;
             found = true;
 
             // Kích hoạt sự kiện change
-            serviceSelect.dispatchEvent(new Event('change'));
-            console.log('Đã chọn dịch vụ thành công:', serviceId);
+            serviceSelect.dispatchEvent(new Event("change"));
+            console.log("Đã chọn dịch vụ thành công:", serviceId);
             break;
           }
         }
 
         if (!found) {
-          console.warn('Không tìm thấy dịch vụ phù hợp với ID:', serviceId);
+          console.warn("Không tìm thấy dịch vụ phù hợp với ID:", serviceId);
         }
       }
 
       // Hàm cập nhật service dropdowns
       function updateServiceDropdowns(services) {
-        console.log('Updating service dropdowns with:', services);
-        const serviceSelects = document.querySelectorAll('.service-dropdown');
-        console.log('Found service selects:', serviceSelects.length);
-        
+        console.log("Updating service dropdowns with:", services);
+        const serviceSelects = document.querySelectorAll(".service-dropdown");
+        console.log("Found service selects:", serviceSelects.length);
+
         serviceSelects.forEach((select, index) => {
-          console.log(`Updating select ${index}, current options:`, select.options.length);
-          
+          console.log(
+            `Updating select ${index}, current options:`,
+            select.options.length
+          );
+
           // Clear existing options except the first one
           while (select.options.length > 1) {
             select.remove(1);
           }
-          
+
           // Add new options from API
-          services.forEach(service => {
-            const option = document.createElement('option');
+          services.forEach((service) => {
+            const option = document.createElement("option");
             option.value = service.id; // Use service ID as value
-            option.textContent = service.name + ' | ' + formatPrice(service.price);
+            option.textContent =
+              service.name + " | " + formatPrice(service.price);
             select.appendChild(option);
             console.log(`Added option: ${service.id} - ${service.name}`);
           });
-          
-          console.log(`Select ${index} now has ${select.options.length} options`);
+
+          console.log(
+            `Select ${index} now has ${select.options.length} options`
+          );
         });
       }
       function formatPrice(price) {
         if (price == null) return "";
-        return Number(price).toLocaleString('vi-VN') + "đ";
+        return Number(price).toLocaleString("vi-VN") + "đ";
       }
 
       function getSelectedServiceIds() {
-        const selectedValues = Array.from(document.querySelectorAll('.service-dropdown'))
-                .map(select => select.value)
-                .filter(value => value); // Remove empty values
-        
+        const selectedValues = Array.from(
+          document.querySelectorAll(".service-dropdown")
+        )
+          .map((select) => select.value)
+          .filter((value) => value); // Remove empty values
+
         if (selectedValues.length === 0) {
           return [];
         }
 
         // Convert string values to integers
-        return selectedValues.map(value => parseInt(value)).filter(id => !isNaN(id));
+        return selectedValues
+          .map((value) => parseInt(value))
+          .filter((id) => !isNaN(id));
       }
 
       function saveFormData(formData, isRedirecting = false) {
-        localStorage.setItem('bookingFormData', JSON.stringify({
-          data: formData,
-          timestamp: new Date().getTime(),
-          isRedirecting: isRedirecting
-        }));
+        localStorage.setItem(
+          "bookingFormData",
+          JSON.stringify({
+            data: formData,
+            timestamp: new Date().getTime(),
+            isRedirecting: isRedirecting,
+          })
+        );
       }
 
       function loadFormData() {
-        const savedData = localStorage.getItem('bookingFormData');
+        const savedData = localStorage.getItem("bookingFormData");
         if (!savedData) return null;
 
         const parsedData = JSON.parse(savedData);
 
         // Check if data is still valid (within 30 minutes)
         const thirtyMinutesInMs = 30 * 60 * 1000;
-        if (new Date().getTime() - parsedData.timestamp > thirtyMinutesInMs && !parsedData.isRedirecting) {
-          localStorage.removeItem('bookingFormData');
+        if (
+          new Date().getTime() - parsedData.timestamp > thirtyMinutesInMs &&
+          !parsedData.isRedirecting
+        ) {
+          localStorage.removeItem("bookingFormData");
           return null;
         }
 
@@ -926,36 +1039,38 @@
         if (!formData) return;
 
         // Fill basic fields
-        document.getElementById("fullName").value = formData.fullName || '';
-        document.getElementById("email").value = formData.email || '';
-        document.getElementById("phone").value = formData.phone || '';
-        document.getElementById("notes").value = formData.notes || '';
+        document.getElementById("fullName").value = formData.fullName || "";
+        document.getElementById("email").value = formData.email || "";
+        document.getElementById("phone").value = formData.phone || "";
+        document.getElementById("notes").value = formData.notes || "";
 
         // Fill service dropdowns - đợi services load xong
         if (formData.services && formData.services.length > 0) {
           const fillServices = () => {
-            const serviceDropdowns = document.querySelectorAll('.service-dropdown');
+            const serviceDropdowns =
+              document.querySelectorAll(".service-dropdown");
             if (serviceDropdowns.length > 0) {
               // Fill first dropdown
-              serviceDropdowns[0].value = formData.services[0] || '';
+              serviceDropdowns[0].value = formData.services[0] || "";
 
               // Add additional dropdowns if needed
               for (let i = 1; i < formData.services.length; i++) {
                 if (i >= serviceDropdowns.length) {
                   document.getElementById("add-service-btn").click();
                   setTimeout(() => {
-                    const newDropdowns = document.querySelectorAll('.service-dropdown');
+                    const newDropdowns =
+                      document.querySelectorAll(".service-dropdown");
                     if (newDropdowns.length > i) {
-                      newDropdowns[i].value = formData.services[i] || '';
+                      newDropdowns[i].value = formData.services[i] || "";
                     }
                   }, 10);
                 } else {
-                  serviceDropdowns[i].value = formData.services[i] || '';
+                  serviceDropdowns[i].value = formData.services[i] || "";
                 }
               }
             }
           };
-          
+
           // Nếu services đã load, fill ngay. Nếu chưa, đợi
           if (servicesData.length > 0) {
             fillServices();
@@ -972,7 +1087,9 @@
 
         // Set test type radio
         if (formData.testType) {
-          const testTypeRadio = document.querySelector(`input[name="testType"][value="${formData.testType}"]`);
+          const testTypeRadio = document.querySelector(
+            `input[name="testType"][value="${formData.testType}"]`
+          );
           if (testTypeRadio) {
             testTypeRadio.checked = true;
             handleTestTypeChange(testTypeRadio);
@@ -981,23 +1098,35 @@
 
         // Set sample method radio
         if (formData.sampleMethod) {
-          const sampleMethodRadio = document.querySelector(`input[name="sampleCollection"][value="${formData.sampleMethod}"]`);
+          const sampleMethodRadio = document.querySelector(
+            `input[name="sampleCollection"][value="${formData.sampleMethod}"]`
+          );
           if (sampleMethodRadio) {
             sampleMethodRadio.checked = true;
             handleSampleMethodChange(sampleMethodRadio);
 
             // Fill additional fields based on sample method
             if (formData.sampleMethod === "home") {
-              document.getElementById("address").value = formData.address || '';
-              document.getElementById("participantCount").value = formData.participantCount || '2';
-              document.querySelectorAll('.sample-count-input').forEach(input => {
-                if (input.style.display !== 'none') {
-                  input.value = formData.sampleCounts[Array.from(document.querySelectorAll('.sample-count-input')).indexOf(input)] || '2';
-                }
-              });
+              document.getElementById("address").value = formData.address || "";
+              document.getElementById("participantCount").value =
+                formData.participantCount || "2";
+              document
+                .querySelectorAll(".sample-count-input")
+                .forEach((input) => {
+                  if (input.style.display !== "none") {
+                    input.value =
+                      formData.sampleCounts[
+                        Array.from(
+                          document.querySelectorAll(".sample-count-input")
+                        ).indexOf(input)
+                      ] || "2";
+                  }
+                });
             } else if (formData.sampleMethod === "center") {
-              document.getElementById("appointmentDate").value = formData.date || '';
-              document.getElementById("appointmentTime").value = formData.time || '';
+              document.getElementById("appointmentDate").value =
+                formData.date || "";
+              document.getElementById("appointmentTime").value =
+                formData.time || "";
             }
           }
         }
@@ -1008,14 +1137,16 @@
         if (!formData) return;
 
         // Fill basic fields
-        document.getElementById("fullName").value = formData.fullName || '';
-        document.getElementById("email").value = formData.email || '';
-        document.getElementById("phone").value = formData.phone || '';
-        document.getElementById("notes").value = formData.notes || '';
+        document.getElementById("fullName").value = formData.fullName || "";
+        document.getElementById("email").value = formData.email || "";
+        document.getElementById("phone").value = formData.phone || "";
+        document.getElementById("notes").value = formData.notes || "";
 
         // Set test type radio
         if (formData.testType) {
-          const testTypeRadio = document.querySelector(`input[name="testType"][value="${formData.testType}"]`);
+          const testTypeRadio = document.querySelector(
+            `input[name="testType"][value="${formData.testType}"]`
+          );
           if (testTypeRadio) {
             testTypeRadio.checked = true;
             handleTestTypeChange(testTypeRadio);
@@ -1024,23 +1155,35 @@
 
         // Set sample method radio
         if (formData.sampleMethod) {
-          const sampleMethodRadio = document.querySelector(`input[name="sampleCollection"][value="${formData.sampleMethod}"]`);
+          const sampleMethodRadio = document.querySelector(
+            `input[name="sampleCollection"][value="${formData.sampleMethod}"]`
+          );
           if (sampleMethodRadio) {
             sampleMethodRadio.checked = true;
             handleSampleMethodChange(sampleMethodRadio);
 
             // Fill additional fields based on sample method
             if (formData.sampleMethod === "home") {
-              document.getElementById("address").value = formData.address || '';
-              document.getElementById("participantCount").value = formData.participantCount || '2';
-              document.querySelectorAll('.sample-count-input').forEach(input => {
-                if (input.style.display !== 'none') {
-                  input.value = formData.sampleCounts[Array.from(document.querySelectorAll('.sample-count-input')).indexOf(input)] || '2';
-                }
-              });
+              document.getElementById("address").value = formData.address || "";
+              document.getElementById("participantCount").value =
+                formData.participantCount || "2";
+              document
+                .querySelectorAll(".sample-count-input")
+                .forEach((input) => {
+                  if (input.style.display !== "none") {
+                    input.value =
+                      formData.sampleCounts[
+                        Array.from(
+                          document.querySelectorAll(".sample-count-input")
+                        ).indexOf(input)
+                      ] || "2";
+                  }
+                });
             } else if (formData.sampleMethod === "center") {
-              document.getElementById("appointmentDate").value = formData.date || '';
-              document.getElementById("appointmentTime").value = formData.time || '';
+              document.getElementById("appointmentDate").value =
+                formData.date || "";
+              document.getElementById("appointmentTime").value =
+                formData.time || "";
             }
           }
         }
@@ -1074,10 +1217,18 @@
           isCenterCollected: formData.sampleMethod === "center",
           address: formData.sampleMethod === "home" ? formData.address : null,
           note: formData.notes,
-          centerSampleDate: formData.sampleMethod === "center" ? formData.date : null,
-          centerSampleTime: formData.sampleMethod === "center" ? formData.time : null,
-          participantCount: formData.sampleMethod === "home" ? parseInt(formData.participantCount) : null,
-          sampleCounts: formData.sampleMethod === "home" ? formData.sampleCounts.map(c => parseInt(c)) : null
+          centerSampleDate:
+            formData.sampleMethod === "center" ? formData.date : null,
+          centerSampleTime:
+            formData.sampleMethod === "center" ? formData.time : null,
+          participantCount:
+            formData.sampleMethod === "home"
+              ? parseInt(formData.participantCount)
+              : null,
+          sampleCounts:
+            formData.sampleMethod === "home"
+              ? formData.sampleCounts.map((c) => parseInt(c))
+              : null,
         };
 
         // Add CustomerId if logged in
@@ -1089,47 +1240,54 @@
         saveFormData(formData);
 
         // Send request to server
-        fetch('/booking/book', {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify(requestData)
+        fetch("/booking/book", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(requestData),
         })
-        .then(response => {
-          // Kiểm tra phiên đăng nhập hết hạn
-          if (!response.ok && response.headers.get('X-Session-Status') === 'EXPIRED') {
-            return response.text().then(message => {
-              // Lưu dữ liệu form
-              saveFormData(formData, true);
+          .then((response) => {
+            // Kiểm tra phiên đăng nhập hết hạn
+            if (
+              !response.ok &&
+              response.headers.get("X-Session-Status") === "EXPIRED"
+            ) {
+              return response.text().then((message) => {
+                // Lưu dữ liệu form
+                saveFormData(formData, true);
 
-              // Hiển thị hộp thoại xác nhận
-              if (confirm('Phiên đăng nhập đã hết hạn. Nhấn OK để tải lại trang.')) {
-                window.location.reload();
-              }
-            });
-          }
+                // Hiển thị hộp thoại xác nhận
+                if (
+                  confirm(
+                    "Phiên đăng nhập đã hết hạn. Nhấn OK để tải lại trang."
+                  )
+                ) {
+                  window.location.reload();
+                }
+              });
+            }
 
-          // Xử lý các trường hợp khác
-          if (response.ok) {
-            return response.text().then(msg => {
-              showSuccessModal();
-              // Xóa dữ liệu form
-              document.getElementById("bookingForm").reset();
-              localStorage.removeItem('bookingFormData');
-              // Nếu đã đăng nhập, tự động điền lại thông tin user
-              if (authStatus.isLoggedIn && authStatus.user) {
-                autofillUserInfo();
-              }
-            });
-          } else {
-            return response.text().then(errorMsg => {
-              alert(errorMsg);
-            });
-          }
-        })
-        .catch(error => {
-          console.error('Error:', error);
-          alert('Đã xảy ra lỗi khi gửi yêu cầu. Vui lòng thử lại sau.');
-        });
+            // Xử lý các trường hợp khác
+            if (response.ok) {
+              return response.text().then((msg) => {
+                showSuccessModal();
+                // Xóa dữ liệu form
+                document.getElementById("bookingForm").reset();
+                localStorage.removeItem("bookingFormData");
+                // Nếu đã đăng nhập, tự động điền lại thông tin user
+                if (authStatus.isLoggedIn && authStatus.user) {
+                  autofillUserInfo();
+                }
+              });
+            } else {
+              return response.text().then((errorMsg) => {
+                alert(errorMsg);
+              });
+            }
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+            alert("Đã xảy ra lỗi khi gửi yêu cầu. Vui lòng thử lại sau.");
+          });
       }
 
       // Hàm hiển thị modal thông báo thành công
@@ -1180,12 +1338,12 @@
         // Lấy tham số service từ URL và lưu vào biến global
         urlServiceId = getUrlParameter("service");
         if (urlServiceId) {
-          console.log('Có tham số service từ URL:', urlServiceId);
+          console.log("Có tham số service từ URL:", urlServiceId);
         }
 
         // Load services from API
         loadServices();
-        
+
         // Tự động điền thông tin user nếu đã đăng nhập
         autofillUserInfo();
 
@@ -1203,7 +1361,7 @@
         }
 
         // Add event listener to save form data when leaving page
-        window.addEventListener('beforeunload', function() {
+        window.addEventListener("beforeunload", function () {
           // Only save if form is partially filled
           const formData = getBookingFormData();
           if (formData.fullName || formData.email || formData.phone) {
@@ -1225,12 +1383,18 @@
             const newItem = document.createElement("div");
             newItem.className = "service-select-item";
             newItem.style.marginBottom = "8px";
+            newItem.style.display = "flex";
+            newItem.style.flexDirection = "column";
+            newItem.style.gap = "4px";
             newItem.innerHTML = `
-              <select name="services[]" class="form-control service-dropdown" required>
-                <option value="">-- Chọn dịch vụ xét nghiệm --</option>
-              </select>
-              <input type="number" class="form-control sample-count-input" min="2" value="2" style="display:none; margin-top:8px;" placeholder="Số lượng mẫu" required />
-              <button type="button" class="remove-service-btn" style="margin-left: 5px; color: red; background: none; border: none; cursor: pointer;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <select name="services[]" class="form-control service-dropdown" required style="flex:2;">
+                  <option value="">-- Chọn dịch vụ xét nghiệm --</option>
+                </select>
+                <label style="margin-bottom:0; margin-right:8px; font-weight:500; color:#555; white-space:nowrap;">Số lượng mẫu</label>
+                <input type="number" class="form-control sample-count-input" min="2" value="2" style="width:80px; flex:unset; margin-top:0; border-radius:6px; border:1px solid #ccc; text-align:center;" placeholder="Số lượng mẫu" required />
+              </div>
+              <button type="button" class="remove-service-btn" style="margin-top: 4px; color: red; background: none; border: none; cursor: pointer; align-self: flex-end;">
                 <i class="fas fa-times"></i>
               </button>
             `;
@@ -1239,17 +1403,18 @@
             serviceSelectList.appendChild(newItem);
 
             // Cập nhật dropdown mới với dữ liệu services đã có
-            const newSelect = newItem.querySelector('.service-dropdown');
+            const newSelect = newItem.querySelector(".service-dropdown");
             if (newSelect && servicesData.length > 0) {
               // Clear existing options except the first one
               while (newSelect.options.length > 1) {
                 newSelect.remove(1);
               }
               // Add new options from servicesData
-              servicesData.forEach(service => {
-                const option = document.createElement('option');
+              servicesData.forEach((service) => {
+                const option = document.createElement("option");
                 option.value = service.id;
-                option.textContent = service.name + ' | ' + formatPrice(service.price);
+                option.textContent =
+                  service.name + " | " + formatPrice(service.price);
                 newSelect.appendChild(option);
               });
             }

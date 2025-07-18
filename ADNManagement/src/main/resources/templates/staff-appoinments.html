@@ -2991,14 +2991,24 @@
           paymentMethod: booking.paymentMethod, // nếu có
           method: booking.method
         },
-        onSubmit: (data, modal) => {
-          // Callback khi thanh toán thành công
-          if (typeof window.showSuccessToast === 'function') {
-            window.showSuccessToast('Tạo thanh toán thành công!');
+        onSubmit: async (data, modal) => {
+          try {
+            // Sau khi tạo thanh toán, cập nhật trạng thái booking nếu cần
+            const res = await fetch(`/booking/staff/appointments/${booking.id}/status`, {
+              method: 'PUT',
+              headers: { 'Content-Type': 'application/json' },
+              credentials: 'include',
+              body: JSON.stringify({ status: 'Chưa lấy mẫu' })
+            });
+            if (!res.ok) throw new Error(await res.text());
+            if (typeof window.showSuccessToast === 'function') {
+              window.showSuccessToast('Tạo thanh toán và cập nhật trạng thái thành công!');
+            }
+            modal.remove();
+            fetchAppointments(currentPage, pageSize, currentFilters);
+          } catch (err) {
+            if (typeof window.showErrorToast === 'function') window.showErrorToast('Lỗi khi cập nhật trạng thái: ' + err.message);
           }
-          modal.remove();
-          // Refresh lại trang sau khi thanh toán thành công
-          fetchAppointments(currentPage, pageSize, currentFilters);
         }
       });
     }

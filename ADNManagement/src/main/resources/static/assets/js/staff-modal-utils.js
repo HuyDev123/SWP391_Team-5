@@ -469,21 +469,11 @@ function openAddPaymentModal(options = {}) {
       } else {
         paymentResult = await STAFF_API.PAYMENT.createPayment(booking.id, amount, paymentMethod, notes);
       }
-      // Gọi API cập nhật trạng thái booking
-      const res = await fetch(`/booking/staff/appointments/${booking.id}/status`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify({ status: 'Chưa lấy mẫu' })
-      });
-      if (!res.ok) throw new Error(await res.text());
-      
-      // Gọi callback onSubmit nếu có (sau khi thành công)
+      // Sau khi tạo thanh toán thành công:
       if (typeof options.onSubmit === 'function') {
         options.onSubmit(data, modal);
       } else {
-        // Fallback nếu không có callback
-        if (typeof window.showSuccessToast === 'function') window.showSuccessToast('Tạo thanh toán và cập nhật trạng thái thành công!');
+        if (typeof window.showSuccessToast === 'function') window.showSuccessToast('Tạo thanh toán thành công!');
         modal.remove();
       }
     } catch (err) {
@@ -909,3 +899,6 @@ function openResultModalUniversal(options = {}) {
 
   renderModalContent();
 }
+
+window.openSampleModal = openSampleModal;
+window.openParticipantModal = openParticipantModal;
