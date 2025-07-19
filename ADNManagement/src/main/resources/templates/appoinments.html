@@ -1,0 +1,2805 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lịch hẹn - Trung Tâm Xét Nghiệm ADN Genx</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <!-- CSS chính -->
+    <link rel="stylesheet" href="/assets/css/styles.css" />
+    <!-- CSS header và footer -->
+    <link rel="stylesheet" href="/assets/css/header.css" />
+    <link rel="stylesheet" href="/assets/css/footer.css" />
+    <link rel="stylesheet" href="/assets/css/user-dropdown.css" />
+
+    <!-- Dành cho localhost 5500 live khi nào chạy server bật  -->
+    <!-- <link rel="stylesheet" href="../static/assets/css/styles.css" />
+    <link rel="stylesheet" href="../static/assets/css/header.css" />
+    <link rel="stylesheet" href="../static/assets/css/footer.css" />
+    <link rel="stylesheet" href="../static/assets/css/user-dropdown.css" /> -->
+    <style>
+      body {
+        min-height: 100vh;
+        background-color: #f5f5f5;
+      }
+
+      /* Sidebar styles - đã ẩn theo yêu cầu */
+      .sidebar {
+        display: none; /* Ẩn sidebar */
+      }
+
+      .logo-container {
+        display: flex;
+        align-items: center;
+        padding: 15px;
+        border-bottom: 1px solid #eee;
+      }
+
+      .logo {
+        width: 40px;
+        height: 40px;
+        margin-right: 10px;
+      }
+
+      .logo-text {
+        font-size: 22px;
+        color: #2196f3;
+        font-weight: bold;
+      }
+
+      .login-register {
+        padding: 15px;
+        background-color: #f9f9f9;
+        border-bottom: 1px solid #eee;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .login-register-btn {
+        background-color: #2196f3;
+        color: white;
+        border: none;
+        padding: 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-bottom: 8px;
+        text-align: center;
+        text-decoration: none;
+        font-weight: bold;
+      }
+
+      .menu-title {
+        padding: 15px;
+        color: #888;
+        font-size: 14px;
+      }
+
+      .menu-item {
+        padding: 15px;
+        display: flex;
+        align-items: center;
+        color: #333;
+        text-decoration: none;
+        transition: background-color 0.3s;
+      }
+
+      .menu-item.active {
+        background-color: #2196f3;
+        color: white;
+      }
+
+      .menu-item:hover {
+        background-color: #e3f2fd;
+      }
+
+      .menu-item.active:hover {
+        background-color: #1976d2;
+      }
+
+      .menu-icon {
+        margin-right: 10px;
+        width: 20px;
+        text-align: center;
+      } /* Main content styles - đã cập nhật để chiếm toàn màn hình */
+      .main-content {
+        margin-left: 0; /* Không còn cần lề trái cho sidebar */
+        padding: 20px;
+        width: 100%; /* Chiếm toàn bộ chiều rộng */
+        margin-top: 70px; /* Added margin-top to accommodate the header */
+        max-width: 1400px; /* Giới hạn chiều rộng tối đa */
+        margin-right: auto; /* Căn giữa */
+        margin-left: auto; /* Căn giữa */
+      }
+
+      .navbar {
+        display: flex;
+        margin: 20px 0;
+        background-color: white;
+        border-radius: 5px;
+        overflow: hidden;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      .nav-item {
+        padding: 15px 20px;
+        text-decoration: none;
+        color: #333;
+        display: flex;
+        align-items: center;
+        border-bottom: 2px solid transparent;
+      }
+
+      .nav-item.active {
+        border-bottom: 2px solid #2196f3;
+        color: #2196f3;
+      }
+
+      .nav-icon {
+        margin-right: 10px;
+      }
+
+      /* Sample collection styles */
+      .sample-header {
+        background-image: linear-gradient(
+            rgba(0, 0, 0, 0.6),
+            rgba(0, 0, 0, 0.6)
+          ),
+          url("/assets/images/banner.jpg");
+        background-size: cover;
+        background-position: center;
+        color: white;
+        padding: 60px 30px;
+        border-radius: 10px;
+        margin-bottom: 30px;
+        text-align: center;
+      }
+
+      .sample-header h1 {
+        font-size: 32px;
+        margin-bottom: 15px;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+      }
+
+      .sample-header p {
+        font-size: 18px;
+        max-width: 800px;
+        margin: 0 auto;
+        line-height: 1.6;
+      }
+
+      .instruction-container {
+        background-color: white;
+        border-radius: 10px;
+        padding: 30px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        margin-bottom: 30px;
+      }
+
+      .instruction-title {
+        font-size: 24px;
+        color: #2196f3;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #eee;
+      }
+
+      .warning-box {
+        background-color: #fff8e1;
+        border-left: 4px solid #ff9800;
+        padding: 15px;
+        margin: 20px 0;
+        border-radius: 0 5px 5px 0;
+      }
+
+      .warning-title {
+        display: flex;
+        align-items: center;
+        font-weight: bold;
+        margin-bottom: 10px;
+        color: #e65100;
+      }
+
+      .warning-icon {
+        margin-right: 10px;
+        font-size: 20px;
+      }
+
+      .steps-container {
+        margin-top: 30px;
+      }
+
+      .step {
+        display: flex;
+        margin-bottom: 30px;
+        position: relative;
+      }
+
+      .step-number {
+        width: 50px;
+        height: 50px;
+        background-color: #2196f3;
+        color: white;
+        font-size: 24px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-right: 20px;
+        flex-shrink: 0;
+      }
+
+      .step-content {
+        flex: 1;
+      }
+
+      .step-title {
+        font-size: 20px;
+        margin-bottom: 10px;
+        color: #333;
+      }
+
+      .step-description {
+        color: #555;
+        line-height: 1.6;
+      }
+
+      .step-image {
+        width: 100%;
+        max-width: 300px;
+        border-radius: 8px;
+        margin-top: 15px;
+      }
+
+      .step-timeline {
+        position: absolute;
+        left: 24px;
+        top: 50px;
+        bottom: -30px;
+        width: 2px;
+        background-color: #2196f3;
+      }
+
+      .step:last-child .step-timeline {
+        display: none;
+      }
+
+      .step-tip {
+        background-color: #e3f2fd;
+        padding: 15px;
+        border-radius: 8px;
+        margin-top: 15px;
+      }
+
+      .step-tip-title {
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        margin-bottom: 5px;
+        color: #0d47a1;
+      }
+
+      .step-tip-icon {
+        margin-right: 8px;
+      }
+
+      .step-bullet-list {
+        margin-top: 15px;
+        margin-left: 5px;
+        list-style-type: none;
+      }
+
+      .step-bullet-list li {
+        position: relative;
+        padding-left: 28px;
+        margin-bottom: 12px;
+        line-height: 1.6;
+      }
+
+      .step-bullet-list li:before {
+        content: "•";
+        position: absolute;
+        left: 0;
+        top: 0;
+        color: #2196f3;
+        font-size: 24px;
+        line-height: 1;
+      }
+
+      .step-image-container {
+        margin-top: 20px;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+      }
+
+      .step-image-container:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+      }
+
+      .step-image {
+        width: 100%;
+        max-width: 400px;
+        display: block;
+        border-radius: 8px;
+      }
+
+      .step-content {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-start;
+      }
+
+      .step-text {
+        flex: 1;
+        min-width: 300px;
+      }
+
+      .step-visual {
+        flex: 1;
+        min-width: 300px;
+        padding-left: 20px;
+        display: flex;
+        justify-content: center;
+      }
+      .sample-types {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px;
+        margin-top: 30px;
+      }
+
+      .sample-type {
+        flex: 1;
+        min-width: 250px;
+        background-color: #f9f9f9;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        border-left: 4px solid #2196f3;
+      }
+      .sample-type:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      @media (max-width: 768px) {
+        .step-content {
+          flex-direction: column;
+        }
+
+        .step-visual {
+          padding-left: 0;
+          margin-top: 20px;
+          width: 100%;
+        }
+      }
+      .sample-type-title {
+        font-size: 18px;
+        margin-bottom: 10px;
+        color: #333;
+        display: flex;
+        align-items: center;
+      }
+
+      .sample-type-icon {
+        margin-right: 10px;
+        color: #2196f3;
+        font-size: 20px;
+      }
+
+      .sample-type-content {
+        color: #555;
+        line-height: 1.5;
+      }
+
+      /* Video section */
+      .video-section {
+        background-color: white;
+        border-radius: 10px;
+        padding: 30px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        margin-bottom: 30px;
+        text-align: center;
+      }
+
+      .video-title {
+        font-size: 24px;
+        color: #2196f3;
+        margin-bottom: 20px;
+      }
+
+      .video-container {
+        position: relative;
+        width: 100%;
+        padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+        height: 0;
+        overflow: hidden;
+        border-radius: 8px;
+      }
+
+      .video-container iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: none;
+      }
+
+      /* FAQs section */
+      .faq-section {
+        background-color: white;
+        border-radius: 10px;
+        padding: 30px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .faq-title {
+        font-size: 24px;
+        color: #2196f3;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #eee;
+      }
+
+      .faq-item {
+        margin-bottom: 20px;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 20px;
+      }
+
+      .faq-item:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+        padding-bottom: 0;
+      }
+
+      .faq-question {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 10px;
+        color: #333;
+        display: flex;
+        align-items: flex-start;
+      }
+
+      .question-icon {
+        color: #2196f3;
+        margin-right: 10px;
+        flex-shrink: 0;
+      }
+
+      .faq-answer {
+        color: #555;
+        line-height: 1.6;
+        padding-left: 30px;
+      }
+
+      /* Responsive adjustments */
+      @media (max-width: 768px) {
+        body {
+          flex-direction: column;
+        }
+
+        .sidebar {
+          width: 100%;
+          height: auto;
+          position: relative;
+        }
+
+        .main-content {
+          margin-left: 0;
+          width: 100%;
+        }
+
+        .step {
+          flex-direction: column;
+        }
+
+        .step-number {
+          margin-bottom: 15px;
+          margin-right: 0;
+        }
+
+        .step-timeline {
+          display: none;
+        }
+      }
+      .highlighted-step {
+        animation: highlight-step 3s ease;
+      }
+
+      @keyframes highlight-step {
+        0%,
+        100% {
+          background-color: transparent;
+        }
+        20%,
+        80% {
+          background-color: rgba(33, 150, 243, 0.1);
+          box-shadow: 0 0 15px rgba(33, 150, 243, 0.3);
+          transform: translateY(-5px);
+        }
+      }
+
+      /* Đảm bảo các bước có đủ padding cho hiệu ứng */
+      .step {
+        padding: 20px;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        margin-bottom: 30px;
+      }
+      .menu-icon i {
+        font-size: 18px;
+        width: 20px;
+        text-align: center;
+      }
+
+      .menu-item.active .menu-icon i {
+        color: white;
+      }
+
+      .menu-item:hover .menu-icon i {
+        transform: scale(1.2);
+        transition: transform 0.3s ease;
+      }
+
+      /* Animation keyframes */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Table styles */
+      table {
+        border-collapse: separate;
+        border-spacing: 0;
+        width: 100%;
+        margin-top: 10px;
+        border-radius: 8px;
+        overflow: hidden;
+        border: 1px solid #e0e0e0;
+      }
+
+      thead tr {
+        background: linear-gradient(45deg, #0d47a1, #1976d2);
+        color: rgb(255, 255, 255);
+        font-weight: 600;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      }
+
+      th {
+        padding: 18px 12px !important;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 14px;
+        letter-spacing: 0.5px;
+        border: none !important;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        color: #ffffff;
+        position: relative;
+      }
+
+      th:after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 1px;
+        background: rgba(255, 255, 255, 0.3);
+      }
+
+      tbody tr {
+        transition: all 0.3s ease;
+        animation: slideIn 0.5s ease;
+        background: white;
+      }
+
+      tbody tr:hover {
+        background-color: #f8f9fa;
+        transform: translateY(-2px);
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+      }
+
+      td {
+        padding: 15px 12px !important;
+        border-bottom: 1px solid #edf2f7 !important;
+        font-size: 14px;
+      }
+
+      /* Button styles */
+      .btn {
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-weight: 500;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        border: none;
+        cursor: pointer;
+      }
+
+      .btn i {
+        font-size: 14px;
+        transition: transform 0.3s ease;
+      }
+
+      .btn:hover i {
+        transform: scale(1.1);
+      }
+
+      .btn-primary {
+        background: linear-gradient(45deg, #2196f3, #1976d2);
+        color: white;
+      }
+
+      .btn-primary:hover {
+        background: linear-gradient(45deg, #1976d2, #0d47a1);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
+      }
+
+      .btn-success {
+        background: linear-gradient(45deg, #4caf50, #388e3c);
+        color: white;
+      }
+
+      .btn-success:hover {
+        background: linear-gradient(45deg, #388e3c, #2e7d32);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+      }
+
+      .btn-danger {
+        background: linear-gradient(45deg, #f44336, #d32f2f);
+        color: white;
+      }
+
+      .btn-danger:hover {
+        background: linear-gradient(45deg, #d32f2f, #b71c1c);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(244, 67, 54, 0.3);
+      }
+
+      /* Filter form styles */
+      #filterForm {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        margin-bottom: 25px;
+      }
+
+      .filter-container {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: nowrap;
+        width: 100%;
+      }
+
+      .form-group {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex: 1;
+      }
+
+      .form-group label {
+        font-weight: 500;
+        color: #333;
+        font-size: 14px;
+        white-space: nowrap;
+        min-width: fit-content;
+      }
+
+      .form-control {
+        padding: 8px 12px;
+        border: 1px solid #e1e1e1;
+        border-radius: 6px;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        background: #fff;
+        width: 100%;
+        min-width: 120px;
+      }
+
+      .form-control:focus {
+        border-color: #1976d2;
+        box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.1);
+        outline: none;
+      }
+
+      select.form-control {
+        padding-right: 30px;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath fill='%23666' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 8px center;
+        background-size: 20px;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+      }
+
+      .search-btn {
+        padding: 8px 20px;
+        background: linear-gradient(45deg, #1976d2, #2196f3);
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.3s ease;
+        white-space: nowrap;
+      }
+
+      .search-btn:hover {
+        background: linear-gradient(45deg, #1565c0, #1976d2);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(25, 118, 210, 0.2);
+      }
+
+      .search-btn i {
+        font-size: 14px;
+      }
+
+      /* Responsive adjustments */
+      @media (max-width: 1024px) {
+        .filter-container {
+          flex-wrap: wrap;
+          gap: 12px;
+        }
+
+        .form-group {
+          flex: 1 1 calc(33.333% - 12px);
+          min-width: 200px;
+        }
+
+        .form-group:last-child {
+          flex: 0 0 auto;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .form-group {
+          flex: 1 1 100%;
+        }
+
+        .form-group:last-child {
+          width: 100%;
+        }
+
+        .search-btn {
+          width: 100%;
+          justify-content: center;
+        }
+      }
+
+      /* Status badge styles */
+      .status-badge {
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 13px;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .status-booked {
+        background-color: rgba(33, 150, 243, 0.1);
+        color: #2196f3;
+      }
+
+      .status-waiting {
+        background-color: rgba(255, 152, 0, 0.1);
+        color: #ff9800;
+      }
+
+      .status-received {
+        background-color: rgba(25, 118, 210, 0.1);
+        color: #1976d2;
+      }
+
+      .status-completed {
+        background-color: rgba(76, 175, 80, 0.1);
+        color: #4caf50;
+      }
+
+      .status-delivered {
+        background-color: rgba(0, 150, 136, 0.1);
+        color: #009688;
+      }
+
+      .status-cancelled {
+        background-color: rgba(244, 67, 54, 0.1);
+        color: #f44336;
+      }
+
+      /* Modal styles */
+      .appointment-details-modal {
+        animation: fadeIn 0.3s ease;
+      }
+
+      .modal-content {
+        animation: scaleIn 0.3s ease;
+      }
+
+      .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 2px solid #edf2f7;
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+      }
+
+      .modal-title {
+        font-size: 24px;
+        color: #2196f3;
+        font-weight: 600;
+      }
+
+      .modal-close {
+        background: none;
+        border: none;
+        font-size: 24px;
+        color: #666;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .modal-close:hover {
+        color: #f44336;
+        transform: scale(1.1);
+      }
+
+      .service-list {
+        background: #f8f9fa;
+        border-radius: 8px;
+        padding: 20px;
+      }
+
+      .service-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 0;
+        border-bottom: 1px solid #edf2f7;
+        transition: all 0.3s ease;
+      }
+
+      .service-item:last-child {
+        border-bottom: none;
+      }
+
+      .service-item:hover {
+        transform: translateX(5px);
+      }
+
+      .total-amount {
+        margin-top: 20px;
+        padding-top: 15px;
+        border-top: 2px solid #edf2f7;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 18px;
+        font-weight: 600;
+      }
+      /* Status badge styles cho kit */
+      .status-badge {
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 13px;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        border: 1px solid transparent;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Trạng thái đã đặt - Xanh dương */
+      .status-booked {
+        background-color: #e3f2fd;
+        color: #1565c0;
+        border-color: #2196f3;
+      }
+
+      .status-payment-pending {
+        background-color: #f3e5f5;
+        color: #7b1fa2;
+        border-color: #9c27b0;
+      }
+
+      /* Flow Tại nhà - Kit pending - Cam */
+      .status-kit-pending {
+        background-color: #fff3e0;
+        color: #e65100;
+        border-color: #ff9800;
+      }
+
+      /* Flow Tại nhà - Kit received - Tím */
+      .status-kit-received {
+        background-color: #f3e5f5;
+        color: #7b1fa2;
+        border-color: #9c27b0;
+      }
+
+      /* Flow Tại nhà - Kit returned - Tím đậm */
+      .status-kit-returned {
+        background-color: #e8eaf6;
+        color: #3f51b5;
+        border-color: #673ab7;
+      }
+
+      /* Flow Tại cơ sở - Chưa lấy mẫu - Xanh lá */
+      .status-not-sampled {
+        background-color: #e8f5e8;
+        color: #2e7d32;
+        border-color: #4caf50;
+      }
+
+      /* Chung cho cả 2 flow - Hoàn thành lấy mẫu - Xanh lá đậm */
+      .status-sampling-completed {
+        background-color: #e0f2e0;
+        color: #1b5e20;
+        border-color: #388e3c;
+      }
+
+      /* Lỗi mẫu - Đỏ */
+      .status-sample-error {
+        background-color: #ffebee;
+        color: #c62828;
+        border-color: #f44336;
+      }
+
+      /* Hoàn thành cuối cùng - Xanh ngọc */
+      .status-final-completed {
+        background-color: #e0f2f1;
+        color: #00695c;
+        border-color: #009688;
+      }
+
+      /* Đã hủy - Xám */
+      .status-cancelled {
+        background-color: #f5f5f5;
+        color: #424242;
+        border-color: #9e9e9e;
+      }
+
+      /* Trạng thái cũ (backwards compatibility) */
+      .status-waiting {
+        background-color: #fff3e0;
+        color: #e65100;
+        border-color: #ff9800;
+      }
+
+      .status-received {
+        background-color: #e3f2fd;
+        color: #1565c0;
+        border-color: #2196f3;
+      }
+
+      .status-completed {
+        background-color: #e0f2e0;
+        color: #1b5e20;
+        border-color: #388e3c;
+      }
+
+      .status-delivered {
+        background-color: #e0f2f1;
+        color: #00695c;
+        border-color: #009688;
+      }
+
+      /* Badge trạng thái giống kit-management-customer.html */
+      .status-badge {
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 13px;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .status-pending {
+        background-color: rgba(158, 158, 158, 0.1);
+        color: #9e9e9e;
+      }
+      .status-confirmed {
+        background-color: rgba(33, 150, 243, 0.1);
+        color: #2196f3;
+      }
+      .status-sampled {
+        background-color: rgba(103, 58, 183, 0.1);
+        color: #673ab7;
+      }
+      .status-paid {
+        background-color: rgba(76, 175, 80, 0.1);
+        color: #4caf50;
+      }
+      .status-done {
+        background-color: rgba(255, 152, 0, 0.1);
+        color: #ff9800;
+      }
+      .status-cancel {
+        background-color: rgba(244, 67, 54, 0.1);
+        color: #f44336;
+      }
+    </style>
+    <!-- Thêm vào phần <head> của mỗi trang -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+
+    <style>
+      /* Hiệu ứng chuyển động mượt mà */
+      .hero-banner,
+      .content-section,
+      .service-card,
+      .step-item,
+      .contact-btn {
+        transition: all 0.5s ease;
+      }
+
+      /* Cải thiện hero banner */
+      .hero-banner {
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+      }
+
+      .hero-banner:hover {
+        transform: translateY(-5px);
+      }
+
+      /* Hiệu ứng cho các section */
+      .content-section {
+        transition: transform 0.4s ease, box-shadow 0.4s ease;
+      }
+
+      .content-section:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+      }
+
+      /* Hiệu ứng facility items */
+      .facility-item {
+        transition: all 0.4s ease;
+      }
+
+      .facility-item:hover {
+        transform: translateY(-8px);
+      }
+
+      .facility-item .icon-wrapper {
+        transition: all 0.5s ease;
+      }
+
+      .facility-item:hover .icon-wrapper {
+        transform: rotateY(180deg);
+      }
+
+      /* Card hover effects */
+      .service-card:hover {
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 15px 30px rgba(33, 150, 243, 0.1);
+      }
+
+      .service-card .card-icon {
+        transition: all 0.5s ease;
+      }
+
+      .service-card:hover .card-icon {
+        transform: rotateY(360deg);
+        background-color: #2196f3;
+        color: white;
+      }
+
+      /* Step item animations */
+      .step-item {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .step-item:hover {
+        background-color: #f9f9f9;
+        padding-left: 15px;
+        border-radius: 8px;
+      }
+
+      .step-item .step-number,
+      .step-item .step-icon {
+        transition: all 0.4s ease;
+      }
+
+      .step-item:hover .step-number {
+        transform: scale(1.2);
+      }
+
+      .step-item:hover .step-icon {
+        transform: rotate(360deg);
+      }
+
+      /* Contact button effects */
+      .contact-btn {
+        transform-origin: center;
+        transition: all 0.3s ease;
+      }
+
+      .contact-btn:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+      }
+
+      .contact-btn i {
+        transition: all 0.4s ease;
+      }
+
+      .contact-btn:hover i {
+        transform: scale(1.2);
+      }
+
+      /* Scrollbar styling */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: #2196f3;
+        border-radius: 10px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: #1976d2;
+      }
+
+      /* Sidebar menu hover effect */
+      .menu-item {
+        transition: all 0.3s ease;
+      }
+
+      .menu-item:hover .menu-icon {
+        transform: scale(1.2);
+        transition: transform 0.3s ease;
+      }
+
+      /* Gradient buttons */
+      .login-register-btn {
+        background-image: linear-gradient(45deg, #2196f3, #1976d2);
+        transition: all 0.3s ease;
+      }
+
+      .login-register-btn:hover {
+        background-image: linear-gradient(45deg, #1976d2, #0d47a1);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(33, 150, 243, 0.3);
+      }
+
+      /* Animation for facility section */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .logo-container {
+        display: flex;
+        align-items: center;
+        flex-direction: row; /* Thay đổi từ column thành row */
+        padding: 15px;
+        border-bottom: 1px solid #eee;
+      }
+
+      .logo {
+        width: 45px;
+        height: 45px;
+        margin-right: 12px; /* Thêm khoảng cách giữa logo và text */
+        margin-bottom: 0;
+      }
+
+      .text-container {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .logo-text {
+        font-size: 28px;
+        color: #2196f3;
+        font-weight: bold;
+        letter-spacing: 1px;
+        margin-bottom: 3px;
+        line-height: 1;
+      }
+
+      .logo-subtext {
+        font-size: 15px;
+        color: #444;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+        line-height: 1.2;
+        text-transform: capitalize;
+        /* background: linear-gradient(to right, #2196F3, #1976D2); */
+        /* -webkit-background-clip: text; */
+        /* -webkit-text-fill-color: transparent; */
+        max-width: 180px;
+      }
+    </style>
+  </head>
+  <body>
+    <script th:inline="javascript">
+      /*<![CDATA[*/
+      window.serverUser = /*[[${userData}]]*/ null;
+      /*]]>*/
+    </script>
+    <!-- Header -->
+    <header>
+      <div class="header-container">
+        <div class="logo-section">
+          <img src="/assets/images/logo.png" alt="Genx Logo" />
+          <div class="brand-text">
+            <h1 class="brand-name">Genx</h1>
+            <p class="brand-description">
+              Trung Tâm Xét Nghiệm ADN Huyết Thống
+            </p>
+          </div>
+        </div>
+        <nav class="nav-links">
+          <a href="/home" class="nav-link">Trang chủ</a>
+          <a href="/booking" class="nav-link">Đặt lịch xét nghiệm</a>
+          <a href="/services" class="nav-link">Giới thiệu dịch vụ</a>
+          <a href="/knowledge" class="nav-link">Kiến thức ADN</a>
+          <a href="/sampling-guide" class="nav-link">Hướng dẫn lấy mẫu</a>
+          <a href="/login" class="nav-link login-button">Đăng nhập</a>
+        </nav>
+      </div>
+    </header>
+    <!-- Sidebar đã bị ẩn -->
+    <!-- Main Content -->
+    <div class="main-content">
+      <!-- Phần cần code -->
+      <h1
+        style="
+          margin-bottom: 20px;
+          color: #0288d1;
+          font-size: 32px;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          border-bottom: 3px solid #0288d1;
+          padding-bottom: 10px;
+          display: flex;
+          align-items: center;
+        "
+      >
+        <i
+          class="fas fa-calendar-check"
+          style="margin-right: 15px; font-size: 36px"
+        ></i>
+        Danh sách lịch hẹn xét nghiệm ADN
+      </h1>
+      <div class="instruction-container" style="margin-top: 10px">
+        <div class="instruction-title">
+          <i class="fas fa-filter" style="color: #2196f3"></i>
+          Tìm kiếm lịch hẹn
+        </div>
+        <!-- Bộ lọc -->
+        <form
+          id="filterForm"
+          style="
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            align-items: center;
+            margin-bottom: 20px;
+          "
+        >
+          <div>
+            <label for="dateFilter" style="font-weight: 500; color: #333"
+              >Ngày hẹn:</label
+            >
+            <input
+              type="date"
+              id="dateFilter"
+              name="dateFilter"
+              style="
+                padding: 6px 10px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+              "
+            />
+          </div>
+          <div>
+            <label for="statusFilter" style="font-weight: 500; color: #333"
+              >Trạng thái:</label
+            >
+            <select
+              id="statusFilter"
+              name="statusFilter"
+              style="
+                padding: 6px 10px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+              "
+            >
+              <option value="">Tất cả</option>
+              <option value="Đã đặt">Đã đặt</option>
+              <option value="Chưa thanh toán">Chưa thanh toán</option>
+              <option value="Chưa lấy mẫu">Chưa lấy mẫu</option>
+              <option value="Đã lấy mẫu">Đã cấp mẫu</option>
+              <option value="Đã trả kết quả">Đã nhận kết quả</option>
+              <option value="Đã hủy">Đã hủy</option>
+            </select>
+          </div>
+          <div>
+            <button
+              type="submit"
+              style="
+                background: #2196f3;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                padding: 8px 18px;
+                cursor: pointer;
+              "
+            >
+              <i class="fas fa-search"></i> Tìm kiếm
+            </button>
+          </div>
+        </form>
+        <div style="overflow-x: auto">
+          <table
+            style="width: 100%; border-collapse: collapse; margin-top: 10px"
+          >
+            <thead>
+              <tr style="background: #3d55d8">
+                <th style="padding: 12px 8px; border-bottom: 1px solid #eee; text-align: left;">
+                  Mã
+                </th>
+                <th style="padding: 12px 8px; border-bottom: 1px solid #eee; text-align: left;">
+                  Tên khách hàng
+                </th>
+                <th style="padding: 12px 8px; border-bottom: 1px solid #eee; text-align: left;">
+                  Phương thức
+                </th>
+                <th style="padding: 12px 8px; border-bottom: 1px solid #eee; text-align: left;">
+                  Ngày đặt lịch
+                </th>
+                <th style="padding: 12px 8px; border-bottom: 1px solid #eee; text-align: left;">
+                  Trạng thái
+                </th>
+                <th style="padding: 12px 8px; border-bottom: 1px solid #eee; text-align: left;">
+                  Thao tác
+                </th>
+              </tr>
+            </thead>
+            <tbody id="appointmentTableBody">
+              <!-- Dữ liệu sẽ được render bằng JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <script>
+        // Danh sách dịch vụ mẫu (có loại)
+        const serviceNames = [
+          { name: "Xét nghiệm ADN Cha - Con" },
+          { name: "Xét nghiệm ADN Mẹ - Con" },
+          { name: "Xét nghiệm ADN Anh/Chị - Em" },
+          { name: "Xét nghiệm ADN Ông/Bà - Cháu" },
+        ];
+
+        // Lưu trữ dữ liệu lịch hẹn từ API
+        let appointmentsData = [];
+        let currentPage = 0;
+        let totalPages = 1;
+        let pageSize = 10;
+        // Lưu filter hiện tại
+        let currentFilters = {
+          date: "",
+          status: "",
+        };
+
+        // Hàm để lấy dữ liệu lịch hẹn từ server (có filter)
+        async function fetchAppointments(page = 0, size = 10, filters = {}) {
+          try {
+            // Build query string
+            let params = new URLSearchParams();
+            params.append("page", page);
+            params.append("size", size);
+            if (filters.status) params.append("status", filters.status);
+            if (filters.date) params.append("date", filters.date);
+
+            const response = await fetch(
+              `/booking/appointments?${params.toString()}`,
+              {
+                method: "GET",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                credentials: "include", // Để gửi cookie
+              }
+            );
+
+            if (response.status === 401) {
+              window.location.href = "/login";
+              return;
+            }
+
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            appointmentsData = data.content;
+            currentPage = data.page;
+            totalPages = data.totalPages;
+            pageSize = data.size;
+            renderAppointments(appointmentsData);
+            renderPagination();
+            return data;
+          } catch (error) {
+            console.error("Lỗi khi lấy dữ liệu lịch hẹn:", error);
+            renderAppointments([]);
+            renderPagination();
+          }
+        }
+
+        // Sửa renderPagination để truyền filter khi chuyển trang
+        function renderPagination() {
+          const containerId = "pagination-container";
+          let container = document.getElementById(containerId);
+          if (!container) {
+            container = document.createElement("div");
+            container.id = containerId;
+            container.style =
+              "display:flex;justify-content:center;align-items:center;margin:20px 0;gap:8px;";
+            document.querySelector(".main-content").appendChild(container);
+          }
+          container.innerHTML = "";
+          if (totalPages <= 1) return;
+          // Nút prev
+          const prevBtn = document.createElement("button");
+          prevBtn.innerText = "«";
+          prevBtn.className = "btn btn-primary";
+          prevBtn.disabled = currentPage === 0;
+          prevBtn.onclick = () =>
+            fetchAppointments(currentPage - 1, pageSize, currentFilters);
+          container.appendChild(prevBtn);
+          // Số trang
+          for (let i = 0; i < totalPages; i++) {
+            const pageBtn = document.createElement("button");
+            pageBtn.innerText = i + 1;
+            pageBtn.className =
+              "btn" + (i === currentPage ? " btn-success" : " btn-primary");
+            pageBtn.disabled = i === currentPage;
+            pageBtn.onclick = () =>
+              fetchAppointments(i, pageSize, currentFilters);
+            container.appendChild(pageBtn);
+          }
+          // Nút next
+          const nextBtn = document.createElement("button");
+          nextBtn.innerText = "»";
+          nextBtn.className = "btn btn-primary";
+          nextBtn.disabled = currentPage === totalPages - 1;
+          nextBtn.onclick = () =>
+            fetchAppointments(currentPage + 1, pageSize, currentFilters);
+          container.appendChild(nextBtn);
+        }
+
+        // Cập nhật hàm renderStatus để sử dụng badge styles
+        function renderStatus(status) {
+          let className = "";
+          switch (status) {
+            case "Đã đặt":
+              className = "status-booked";
+              break;
+            case "Chưa thanh toán":
+              className = "status-payment-pending";
+              break;
+            // Flow Tại nhà
+            case "Chưa nhận kit":
+              className = "status-kit-pending";
+              break;
+            case "Đã nhận kit":
+              className = "status-kit-received";
+              break;
+            case "Đã trả kit":
+              className = "status-kit-returned";
+              break;
+            // Flow Tại cơ sở
+            case "Chưa lấy mẫu":
+              className = "status-not-sampled";
+              break;
+            // Chung cho cả 2 flow
+            case "Hoàn thành lấy mẫu":
+              className = "status-sampling-completed";
+              break;
+            case "Lỗi mẫu":
+              className = "status-sample-error";
+              break;
+            case "Hoàn thành":
+              className = "status-final-completed";
+              break;
+            case "Đã hủy":
+              className = "status-cancelled";
+              break;
+            // Trạng thái cũ (backwards compatibility)
+            // case "Đang chờ lấy mẫu":
+            //   className = "status-waiting";
+            //   break;
+            // case "Đã nhận mẫu":
+            //   className = "status-received";
+            //   break;
+            // case "Đã hoàn thành":
+            //   className = "status-completed";
+            //   break;
+            // case "Đã trả kết quả":
+            //   className = "status-delivered";
+            //   break;
+          }
+          return `<span class="status-badge ${className}"><i class="fas fa-circle" style="font-size: 8px"></i> ${status}</span>`;
+        }
+
+        // Cập nhật hàm hiển thị modal chi tiết - gọi API riêng để lấy chi tiết
+        async function showAppointmentDetails(appointmentId) {
+          try {
+            const response = await fetch(`/booking/appointments/${appointmentId}/details`, {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              credentials: "include",
+            });
+
+            if (response.status === 401) {
+              window.location.href = "/login";
+              return;
+            }
+
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const appointment = await response.json();
+
+          const modal = document.createElement("div");
+          modal.className = "appointment-details-modal";
+          modal.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+          `;
+
+          const appointmentInfo =
+            appointment.method === "Tại nhà"
+              ? `<strong style="color: #666;">Địa chỉ:</strong>
+               <span>${appointment.address}</span>`
+              : `<strong style="color: #666;">Ngày giờ hẹn:</strong>
+               <span>${appointment.appointmentDateTime}</span>`;
+
+          // 1. Lấy paymentMethod từ appointment (giả sử đã có trường này trong dữ liệu appointment)
+          const paymentMethod = appointment.paymentMethod;
+          const isCenter = appointment.method === "Tại trung tâm";
+          const isHome = appointment.method === "Tại nhà";
+          const canChoosePaymentMethod = isHome && !paymentMethod;
+
+          // 2. Xác định các phương thức hợp lệ
+          let availableMethods = [];
+          if (canChoosePaymentMethod) {
+            if (isCenter) {
+              availableMethods = [
+                { value: "CASH", label: "Tiền mặt tại cơ sở" },
+                { value: "BANK_TRANSFER", label: "Chuyển khoản ngân hàng" },
+              ];
+            } else {
+              availableMethods = [
+                { value: "COD", label: "Thanh toán khi nhận (COD)" },
+                { value: "BANK_TRANSFER", label: "Chuyển khoản ngân hàng" },
+              ];
+            }
+          }
+
+          // 3. Thêm nút chọn phương thức nếu chưa có
+          let paymentActionHtml = "";
+          if (canChoosePaymentMethod) {
+            paymentActionHtml = `
+              <button onclick="showChoosePaymentMethodModal(${appointment.id}, ${isCenter})" class="btn btn-primary" style="margin-right: 10px;">
+                <i class='fas fa-credit-card'></i> Chọn phương thức thanh toán
+              </button>
+            `;
+          } else {
+            // Đã có phương thức, hiển thị thông tin
+            let methodLabel =
+              paymentMethod === "CASH"
+                ? "Tiền mặt tại cơ sở"
+                : paymentMethod === "COD"
+                ? "Thanh toán khi nhận (COD)"
+                : paymentMethod === "BANK_TRANSFER"
+                ? "Chuyển khoản ngân hàng"
+                : "Chưa có";
+            paymentActionHtml = `<div style='margin-bottom:10px;'><strong>Phương thức thanh toán:</strong> <span style='color:#1976d2;font-weight:500;'>${methodLabel}</span></div>`;
+          }
+
+          // 4. Nếu đã có phương thức và là BANK_TRANSFER, cho phép thanh toán nếu còn thiếu tiền
+          const totalAmount = appointment.totalAmount || 0;
+          const paidAmount = appointment.paidAmount || 0;
+          const remainingAmount = totalAmount - paidAmount;
+          const canPay = isHome && paymentMethod === "BANK_TRANSFER" && remainingAmount > 0;
+
+          if (canPay) {
+            paymentActionHtml += `
+              <button onclick="handlePayment(${appointment.id}, ${remainingAmount})" class="btn btn-success" style="margin-right: 10px;">
+                <i class="fas fa-credit-card"></i> Thanh toán (${new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(remainingAmount)})
+              </button>
+            `;
+          }
+
+          // Điều kiện hiển thị nút "Kết quả"
+          const statusLower = (appointment.statusDisplay || appointment.status || "").toLowerCase();
+          const hasResults = statusLower === "đã nhận kết quả";
+          if (hasResults) {
+            paymentActionHtml += `
+              <button onclick="window.location.href='/test-history'" class="btn btn-info">
+                <i class="fas fa-file-medical-alt"></i> Kết quả
+              </button>
+            `;
+          }
+
+          const canCancel = appointment.statusDisplay === "Đã đặt" || appointment.statusDisplay === "Chưa thanh toán";
+          let cancelButtonHtml = "";
+          if (canCancel) {
+            cancelButtonHtml = `<button onclick="handleCancel(${appointment.id})" class="btn btn-danger">
+              <i class="fas fa-times"></i> Hủy lịch hẹn
+            </button>`;
+          }
+
+          modal.innerHTML = `
+            <div class="modal-content" style="background-color: white; border-radius: 12px; padding: 25px; width: 600px; max-width: 90%; max-height: 90vh; overflow-y: auto;">
+              <div class="modal-header">
+                <div class="modal-title">Chi tiết lịch hẹn</div>
+                <button class="modal-close" onclick="this.closest('.appointment-details-modal').remove()">×</button>
+              </div>
+
+              <div style="display: grid; grid-template-columns: 140px 1fr; gap: 12px; margin-bottom: 25px;">
+                <strong style="color: #666;">Tên khách hàng:</strong>
+                <span>${appointment.customerName}</span>
+
+                <strong style="color: #666;">Email:</strong>
+                <span>${appointment.email}</span>
+
+                <strong style="color: #666;">Số điện thoại:</strong>
+                <span>${appointment.phone}</span>
+
+                <strong style="color: #666;">Mã lịch hẹn:</strong>
+                <span>${appointment.id}</span>
+
+                <strong style="color: #666;">Ngày đặt lịch:</strong>
+                <span>${appointment.bookingDate}</span>
+
+                <strong style="color: #666;">Mục đích:</strong>
+                <span>${appointment.ADNService}</span>
+
+                <strong style="color: #666;">Phương thức:</strong>
+                <span>${appointment.method}</span>
+
+                <strong style="color: #666;">Số người tham gia:</strong>
+                <span>${appointment.numParticipants != null ? appointment.numParticipants : "Không rõ"}</span>
+
+                ${appointmentInfo}
+
+                <strong style="color: #666;">Trạng thái:</strong>
+                <span>${renderStatusBadge(appointment.statusDisplay)}</span>
+
+                ${appointment.statusDisplay !== "Đã đặt" ? `
+                <strong style="color: #666;">Số tiền đã thanh toán:</strong>
+                <span style="color: #4caf50; font-weight: 500;">${new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(appointment.paidAmount || 0)}</span>
+
+                <strong style="color: #666;">Số tiền còn lại:</strong>
+                <span style="color: #ff9800; font-weight: 500;">${new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format((appointment.totalAmount || 0) - (appointment.paidAmount || 0))}</span>
+                ` : ''}
+
+                <strong style="color: #666;">Ghi chú:</strong>
+                <span style="white-space: pre-wrap; word-wrap: break-word;">${
+                  appointment.note
+                }</span>
+              </div>
+
+              ${appointment.statusDisplay !== "Đã đặt" ? `
+              <div>
+                <h4 style="color: #2196f3; margin-bottom: 15px; display: flex; align-items: center; gap: 8px;">
+                  <i class="fas fa-list-ul"></i>
+                  Chi tiết phí dịch vụ (${appointment.services.length} dịch vụ)
+                </h4>
+              ` : ''}
+
+                <div class="service-list">
+                  ${appointment.services
+                    .map(
+                      (service, index) => {
+                        // Tính phí cơ bản
+                        const basePrice = service.price;
+                        // Tính phí mẫu thêm (nếu số lượng > 2)
+                        const extraSampleFee = service.extraPerSampleFee || 0;
+                        const extraSamples = Math.max(0, (service.sampleQuantity || 2) - 2);
+                        const extraSampleCost = extraSampleFee * extraSamples;
+                        // Tổng phí cho service này
+                        const serviceTotal = basePrice + extraSampleCost;
+                        
+                        return `
+                          <div class="service-item" style="border: 1px solid #e0e0e0; border-radius: 8px; margin-bottom: 15px; padding: 15px;">
+                            <div style="flex: 1;">
+                              <div style="font-weight: 600; color: #333; margin-bottom: 8px; font-size: 16px;">
+                                ${service.service}
+                        </div>
+                              
+                              <!-- Chi tiết phí -->
+                              <div style="background: #f8f9fa; padding: 12px; border-radius: 6px; margin-bottom: 10px;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                  <span style="color: #666; font-size: 14px;">
+                                    <i class="fas fa-tag"></i> Phí cơ bản:
+                                  </span>
+                                  <span style="font-weight: 500; color: #333;">
+                        ${new Intl.NumberFormat("vi-VN", {
+                          style: "currency",
+                          currency: "VND",
+                        }).format(service.price)}
+                                  </span>
+                      </div>
+                                
+                                ${service.extraSamples > 0 ? `
+                                  <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                    <span style="color: #666; font-size: 14px;">
+                                      <i class="fas fa-plus-circle"></i> Phí mẫu thêm (${service.extraSamples} mẫu × ${new Intl.NumberFormat("vi-VN", {
+                                        style: "currency",
+                                        currency: "VND",
+                                      }).format(service.extraPerSampleFee)}):
+                                    </span>
+                                    <span style="font-weight: 500; color: #ff9800;">
+                                      ${new Intl.NumberFormat("vi-VN", {
+                                        style: "currency",
+                                        currency: "VND",
+                                      }).format(service.extraSampleCost)}
+                                    </span>
+                    </div>
+                                ` : ''}
+                                
+                                <div style="display: flex; justify-content: space-between; margin-top: 8px; padding-top: 8px; border-top: 1px solid #e0e0e0;">
+                                  <span style="font-weight: 600; color: #333;">Tổng phí dịch vụ:</span>
+                                  <span style="font-weight: 600; color: #1976d2; font-size: 16px;">
+                                    ${new Intl.NumberFormat("vi-VN", {
+                                      style: "currency",
+                                      currency: "VND",
+                                    }).format(service.serviceTotal)}
+                                  </span>
+                                </div>
+                              </div>
+                              
+                              <div style="font-size: 13px; color: #666;">
+                                <i class="fas fa-users"></i> Số lượng mẫu: ${service.sampleQuantity || 2}
+                                ${service.extraSamples > 0 ? ` (${service.extraSamples} mẫu thêm)` : ''}
+                              </div>
+                            </div>
+                          </div>
+                        `;
+                      }
+                    )
+                    .join("")}
+                </div>
+
+                ${appointment.statusDisplay !== "Đã đặt" ? `
+                <!-- Tổng kết chi tiết -->
+                <div style="background: #f8f9fa; border-radius: 8px; padding: 20px; margin-top: 20px;">
+                  <h5 style="color: #333; margin-bottom: 15px; font-size: 16px;">
+                    <i class="fas fa-calculator"></i> Tổng kết chi phí
+                  </h5>
+                  
+                  <!-- Tổng phí dịch vụ -->
+                  <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                    <span style="color: #666;">Tổng phí dịch vụ:</span>
+                    <span style="font-weight: 500; color: #333;">
+                  ${new Intl.NumberFormat("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                      }).format(appointment.totalServiceAmount || 0)}
+                </span>
+                </div>
+                  
+                  <!-- Phụ phí (nếu có) -->
+                  ${appointment.surcharges && appointment.surcharges.length > 0 ? 
+                    appointment.surcharges.map(surcharge => `
+                      <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                        <span style="color: #666;">
+                          <i class="fas fa-file-alt"></i> ${surcharge.name}:
+                        </span>
+                        <span style="font-weight: 500; color: #ff9800;">
+                          ${new Intl.NumberFormat("vi-VN", {
+                            style: "currency",
+                            currency: "VND",
+                          }).format(surcharge.totalAmount)}
+                        </span>
+                      </div>
+                    `).join('') : ''
+                  }
+                  
+                  <!-- Đường kẻ phân cách -->
+                  <div style="border-top: 2px solid #e0e0e0; margin: 15px 0; padding-top: 15px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                      <span style="color: #333; font-size: 18px;">TỔNG CỘNG:</span>
+                      <span style="font-weight: 700; color: #0d47a1; font-size: 22px;">
+                        ${new Intl.NumberFormat("vi-VN", {
+                          style: "currency",
+                          currency: "VND",
+                        }).format(appointment.totalAmount || 0)}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                ` : ''}
+              </div>
+
+              ${appointment.statusDisplay !== "Đã đặt" ? paymentActionHtml : ''}
+
+              ${cancelButtonHtml}
+          `;
+
+          document.body.appendChild(modal);
+
+          modal.addEventListener("click", (e) => {
+            if (e.target === modal) {
+              modal.style.opacity = "0";
+              setTimeout(() => modal.remove(), 300);
+            }
+          });
+          } catch (error) {
+            console.error("Lỗi khi lấy chi tiết lịch hẹn:", error);
+            alert("Có lỗi xảy ra khi lấy chi tiết lịch hẹn: " + error.message);
+          }
+        }
+
+        // Cập nhật hàm render bảng
+        function renderAppointments(data) {
+          const tbody = document.getElementById("appointmentTableBody");
+          tbody.innerHTML = data.length
+            ? data
+                .map((a) => {
+                  let actionButtons = `
+              <button onclick="showAppointmentDetails(${a.id})" class="btn btn-primary">
+                <i class="fas fa-info-circle"></i> Chi tiết
+              </button>
+            `;
+                  // Điều kiện nút chọn phương thức thanh toán
+                  const isHome = a.method === "Tại nhà";
+                  const canChoosePaymentMethod = isHome && !a.paymentMethod;
+                  if (canChoosePaymentMethod) {
+                    actionButtons += `
+                      <button onclick="showChoosePaymentMethodModal(${a.id}, false)" class="btn btn-primary">
+                        <i class='fas fa-credit-card'></i> Chọn cách TT
+                      </button>
+                    `;
+                  }
+                  // Điều kiện nút thanh toán
+                  const totalAmount = a.totalAmount || 0;
+                  const paidAmount = a.paidAmount || 0;
+                  const remainingAmount = totalAmount - paidAmount;
+                  const canPay = isHome && a.paymentMethod === "BANK_TRANSFER" && remainingAmount > 0;
+                  if (canPay) {
+                    actionButtons += `
+                      <button onclick="handlePayment(${a.id}, ${remainingAmount})" class="btn btn-success">
+                        <i class="fas fa-credit-card"></i> Thanh toán (${new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(remainingAmount)})
+                      </button>
+                    `;
+                  }
+
+                  // Điều kiện hiển thị nút "Kết quả"
+                  const statusLower = (a.statusDisplay || a.status || "").toLowerCase();
+                  const hasResults = statusLower === "đã nhận kết quả";
+                  if (hasResults) {
+                    actionButtons += `
+                      <button onclick="window.location.href='/test-history'" class="btn btn-info">
+                        <i class="fas fa-file-medical-alt"></i> Kết quả
+                      </button>
+                    `;
+                  }
+                  return `
+              <tr>
+                <td>${a.id}</td>
+                <td>${a.customerName}</td>
+                <td>${a.method}</td>
+                <td>${a.bookingDate.substring(0, 10)}</td>
+                <td>${renderStatusBadge(a.statusDisplay || a.status, a.method)}</td>
+                <td style="display: flex; gap: 8px; justify-content: flex-start;">
+                  ${actionButtons}
+                </td>
+              </tr>
+            `;
+                })
+                .join("")
+            : `<tr><td colspan="6" style="text-align:center; color:#888; padding:20px;">Không có lịch hẹn phù hợp</td></tr>`;
+        }
+
+        // Sửa xử lý filter: luôn gọi lại backend, không filter trên client
+        document
+          .getElementById("filterForm")
+          .addEventListener("submit", function (e) {
+            e.preventDefault();
+            const date = document.getElementById("dateFilter").value;
+            const status = document.getElementById("statusFilter").value;
+            currentFilters = {
+              date,
+              status,
+            };
+            fetchAppointments(0, pageSize, currentFilters);
+          });
+
+        // Hàm xử lý hiển thị modal lý do hủy
+        function handleCancel(id) {
+          const modal = document.createElement("div");
+          modal.className = "appointment-details-modal";
+          modal.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+          `;
+
+          modal.innerHTML = `
+            <div class="modal-content" style="background-color: white; border-radius: 12px; padding: 25px; width: 400px; max-width: 90%;">
+              <div class="modal-header">
+                <div class="modal-title">Lý do hủy lịch hẹn</div>
+                <button class="modal-close" onclick="this.closest('.appointment-details-modal').remove()">×</button>
+              </div>
+
+              <div style="margin: 20px 0;">
+                <div class="reason-option" style="margin-bottom: 12px;">
+                  <label class="radio-container">
+                    <input type="radio" id="reason-1" name="cancel-reason" value="Thay đổi thông tin/địa chỉ">
+                    <span class="radio-label">Thay đổi thông tin/địa chỉ</span>
+                  </label>
+                </div>
+
+                <div class="reason-option" style="margin-bottom: 12px;">
+                  <label class="radio-container">
+                    <input type="radio" id="reason-2" name="cancel-reason" value="Không muốn xét nghiệm nữa">
+                    <span class="radio-label">Không muốn xét nghiệm nữa</span>
+                  </label>
+                </div>
+
+                <div class="reason-option" style="margin-bottom: 12px;">
+                  <label class="radio-container">
+                    <input type="radio" id="reason-3" name="cancel-reason" value="Khác">
+                    <span class="radio-label">Khác</span>
+                  </label>
+                </div>
+
+                <div id="other-reason-container" style="display: none; margin-top: 15px;">
+                  <textarea id="other-reason-text"
+                    class="form-control"
+                    placeholder="Vui lòng nhập lý do..."
+                    style="width: 100%; min-height: 80px;"></textarea>
+                </div>
+              </div>
+
+              <div style="display: flex; justify-content: flex-end; gap: 10px;">
+                <button id="cancel-modal" class="btn" style="background: #f5f5f5; color: #666;">
+                  <i class="fas fa-times"></i> Hủy bỏ
+                </button>
+                <button id="confirm-cancel" class="btn btn-danger" onclick="confirmCancelAppointment(${id})">
+                  <i class="fas fa-check"></i> Xác nhận hủy
+                </button>
+              </div>
+            </div>
+          `;
+
+          document.body.appendChild(modal);
+
+          // Thêm hiệu ứng khi đóng modal
+          modal.addEventListener("click", (e) => {
+            if (e.target === modal) {
+              modal.style.opacity = "0";
+              setTimeout(() => modal.remove(), 300);
+            }
+          });
+
+          // Xử lý hiển thị textarea khi chọn "Khác"
+          const reasonRadios = document.querySelectorAll(
+            'input[name="cancel-reason"]'
+          );
+          const otherReasonContainer = document.getElementById(
+            "other-reason-container"
+          );
+
+          reasonRadios.forEach((radio) => {
+            radio.addEventListener("change", function () {
+              if (this.value === "Khác") {
+                otherReasonContainer.style.display = "block";
+                otherReasonContainer.style.animation = "fadeIn 0.3s ease";
+              } else {
+                otherReasonContainer.style.display = "none";
+              }
+            });
+          });
+
+          // Xử lý đóng modal
+          document
+            .getElementById("cancel-modal")
+            .addEventListener("click", function () {
+              modal.style.opacity = "0";
+              setTimeout(() => modal.remove(), 300);
+            });
+        }
+
+        // Hàm xử lý hủy lịch hẹn với lý do đã chọn
+        async function confirmCancelAppointment(id) {
+          let reason = "";
+          const selectedReason = document.querySelector(
+            'input[name="cancel-reason"]:checked'
+          );
+
+          if (!selectedReason) {
+            alert("Vui lòng chọn lý do hủy lịch hẹn");
+            return;
+          }
+
+          if (selectedReason.value === "Khác") {
+            const otherReasonText = document
+              .getElementById("other-reason-text")
+              .value.trim();
+            if (!otherReasonText) {
+              alert("Vui lòng nhập lý do hủy lịch hẹn");
+              return;
+            }
+            reason = otherReasonText;
+          } else {
+            reason = selectedReason.value;
+          }
+
+          try {
+            // Gửi yêu cầu hủy lịch hẹn đến server
+            const response = await fetch(
+              `/booking/cancel?bookingId=${id}&reason=${encodeURIComponent(
+                reason
+              )}`,
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/x-www-form-urlencoded",
+                },
+                credentials: "include",
+              }
+            );
+
+            if (response.status === 401) {
+              window.location.href = "/login";
+              return;
+            }
+
+            if (!response.ok) {
+              const errorText = await response.text();
+              throw new Error(
+                errorText || `HTTP error! status: ${response.status}`
+              );
+            }
+
+            // Cập nhật trạng thái trong dữ liệu cục bộ
+            const appointmentIndex = appointmentsData.findIndex(
+              (a) => a.id == id
+            );
+            if (appointmentIndex !== -1) {
+              appointmentsData[appointmentIndex].status = "Đã hủy";
+              appointmentsData[appointmentIndex].cancelReason = reason;
+              renderAppointments(appointmentsData);
+            }
+
+            // Đóng modal hủy hiện tại
+            const cancelModal = document.querySelector(
+              ".appointment-details-modal"
+            );
+            if (cancelModal) {
+              cancelModal.remove();
+            }
+
+            // Đóng modal chi tiết lịch hẹn nếu đang mở
+            const detailsModals = document.querySelectorAll(
+              ".appointment-details-modal"
+            );
+            detailsModals.forEach((modal) => {
+              if (modal !== cancelModal) {
+                modal.remove();
+              }
+            });
+
+            // Hiển thị thông báo thành công
+            showSuccessToast("Đã hủy lịch hẹn thành công");
+
+            // Tải lại dữ liệu sau khi hủy
+            await fetchAppointments();
+          } catch (error) {
+            console.error("Lỗi khi hủy lịch hẹn:", error);
+            alert("Có lỗi xảy ra khi hủy lịch hẹn: " + error.message);
+          }
+        }
+
+        // Hiển thị thông báo thành công
+        function showSuccessToast(message) {
+          const toast = document.createElement("div");
+          toast.className = "toast-notification";
+          toast.innerHTML = `
+        <div class="toast-content">
+          <i class="fas fa-check-circle" style="color: #4caf50; margin-right: 8px;"></i>
+          ${message}
+        </div>
+      `;
+          document.body.appendChild(toast);
+
+          // Tự động ẩn toast sau 3 giây
+          setTimeout(() => {
+            toast.style.opacity = "0";
+            setTimeout(() => toast.remove(), 300);
+          }, 3000);
+        }
+
+        // Thêm style cho radio buttons và toast notification
+        const style = document.createElement("style");
+        style.textContent = `
+          .radio-container {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-size: 14px;
+            user-select: none;
+          }
+
+          .radio-container input[type="radio"] {
+            position: relative;
+            width: 18px;
+            height: 18px;
+            margin-right: 8px;
+            cursor: pointer;
+          }
+
+          .radio-container input[type="radio"]:checked::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #2196f3;
+          }
+
+          .radio-label {
+            color: #333;
+          }
+
+          .toast-notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            animation: slideInRight 0.3s ease, fadeOut 0.3s ease 2.7s;
+            z-index: 1000;
+          }
+
+          .toast-content {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            color: #333;
+          }
+
+          @keyframes slideInRight {
+            from {
+              transform: translateX(100%);
+              opacity: 0;
+            }
+            to {
+              transform: translateX(0);
+              opacity: 1;
+            }
+          }
+
+          @keyframes fadeOut {
+            from {
+              opacity: 1;
+            }
+            to {
+              opacity: 0;
+            }
+          }
+
+          /* Payment modal styles */
+          .payment-modal {
+            animation: fadeIn 0.3s ease;
+          }
+
+          .payment-modal .modal-content {
+            animation: scaleIn 0.3s ease;
+          }
+
+          .payment-method {
+            transition: all 0.3s ease;
+          }
+
+          .payment-method:hover {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 8px;
+            margin: -8px;
+          }
+
+          .payment-method input[type="radio"]:checked + .radio-label {
+            color: #2196f3;
+            font-weight: 600;
+          }
+
+          #payment-amount:focus {
+            border-color: #2196f3;
+            box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+          }
+
+          #payment-note:focus {
+            border-color: #2196f3;
+            box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+          }
+
+          @keyframes scaleIn {
+            from {
+              transform: scale(0.9);
+              opacity: 0;
+            }
+            to {
+              transform: scale(1);
+              opacity: 1;
+            }
+          }
+        `;
+        document.head.appendChild(style);
+
+        // Hàm xử lý thanh toán
+        async function handlePayment(bookingId, amount) {
+          try {
+            // Lấy thông tin ngân hàng từ API
+            const bankResponse = await fetch('/booking/bank-info', {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              credentials: 'include',
+            });
+
+            if (!bankResponse.ok) {
+              throw new Error('Không thể lấy thông tin ngân hàng');
+            }
+
+            const bankInfo = await bankResponse.json();
+
+            const modal = document.createElement("div");
+            modal.className = "payment-modal";
+            modal.style.cssText = `
+              position: fixed;
+              top: 0;
+              left: 0;
+              width: 100%;
+              height: 100%;
+              background-color: rgba(0, 0, 0, 0.5);
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              z-index: 1000;
+            `;
+
+            modal.innerHTML = `
+              <div class="modal-content" style="background-color: white; border-radius: 12px; padding: 25px; width: 500px; max-width: 90%;">
+                <div class="modal-header">
+                  <div class="modal-title">Thanh toán lịch hẹn</div>
+                  <button class="modal-close" onclick="this.closest('.payment-modal').remove()">×</button>
+                </div>
+
+                <form id="payment-form">
+                  <div style="margin-bottom: 20px;">
+                    <label style="font-weight: 500; color: #333; margin-bottom: 10px; display: block;">Phương thức thanh toán:</label>
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; border-left: 4px solid #2196f3;">
+                      <div style="display: flex; align-items: center;">
+                        <i class="fas fa-university" style="color: #2196f3; margin-right: 12px; font-size: 18px;"></i>
+                        <span style="font-weight: 500; color: #333;">Chuyển khoản ngân hàng</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div id="bank-transfer-info" style="margin-bottom: 20px; padding: 15px; background: #f8f9fa; border-radius: 8px; border-left: 4px solid #2196f3;">
+                    <h4 style="margin: 0 0 10px 0; color: #2196f3;">Thông tin chuyển khoản:</h4>
+                    <p style="margin: 5px 0;"><strong>Ngân hàng:</strong> ${bankInfo.bankName}</p>
+                    <div style="margin: 5px 0; display: flex; align-items: center; gap: 10px;">
+                      <strong>Số tài khoản:</strong> 
+                      <span id="account-number" style="font-family: monospace; font-weight: 500; color: #1976d2; background: #e3f2fd; padding: 4px 8px; border-radius: 4px;">${bankInfo.accountNumber}</span>
+                      <button type="button" onclick="copyToClipboard('${bankInfo.accountNumber}', 'account-number')" class="btn" style="padding: 4px 8px; font-size: 12px; background: #2196f3; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                        <i class="fas fa-copy"></i> Sao chép
+                      </button>
+                    </div>
+                    <p style="margin: 5px 0;"><strong>Tên tài khoản:</strong> ${bankInfo.accountHolder}</p>
+                    <div style="margin: 5px 0; display: flex; align-items: center; gap: 10px;">
+                      <strong>Nội dung chuyển khoản:</strong> 
+                      <span id="transfer-content" style="font-family: monospace; font-weight: 500; color: #1976d2; background: #e3f2fd; padding: 4px 8px; border-radius: 4px;">THANH TOAN ${bookingId}</span>
+                      <button type="button" onclick="copyToClipboard('THANH TOAN ${bookingId}', 'transfer-content')" class="btn" style="padding: 4px 8px; font-size: 12px; background: #2196f3; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                        <i class="fas fa-copy"></i> Sao chép
+                      </button>
+                    </div>
+                    <p style="margin: 10px 0 0 0; color: #666; font-size: 13px;"><i class="fas fa-info-circle"></i> Sau khi chuyển khoản, vui lòng upload ảnh biên lai để nhân viên xác nhận</p>
+                  </div>
+
+                  <div id="receipt-upload-section" style="margin-bottom: 20px;">
+                    <label for="receipt-upload" style="font-weight: 500; color: #333; margin-bottom: 10px; display: block;">Upload ảnh biên lai chuyển khoản:</label>
+                    <input 
+                      type="file" 
+                      id="receipt-upload" 
+                      accept="image/*"
+                      style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px;"
+                    >
+                    <small style="color: #666; font-size: 12px;">Vui lòng upload ảnh biên lai chuyển khoản để xác nhận thanh toán</small>
+                  </div>
+
+                  <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px;">
+                    <button id="cancel-payment" type="button" class="btn" style="background: #f5f5f5; color: #666;">
+                      <i class="fas fa-times"></i> Hủy bỏ
+                    </button>
+                    <button id="confirm-payment" type="button" class="btn btn-success" onclick="confirmPayment(${bookingId})">
+                      <i class="fas fa-check"></i> Gửi yêu cầu thanh toán
+                    </button>
+                  </div>
+                </form>
+              </div>
+            `;
+
+            document.body.appendChild(modal);
+
+            // Thêm hiệu ứng khi đóng modal
+            modal.addEventListener("click", (e) => {
+              if (e.target === modal) {
+                modal.style.opacity = "0";
+                setTimeout(() => modal.remove(), 300);
+              }
+            });
+
+            // Xử lý đóng modal
+            document.getElementById("cancel-payment").addEventListener("click", function () {
+              modal.style.opacity = "0";
+              setTimeout(() => modal.remove(), 300);
+            });
+
+          } catch (error) {
+            console.error('Lỗi khi lấy thông tin ngân hàng:', error);
+            alert('Có lỗi xảy ra khi lấy thông tin ngân hàng: ' + error.message);
+          }
+        }
+
+
+
+        // Hàm xác nhận thanh toán
+        async function confirmPayment(bookingId) {
+          const paymentMethod = "BANK_TRANSFER"; // Luôn là chuyển khoản vì đã chọn trước đó
+          const receiptUpload = document.getElementById("receipt-upload");
+
+          // Kiểm tra upload ảnh biên lai cho chuyển khoản
+          if (!receiptUpload.files || receiptUpload.files.length === 0) {
+            alert("Vui lòng upload ảnh biên lai chuyển khoản");
+            return;
+          }
+
+          try {
+            // Xử lý upload ảnh biên lai chuyển khoản
+            let receiptImagePath = null;
+            const formData = new FormData();
+            formData.append("receipt", receiptUpload.files[0]);
+            formData.append("bookingId", bookingId);
+            
+            // Upload ảnh trước
+            const uploadResponse = await fetch("/payment/upload-receipt", {
+              method: "POST",
+              credentials: "include",
+              body: formData
+            });
+            
+            if (uploadResponse.ok) {
+              const uploadResult = await uploadResponse.json();
+              receiptImagePath = uploadResult.imagePath;
+            } else {
+              throw new Error("Lỗi khi upload ảnh biên lai");
+            }
+
+            const response = await fetch("/payment/confirm", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              credentials: "include",
+              body: JSON.stringify({
+                bookingId: bookingId,
+                paymentMethod: paymentMethod,
+                receiptImage: receiptImagePath
+              })
+            });
+
+            if (response.status === 401) {
+              window.location.href = "/login";
+              return;
+            }
+
+            if (!response.ok) {
+              const errorText = await response.text();
+              throw new Error(errorText || `HTTP error! status: ${response.status}`);
+            }
+
+            const result = await response.json();
+            
+            // Đóng modal thanh toán
+            const paymentModal = document.querySelector(".payment-modal");
+            if (paymentModal) {
+              paymentModal.remove();
+            }
+
+            // Đóng modal chi tiết lịch hẹn
+            const detailsModals = document.querySelectorAll(".appointment-details-modal");
+            detailsModals.forEach(modal => modal.remove());
+
+            // Hiển thị thông báo thành công
+            showSuccessToast("Đã gửi yêu cầu thanh toán! Nhân viên sẽ xác nhận sau khi kiểm tra.");
+
+            // Tải lại dữ liệu sau khi thanh toán
+            await fetchAppointments(currentPage, pageSize, currentFilters);
+
+          } catch (error) {
+            console.error("Lỗi khi thanh toán:", error);
+            alert("Có lỗi xảy ra khi thanh toán: " + error.message);
+          }
+        }
+
+        // Hàm sao chép vào clipboard
+        async function copyToClipboard(text, elementId) {
+          try {
+            await navigator.clipboard.writeText(text);
+            
+            // Thay đổi nút thành "Đã sao chép" tạm thời
+            const button = event.target.closest('button');
+            const originalContent = button.innerHTML;
+            button.innerHTML = '<i class="fas fa-check"></i> Đã sao chép';
+            button.style.background = '#4caf50';
+            button.disabled = true;
+            
+            // Hiển thị thông báo thành công
+            showSuccessToast('Đã sao chép vào clipboard!');
+            
+            // Khôi phục nút sau 2 giây
+            setTimeout(() => {
+              button.innerHTML = originalContent;
+              button.style.background = '#2196f3';
+              button.disabled = false;
+            }, 2000);
+            
+          } catch (err) {
+            console.error('Lỗi khi sao chép:', err);
+            
+            // Fallback cho các trình duyệt cũ
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            
+            // Thông báo thành công
+            showSuccessToast('Đã sao chép vào clipboard!');
+          }
+        }
+
+        // Render mặc định khi load trang
+        document.addEventListener("DOMContentLoaded", function () {
+          fetchAppointments();
+        });
+
+        // Thêm hàm showChoosePaymentMethodModal
+        function showChoosePaymentMethodModal(bookingId, isCenter) {
+          const methods = isCenter
+            ? [
+                { value: "CASH", label: "Tiền mặt tại cơ sở" },
+                { value: "BANK_TRANSFER", label: "Chuyển khoản ngân hàng" },
+              ]
+            : [
+                { value: "COD", label: "Thanh toán khi nhận (COD)" },
+                { value: "BANK_TRANSFER", label: "Chuyển khoản ngân hàng" },
+              ];
+          const modal = document.createElement("div");
+          modal.className = "payment-method-modal";
+          modal.style.cssText = `
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000;`;
+          modal.innerHTML = `
+            <div class="modal-content" style="background-color: white; border-radius: 12px; padding: 25px; width: 400px; max-width: 90%;">
+              <div class="modal-header">
+                <div class="modal-title">Chọn phương thức thanh toán</div>
+                <button class="modal-close" onclick="this.closest('.payment-method-modal').remove()">×</button>
+              </div>
+              <form id="choose-payment-method-form">
+                <div style="margin: 20px 0;">
+                  ${methods
+                    .map(
+                      (m) => `
+                        <div class="payment-method" style="margin-bottom: 12px;">
+                          <label class="radio-container">
+                            <input type="radio" name="payment-method-choice" value="${m.value}" required>
+                            <span class="radio-label">${m.label}</span>
+                          </label>
+                        </div>
+                      `
+                    )
+                    .join("")}
+                </div>
+                <div style="display: flex; justify-content: flex-end; gap: 10px;">
+                  <button type="button" class="btn" style="background: #f5f5f5; color: #666;" onclick="this.closest('.payment-method-modal').remove()">
+                    <i class="fas fa-times"></i> Hủy bỏ
+                  </button>
+                  <button type="submit" class="btn btn-success">
+                    <i class="fas fa-check"></i> Xác nhận
+                  </button>
+                </div>
+              </form>
+            </div>
+          `;
+          document.body.appendChild(modal);
+          document.getElementById("choose-payment-method-form").onsubmit = async function (e) {
+            e.preventDefault();
+            const selected = document.querySelector('input[name="payment-method-choice"]:checked');
+            if (!selected) return;
+            try {
+              const response = await fetch(`/booking/appointments/${bookingId}/payment-method`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                credentials: "include",
+                body: JSON.stringify({ paymentMethod: selected.value })
+              });
+              if (!response.ok) {
+                const msg = await response.text();
+                alert(msg || "Lỗi khi cập nhật phương thức thanh toán");
+                return;
+              }
+              // Lấy lại booking từ danh sách để kiểm tra điều kiện
+              const booking = appointmentsData.find(a => a.id === bookingId);
+              if (booking && booking.method === "Tại nhà" && booking.status === "Chưa thanh toán") {
+                // Gọi API cập nhật trạng thái sang 'Chưa lấy mẫu' (dùng quyền staff để backend set kitStatus)
+                await fetch(`/booking/staff/appointments/${bookingId}/status`, {
+                  method: "PUT",
+                  headers: { "Content-Type": "application/json" },
+                  credentials: "include",
+                  body: JSON.stringify({ status: "Chưa lấy mẫu" })
+                });
+              }
+              showSuccessToast("Đã chọn phương thức thanh toán thành công!");
+              modal.remove();
+              // Reload lại dữ liệu lịch hẹn
+              await fetchAppointments(currentPage, pageSize, currentFilters);
+              // Đóng modal chi tiết lịch hẹn nếu đang mở
+              const detailsModals = document.querySelectorAll('.appointment-details-modal');
+              detailsModals.forEach(m => m.remove());
+            } catch (err) {
+              alert("Lỗi khi cập nhật phương thức thanh toán: " + err.message);
+            }
+          };
+          modal.addEventListener("click", (e) => {
+            if (e.target === modal) {
+              modal.style.opacity = "0";
+              setTimeout(() => modal.remove(), 300);
+            }
+          });
+        }
+
+        function renderStatusBadge(status, method) {
+          let color = '#333';
+          let fontWeight = 'bold';
+          let displayStatus = status;
+          if (method === 'Tại nhà' && status === 'Chưa thanh toán') {
+            displayStatus = 'Chưa chọn cách TT';
+          }
+          switch (displayStatus) {
+            case 'Đã đặt':
+              color = '#1976d2';
+              break;
+            case 'Chưa thanh toán':
+              color = '#9c27b0';
+              break;
+            case 'Chưa chọn cách TT':
+              color = '#9c27b0';
+              break;
+            case 'Chưa lấy mẫu':
+              color = '#2196f3';
+              break;
+            case 'Đã cấp mẫu':
+              color = '#ff9800';
+              break;
+            case 'Đã nhận kết quả':
+              color = '#4caf50';
+              break;
+            case 'Đã hủy':
+              color = '#f44336';
+              break;
+            default:
+              color = '#757575';
+          }
+          return `<span style="color: ${color}; font-weight: ${fontWeight};">${displayStatus}</span>`;
+        }
+
+      </script>
+    </div>
+    <!-- Script kiểm tra đăng nhập đã được loại bỏ vì không cần thiết khi không có sidebar -->
+
+    <!-- Authentication Script for Header -->
+    <script src="/assets/js/auth.js"></script>
+    <script src="/assets/js/main.js"></script>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-container">
+        <!-- Company Info -->
+        <div class="footer-info">
+          <h3>TRUNG TÂM XÉT NGHIỆM ADN GENX</h3>
+          <p>
+            Trung tâm xét nghiệm ADN hàng đầu tại Việt Nam với hơn 10 năm kinh
+            nghiệm. Cam kết mang đến dịch vụ xét nghiệm ADN chính xác và uy tín.
+          </p>
+          <div class="contact-info">
+            <div class="contact-item">
+              <i class="fas fa-map-marker-alt"></i>
+              <span>123 Đường ABC, Quận 1, TP.HCM</span>
+            </div>
+            <div class="contact-item">
+              <i class="fas fa-phone"></i>
+              <span>1900 xxxx</span>
+            </div>
+            <div class="contact-item">
+              <i class="fas fa-envelope"></i>
+              <span>info@genx.com</span>
+            </div>
+          </div>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="footer-links">
+          <h4>Dịch Vụ</h4>
+          <ul>
+            <li><a href="/services">Xét nghiệm ADN Cha Con</a></li>
+            <li><a href="/services">Xét nghiệm ADN Mẹ Con</a></li>
+            <li><a href="/services">Xét nghiệm ADN Anh/Chị - Em</a></li>
+            <li><a href="/services">Xét nghiệm ADN Ông/Bà - Cháu</a></li>
+          </ul>
+        </div>
+
+        <!-- Support -->
+        <div class="footer-links">
+          <h4>Hỗ Trợ</h4>
+          <ul>
+            <li><a href="/sampling-guide">Hướng dẫn lấy mẫu</a></li>
+            <li><a href="/knowledge">Quy trình xét nghiệm</a></li>
+            <li><a href="/knowledge">Câu hỏi thường gặp</a></li>
+            <li><a href="#">Chính sách bảo mật</a></li>
+          </ul>
+        </div>
+
+        <!-- Working Hours -->
+        <div class="footer-links">
+          <h4>Giờ Làm Việc</h4>
+          <ul>
+            <li>Thứ 2 - Thứ 6: 8:00 - 17:30</li>
+            <li>Thứ 7: 8:00 - 12:00</li>
+            <li>Chủ nhật: Đóng cửa</li>
+            <li>Hotline: 24/7</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Footer Bottom -->
+      <div class="footer-container">
+        <div class="footer-bottom">
+          <p>&copy; 2024 Trung Tâm Xét Nghiệm ADN GenX. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+
+
+    <style>
+      /* Modal styles */
+      .modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+      }
+
+      .modal.show {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .modal-content {
+        background: white;
+        border-radius: 16px;
+        padding: 25px;
+        position: relative;
+        transform: translateY(-20px);
+        transition: all 0.3s ease;
+        max-height: 90vh;
+        overflow-y: auto;
+      }
+
+      .modal.show .modal-content {
+        transform: translateY(0);
+      }
+
+
+    </style>
+  </body>
+</html>

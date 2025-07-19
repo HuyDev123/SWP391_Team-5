@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Đánh giá dịch vụ - GenX</title>
+    <link rel="stylesheet" href="assets/css/styles.css" />
+    <link rel="stylesheet" href="assets/css/header.css" />
+    <link rel="stylesheet" href="assets/css/footer.css" />
+    <link rel="stylesheet" href="assets/css/user-dropdown.css" />
+    <style>
+      body {
+        background: transparent;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        color: #37474f;
+      }
+      .main-content {
+        max-width: 500px;
+        margin: 20px auto;
+        padding: 35px;
+        background: #fff;
+        border-radius: 24px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+        transition: all 0.3s ease;
+      }
+      .main-content:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+      }
+      .page-title {
+        font-size: 28px;
+        color: #1976d2;
+        margin-bottom: 35px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        letter-spacing: -0.5px;
+        position: relative;
+        padding-bottom: 15px;
+      }
+      .page-title:after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60px;
+        height: 4px;
+        background: linear-gradient(45deg, #1976d2, #2196f3);
+        border-radius: 2px;
+      }
+      .page-title i {
+        margin-right: 14px;
+        color: #ffd700;
+        font-size: 32px;
+        animation: starPulse 2s infinite;
+      }
+      @keyframes starPulse {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.2);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+      .service-info {
+        margin-bottom: 30px !important;
+        position: relative;
+      }
+      .service-info label {
+        font-weight: 600 !important;
+        color: #37474f !important;
+        margin-bottom: 12px !important;
+        display: block;
+        font-size: 16px !important;
+      }
+      #serviceSelect {
+        width: 100%;
+        padding: 16px !important;
+        border: 2px solid #e0e0e0 !important;
+        border-radius: 12px !important;
+        font-size: 15px !important;
+        color: #1976d2 !important;
+        background-color: white;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231976d2' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 16px center;
+        background-size: 20px;
+      }
+      #serviceSelect:hover {
+        border-color: #1976d2 !important;
+      }
+      #serviceSelect:focus {
+        border-color: #1976d2 !important;
+        box-shadow: 0 0 0 4px rgba(25, 118, 210, 0.1);
+        outline: none;
+      }
+      .reviewed-option {
+        color: #9e9e9e !important;
+        font-style: italic;
+        background-color: #f5f5f5;
+      }
+      .star-rating {
+        direction: rtl;
+        display: flex;
+        gap: 1px;
+        margin: 35px 0;
+        justify-content: center;
+        padding: 20px 0;
+        background: #f8f9fa;
+        border-radius: 16px;
+        position: relative;
+      }
+      .star-rating:hover {
+        background: #f3f4f6;
+      }
+      .star-rating input[type="radio"] {
+        display: none;
+      }
+      .star-rating label {
+        color: #e0e0e0;
+        font-size: 38px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        z-index: 1;
+        margin: 0;
+      }
+      .star-rating label:before {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: transparent;
+        border-radius: 50%;
+        transform: scale(1.2);
+        z-index: -1;
+        transition: background-color 0.3s ease;
+      }
+      .star-rating label:hover:before {
+        background-color: rgba(0, 0, 0, 0.05);
+      }
+      .star-rating input[type="radio"]:checked ~ label,
+      .star-rating label:hover,
+      .star-rating label:hover ~ label {
+        color: #ffd700;
+        transform: scale(1.1);
+        text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+      }
+      .rating-label {
+        text-align: center;
+        color: #37474f;
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 15px;
+        position: relative;
+      }
+      .feedback-form textarea {
+        width: 100%;
+        padding: 16px;
+        border: 2px solid #e0e0e0;
+        border-radius: 16px;
+        font-size: 15px;
+        margin-bottom: 30px;
+        background: #f8f9fa;
+        transition: all 0.3s ease;
+        min-height: 140px;
+        resize: vertical;
+        font-family: inherit;
+      }
+      .feedback-form textarea:hover {
+        border-color: #1976d2;
+      }
+      .feedback-form textarea:focus {
+        border-color: #1976d2;
+        box-shadow: 0 0 0 4px rgba(25, 118, 210, 0.1);
+        outline: none;
+        background: #fff;
+      }
+      .feedback-form label {
+        font-weight: 600;
+        margin-bottom: 12px;
+        display: block;
+        color: #37474f;
+        font-size: 16px;
+      }
+      .submit-btn {
+        background: linear-gradient(45deg, #1976d2, #2196f3);
+        color: #fff;
+        border: none;
+        padding: 18px 32px;
+        border-radius: 16px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        width: 100%;
+        margin-top: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        position: relative;
+        overflow: hidden;
+      }
+      .submit-btn:before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.2),
+          transparent
+        );
+        transition: 0.5s;
+      }
+      .submit-btn:hover:before {
+        left: 100%;
+      }
+      .submit-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(33, 150, 243, 0.3);
+      }
+      .submit-btn.next-review {
+        background: linear-gradient(45deg, #43a047, #66bb6a);
+      }
+      .submit-btn.next-review:hover {
+        background: linear-gradient(45deg, #388e3c, #43a047);
+        box-shadow: 0 8px 20px rgba(67, 160, 71, 0.3);
+      }
+      .submit-btn.submitted {
+        background: #9e9e9e;
+        cursor: default;
+        transform: none;
+        box-shadow: none;
+        opacity: 0.8;
+      }
+      .submit-btn.submitted:before {
+        display: none;
+      }
+      .submit-btn i {
+        font-size: 20px;
+      }
+      .form-message {
+        margin-top: 25px;
+        padding: 16px;
+        border-radius: 12px;
+        font-weight: 500;
+        text-align: center;
+        transition: all 0.3s ease;
+        font-size: 15px;
+        display: none;
+        justify-content: center;
+        align-items: center;
+      }
+      .form-message.success {
+        background-color: #e8f5e9;
+        color: #2e7d32;
+        border: 1px solid #a5d6a7;
+      }
+      .form-message.error {
+        background-color: #ffebee;
+        color: #c62828;
+        border: 1px solid #ffcdd2;
+      }
+      .rating-label {
+        text-align: center;
+        color: #37474f;
+        font-size: 16px;
+        font-weight: 500;
+        margin-bottom: 10px;
+      }
+      .submit-btn.next-review {
+        background: linear-gradient(45deg, #43a047, #66bb6a);
+      }
+
+      .submit-btn.next-review:hover {
+        background: linear-gradient(45deg, #388e3c, #43a047);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(67, 160, 71, 0.25);
+      }
+
+      /* Thêm style cho các dịch vụ đã đánh giá */
+      .reviewed-option {
+        color: #9e9e9e !important;
+        font-style: italic;
+      }
+
+      /* Thêm media query cho màn hình cảm ứng */
+      @media (max-width: 768px) {
+        .star-rating label {
+          font-size: 48px;
+          padding: 0;
+        }
+        .star-rating {
+          gap: 2px;
+          padding: 25px 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="main-content">
+      <h1 class="page-title"><i class="fas fa-star"></i> Đánh giá dịch vụ</h1>
+      <form class="feedback-form" id="feedbackForm">
+        <input type="hidden" id="booking_id" name="booking_id" value="" />
+        <input type="hidden" id="service_id" name="service_id" value="" />
+
+        <div class="service-info" style="margin-bottom: 25px">
+          <label
+            style="
+              font-weight: 500;
+              color: #37474f;
+              margin-bottom: 10px;
+              display: block;
+            "
+            >Dịch vụ đã đăng ký:</label
+          >
+          <div
+            id="serviceInfo"
+            style="
+              padding: 14px;
+              border: 1px solid #e0e0e0;
+              border-radius: 12px;
+              background: #f8f9fa;
+              color: #1976d2;
+              font-size: 15px;
+            "
+          >
+            <!-- Thông tin dịch vụ sẽ được điền bằng JavaScript -->
+          </div>
+        </div>
+
+        <div class="rating-label">Mức độ hài lòng của bạn về dịch vụ:</div>
+        <div class="star-rating" id="starRating">
+          <input type="radio" id="star5" name="rating" value="5" />
+          <label for="star5" title="5 sao"><i class="fas fa-star"></i></label>
+          <input type="radio" id="star4" name="rating" value="4" />
+          <label for="star4" title="4 sao"><i class="fas fa-star"></i></label>
+          <input type="radio" id="star3" name="rating" value="3" />
+          <label for="star3" title="3 sao"><i class="fas fa-star"></i></label>
+          <input type="radio" id="star2" name="rating" value="2" />
+          <label for="star2" title="2 sao"><i class="fas fa-star"></i></label>
+          <input type="radio" id="star1" name="rating" value="1" />
+          <label for="star1" title="1 sao"><i class="fas fa-star"></i></label>
+        </div>
+
+        <label for="comment">Ý kiến đóng góp của bạn: <span style="color: #999; font-size: 14px; font-weight: normal;">(không bắt buộc)</span></label>
+        <textarea
+          id="comment"
+          name="comment"
+          placeholder="Chia sẻ trải nghiệm của bạn về dịch vụ... (không bắt buộc)"
+        ></textarea>
+        <button type="submit" class="submit-btn">
+          <i class="fas fa-paper-plane"></i>
+          Gửi đánh giá
+        </button>
+        <div class="form-message" id="formMessage"></div>
+      </form>
+    </div>
+
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
+    <script>
+      // Thêm dữ liệu mẫu từ appointments.html
+      // Dữ liệu sẽ được lấy từ API thực tế
+
+      // Lấy booking_id từ URL
+      function getBookingIdFromUrl() {
+        const params = new URLSearchParams(window.location.search);
+        // Ép kiểu về số, nếu không hợp lệ trả về null
+        const val = params.get("booking_id");
+        return val ? parseInt(val, 10) : null;
+      }
+      
+      // Lấy user_id từ URL
+      function getUserIdFromUrl() {
+        const params = new URLSearchParams(window.location.search);
+        const val = params.get("user_id");
+        return val ? parseInt(val, 10) : null;
+      }
+      
+      document.getElementById("booking_id").value = getBookingIdFromUrl();
+
+      // Hàm format ngày tháng
+      function formatDate(dateString) {
+        const options = { day: "2-digit", month: "2-digit", year: "numeric" };
+        return new Date(dateString).toLocaleDateString("vi-VN", options);
+      }
+
+      // Thêm biến để theo dõi các dịch vụ đã đánh giá
+      let reviewedServices = new Set();
+
+      // Hiển thị thông tin dịch vụ
+      async function displayServiceInfo() {
+        const bookingId = getBookingIdFromUrl();
+        const serviceInfoDiv = document.getElementById("serviceInfo");
+        const currentServiceId = document.getElementById("service_id").value;
+
+        let booking = null;
+        try {
+          const response = await fetch(`/booking-info/${bookingId}`);
+          if (response.ok) {
+            booking = await response.json();
+            window.currentBooking = booking; // Lưu lại booking để dùng khi submit
+          }
+        } catch (error) {
+          // Error fetching booking
+        }
+
+        if (booking && booking.services && booking.services.length > 0) {
+          if (booking.services.length === 1) {
+            // Nếu chỉ có một dịch vụ, hiển thị như cũ
+            const service = booking.services[0];
+            serviceInfoDiv.innerHTML = `
+              <div style="font-size: 16px; color: #1976d2; text-align: center;">${service.name}</div>
+            `;
+            // Đặt service_id mặc định là 0 cho trường hợp một dịch vụ
+            document.getElementById("service_id").value = "0";
+
+            // Kiểm tra từ backend - sử dụng serviceId thực tế
+            if (service && service.serviceId) {
+              try {
+                const response = await fetch(`/api/feedback/check/${bookingId}/${service.serviceId}`);
+                if (response.ok) {
+                  const data = await response.json();
+                  if (data.exists && data.feedback) {
+                    // Có feedback từ backend, load dữ liệu
+                    const backendReview = {
+                      rating: data.feedback.rating,
+                      comment: data.feedback.comment || "",
+                      timestamp: data.feedback.createdAt
+                    };
+                    loadReviewData(backendReview, true);
+                    reviewedServices.add(0);
+                  } else {
+                    resetFormForNewReview();
+                  }
+                } else {
+                  resetFormForNewReview();
+                }
+              } catch (error) {
+                console.error('Lỗi khi kiểm tra feedback:', error);
+                resetFormForNewReview();
+              }
+            } else {
+              resetFormForNewReview();
+            }
+          } else {
+            // Nếu có nhiều dịch vụ, hiển thị dropdown
+            let optionsHtml = '<option value="" disabled selected>Chọn dịch vụ cần đánh giá</option>';
+            for (let index = 0; index < booking.services.length; index++) {
+              const service = booking.services[index];
+              
+              // Kiểm tra từ backend - sử dụng serviceId thực tế
+              if (service && service.serviceId) {
+                try {
+                  const response = await fetch(`/api/feedback/check/${bookingId}/${service.serviceId}`);
+                  if (response.ok) {
+                    const data = await response.json();
+                    if (data.exists) {
+                      reviewedServices.add(index);
+                    }
+                  }
+                } catch (error) {
+                  console.error('Lỗi khi kiểm tra feedback cho service:', service.serviceId, error);
+                }
+              }
+              
+              optionsHtml += `
+                <option value="${index}" ${
+                  reviewedServices.has(index)
+                    ? 'class="reviewed-option"'
+                    : ""
+                }>
+                  ${service.name}${
+                  reviewedServices.has(index) ? " (Đã đánh giá)" : ""
+                }
+                </option>
+              `;
+            }
+            const selectHtml = `
+              <select id="serviceSelect" style="width: 100%; padding: 12px; border: 1px solid #e0e0e0; border-radius: 8px; font-size: 15px; color: #1976d2; background-color: white; cursor: pointer;">
+                ${optionsHtml}
+              </select>
+            `;
+            serviceInfoDiv.innerHTML = selectHtml;
+            document
+              .getElementById("serviceSelect")
+              .addEventListener("change", async function (e) {
+                const selectedServiceId = parseInt(e.target.value, 10);
+                const selectedService = booking.services[selectedServiceId];
+                document.getElementById("service_id").value = selectedServiceId;
+                const formMessage = document.getElementById("formMessage");
+                formMessage.className = "form-message";
+                formMessage.textContent = "";
+                formMessage.style.display = "none";
+                
+                // Reset form trước khi load data mới
+                resetFormForNewReview();
+                
+                // Kiểm tra từ backend - sử dụng serviceId thực tế
+                if (selectedService && selectedService.serviceId) {
+                  try {
+                    const response = await fetch(`/api/feedback/check/${bookingId}/${selectedService.serviceId}`);
+                    if (response.ok) {
+                      const data = await response.json();
+                      if (data.exists && data.feedback) {
+                        // Có feedback từ backend, load dữ liệu
+                        const backendReview = {
+                          rating: data.feedback.rating,
+                          comment: data.feedback.comment || "",
+                          timestamp: data.feedback.createdAt
+                        };
+                        loadReviewData(backendReview, true);
+                        return; // Thoát khỏi function nếu đã load từ backend
+                      }
+                    }
+                  } catch (error) {
+                    console.error('Lỗi khi kiểm tra feedback cho service:', selectedService.serviceId, error);
+                  }
+                }
+                
+                // Nếu không có feedback từ backend, form sẽ ở trạng thái mới
+              });
+            // Nếu đã có service_id được chọn trước đó, chọn lại nó trong dropdown
+            if (currentServiceId && currentServiceId !== "") {
+              const serviceSelect = document.getElementById("serviceSelect");
+              if (serviceSelect) {
+                serviceSelect.value = currentServiceId;
+                // Kích hoạt sự kiện change để load dữ liệu
+                const event = new Event("change");
+                serviceSelect.dispatchEvent(event);
+              }
+            }
+          }
+        } else {
+          serviceInfoDiv.innerHTML = `
+            <div style="color: #c62828; text-align: center;">
+              Không tìm thấy thông tin dịch vụ cho mã đơn ${bookingId}
+            </div>
+          `;
+        }
+      }
+
+      // Hàm load dữ liệu đánh giá vào form
+      function loadReviewData(data, isExistingReview = false) {
+        // Đảm bảo data có rating hợp lệ
+        if (!data || !data.rating) {
+          return;
+        }
+        
+        // Set rating - thử nhiều cách khác nhau
+        let ratingSet = false;
+        
+        // Cách 1: Tìm input theo value
+        const ratingInput = document.querySelector(`input[name="rating"][value="${data.rating}"]`);
+        if (ratingInput) {
+          ratingInput.checked = true;
+          ratingSet = true;
+        }
+        
+        // Cách 2: Tìm input theo id
+        if (!ratingSet) {
+          const ratingInputById = document.getElementById(`star${data.rating}`);
+          if (ratingInputById) {
+            ratingInputById.checked = true;
+            ratingSet = true;
+          }
+        }
+        
+        // Cách 3: Tìm tất cả input và set theo index
+        if (!ratingSet) {
+          const allRatingInputs = document.querySelectorAll('input[name="rating"]');
+          if (allRatingInputs.length >= data.rating) {
+            allRatingInputs[data.rating - 1].checked = true;
+            ratingSet = true;
+          }
+        }
+
+        // Set comment
+        const commentElement = document.getElementById("comment");
+        if (commentElement) {
+          commentElement.value = data.comment || "";
+        }
+
+        // Cập nhật nút submit
+        const submitBtn = document.querySelector(".submit-btn");
+        if (submitBtn) {
+          if (isExistingReview) {
+            submitBtn.innerHTML = '<i class="fas fa-edit"></i> Cập nhật đánh giá';
+            submitBtn.classList.add("next-review");
+          } else {
+            submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Gửi đánh giá';
+            submitBtn.classList.remove("next-review");
+          }
+          submitBtn.classList.remove("submitted");
+          submitBtn.disabled = false;
+        }
+        
+        // Trigger change event để đảm bảo UI cập nhật
+        setTimeout(() => {
+          const ratingInputs = document.querySelectorAll('input[name="rating"]:checked');
+          if (ratingInputs.length > 0) {
+            ratingInputs[0].dispatchEvent(new Event('change'));
+          }
+        }, 100);
+      }
+
+      // Hàm disable form khi ở chế độ xem
+      function disableFormForViewing() {
+        // Disable tất cả các input
+        document.querySelectorAll('input[name="rating"]').forEach((input) => {
+          input.disabled = true;
+        });
+        document.getElementById("comment").disabled = true;
+
+        // Ẩn nút submit
+        const submitBtn = document.querySelector(".submit-btn");
+        submitBtn.style.display = "none";
+
+        // Thêm class cho form để styling khác biệt nếu cần
+        document.querySelector(".feedback-form").classList.add("view-only");
+      }
+
+      // Hàm reset form cho đánh giá mới
+      function resetFormForNewReview() {
+        // Reset rating
+        document
+          .querySelectorAll('input[name="rating"]')
+          .forEach((i) => (i.checked = false));
+
+        // Reset comment
+        document.getElementById("comment").value = "";
+
+        // Reset message
+        const formMessage = document.getElementById("formMessage");
+        formMessage.className = "form-message";
+        formMessage.textContent = "";
+        formMessage.style.display = "none";
+
+        // Reset submit button
+        const submitBtn = document.querySelector(".submit-btn");
+        submitBtn.classList.remove("submitted", "next-review");
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Gửi đánh giá';
+      }
+
+
+
+      // Gọi hàm hiển thị thông tin dịch vụ khi trang được tải
+      document.addEventListener("DOMContentLoaded", function () {
+        // Reset biến theo dõi dịch vụ đã đánh giá
+        reviewedServices = new Set();
+
+        // Hiển thị thông tin dịch vụ
+        displayServiceInfo();
+      });
+
+      // Xử lý submit form
+      document
+        .getElementById("feedbackForm")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
+          const booking_id = getBookingIdFromUrl();
+          const selectedServiceIndex = parseInt(document.getElementById("service_id").value, 10);
+          // Lấy id thực tế của service từ window.currentBooking
+          const service_id = window.currentBooking && window.currentBooking.services && window.currentBooking.services[selectedServiceIndex]
+            ? window.currentBooking.services[selectedServiceIndex].serviceId
+            : null;
+          const rating = document.querySelector(
+            'input[name="rating"]:checked'
+          )?.value;
+          const comment = document.getElementById("comment").value.trim() || "";
+          const formMessage = document.getElementById("formMessage");
+          const submitBtn = document.querySelector(".submit-btn");
+
+          // Reset message classes
+          formMessage.className = "form-message";
+
+          // Kiểm tra xem có phải chọn dịch vụ không
+          const booking = window.currentBooking;
+          if (booking && booking.services.length > 1 && isNaN(selectedServiceIndex)) {
+            formMessage.textContent = "Vui lòng chọn dịch vụ cần đánh giá";
+            formMessage.className = "form-message error";
+            formMessage.style.display = "flex";
+            return;
+          }
+
+          if (!rating) {
+            formMessage.textContent = "Vui lòng chọn số sao đánh giá";
+            formMessage.className = "form-message error";
+            formMessage.style.display = "flex";
+            return;
+          }
+          if (!service_id) {
+            formMessage.textContent = "Không xác định được dịch vụ để gửi đánh giá!";
+            formMessage.className = "form-message error";
+            formMessage.style.display = "flex";
+            return;
+          }
+          try {
+            // Lấy userId từ URL
+            const userId = getUserIdFromUrl();
+            
+            // Kiểm tra userId trước khi gửi feedback
+            if (!userId) {
+              formMessage.textContent = "Không thể xác định người dùng. Vui lòng đăng nhập lại.";
+              formMessage.className = "form-message error";
+              formMessage.style.display = "flex";
+              return;
+            }
+            
+            // Gọi API để lưu feedback vào database
+            const feedbackData = {
+              bookingId: booking_id,
+              serviceId: service_id,
+              userId: userId,
+              rating: parseInt(rating),
+              comment: comment
+            };
+
+            // Kiểm tra xem dịch vụ này đã được đánh giá trước đó chưa
+            const wasReviewedBefore = reviewedServices.has(selectedServiceIndex);
+            
+            // Chọn endpoint dựa trên việc đã có feedback trước đó hay chưa
+            const endpoint = wasReviewedBefore ? '/api/feedback/update' : '/api/feedback/submit';
+            const method = wasReviewedBefore ? 'PUT' : 'POST';
+
+            const response = await fetch(endpoint, {
+              method: method,
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(feedbackData)
+            });
+
+            const result = await response.json();
+
+            if (!response.ok) {
+              // Kiểm tra nếu là lỗi 401 (chưa đăng nhập)
+              if (response.status === 401 && result.redirect) {
+                alert(result.message);
+                window.location.href = result.redirect;
+                return;
+              }
+              throw new Error(result.message || 'Lỗi khi gửi feedback');
+            }
+
+            // Thêm service_id vào danh sách đã đánh giá
+            reviewedServices.add(selectedServiceIndex);
+            
+            // Hiển thị thông báo thành công
+            formMessage.textContent = wasReviewedBefore
+              ? "Cập nhật đánh giá thành công!"
+              : "Cảm ơn bạn đã đánh giá dịch vụ!";
+            formMessage.className = "form-message success";
+            formMessage.style.display = "flex";
+
+            // Đảm bảo thông báo vẫn hiển thị sau khi cập nhật dropdown
+            setTimeout(() => {
+              const fm = document.getElementById("formMessage");
+              if (fm) {
+                fm.style.display = "flex";
+              }
+            }, 100);
+
+            // Cập nhật nút submit
+            submitBtn.innerHTML =
+              '<i class="fas fa-edit"></i> Cập nhật đánh giá';
+            submitBtn.classList.add("next-review");
+            submitBtn.classList.remove("submitted");
+            submitBtn.disabled = false; // Lưu lại thông báo hiện tại
+            const messageText = formMessage.textContent;
+            const messageClass = formMessage.className;
+
+            // Cập nhật lại dropdown để đánh dấu dịch vụ đã đánh giá
+            await displayServiceInfo();
+
+            // Sau khi cập nhật lại dropdown, chọn lại service hiện tại
+            if (booking.services.length > 1) {
+              const serviceSelect = document.getElementById("serviceSelect");
+              if (serviceSelect) {
+                serviceSelect.value = selectedServiceIndex;
+                // Kích hoạt sự kiện change để load lại dữ liệu
+                const event = new Event("change");
+                serviceSelect.dispatchEvent(event);
+              }
+            }
+
+            // Hiển thị lại thông báo sau khi cập nhật UI
+            formMessage.textContent = messageText;
+            formMessage.className = messageClass;
+            formMessage.style.display = "flex";
+            
+
+            
+            // Cập nhật trạng thái đánh giá trong parent window
+            if (window.parent) {
+              try {
+                window.parent.postMessage(
+                  {
+                    type: "FEEDBACK_SUBMITTED",
+                    bookingId: booking_id,
+                    serviceId: service_id,
+                    isReviewed: true,
+                    reviewId: "RV" + Date.now(),
+                  },
+                  "*"
+                );
+              } catch (error) {
+                console.error('Lỗi khi gửi message đến parent window:', error);
+              }
+            }
+          } catch (error) {
+            formMessage.textContent = "Có lỗi xảy ra, vui lòng thử lại sau: " + error.message;
+            formMessage.className = "form-message error";
+            formMessage.style.display = "flex";
+          }
+        });
+    </script>
+  </body>
+</html>

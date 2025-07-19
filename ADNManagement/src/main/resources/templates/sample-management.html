@@ -1,0 +1,1822 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quản Lý Mẫu Xét Nghiệm - Dịch Vụ Xét Nghiệm ADN</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <link rel="stylesheet" href="/assets/css/staff-auth.css" />
+    <link rel="stylesheet" href="/assets/css/staff-style.css" />
+    <style>
+      body {
+        display: flex;
+        min-height: 100vh;
+        background-color: #f5f5f5;
+      }
+
+      .text-container {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .menu-title {
+        padding: 20px 20px 10px 20px;
+        color: #666;
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        position: relative;
+      }
+
+      .menu-title::after {
+        content: "";
+        position: absolute;
+        bottom: 5px;
+        left: 20px;
+        width: 30px;
+        height: 2px;
+        background: linear-gradient(90deg, #2196f3, #64b5f6);
+        border-radius: 1px;
+      }
+
+      #mainMenu {
+        padding: 10px 15px;
+      }
+
+      .menu-item {
+        padding: 14px 16px;
+        display: flex;
+        align-items: center;
+        color: #555;
+        text-decoration: none;
+        border-radius: 12px;
+        margin-bottom: 6px;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        position: relative;
+        overflow: hidden;
+        font-weight: 500;
+      }
+
+      .menu-item::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(33, 150, 243, 0.1),
+          transparent
+        );
+        transition: left 0.6s ease;
+      }
+
+      .menu-item:hover::before {
+        left: 100%;
+      }
+
+      .menu-item:hover {
+        background: linear-gradient(
+          135deg,
+          rgba(33, 150, 243, 0.1),
+          rgba(33, 150, 243, 0.05)
+        );
+        color: #2196f3;
+        transform: translateX(8px);
+        box-shadow: 0 4px 20px rgba(33, 150, 243, 0.2);
+      }
+
+      .menu-item.active {
+        background: linear-gradient(135deg, #2196f3, #1976d2);
+        color: white;
+        transform: translateX(8px);
+        box-shadow: 0 8px 25px rgba(33, 150, 243, 0.4),
+          0 0 0 1px rgba(255, 255, 255, 0.1);
+      }
+
+      .menu-icon {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 14px;
+        border-radius: 10px;
+        background: linear-gradient(
+          135deg,
+          rgba(33, 150, 243, 0.15),
+          rgba(33, 150, 243, 0.08)
+        );
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .menu-icon::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        background: radial-gradient(
+          circle,
+          rgba(255, 255, 255, 0.3),
+          transparent 70%
+        );
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        transition: all 0.3s ease;
+      }
+
+      .menu-item:hover .menu-icon {
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.9),
+          rgba(255, 255, 255, 0.7)
+        );
+        transform: scale(1.1) rotate(5deg);
+        box-shadow: 0 6px 20px rgba(33, 150, 243, 0.3);
+      }
+
+      .menu-item:hover .menu-icon::after {
+        width: 30px;
+        height: 30px;
+      }
+
+      .menu-item.active .menu-icon {
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.3),
+          rgba(255, 255, 255, 0.1)
+        );
+        transform: scale(1.05);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .menu-icon i {
+        font-size: 18px;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        z-index: 1;
+        position: relative;
+      }
+
+      .menu-item:hover .menu-icon i {
+        transform: scale(1.2);
+        color: #2196f3;
+      }
+
+      .menu-item.active .menu-icon i {
+        color: white;
+        transform: scale(1.1);
+      }
+
+      .page-header {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        padding: 30px;
+        margin-bottom: 25px;
+        border-radius: 15px;
+        box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+      }
+
+      .page-title {
+        font-size: 28px;
+        color: #333;
+        margin-bottom: 8px;
+        font-weight: 700;
+        background: linear-gradient(45deg, #667eea, #764ba2);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .page-subtitle {
+        color: #666;
+        font-size: 14px;
+      }
+
+      /* Content sections */
+      .content-section {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 15px;
+        padding: 25px;
+        margin-bottom: 25px;
+        box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        animation: fadeInUp 0.6s ease forwards;
+      }
+
+      .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #eee;
+      }
+
+      .section-title {
+        font-size: 18px;
+        color: #333;
+        font-weight: 600;
+      }
+
+      /* Button styles */
+      .btn {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.3s ease;
+      }
+
+      .btn-primary {
+        background: linear-gradient(45deg, #667eea, #764ba2);
+        color: white;
+        border: none;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+      }
+
+      .btn-primary:hover {
+        background: linear-gradient(45deg, #5a6fd8, #6b42a0);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+      }
+
+      .btn-success {
+        background: linear-gradient(45deg, #4caf50, #66bb6a);
+        color: white;
+        box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
+      }
+
+      .btn-success:hover {
+        background: linear-gradient(45deg, #388e3c, #4caf50);
+        transform: translateY(-2px);
+      }
+
+      .btn-info {
+        background: linear-gradient(45deg, #17a2b8, #20c997);
+        color: white;
+        border: none;
+        box-shadow: 0 4px 15px rgba(23, 162, 184, 0.4);
+      }
+
+      .btn-info:hover {
+        background: linear-gradient(45deg, #138496, #1e7e34);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(23, 162, 184, 0.6);
+      }
+
+      .btn-large {
+        padding: 18px 35px;
+        font-size: 16px;
+        font-weight: 700;
+        border-radius: 12px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        transition: all 0.3s ease;
+      }
+
+      .btn-large:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px rgba(102, 126, 234, 0.5);
+      }
+
+      /* Table styles */
+      .samples-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      .samples-table th,
+      .samples-table td {
+        padding: 15px 12px;
+        text-align: left;
+        border-bottom: 1px solid rgba(102, 126, 234, 0.1);
+      }
+
+      .samples-table th {
+        background: linear-gradient(45deg, #667eea, #764ba2);
+        color: white;
+        font-weight: 600;
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .samples-table tr {
+        transition: all 0.3s ease;
+        animation: slideInRight 0.5s ease forwards;
+      }
+
+      .samples-table tr:hover {
+        background: linear-gradient(
+          135deg,
+          rgba(102, 126, 234, 0.05),
+          rgba(118, 75, 162, 0.05)
+        );
+        transform: scale(1.01);
+      }
+
+      .samples-table tr:nth-child(even) {
+        background-color: rgba(102, 126, 234, 0.02);
+      }
+
+      /* Modal styles */
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(5px);
+      }
+
+      .modal-content {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        margin: 3% auto;
+        padding: 30px;
+        border-radius: 20px;
+        width: 85%;
+        max-width: 700px;
+        max-height: 85vh;
+        overflow-y: auto;
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+      }
+
+      .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #eee;
+      }
+
+      .modal-title {
+        font-size: 20px;
+        color: #333;
+        font-weight: 600;
+      }
+
+      .close {
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+        color: #666;
+      }
+
+      .close:hover {
+        color: #000;
+      }
+
+      /* Form styles */
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      .form-label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #333;
+      }
+
+      .form-control {
+        width: 100%;
+        padding: 12px 15px;
+        border: 2px solid rgba(102, 126, 234, 0.2);
+        border-radius: 10px;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        background: rgba(255, 255, 255, 0.8);
+      }
+
+      .form-control:focus {
+        outline: none;
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+        background: rgba(255, 255, 255, 1);
+      }
+
+      .form-select {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+        background-position: right 8px center;
+        background-repeat: no-repeat;
+        background-size: 16px;
+        padding-right: 40px;
+      }
+
+      .form-row {
+        display: flex;
+        gap: 15px;
+      }
+
+      .form-col {
+        flex: 1;
+      }
+
+      /* Sample type badge */
+      .sample-type-badge {
+        padding: 4px 8px;
+        border-radius: 12px;
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+      }
+
+      .sample-blood {
+        background-color: #ffebee;
+        color: #c62828;
+      }
+
+      .sample-saliva {
+        background-color: #e3f2fd;
+        color: #1565c0;
+      }
+
+      .sample-hair {
+        background-color: #f3e5f5;
+        color: #7b1fa2;
+      }
+
+      .sample-nail {
+        background-color: #fff3e0;
+        color: #ef6c00;
+      }
+
+      /* Status badge */
+      .status-badge {
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+      }
+
+      .status-collected {
+        background: linear-gradient(45deg, #4caf50, #66bb6a);
+        color: white;
+        box-shadow: 0 2px 4px rgba(76, 175, 80, 0.3);
+      }
+
+      .status-processing {
+        background: linear-gradient(45deg, #ff9800, #ffb74d);
+        color: white;
+        box-shadow: 0 2px 4px rgba(255, 152, 0, 0.3);
+      }
+
+      .status-completed {
+        background: linear-gradient(45deg, #2196f3, #64b5f6);
+        color: white;
+        box-shadow: 0 2px 4px rgba(33, 150, 243, 0.3);
+      }
+
+      .status-collected::before {
+        content: "✓";
+      }
+
+      .status-processing::before {
+        content: "⏳";
+      }
+
+      .status-completed::before {
+        content: "✓";
+      }
+
+      .logout-btn {
+        width: 100%;
+        padding: 8px;
+        background-color: #dc3545;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 12px;
+        transition: background-color 0.3s ease;
+      }
+
+      .logout-btn:hover {
+        background-color: #c82333;
+      }
+
+      /* Search and filter */
+      .filter-section {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+      }
+
+      .search-box {
+        flex: 1;
+        min-width: 250px;
+      }
+
+      .filter-dropdown {
+        min-width: 150px;
+      }
+
+      /* Empty state */
+      .empty-state {
+        text-align: center;
+        padding: 40px;
+        color: #666;
+      }
+
+      .empty-state i {
+        font-size: 48px;
+        color: #ddd;
+        margin-bottom: 15px;
+      }
+
+      /* Location badge */
+      .location-badge {
+        padding: 4px 8px;
+        border-radius: 12px;
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+      }
+
+      .location-home {
+        background-color: #e8f5e8;
+        color: #2e7d32;
+      }
+
+      .location-facility {
+        background-color: #e3f2fd;
+        color: #1565c0;
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .sidebar {
+          transform: translateX(-100%);
+          transition: transform 0.3s ease;
+        }
+
+        .main-content {
+          margin-left: 0;
+          width: 100%;
+          padding: 15px;
+        }
+
+        .form-row {
+          flex-direction: column;
+        }
+
+        .filter-section {
+          flex-direction: column;
+          align-items: stretch;
+        }
+
+        .modal-content {
+          width: 95%;
+          margin: 10% auto;
+          padding: 20px;
+        }
+
+        .samples-table {
+          font-size: 12px;
+        }
+
+        .samples-table th,
+        .samples-table td {
+          padding: 8px 4px;
+        }
+
+        .btn-large {
+          padding: 15px 25px;
+          font-size: 14px;
+        }
+      }
+
+      /* Animation for page load */
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .content-section:nth-child(2) {
+        animation-delay: 0.1s;
+      }
+
+      .content-section:nth-child(3) {
+        animation-delay: 0.2s;
+      }
+
+      /* Scroll animations */
+      @keyframes slideInRight {
+        from {
+          opacity: 0;
+          transform: translateX(50px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+
+      /* Scrollbar styling */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: #2196f3;
+        border-radius: 10px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: #1976d2;
+      }
+
+      /* Loading spinner for better UX */
+      .loading {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border: 3px solid rgba(102, 126, 234, 0.3);
+        border-radius: 50%;
+        border-top-color: #667eea;
+        animation: spin 1s ease-in-out infinite;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* Toast notification styles */
+      .toast-notification {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: white;
+        padding: 12px 24px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        display: flex;
+        align-items: center;
+        animation: slideInRight 0.3s ease, fadeOut 0.3s ease 2.7s;
+        z-index: 20000;
+        opacity: 1;
+        transition: opacity 0.3s ease;
+      }
+      .toast-content {
+        display: flex;
+        align-items: center;
+        font-size: 14px;
+        color: #333;
+      }
+      .toast-error {
+        background: #fff0f0;
+        color: #f44336;
+        border: 1px solid #f44336;
+      }
+      .toast-warning {
+        background: #fff8e1;
+        color: #ff9800;
+        border: 1px solid #ff9800;
+      }
+      @keyframes slideInRight {
+        from { transform: translateX(100%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+      }
+      @keyframes fadeOut {
+        from { opacity: 1; }
+        to { opacity: 0; }
+      }
+      /* Sidebar styles đồng bộ với staff-index.html */
+      .sidebar {
+        width: 270px;
+        background: #fff;
+        min-height: 100vh;
+        box-shadow: 2px 0 16px 0 rgba(0,0,0,0.07);
+        position: fixed;
+        left: 0;
+        top: 0;
+        z-index: 100;
+        display: flex;
+        flex-direction: column;
+        padding-bottom: 30px;
+      }
+      .logo-container {
+        display: flex;
+        align-items: center;
+        padding: 24px 24px 12px 24px;
+        border-bottom: 1px solid #f0f0f0;
+      }
+      .logo {
+        width: 48px;
+        height: 48px;
+        margin-right: 14px;
+      }
+      .text-container {
+        display: flex;
+        flex-direction: column;
+      }
+      .logo-text {
+        font-size: 22px;
+        font-weight: bold;
+        color: #1976d2;
+        letter-spacing: 1px;
+      }
+      .logo-subtext {
+        font-size: 13px;
+        color: #888;
+        margin-top: 2px;
+      }
+      .login-register {
+        padding: 20px;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(245, 245, 245, 0.6));
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 16px;
+        margin: 15px;
+        margin-bottom: 20px; /* Đồng bộ với staff-index.html */
+        backdrop-filter: blur(15px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+      }
+      .menu-title {
+        padding: 20px 20px 10px 20px;
+        color: #666;
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        position: relative;
+      }
+      .menu-title::after {
+        content: "";
+        position: absolute;
+        bottom: 5px;
+        left: 20px;
+        width: 30px;
+        height: 2px;
+        background: linear-gradient(90deg, #2196f3, #64b5f6);
+        border-radius: 1px;
+      }
+      #mainMenu {
+        padding: 10px 15px;
+      }
+      .menu-item {
+        padding: 14px 16px;
+        display: flex;
+        align-items: center;
+        color: #555;
+        text-decoration: none;
+        border-radius: 12px;
+        margin-bottom: 6px;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        position: relative;
+        overflow: hidden;
+        font-weight: 500;
+      }
+      .menu-item::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(33, 150, 243, 0.1), transparent);
+        transition: left 0.6s ease;
+      }
+      .menu-item:hover::before {
+        left: 100%;
+      }
+      .menu-item:hover {
+        background: linear-gradient(135deg, rgba(33, 150, 243, 0.1), rgba(33, 150, 243, 0.05));
+        color: #2196f3;
+        transform: translateX(8px);
+        box-shadow: 0 4px 20px rgba(33, 150, 243, 0.2);
+      }
+      .menu-item.active {
+        background: linear-gradient(135deg, #2196f3, #1976d2);
+        color: white;
+        transform: translateX(8px);
+        box-shadow: 0 8px 25px rgba(33, 150, 243, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.1);
+      }
+      .menu-icon {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 14px;
+        border-radius: 10px;
+        background: linear-gradient(135deg, rgba(33, 150, 243, 0.15), rgba(33, 150, 243, 0.08));
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        position: relative;
+        overflow: hidden;
+      }
+      .menu-icon::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        background: radial-gradient(circle, rgba(255, 255, 255, 0.3), transparent 70%);
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        transition: all 0.3s ease;
+      }
+      .menu-item:hover .menu-icon {
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
+        transform: scale(1.1) rotate(5deg);
+        box-shadow: 0 6px 20px rgba(33, 150, 243, 0.3);
+      }
+      .menu-item:hover .menu-icon::after {
+        width: 30px;
+        height: 30px;
+      }
+      .menu-item.active .menu-icon {
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.1));
+        transform: scale(1.05);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      }
+      .menu-icon i {
+        font-size: 18px;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        z-index: 1;
+        position: relative;
+      }
+      .menu-item:hover .menu-icon i {
+        transform: scale(1.2);
+        color: #2196f3;
+      }
+      .menu-item.active .menu-icon i {
+        color: white;
+        transform: scale(1.1);
+      }
+    </style>
+  </head>
+  <body>
+    <script th:inline="javascript">
+      /*<![CDATA[*/
+      window.serverStaff = /*[[${staffData}]]*/ null;
+      /*]]>*/
+    </script>
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="logo-container">
+        <img src="/assets/images/logo.png" alt="Logo" class="logo" />
+        <div class="text-container">
+          <div class="logo-text">Genx</div>
+          <div class="logo-subtext">Trung tâm xét nghiệm ADN huyết thống</div>
+        </div>
+      </div>
+      <div class="login-register" id="login-register">
+        <div id="user-info-container"></div>
+      </div>
+      <div class="menu-title">MAIN MENU</div>
+      <div id="mainMenu">
+        <a href="/staff-home" class="menu-item">
+          <span class="menu-icon"><i class="fas fa-home"></i></span>
+          Trang chủ
+        </a>
+        <a href="/staff-appointments" class="menu-item">
+          <span class="menu-icon"><i class="fas fa-clipboard-list"></i></span>
+          Danh sách lịch hẹn
+        </a>
+        <a href="/staff-kit-list" class="menu-item">
+          <span class="menu-icon"><i class="fas fa-vials"></i></span>
+          Quản lý kit xét nghiệm
+        </a>
+        <a href="/payment-management" class="menu-item">
+          <span class="menu-icon"><i class="fas fa-money-bill-wave"></i></span>
+          Quản lý thanh toán
+        </a>
+        <a href="/staff-participants" class="menu-item">
+          <span class="menu-icon"><i class="fas fa-users"></i></span>
+          Quản lý người tham gia
+        </a>
+        <a href="/staff-samples" class="menu-item active">
+          <span class="menu-icon"><i class="fas fa-flask"></i></span>
+          Quản lý mẫu xét nghiệm
+        </a>
+        <a href="/staff-results" class="menu-item">
+          <span class="menu-icon"><i class="fas fa-chart-line"></i></span>
+          Quản lý kết quả xét nghiệm
+        </a>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <!-- Page Header -->
+      <div class="page-header">
+        <h1 class="page-title">Quản Lý Mẫu Xét Nghiệm</h1>
+        <p class="page-subtitle">
+          Quản lý danh sách mẫu xét nghiệm và quá trình thu thập
+        </p>
+      </div>
+
+      <!-- Add Sample Section -->
+      <div class="content-section">
+        <div class="section-header">
+          <h2 class="section-title">Thêm Mẫu Xét Nghiệm</h2>
+        </div>
+        <div style="text-align: center">
+          <button id="add-sample-btn" class="btn btn-primary btn-large">
+            <i class="fas fa-plus-circle"></i>
+            Thêm Mẫu Xét Nghiệm
+          </button>
+        </div>
+      </div>
+
+      <!-- Samples List Section -->
+      <div class="content-section">
+        <div class="section-header">
+          <h2 class="section-title">Danh Sách Mẫu Xét Nghiệm</h2>
+        </div>
+        <!-- Search and Filter -->
+        <div class="filter-section">
+          <div class="search-box">
+            <input
+              type="text"
+              id="search-input"
+              class="form-control"
+              placeholder="Tìm kiếm: Mã mẫu, tên người tham gia, hoặc tên dịch vụ..."
+            />
+          </div>          <select id="service-filter" class="form-control filter-dropdown">
+            <option value="">Tất cả dịch vụ</option>
+            <option value="Xét nghiệm ADN Cha - Con">Xét nghiệm ADN Cha - Con</option>
+            <option value="Xét nghiệm ADN Mẹ - Con">Xét nghiệm ADN Mẹ - Con</option>
+            <option value="Xét nghiệm ADN Ông/Bà - Cháu">Xét nghiệm ADN Ông/Bà - Cháu</option>
+            <option value="Xét nghiệm ADN Anh/Chị - Em">Xét nghiệm ADN Anh/Chị - Em</option>
+          </select>
+          <button type="button" class="btn btn-info" onclick="clearFilters()" style="white-space: nowrap;">
+            <i class="fas fa-times"></i> Xóa bộ lọc
+          </button>
+        </div>
+
+        <!-- Samples Table -->
+        <div id="samples-container">
+          <!-- Loading indicator -->
+          <div id="loading-indicator" style="display: none; text-align: center; padding: 20px;">
+            <div class="loading" style="margin: 0 auto;"></div>
+            <p style="margin-top: 10px; color: #666;">Đang tải dữ liệu...</p>
+          </div>
+          
+          <table class="samples-table" id="samples-table">
+            <thead>
+              <tr>
+                <th>Mã Mẫu</th>
+                <th>Tên Người Cung Cấp</th>
+                <th>Dịch Vụ</th>
+                <th>Người Thực Hiện</th>
+                <th>Thời Gian Lấy</th>
+                <th>Thao Tác</th>
+              </tr>
+            </thead>
+            <tbody id="samples-list">
+              <!-- Dynamic content will be inserted here -->
+            </tbody>
+          </table>
+          
+          <!-- Pagination container -->
+          <div id="pagination-container" style="display: flex; justify-content: center; align-items: center; margin-top: 20px; gap: 10px; flex-wrap: wrap;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Add Sample Modal -->
+    <div id="add-sample-modal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title">Thêm Mẫu Xét Nghiệm</h2>
+          <span class="close">&times;</span>
+        </div>
+        <form id="add-sample-form">
+          <!-- ID Người Tham Gia - Dòng đầu tiên -->
+          <div class="form-group">
+            <label class="form-label" for="provider-id"
+              >Mã Người Tham Gia *</label
+            >
+            <div style="display: flex; gap: 10px; align-items: center;">
+              <input
+                type="text"
+                id="provider-id"
+                class="form-control"
+                placeholder="Nhập ID người tham gia"
+                required
+                style="flex: 1;"
+              />
+              <button
+                type="button"
+                id="search-participant-btn"
+                class="btn btn-info"
+                style="white-space: nowrap;"
+              >
+                <i class="fas fa-search"></i> Tìm kiếm
+              </button>
+            </div>
+            <div id="participant-result" style="margin-top: 10px;"></div>
+          </div>
+
+          <!-- Other fields (hidden until participant is validated) -->
+          <div id="sample-fields" style="display: none;">
+            <div class="form-row">
+              <div class="form-col">
+                <label class="form-label" for="sample-code">Mã Mẫu</label>
+                <input
+                  type="text"
+                  id="sample-code"
+                  class="form-control"
+                  placeholder="Nhập mã mẫu"
+                />
+              </div>
+              <div class="form-col">
+                <label class="form-label" for="performer-id">Mã Người Thực Hiện *</label>
+                <input
+                  type="text"
+                  id="performer-id"
+                  class="form-control"
+                  placeholder="Nhập mã người thực hiện"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-col">
+                <label class="form-label" for="service-name">Tên Dịch Vụ *</label>
+                <select
+                  id="service-name"
+                  class="form-control form-select"
+                  required
+                >
+                  <option value="">Chọn dịch vụ</option>
+                </select>
+              </div>
+              <div class="form-col">
+                <label class="form-label" for="sample-type">Loại Mẫu *</label>
+                <select
+                  id="sample-type"
+                  class="form-control form-select"
+                  required
+                >
+                  <option value="">Chọn loại mẫu</option>
+                  <option value="blood">Máu</option>
+                  <option value="saliva">Nước bọt</option>
+                  <option value="hair">Tóc</option>
+                  <option value="nail">Móng tay</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-col">
+                <label class="form-label" for="collection-date"
+                  >Ngày Lấy *</label
+                >
+                <input
+                  type="date"
+                  id="collection-date"
+                  class="form-control"
+                  required
+                />
+              </div>
+              <div class="form-col">
+                <label class="form-label" for="collection-time"
+                  >Giờ Lấy *</label
+                >
+                <input
+                  type="time"
+                  id="collection-time"
+                  class="form-control"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="note">Ghi Chú</label>
+              <textarea
+                id="note"
+                class="form-control"
+                rows="3"
+                placeholder="Nhập ghi chú (nếu có)"
+              ></textarea>
+            </div>
+          </div>
+
+          <div style="text-align: right; margin-top: 20px">
+            <button
+              type="button"
+              class="btn"
+              style="
+                background-color: #6c757d;
+                color: white;
+                margin-right: 10px;
+              "
+              onclick="closeAddModal()"
+            >
+              Hủy
+            </button>
+            <button type="submit" class="btn btn-primary" id="add-sample-submit-btn" disabled>
+              <i class="fas fa-save"></i>
+              Lưu Mẫu
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- View Sample Modal -->
+    <div id="view-sample-modal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title">Thông Tin Mẫu Xét Nghiệm</h2>
+          <span class="close">&times;</span>
+        </div>
+        <div id="sample-details">
+          <!-- Dynamic content will be inserted here -->
+        </div>
+        <div style="text-align: right; margin-top: 20px">
+          <button type="button" class="btn btn-info" onclick="closeViewModal()">
+            Đóng
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Global variables
+      let testSamples = [];
+      let currentParticipantData = null;
+      
+      // Pagination variables
+      let currentPage = 0;
+      let pageSize = 10;
+      let totalPages = 0;
+      let totalElements = 0;
+      let currentFilters = {
+        search: '',
+        service: ''
+      };
+
+      // Initialize page
+      document.addEventListener("DOMContentLoaded", function () {
+        loadTestSamples();
+        setupEventListeners();
+        setDefaultDateTime();
+      });
+
+      function setupEventListeners() {
+        // Add sample button
+        document
+          .getElementById("add-sample-btn")
+          .addEventListener("click", openAddModal);
+
+        // Search participant button
+        document
+          .getElementById("search-participant-btn")
+          .addEventListener("click", searchParticipant);
+
+        // Participant ID input change event
+        document
+          .getElementById("provider-id")
+          .addEventListener("input", function() {
+            // Clear participant result when user types
+            document.getElementById("participant-result").innerHTML = "";
+            document.getElementById("service-name").innerHTML = '<option value="">Chọn dịch vụ</option>';
+            currentParticipantData = null;
+            
+            // Hide sample fields and disable submit button
+            document.getElementById("sample-fields").style.display = "none";
+            document.getElementById("add-sample-submit-btn").disabled = true;
+          });
+
+        // Modal close buttons
+        document.querySelectorAll(".close").forEach((closeBtn) => {
+          closeBtn.addEventListener("click", function () {
+            closeAddModal();
+            closeViewModal();
+          });
+        });
+
+        // Form submission
+        document
+          .getElementById("add-sample-form")
+          .addEventListener("submit", handleAddSample);
+          
+        // Search and filter
+        document
+          .getElementById("search-input")
+          .addEventListener("input", function() {
+            currentPage = 0; // Reset to first page when searching
+            filterTestSamples();
+          });
+        document
+          .getElementById("service-filter")
+          .addEventListener("change", function() {
+            currentPage = 0; // Reset to first page when filtering
+            filterTestSamples();
+          });
+
+        // Click outside modal to close
+        window.addEventListener("click", function (event) {
+          const addModal = document.getElementById("add-sample-modal");
+          const viewModal = document.getElementById("view-sample-modal");
+          if (event.target === addModal) {
+            closeAddModal();
+          }
+          if (event.target === viewModal) {
+            closeViewModal();
+          }
+        });
+      }
+
+      async function loadTestSamples() {
+        try {
+          showLoading(true);
+          const data = await TEST_SAMPLES_API.getAllTestSamples(currentPage, pageSize);
+          
+          // Handle paginated response
+          if (data.content) {
+            testSamples = data.content;
+            totalPages = data.totalPages || 1;
+            totalElements = data.totalElements || 0;
+            currentPage = data.page || 0;
+          } else {
+            // Fallback for non-paginated response
+            testSamples = data;
+            totalPages = 1;
+            totalElements = testSamples.length;
+            currentPage = 0;
+          }
+          
+          renderTestSamplesTable();
+          renderPagination();
+        } catch (error) {
+          showErrorToast("Lỗi khi tải danh sách mẫu xét nghiệm");
+          console.error("Error loading test samples:", error);
+        } finally {
+          showLoading(false);
+        }
+      }
+
+      function renderTestSamplesTable() {
+        const tbody = document.getElementById("samples-list");
+        tbody.innerHTML = "";
+
+        if (testSamples.length === 0) {
+          tbody.innerHTML = `
+            <tr>
+              <td colspan="6" class="empty-state">
+                <i class="fas fa-flask"></i>
+                <p>Chưa có mẫu xét nghiệm nào</p>
+              </td>
+            </tr>
+          `;
+          return;
+        }
+
+        testSamples.forEach((sample) => {
+          const row = createTestSampleRow(sample);
+          tbody.appendChild(row);
+        });
+      }
+
+      function createTestSampleRow(sample) {
+        const row = document.createElement("tr");
+
+        const sampleTypeClasses = {
+          blood: "sample-blood",
+          saliva: "sample-saliva",
+          hair: "sample-hair",
+          nail: "sample-nail",
+        };
+
+        const sampleTypeTexts = {
+          blood: "Máu",
+          saliva: "Nước bọt",
+          hair: "Tóc",
+          nail: "Móng tay",
+        };
+
+        row.innerHTML = `
+          <td><strong>${sample.sampleCode || 'N/A'}</strong></td>
+          <td>${sample.participant ? sample.participant.fullName : 'N/A'}</td>
+          <td>${sample.service ? sample.service.name : 'N/A'}</td>
+          <td>${sample.collectedBy ? (sample.collectedBy.fullName || `ID: ${sample.collectedBy.id}`) : 'N/A'}</td>
+          <td>${sample.collectedAt ? TEST_SAMPLES_UTILS.formatDateTime(sample.collectedAt) : 'N/A'}</td>
+          <td>
+            <button class="btn btn-info" onclick="viewTestSample(${sample.id})" style="padding: 5px 10px; font-size: 12px;">
+              <i class="fas fa-eye"></i> Xem
+            </button>
+          </td>
+        `;
+
+        return row;
+      }
+
+      // Pagination functions
+      function renderPagination() {
+        const container = document.getElementById("pagination-container");
+        
+        if (totalPages <= 1) {
+          container.innerHTML = '';
+          return;
+        }
+        
+        let paginationHTML = '';
+        
+        // Previous button
+        if (currentPage > 0) {
+          paginationHTML += `<button onclick="changePage(${currentPage - 1})" style="padding: 8px 12px; border: 1px solid #ddd; background: white; color: #333; cursor: pointer; border-radius: 4px; transition: all 0.3s ease;">
+            <i class="fas fa-chevron-left"></i> Trước
+          </button>`;
+        } else {
+          paginationHTML += `<button disabled style="padding: 8px 12px; border: 1px solid #ddd; background: #f5f5f5; color: #999; cursor: not-allowed; border-radius: 4px;">
+            <i class="fas fa-chevron-left"></i> Trước
+          </button>`;
+        }
+        
+        // First page button (if not visible)
+        if (currentPage > 2) {
+          paginationHTML += `<button onclick="changePage(0)" style="padding: 8px 12px; border: 1px solid #ddd; background: white; color: #333; cursor: pointer; border-radius: 4px; transition: all 0.3s ease;">
+            1
+          </button>`;
+          if (currentPage > 3) {
+            paginationHTML += `<span style="padding: 8px 4px; color: #666;">...</span>`;
+          }
+        }
+        
+        // Page numbers
+        const startPage = Math.max(0, currentPage - 2);
+        const endPage = Math.min(totalPages - 1, currentPage + 2);
+        
+        for (let i = startPage; i <= endPage; i++) {
+          if (i === currentPage) {
+            paginationHTML += `<button style="padding: 8px 12px; border: 1px solid #2196f3; background: #2196f3; color: white; cursor: pointer; border-radius: 4px; font-weight: bold; transition: all 0.3s ease;">
+              ${i + 1}
+            </button>`;
+          } else {
+            paginationHTML += `<button onclick="changePage(${i})" style="padding: 8px 12px; border: 1px solid #ddd; background: white; color: #333; cursor: pointer; border-radius: 4px; transition: all 0.3s ease;">
+              ${i + 1}
+            </button>`;
+          }
+        }
+        
+        // Last page button (if not visible)
+        if (currentPage < totalPages - 3) {
+          if (currentPage < totalPages - 4) {
+            paginationHTML += `<span style="padding: 8px 4px; color: #666;">...</span>`;
+          }
+          paginationHTML += `<button onclick="changePage(${totalPages - 1})" style="padding: 8px 12px; border: 1px solid #ddd; background: white; color: #333; cursor: pointer; border-radius: 4px; transition: all 0.3s ease;">
+            ${totalPages}
+          </button>`;
+        }
+        
+        // Next button
+        if (currentPage < totalPages - 1) {
+          paginationHTML += `<button onclick="changePage(${currentPage + 1})" style="padding: 8px 12px; border: 1px solid #ddd; background: white; color: #333; cursor: pointer; border-radius: 4px; transition: all 0.3s ease;">
+            Sau <i class="fas fa-chevron-right"></i>
+          </button>`;
+        } else {
+          paginationHTML += `<button disabled style="padding: 8px 12px; border: 1px solid #ddd; background: #f5f5f5; color: #999; cursor: not-allowed; border-radius: 4px;">
+            Sau <i class="fas fa-chevron-right"></i>
+          </button>`;
+        }
+        
+        // Page info
+        paginationHTML += `<div style="margin-left: 20px; color: #666; font-size: 14px;">
+          Trang ${currentPage + 1} / ${totalPages} (${totalElements} kết quả)
+        </div>`;
+        
+        container.innerHTML = paginationHTML;
+      }
+
+      // Change page function
+      async function changePage(page) {
+        currentPage = page;
+        await loadTestSamples();
+      }
+
+      // Loading functions
+      function showLoading(show) {
+        const loadingIndicator = document.getElementById("loading-indicator");
+        const samplesTable = document.getElementById("samples-table");
+        
+        if (show) {
+          loadingIndicator.style.display = "block";
+          samplesTable.style.display = "none";
+        } else {
+          loadingIndicator.style.display = "none";
+          samplesTable.style.display = "table";
+        }
+      }
+
+      // Clear filters function
+      function clearFilters() {
+        document.getElementById("search-input").value = "";
+        document.getElementById("service-filter").value = "";
+        currentFilters = { search: '', service: '' };
+        currentPage = 0;
+        loadTestSamples();
+      }
+
+      async function openAddModal() {
+        document.getElementById("add-sample-modal").style.display = "block";
+        
+        // Clear previous data
+        document.getElementById("participant-result").innerHTML = "";
+        document.getElementById("service-name").innerHTML = '<option value="">Chọn dịch vụ</option>';
+        
+        // Hide sample fields and disable submit button
+        document.getElementById("sample-fields").style.display = "none";
+        document.getElementById("add-sample-submit-btn").disabled = true;
+        
+        // Reset search button
+        const searchBtn = document.getElementById("search-participant-btn");
+        TEST_SAMPLES_UTILS.hideLoading(searchBtn, '<i class="fas fa-search"></i> Tìm kiếm');
+        
+        // Clear current participant data
+        currentParticipantData = null;
+        
+        // Set default date and time
+        setDefaultDateTime();
+      }
+
+      function closeAddModal() {
+        document.getElementById("add-sample-modal").style.display = "none";
+        document.getElementById("add-sample-form").reset();
+        document.getElementById("participant-result").innerHTML = "";
+        document.getElementById("service-name").innerHTML = '<option value="">Chọn dịch vụ</option>';
+        
+        // Reset search button
+        const searchBtn = document.getElementById("search-participant-btn");
+        TEST_SAMPLES_UTILS.hideLoading(searchBtn, '<i class="fas fa-search"></i> Tìm kiếm');
+        
+        // Hide sample fields and disable submit button
+        document.getElementById("sample-fields").style.display = "none";
+        document.getElementById("add-sample-submit-btn").disabled = true;
+        
+        // Clear current participant data
+        currentParticipantData = null;
+      }
+
+      function closeViewModal() {
+        document.getElementById("view-sample-modal").style.display = "none";
+      }
+
+      function setDefaultDateTime() {
+        const now = new Date();
+        
+        // Set ngày hiện tại
+        const currentDate = now.toISOString().split('T')[0];
+        document.getElementById("collection-date").value = currentDate;
+        
+        // Set giờ hiện tại
+        const currentTime = now.toTimeString().slice(0, 5);
+        document.getElementById("collection-time").value = currentTime;
+      }
+
+      // Search participant and load services
+      async function searchParticipant() {
+        const participantId = document.getElementById("provider-id").value.trim();
+        const serviceSelect = document.getElementById("service-name");
+        const resultDiv = document.getElementById("participant-result");
+        const searchBtn = document.getElementById("search-participant-btn");
+        const originalText = searchBtn.innerHTML;
+
+        if (!participantId) {
+          showWarningToast("Vui lòng nhập ID người tham gia");
+          return;
+        }
+
+        try {
+          TEST_SAMPLES_UTILS.showLoading(searchBtn);
+          
+          // Get services by participant
+          const services = await TEST_SAMPLES_API.getServicesByParticipant(participantId);
+          
+          if (services && services.length > 0) {
+            currentParticipantData = { participantId: participantId, services: services };
+            
+            // Update service dropdown
+            serviceSelect.innerHTML = '<option value="">Chọn dịch vụ</option>';
+            services.forEach(service => {
+              const option = document.createElement('option');
+              option.value = service.id;
+              option.textContent = service.name;
+              serviceSelect.appendChild(option);
+            });
+            
+            // Show sample fields and enable submit button
+            document.getElementById("sample-fields").style.display = "block";
+            document.getElementById("add-sample-submit-btn").disabled = false;
+            
+            // Show success message
+            resultDiv.innerHTML = `
+              <div style="color: #4caf50; font-weight: 500; padding: 10px; background-color: #e8f5e8; border-radius: 5px; border-left: 4px solid #4caf50;">
+                <i class="fas fa-check-circle"></i> Tìm thấy ${services.length} dịch vụ cho người tham gia ID: ${participantId}
+              </div>
+            `;
+            
+            showSuccessToast("Tìm thấy " + services.length + " dịch vụ");
+          } else {
+            currentParticipantData = null;
+            serviceSelect.innerHTML = '<option value="">Không có dịch vụ nào</option>';
+            
+            // Hide sample fields and disable submit button
+            document.getElementById("sample-fields").style.display = "none";
+            document.getElementById("add-sample-submit-btn").disabled = true;
+            
+            resultDiv.innerHTML = `
+              <div style="color: #f44336; font-weight: 500; padding: 10px; background-color: #ffebee; border-radius: 5px; border-left: 4px solid #f44336;">
+                <i class="fas fa-exclamation-circle"></i> Không tìm thấy dịch vụ cho người tham gia này
+              </div>
+            `;
+            
+            showWarningToast("Không tìm thấy dịch vụ cho người tham gia này");
+          }
+        } catch (error) {
+          currentParticipantData = null;
+          serviceSelect.innerHTML = '<option value="">Lỗi khi tải dịch vụ</option>';
+          
+          // Hide sample fields and disable submit button
+          document.getElementById("sample-fields").style.display = "none";
+          document.getElementById("add-sample-submit-btn").disabled = true;
+          
+          resultDiv.innerHTML = `
+            <div style="color: #f44336; font-weight: 500; padding: 10px; background-color: #ffebee; border-radius: 5px; border-left: 4px solid #f44336;">
+              <i class="fas fa-exclamation-circle"></i> Lỗi khi tìm kiếm người tham gia: ${error.message}
+            </div>
+          `;
+          
+          showErrorToast("Lỗi khi tìm kiếm người tham gia");
+          console.error("Error searching participant:", error);
+        } finally {
+          // Always reset the search button
+          TEST_SAMPLES_UTILS.hideLoading(searchBtn, '<i class="fas fa-search"></i> Tìm kiếm');
+        }
+      }
+
+      async function handleAddSample(event) {
+        event.preventDefault();
+
+        // Validate participant lookup
+        if (!currentParticipantData) {
+          showWarningToast("Vui lòng tìm kiếm người tham gia trước khi thêm mẫu");
+          return;
+        }
+
+        const serviceId = document.getElementById("service-name").value;
+        if (!serviceId) {
+          showWarningToast("Vui lòng chọn dịch vụ");
+          return;
+        }
+
+        const performerId = document.getElementById("performer-id").value.trim();
+        if (!performerId) {
+          showWarningToast("Vui lòng nhập mã người thực hiện");
+          return;
+        }
+
+        // Kết hợp ngày và giờ thành datetime
+        const collectionDate = document.getElementById("collection-date").value;
+        const collectionTime = document.getElementById("collection-time").value;
+        const combinedDateTime = `${collectionDate}T${collectionTime}`;
+
+        const newSample = {
+          participant: { id: parseInt(currentParticipantData.participantId) },
+          service: { id: parseInt(serviceId) },
+          sampleCode: document.getElementById("sample-code").value,
+          sampleType: document.getElementById("sample-type").value,
+          collectedAt: combinedDateTime,
+          collectedBy: { id: parseInt(performerId) },
+          note: document.getElementById("note").value
+        };
+
+        try {
+          const submitBtn = event.target.querySelector('button[type="submit"]');
+          const originalText = submitBtn.innerHTML;
+          TEST_SAMPLES_UTILS.showLoading(submitBtn);
+
+          await TEST_SAMPLES_API.addTestSample(newSample);
+          showSuccessToast("Thêm mẫu xét nghiệm thành công");
+          closeAddModal();
+          loadTestSamples(); // Reload the list
+        } catch (error) {
+          showErrorToast("Lỗi khi thêm mẫu xét nghiệm: " + error.message);
+          console.error("Error adding test sample:", error);
+        } finally {
+          const submitBtn = event.target.querySelector('button[type="submit"]');
+          TEST_SAMPLES_UTILS.hideLoading(submitBtn, '<i class="fas fa-save"></i> Lưu Mẫu');
+        }
+      }
+
+      async function viewTestSample(id) {
+        try {
+          const sample = await TEST_SAMPLES_API.getTestSampleById(id);
+          if (!sample) {
+            showErrorToast("Không tìm thấy mẫu xét nghiệm");
+            return;
+          }
+
+          const detailsContainer = document.getElementById("sample-details");
+
+          const sampleTypeTexts = {
+            blood: "Máu",
+            saliva: "Nước bọt",
+            hair: "Tóc",
+            nail: "Móng tay",
+          };
+
+          detailsContainer.innerHTML = `
+            <div class="form-group">
+              <strong>Mã mẫu:</strong> ${sample.sampleCode || 'N/A'}
+            </div>
+            <div class="form-group">
+              <strong>ID người tham gia:</strong> ${sample.participant ? sample.participant.id : 'N/A'}
+            </div>
+            <div class="form-group">
+              <strong>Tên người tham gia:</strong> ${sample.participant ? sample.participant.fullName : 'N/A'}
+            </div>
+            <div class="form-group">
+              <strong>Dịch vụ:</strong> ${sample.service ? sample.service.name : 'N/A'}
+            </div>
+            <div class="form-group">
+              <strong>Loại mẫu:</strong> ${sample.sampleType ? sampleTypeTexts[sample.sampleType] || sample.sampleType : 'N/A'}
+            </div>
+            <div class="form-group">
+              <strong>Người thu thập:</strong> ${sample.collectedBy ? sample.collectedBy.fullName : 'N/A'}
+            </div>
+            <div class="form-group">
+              <strong>Thời gian thu thập:</strong> ${sample.collectedAt ? TEST_SAMPLES_UTILS.formatDateTime(sample.collectedAt) : 'N/A'}
+            </div>
+            <div class="form-group">
+              <strong>Ghi chú:</strong> ${sample.note || "Không có"}
+            </div>
+          `;
+
+          document.getElementById("view-sample-modal").style.display = "block";
+        } catch (error) {
+          showErrorToast("Lỗi khi tải thông tin mẫu xét nghiệm");
+          console.error("Error loading test sample:", error);
+        }
+      }
+
+      async function filterTestSamples() {
+        const searchTerm = document.getElementById("search-input").value.trim();
+        const serviceFilter = document.getElementById("service-filter").value;
+        
+        // Update current filters
+        currentFilters.search = searchTerm;
+        currentFilters.service = serviceFilter;
+
+        try {
+          showLoading(true);
+          
+          let data;
+          if (searchTerm) {
+            data = await TEST_SAMPLES_API.searchTestSamples(searchTerm, currentPage, pageSize);
+          } else {
+            data = await TEST_SAMPLES_API.getAllTestSamples(currentPage, pageSize);
+          }
+
+          // Handle paginated response
+          if (data.content) {
+            testSamples = data.content;
+            totalPages = data.totalPages || 1;
+            totalElements = data.totalElements || 0;
+            currentPage = data.page || 0;
+          } else {
+            // Fallback for non-paginated response
+            testSamples = data;
+            totalPages = 1;
+            totalElements = testSamples.length;
+            currentPage = 0;
+          }
+
+          // Apply service filter if selected
+          if (serviceFilter) {
+            testSamples = testSamples.filter(sample => 
+              sample.service && sample.service.name && 
+              sample.service.name === serviceFilter
+            );
+          }
+
+          renderTestSamplesTable();
+          renderPagination();
+        } catch (error) {
+          showErrorToast("Lỗi khi tìm kiếm mẫu xét nghiệm");
+          console.error("Error filtering test samples:", error);
+        } finally {
+          showLoading(false);
+        }
+      }
+
+      function handleLogout() {
+        if (confirm("Bạn có chắc chắn muốn đăng xuất?")) {
+          window.location.href = "login.html";
+        }
+      }
+
+      // Toast notification functions
+      function showSuccessToast(message) {
+        const toast = document.createElement("div");
+        toast.className = "toast-notification";
+        toast.innerHTML = `
+          <div class="toast-content">
+            <i class="fas fa-check-circle" style="color: #4caf50; margin-right: 8px;"></i>
+            ${message}
+          </div>
+        `;
+        document.body.appendChild(toast);
+        setTimeout(() => {
+          toast.style.opacity = "0";
+          setTimeout(() => toast.remove(), 300);
+        }, 3000);
+      }
+
+      function showErrorToast(message) {
+        const toast = document.createElement("div");
+        toast.className = "toast-notification toast-error";
+        toast.innerHTML = `
+          <div class="toast-content">
+            <i class="fas fa-times-circle" style="color: #f44336; margin-right: 8px;"></i>
+            ${message}
+          </div>
+        `;
+        document.body.appendChild(toast);
+        setTimeout(() => {
+          toast.style.opacity = "0";
+          setTimeout(() => toast.remove(), 300);
+        }, 3000);
+      }
+
+      function showWarningToast(message) {
+        const toast = document.createElement("div");
+        toast.className = "toast-notification toast-warning";
+        toast.innerHTML = `
+          <div class="toast-content">
+            <i class="fas fa-exclamation-triangle" style="color: #ff9800; margin-right: 8px;"></i>
+            ${message}
+          </div>
+        `;
+        document.body.appendChild(toast);
+        setTimeout(() => {
+          toast.style.opacity = "0";
+          setTimeout(() => toast.remove(), 300);
+        }, 3000);
+      }
+    </script>
+
+    <!-- Include the auth and API JS files -->
+    <script src="/assets/js/staff-api.js"></script>
+    <script src="/assets/js/staff-auth.js"></script>
+    <script src="/assets/js/staff-main.js"></script>
+    <script src="/assets/js/test-samples-api.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        if (window.renderStaffSidebarInfo) window.renderStaffSidebarInfo();
+      });
+      </script>
+  </body>
+</html>
