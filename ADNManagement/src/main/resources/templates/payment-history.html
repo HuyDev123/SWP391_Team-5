@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lịch sử thanh toán - Genx</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+  <link rel="stylesheet" href="/assets/css/styles.css" />
+  <link rel="stylesheet" href="/assets/css/header.css" />
+  <link rel="stylesheet" href="/assets/css/footer.css" />
+  <link rel="stylesheet" href="/assets/css/user-dropdown.css" />
+  <style>
+    body {
+      min-height: 100vh;
+      background-color: #f5f5f5;
+    }
+
+    .main-content { 
+      max-width: 1100px; 
+      margin: 0 auto; 
+      padding: 30px 10px; 
+      margin-top: 70px; /* Added margin-top to accommodate the header */
+    }
+    
+    .table-payments { 
+      width: 100%; 
+      border-collapse: collapse; 
+      margin-top: 20px; 
+      background: #fff; 
+      border-radius: 8px; 
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .table-payments th, .table-payments td { 
+      padding: 14px 10px; 
+      border-bottom: 1px solid #f0f0f0; 
+      text-align: left; 
+    }
+    
+    .table-payments th { 
+      background: linear-gradient(45deg, #0d47a1, #1976d2);
+      color: white;
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 14px;
+      letter-spacing: 0.5px;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    }
+    
+    .table-payments tr:last-child td { border-bottom: none; }
+    
+    .table-payments tbody tr {
+      transition: all 0.3s ease;
+      background: white;
+    }
+    
+    .table-payments tbody tr:hover {
+      background-color: #f8f9fa;
+      transform: translateY(-2px);
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+    }
+    
+    .status-badge { 
+      padding: 6px 12px; 
+      border-radius: 20px; 
+      font-size: 13px; 
+      font-weight: 500; 
+      display: inline-flex; 
+      align-items: center; 
+      gap: 6px; 
+    }
+    
+    .status-processing { background: #fff8e1; color: #ff9800; }
+    .status-done { background: #e8f5e9; color: #43a047; }
+    
+    .btn { 
+      padding: 8px 16px; 
+      border-radius: 6px; 
+      font-size: 14px; 
+      border: none; 
+      cursor: pointer; 
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 500;
+    }
+    
+    .btn-view { 
+      background: linear-gradient(45deg, #2196f3, #1976d2);
+      color: white;
+    }
+    
+    .btn-view:hover { 
+      background: linear-gradient(45deg, #1976d2, #0d47a1);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
+    }
+    
+    .modal-bg { 
+      position: fixed; 
+      top:0; 
+      left:0; 
+      width:100vw; 
+      height:100vh; 
+      background:rgba(0,0,0,0.5); 
+      display:flex; 
+      align-items:center; 
+      justify-content:center; 
+      z-index:2000;
+      animation: fadeIn 0.3s ease;
+    }
+    
+    .modal-content { 
+      background:#fff; 
+      border-radius:12px; 
+      max-width:500px; 
+      width:95%; 
+      padding:24px; 
+      position:relative;
+      animation: scaleIn 0.3s ease;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    
+    .modal-close { 
+      position:absolute; 
+      top:12px; 
+      right:16px; 
+      background:none; 
+      border:none; 
+      font-size:22px; 
+      color:#888; 
+      cursor:pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .modal-close:hover {
+      color: #f44336;
+      transform: scale(1.1);
+    }
+    
+    .modal-img { 
+      max-width:100%; 
+      border-radius:8px; 
+      margin-top:12px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    
+    .modal-img:hover {
+      transform: scale(1.02);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+    
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+    
+    @keyframes scaleIn {
+      from {
+        transform: scale(0.9);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+    
+    @media (max-width:600px) { 
+      .main-content { padding: 10px 2px; } 
+      .table-payments th, .table-payments td { padding: 8px 4px; } 
+    }
+  </style>
+</head>
+<body>
+  <!-- Header/menu ngang giống appoinments.html -->
+  <header>
+    <div class="header-container">
+      <div class="logo-section">
+        <img src="/assets/images/logo.png" alt="Genx Logo" />
+        <div class="brand-text">
+          <h1 class="brand-name">Genx</h1>
+          <p class="brand-description">Trung Tâm Xét Nghiệm ADN Huyết Thống</p>
+        </div>
+      </div>
+      <nav class="nav-links">
+        <a href="/home" class="nav-link active">Trang chủ</a>
+        <a href="/booking" class="nav-link">Đặt lịch xét nghiệm</a>
+        <a href="/services" class="nav-link">Giới thiệu dịch vụ</a>
+        <a href="/knowledge" class="nav-link">Kiến thức ADN</a>
+        <a href="/sampling-guide" class="nav-link">Hướng dẫn lấy mẫu</a>
+        <a href="/login" class="nav-link login-button">Đăng nhập</a>
+      </nav>
+    </div>
+  </header>
+  <div class="main-content">
+    <h2 style="color:#0288d1; font-size:28px; font-weight:700; margin-bottom:18px; display:flex; align-items:center;"><i class="fas fa-credit-card" style="margin-right:12px;"></i>Lịch sử thanh toán của bạn</h2>
+    <div id="payment-table-container">
+      <table class="table-payments">
+        <thead>
+          <tr>
+            <th>Mã TT</th>
+            <th>Ngày thanh toán</th>
+            <th>Số tiền</th>
+            <th>Phương thức</th>
+            <th>Trạng thái</th>
+            <th>Chi tiết</th>
+          </tr>
+        </thead>
+        <tbody id="paymentTableBody">
+          <tr><td colspan="6" style="text-align:center; color:#888; padding:20px;">Đang tải...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <script th:inline="javascript">
+    /*<![CDATA[*/
+    window.serverUser = /*[[${userData}]]*/ null;
+    /*]]>*/
+  </script>
+  <script>
+    // Global variables for pagination
+    let currentPage = 0;
+    let totalPages = 0;
+    let totalElements = 0;
+    const pageSize = 10;
+    
+    // Lấy dữ liệu payment của user
+    async function fetchPayments(page = 0) {
+      try {
+        currentPage = page;
+        const res = await fetch(`/payment/user?page=${page}&size=${pageSize}`, { credentials: 'include' });
+        if (!res.ok) {
+          if (res.status === 401) {
+            window.location.href = "/login";
+            return;
+          }
+          throw new Error('Lỗi khi lấy dữ liệu thanh toán');
+        }
+        const data = await res.json();
+        
+        // Update pagination info
+        totalPages = data.totalPages;
+        totalElements = data.totalElements;
+        currentPage = data.page;
+        
+        renderPayments(data.content);
+        renderPagination();
+      } catch (e) {
+        console.error('Lỗi khi lấy dữ liệu thanh toán:', e);
+        document.getElementById('paymentTableBody').innerHTML = `<tr><td colspan="6" style="text-align:center; color:#888; padding:20px;">Không thể tải dữ liệu thanh toán</td></tr>`;
+      }
+    }
+    
+    function renderPayments(payments) {
+      const tbody = document.getElementById('paymentTableBody');
+      if (!payments || payments.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:#888; padding:20px;">Chưa có thanh toán nào</td></tr>`;
+        return;
+      }
+      window._paymentData = payments; // Lưu vào biến toàn cục để truyền object
+      tbody.innerHTML = payments.map((p, idx) => `
+        <tr>
+          <td>${p.id}</td>
+          <td>${p.createdAt ? new Date(p.createdAt).toLocaleString('vi-VN') : ''}</td>
+          <td style="color:#1976d2; font-weight:600;">${new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(p.amount)}</td>
+          <td>${p.paymentMethod === 'CASH' ? 'Tiền mặt' : p.paymentMethod === 'COD' ? 'COD' : p.paymentMethod === 'BANK_TRANSFER' ? 'Chuyển khoản' : 'Chưa có'}</td>
+          <td>${p.amount > 0 ? '<span class="status-badge status-done"><i class="fas fa-check-circle"></i> Đã xử lý</span>' : '<span class="status-badge status-processing"><i class="fas fa-clock"></i> Đang xử lý</span>'}</td>
+          <td><button class="btn btn-view" onclick="showPaymentDetail(window._paymentData[${idx}])"><i class="fas fa-eye"></i> Xem</button></td>
+        </tr>
+      `).join('');
+    }
+    
+    // Hàm xử lý đường dẫn ảnh biên lai
+    function getReceiptImageUrl(receiptImage) {
+      if (!receiptImage) return '';
+      if (receiptImage.startsWith('/') || receiptImage.startsWith('http')) return receiptImage;
+      return receiptImage;
+    }
+    
+    function showPaymentDetail(payment) {
+      if (typeof payment === 'string') payment = JSON.parse(payment);
+      const modal = document.createElement('div');
+      modal.className = 'modal-bg';
+      modal.innerHTML = `
+        <div class="modal-content">
+          <button class="modal-close" onclick="this.closest('.modal-bg').remove()">×</button>
+          <h3 style="color:#0288d1; margin-bottom:10px;"><i class="fas fa-info-circle"></i> Chi tiết thanh toán</h3>
+          <div style="margin-bottom:10px;"><b>Mã thanh toán:</b> ${payment.id}</div>
+          <div style="margin-bottom:10px;"><b>Ngày thanh toán:</b> ${payment.createdAt ? new Date(payment.createdAt).toLocaleString('vi-VN') : ''}</div>
+          <div style="margin-bottom:10px;"><b>Số tiền:</b> <span style="color:#1976d2; font-weight:600;">${new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(payment.amount)}</span></div>
+          <div style="margin-bottom:10px;"><b>Phương thức:</b> ${payment.paymentMethod === 'CASH' ? 'Tiền mặt' : payment.paymentMethod === 'COD' ? 'COD' : payment.paymentMethod === 'BANK_TRANSFER' ? 'Chuyển khoản' : payment.paymentMethod}</div>
+          <div style="margin-bottom:10px;"><b>Trạng thái:</b> ${payment.amount > 0 ? '<span class=\'status-badge status-done\'><i class=\'fas fa-check-circle\'></i> Đã xử lý</span>' : '<span class=\'status-badge status-processing\'><i class=\'fas fa-clock\'></i> Đang xử lý</span>'}</div>
+          ${payment.receiptImage ? `<div style='margin-bottom:10px;'><b>Biên lai:</b><br><img src='${getReceiptImageUrl(payment.receiptImage)}' class='modal-img' alt='Biên lai thanh toán' onclick="viewReceipt('${getReceiptImageUrl(payment.receiptImage)}')" style="cursor:pointer;"></div>` : ''}
+          ${payment.note ? `<div style='margin-bottom:10px;'><b>Ghi chú:</b> ${payment.note}</div>` : ''}
+        </div>
+      `;
+      document.body.appendChild(modal);
+      modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
+    }
+    
+    // Hàm xem ảnh biên lai toàn màn hình
+    function viewReceipt(imagePath) {
+      const modal = document.createElement('div');
+      modal.className = 'receipt-modal';
+      modal.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.8);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 2000;
+      `;
+
+      modal.innerHTML = `
+        <div style="background: white; border-radius: 12px; padding: 20px; max-width: 90%; max-height: 90%; overflow: auto;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+            <h3 style="color: #0288d1; margin: 0;">Biên lai thanh toán</h3>
+            <button onclick="this.closest('.receipt-modal').remove()" style="background: none; border: none; font-size: 24px; color: #888; cursor: pointer;">×</button>
+          </div>
+          <img src="${imagePath}" style="max-width: 100%; border-radius: 8px;" alt="Biên lai thanh toán">
+        </div>
+      `;
+      
+      document.body.appendChild(modal);
+      modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
+    }
+    
+    // Hàm render pagination
+    function renderPagination() {
+      let paginationContainer = document.getElementById('pagination-container');
+      if (!paginationContainer) {
+        paginationContainer = document.createElement('div');
+        paginationContainer.id = 'pagination-container';
+        paginationContainer.style.cssText = 'display: flex; justify-content: center; align-items: center; margin-top: 20px; gap: 10px; flex-wrap: wrap;';
+        document.getElementById('payment-table-container').appendChild(paginationContainer);
+      }
+      
+      if (totalPages <= 1) {
+        paginationContainer.innerHTML = '';
+        return;
+      }
+      
+      let paginationHTML = '';
+      
+      // Previous button
+      if (currentPage > 0) {
+        paginationHTML += `<button onclick="fetchPayments(${currentPage - 1})" style="padding: 8px 12px; border: 1px solid #ddd; background: white; color: #333; cursor: pointer; border-radius: 4px; transition: all 0.3s ease;">
+          <i class="fas fa-chevron-left"></i> Trước
+        </button>`;
+      } else {
+        paginationHTML += `<button disabled style="padding: 8px 12px; border: 1px solid #ddd; background: #f5f5f5; color: #999; cursor: not-allowed; border-radius: 4px;">
+          <i class="fas fa-chevron-left"></i> Trước
+        </button>`;
+      }
+      
+      // First page button (if not visible)
+      if (currentPage > 2) {
+        paginationHTML += `<button onclick="fetchPayments(0)" style="padding: 8px 12px; border: 1px solid #ddd; background: white; color: #333; cursor: pointer; border-radius: 4px; transition: all 0.3s ease;">
+          1
+        </button>`;
+        if (currentPage > 3) {
+          paginationHTML += `<span style="padding: 8px 4px; color: #666;">...</span>`;
+        }
+      }
+      
+      // Page numbers
+      const startPage = Math.max(0, currentPage - 2);
+      const endPage = Math.min(totalPages - 1, currentPage + 2);
+      
+      for (let i = startPage; i <= endPage; i++) {
+        if (i === currentPage) {
+          paginationHTML += `<button style="padding: 8px 12px; border: 1px solid #2196f3; background: #2196f3; color: white; cursor: pointer; border-radius: 4px; font-weight: bold; transition: all 0.3s ease;">
+            ${i + 1}
+          </button>`;
+        } else {
+          paginationHTML += `<button onclick="fetchPayments(${i})" style="padding: 8px 12px; border: 1px solid #ddd; background: white; color: #333; cursor: pointer; border-radius: 4px; transition: all 0.3s ease;">
+            ${i + 1}
+          </button>`;
+        }
+      }
+      
+      // Last page button (if not visible)
+      if (currentPage < totalPages - 3) {
+        if (currentPage < totalPages - 4) {
+          paginationHTML += `<span style="padding: 8px 4px; color: #666;">...</span>`;
+        }
+        paginationHTML += `<button onclick="fetchPayments(${totalPages - 1})" style="padding: 8px 12px; border: 1px solid #ddd; background: white; color: #333; cursor: pointer; border-radius: 4px; transition: all 0.3s ease;">
+          ${totalPages}
+        </button>`;
+      }
+      
+      // Next button
+      if (currentPage < totalPages - 1) {
+        paginationHTML += `<button onclick="fetchPayments(${currentPage + 1})" style="padding: 8px 12px; border: 1px solid #ddd; background: white; color: #333; cursor: pointer; border-radius: 4px; transition: all 0.3s ease;">
+          Sau <i class="fas fa-chevron-right"></i>
+        </button>`;
+      } else {
+        paginationHTML += `<button disabled style="padding: 8px 12px; border: 1px solid #ddd; background: #f5f5f5; color: #999; cursor: not-allowed; border-radius: 4px;">
+          Sau <i class="fas fa-chevron-right"></i>
+        </button>`;
+      }
+      
+      // Page info
+      paginationHTML += `<div style="margin-left: 20px; color: #666; font-size: 14px; text-align: center; width: 100%; margin-top: 10px;">
+        Trang ${currentPage + 1} / ${totalPages} (${totalElements} thanh toán)
+      </div>`;
+      
+      paginationContainer.innerHTML = paginationHTML;
+    }
+    
+    document.addEventListener('DOMContentLoaded', function() {
+      fetchPayments(0);
+    });
+  </script>
+  
+  <!-- Authentication Script for Header -->
+  <script src="/assets/js/auth.js"></script>
+  <script src="/assets/js/main.js"></script>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-container">
+      <!-- Company Info -->
+      <div class="footer-info">
+        <h3>TRUNG TÂM XÉT NGHIỆM ADN GENX</h3>
+        <p>
+          Trung tâm xét nghiệm ADN hàng đầu tại Việt Nam với hơn 10 năm kinh
+          nghiệm. Cam kết mang đến dịch vụ xét nghiệm ADN chính xác và uy tín.
+        </p>
+        <div class="contact-info">
+          <div class="contact-item">
+            <i class="fas fa-map-marker-alt"></i>
+            <span>123 Đường ABC, Quận 1, TP.HCM</span>
+          </div>
+          <div class="contact-item">
+            <i class="fas fa-phone"></i>
+            <span>1900 xxxx</span>
+          </div>
+          <div class="contact-item">
+            <i class="fas fa-envelope"></i>
+            <span>info@genx.com</span>
+          </div>
+        </div>
+        <div class="social-links">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-linkedin-in"></i></a>
+          <a href="#"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+
+      <!-- Quick Links -->
+      <div class="footer-links">
+        <h4>Dịch Vụ</h4>
+        <ul>
+          <li><a href="/services">Xét nghiệm ADN Cha Con</a></li>
+          <li><a href="/services">Xét nghiệm ADN Mẹ Con</a></li>
+          <li><a href="/services">Xét nghiệm ADN Anh/Chị - Em</a></li>
+          <li><a href="/services">Xét nghiệm ADN Ông/Bà - Cháu</a></li>
+        </ul>
+      </div>
+
+      <!-- Support -->
+      <div class="footer-links">
+        <h4>Hỗ Trợ</h4>
+        <ul>
+          <li><a href="/sampling-guide">Hướng dẫn lấy mẫu</a></li>
+          <li><a href="/knowledge">Quy trình xét nghiệm</a></li>
+          <li><a href="/knowledge">Câu hỏi thường gặp</a></li>
+          <li><a href="#">Chính sách bảo mật</a></li>
+        </ul>
+      </div>
+
+      <!-- Working Hours -->
+      <div class="footer-links">
+        <h4>Giờ Làm Việc</h4>
+        <ul>
+          <li>Thứ 2 - Thứ 6: 8:00 - 17:30</li>
+          <li>Thứ 7: 8:00 - 12:00</li>
+          <li>Chủ nhật: Đóng cửa</li>
+          <li>Hotline: 24/7</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Footer Bottom -->
+    <div class="footer-container">
+      <div class="footer-bottom">
+        <p>&copy; 2024 Trung Tâm Xét Nghiệm ADN GenX. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
