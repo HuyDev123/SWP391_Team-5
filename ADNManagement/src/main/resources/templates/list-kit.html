@@ -4678,6 +4678,7 @@
                 })
                 .then(message => {
                   showSuccessToast(`Cập nhật trạng thái thành "${newStatus}" thành công!`);
+                  closeAllCustomModals();
                   fetchKits(currentPage, pageSize, currentFilters);
                 })
                 .catch(error => {
