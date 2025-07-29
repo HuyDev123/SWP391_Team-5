@@ -4075,8 +4075,8 @@
                     // Đủ điều kiện, mới hiện modal xác nhận
                     showConfirmModal('Bạn có chắc chắn muốn gửi kit cho cuộc hẹn này?', function onConfirmSendKit() {
                       doSendKits(appointmentId);
-                      closeAllCustomModals();
                     });
+                    closeAllCustomModals();
                   } else {
                     showPaymentError(data, appointmentId, null);
                   }
@@ -4088,8 +4088,8 @@
               // Tiền mặt/COD: vẫn kiểm tra điều kiện thanh toán nếu có API tương ứng (nếu không, xác nhận luôn)
               showConfirmModal('Bạn có chắc chắn muốn gửi kit cho cuộc hẹn này?', function onConfirmSendKit() {
                 doSendKits(appointmentId);
-                closeAllCustomModals();
               });
+                closeAllCustomModals();
             }
           }
 
@@ -4120,12 +4120,11 @@
             showConfirmModal('Bạn có chắc chắn muốn gửi nhắc thanh toán 10% cho khách hàng?', function onConfirmRemind10() {
               STAFF_API.PAYMENT.remind10PercentPayment(appointmentId)
                 .then(msg => {
+                    closeAllCustomModals();
                   showSuccessToast('Đã gửi nhắc thanh toán 10% cho khách hàng!');
-                  closeAllCustomModals();
                 })
                 .catch(err => {
                   showErrorToast('Không gửi được nhắc thanh toán: ' + (err.message || ''));
-                  closeAllCustomModals();
                 });
             });
           }
@@ -4135,12 +4134,11 @@
             showConfirmModal('Bạn có chắc chắn muốn gửi nhắc thanh toán đủ cho khách hàng?', function onConfirmRemindFull() {
               STAFF_API.PAYMENT.remindFullPayment(appointmentId)
                 .then(msg => {
+                    closeAllCustomModals();
                   showSuccessToast('Đã gửi nhắc thanh toán đủ cho khách hàng!');
-                  closeAllCustomModals();
                 })
                 .catch(err => {
                   showErrorToast('Không gửi được nhắc thanh toán: ' + (err.message || ''));
-                  closeAllCustomModals();
                 });
             });
           }
@@ -4677,8 +4675,8 @@
                   return response.text();
                 })
                 .then(message => {
-                  showSuccessToast(`Cập nhật trạng thái thành "${newStatus}" thành công!`);
                   closeAllCustomModals();
+                  showSuccessToast(`Cập nhật trạng thái thành "${newStatus}" thành công!`);
                   fetchKits(currentPage, pageSize, currentFilters);
                 })
                 .catch(error => {
