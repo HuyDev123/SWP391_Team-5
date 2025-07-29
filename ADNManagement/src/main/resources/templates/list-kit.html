@@ -4076,7 +4076,6 @@
                     showConfirmModal('Bạn có chắc chắn muốn gửi kit cho cuộc hẹn này?', function onConfirmSendKit() {
                       doSendKits(appointmentId);
                     });
-                    closeAllCustomModals();
                   } else {
                     showPaymentError(data, appointmentId, null);
                   }
@@ -4089,7 +4088,6 @@
               showConfirmModal('Bạn có chắc chắn muốn gửi kit cho cuộc hẹn này?', function onConfirmSendKit() {
                 doSendKits(appointmentId);
               });
-                closeAllCustomModals();
             }
           }
 
@@ -4106,6 +4104,7 @@
                 return response.text();
               })
               .then(message => {
+                closeAllCustomModals();
                 showSuccessToast('Gửi kit thành công!');
                 setTimeout(() => window.location.reload(), 1000);
               })
@@ -4120,7 +4119,7 @@
             showConfirmModal('Bạn có chắc chắn muốn gửi nhắc thanh toán 10% cho khách hàng?', function onConfirmRemind10() {
               STAFF_API.PAYMENT.remind10PercentPayment(appointmentId)
                 .then(msg => {
-                    closeAllCustomModals();
+                  closeAllCustomModals();
                   showSuccessToast('Đã gửi nhắc thanh toán 10% cho khách hàng!');
                 })
                 .catch(err => {
@@ -4134,7 +4133,7 @@
             showConfirmModal('Bạn có chắc chắn muốn gửi nhắc thanh toán đủ cho khách hàng?', function onConfirmRemindFull() {
               STAFF_API.PAYMENT.remindFullPayment(appointmentId)
                 .then(msg => {
-                    closeAllCustomModals();
+                  closeAllCustomModals();
                   showSuccessToast('Đã gửi nhắc thanh toán đủ cho khách hàng!');
                 })
                 .catch(err => {
